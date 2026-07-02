@@ -1,0 +1,70 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Aleron MD Canonical Documents</title>
+<style>
+:root{--bg:#fff;--fg:#111;--line:#222;--faint:#8a8f98;}
+@media (prefers-color-scheme:dark){:root{--bg:#15171c;--fg:#e8eaef;--line:#c4c9d2;--faint:#6f757f;}}
+*{box-sizing:border-box;}
+html,body{height:100%;}
+body{margin:0;background:var(--bg);color:var(--fg);font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Helvetica,Arial,sans-serif;display:flex;flex-direction:column;}
+.canonical-header{display:flex;justify-content:space-between;align-items:center;gap:18px;border-bottom:1.5px solid var(--line);padding:14px 16px;background:var(--bg);flex:0 0 auto;}
+.canonical-title{font-size:15px;font-weight:700;letter-spacing:.02em;}
+.canonical-nav{display:flex;align-items:center;gap:8px;}
+.canonical-nav label{font-size:10.5px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:var(--faint);}
+.canonical-nav select{appearance:auto;border:1px solid var(--line);background:var(--bg);color:var(--fg);font:inherit;font-size:13px;min-width:260px;padding:8px 10px;}
+.canonical-frame{width:100%;height:100%;border:0;display:block;flex:1 1 auto;background:var(--bg);}
+@media(max-width:860px){
+  .canonical-header{align-items:flex-start;flex-direction:column;}
+  .canonical-nav{width:100%;align-items:flex-start;flex-direction:column;}
+  .canonical-nav select{width:100%;min-width:0;}
+}
+</style>
+</head>
+<body>
+<header class="canonical-header" aria-label="Canonical document navigation">
+  <div class="canonical-title">Aleron MD Canonical Documents</div>
+  <div class="canonical-nav">
+    <label for="canonicalDocSelect">Open document</label>
+    <select id="canonicalDocSelect"></select>
+  </div>
+</header>
+<iframe class="canonical-frame" id="canonicalFrame" title="Canonical document"></iframe>
+<script>
+const canonicalDocs = [
+  { id: "dashboard", label: "Dashboard prototype", src: "system-design/diagrams/aleron-actionmap-al47m.html" },
+  { id: "dashboard-ds", label: "Dashboard prototype · design system", src: "system-design/diagrams/aleron-actionmap-al47m-ds.html" },
+  { id: "system", label: "System design", src: "system-design/diagrams/aleron-system-detail-v2-inspector.html" },
+  { id: "identity", label: "Visual identity", src: "brand-deck/index.html" },
+  { id: "design-system", label: "Product design system", src: "product-design-system/index.html#surfaces" },
+  { id: "member", label: "Member experience", src: "workspaces/landing-staging/member.html" }
+];
+
+const select = document.getElementById("canonicalDocSelect");
+const frame = document.getElementById("canonicalFrame");
+
+select.innerHTML = canonicalDocs.map(doc => `<option value="${doc.id}">${doc.label}</option>`).join("");
+
+function activeDoc(){
+  const id = window.location.hash.replace(/^#/, "");
+  return canonicalDocs.find(doc => doc.id === id) || canonicalDocs[0];
+}
+
+function render(){
+  const doc = activeDoc();
+  select.value = doc.id;
+  frame.src = doc.src;
+  document.title = "Aleron MD Canonical Documents - " + doc.label;
+}
+
+select.addEventListener("change", () => {
+  window.location.hash = select.value;
+});
+
+window.addEventListener("hashchange", render);
+render();
+</script>
+</body>
+</html>
