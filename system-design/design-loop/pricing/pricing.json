@@ -1,0 +1,1455 @@
+{
+  "disclaimer": "Real sourced pricing pulled from CMS fee schedules and vendor/list prices via web research. Codes and rates are approximate and time-sensitive; verify against the current CMS CLFS/PFS and the clinic's actual negotiated costs before use. This is the cost-axis source of truth (artifact #1); it must be matched by depth in the findings/action model or most tests score zero.",
+  "n": 161,
+  "items": [
+    {
+      "id": "cmp",
+      "label": "Comprehensive Metabolic Panel (CMP)",
+      "category": "chemistry",
+      "code": "80053",
+      "price_usd": 11,
+      "price_basis": "CMS CLFS national rate",
+      "source": "https://www.cms.gov/medicare/payment/fee-schedules/clinical-laboratory-fee-schedule-clfs/files"
+    },
+    {
+      "id": "bmp",
+      "label": "Basic Metabolic Panel (BMP)",
+      "category": "chemistry",
+      "code": "80048",
+      "price_usd": 8,
+      "price_basis": "CMS CLFS national rate",
+      "source": "https://www.cms.gov/medicare/payment/fee-schedules/clinical-laboratory-fee-schedule-clfs/files"
+    },
+    {
+      "id": "electrolyte_panel",
+      "label": "Electrolyte Panel",
+      "category": "chemistry",
+      "code": "80051",
+      "price_usd": 7,
+      "price_basis": "CMS CLFS national rate",
+      "source": "https://www.cms.gov/medicare/payment/fee-schedules/clinical-laboratory-fee-schedule-clfs/files"
+    },
+    {
+      "id": "renal_function_panel",
+      "label": "Renal Function Panel",
+      "category": "renal_hepatic",
+      "code": "80069",
+      "price_usd": 9,
+      "price_basis": "CMS CLFS national rate",
+      "source": "https://www.cms.gov/medicare/payment/fee-schedules/clinical-laboratory-fee-schedule-clfs/files"
+    },
+    {
+      "id": "hepatic_function_panel",
+      "label": "Hepatic Function Panel (Liver Panel)",
+      "category": "renal_hepatic",
+      "code": "80076",
+      "price_usd": 8,
+      "price_basis": "CMS CLFS national rate",
+      "source": "https://www.chfs.ky.gov/agencies/dms/DMSFeeRateSchedules/2024ClinicalLabRates.pdf"
+    },
+    {
+      "id": "cbc_with_diff",
+      "label": "CBC with Automated Differential",
+      "category": "hematology",
+      "code": "85025",
+      "price_usd": 8,
+      "price_basis": "CMS CLFS national rate",
+      "source": "https://www.cms.gov/medicare/payment/fee-schedules/clinical-laboratory-fee-schedule-clfs/files"
+    },
+    {
+      "id": "cbc_no_diff",
+      "label": "CBC Automated (without Differential)",
+      "category": "hematology",
+      "code": "85027",
+      "price_usd": 6,
+      "price_basis": "CMS CLFS national rate",
+      "source": "https://www.cms.gov/medicare/payment/fee-schedules/clinical-laboratory-fee-schedule-clfs/files"
+    },
+    {
+      "id": "manual_blood_smear",
+      "label": "Manual Blood Smear with Differential WBC",
+      "category": "hematology",
+      "code": "85007",
+      "price_usd": 4,
+      "price_basis": "CMS CLFS national rate",
+      "source": "https://www.cms.gov/medicare/payment/fee-schedules/clinical-laboratory-fee-schedule-clfs/files"
+    },
+    {
+      "id": "lipid_panel",
+      "label": "Lipid Panel",
+      "category": "cardiac",
+      "code": "80061",
+      "price_usd": 13,
+      "price_basis": "CMS CLFS national rate",
+      "source": "https://www.cms.gov/medicare/payment/fee-schedules/clinical-laboratory-fee-schedule-clfs/files"
+    },
+    {
+      "id": "ldl_direct",
+      "label": "Direct LDL Cholesterol",
+      "category": "cardiac",
+      "code": "83721",
+      "price_usd": 11,
+      "price_basis": "CMS CLFS national rate",
+      "source": "https://www.cms.gov/medicare/payment/fee-schedules/clinical-laboratory-fee-schedule-clfs/files"
+    },
+    {
+      "id": "hdl_cholesterol",
+      "label": "HDL Cholesterol",
+      "category": "cardiac",
+      "code": "83718",
+      "price_usd": 8,
+      "price_basis": "CMS CLFS national rate",
+      "source": "https://www.cms.gov/medicare/payment/fee-schedules/clinical-laboratory-fee-schedule-clfs/files"
+    },
+    {
+      "id": "triglycerides",
+      "label": "Triglycerides",
+      "category": "cardiac",
+      "code": "84478",
+      "price_usd": 6,
+      "price_basis": "CMS CLFS national rate",
+      "source": "https://www.cms.gov/medicare/payment/fee-schedules/clinical-laboratory-fee-schedule-clfs/files"
+    },
+    {
+      "id": "apob",
+      "label": "Apolipoprotein B (ApoB)",
+      "category": "cardiac",
+      "code": "82172",
+      "price_usd": 21,
+      "price_basis": "CMS CLFS national rate",
+      "source": "https://www.cms.gov/medicare/payment/fee-schedules/clinical-laboratory-fee-schedule-clfs/files"
+    },
+    {
+      "id": "lpa",
+      "label": "Lipoprotein(a) [Lp(a)]",
+      "category": "cardiac",
+      "code": "83695",
+      "price_usd": 14,
+      "price_basis": "CMS CLFS national rate",
+      "source": "https://www.cms.gov/medicare/payment/fee-schedules/clinical-laboratory-fee-schedule-clfs/files"
+    },
+    {
+      "id": "hs_crp",
+      "label": "hs-CRP (C-reactive protein, high sensitivity)",
+      "category": "inflammation",
+      "code": "86141",
+      "price_usd": 13,
+      "price_basis": "CMS CLFS national rate",
+      "source": "https://www.cms.gov/medicare/payment/fee-schedules/clinical-laboratory-fee-schedule-clfs/files"
+    },
+    {
+      "id": "crp_standard",
+      "label": "C-reactive Protein (standard)",
+      "category": "inflammation",
+      "code": "86140",
+      "price_usd": 5,
+      "price_basis": "CMS CLFS national rate",
+      "source": "https://www.cms.gov/medicare/payment/fee-schedules/clinical-laboratory-fee-schedule-clfs/files"
+    },
+    {
+      "id": "homocysteine",
+      "label": "Homocysteine",
+      "category": "cardiac",
+      "code": "83090",
+      "price_usd": 18,
+      "price_basis": "CMS CLFS national rate",
+      "source": "https://www.cms.gov/medicare/payment/fee-schedules/clinical-laboratory-fee-schedule-clfs/files"
+    },
+    {
+      "id": "uric_acid",
+      "label": "Uric Acid (blood)",
+      "category": "chemistry",
+      "code": "84550",
+      "price_usd": 5,
+      "price_basis": "CMS CLFS national rate",
+      "source": "https://www.cms.gov/medicare/payment/fee-schedules/clinical-laboratory-fee-schedule-clfs/files"
+    },
+    {
+      "id": "nmr_lipoprofile",
+      "label": "NMR LipoProfile / LDL-P (lipoprotein particle number)",
+      "category": "cardiac",
+      "code": "83704",
+      "price_usd": 111,
+      "price_basis": "cash/list midpoint of $99-$123 range (Labcorp/Walk-In Lab); CLFS rate is $34",
+      "source": "https://www.walkinlab.com/products/view/nmr-lipoprofile-blood-test"
+    },
+    {
+      "id": "lipoprotein_fractionation",
+      "label": "Lipoprotein High-Resolution Fractionation (subfractions)",
+      "category": "cardiac",
+      "code": "83701",
+      "price_usd": 34,
+      "price_basis": "CMS CLFS national rate",
+      "source": "https://www.cms.gov/medicare/payment/fee-schedules/clinical-laboratory-fee-schedule-clfs/files"
+    },
+    {
+      "id": "ggt",
+      "label": "GGT (gamma-glutamyl transferase)",
+      "category": "renal_hepatic",
+      "code": "82977",
+      "price_usd": 7,
+      "price_basis": "CMS CLFS national rate",
+      "source": "https://www.cms.gov/medicare/payment/fee-schedules/clinical-laboratory-fee-schedule-clfs/files"
+    },
+    {
+      "id": "magnesium",
+      "label": "Magnesium (serum)",
+      "category": "vitamins_micronutrients",
+      "code": "83735",
+      "price_usd": 7,
+      "price_basis": "CMS CLFS national rate",
+      "source": "https://www.cms.gov/medicare/payment/fee-schedules/clinical-laboratory-fee-schedule-clfs/files"
+    },
+    {
+      "id": "glucose",
+      "label": "Glucose, Quantitative (blood)",
+      "category": "chemistry",
+      "code": "82947",
+      "price_usd": 4,
+      "price_basis": "CMS CLFS national rate",
+      "source": "https://www.cms.gov/medicare/payment/fee-schedules/clinical-laboratory-fee-schedule-clfs/files"
+    },
+    {
+      "id": "creatinine_blood",
+      "label": "Creatinine, Blood (serum)",
+      "category": "renal_hepatic",
+      "code": "82565",
+      "price_usd": 5,
+      "price_basis": "CMS CLFS national rate",
+      "source": "https://www.cms.gov/medicare/payment/fee-schedules/clinical-laboratory-fee-schedule-clfs/files"
+    },
+    {
+      "id": "potassium",
+      "label": "Potassium (serum)",
+      "category": "chemistry",
+      "code": "84132",
+      "price_usd": 5,
+      "price_basis": "CMS CLFS national rate",
+      "source": "https://www.cms.gov/medicare/payment/fee-schedules/clinical-laboratory-fee-schedule-clfs/files"
+    },
+    {
+      "id": "sodium",
+      "label": "Sodium (serum)",
+      "category": "chemistry",
+      "code": "84295",
+      "price_usd": 5,
+      "price_basis": "CMS CLFS national rate",
+      "source": "https://www.cms.gov/medicare/payment/fee-schedules/clinical-laboratory-fee-schedule-clfs/files"
+    },
+    {
+      "id": "calcium_total",
+      "label": "Calcium, Total",
+      "category": "chemistry",
+      "code": "82310",
+      "price_usd": 5,
+      "price_basis": "CMS CLFS national rate",
+      "source": "https://www.cms.gov/medicare/payment/fee-schedules/clinical-laboratory-fee-schedule-clfs/files"
+    },
+    {
+      "id": "total_protein",
+      "label": "Total Protein (serum)",
+      "category": "chemistry",
+      "code": "84155",
+      "price_usd": 4,
+      "price_basis": "CMS CLFS national rate",
+      "source": "https://www.cms.gov/medicare/payment/fee-schedules/clinical-laboratory-fee-schedule-clfs/files"
+    },
+    {
+      "id": "ast",
+      "label": "AST (SGOT)",
+      "category": "renal_hepatic",
+      "code": "84450",
+      "price_usd": 5,
+      "price_basis": "CMS CLFS national rate",
+      "source": "https://www.cms.gov/medicare/payment/fee-schedules/clinical-laboratory-fee-schedule-clfs/files"
+    },
+    {
+      "id": "alt",
+      "label": "ALT (SGPT)",
+      "category": "renal_hepatic",
+      "code": "84460",
+      "price_usd": 5,
+      "price_basis": "CMS CLFS national rate",
+      "source": "https://www.cms.gov/medicare/payment/fee-schedules/clinical-laboratory-fee-schedule-clfs/files"
+    },
+    {
+      "id": "bilirubin_direct",
+      "label": "Bilirubin, Direct",
+      "category": "renal_hepatic",
+      "code": "82248",
+      "price_usd": 5,
+      "price_basis": "CMS CLFS national rate",
+      "source": "https://www.cms.gov/medicare/payment/fee-schedules/clinical-laboratory-fee-schedule-clfs/files"
+    },
+    {
+      "id": "hba1c",
+      "label": "Hemoglobin A1c (glycosylated)",
+      "category": "endocrine_metabolic",
+      "code": "83036",
+      "price_usd": 10,
+      "price_basis": "CMS CLFS national rate",
+      "source": "https://www.cms.gov/medicare/payment/fee-schedules/clinical-laboratory-fee-schedule-clfs/files"
+    },
+    {
+      "id": "tsh",
+      "label": "TSH (thyroid stimulating hormone)",
+      "category": "endocrine_metabolic",
+      "code": "84443",
+      "price_usd": 17,
+      "price_basis": "CMS CLFS national rate",
+      "source": "https://www.cms.gov/medicare/payment/fee-schedules/clinical-laboratory-fee-schedule-clfs/files"
+    },
+    {
+      "id": "microalbumin_urine",
+      "label": "Microalbumin, Urine (quantitative)",
+      "category": "renal_hepatic",
+      "code": "82043",
+      "price_usd": 6,
+      "price_basis": "CMS CLFS national rate",
+      "source": "https://www.cms.gov/medicare/payment/fee-schedules/clinical-laboratory-fee-schedule-clfs/files"
+    },
+    {
+      "id": "glucose_post_dose",
+      "label": "Glucose, Post-Glucose Dose (each specimen)",
+      "category": "endocrine_metabolic",
+      "code": "82950",
+      "price_usd": 5,
+      "price_basis": "CMS CLFS 2025 national rate",
+      "source": "https://www.cms.gov/files/zip/25clabq1.zip"
+    },
+    {
+      "id": "ogtt",
+      "label": "Oral Glucose Tolerance Test (OGTT, 3 specimens)",
+      "category": "endocrine_metabolic",
+      "code": "82951",
+      "price_usd": 13,
+      "price_basis": "CMS CLFS 2025 national rate",
+      "source": "https://www.cms.gov/files/zip/25clabq1.zip"
+    },
+    {
+      "id": "fasting_insulin",
+      "label": "Fasting Insulin (total)",
+      "category": "endocrine_metabolic",
+      "code": "83525",
+      "price_usd": 11,
+      "price_basis": "CMS CLFS 2025 national rate",
+      "source": "https://www.cms.gov/files/zip/25clabq1.zip"
+    },
+    {
+      "id": "insulin_free",
+      "label": "Insulin, Free",
+      "category": "endocrine_metabolic",
+      "code": "83527",
+      "price_usd": 13,
+      "price_basis": "CMS CLFS 2025 national rate",
+      "source": "https://www.cms.gov/files/zip/25clabq1.zip"
+    },
+    {
+      "id": "c_peptide",
+      "label": "C-peptide",
+      "category": "endocrine_metabolic",
+      "code": "84681",
+      "price_usd": 21,
+      "price_basis": "CMS CLFS 2025 national rate",
+      "source": "https://www.cms.gov/files/zip/25clabq1.zip"
+    },
+    {
+      "id": "free_t4",
+      "label": "Free T4 (free thyroxine)",
+      "category": "endocrine_metabolic",
+      "code": "84439",
+      "price_usd": 9,
+      "price_basis": "CMS CLFS 2025 national rate",
+      "source": "https://www.cms.gov/files/zip/25clabq1.zip"
+    },
+    {
+      "id": "free_t3",
+      "label": "Free T3 (free triiodothyronine)",
+      "category": "endocrine_metabolic",
+      "code": "84481",
+      "price_usd": 17,
+      "price_basis": "CMS CLFS 2025 national rate",
+      "source": "https://www.cms.gov/files/zip/25clabq1.zip"
+    },
+    {
+      "id": "tpo_antibodies",
+      "label": "TPO Antibodies (thyroid peroxidase)",
+      "category": "endocrine_metabolic",
+      "code": "86376",
+      "price_usd": 15,
+      "price_basis": "CMS CLFS 2025 national rate",
+      "source": "https://www.cms.gov/files/zip/25clabq1.zip"
+    },
+    {
+      "id": "cortisol_am",
+      "label": "Cortisol, AM (total cortisol)",
+      "category": "endocrine_metabolic",
+      "code": "82533",
+      "price_usd": 16,
+      "price_basis": "CMS CLFS 2025 national rate",
+      "source": "https://www.cms.gov/files/zip/25clabq1.zip"
+    },
+    {
+      "id": "dhea_s",
+      "label": "DHEA-S (dehydroepiandrosterone sulfate)",
+      "category": "endocrine_metabolic",
+      "code": "82627",
+      "price_usd": 22,
+      "price_basis": "CMS CLFS 2025 national rate",
+      "source": "https://www.cms.gov/files/zip/25clabq1.zip"
+    },
+    {
+      "id": "dhea_unconjugated",
+      "label": "DHEA, Unconjugated",
+      "category": "endocrine_metabolic",
+      "code": "82626",
+      "price_usd": 25,
+      "price_basis": "CMS CLFS 2025 national rate",
+      "source": "https://www.cms.gov/files/zip/25clabq1.zip"
+    },
+    {
+      "id": "testosterone_total",
+      "label": "Testosterone, Total",
+      "category": "endocrine_metabolic",
+      "code": "84403",
+      "price_usd": 26,
+      "price_basis": "CMS CLFS 2025 national rate",
+      "source": "https://www.cms.gov/files/zip/25clabq1.zip"
+    },
+    {
+      "id": "testosterone_free",
+      "label": "Testosterone, Free",
+      "category": "endocrine_metabolic",
+      "code": "84402",
+      "price_usd": 25,
+      "price_basis": "CMS CLFS 2025 national rate",
+      "source": "https://www.cms.gov/files/zip/25clabq1.zip"
+    },
+    {
+      "id": "estradiol",
+      "label": "Estradiol (total)",
+      "category": "endocrine_metabolic",
+      "code": "82670",
+      "price_usd": 28,
+      "price_basis": "CMS CLFS 2025 national rate",
+      "source": "https://www.cms.gov/files/zip/25clabq1.zip"
+    },
+    {
+      "id": "shbg",
+      "label": "SHBG (sex hormone binding globulin)",
+      "category": "endocrine_metabolic",
+      "code": "84270",
+      "price_usd": 22,
+      "price_basis": "CMS CLFS 2025 national rate",
+      "source": "https://www.cms.gov/files/zip/25clabq1.zip"
+    },
+    {
+      "id": "igf_1",
+      "label": "IGF-1 (somatomedin C)",
+      "category": "endocrine_metabolic",
+      "code": "84305",
+      "price_usd": 21,
+      "price_basis": "CMS CLFS 2025 national rate",
+      "source": "https://www.cms.gov/files/zip/25clabq1.zip"
+    },
+    {
+      "id": "leptin",
+      "label": "Leptin",
+      "category": "endocrine_metabolic",
+      "code": "83520",
+      "price_usd": 17,
+      "price_basis": "CMS CLFS 2025 national rate (no dedicated CPT; billed under 83520)",
+      "source": "https://www.cms.gov/files/zip/25clabq1.zip"
+    },
+    {
+      "id": "adiponectin",
+      "label": "Adiponectin",
+      "category": "endocrine_metabolic",
+      "code": "83520",
+      "price_usd": 17,
+      "price_basis": "CMS CLFS 2025 national rate (no dedicated CPT; billed under 83520)",
+      "source": "https://www.cms.gov/files/zip/25clabq1.zip"
+    },
+    {
+      "id": "cystatin_c",
+      "label": "Cystatin C (eGFR)",
+      "category": "renal_hepatic",
+      "code": "82610",
+      "price_usd": 19,
+      "price_basis": "CMS CLFS national limit",
+      "source": "https://www.chfs.ky.gov/agencies/dms/DMSFeeRateSchedules/2024ClinicalLabRates.pdf"
+    },
+    {
+      "id": "cystatin_c_panel",
+      "label": "Cystatin C with Creatinine and eGFR (panel)",
+      "category": "renal_hepatic",
+      "code": "82610",
+      "price_usd": 24,
+      "price_basis": "sum of CMS CLFS limits (82610 + 82565); eGFR calculated",
+      "source": "https://www.chfs.ky.gov/agencies/dms/DMSFeeRateSchedules/2024ClinicalLabRates.pdf"
+    },
+    {
+      "id": "creatinine_urine",
+      "label": "Creatinine, Urine (for UACR)",
+      "category": "renal_hepatic",
+      "code": "82570",
+      "price_usd": 5,
+      "price_basis": "CMS CLFS national limit",
+      "source": "https://www.chfs.ky.gov/agencies/dms/DMSFeeRateSchedules/2024ClinicalLabRates.pdf"
+    },
+    {
+      "id": "uacr",
+      "label": "Urine Albumin-Creatinine Ratio (UACR panel)",
+      "category": "renal_hepatic",
+      "code": "82043",
+      "price_usd": 11,
+      "price_basis": "sum of CMS CLFS limits (82043 + 82570); ratio calculated",
+      "source": "https://www.chfs.ky.gov/agencies/dms/DMSFeeRateSchedules/2024ClinicalLabRates.pdf"
+    },
+    {
+      "id": "bnp_ntprobnp",
+      "label": "Natriuretic Peptide (BNP / NT-proBNP)",
+      "category": "cardiac",
+      "code": "83880",
+      "price_usd": 39,
+      "price_basis": "CMS CLFS national limit; single code covers BNP and NT-proBNP",
+      "source": "https://www.chfs.ky.gov/agencies/dms/DMSFeeRateSchedules/2024ClinicalLabRates.pdf"
+    },
+    {
+      "id": "troponin_quant",
+      "label": "Troponin, Quantitative (incl. high-sensitivity)",
+      "category": "cardiac",
+      "code": "84484",
+      "price_usd": 12,
+      "price_basis": "CMS CLFS national limit",
+      "source": "https://www.chfs.ky.gov/agencies/dms/DMSFeeRateSchedules/2024ClinicalLabRates.pdf"
+    },
+    {
+      "id": "troponin_qual",
+      "label": "Troponin, Qualitative",
+      "category": "cardiac",
+      "code": "84512",
+      "price_usd": 10,
+      "price_basis": "CMS CLFS national limit",
+      "source": "https://www.chfs.ky.gov/agencies/dms/DMSFeeRateSchedules/2024ClinicalLabRates.pdf"
+    },
+    {
+      "id": "ferritin",
+      "label": "Ferritin",
+      "category": "hematology",
+      "code": "82728",
+      "price_usd": 14,
+      "price_basis": "CMS CLFS national limit",
+      "source": "https://www.chfs.ky.gov/agencies/dms/DMSFeeRateSchedules/2024ClinicalLabRates.pdf"
+    },
+    {
+      "id": "iron_total",
+      "label": "Iron, Total (serum iron)",
+      "category": "hematology",
+      "code": "83540",
+      "price_usd": 6,
+      "price_basis": "CMS CLFS national limit",
+      "source": "https://www.chfs.ky.gov/agencies/dms/DMSFeeRateSchedules/2024ClinicalLabRates.pdf"
+    },
+    {
+      "id": "tibc",
+      "label": "Iron Binding Capacity (TIBC)",
+      "category": "hematology",
+      "code": "83550",
+      "price_usd": 9,
+      "price_basis": "CMS CLFS national limit",
+      "source": "https://www.chfs.ky.gov/agencies/dms/DMSFeeRateSchedules/2024ClinicalLabRates.pdf"
+    },
+    {
+      "id": "transferrin",
+      "label": "Transferrin",
+      "category": "hematology",
+      "code": "84466",
+      "price_usd": 13,
+      "price_basis": "CMS CLFS national limit",
+      "source": "https://www.chfs.ky.gov/agencies/dms/DMSFeeRateSchedules/2024ClinicalLabRates.pdf"
+    },
+    {
+      "id": "iron_studies_panel",
+      "label": "Iron Studies Panel (Iron + TIBC; % sat calculated)",
+      "category": "hematology",
+      "code": "83540",
+      "price_usd": 15,
+      "price_basis": "sum of CMS CLFS limits (83540 + 83550)",
+      "source": "https://www.chfs.ky.gov/agencies/dms/DMSFeeRateSchedules/2024ClinicalLabRates.pdf"
+    },
+    {
+      "id": "esr_automated",
+      "label": "Erythrocyte Sedimentation Rate (ESR), Automated",
+      "category": "inflammation",
+      "code": "85652",
+      "price_usd": 3,
+      "price_basis": "CMS CLFS national limit",
+      "source": "https://www.chfs.ky.gov/agencies/dms/DMSFeeRateSchedules/2024ClinicalLabRates.pdf"
+    },
+    {
+      "id": "esr_manual",
+      "label": "Erythrocyte Sedimentation Rate (ESR), Manual",
+      "category": "inflammation",
+      "code": "85651",
+      "price_usd": 4,
+      "price_basis": "CMS CLFS national limit",
+      "source": "https://www.chfs.ky.gov/agencies/dms/DMSFeeRateSchedules/2024ClinicalLabRates.pdf"
+    },
+    {
+      "id": "fibrinogen",
+      "label": "Fibrinogen Activity",
+      "category": "hematology",
+      "code": "85384",
+      "price_usd": 10,
+      "price_basis": "CMS CLFS national limit",
+      "source": "https://www.chfs.ky.gov/agencies/dms/DMSFeeRateSchedules/2024ClinicalLabRates.pdf"
+    },
+    {
+      "id": "vitamin_b12",
+      "label": "Vitamin B-12 (cyanocobalamin)",
+      "category": "vitamins_micronutrients",
+      "code": "82607",
+      "price_usd": 15,
+      "price_basis": "CMS CLFS national limit",
+      "source": "https://www.chfs.ky.gov/agencies/dms/DMSFeeRateSchedules/2024ClinicalLabRates.pdf"
+    },
+    {
+      "id": "pt",
+      "label": "Prothrombin Time (PT)",
+      "category": "hematology",
+      "code": "85610",
+      "price_usd": 4,
+      "price_basis": "CMS CLFS national limit",
+      "source": "https://www.chfs.ky.gov/agencies/dms/DMSFeeRateSchedules/2024ClinicalLabRates.pdf"
+    },
+    {
+      "id": "ptt",
+      "label": "Partial Thromboplastin Time (PTT/aPTT)",
+      "category": "hematology",
+      "code": "85730",
+      "price_usd": 6,
+      "price_basis": "CMS CLFS national limit",
+      "source": "https://www.chfs.ky.gov/agencies/dms/DMSFeeRateSchedules/2024ClinicalLabRates.pdf"
+    },
+    {
+      "id": "bun",
+      "label": "Urea Nitrogen (BUN), Blood",
+      "category": "renal_hepatic",
+      "code": "84520",
+      "price_usd": 4,
+      "price_basis": "CMS CLFS national limit",
+      "source": "https://www.chfs.ky.gov/agencies/dms/DMSFeeRateSchedules/2024ClinicalLabRates.pdf"
+    },
+    {
+      "id": "vitamin_d",
+      "label": "Vitamin D 25-OH",
+      "category": "vitamins_micronutrients",
+      "code": "82306",
+      "price_usd": 59,
+      "price_basis": "Walk-In Lab cash/list price; CLFS rate is $30",
+      "source": "https://www.walkinlab.com/products/view/vitamin-d25-hydroxy-blood-test"
+    },
+    {
+      "id": "folate_serum",
+      "label": "Folate / Folic Acid, Serum",
+      "category": "vitamins_micronutrients",
+      "code": "82746",
+      "price_usd": 29,
+      "price_basis": "Walk-In Lab cash/list price; CLFS rate is $15",
+      "source": "https://www.walkinlab.com/products/view/folate-folic-acid-serum-test"
+    },
+    {
+      "id": "folate_rbc",
+      "label": "Folate, RBC",
+      "category": "vitamins_micronutrients",
+      "code": "82747",
+      "price_usd": 18,
+      "price_basis": "CMS CLFS national limit",
+      "source": "https://www.chfs.ky.gov/agencies/dms/DMSFeeRateSchedules/2024ClinicalLabRates.pdf"
+    },
+    {
+      "id": "magnesium_rbc",
+      "label": "Magnesium, RBC",
+      "category": "vitamins_micronutrients",
+      "code": "83735",
+      "price_usd": 49,
+      "price_basis": "Walk-In Lab cash/list price",
+      "source": "https://www.walkinlab.com/products/view/magnesium-rbc-blood-test"
+    },
+    {
+      "id": "zinc",
+      "label": "Zinc",
+      "category": "vitamins_micronutrients",
+      "code": "84630",
+      "price_usd": 38,
+      "price_basis": "Walk-In Lab cash/list price; CLFS rate is $11",
+      "source": "https://www.walkinlab.com/products/view/zinc-plasma-or-serum-test"
+    },
+    {
+      "id": "copper",
+      "label": "Copper",
+      "category": "vitamins_micronutrients",
+      "code": "82525",
+      "price_usd": 44,
+      "price_basis": "Walk-In Lab cash/list price; CLFS rate is $12",
+      "source": "https://www.walkinlab.com/products/view/copper-plasma-or-serum-test"
+    },
+    {
+      "id": "ceruloplasmin",
+      "label": "Ceruloplasmin",
+      "category": "vitamins_micronutrients",
+      "code": "82390",
+      "price_usd": 33,
+      "price_basis": "Walk-In Lab cash/list price; CLFS proxy ~$14",
+      "source": "https://www.walkinlab.com/products/view/ceruloplasmin-blood-test"
+    },
+    {
+      "id": "omega3_index",
+      "label": "Omega-3 Index (RBC EPA+DHA)",
+      "category": "vitamins_micronutrients",
+      "code": "n/a",
+      "price_usd": 55,
+      "price_basis": "OmegaQuant DTC list price (Omega-3 Index Basic kit)",
+      "source": "https://omegaquant.com/omega-3-index-basic/"
+    },
+    {
+      "id": "omegacheck",
+      "label": "Omega-3 / OmegaCheck (EPA+DPA+DHA)",
+      "category": "vitamins_micronutrients",
+      "code": "82542",
+      "price_usd": 129,
+      "price_basis": "Walk-In Lab cash/list price",
+      "source": "https://www.walkinlab.com/products/view/omega-3-and-6-fatty-acids-blood-test"
+    },
+    {
+      "id": "mma",
+      "label": "Methylmalonic Acid (MMA), Serum",
+      "category": "vitamins_micronutrients",
+      "code": "83921",
+      "price_usd": 99,
+      "price_basis": "Walk-In Lab cash/list price (range ~$59-$375); CLFS rate is $21",
+      "source": "https://www.walkinlab.com/products/view/methylmalonic-acid-serum-test"
+    },
+    {
+      "id": "heavy_metal_each",
+      "label": "Heavy Metal, Quantitative, Each (NOS)",
+      "category": "vitamins_micronutrients",
+      "code": "83018",
+      "price_usd": 22,
+      "price_basis": "CMS CLFS national limit",
+      "source": "https://www.chfs.ky.gov/agencies/dms/DMSFeeRateSchedules/2024ClinicalLabRates.pdf"
+    },
+    {
+      "id": "lead",
+      "label": "Lead, Blood",
+      "category": "vitamins_micronutrients",
+      "code": "83655",
+      "price_usd": 12,
+      "price_basis": "CMS CLFS national limit",
+      "source": "https://www.chfs.ky.gov/agencies/dms/DMSFeeRateSchedules/2024ClinicalLabRates.pdf"
+    },
+    {
+      "id": "arsenic",
+      "label": "Arsenic",
+      "category": "vitamins_micronutrients",
+      "code": "82175",
+      "price_usd": 19,
+      "price_basis": "CMS CLFS national limit",
+      "source": "https://www.chfs.ky.gov/agencies/dms/DMSFeeRateSchedules/2024ClinicalLabRates.pdf"
+    },
+    {
+      "id": "mercury",
+      "label": "Mercury",
+      "category": "vitamins_micronutrients",
+      "code": "83825",
+      "price_usd": 16,
+      "price_basis": "CMS CLFS national limit",
+      "source": "https://www.chfs.ky.gov/agencies/dms/DMSFeeRateSchedules/2024ClinicalLabRates.pdf"
+    },
+    {
+      "id": "manganese",
+      "label": "Manganese",
+      "category": "vitamins_micronutrients",
+      "code": "83785",
+      "price_usd": 27,
+      "price_basis": "CMS CLFS national limit",
+      "source": "https://www.chfs.ky.gov/agencies/dms/DMSFeeRateSchedules/2024ClinicalLabRates.pdf"
+    },
+    {
+      "id": "heavy_metals_panel",
+      "label": "Heavy Metals Panel (As + Pb + Hg, whole blood)",
+      "category": "vitamins_micronutrients",
+      "code": "82175",
+      "price_usd": 305,
+      "price_basis": "DiscountedLabs cash/list bundle price (Heavy Metals Profile I)",
+      "source": "https://www.discountedlabs.com/heavy-metals-profile-i-blood"
+    },
+    {
+      "id": "nephelometry_nos",
+      "label": "Nephelometry, NOS",
+      "category": "chemistry",
+      "code": "83883",
+      "price_usd": 14,
+      "price_basis": "CMS CLFS national limit",
+      "source": "https://www.chfs.ky.gov/agencies/dms/DMSFeeRateSchedules/2024ClinicalLabRates.pdf"
+    },
+    {
+      "id": "galleri",
+      "label": "Galleri Multi-Cancer Early Detection",
+      "category": "cancer_screening",
+      "code": "n/a",
+      "price_usd": 799,
+      "price_basis": "cash/self-pay price (discounted; list $949)",
+      "source": "https://www.galleri.com/patient/the-galleri-test/cost"
+    },
+    {
+      "id": "cologuard_plus",
+      "label": "Cologuard Plus (multi-target stool DNA)",
+      "category": "cancer_screening",
+      "code": "81528",
+      "price_usd": 509,
+      "price_basis": "CMS CLFS 2026 national rate (ADLT); self-pay list ~$599",
+      "source": "https://www.medfeeschedule.com/code/81528"
+    },
+    {
+      "id": "shield_crc",
+      "label": "Shield (Guardant blood-based colorectal cfDNA)",
+      "category": "cancer_screening",
+      "code": "0537U",
+      "price_usd": 1495,
+      "price_basis": "CMS CLFS ADLT rate (also cash price)",
+      "source": "https://www.discoveriesinhealthpolicy.com/2025/03/guardant-shield-crc-test-becomes-18th.html"
+    },
+    {
+      "id": "psa_total",
+      "label": "PSA, Total",
+      "category": "tumor_markers",
+      "code": "84153",
+      "price_usd": 18,
+      "price_basis": "CMS CLFS national rate (2026)",
+      "source": "https://www.medfeeschedule.com/code/84153"
+    },
+    {
+      "id": "psa_free",
+      "label": "PSA, Free",
+      "category": "tumor_markers",
+      "code": "84154",
+      "price_usd": 18,
+      "price_basis": "CMS CLFS national rate (2026)",
+      "source": "https://www.medfeeschedule.com/code/84154"
+    },
+    {
+      "id": "psa_screening",
+      "label": "PSA Screening (Medicare)",
+      "category": "cancer_screening",
+      "code": "G0103",
+      "price_usd": 19,
+      "price_basis": "CMS national rate (2026)",
+      "source": "https://www.medfeeschedule.com/code/G0103"
+    },
+    {
+      "id": "fit_82274",
+      "label": "Fecal Occult Blood, Immunoassay (FIT), 1-3 determinations",
+      "category": "cancer_screening",
+      "code": "82274",
+      "price_usd": 16,
+      "price_basis": "CMS CLFS national rate (2026)",
+      "source": "https://www.medfeeschedule.com/code/82274"
+    },
+    {
+      "id": "fit_g0328",
+      "label": "FIT, Colorectal Screening (Medicare)",
+      "category": "cancer_screening",
+      "code": "G0328",
+      "price_usd": 18,
+      "price_basis": "CMS national rate (2026)",
+      "source": "https://www.medfeeschedule.com/code/G0328"
+    },
+    {
+      "id": "fit_cash",
+      "label": "FIT (cash/self-pay, LabCorp ColoFIT)",
+      "category": "cancer_screening",
+      "code": "82274",
+      "price_usd": 45,
+      "price_basis": "cash/list price (range ~$45-$139)",
+      "source": "https://www.ondemand.labcorp.com/at-home-test-kits/colofit-colon-cancer-test"
+    },
+    {
+      "id": "ca_125",
+      "label": "CA-125",
+      "category": "tumor_markers",
+      "code": "86304",
+      "price_usd": 21,
+      "price_basis": "CMS CLFS national rate (2026)",
+      "source": "https://www.medfeeschedule.com/code/86304"
+    },
+    {
+      "id": "cea",
+      "label": "CEA (carcinoembryonic antigen)",
+      "category": "tumor_markers",
+      "code": "82378",
+      "price_usd": 19,
+      "price_basis": "CMS CLFS national rate (2026)",
+      "source": "https://www.medfeeschedule.com/code/82378"
+    },
+    {
+      "id": "afp",
+      "label": "AFP (alpha-fetoprotein), Serum",
+      "category": "tumor_markers",
+      "code": "82105",
+      "price_usd": 17,
+      "price_basis": "CMS CLFS national rate (2026)",
+      "source": "https://www.medfeeschedule.com/code/82105"
+    },
+    {
+      "id": "ca_19_9",
+      "label": "CA 19-9",
+      "category": "tumor_markers",
+      "code": "86301",
+      "price_usd": 21,
+      "price_basis": "CMS CLFS national rate (2026)",
+      "source": "https://www.medfeeschedule.com/code/86301"
+    },
+    {
+      "id": "he4",
+      "label": "HE4 (human epididymis protein 4)",
+      "category": "tumor_markers",
+      "code": "86305",
+      "price_usd": 21,
+      "price_basis": "CMS CLFS national rate (2026)",
+      "source": "https://www.medfeeschedule.com/code/86305"
+    },
+    {
+      "id": "hcg_quant",
+      "label": "hCG, Quantitative (tumor marker)",
+      "category": "tumor_markers",
+      "code": "84702",
+      "price_usd": 15,
+      "price_basis": "CMS CLFS national rate (2026)",
+      "source": "https://www.medfeeschedule.com/code/84702"
+    },
+    {
+      "id": "thyroglobulin",
+      "label": "Thyroglobulin",
+      "category": "tumor_markers",
+      "code": "84432",
+      "price_usd": 16,
+      "price_basis": "CMS CLFS national rate (2026)",
+      "source": "https://www.medfeeschedule.com/code/84432"
+    },
+    {
+      "id": "beta2_microglobulin",
+      "label": "Beta-2 Microglobulin",
+      "category": "tumor_markers",
+      "code": "82232",
+      "price_usd": 16,
+      "price_basis": "CMS CLFS national rate (2026)",
+      "source": "https://www.medfeeschedule.com/code/82232"
+    },
+    {
+      "id": "hpv_high_risk",
+      "label": "HPV, High-Risk Types (nucleic acid detection)",
+      "category": "cancer_screening",
+      "code": "87624",
+      "price_usd": 35,
+      "price_basis": "CMS CLFS national rate (2026)",
+      "source": "https://www.medfeeschedule.com/code/87624"
+    },
+    {
+      "id": "hpv_16_18",
+      "label": "HPV, Types 16 & 18 Only",
+      "category": "cancer_screening",
+      "code": "87625",
+      "price_usd": 41,
+      "price_basis": "CMS CLFS national rate (2026)",
+      "source": "https://www.medfeeschedule.com/code/87625"
+    },
+    {
+      "id": "hpv_low_risk",
+      "label": "HPV, Low-Risk Types",
+      "category": "cancer_screening",
+      "code": "87623",
+      "price_usd": 35,
+      "price_basis": "CMS CLFS national rate (2026)",
+      "source": "https://www.medfeeschedule.com/code/87623"
+    },
+    {
+      "id": "pap_thinprep",
+      "label": "Pap, ThinPrep (automated screen + manual rescreen)",
+      "category": "cancer_screening",
+      "code": "88175",
+      "price_usd": 27,
+      "price_basis": "CMS PFS national non-facility (2026)",
+      "source": "https://www.medfeeschedule.com/code/88175"
+    },
+    {
+      "id": "pap_manual_thin",
+      "label": "Pap, Thin Layer Manual Screening",
+      "category": "cancer_screening",
+      "code": "88142",
+      "price_usd": 20,
+      "price_basis": "CMS PFS national non-facility (2026)",
+      "source": "https://www.medfeeschedule.com/code/88142"
+    },
+    {
+      "id": "pap_manual_bethesda",
+      "label": "Pap, Manual Screening (Bethesda System)",
+      "category": "cancer_screening",
+      "code": "88164",
+      "price_usd": 19,
+      "price_basis": "CMS PFS national non-facility (2026)",
+      "source": "https://www.medfeeschedule.com/code/88164"
+    },
+    {
+      "id": "pap_screening_medicare",
+      "label": "Pap Screening, Thin Layer Automated (Medicare)",
+      "category": "cancer_screening",
+      "code": "G0123",
+      "price_usd": 20,
+      "price_basis": "CMS PFS national non-facility (2026)",
+      "source": "https://www.medfeeschedule.com/code/G0123"
+    },
+    {
+      "id": "sept9",
+      "label": "SEPT9 Methylation Blood Test (Epi proColon)",
+      "category": "cancer_screening",
+      "code": "81327",
+      "price_usd": 192,
+      "price_basis": "CMS CLFS national rate (2026)",
+      "source": "https://www.medfeeschedule.com/code/81327"
+    },
+    {
+      "id": "cac_score",
+      "label": "Coronary Artery Calcium (CAC) Score",
+      "category": "imaging",
+      "code": "75571",
+      "price_usd": 125,
+      "price_basis": "cash/self-pay midpoint of $100-150 typical range; Medicare non-covered",
+      "source": "https://www.goodrx.com/health-topic/heart/coronary-artery-calcium-scan-cost"
+    },
+    {
+      "id": "ccta",
+      "label": "Coronary CT Angiography (CCTA)",
+      "category": "imaging",
+      "code": "75574",
+      "price_usd": 326,
+      "price_basis": "CMS PFS 2026 national global rate",
+      "source": "https://www.medfeeschedule.com/code/75574"
+    },
+    {
+      "id": "wbmri_prenuvo",
+      "label": "Whole-Body MRI Screening (Prenuvo)",
+      "category": "imaging",
+      "code": "n/a",
+      "price_usd": 2499,
+      "price_basis": "cash/list price, Prenuvo whole-body scan",
+      "source": "https://prenuvo.com/what-we-offer"
+    },
+    {
+      "id": "wbmri_ezra",
+      "label": "Whole-Body MRI Screening (Ezra/Function)",
+      "category": "imaging",
+      "code": "n/a",
+      "price_usd": 699,
+      "price_basis": "cash/list midpoint of $499-$899 range",
+      "source": "https://www.prnewswire.com/news-releases/function-health-acquires-ezra-introduces-499-full-body-mri-scan-302446016.html"
+    },
+    {
+      "id": "cardiac_mri",
+      "label": "Cardiac MRI (function/morphology, w/o contrast)",
+      "category": "imaging",
+      "code": "75557",
+      "price_usd": 280,
+      "price_basis": "CMS PFS 2026 national global rate",
+      "source": "https://www.medfeeschedule.com/code/75557"
+    },
+    {
+      "id": "dexa_bone",
+      "label": "DEXA Bone Density (axial, hip/spine)",
+      "category": "imaging",
+      "code": "77080",
+      "price_usd": 39,
+      "price_basis": "CMS PFS 2026 national global rate",
+      "source": "https://www.medfeeschedule.com/code/77080"
+    },
+    {
+      "id": "ldct_lung",
+      "label": "Low-Dose Chest CT (lung cancer screen)",
+      "category": "imaging",
+      "code": "71271",
+      "price_usd": 136,
+      "price_basis": "CMS PFS 2026 national global rate",
+      "source": "https://www.medfeeschedule.com/code/71271"
+    },
+    {
+      "id": "mammogram_tomo",
+      "label": "Screening Mammography w/ Tomosynthesis (3D, bilateral)",
+      "category": "imaging",
+      "code": "77067",
+      "price_usd": 126,
+      "price_basis": "CMS PFS 2026 national global rate",
+      "source": "https://www.medfeeschedule.com/code/77067"
+    },
+    {
+      "id": "breast_mri",
+      "label": "Breast MRI (bilateral, w/ and w/o contrast)",
+      "category": "imaging",
+      "code": "77049",
+      "price_usd": 340,
+      "price_basis": "CMS PFS 2026 national global rate",
+      "source": "https://www.medfeeschedule.com/code/77049"
+    },
+    {
+      "id": "cimt",
+      "label": "Carotid Intima-Media Thickness (CIMT) Ultrasound",
+      "category": "imaging",
+      "code": "93895",
+      "price_usd": 160,
+      "price_basis": "cash/self-pay midpoint of ~$75-250 range; Medicare non-covered",
+      "source": "https://medicarepaymentandreimbursement.com/2018/12/cpt-0126t-93895-assessment-of.html"
+    },
+    {
+      "id": "abdominal_us",
+      "label": "Abdominal Ultrasound (complete)",
+      "category": "imaging",
+      "code": "76700",
+      "price_usd": 114,
+      "price_basis": "CMS PFS 2026 national global rate",
+      "source": "https://www.medfeeschedule.com/code/76700"
+    },
+    {
+      "id": "aaa_screen_us",
+      "label": "Abdominal Aortic Aneurysm Screening Ultrasound",
+      "category": "imaging",
+      "code": "76706",
+      "price_usd": 106,
+      "price_basis": "CMS PFS 2026 national global rate",
+      "source": "https://www.medfeeschedule.com/code/76706"
+    },
+    {
+      "id": "echo_tte",
+      "label": "Transthoracic Echocardiogram (complete, w/ Doppler)",
+      "category": "imaging",
+      "code": "93306",
+      "price_usd": 197,
+      "price_basis": "CMS PFS 2026 national global rate",
+      "source": "https://www.medfeeschedule.com/code/93306"
+    },
+    {
+      "id": "screening_colonoscopy",
+      "label": "Screening Colonoscopy (average risk)",
+      "category": "procedure",
+      "code": "G0121",
+      "price_usd": 378,
+      "price_basis": "CMS PFS 2026 national non-facility physician fee",
+      "source": "https://www.medfeeschedule.com/code/G0121"
+    },
+    {
+      "id": "diagnostic_colonoscopy",
+      "label": "Diagnostic/Therapeutic Colonoscopy",
+      "category": "procedure",
+      "code": "45378",
+      "price_usd": 378,
+      "price_basis": "CMS PFS 2026 national non-facility",
+      "source": "https://www.medfeeschedule.com/code/45378"
+    },
+    {
+      "id": "egd",
+      "label": "Upper Endoscopy (EGD, diagnostic)",
+      "category": "procedure",
+      "code": "43235",
+      "price_usd": 323,
+      "price_basis": "CMS PFS 2026 national non-facility",
+      "source": "https://www.medfeeschedule.com/code/43235"
+    },
+    {
+      "id": "cpet_vo2max",
+      "label": "Cardiopulmonary Exercise Test (VO2max/CPET)",
+      "category": "procedure",
+      "code": "94621",
+      "price_usd": 166,
+      "price_basis": "CMS PFS 2026 national global rate",
+      "source": "https://www.medfeeschedule.com/code/94621"
+    },
+    {
+      "id": "apoe_genotype",
+      "label": "APOE Genotyping (Alzheimer/cardiovascular risk)",
+      "category": "genetics",
+      "code": "81401",
+      "price_usd": 266,
+      "price_basis": "cash/self-pay midpoint of $113-419 range, varies by lab",
+      "source": "https://www.findlabtest.com/lab-test/non-infection-disease/cardio-iq-apoe-genotype-quest-90649"
+    },
+    {
+      "id": "cad_prs",
+      "label": "Cardiovascular Polygenic Risk Score (CAD PRS, Allelica)",
+      "category": "genetics",
+      "code": "81479",
+      "price_usd": 349,
+      "price_basis": "cash/list price, direct-to-consumer",
+      "source": "https://order.allelica.com/"
+    },
+    {
+      "id": "pgx_panel",
+      "label": "Pharmacogenomics (PGx) Panel, 5-50 genes",
+      "category": "genetics",
+      "code": "81418",
+      "price_usd": 917,
+      "price_basis": "CMS CLFS national payment amount, CY2026",
+      "source": "https://www.cms.gov/medicare/payment/fee-schedules/clinical-laboratory-fee-schedule-clfs"
+    },
+    {
+      "id": "genesight",
+      "label": "Pharmacogenomics Panel, Mental Health (GeneSight)",
+      "category": "genetics",
+      "code": "81418",
+      "price_usd": 330,
+      "price_basis": "cash/self-pay capped price (list to insurance ~$2,000)",
+      "source": "https://genesight.com/cost/"
+    },
+    {
+      "id": "brca_full",
+      "label": "BRCA1/BRCA2 Full Sequence + Del/Dup Analysis",
+      "category": "genetics",
+      "code": "81162",
+      "price_usd": 2028,
+      "price_basis": "CMS CLFS national limit (gapfill-era cited rate)",
+      "source": "https://www.cms.gov/medicare/payment/fee-schedules/clinical-laboratory-fee-schedule-clfs/files"
+    },
+    {
+      "id": "brca_seq_only",
+      "label": "BRCA1/BRCA2 Full Sequence Only",
+      "category": "genetics",
+      "code": "81163",
+      "price_usd": 468,
+      "price_basis": "CMS CLFS national limit (cited rate)",
+      "source": "https://www.cms.gov/medicare-coverage-database/view/article.aspx?articleId=56542"
+    },
+    {
+      "id": "brca_deldup_only",
+      "label": "BRCA1/BRCA2 Del/Dup Analysis Only",
+      "category": "genetics",
+      "code": "81164",
+      "price_usd": 584,
+      "price_basis": "CMS CLFS national limit (cited rate)",
+      "source": "https://www.cms.gov/medicare-coverage-database/view/article.aspx?articleId=56542"
+    },
+    {
+      "id": "lynch_mlh1",
+      "label": "Lynch Syndrome - MLH1 Full Sequence Analysis",
+      "category": "genetics",
+      "code": "81292",
+      "price_usd": 650,
+      "price_basis": "CMS CLFS component code midpoint of ~$600-700 range",
+      "source": "https://www.cms.gov/medicare-coverage-database/view/article.aspx?articleId=57450"
+    },
+    {
+      "id": "lynch_msh2",
+      "label": "Lynch Syndrome - MSH2 Full Sequence Analysis",
+      "category": "genetics",
+      "code": "81295",
+      "price_usd": 650,
+      "price_basis": "CMS CLFS component code midpoint of ~$600-700 range",
+      "source": "https://www.cms.gov/medicare-coverage-database/view/article.aspx?articleId=57450"
+    },
+    {
+      "id": "lynch_msh6",
+      "label": "Lynch Syndrome - MSH6 Full Sequence Analysis",
+      "category": "genetics",
+      "code": "81298",
+      "price_usd": 500,
+      "price_basis": "CMS CLFS component code midpoint of ~$400-600 range",
+      "source": "https://www.cms.gov/medicare-coverage-database/view/article.aspx?articleId=57450"
+    },
+    {
+      "id": "lynch_panel",
+      "label": "Lynch Syndrome Panel (seq + del/dup), ARUP",
+      "category": "genetics",
+      "code": "81292",
+      "price_usd": 2000,
+      "price_basis": "cash/list midpoint of ~$1500-2500 range, varies by lab",
+      "source": "https://ltd.aruplab.com/Tests/Pub/3001605"
+    },
+    {
+      "id": "expanded_carrier_ngs",
+      "label": "Expanded Carrier Screening, NGS Panel (>=15 genes)",
+      "category": "genetics",
+      "code": "81443",
+      "price_usd": 1550,
+      "price_basis": "CMS CLFS / cash midpoint of ~$1100-2000 range",
+      "source": "https://www.cms.gov/medicare/payment/fee-schedules/clinical-laboratory-fee-schedule-clfs"
+    },
+    {
+      "id": "qherit",
+      "label": "Expanded Carrier Screen, QHerit (Quest)",
+      "category": "genetics",
+      "code": "81443",
+      "price_usd": 249,
+      "price_basis": "cash/self-pay midpoint of ~$199-299 range",
+      "source": "https://testdirectory.questdiagnostics.com/test/test-detail/94372/qherit-expanded-carrier-screen"
+    },
+    {
+      "id": "wes_proband",
+      "label": "Whole Exome Sequencing (proband), Sequence Analysis",
+      "category": "genetics",
+      "code": "81415",
+      "price_usd": 4780,
+      "price_basis": "CMS CLFS national limit (gapfill-derived cited rate)",
+      "source": "https://www.cms.gov/medicare/payment/fee-schedules/clinical-laboratory-fee-schedule-clfs/files"
+    },
+    {
+      "id": "wes_comparator",
+      "label": "Whole Exome Sequencing, Each Comparator (trio member)",
+      "category": "genetics",
+      "code": "81416",
+      "price_usd": 2000,
+      "price_basis": "CMS CLFS national limit (cited rate)",
+      "source": "https://www.cms.gov/medicare/payment/fee-schedules/clinical-laboratory-fee-schedule-clfs/files"
+    },
+    {
+      "id": "wes_reeval",
+      "label": "Whole Exome Sequencing, Re-evaluation",
+      "category": "genetics",
+      "code": "81417",
+      "price_usd": 600,
+      "price_basis": "CMS CLFS national limit (cited rate)",
+      "source": "https://www.cms.gov/medicare/payment/fee-schedules/clinical-laboratory-fee-schedule-clfs/files"
+    },
+    {
+      "id": "wgs_proband",
+      "label": "Whole Genome Sequencing (proband), Sequence Analysis",
+      "category": "genetics",
+      "code": "81425",
+      "price_usd": 5031,
+      "price_basis": "CMS CLFS national limit amount (gapfill, eff 2019)",
+      "source": "https://www.discoveriesinhealthpolicy.com/2018/10/cms-posts-final-gapfill-codes-for.html"
+    },
+    {
+      "id": "wgs_comparator",
+      "label": "Whole Genome Sequencing, Each Comparator",
+      "category": "genetics",
+      "code": "81426",
+      "price_usd": 2000,
+      "price_basis": "CMS CLFS national limit (cited rate)",
+      "source": "https://www.cms.gov/medicare/payment/fee-schedules/clinical-laboratory-fee-schedule-clfs/files"
+    },
+    {
+      "id": "wgs_reeval",
+      "label": "Whole Genome Sequencing, Re-evaluation",
+      "category": "genetics",
+      "code": "81427",
+      "price_usd": 1300,
+      "price_basis": "CMS CLFS national limit midpoint of ~$600-2000 range",
+      "source": "https://www.cms.gov/medicare/payment/fee-schedules/clinical-laboratory-fee-schedule-clfs/files"
+    },
+    {
+      "id": "hereditary_cancer_panel",
+      "label": "Hereditary Cancer Panel, Multi-gene (Myriad MyRisk)",
+      "category": "genetics",
+      "code": "81432",
+      "price_usd": 250,
+      "price_basis": "cash/self-pay (Myriad patient-cost cap; list to insurer much higher)",
+      "source": "https://www.asco.org/news-initiatives/current-initiatives/cancer-care-initiatives/genetics-toolkit/genetic-testing-coverage-reimbursement"
+    },
+    {
+      "id": "cgm_supply_a4239",
+      "label": "CGM Supply Allowance, Non-adjunctive (Medicare DMEPOS)",
+      "category": "functional",
+      "code": "A4239",
+      "price_usd": 333,
+      "price_basis": "Medicare DMEPOS midpoint of ~$300-366 per 30-day supply (approximate)",
+      "source": "https://www.cms.gov/medicare/payment/fee-schedules/dmepos/dmepos-fee-schedule"
+    },
+    {
+      "id": "cgm_receiver_e2103",
+      "label": "CGM Receiver/Monitor, Non-adjunctive (durable)",
+      "category": "functional",
+      "code": "E2103",
+      "price_usd": 188,
+      "price_basis": "Medicare DMEPOS midpoint of ~$125-250 one-time (approximate)",
+      "source": "https://www.cms.gov/medicare/payment/fee-schedules/dmepos/dmepos-fee-schedule"
+    },
+    {
+      "id": "cgm_stelo",
+      "label": "CGM OTC Sensor, Dexcom Stelo",
+      "category": "functional",
+      "code": "n/a",
+      "price_usd": 94,
+      "price_basis": "cash/retail midpoint of $89-99 per month (2 sensors)",
+      "source": "https://www.stelo.com/en-us"
+    },
+    {
+      "id": "cgm_lingo",
+      "label": "CGM OTC Sensor, Abbott Lingo",
+      "category": "functional",
+      "code": "n/a",
+      "price_usd": 69,
+      "price_basis": "cash/retail midpoint of $49-89 per month",
+      "source": "https://www.medtechdive.com/news/abbott-lingo-rollout-us-otc-cgm/726330/"
+    },
+    {
+      "id": "cgm_levels",
+      "label": "CGM Wellness Program Membership, Levels",
+      "category": "functional",
+      "code": "n/a",
+      "price_usd": 162,
+      "price_basis": "cash/list midpoint of $125-199 per year + CGM cost",
+      "source": "https://support.levels.com/article/720-levels-pricing-and-plans"
+    },
+    {
+      "id": "gi_effects_genova",
+      "label": "Gut Microbiome Test, Genova GI Effects Comprehensive",
+      "category": "functional",
+      "code": "87505",
+      "price_usd": 474,
+      "price_basis": "cash/list price (Genova Connect; +$15 physician fee)",
+      "source": "https://connect.gdx.net/products/gut-health-optimize"
+    },
+    {
+      "id": "viome_gut",
+      "label": "Gut Microbiome Test, Viome Gut Intelligence (RNA seq)",
+      "category": "functional",
+      "code": "n/a",
+      "price_usd": 199,
+      "price_basis": "cash/list price",
+      "source": "https://www.viome.com/"
+    },
+    {
+      "id": "tiny_health_gut",
+      "label": "Gut Microbiome Test, Tiny Health (infant/pregnancy)",
+      "category": "functional",
+      "code": "n/a",
+      "price_usd": 249,
+      "price_basis": "cash/list price",
+      "source": "https://www.tinyhealth.com/blog/tiny-health-gut-health-test-vs-gi-map-choosing-the-right-gut-test-for-you"
+    },
+    {
+      "id": "il6",
+      "label": "Interleukin-6 (IL-6)",
+      "category": "inflammation",
+      "code": "83520",
+      "price_usd": 18,
+      "price_basis": "CMS CLFS national rate (IL-6 billed under 83520, immunoassay NOS); approximate",
+      "source": "https://www.cms.gov/medicare/payment/fee-schedules/clinical-laboratory-fee-schedule-clfs/files"
+    },
+    {
+      "id": "glyca",
+      "label": "GlycA (glycoprotein acetylation, NMR inflammation marker)",
+      "category": "inflammation",
+      "code": "n/a",
+      "price_usd": 40,
+      "price_basis": "cash/list (NMR-derived add-on; no dedicated CPT); approximate",
+      "source": "https://www.labcorp.com/tests/123810/nmr-lipoprofile-with-lipids-graphical-report"
+    },
+    {
+      "id": "cotinine",
+      "label": "Cotinine (nicotine metabolite), quantitative",
+      "category": "chemistry",
+      "code": "82505",
+      "price_usd": 29,
+      "price_basis": "CMS CLFS national rate (approx)",
+      "source": "https://www.cms.gov/medicare/payment/fee-schedules/clinical-laboratory-fee-schedule-clfs/files"
+    }
+  ]
+}

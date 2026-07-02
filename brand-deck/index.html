@@ -23,7 +23,7 @@
     --gray-light: #888888;
     --line: #DDDDDD;
     /* type tokens: the single source. PolySans is licensed and bundled locally. */
-    --voice: -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, Arial, sans-serif, 'Hanken Grotesk', -apple-system, sans-serif;
+    --voice: 'PolySans', 'Hanken Grotesk', -apple-system, sans-serif;
     --audit: 'Space Mono', ui-monospace, Menlo, monospace;
     --size-display: clamp(34px, 4.5vw, 56px);
     --w-display: 650;
@@ -2404,7 +2404,7 @@ render();
       const cv = document.createElement('canvas');
       const ctx = cv.getContext('2d');
       const w = f => { ctx.font = '16px ' + f; return ctx.measureText('the whole of medicine mgWQ').width; };
-      return Math.abs(w('-apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, Arial, sans-serif, monospace') - w('monospace')) > 0.5;
+      return Math.abs(w('"PolySans", monospace') - w('monospace')) > 0.5;
     })();
     const wf = document.getElementById('workingFaceLabel');
     if (wf) wf.textContent = polyLoaded ? 'PolySans · licensed, rendering' : 'Hanken Grotesk · working, free';
@@ -2414,7 +2414,7 @@ render();
       : 'POLYSANS NOT LICENSED: THE TOKEN FALLS BACK TO HANKEN GROTESK; THE SPECIMEN UPGRADES ITSELF THE DAY THE LICENSE LANDS';
 
     function metrics(family) {
-      if (family === -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, Arial, sans-serif && !polyLoaded) return null;
+      if (family === 'PolySans' && !polyLoaded) return null;
       const cv = document.createElement('canvas');
       const ctx = cv.getContext('2d');
       ctx.font = '16px ' + family;
@@ -2429,7 +2429,7 @@ render();
       };
     }
     const hk = metrics('Hanken Grotesk');
-    const ps = metrics(-apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, Arial, sans-serif);
+    const ps = metrics('PolySans');
     const cell = (m, k) => m ? m[k] : '—';
     const faceRows = [
       ['x-height at 16px', cell(hk, 'xh') + ' px', cell(ps, 'xh') + (ps ? ' px' : '')],

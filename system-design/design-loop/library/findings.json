@@ -1,0 +1,2686 @@
+{
+ "disclaimer": "ILLUSTRATIVE SCAFFOLDING for the Aleron design loop. Every clinical number (prevalence, threshold, detector sensitivity, base_catch) is invented to fix the closed-world findings structure, sourced to a real evidence synthesis and kept internally consistent -- NOT validated for clinical use. A FINDING is anything true about a patient that, if detected, enables a QALY-positive action vs the frozen current-management baseline. kind=continuous: graded by a true risk, 'present' above prevalence_or_threshold, per-patient delta scales with risk. kind=rare: binary, individually rare, importance-sampled at population prevalence. detectors map a pricing-catalog test_id to the probability a design buying that test detects the finding. base_catch = probability current management already detects+acts. enables lists the action_library ids this finding unlocks. Genuinely thin-evidence items are kept (never dropped) and flagged in note. Detector test_ids reference /system-design/design-loop/pricing/pricing.json by id; pricing_gaps lists real tests that are NOT yet in the catalog (with proposed CPT + price) and that currently must fall back to a present-but-suboptimal detector.",
+ "findings": [
+  {
+   "id": "cvd_risk_ascvd",
+   "domain": "cvd",
+   "kind": "continuous",
+   "prevalence_or_threshold": 0.075,
+   "detectors": [
+    {
+     "test_id": "lipid_panel",
+     "sensitivity": 0.6
+    },
+    {
+     "test_id": "ldl_direct",
+     "sensitivity": 0.6
+    },
+    {
+     "test_id": "apob",
+     "sensitivity": 0.72
+    },
+    {
+     "test_id": "cac_score",
+     "sensitivity": 0.95
+    },
+    {
+     "test_id": "ccta",
+     "sensitivity": 0.97
+    },
+    {
+     "test_id": "cad_prs",
+     "sensitivity": 0.45
+    },
+    {
+     "test_id": "nmr_lipoprofile",
+     "sensitivity": 0.65
+    }
+   ],
+   "base_catch": 0.55,
+   "enables": [
+    "statin_primary",
+    "ezetimibe_addon",
+    "pcsk9_inhibitor",
+    "bempedoic_acid",
+    "aspirin_primary",
+    "dietary_pattern_med"
+   ],
+   "note": "Core lipid-driven 10-yr ASCVD risk (USPSTF 2022 treat threshold >=0.075 selective / >=0.10 recommend). CAC is the strongest single reclassifier; ApoB > LDL-C for discordant/residual risk. Standard care catches most high-risk primary-prevention patients but misses discordant-ApoB / CAC-positive-low-LDL / undertreated intermediates. BP component split into bp_driven_risk so the antihypertensive action has a clean detector."
+  },
+  {
+   "id": "bp_driven_risk",
+   "domain": "cvd",
+   "kind": "continuous",
+   "prevalence_or_threshold": 130,
+   "detectors": [
+    {
+     "test_id": "office_bp",
+     "sensitivity": 0.7
+    },
+    {
+     "test_id": "ambulatory_bp",
+     "sensitivity": 0.92
+    }
+   ],
+   "base_catch": 0.55,
+   "note": "Threshold = sustained SBP >=130-140 mmHg; true BP-driven ASCVD risk graded (BPLTTC). Kept distinct from cvd_risk_ascvd because the action (antihypertensives) and effect size are separate. Ambulatory BP catches masked/white-coat HTN that office BP misses. BOTH detectors are pricing_gaps (office_bp, ambulatory_bp) -- this finding false-zeros unless they are added to the catalog.",
+   "enables": [
+    "antihypertensive_rx"
+   ]
+  },
+  {
+   "id": "hs_crp_residual_inflam",
+   "domain": "cvd",
+   "kind": "continuous",
+   "prevalence_or_threshold": 2.0,
+   "detectors": [
+    {
+     "test_id": "hs_crp",
+     "sensitivity": 0.9
+    },
+    {
+     "test_id": "crp_standard",
+     "sensitivity": 0.7
+    }
+   ],
+   "base_catch": 0.1,
+   "enables": [
+    "colchicine_ldose",
+    "canakinumab_il1b"
+   ],
+   "note": "Residual inflammatory risk: hs-CRP >=2 mg/L on optimized lipid lowering (mostly secondary prevention); ~30-40% of statin-treated. Standard care rarely measures or acts. Threshold expressed in mg/L."
+  },
+  {
+   "id": "lpa_elevated",
+   "domain": "cvd",
+   "kind": "continuous",
+   "prevalence_or_threshold": 125,
+   "detectors": [
+    {
+     "test_id": "lpa",
+     "sensitivity": 0.98
+    }
+   ],
+   "base_catch": 0.05,
+   "enables": [
+    "lpa_reclassify_intensify",
+    "lpa_targeted_lowering"
+   ],
+   "note": "Threshold = Lp(a) >=125 nmol/L (~50 mg/dL); ~20% of population. Genetically determined, lifelong, independent causal risk (HR ~1.3-1.5). Once-in-a-lifetime test. Proven action is risk-reclassification -> intensify LDL/BP control; direct Lp(a)-lowering (lpa_targeted_lowering) is WEAK/placeholder pending outcomes trials."
+  },
+  {
+   "id": "high_triglycerides_resid",
+   "domain": "cvd",
+   "kind": "continuous",
+   "prevalence_or_threshold": 150,
+   "detectors": [
+    {
+     "test_id": "triglycerides",
+     "sensitivity": 0.95
+    },
+    {
+     "test_id": "lipid_panel",
+     "sensitivity": 0.9
+    }
+   ],
+   "base_catch": 0.15,
+   "enables": [
+    "icosapent_ethyl"
+   ],
+   "note": "Threshold = TG 150-499 mg/dL on statin with established ASCVD or diabetes+riskfactor (REDUCE-IT phenotype). Action = icosapent ethyl; atrial-fibrillation harm is a real QALY debit."
+  },
+  {
+   "id": "FH",
+   "domain": "cvd",
+   "kind": "rare",
+   "prevalence_or_threshold": 0.0035,
+   "detectors": [
+    {
+     "test_id": "fh_gene_panel",
+     "sensitivity": 0.9
+    },
+    {
+     "test_id": "wes_proband",
+     "sensitivity": 0.9
+    },
+    {
+     "test_id": "wgs_proband",
+     "sensitivity": 0.92
+    },
+    {
+     "test_id": "lipid_panel",
+     "sensitivity": 0.55
+    },
+    {
+     "test_id": "cad_prs",
+     "sensitivity": 0.15
+    }
+   ],
+   "base_catch": 0.1,
+   "enables": [
+    "fh_high_intensity_llt",
+    "fh_cascade_screening"
+   ],
+   "note": "Heterozygous FH ~1 in 250-300; monogenic autosomal dominant, 3-4x CAD risk, premature CAD ~10 yr early. lipid_panel gives partial phenotypic detection (LDL >190); genetic confirmation enables cascade screening of relatives (large external value). fh_gene_panel is a pricing_gap (cheap targeted LDLR/APOB/PCSK9/LDLRAP1 panel); WES/WGS detect FH but at high cost. cad_prs is polygenic only and misses monogenic. hereditary_cancer_panel does NOT cover FH genes -- excluded as a detector."
+  },
+  {
+   "id": "inherited_cardiomyopathy",
+   "domain": "cvd",
+   "kind": "rare",
+   "prevalence_or_threshold": 0.002,
+   "detectors": [
+    {
+     "test_id": "wes_proband",
+     "sensitivity": 0.85
+    },
+    {
+     "test_id": "wgs_proband",
+     "sensitivity": 0.88
+    },
+    {
+     "test_id": "cardiac_mri",
+     "sensitivity": 0.9
+    },
+    {
+     "test_id": "echo_tte",
+     "sensitivity": 0.8
+    }
+   ],
+   "base_catch": 0.05,
+   "enables": [
+    "icd_primary_prevention",
+    "activity_cascade_inherited"
+   ],
+   "note": "HCM ~1 in 500 (actionable subset lower); hypertrophic/dilated/arrhythmogenic cardiomyopathies. Imaging (cardiac_mri/echo_tte) detects phenotype; genetics enables presymptomatic + cascade. Actionable: risk-stratified primary-prevention ICD, activity counseling, cascade screening. Genotype-driven primary-ICD evidence is moderate."
+  },
+  {
+   "id": "inherited_arrhythmia",
+   "domain": "cvd",
+   "kind": "rare",
+   "prevalence_or_threshold": 0.0007,
+   "detectors": [
+    {
+     "test_id": "wes_proband",
+     "sensitivity": 0.8
+    },
+    {
+     "test_id": "wgs_proband",
+     "sensitivity": 0.85
+    },
+    {
+     "test_id": "resting_ecg",
+     "sensitivity": 0.6
+    }
+   ],
+   "base_catch": 0.05,
+   "enables": [
+    "betablocker_lqts"
+   ],
+   "note": "Long-QT / Brugada / CPVT combined ~1 in 1,000-2,000; channelopathies causing SCD in structurally normal hearts. resting_ecg is the cheap first-line phenotypic detector for LQTS but is a pricing_gap; WES/WGS detect genotype. Actionable: beta-blockers (LQTS/CPVT), activity restriction, ICD in high-risk, cascade screening. Evidence moderate, rare and high-value."
+  },
+  {
+   "id": "tobacco_use_active",
+   "domain": "cvd",
+   "kind": "rare",
+   "prevalence_or_threshold": 0.12,
+   "detectors": [
+    {
+     "test_id": "smoking_status_intake",
+     "sensitivity": 0.95
+    },
+    {
+     "test_id": "cotinine",
+     "sensitivity": 0.98
+    }
+   ],
+   "base_catch": 0.38,
+   "enables": [
+    "smoking_cessation_program"
+   ],
+   "note": "LIFESTYLE/behavioral exposure. Binary, intake-detected active tobacco use; prevalence ~0.12 (current cigarette smoking, recent NHIS). smoking_status_intake ($0 pricing_gap) captures it near-universally; cotinine (CPT 82505) is the present-catalog objective-confirmation detector so this finding does NOT false-zero. base_catch 0.38: status is recorded almost everywhere but effective STRUCTURED cessation (counseling + pharmacotherapy) is markedly under-delivered. Credited value (RARE_PENETRANCE 0.25 in generate_cohort.py) is the smoking-attributable death probability OUTSIDE the cardiovascular fraction already booked under cvd_risk_ascvd/bp_driven_risk -- lung cancer + COPD + non-CVD cancers + residual CV. Prevalence: https://www.cdc.gov/tobacco/php/data-statistics/adult-data-cigarettes/index.html"
+  },
+  {
+   "id": "excess_alcohol_use",
+   "domain": "cvd",
+   "kind": "rare",
+   "prevalence_or_threshold": 0.09,
+   "detectors": [
+    {
+     "test_id": "auditc_intake",
+     "sensitivity": 0.85
+    }
+   ],
+   "base_catch": 0.2,
+   "enables": [
+    "alcohol_reduction"
+   ],
+   "note": "LIFESTYLE/behavioral exposure. Hazardous/heavy alcohol use (AUDIT-C positive). Prevalence ~0.09 (actionable heavy/hazardous band). kind=rare by analogy to hearing_loss_actionable (binary, non-genetic, intake-detected), NOT rare in the 1-in-thousands sense. Sole detector auditc_intake is a $0 pricing_gap, so this finding FALSE-ZEROS against the present catalog (like bp_driven_risk) until an intake screen is catalogued. base_catch 0.20: USPSTF Grade B but screening + brief intervention chronically under-delivered. Credited value (RARE_PENETRANCE 0.05) is the non-ASCVD/BP slice only -- atrial fibrillation, hemorrhagic stroke, alcohol-associated liver disease, alcohol-attributable cancers; deliberately conservative to avoid double-count vs the CVD and cancer-screening findings."
+  },
+  {
+   "id": "ckd_albuminuric",
+   "domain": "ckd",
+   "kind": "continuous",
+   "prevalence_or_threshold": 30,
+   "detectors": [
+    {
+     "test_id": "uacr",
+     "sensitivity": 0.9
+    },
+    {
+     "test_id": "microalbumin_urine",
+     "sensitivity": 0.8
+    },
+    {
+     "test_id": "cystatin_c_panel",
+     "sensitivity": 0.85
+    },
+    {
+     "test_id": "creatinine_blood",
+     "sensitivity": 0.65
+    },
+    {
+     "test_id": "cmp",
+     "sensitivity": 0.65
+    }
+   ],
+   "base_catch": 0.3,
+   "enables": [
+    "act_sglt2i_ckd",
+    "act_raasi_ckd",
+    "act_finerenone",
+    "act_glp1_ckd",
+    "dietary_sodium_protein_ckd",
+    "act_finerenone_cv_hf",
+    "act_potassium_binder_enable_raasi"
+   ],
+   "note": "Threshold = UACR >=30 mg/g (KDIGO A2); ~9-10% US adults, risk graded by UACR x eGFR. Albuminuria is the modifiable axis with the largest treatment effect; only ~18-35% of at-risk patients ever get a UACR (drives low base_catch). Detector needs albumin + creatinine for ratio; eGFR alone misses normoalbuminuric staging."
+  },
+  {
+   "id": "ckd_low_egfr",
+   "domain": "ckd",
+   "kind": "continuous",
+   "prevalence_or_threshold": 60,
+   "detectors": [
+    {
+     "test_id": "creatinine_blood",
+     "sensitivity": 0.65
+    },
+    {
+     "test_id": "cystatin_c",
+     "sensitivity": 0.85
+    },
+    {
+     "test_id": "cystatin_c_panel",
+     "sensitivity": 0.88
+    },
+    {
+     "test_id": "renal_function_panel",
+     "sensitivity": 0.65
+    },
+    {
+     "test_id": "cmp",
+     "sensitivity": 0.65
+    }
+   ],
+   "base_catch": 0.45,
+   "enables": [
+    "act_egfr_dose_review",
+    "act_nephrology_referral_mdc",
+    "act_influenza_pneumococcal_vax_ckd"
+   ],
+   "note": "Threshold = eGFR <60 mL/min/1.73m2 sustained (G3a+); ~6% US adults, 34% of >=65y. Routine CMP creatinine catches it moderately; cystatin C reclassifies ~1/6 borderline G3a and is underused. Confirm sustained over 3 months."
+  },
+  {
+   "id": "ckd_rapid_progressor",
+   "domain": "ckd",
+   "kind": "continuous",
+   "prevalence_or_threshold": 5,
+   "detectors": [
+    {
+     "test_id": "creatinine_blood",
+     "sensitivity": 0.7
+    },
+    {
+     "test_id": "cystatin_c_panel",
+     "sensitivity": 0.85
+    },
+    {
+     "test_id": "uacr",
+     "sensitivity": 0.6
+    }
+   ],
+   "base_catch": 0.25,
+   "enables": [
+    "act_sglt2i_progressor"
+   ],
+   "note": "Threshold = eGFR decline >5 mL/min/1.73m2/yr (rapid loss); subset of CKD heading to kidney failure, where interventions buy the most QALYs. Captures the slope not the level; needs >=2 timepoints (serial testing)."
+  },
+  {
+   "id": "htn_nephropathy",
+   "domain": "ckd",
+   "kind": "continuous",
+   "prevalence_or_threshold": 130,
+   "detectors": [
+    {
+     "test_id": "office_bp",
+     "sensitivity": 0.85
+    },
+    {
+     "test_id": "uacr",
+     "sensitivity": 0.7
+    },
+    {
+     "test_id": "creatinine_blood",
+     "sensitivity": 0.6
+    }
+   ],
+   "base_catch": 0.5,
+   "enables": [
+    "act_bp_intensive_renal"
+   ],
+   "note": "Hypertensive kidney disease, ~2nd leading ESRD cause; largely overlaps ckd_albuminuric. BP measurement widely done (high base_catch) but BP-to-renal-target intensification is the gap. office_bp is a pricing_gap (assumed captured at intake at zero marginal cost); uacr/creatinine are present catalog fallbacks."
+  },
+  {
+   "id": "adpkd",
+   "domain": "ckd",
+   "kind": "rare",
+   "prevalence_or_threshold": 0.001,
+   "detectors": [
+    {
+     "test_id": "abdominal_us",
+     "sensitivity": 0.9
+    },
+    {
+     "test_id": "kidney_gene_panel",
+     "sensitivity": 0.95
+    },
+    {
+     "test_id": "wgs_proband",
+     "sensitivity": 0.95
+    },
+    {
+     "test_id": "wes_proband",
+     "sensitivity": 0.9
+    }
+   ],
+   "base_catch": 0.35,
+   "enables": [
+    "act_tolvaptan_adpkd"
+   ],
+   "note": "ADPKD ~1/400-1/1000. abdominal_us (76700) is a present imaging proxy detecting cysts in adults >40y (lower if young); pre-cyst/pre-symptomatic detection needs genetics. kidney_gene_panel (dedicated PKD1/PKD2) is a pricing_gap; WES/WGS detect it but at high cost. Early detection enables early tolvaptan."
+  },
+  {
+   "id": "alport_col4",
+   "domain": "ckd",
+   "kind": "rare",
+   "prevalence_or_threshold": 0.0002,
+   "detectors": [
+    {
+     "test_id": "wgs_proband",
+     "sensitivity": 0.9
+    },
+    {
+     "test_id": "wes_proband",
+     "sensitivity": 0.88
+    },
+    {
+     "test_id": "kidney_gene_panel",
+     "sensitivity": 0.92
+    }
+   ],
+   "base_catch": 0.2,
+   "enables": [
+    "act_raasi_alport"
+   ],
+   "note": "Alport (COL4A3/4/5) ~1/5000; X-linked + AR/AD. Presents with microscopic hematuria + albuminuria, often missed until proteinuria. Genetic dx enables early RAASi (delays ESRD ~13-18 yr). kidney_gene_panel and urinalysis_dipstick (for hematuria) are pricing_gaps; WES/WGS are present fallbacks."
+  },
+  {
+   "id": "apol1_highrisk",
+   "domain": "ckd",
+   "kind": "rare",
+   "prevalence_or_threshold": 0.005,
+   "detectors": [
+    {
+     "test_id": "wgs_proband",
+     "sensitivity": 0.95
+    },
+    {
+     "test_id": "wes_proband",
+     "sensitivity": 0.9
+    },
+    {
+     "test_id": "apol1_genotyping",
+     "sensitivity": 0.98
+    }
+   ],
+   "base_catch": 0.05,
+   "enables": [
+    "act_apol1_targeted"
+   ],
+   "note": "Two APOL1 high-risk alleles: ~13% of Black Americans; weighted ~0.5% across a general cohort, far higher in African-ancestry strata. Strong genetic risk for FSGS/proteinuric CKD. apol1_genotyping (cheap 2-variant assay) is a pricing_gap; only WES/WGS detect it in the catalog (vastly over-priced). Targeted therapy (inaxaplin) evidence currently weak pending AMPLITUDE Phase 3."
+  },
+  {
+   "id": "monogenic_kidney_other",
+   "domain": "ckd",
+   "kind": "rare",
+   "prevalence_or_threshold": 0.0015,
+   "detectors": [
+    {
+     "test_id": "wgs_proband",
+     "sensitivity": 0.85
+    },
+    {
+     "test_id": "wes_proband",
+     "sensitivity": 0.8
+    },
+    {
+     "test_id": "kidney_gene_panel",
+     "sensitivity": 0.88
+    }
+   ],
+   "base_catch": 0.05,
+   "enables": [
+    "act_raasi_monogenic"
+   ],
+   "note": "UMOD/ADTKD, congenital CAKUT, atypical-HUS complement, cystinosis collectively a minority of unexplained CKD (~10-20% of unexplained/early CKD is monogenic on broad sequencing, Groopman NEJM 2019). Heterogeneous; weak/moderate action evidence, wide uncertainty. kidney_gene_panel is a pricing_gap; WES/WGS present."
+  },
+  {
+   "id": "prediabetes",
+   "domain": "metabolic",
+   "kind": "continuous",
+   "prevalence_or_threshold": 0.1,
+   "detectors": [
+    {
+     "test_id": "hba1c",
+     "sensitivity": 0.8
+    },
+    {
+     "test_id": "glucose",
+     "sensitivity": 0.55
+    },
+    {
+     "test_id": "ogtt",
+     "sensitivity": 0.95
+    },
+    {
+     "test_id": "glucose_post_dose",
+     "sensitivity": 0.9
+    },
+    {
+     "test_id": "fasting_insulin",
+     "sensitivity": 0.45
+    },
+    {
+     "test_id": "cgm_stelo",
+     "sensitivity": 0.85
+    },
+    {
+     "test_id": "cgm_lingo",
+     "sensitivity": 0.85
+    },
+    {
+     "test_id": "cgm_supply_a4239",
+     "sensitivity": 0.85
+    }
+   ],
+   "base_catch": 0.45,
+   "enables": [
+    "metformin_prevention",
+    "acarbose_cv_igt",
+    "dpp_lifestyle",
+    "physical_activity_metabolic",
+    "med_diet_metabolic"
+   ],
+   "note": "Threshold = 5-yr T2DM risk >~0.10 (HbA1c 5.7-6.4 / FPG 100-125 / 2h-OGTT 140-199); ~38% of US adults prediabetic. Gateway finding: detection enables DPP/metformin prevention; delta scales with risk. USPSTF grade-B screen at 35-70 + BMI>=25 is standard care but prediabetes is under-acted. OGTT most sensitive (catches isolated post-load)."
+  },
+  {
+   "id": "undiagnosed_t2dm",
+   "domain": "metabolic",
+   "kind": "continuous",
+   "prevalence_or_threshold": 6.5,
+   "detectors": [
+    {
+     "test_id": "hba1c",
+     "sensitivity": 0.85
+    },
+    {
+     "test_id": "glucose",
+     "sensitivity": 0.7
+    },
+    {
+     "test_id": "ogtt",
+     "sensitivity": 0.95
+    },
+    {
+     "test_id": "glucose_post_dose",
+     "sensitivity": 0.9
+    }
+   ],
+   "base_catch": 0.55,
+   "enables": [
+    "glp1_cardiovascular_t2dm",
+    "metformin_macrovascular_t2dm",
+    "direct_weight_remission"
+   ],
+   "note": "Threshold = HbA1c >=6.5% or FPG >=126; ~4.5% of US adults undiagnosed. Once detected, opens glycemic control + cardiorenal-protective drug actions. The MACE/HF deltas of the GLP1/SGLT2 actions overlap CVD/CKD home domains -- credit the drug-specific delta here, keep ASCVD-risk and kidney-failure stock in their home domains to avoid double-count."
+  },
+  {
+   "id": "insulin_resistance",
+   "domain": "metabolic",
+   "kind": "continuous",
+   "prevalence_or_threshold": 0.33,
+   "detectors": [
+    {
+     "test_id": "fasting_insulin",
+     "sensitivity": 0.7
+    },
+    {
+     "test_id": "insulin_free",
+     "sensitivity": 0.65
+    },
+    {
+     "test_id": "c_peptide",
+     "sensitivity": 0.55
+    },
+    {
+     "test_id": "triglycerides",
+     "sensitivity": 0.4
+    },
+    {
+     "test_id": "adiponectin",
+     "sensitivity": 0.4
+    }
+   ],
+   "base_catch": 0.25,
+   "enables": [
+    "pioglitazone_stroke_mi_ir",
+    "ir_lifestyle_prevention"
+   ],
+   "note": "Threshold = HOMA-IR upper tertile / metabolic-syndrome physiology; overlaps prediabetes/adiposity. WEAK as an independent actionable target beyond what prediabetes/adiposity capture -- flag wide uncertainty; value is mostly as an earlier detector of prediabetes, not a separate intervention. Enables the lifestyle action only (no IR-specific drug on a real outcome passes the validity gate)."
+  },
+  {
+   "id": "adiposity_obesity",
+   "domain": "metabolic",
+   "kind": "continuous",
+   "prevalence_or_threshold": 30,
+   "detectors": [
+    {
+     "test_id": "anthropometric_bmi",
+     "sensitivity": 0.95
+    },
+    {
+     "test_id": "leptin",
+     "sensitivity": 0.3
+    },
+    {
+     "test_id": "dexa_bone",
+     "sensitivity": 0.5
+    }
+   ],
+   "base_catch": 0.4,
+   "enables": [
+    "incretin_prevention_obesity",
+    "metabolic_surgery",
+    "orlistat_t2dm_prevention"
+   ],
+   "note": "Threshold = BMI >=30 (or >=27 with comorbidity); ~40% US adult obesity. BMI/waist are free exam measures (anthropometric_bmi is a zero-cost pricing_gap line, matching the office_bp convention); leptin/dexa are weak adjuncts. Drives incretin/surgery actions; kept distinct from prediabetes so a non-dysglycemic obese patient still earns the weight-driven cardiometabolic action."
+  },
+  {
+   "id": "t2dm_microvascular_risk",
+   "domain": "metabolic",
+   "kind": "continuous",
+   "prevalence_or_threshold": 7.0,
+   "detectors": [
+    {
+     "test_id": "hba1c",
+     "sensitivity": 0.9
+    },
+    {
+     "test_id": "cgm_supply_a4239",
+     "sensitivity": 0.75
+    },
+    {
+     "test_id": "cgm_stelo",
+     "sensitivity": 0.75
+    }
+   ],
+   "base_catch": 0.6,
+   "enables": [
+    "intensive_glycemic_control",
+    "cgm_glycemic_mgmt"
+   ],
+   "note": "Threshold = established T2DM with HbA1c above individualized target (~7%). In-diabetes glycemic-control finding feeding the intensive-control microvascular action. Glycemic control is core standard care so incremental value over baseline is modest. cgm_glycemic_mgmt is borderline validity-gate (benefit runs through HbA1c surrogate) -- flagged weak."
+  },
+  {
+   "id": "t2dm_albuminuria_renalrisk",
+   "domain": "metabolic",
+   "kind": "continuous",
+   "prevalence_or_threshold": 30,
+   "detectors": [
+    {
+     "test_id": "uacr",
+     "sensitivity": 0.85
+    },
+    {
+     "test_id": "microalbumin_urine",
+     "sensitivity": 0.8
+    },
+    {
+     "test_id": "cystatin_c_panel",
+     "sensitivity": 0.8
+    },
+    {
+     "test_id": "creatinine_blood",
+     "sensitivity": 0.6
+    }
+   ],
+   "base_catch": 0.4,
+   "enables": [
+    "multifactorial_intensive_t2dm",
+    "sglt2_cardiorenal_t2dm"
+   ],
+   "note": "Threshold = T2DM + UACR >=30 mg/g or eGFR decline (cardiorenal-high-risk subset). Flags patients for SGLT2/GLP-1 cardiorenal-protective therapy. Overlaps the CKD domain's ckd_albuminuric -- assign the diabetes-specific cardiorenal drug delta here, keep kidney-failure progression stock in CKD to avoid double-count."
+  },
+  {
+   "id": "MODY_HNF1A_4A",
+   "domain": "metabolic",
+   "kind": "rare",
+   "prevalence_or_threshold": 0.001,
+   "detectors": [
+    {
+     "test_id": "mody_gene_panel",
+     "sensitivity": 0.95
+    },
+    {
+     "test_id": "wes_proband",
+     "sensitivity": 0.95
+    },
+    {
+     "test_id": "wgs_proband",
+     "sensitivity": 0.97
+    },
+    {
+     "test_id": "c_peptide",
+     "sensitivity": 0.5
+    }
+   ],
+   "base_catch": 0.1,
+   "enables": [
+    "mody_sulfonylurea_switch"
+   ],
+   "note": "HNF1A/HNF4A MODY ~0.001 of adults (MODY 1-6% of diabetes, ~50-80% misdiagnosed as T1/T2). Actionable: switch insulin -> low-dose sulfonylurea (often dramatic, decades of avoided insulin). mody_gene_panel is a pricing_gap; c_peptide + negative islet-antibodies give phenotypic triage; WES/WGS detect but at high cost."
+  },
+  {
+   "id": "MODY_GCK",
+   "domain": "metabolic",
+   "kind": "rare",
+   "prevalence_or_threshold": 0.0008,
+   "detectors": [
+    {
+     "test_id": "mody_gene_panel",
+     "sensitivity": 0.95
+    },
+    {
+     "test_id": "wes_proband",
+     "sensitivity": 0.95
+    },
+    {
+     "test_id": "wgs_proband",
+     "sensitivity": 0.97
+    }
+   ],
+   "base_catch": 0.1,
+   "enables": [
+    "mody_gck_deprescribe"
+   ],
+   "note": "GCK-MODY ~0.0008; mild stable fasting hyperglycemia, typically over-treated as T2DM. Actionable: deprescribe -- no treatment needed (except pregnancy); avoids lifelong unnecessary drugs/monitoring. mody_gene_panel is a pricing_gap; WES/WGS detect."
+  },
+  {
+   "id": "neonatal_diabetes_KATP",
+   "domain": "metabolic",
+   "kind": "rare",
+   "prevalence_or_threshold": 1e-05,
+   "detectors": [
+    {
+     "test_id": "mody_gene_panel",
+     "sensitivity": 0.95
+    },
+    {
+     "test_id": "wes_proband",
+     "sensitivity": 0.95
+    },
+    {
+     "test_id": "wgs_proband",
+     "sensitivity": 0.97
+    }
+   ],
+   "base_catch": 0.2,
+   "enables": [
+    "neonatal_diabetes_sulfonylurea"
+   ],
+   "note": "KCNJ11/ABCC8 KATP-channel neonatal diabetes ~1/100,000 births (~0.00001 in adult cohort); ~40% sulfonylurea-responsive. Actionable: insulin -> high-dose sulfonylurea, major glycemic + neurodevelopmental benefit. STRONG effect, vanishingly rare -- flag wide uncertainty on cohort-level contribution. mody_gene_panel (KATP genes) is a pricing_gap; WES/WGS detect."
+  },
+  {
+   "id": "monogenic_lipodystrophy_SIR",
+   "domain": "metabolic",
+   "kind": "rare",
+   "prevalence_or_threshold": 0.0002,
+   "detectors": [
+    {
+     "test_id": "mody_gene_panel",
+     "sensitivity": 0.9
+    },
+    {
+     "test_id": "wes_proband",
+     "sensitivity": 0.9
+    },
+    {
+     "test_id": "leptin",
+     "sensitivity": 0.4
+    }
+   ],
+   "base_catch": 0.05,
+   "enables": [
+    "metreleptin_lipodystrophy"
+   ],
+   "note": "Familial partial lipodystrophy / severe insulin resistance (LMNA, PPARG, insulin-receptor) ~0.0002. Actionable: metreleptin for leptin-deficient lipodystrophy; very rare, evidence moderate/weak -- flag wide uncertainty. leptin (low in lipodystrophy) is a present phenotypic clue; a dedicated lipodystrophy/SIR gene panel is a pricing_gap folded into mody_gene_panel; WES detects."
+  },
+  {
+   "id": "occult_colorectal",
+   "domain": "cancer",
+   "kind": "rare",
+   "prevalence_or_threshold": 0.004,
+   "detectors": [
+    {
+     "test_id": "screening_colonoscopy",
+     "sensitivity": 0.95
+    },
+    {
+     "test_id": "cologuard_plus",
+     "sensitivity": 0.93
+    },
+    {
+     "test_id": "fit_82274",
+     "sensitivity": 0.74
+    },
+    {
+     "test_id": "fit_g0328",
+     "sensitivity": 0.74
+    },
+    {
+     "test_id": "shield_crc",
+     "sensitivity": 0.83
+    },
+    {
+     "test_id": "sept9",
+     "sensitivity": 0.68
+    }
+   ],
+   "base_catch": 0.55,
+   "enables": [
+    "act_colonoscopy_polypectomy",
+    "act_crc_resect_screendetected"
+   ],
+   "note": "Preclinical screen-detectable CRC ~4/1000 avg-risk colonoscopy CDR (advanced-adenoma precursor folded into delta). Organized CRC screening exists; FIT/colonoscopy widely used. Colonoscopy uniquely REMOVES the precursor (prevention, not just detection)."
+  },
+  {
+   "id": "occult_lung",
+   "domain": "cancer",
+   "kind": "rare",
+   "prevalence_or_threshold": 0.0015,
+   "detectors": [
+    {
+     "test_id": "ldct_lung",
+     "sensitivity": 0.8
+    }
+   ],
+   "base_catch": 0.2,
+   "enables": [
+    "act_ldct_lung_resect"
+   ],
+   "note": "Population-mean preclinical screen-detectable ~1.5/1000 (~7/1000 within heavy-smoker screen-eligible stratum, weighted down). Screening confined to 50-80yo >=20 pack-yr; real-world uptake low (~5-15%), so most catch is incremental."
+  },
+  {
+   "id": "occult_breast",
+   "domain": "cancer",
+   "kind": "rare",
+   "prevalence_or_threshold": 0.005,
+   "detectors": [
+    {
+     "test_id": "mammogram_tomo",
+     "sensitivity": 0.85
+    },
+    {
+     "test_id": "breast_mri",
+     "sensitivity": 0.9
+    }
+   ],
+   "base_catch": 0.5,
+   "enables": [
+    "act_mammo_breast_treat",
+    "act_breastmri_supplemental"
+   ],
+   "note": "Preclinical screen-detectable invasive+DCIS ~5/1000 (mammography CDR). Organized mammography exists 40-74; sensitivity drops in dense breasts (modeled 0.68 vs 0.85 fatty), where MRI adds yield."
+  },
+  {
+   "id": "occult_cervical",
+   "domain": "cancer",
+   "kind": "rare",
+   "prevalence_or_threshold": 0.002,
+   "detectors": [
+    {
+     "test_id": "hpv_high_risk",
+     "sensitivity": 0.9
+    },
+    {
+     "test_id": "hpv_16_18",
+     "sensitivity": 0.6
+    },
+    {
+     "test_id": "pap_thinprep",
+     "sensitivity": 0.65
+    },
+    {
+     "test_id": "pap_manual_bethesda",
+     "sensitivity": 0.6
+    }
+   ],
+   "base_catch": 0.65,
+   "enables": [
+    "act_cervical_hpv_treat_precursor"
+   ],
+   "note": "High-grade CIN2+ screen-detectable precursor + occult invasive (invasive now rare due to screening). Primary HPV testing preferred. Detected finding is the treatable precursor, so action is largely PREVENTION of invasive cancer."
+  },
+  {
+   "id": "occult_prostate",
+   "domain": "cancer",
+   "kind": "rare",
+   "prevalence_or_threshold": 0.008,
+   "detectors": [
+    {
+     "test_id": "psa_total",
+     "sensitivity": 0.85
+    },
+    {
+     "test_id": "psa_screening",
+     "sensitivity": 0.85
+    },
+    {
+     "test_id": "psa_free",
+     "sensitivity": 0.85
+    }
+   ],
+   "base_catch": 0.4,
+   "enables": [
+    "act_psa_workup_treat"
+   ],
+   "note": "Modeled prevalence is the clinically-significant (high-grade) subset ~8/1000; raw PSA-elevation detection is ~30-40/1000 men but MOST indolent. USPSTF C (shared decision 55-69). Large overdiagnosis; net QALY small and gated on confirmatory workup + active surveillance for low-grade. prostate_mri (mpMRI) to triage PSA-positives is a pricing_gap that would mitigate the overdiagnosis debit."
+  },
+  {
+   "id": "HBOC_BRCA",
+   "domain": "cancer",
+   "kind": "rare",
+   "prevalence_or_threshold": 0.0025,
+   "detectors": [
+    {
+     "test_id": "hereditary_cancer_panel",
+     "sensitivity": 0.95
+    },
+    {
+     "test_id": "brca_full",
+     "sensitivity": 0.95
+    },
+    {
+     "test_id": "brca_seq_only",
+     "sensitivity": 0.88
+    },
+    {
+     "test_id": "expanded_carrier_ngs",
+     "sensitivity": 0.95
+    }
+   ],
+   "base_catch": 0.1,
+   "enables": [
+    "act_brca_rrso",
+    "act_brca_rrm",
+    "act_brca_mri_surveillance",
+    "act_brca_chemoprevention"
+   ],
+   "note": "BRCA1/2 carrier ~1/400 general pop (~1/40 Ashkenazi). Most carriers unidentified absent family-history flag (~50% lack qualifying FH). Enables RRSO, RRM, intensified MRI surveillance, chemoprevention. hereditary_cancer_panel ($250) dominates brca_full ($2028) on cost across all hereditary findings."
+  },
+  {
+   "id": "Lynch",
+   "domain": "cancer",
+   "kind": "rare",
+   "prevalence_or_threshold": 0.0036,
+   "detectors": [
+    {
+     "test_id": "hereditary_cancer_panel",
+     "sensitivity": 0.95
+    },
+    {
+     "test_id": "lynch_panel",
+     "sensitivity": 0.95
+    },
+    {
+     "test_id": "lynch_mlh1",
+     "sensitivity": 0.9
+    },
+    {
+     "test_id": "lynch_msh2",
+     "sensitivity": 0.9
+    },
+    {
+     "test_id": "lynch_msh6",
+     "sensitivity": 0.9
+    },
+    {
+     "test_id": "expanded_carrier_ngs",
+     "sensitivity": 0.93
+    }
+   ],
+   "base_catch": 0.1,
+   "enables": [
+    "act_lynch_colonoscopy",
+    "act_lynch_aspirin",
+    "act_lynch_gyn_riskreduce"
+   ],
+   "note": "MLH1/MSH2/MSH6/PMS2/EPCAM carrier ~1/279. Most carriers unidentified pre-cancer; enables 1-2yr colonoscopy, aspirin, gyn risk-reduction. Single-gene lynch_* codes are gene-dependent partial detectors; the panel detects all genes."
+  },
+  {
+   "id": "MUTYH_biallelic",
+   "domain": "cancer",
+   "kind": "rare",
+   "prevalence_or_threshold": 0.0001,
+   "detectors": [
+    {
+     "test_id": "hereditary_cancer_panel",
+     "sensitivity": 0.95
+    },
+    {
+     "test_id": "expanded_carrier_ngs",
+     "sensitivity": 0.9
+    },
+    {
+     "test_id": "wes_proband",
+     "sensitivity": 0.95
+    }
+   ],
+   "base_catch": 0.05,
+   "enables": [
+    "act_mutyh_colonoscopy"
+   ],
+   "note": "Biallelic MUTYH-associated polyposis ~1/10,000; autosomal recessive, CRC risk 28x / lifetime 40-90%. Monoallelic effect modest -- only biallelic modeled as actionable finding."
+  },
+  {
+   "id": "Li_Fraumeni_TP53",
+   "domain": "cancer",
+   "kind": "rare",
+   "prevalence_or_threshold": 0.0001,
+   "detectors": [
+    {
+     "test_id": "hereditary_cancer_panel",
+     "sensitivity": 0.9
+    },
+    {
+     "test_id": "wes_proband",
+     "sensitivity": 0.95
+    },
+    {
+     "test_id": "wgs_proband",
+     "sensitivity": 0.97
+    }
+   ],
+   "base_catch": 0.05,
+   "enables": [
+    "act_lfs_wbmri_surveillance"
+   ],
+   "note": "Germline TP53 ~1/5,000-20,000; lifetime cancer risk 70-100%. Enables whole-body MRI + breast MRI Toronto-protocol surveillance. Surveillance evidence moderate (observational SIGNIFY/SWEP53)."
+  },
+  {
+   "id": "hereditary_other_highpen",
+   "domain": "cancer",
+   "kind": "rare",
+   "prevalence_or_threshold": 0.002,
+   "detectors": [
+    {
+     "test_id": "hereditary_cancer_panel",
+     "sensitivity": 0.92
+    },
+    {
+     "test_id": "expanded_carrier_ngs",
+     "sensitivity": 0.85
+    },
+    {
+     "test_id": "wes_proband",
+     "sensitivity": 0.95
+    },
+    {
+     "test_id": "wgs_proband",
+     "sensitivity": 0.96
+    }
+   ],
+   "base_catch": 0.08,
+   "enables": [
+    "act_hereditary_other_surveillance"
+   ],
+   "note": "PALB2, CDH1, STK11/Peutz-Jeghers, APC/FAP, RET/MEN2, VHL, BMPR1A/SMAD4 etc. aggregated high-penetrance actionable syndromes, each individually rare. Aggregated so the panel gets credit beyond BRCA/Lynch/MUTYH/TP53. Actions syndrome-specific surveillance/risk-reducing surgery; evidence moderate."
+  },
+  {
+   "id": "mced_signal_aggregate",
+   "domain": "cancer",
+   "kind": "rare",
+   "prevalence_or_threshold": 0.007,
+   "detectors": [
+    {
+     "test_id": "galleri",
+     "sensitivity": 0.55
+    },
+    {
+     "test_id": "wbmri_prenuvo",
+     "sensitivity": 0.4
+    },
+    {
+     "test_id": "wbmri_ezra",
+     "sensitivity": 0.4
+    }
+   ],
+   "base_catch": 0.05,
+   "enables": [
+    "act_mced_stageshift_workup"
+   ],
+   "note": "THIN EVIDENCE -- weak. Any preclinical signal-detectable cancer NOT covered by single-site screens (pancreas, ovary, liver, esophagus, head/neck) caught by MCED stage-shift. NHS-Galleri missed primary endpoint; stage-IV reduction shown but no mortality RCT. Value is stage-shift on otherwise-unscreened lethal cancers; wide uncertainty (could be ~0). galleri/wbmri carry no CPT in the catalog."
+  },
+  {
+   "id": "lifestyle_cancer_incidence_risk",
+   "domain": "cancer",
+   "kind": "continuous",
+   "prevalence_or_threshold": 0.05,
+   "detectors": [
+    {
+     "test_id": "anthropometric_bmi",
+     "sensitivity": 0.55
+    },
+    {
+     "test_id": "physical_activity_intake",
+     "sensitivity": 0.6
+    },
+    {
+     "test_id": "smoking_status_intake",
+     "sensitivity": 0.4
+    }
+   ],
+   "base_catch": 0.1,
+   "enables": [
+    "physical_activity_cancer",
+    "med_diet_cancer"
+   ],
+   "note": "LIFESTYLE-MODIFIABLE cancer-incidence risk (the ~18% of cancers attributable to excess weight, inactivity, and poor diet -- colorectal, postmenopausal breast, endometrial). Distinct from the occult_* findings, which are SCREENING-DETECTED prevalent disease: this is PRIMARY PREVENTION of incidence via behavior change. Continuous, graded by cancer_incidence_10yr; threshold 0.05. Detected at intake (BMI + activity + smoking), all $0/low-cost, so this finding FALSE-ZEROS against the present catalog until an intake screen is added. base_catch 0.10 because modifiable cancer prevention is rarely framed or acted on as a discrete intervention. Enables the cancer slices of the physical_activity and mediterranean_diet bundles; observational effect sizes -> moderate/weak."
+  },
+  {
+   "id": "neuro_risk_genetic",
+   "domain": "neuro",
+   "kind": "continuous",
+   "prevalence_or_threshold": 0.12,
+   "detectors": [
+    {
+     "test_id": "apoe_genotype",
+     "sensitivity": 0.7
+    },
+    {
+     "test_id": "wgs_proband",
+     "sensitivity": 0.85
+    },
+    {
+     "test_id": "wes_proband",
+     "sensitivity": 0.85
+    },
+    {
+     "test_id": "ad_prs",
+     "sensitivity": 0.85
+    }
+   ],
+   "base_catch": 0.1,
+   "enables": [
+    "act_multidomain_finger",
+    "act_lifestyle_genetic_riskmod",
+    "act_cognitive_speed_training"
+   ],
+   "note": "Latent 20-yr dementia risk above treat-threshold 0.12 (~top quartile genetic+age); delta scales with risk. RISK PREDICTOR ONLY (firewall) -- APOE/PRS never carry benefit; benefit accrues only via the lifestyle/vascular actions. base_catch low: standard care does not act on presymptomatic genetic dementia risk. ad_prs (dementia-specific PRS, distinct from cad_prs) is a pricing_gap; apoe_genotype is present; WES/WGS can derive APOE+PRS."
+  },
+  {
+   "id": "neuro_risk_vascular",
+   "domain": "neuro",
+   "kind": "continuous",
+   "prevalence_or_threshold": 0.12,
+   "detectors": [
+    {
+     "test_id": "office_bp",
+     "sensitivity": 0.85
+    },
+    {
+     "test_id": "ambulatory_bp",
+     "sensitivity": 0.9
+    },
+    {
+     "test_id": "lipid_panel",
+     "sensitivity": 0.7
+    },
+    {
+     "test_id": "apoe_genotype",
+     "sensitivity": 0.5
+    }
+   ],
+   "base_catch": 0.45,
+   "enables": [
+    "act_bp_control_dementia",
+    "act_statin_stroke_prevention",
+    "act_zoster_vaccine_dementia",
+    "act_physical_activity_dementia"
+   ],
+   "note": "Latent vascular contribution to dementia (midlife hypertension + LDL + smoking + diabetes); large overlap with cvd/metabolic findings. This is where the strong-evidence actions live (intensive BP lowering: MCI HR 0.81). BP/lipids often managed for CVD but rarely framed/intensified for dementia. office_bp/ambulatory_bp are pricing_gaps; lipid_panel is present."
+  },
+  {
+   "id": "reversible_cognitive_deficiency",
+   "domain": "neuro",
+   "kind": "rare",
+   "prevalence_or_threshold": 0.02,
+   "detectors": [
+    {
+     "test_id": "vitamin_b12",
+     "sensitivity": 0.95
+    },
+    {
+     "test_id": "tsh",
+     "sensitivity": 0.95
+    },
+    {
+     "test_id": "folate_serum",
+     "sensitivity": 0.95
+    },
+    {
+     "test_id": "homocysteine",
+     "sensitivity": 0.7
+    }
+   ],
+   "base_catch": 0.5,
+   "enables": [
+    "act_treat_b12_thyroid"
+   ],
+   "note": "B12 deficiency / hypothyroidism / folate deficiency contributing to or mimicking cognitive impairment; actionable carriage modeled ~0.02 (only ~0.6% of dementia fully reverses). Cheap, high-value-per-case, partially reversible. B12/TSH commonly on panels but not always acted on for cognition. NOTE: homocysteine has a proven action HERE (deficiency workup) so it is admitted as a supportive detector for this finding only."
+  },
+  {
+   "id": "preclinical_AD_biomarker",
+   "domain": "neuro",
+   "kind": "rare",
+   "prevalence_or_threshold": 0.05,
+   "detectors": [
+    {
+     "test_id": "plasma_ptau217",
+     "sensitivity": 0.9
+    },
+    {
+     "test_id": "amyloid_pet",
+     "sensitivity": 0.97
+    }
+   ],
+   "base_catch": 0.05,
+   "enables": [
+    "act_anti_amyloid_mab"
+   ],
+   "note": "Amyloid-positive preclinical/early AD pathology ~0.05 in an older screened slice. Gates the only disease-modifying action (anti-amyloid mAbs), but evidence for ASYMPTOMATIC screening is WEAK and the action is high-harm/high-cost (ARIA). BOTH detectors (plasma_ptau217, amyloid_pet) are pricing_gaps -- this finding false-zeros without them; no present-catalog fallback exists."
+  },
+  {
+   "id": "hearing_loss_actionable",
+   "domain": "neuro",
+   "kind": "rare",
+   "prevalence_or_threshold": 0.1,
+   "detectors": [
+    {
+     "test_id": "audiometry",
+     "sensitivity": 0.95
+    }
+   ],
+   "base_catch": 0.3,
+   "enables": [
+    "act_hearing_aids"
+   ],
+   "note": "Untreated moderate+ hearing loss in higher-risk older adults ~0.10 in target age band; a Lancet-Commission top modifiable factor. Strong, cheap-ish action (hearing aids; ACHIEVE: 48% slower decline in high-risk subgroup). audiometry is the sole detector and a pricing_gap -- this finding false-zeros without it; no present-catalog fallback."
+  },
+  {
+   "id": "established_ascvd_secondary",
+   "domain": "cvd",
+   "kind": "continuous",
+   "prevalence_or_threshold": "Documented prior MI / ischemic stroke / TIA / symptomatic PAD / >=50% angiographic CAD (clinically established ASCVD)",
+   "detectors": [
+    {
+     "test_id": "clinical_history_intake",
+     "sensitivity": 0.9,
+     "specificity": 0.95
+    },
+    {
+     "test_id": "ccta",
+     "sensitivity": 0.95,
+     "specificity": 0.9
+    },
+    {
+     "test_id": "cac_score",
+     "sensitivity": 0.7,
+     "specificity": 0.85
+    },
+    {
+     "test_id": "troponin_quant",
+     "sensitivity": 0.4,
+     "specificity": 0.9
+    }
+   ],
+   "base_catch": 0.7,
+   "enables": [
+    "aspirin_secondary_prevention",
+    "p2y12_dapt_post_acs",
+    "high_intensity_statin_secondary",
+    "semaglutide_select_secondary",
+    "influenza_vaccination_cv"
+   ],
+   "note": "Secondary-prevention population defined mainly by documented event history; intensification (high-intensity statin, antiplatelet, semaglutide) is the gap, not detection."
+  },
+  {
+   "id": "atrial_fibrillation",
+   "domain": "cvd",
+   "kind": "continuous",
+   "prevalence_or_threshold": 0.02,
+   "detectors": [
+    {
+     "test_id": "resting_ecg",
+     "sensitivity": 0.55,
+     "specificity": 0.99
+    },
+    {
+     "test_id": "ambulatory_ecg_patch",
+     "sensitivity": 0.95,
+     "specificity": 0.99
+    },
+    {
+     "test_id": "echo_tte",
+     "sensitivity": 0.3,
+     "specificity": 0.85
+    }
+   ],
+   "base_catch": 0.5,
+   "enables": [
+    "af_catheter_ablation_hf",
+    "laa_occlusion_watchman"
+   ],
+   "note": "Paroxysmal AF is intermittent: single ECG misses much of it; extended ambulatory/wearable monitoring is the high-yield detector enabling CHA2DS2-VASc-stratified anticoagulation."
+  },
+  {
+   "id": "heart_failure_reduced_ef",
+   "domain": "cvd",
+   "kind": "continuous",
+   "prevalence_or_threshold": 0.4,
+   "detectors": [
+    {
+     "test_id": "echo_tte",
+     "sensitivity": 0.95,
+     "specificity": 0.95
+    },
+    {
+     "test_id": "bnp_ntprobnp",
+     "sensitivity": 0.85,
+     "specificity": 0.7
+    },
+    {
+     "test_id": "cardiac_mri",
+     "sensitivity": 0.97,
+     "specificity": 0.95
+    }
+   ],
+   "base_catch": 0.55,
+   "enables": [
+    "arni_hfref",
+    "betablocker_hfref",
+    "mra_hfref",
+    "sglt2i_hfref",
+    "icd_primary_ischemic_cardiomyopathy",
+    "crt_hfref_wide_qrs"
+   ],
+   "note": "Echo quantifies LVEF and gates the four GDMT pillars plus ICD/CRT at LVEF<=35%; NT-proBNP flags it but does not measure EF."
+  },
+  {
+   "id": "heart_failure_preserved_ef",
+   "domain": "cvd",
+   "kind": "continuous",
+   "prevalence_or_threshold": 0.4,
+   "detectors": [
+    {
+     "test_id": "echo_tte",
+     "sensitivity": 0.8,
+     "specificity": 0.75
+    },
+    {
+     "test_id": "bnp_ntprobnp",
+     "sensitivity": 0.8,
+     "specificity": 0.6
+    }
+   ],
+   "base_catch": 0.4,
+   "enables": [
+    "sglt2i_hfpef"
+   ],
+   "note": "HFpEF/HFmrEF is a diagnosis of exclusion combining preserved EF, diastolic dysfunction on echo, and raised peptides; frequently undiagnosed. Only SGLT2i has positive-trial benefit."
+  },
+  {
+   "id": "severe_aortic_stenosis",
+   "domain": "cvd",
+   "kind": "continuous",
+   "prevalence_or_threshold": 0.03,
+   "detectors": [
+    {
+     "test_id": "echo_tte",
+     "sensitivity": 0.97,
+     "specificity": 0.95
+    },
+    {
+     "test_id": "auscultation_exam",
+     "sensitivity": 0.7,
+     "specificity": 0.6
+    },
+    {
+     "test_id": "cardiac_ct_tavr",
+     "sensitivity": 0.95,
+     "specificity": 0.95
+    }
+   ],
+   "base_catch": 0.5,
+   "enables": [
+    "avr_severe_aortic_stenosis"
+   ],
+   "note": "Murmur on auscultation triggers echo confirmation; CT sizes the annulus for TAVR. Untreated severe symptomatic AS carries ~50% 2-year mortality, so AVR is high-value."
+  },
+  {
+   "id": "carotid_stenosis_symptomatic",
+   "domain": "cvd",
+   "kind": "continuous",
+   "prevalence_or_threshold": 0.7,
+   "detectors": [
+    {
+     "test_id": "carotid_duplex_us",
+     "sensitivity": 0.9,
+     "specificity": 0.9
+    },
+    {
+     "test_id": "cta_neck",
+     "sensitivity": 0.95,
+     "specificity": 0.92
+    }
+   ],
+   "base_catch": 0.55,
+   "enables": [
+    "carotid_endarterectomy_symptomatic"
+   ],
+   "note": "Time-critical: endarterectomy benefit is greatest within 2 weeks of the index event. Carotid duplex is first-line; CTA confirms before surgery."
+  },
+  {
+   "id": "obstructive_cad_revascularizable",
+   "domain": "cvd",
+   "kind": "continuous",
+   "prevalence_or_threshold": 0.5,
+   "detectors": [
+    {
+     "test_id": "coronary_angiography",
+     "sensitivity": 0.98,
+     "specificity": 0.95
+    },
+    {
+     "test_id": "ccta",
+     "sensitivity": 0.9,
+     "specificity": 0.85
+    }
+   ],
+   "base_catch": 0.45,
+   "enables": [
+    "cabg_high_risk_anatomy"
+   ],
+   "note": "CCTA identifies high-risk anatomy non-invasively; invasive angiography is the definitive map. Gates CABG in the subset where revascularization beats medical therapy on survival."
+  },
+  {
+   "id": "pfo_cryptogenic_stroke",
+   "domain": "cvd",
+   "kind": "continuous",
+   "prevalence_or_threshold": 0.25,
+   "detectors": [
+    {
+     "test_id": "tee_bubble_study",
+     "sensitivity": 0.95,
+     "specificity": 0.95
+    },
+    {
+     "test_id": "echo_tte",
+     "sensitivity": 0.6,
+     "specificity": 0.85
+    },
+    {
+     "test_id": "transcranial_doppler",
+     "sensitivity": 0.9,
+     "specificity": 0.8
+    }
+   ],
+   "base_catch": 0.4,
+   "enables": [
+    "pfo_closure_cryptogenic_stroke"
+   ],
+   "note": "Only actionable after a cryptogenic stroke workup excludes other causes; TEE with agitated-saline bubble study confirms a high-risk shunt that PFO closure addresses."
+  },
+  {
+   "id": "peripheral_artery_disease",
+   "domain": "cvd",
+   "kind": "continuous",
+   "prevalence_or_threshold": 0.12,
+   "detectors": [
+    {
+     "test_id": "ankle_brachial_index",
+     "sensitivity": 0.9,
+     "specificity": 0.9
+    },
+    {
+     "test_id": "arterial_duplex_us",
+     "sensitivity": 0.9,
+     "specificity": 0.92
+    }
+   ],
+   "base_catch": 0.4,
+   "enables": [
+    "dual_pathway_inhibition_pad"
+   ],
+   "note": "ABI is the cheap first-line confirmatory test; PAD is frequently underdiagnosed. Detection enables dual-pathway inhibition (rivaroxaban+aspirin) and intensified secondary prevention."
+  },
+  {
+   "id": "aaa_screen_detectable",
+   "domain": "cvd",
+   "kind": "continuous",
+   "prevalence_or_threshold": 0.07,
+   "detectors": [
+    {
+     "test_id": "aaa_screen_us",
+     "sensitivity": 0.98,
+     "specificity": 0.99
+    },
+    {
+     "test_id": "abdominal_us",
+     "sensitivity": 0.95,
+     "specificity": 0.98
+    }
+   ],
+   "base_catch": 0.35,
+   "enables": [
+    "aaa_repair_screen_detected",
+    "aaa_ultrasound_screening"
+   ],
+   "note": "Silent until rupture; one-time screening ultrasound has a direct screen-to-mortality RCT (MASS). USPSTF Grade B in ever-smoking men 65-74, but real-world uptake is low."
+  },
+  {
+   "id": "hpylori_gastric_risk",
+   "domain": "cancer",
+   "kind": "continuous",
+   "prevalence_or_threshold": 0.3,
+   "detectors": [
+    {
+     "test_id": "hpylori_ubt",
+     "sensitivity": 0.95,
+     "specificity": 0.95
+    },
+    {
+     "test_id": "hpylori_stool_antigen",
+     "sensitivity": 0.94,
+     "specificity": 0.97
+    },
+    {
+     "test_id": "hpylori_serology",
+     "sensitivity": 0.85,
+     "specificity": 0.79
+    },
+    {
+     "test_id": "egd",
+     "sensitivity": 0.9,
+     "specificity": 0.98
+    }
+   ],
+   "base_catch": 0.3,
+   "enables": [
+    "act_hpylori_eradication_gastric"
+   ],
+   "note": "Active H. pylori is a modifiable gastric-cancer lever; eradication reduces incidence. UBT/stool antigen are the accurate noninvasive detectors; serology cheap but cannot distinguish past from active; EGD biopsy is gold standard but invasive. base_catch modest as testing is symptom-driven, not preventive."
+  },
+  {
+   "id": "chronic_viral_hepatitis_hcc_risk",
+   "domain": "cancer",
+   "kind": "continuous",
+   "prevalence_or_threshold": 0.004,
+   "detectors": [
+    {
+     "test_id": "hbsag",
+     "sensitivity": 0.98,
+     "specificity": 0.99
+    },
+    {
+     "test_id": "anti_hcv_hcvrna",
+     "sensitivity": 0.98,
+     "specificity": 0.99
+    },
+    {
+     "test_id": "fibroscan",
+     "sensitivity": 0.85,
+     "specificity": 0.85
+    },
+    {
+     "test_id": "abdominal_us",
+     "sensitivity": 0.6,
+     "specificity": 0.9
+    }
+   ],
+   "base_catch": 0.45,
+   "enables": [
+    "act_hbv_vaccination_hcc",
+    "act_hbv_antiviral_hcc",
+    "act_hcv_daa_cure_hcc",
+    "act_hcc_surveillance_ultrasound"
+   ],
+   "note": "Chronic HBV/HCV and cirrhosis are the dominant modifiable HCC drivers; HBsAg and anti-HCV/HCV-RNA are the serologic detectors, FibroScan stages fibrosis/cirrhosis, abdominal US is the HCC-surveillance modality. USPSTF screens HBV/HCV once in adults so base_catch moderate, but staging and surveillance under-delivered."
+  },
+  {
+   "id": "hpv_oncogenic_cancer_risk",
+   "domain": "cancer",
+   "kind": "continuous",
+   "prevalence_or_threshold": 0.01,
+   "detectors": [
+    {
+     "test_id": "hpv_vaccination_status_intake",
+     "sensitivity": 0.9,
+     "specificity": 0.95
+    },
+    {
+     "test_id": "hpv_high_risk",
+     "sensitivity": 0.6,
+     "specificity": 0.6
+    }
+   ],
+   "base_catch": 0.4,
+   "enables": [
+    "act_hpv_vaccination_cervical",
+    "act_hpv_vaccination_anal_oro"
+   ],
+   "note": "Finding is susceptibility to oncogenic HPV-driven cancers in the unvaccinated, hosting catch-up vaccination (cervical, anal, oropharyngeal). Detected chiefly by vaccination-history at intake ($0 gap); hr-HPV DNA detects active oncogenic infection but is not a clean susceptibility marker. Upstream of occult_cervical precursor treatment."
+  },
+  {
+   "id": "anal_hsil_precursor",
+   "domain": "cancer",
+   "kind": "continuous",
+   "prevalence_or_threshold": 0.3,
+   "detectors": [
+    {
+     "test_id": "high_resolution_anoscopy",
+     "sensitivity": 0.92,
+     "specificity": 0.85
+    },
+    {
+     "test_id": "anal_cytology",
+     "sensitivity": 0.8,
+     "specificity": 0.5
+    },
+    {
+     "test_id": "hpv_high_risk",
+     "sensitivity": 0.85,
+     "specificity": 0.45
+    }
+   ],
+   "base_catch": 0.15,
+   "enables": [
+    "act_anal_hsil_treatment"
+   ],
+   "note": "Anal HSIL in high-risk persons is a treatable anal-cancer precursor (ANCHOR trial). Anal cytology +/- hr-HPV triages to high-resolution anoscopy with biopsy (the confirmatory detector). Rarely screened outside specialized HIV/colorectal clinics, so base_catch low."
+  },
+  {
+   "id": "barretts_dysplasia",
+   "domain": "cancer",
+   "kind": "continuous",
+   "prevalence_or_threshold": 0.02,
+   "detectors": [
+    {
+     "test_id": "egd",
+     "sensitivity": 0.85,
+     "specificity": 0.95
+    },
+    {
+     "test_id": "esophageal_cell_sponge",
+     "sensitivity": 0.8,
+     "specificity": 0.92
+    }
+   ],
+   "base_catch": 0.3,
+   "enables": [
+    "act_barretts_rfa"
+   ],
+   "note": "Dysplastic Barrett's (LGD/HGD) is a treatable esophageal-adenocarcinoma precursor enabling RFA ablation (AIM Dysplasia, SURF). Upper endoscopy with 4-quadrant biopsy is the detector; nonendoscopic cell-collection sponge (Cytosponge/EsoGuard) is an emerging cheaper triage. Screening is symptom/GERD-driven so base_catch modest."
+  },
+  {
+   "id": "elevated_breast_cancer_risk_nonbrca",
+   "domain": "cancer",
+   "kind": "continuous",
+   "prevalence_or_threshold": "5-yr Gail/Tyrer-Cuzick risk >=1.67% (or atypical hyperplasia/LCIS, or dense breasts) without BRCA indication",
+   "detectors": [
+    {
+     "test_id": "breast_risk_model_intake",
+     "sensitivity": 0.7,
+     "specificity": 0.7
+    },
+    {
+     "test_id": "mammogram_tomo",
+     "sensitivity": 0.6,
+     "specificity": 0.88
+    },
+    {
+     "test_id": "breast_biopsy_path",
+     "sensitivity": 0.95,
+     "specificity": 0.95
+    }
+   ],
+   "base_catch": 0.2,
+   "enables": [
+    "act_serm_chemoprevention_breast",
+    "act_ai_chemoprevention_breast"
+   ],
+   "note": "Elevated breast-cancer risk by validated model, atypical hyperplasia/LCIS, or dense breasts WITHOUT a BRCA indication; hosts SERM and aromatase-inhibitor chemoprevention. Detected via risk-model scoring at intake plus mammographic density; atypia/LCIS confirmed on biopsy pathology. Chemoprevention is markedly under-offered so base_catch low."
+  },
+  {
+   "id": "sporadic_crc_chemoprevention_risk",
+   "domain": "cancer",
+   "kind": "continuous",
+   "prevalence_or_threshold": "Average/elevated sporadic 10-yr CRC risk (e.g. age >=50 with risk factors), distinct from Lynch; threshold ~ above-average modeled CRC risk",
+   "detectors": [
+    {
+     "test_id": "crc_risk_model_intake",
+     "sensitivity": 0.65,
+     "specificity": 0.65
+    },
+    {
+     "test_id": "fit_82274",
+     "sensitivity": 0.4,
+     "specificity": 0.95
+    }
+   ],
+   "base_catch": 0.2,
+   "enables": [
+    "act_aspirin_crc_sporadic"
+   ],
+   "note": "Average/elevated sporadic CRC risk amenable to aspirin chemoprevention (distinct from Lynch). Risk estimated from age/family-history/lifestyle at intake; net benefit modest after GI-bleed harm, so a weak continuous finding. Aspirin chemoprevention rarely framed as a discrete preventive action, so base_catch low."
+  },
+  {
+   "id": "obesity_associated_cancer_risk",
+   "domain": "cancer",
+   "kind": "continuous",
+   "prevalence_or_threshold": "BMI >=35 (class II+) with adiposity-driven cancer risk; bariatric-eligible band",
+   "detectors": [
+    {
+     "test_id": "anthropometric_bmi",
+     "sensitivity": 0.95,
+     "specificity": 0.9
+    },
+    {
+     "test_id": "dexa_bone",
+     "sensitivity": 0.5,
+     "specificity": 0.7
+    }
+   ],
+   "base_catch": 0.3,
+   "enables": [
+    "act_bariatric_surgery_cancer"
+   ],
+   "note": "Adiposity-driven risk of obesity-associated cancers (endometrial, postmenopausal breast, colorectal, esophageal, others); lever is bariatric/metabolic surgery weight loss. BMI is the free primary detector; this is the cancer-outcome slice, distinct from the CV/diabetes credit booked under metabolic_surgery. base_catch modest as surgery is rarely framed for cancer prevention."
+  },
+  {
+   "id": "ckd_proteinuric_nondiabetic",
+   "domain": "ckd",
+   "kind": "continuous",
+   "prevalence_or_threshold": "UACR >=30 mg/g (or >=300 nephrotic-range/biopsy-confirmed glomerular) in NON-diabetic CKD",
+   "detectors": [
+    {
+     "test_id": "uacr",
+     "sensitivity": 0.9,
+     "specificity": 0.9
+    },
+    {
+     "test_id": "microalbumin_urine",
+     "sensitivity": 0.8,
+     "specificity": 0.85
+    },
+    {
+     "test_id": "urinalysis_dipstick",
+     "sensitivity": 0.55,
+     "specificity": 0.7
+    },
+    {
+     "test_id": "glomerular_serology_panel",
+     "sensitivity": 0.75,
+     "specificity": 0.9
+    },
+    {
+     "test_id": "kidney_biopsy",
+     "sensitivity": 0.97,
+     "specificity": 0.98
+    }
+   ],
+   "base_catch": 0.3,
+   "enables": [
+    "act_sglt2i_nondiabetic_ckd",
+    "act_finerenone_nondiabetic_ckd",
+    "act_sparsentan_glomerular",
+    "act_budesonide_tr_igan",
+    "act_rituximab_membranous",
+    "act_lupus_nephritis_immunotherapy"
+   ],
+   "note": "Non-diabetic proteinuric/glomerular CKD (IgAN, FSGS, membranous, lupus, hypertensive). UACR/microalbumin detect the proteinuria axis; serology + biopsy assign the glomerular subtype that gates disease-specific drugs (sparsentan, TR-budesonide, rituximab, lupus immunotherapy). Mostly eGFR-slope/proteinuria-remission surrogate evidence -> weak-moderate; overlaps ckd_albuminuric (non-diabetic subset)."
+  },
+  {
+   "id": "ckd_cvd_high_risk",
+   "domain": "ckd",
+   "kind": "continuous",
+   "prevalence_or_threshold": "Non-dialysis CKD (eGFR <60 or UACR >=30) with elevated ASCVD risk; ZERO once dialysis-dependent (4D/AURORA null)",
+   "detectors": [
+    {
+     "test_id": "creatinine_blood",
+     "sensitivity": 0.65,
+     "specificity": 0.95
+    },
+    {
+     "test_id": "cystatin_c_panel",
+     "sensitivity": 0.85,
+     "specificity": 0.92
+    },
+    {
+     "test_id": "cmp",
+     "sensitivity": 0.65,
+     "specificity": 0.95
+    },
+    {
+     "test_id": "uacr",
+     "sensitivity": 0.8,
+     "specificity": 0.9
+    },
+    {
+     "test_id": "lipid_panel",
+     "sensitivity": 0.6,
+     "specificity": 0.85
+    }
+   ],
+   "base_catch": 0.45,
+   "enables": [
+    "act_statin_ezetimibe_ckd"
+   ],
+   "note": "CKD-attributable ASCVD risk in non-dialysis CKD (SHARP population) enabling statin+ezetimibe. CRITICAL: null benefit in maintenance dialysis -- finding zeroes out once dialysis-dependent. eGFR/UACR establish non-dialysis CKD stratum; lipid_panel grades the lipid-driven component. Overlaps cvd_risk_ascvd -- best-net, no double-count of the statin delta."
+  },
+  {
+   "id": "kidney_failure_esrd",
+   "domain": "ckd",
+   "kind": "continuous",
+   "prevalence_or_threshold": "eGFR <15 mL/min/1.73m2 (KDIGO G5) or on kidney replacement therapy",
+   "detectors": [
+    {
+     "test_id": "creatinine_blood",
+     "sensitivity": 0.9,
+     "specificity": 0.97
+    },
+    {
+     "test_id": "cystatin_c_panel",
+     "sensitivity": 0.93,
+     "specificity": 0.95
+    },
+    {
+     "test_id": "cmp",
+     "sensitivity": 0.9,
+     "specificity": 0.97
+    },
+    {
+     "test_id": "renal_function_panel",
+     "sensitivity": 0.9,
+     "specificity": 0.97
+    }
+   ],
+   "base_catch": 0.85,
+   "enables": [
+    "act_kidney_transplant"
+   ],
+   "note": "Established kidney failure / ESRD (eGFR<15 or on KRT). Gates the modality decision -- pre-emptive/early transplant vs dialysis, the largest single survival lever (act_kidney_transplant). At this stage eGFR is almost always measured and dialysis status is overt, so base_catch is high; the gap is referral-to-transplant, not detection."
+  },
+  {
+   "id": "cardiometabolic_hfpef",
+   "domain": "metabolic",
+   "kind": "continuous",
+   "prevalence_or_threshold": "BMI >=30 + LVEF >40% with symptomatic HF (elevated NT-proBNP or invasively confirmed filling pressures)",
+   "detectors": [
+    {
+     "test_id": "echo_tte",
+     "sensitivity": 0.85,
+     "specificity": 0.8
+    },
+    {
+     "test_id": "bnp_ntprobnp",
+     "sensitivity": 0.75,
+     "specificity": 0.7
+    },
+    {
+     "test_id": "anthropometric_bmi",
+     "sensitivity": 0.95,
+     "specificity": 0.6
+    }
+   ],
+   "base_catch": 0.4,
+   "enables": [
+    "incretin_hfpef_obesity"
+   ],
+   "note": "Obesity-related HFpEF phenotype; causal lever is adiposity (metabolic), enables incretin_hfpef_obesity + metabolic slice of sglt2i_hfpef. echo confirms preserved EF + diastolic dysfunction, NT-proBNP supports (lower in obese HFpEF -> sensitivity capped), BMI flags the obese subset. Heavy overlap with CVD/HF domain; book the adiposity-driven delta here."
+  },
+  {
+   "id": "gestational_diabetes",
+   "domain": "metabolic",
+   "kind": "continuous",
+   "prevalence_or_threshold": "Pregnant, OGTT >=Carpenter-Coustan/IADPSG thresholds (fasting >=92, 1h >=180, 2h >=153 mg/dL)",
+   "detectors": [
+    {
+     "test_id": "ogtt",
+     "sensitivity": 0.95,
+     "specificity": 0.9
+    },
+    {
+     "test_id": "glucose_post_dose",
+     "sensitivity": 0.88,
+     "specificity": 0.8
+    },
+    {
+     "test_id": "glucose_challenge_test",
+     "sensitivity": 0.85,
+     "specificity": 0.78
+    }
+   ],
+   "base_catch": 0.7,
+   "enables": [
+    "gdm_treatment_perinatal",
+    "gdm_screen_treat"
+   ],
+   "note": "Population-restricted (pregnant). USPSTF Grade B universal screen at 24-28wk is standard care so base_catch high; OGTT confirmatory, 50g glucose-challenge is the standard first-step screen (pricing_gap). Enables gdm_treatment_perinatal/gdm_screen_treat with RCT-proven perinatal-outcome benefit (ACHOIS/MFMU)."
+  },
+  {
+   "id": "diabetic_retinopathy_treatable",
+   "domain": "metabolic",
+   "kind": "continuous",
+   "prevalence_or_threshold": "Established diabetes with proliferative DR or diabetic macular edema (sight-threatening) on retinal exam",
+   "detectors": [
+    {
+     "test_id": "fundus_photography",
+     "sensitivity": 0.88,
+     "specificity": 0.9
+    },
+    {
+     "test_id": "autonomous_ai_retinal",
+     "sensitivity": 0.87,
+     "specificity": 0.9
+    },
+    {
+     "test_id": "oct_macula",
+     "sensitivity": 0.92,
+     "specificity": 0.88
+    }
+   ],
+   "base_catch": 0.5,
+   "enables": [
+    "retinopathy_screen_treat"
+   ],
+   "note": "Sight-threatening DR (PDR/DME); real outcome is blindness prevented, not an imaging surrogate. Enables retinopathy_screen_treat (panretinal laser, anti-VEGF). All three detectors are pricing_gaps; autonomous-AI retinal screening (IDx-DR/EyeArt) is FDA-cleared point-of-care; OCT best for DME. Annual dilated exam is guideline standard but under-delivered -> base_catch 0.50."
+  },
+  {
+   "id": "presymptomatic_t1d_autoimmune",
+   "domain": "metabolic",
+   "kind": "continuous",
+   "prevalence_or_threshold": 0.003333,
+   "detectors": [
+    {
+     "test_id": "islet_autoantibodies",
+     "sensitivity": 0.95,
+     "specificity": 0.99
+    },
+    {
+     "test_id": "ogtt",
+     "sensitivity": 0.7,
+     "specificity": 0.85
+    },
+    {
+     "test_id": "c_peptide",
+     "sensitivity": 0.4,
+     "specificity": 0.7
+    }
+   ],
+   "base_catch": 0.1,
+   "enables": [
+    "teplizumab_t1d_delay"
+   ],
+   "note": "Presymptomatic (stage 1-2) autoimmune T1D: multiple islet autoantibodies positive. Enables teplizumab_t1d_delay (TN-10, delays stage 3 by ~2-3y). islet_autoantibodies (GAD65/IA-2/ZnT8) is the defining detector (pricing_gap); OGTT stages dysglycemia (stage 2); c_peptide weak adjunct. General-population autoantibody screening has no screen->outcome RCT yet -> base_catch low."
+  },
+  {
+   "id": "physical_inactivity",
+   "domain": "metabolic",
+   "kind": "continuous",
+   "prevalence_or_threshold": "MVPA <150 min/wk (or low step count, e.g. <5000/day)",
+   "detectors": [
+    {
+     "test_id": "physical_activity_intake",
+     "sensitivity": 0.6,
+     "specificity": 0.65
+    },
+    {
+     "test_id": "wearable_fitness",
+     "sensitivity": 0.8,
+     "specificity": 0.8
+    }
+   ],
+   "base_catch": 0.1,
+   "enables": [
+    "physical_activity_rx"
+   ],
+   "note": "Cross-cutting VOLUME construct (cvd/metabolic/cancer/neuro) feeding the physical_activity bundle (_rx/_metabolic/_cancer + act_physical_activity_dementia). physical_activity_intake is the $0 intake-screen pricing_gap (Exercise Vital Sign questionnaire); wearable step/MVPA capture is more objective. Activity rarely framed/acted on as a discrete intervention -> base_catch 0.10; finding false-zeros against present catalog until intake screen added."
+  },
+  {
+   "id": "suboptimal_diet",
+   "domain": "metabolic",
+   "kind": "continuous",
+   "prevalence_or_threshold": "Dietary-quality adherence score below target (e.g. AHEI/MIND/PREDIMED-Med-diet score in lowest tertile)",
+   "detectors": [
+    {
+     "test_id": "dietary_quality_screener",
+     "sensitivity": 0.6,
+     "specificity": 0.65
+    }
+   ],
+   "base_catch": 0.1,
+   "enables": [
+    "fiber_wholegrain_intake",
+    "processed_red_meat_reduction"
+   ],
+   "note": "Cross-cutting (cvd/metabolic/cancer/neuro). Low-quality dietary pattern by adherence score. CV+metabolic slices RCT-backed (PREDIMED); cancer/neuro observational -> weak. Hosts dietary_pattern_med plus component rungs fiber_wholegrain_intake and processed_red_meat_reduction (best-net within bundle, not additive). Sole detector is a $0 intake dietary-quality screener (pricing_gap) -> finding false-zeros against present catalog; base_catch 0.10 (diet rarely scored/acted on systematically)."
+  },
+  {
+   "id": "high_sodium_intake",
+   "domain": "metabolic",
+   "kind": "continuous",
+   "prevalence_or_threshold": "Habitual sodium >~2300 mg/day (or 24h urine Na above target) in BP-sensitive/hypertensive/CKD patients",
+   "detectors": [
+    {
+     "test_id": "dietary_quality_screener",
+     "sensitivity": 0.5,
+     "specificity": 0.6
+    },
+    {
+     "test_id": "urine_sodium",
+     "sensitivity": 0.8,
+     "specificity": 0.75
+    }
+   ],
+   "base_catch": 0.1,
+   "enables": [
+    "lifestyle_bp_lowering"
+   ],
+   "note": "Cross-cutting (cvd/ckd). Habitual sodium above target. SSaSS salt-substitution -> stroke RR 0.86 is a hard-outcome lifestyle RCT but high-baseline population; very-low-intake J-curve tail excluded -> moderate. Folded into lifestyle_bp_lowering (shares BP mediator). Dietary screener is the $0 intake proxy; 24h/spot urine sodium is the objective measure (both pricing_gaps). base_catch 0.10."
+  },
+  {
+   "id": "symptomatic_early_ad",
+   "domain": "neuro",
+   "kind": "continuous",
+   "prevalence_or_threshold": 0.02,
+   "detectors": [
+    {
+     "test_id": "plasma_ptau217",
+     "sensitivity": 0.9,
+     "specificity": 0.9
+    },
+    {
+     "test_id": "amyloid_pet",
+     "sensitivity": 0.97,
+     "specificity": 0.95
+    },
+    {
+     "test_id": "csf_abeta_ptau",
+     "sensitivity": 0.92,
+     "specificity": 0.9
+    },
+    {
+     "test_id": "mmse_moca_cognitive",
+     "sensitivity": 0.75,
+     "specificity": 0.8
+    }
+   ],
+   "base_catch": 0.45,
+   "enables": [
+    "act_anti_amyloid_mab_symptomatic"
+   ],
+   "note": "Diagnosed MCI/mild dementia due to amyloid-confirmed AD; gates anti-amyloid mAb (CLARITY-AD/TRAILBLAZER-ALZ2). Distinct from preclinical_AD_biomarker (asymptomatic). Standard care catches the symptomatic syndrome moderately but amyloid confirmation gating mAb therapy is under-done."
+  },
+  {
+   "id": "atrial_fibrillation_stroke_risk",
+   "domain": "neuro",
+   "kind": "continuous",
+   "prevalence_or_threshold": "AF present with CHA2DS2-VASc >=2 (men) / >=3 (women); AF prevalence ~2-4% of adults, rising with age",
+   "detectors": [
+    {
+     "test_id": "resting_ecg",
+     "sensitivity": 0.6,
+     "specificity": 0.99
+    },
+    {
+     "test_id": "wearable_ecg_patch",
+     "sensitivity": 0.92,
+     "specificity": 0.95
+    },
+    {
+     "test_id": "echo_tte",
+     "sensitivity": 0.3,
+     "specificity": 0.98
+    }
+   ],
+   "base_catch": 0.5,
+   "enables": [
+    "doac_afib_anticoagulation"
+   ],
+   "note": "AF with elevated cardioembolic stroke risk (CHA2DS2-VASc). Captures the cerebrovascular/disability slice of AF anticoagulation (doac_afib_anticoagulation); credit stroke endpoint once across CVD/neuro. resting_ecg catches sustained AF; prolonged wearable/patch monitoring catches paroxysmal AF that a single ECG misses."
+  },
+  {
+   "id": "asymptomatic_carotid_stenosis",
+   "domain": "neuro",
+   "kind": "continuous",
+   "prevalence_or_threshold": 0.01,
+   "detectors": [
+    {
+     "test_id": "carotid_duplex_us",
+     "sensitivity": 0.9,
+     "specificity": 0.9
+    },
+    {
+     "test_id": "cta_neck",
+     "sensitivity": 0.95,
+     "specificity": 0.93
+    },
+    {
+     "test_id": "cimt",
+     "sensitivity": 0.4,
+     "specificity": 0.85
+    }
+   ],
+   "base_catch": 0.15,
+   "enables": [
+    "act_cea_asymptomatic_carotid"
+   ],
+   "note": "Significant asymptomatic ICA stenosis >=70% gating act_cea_asymptomatic_carotid. Net benefit modest in the modern medical-therapy era and erased by perioperative risk >~3%; rarely sought absent a bruit, so base_catch low. carotid_duplex is the first-line detector."
+  },
+  {
+   "id": "parkinson_disease_motor",
+   "domain": "neuro",
+   "kind": "continuous",
+   "prevalence_or_threshold": 0.003333,
+   "detectors": [
+    {
+     "test_id": "movement_disorder_exam",
+     "sensitivity": 0.85,
+     "specificity": 0.85
+    },
+    {
+     "test_id": "datscan_spect",
+     "sensitivity": 0.92,
+     "specificity": 0.9
+    }
+   ],
+   "base_catch": 0.6,
+   "enables": [
+    "act_dbs_parkinson",
+    "act_exercise_parkinson"
+   ],
+   "note": "Diagnosed Parkinson disease with motor symptoms/complications; gates act_dbs_parkinson (EARLYSTIM) and act_exercise_parkinson (SPARX). Diagnosis is clinical (movement-disorder exam); DaTscan resolves PD vs essential tremor / drug-induced parkinsonism. Symptomatic PD is usually clinically recognized, so base_catch is moderate-high; the gap is timely DBS referral and structured exercise prescription. Prodromal/presymptomatic detectors remain research-stage."
+  },
+  {
+   "id": "multiple_sclerosis_active",
+   "domain": "neuro",
+   "kind": "continuous",
+   "prevalence_or_threshold": 0.003333,
+   "detectors": [
+    {
+     "test_id": "brain_spine_mri",
+     "sensitivity": 0.95,
+     "specificity": 0.85
+    },
+    {
+     "test_id": "csf_oligoclonal_bands",
+     "sensitivity": 0.85,
+     "specificity": 0.9
+    }
+   ],
+   "base_catch": 0.6,
+   "enables": [
+    "act_ms_dmt"
+   ],
+   "note": "Diagnosed relapsing (or active SPMS) MS gating act_ms_dmt (reduces confirmed EDSS progression and relapses). Detection is MRI + McDonald criteria, not a population screen; gadolinium-enhancing/new T2 lesions define disease activity. Symptomatic MS is usually diagnosed, so the lever is early high-efficacy DMT initiation rather than detection."
+  },
+  {
+   "id": "normal_pressure_hydrocephalus",
+   "domain": "neuro",
+   "kind": "continuous",
+   "prevalence_or_threshold": 0.002,
+   "detectors": [
+    {
+     "test_id": "brain_mri",
+     "sensitivity": 0.85,
+     "specificity": 0.7
+    },
+    {
+     "test_id": "csf_tap_test",
+     "sensitivity": 0.8,
+     "specificity": 0.75
+    }
+   ],
+   "base_catch": 0.3,
+   "enables": [
+    "act_nph_shunt"
+   ],
+   "note": "Idiopathic NPH (gait disturbance + ventriculomegaly) -- a treatable gait-predominant mimic in the cognitive-impairment workup, gating act_nph_shunt (PENS NEJM 2025: gait/falls benefit, cognition unchanged). brain_mri shows ventriculomegaly/DESH; a high-volume-tap (CSF tap test) predicts shunt response. Frequently missed/attributed to aging, so base_catch is low."
+  },
+  {
+   "id": "vision_impairment_actionable",
+   "domain": "neuro",
+   "kind": "continuous",
+   "prevalence_or_threshold": 0.05,
+   "detectors": [
+    {
+     "test_id": "visual_acuity_screen",
+     "sensitivity": 0.9,
+     "specificity": 0.85
+    },
+    {
+     "test_id": "ophthalmologic_exam",
+     "sensitivity": 0.97,
+     "specificity": 0.95
+    }
+   ],
+   "base_catch": 0.4,
+   "enables": [
+    "act_cataract_surgery_dementia"
+   ],
+   "note": "Untreated correctable vision impairment, chiefly operable cataract (Lancet-2024 modifiable dementia factor); sensory analogue of hearing_loss_actionable. Gates act_cataract_surgery_dementia -- observational only, so the dementia-benefit evidence is weak. visual_acuity_screen is the cheap first-line detector; full ophthalmologic exam confirms operable cause."
+  }
+ ],
+ "pricing_gaps": [
+  {
+   "id": "office_bp",
+   "label": "Office blood pressure measurement",
+   "proposed_code": "99211-vitals",
+   "proposed_price_usd": 0,
+   "needed_for": [
+    "bp_driven_risk",
+    "htn_nephropathy",
+    "neuro_risk_vascular"
+   ],
+   "note": "No discrete CPT for vitals; assume captured at intake at zero marginal cost (matches toy catalog office_bp=$0). Required detector for the BP-driven CVD/renal/dementia components."
+  },
+  {
+   "id": "ambulatory_bp",
+   "label": "Ambulatory BP monitoring (masked/white-coat HTN)",
+   "proposed_code": "93784",
+   "proposed_price_usd": 60,
+   "needed_for": [
+    "bp_driven_risk",
+    "neuro_risk_vascular"
+   ],
+   "note": "CPT 93784/93786/93790. Detects masked hypertension office BP misses; absent from catalog."
+  },
+  {
+   "id": "fh_gene_panel",
+   "label": "Familial hypercholesterolemia targeted panel (LDLR/APOB/PCSK9/LDLRAP1)",
+   "proposed_code": "81406",
+   "proposed_price_usd": 450,
+   "needed_for": [
+    "FH"
+   ],
+   "note": "Cheap targeted cascade-enabling FH detector. Catalog has WES/WGS (incidentally cover FH) + CAD PRS (polygenic, misses monogenic) + hereditary CANCER panel (wrong genes), but no dedicated FH panel."
+  },
+  {
+   "id": "resting_ecg",
+   "label": "Resting 12-lead ECG",
+   "proposed_code": "93000",
+   "proposed_price_usd": 15,
+   "needed_for": [
+    "inherited_arrhythmia"
+   ],
+   "note": "First-line phenotypic detector for long-QT and other inherited arrhythmias; absent from catalog. WES/WGS substitute at high cost."
+  },
+  {
+   "id": "urinalysis_dipstick",
+   "label": "Urinalysis with microscopy (hematuria/qualitative proteinuria)",
+   "proposed_code": "81001",
+   "proposed_price_usd": 5,
+   "needed_for": [
+    "alport_col4"
+   ],
+   "note": "CPT 81001/81003. Needed for hematuria triage (Alport); only quantitative microalbumin/UACR are in the catalog."
+  },
+  {
+   "id": "renal_ultrasound",
+   "label": "Dedicated renal/retroperitoneal ultrasound",
+   "proposed_code": "76770",
+   "proposed_price_usd": 120,
+   "needed_for": [
+    "adpkd"
+   ],
+   "note": "CPT 76770 complete / 76775 limited. Currently proxied by abdominal_us (76700, $114), acceptable but not kidney-specific for ADPKD cyst burden."
+  },
+  {
+   "id": "apol1_genotyping",
+   "label": "Targeted APOL1 G1/G2 genotyping",
+   "proposed_code": "81479",
+   "proposed_price_usd": 100,
+   "needed_for": [
+    "apol1_highrisk"
+   ],
+   "note": "Cheap focused 2-variant assay. Only WES/WGS in catalog can detect APOL1, vastly over-priced for this test."
+  },
+  {
+   "id": "kidney_gene_panel",
+   "label": "Nephropathy/monogenic-kidney NGS panel (PKD1/2, COL4A3/4/5, UMOD, NPHS1/2, complement)",
+   "proposed_code": "81479",
+   "proposed_price_usd": 800,
+   "needed_for": [
+    "adpkd",
+    "alport_col4",
+    "monogenic_kidney_other"
+   ],
+   "note": "Catalog has only generic carrier/exome/genome tests; no kidney-specific panel, so monogenic kidney findings resolve only via wes_proband/wgs_proband ($4780-$5031)."
+  },
+  {
+   "id": "mody_gene_panel",
+   "label": "MODY / monogenic-diabetes panel (HNF1A, HNF4A, GCK, HNF1B, KCNJ11, ABCC8, INS; +lipodystrophy LMNA/PPARG)",
+   "proposed_code": "81479",
+   "proposed_price_usd": 500,
+   "needed_for": [
+    "MODY_HNF1A_4A",
+    "MODY_GCK",
+    "neonatal_diabetes_KATP",
+    "monogenic_lipodystrophy_SIR"
+   ],
+   "note": "Catalog has only broad WES/WGS + cancer panel; no diabetes monogenic panel, overstating cost of catching MODY/NDM/lipodystrophy."
+  },
+  {
+   "id": "islet_autoantibodies",
+   "label": "Islet autoantibodies (GAD65, IA-2, ZnT8)",
+   "proposed_code": "86341",
+   "proposed_price_usd": 90,
+   "needed_for": [
+    "MODY_HNF1A_4A",
+    "MODY_GCK"
+   ],
+   "note": "Needed to distinguish T1/LADA from T2/MODY before genetic testing; not in catalog. Without it, T1-vs-T2-vs-MODY triage relies only on c_peptide."
+  },
+  {
+   "id": "anthropometric_bmi",
+   "label": "BMI / waist circumference (exam measure)",
+   "proposed_code": "n/a",
+   "proposed_price_usd": 0,
+   "needed_for": [
+    "adiposity_obesity"
+   ],
+   "note": "Free patient-reported/exam measure, not a paid catalog test; modeled as a zero-cost line matching the office_bp convention so the obesity finding has a clean primary detector."
+  },
+  {
+   "id": "smoking_status_intake",
+   "label": "Tobacco-use status assessment (intake history)",
+   "proposed_code": "99406-intake",
+   "proposed_price_usd": 0,
+   "needed_for": [
+    "tobacco_use_active"
+   ],
+   "note": "Smoking status captured at intake at zero marginal cost (matches the office_bp/anthropometric_bmi convention). cotinine (CPT 82505, now in the catalog) is the present objective-confirmation detector, so tobacco_use_active does NOT false-zero."
+  },
+  {
+   "id": "auditc_intake",
+   "label": "AUDIT-C hazardous-alcohol-use screen (intake questionnaire)",
+   "proposed_code": "99408",
+   "proposed_price_usd": 0,
+   "needed_for": [
+    "excess_alcohol_use"
+   ],
+   "note": "CPT 99408 (alcohol/substance screening + brief intervention), $0 marginal as an intake questionnaire. Sole detector for excess_alcohol_use, which therefore false-zeros against the present catalog (like bp_driven_risk) until an intake screen is catalogued."
+  },
+  {
+   "id": "physical_activity_intake",
+   "label": "Physical-activity / fitness assessment (intake; e.g. Exercise Vital Sign, wearable)",
+   "proposed_code": "99401-intake",
+   "proposed_price_usd": 0,
+   "needed_for": [
+    "lifestyle_cancer_incidence_risk"
+   ],
+   "note": "Activity level / cardiorespiratory fitness captured at intake at zero marginal cost (Exercise Vital Sign questionnaire or wearable), matching the office_bp/anthropometric_bmi convention. Detector for the lifestyle-modifiable cancer-incidence and (conceptually) the physical_activity bundle's exposure."
+  },
+  {
+   "id": "prostate_mri",
+   "label": "Multiparametric prostate MRI (mpMRI)",
+   "proposed_code": "72197",
+   "proposed_price_usd": 400,
+   "needed_for": [
+    "occult_prostate"
+   ],
+   "note": "Modern prostate pathway uses mpMRI to triage PSA-positives and cut overdiagnosis; absent from catalog. Its absence means occult_prostate's overdiagnosis debit cannot be mitigated by the modeled panel."
+  },
+  {
+   "id": "ad_prs",
+   "label": "Dementia/Alzheimer polygenic risk score (AD-PRS)",
+   "proposed_code": "81479",
+   "proposed_price_usd": 300,
+   "needed_for": [
+    "neuro_risk_genetic"
+   ],
+   "note": "Dementia-specific PRS distinct from cad_prs (cardiovascular); needed for genetic dementia risk beyond APOE. Derivable from WES/WGS but no standalone SKU."
+  },
+  {
+   "id": "plasma_ptau217",
+   "label": "Plasma p-tau217 / p-tau217:Abeta42 ratio",
+   "proposed_code": "0444U",
+   "proposed_price_usd": 350,
+   "needed_for": [
+    "preclinical_AD_biomarker"
+   ],
+   "note": "Only scalable detector for preclinical AD; AUC 0.95-0.96 vs amyloid PET. Not in catalog -- preclinical_AD_biomarker false-zeros without it."
+  },
+  {
+   "id": "amyloid_pet",
+   "label": "Amyloid PET (or CSF Abeta42/40 + p-tau via LP)",
+   "proposed_code": "78814",
+   "proposed_price_usd": 4000,
+   "needed_for": [
+    "preclinical_AD_biomarker"
+   ],
+   "note": "Confirmatory detector gating anti-amyloid mAbs; absent from catalog."
+  },
+  {
+   "id": "audiometry",
+   "label": "Audiometry / pure-tone hearing screen",
+   "proposed_code": "92557",
+   "proposed_price_usd": 50,
+   "needed_for": [
+    "hearing_loss_actionable"
+   ],
+   "note": "CPT 92557/92551, cheap (~$30-80). Sole detector for hearing_loss_actionable; not in catalog -- finding false-zeros without it."
+  },
+  {
+   "id": "clinical_history_intake",
+   "label": "Structured clinical history / prior-event review (intake)",
+   "proposed_code": "99204-intake",
+   "proposed_price_usd": 0
+  },
+  {
+   "id": "ambulatory_ecg_patch",
+   "label": "Extended ambulatory ECG / wearable patch monitor (7-14 day)",
+   "proposed_code": "93247",
+   "proposed_price_usd": 300
+  },
+  {
+   "id": "auscultation_exam",
+   "label": "Cardiac auscultation (physical exam)",
+   "proposed_code": "99204-exam",
+   "proposed_price_usd": 0
+  },
+  {
+   "id": "cardiac_ct_tavr",
+   "label": "Gated cardiac/aortic CT for TAVR planning (annulus sizing)",
+   "proposed_code": "75573",
+   "proposed_price_usd": 400
+  },
+  {
+   "id": "carotid_duplex_us",
+   "label": "Carotid duplex ultrasound (extracranial)",
+   "proposed_code": "93880",
+   "proposed_price_usd": 160
+  },
+  {
+   "id": "cta_neck",
+   "label": "CT angiography neck/carotids with contrast",
+   "proposed_code": "70498",
+   "proposed_price_usd": 350
+  },
+  {
+   "id": "coronary_angiography",
+   "label": "Invasive coronary angiography (diagnostic cardiac cath)",
+   "proposed_code": "93458",
+   "proposed_price_usd": 2500
+  },
+  {
+   "id": "tee_bubble_study",
+   "label": "Transesophageal echo with agitated-saline bubble study",
+   "proposed_code": "93312",
+   "proposed_price_usd": 650
+  },
+  {
+   "id": "transcranial_doppler",
+   "label": "Transcranial Doppler with bubble study (right-to-left shunt)",
+   "proposed_code": "93890",
+   "proposed_price_usd": 180
+  },
+  {
+   "id": "ankle_brachial_index",
+   "label": "Ankle-brachial index (ABI) measurement",
+   "proposed_code": "93922",
+   "proposed_price_usd": 60
+  },
+  {
+   "id": "arterial_duplex_us",
+   "label": "Lower-extremity arterial duplex ultrasound",
+   "proposed_code": "93925",
+   "proposed_price_usd": 200
+  },
+  {
+   "id": "hpylori_ubt",
+   "label": "H. pylori Urea Breath Test (13C)",
+   "proposed_code": "83013",
+   "proposed_price_usd": 90
+  },
+  {
+   "id": "hpylori_stool_antigen",
+   "label": "H. pylori Stool Antigen",
+   "proposed_code": "87338",
+   "proposed_price_usd": 55
+  },
+  {
+   "id": "hpylori_serology",
+   "label": "H. pylori Antibody (IgG serology)",
+   "proposed_code": "86677",
+   "proposed_price_usd": 25
+  },
+  {
+   "id": "hbsag",
+   "label": "Hepatitis B Surface Antigen (HBsAg)",
+   "proposed_code": "87340",
+   "proposed_price_usd": 16
+  },
+  {
+   "id": "anti_hcv_hcvrna",
+   "label": "Hepatitis C Antibody + reflex HCV RNA",
+   "proposed_code": "86803",
+   "proposed_price_usd": 75
+  },
+  {
+   "id": "fibroscan",
+   "label": "Transient Elastography / FibroScan (liver fibrosis staging)",
+   "proposed_code": "91200",
+   "proposed_price_usd": 130
+  },
+  {
+   "id": "hpv_vaccination_status_intake",
+   "label": "HPV vaccination history assessment (intake)",
+   "proposed_code": "",
+   "proposed_price_usd": 0
+  },
+  {
+   "id": "high_resolution_anoscopy",
+   "label": "High-Resolution Anoscopy with biopsy",
+   "proposed_code": "46601",
+   "proposed_price_usd": 350
+  },
+  {
+   "id": "anal_cytology",
+   "label": "Anal cytology (Pap)",
+   "proposed_code": "88160",
+   "proposed_price_usd": 45
+  },
+  {
+   "id": "esophageal_cell_sponge",
+   "label": "Nonendoscopic esophageal cell collection + biomarker (Cytosponge/EsoGuard)",
+   "proposed_code": "0114U",
+   "proposed_price_usd": 350
+  },
+  {
+   "id": "breast_risk_model_intake",
+   "label": "Breast cancer risk model scoring (Gail/Tyrer-Cuzick, intake)",
+   "proposed_code": "",
+   "proposed_price_usd": 0
+  },
+  {
+   "id": "breast_biopsy_path",
+   "label": "Breast core-needle biopsy with pathology (atypia/LCIS confirmation)",
+   "proposed_code": "19083",
+   "proposed_price_usd": 600
+  },
+  {
+   "id": "crc_risk_model_intake",
+   "label": "Colorectal cancer risk model scoring (intake questionnaire)",
+   "proposed_code": "",
+   "proposed_price_usd": 0
+  },
+  {
+   "id": "glomerular_serology_panel",
+   "label": "Glomerular workup serology panel (ANA/anti-dsDNA, ANCA, anti-PLA2R, complement C3/C4, SPEP/serum free light chains, hepatitis serologies)",
+   "proposed_code": "81479",
+   "proposed_price_usd": 250
+  },
+  {
+   "id": "kidney_biopsy",
+   "label": "Percutaneous renal biopsy with histopathology/immunofluorescence",
+   "proposed_code": "50200",
+   "proposed_price_usd": 1200
+  },
+  {
+   "id": "glucose_challenge_test",
+   "label": "50g Glucose Challenge Test (1-hour, GDM screen)",
+   "proposed_code": "82950",
+   "proposed_price_usd": 8
+  },
+  {
+   "id": "fundus_photography",
+   "label": "Fundus Photography, Retinal (bilateral, with interpretation)",
+   "proposed_code": "92250",
+   "proposed_price_usd": 60
+  },
+  {
+   "id": "autonomous_ai_retinal",
+   "label": "Autonomous AI Diabetic Retinopathy Screening (point-of-care, FDA-cleared)",
+   "proposed_code": "92229",
+   "proposed_price_usd": 55
+  },
+  {
+   "id": "oct_macula",
+   "label": "Optical Coherence Tomography, Retina/Macula (for DME)",
+   "proposed_code": "92134",
+   "proposed_price_usd": 45
+  },
+  {
+   "id": "exercise_vital_sign",
+   "label": "Submaximal Exercise / Cardiorespiratory Fitness Assessment (Exercise Vital Sign, e.g. step or treadmill submaximal test)",
+   "proposed_code": "93017",
+   "proposed_price_usd": 30
+  },
+  {
+   "id": "wearable_fitness",
+   "label": "Wearable-derived fitness / activity metrics (estimated VO2max, steps, MVPA)",
+   "proposed_code": "",
+   "proposed_price_usd": 0
+  },
+  {
+   "id": "dietary_quality_screener",
+   "label": "Dietary-quality / pattern adherence screener (intake questionnaire; AHEI/MIND/Med-diet)",
+   "proposed_code": "99401-intake",
+   "proposed_price_usd": 0
+  },
+  {
+   "id": "urine_sodium",
+   "label": "Urine Sodium (24-hour or spot, for habitual intake estimation)",
+   "proposed_code": "84300",
+   "proposed_price_usd": 7
+  },
+  {
+   "id": "csf_abeta_ptau",
+   "label": "CSF Abeta42/40 ratio + p-tau (lumbar puncture biomarker panel)",
+   "proposed_code": "83520",
+   "proposed_price_usd": 400
+  },
+  {
+   "id": "mmse_moca_cognitive",
+   "label": "Cognitive assessment (MMSE/MoCA, administered)",
+   "proposed_code": "96125",
+   "proposed_price_usd": 60
+  },
+  {
+   "id": "wearable_ecg_patch",
+   "label": "Ambulatory / wearable single-lead ECG patch (paroxysmal AF detection)",
+   "proposed_code": "93241",
+   "proposed_price_usd": 250
+  },
+  {
+   "id": "movement_disorder_exam",
+   "label": "Movement-disorder neurological exam (UPDRS-based clinical diagnosis)",
+   "proposed_code": "99204",
+   "proposed_price_usd": 150
+  },
+  {
+   "id": "datscan_spect",
+   "label": "DaTscan (ioflupane I-123 SPECT, striatal dopamine transporter imaging)",
+   "proposed_code": "78830",
+   "proposed_price_usd": 2500
+  },
+  {
+   "id": "brain_spine_mri",
+   "label": "Brain + cervical spine MRI with and without contrast (MS protocol)",
+   "proposed_code": "70553",
+   "proposed_price_usd": 700
+  },
+  {
+   "id": "csf_oligoclonal_bands",
+   "label": "CSF oligoclonal bands + IgG index (lumbar puncture)",
+   "proposed_code": "83916",
+   "proposed_price_usd": 200
+  },
+  {
+   "id": "brain_mri",
+   "label": "Brain MRI without contrast",
+   "proposed_code": "70551",
+   "proposed_price_usd": 350
+  },
+  {
+   "id": "csf_tap_test",
+   "label": "High-volume CSF tap test / lumbar drain trial (NPH shunt-response prediction)",
+   "proposed_code": "62272",
+   "proposed_price_usd": 600
+  },
+  {
+   "id": "visual_acuity_screen",
+   "label": "Visual acuity screening (Snellen/automated)",
+   "proposed_code": "99173",
+   "proposed_price_usd": 15
+  },
+  {
+   "id": "ophthalmologic_exam",
+   "label": "Comprehensive ophthalmologic exam (new patient)",
+   "proposed_code": "92004",
+   "proposed_price_usd": 120
+  }
+ ]
+}

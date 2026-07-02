@@ -1,0 +1,299 @@
+<!doctype html>
+<html lang="en"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Aleron — the full lever space (one patient, every object over time)</title>
+<style>
+:root{ --bg:#fff; --fg:#111; --line:#222; --muted:#555; --faint:#8a8f98; --shade:#f2f3f5; --hi:#b22;
+ --affect:#2f6fed; --substrate:#1c6e54; --ctx:#5b3fb0; --watch:#b7791f; --grid:#d8dbe0; --band:#f0ece1; --quiet:#aab0b8;
+ --ref:#cfe8dd; --instr:#7c8190; }
+@media (prefers-color-scheme:dark){ :root{ --bg:#15171c; --fg:#e8eaef; --line:#c4c9d2; --muted:#9aa0ab; --faint:#6f757f; --shade:#1c1f26; --hi:#ff7a7a;
+ --affect:#7aa2ff; --substrate:#4fd1a5; --ctx:#b9a6ef; --watch:#e0b15a; --grid:#2a2e36; --band:#2a2620; --quiet:#444a54;
+ --ref:#23463c; --instr:#828998; } }
+*{box-sizing:border-box;}
+body{margin:0;background:var(--bg);color:var(--fg);font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Helvetica,Arial,sans-serif;padding:22px 20px 70px;}
+.wrap{max-width:1060px;margin:0 auto;}
+h1{font-size:19px;margin:0 0 2px;}
+.h{font-size:12px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--faint);}
+.lede{border-left:3px solid var(--fg);padding:2px 0 2px 14px;margin:0 0 18px;}
+.lede p{font-size:12.5px;line-height:1.55;color:var(--muted);margin:6px 0 0;max-width:920px;}
+.lede b{color:var(--fg);}
+.sec{margin:0 0 22px;border:1px solid var(--line);}
+.sec>.ph{display:flex;justify-content:space-between;align-items:baseline;gap:10px;padding:9px 14px;border-bottom:1px solid var(--line);background:var(--shade);flex-wrap:wrap;}
+.sec>.ph .sub{font-size:11.5px;color:var(--muted);font-weight:400;text-transform:none;letter-spacing:0;}
+.pad{padding:14px 16px;}
+.controls{display:flex;flex-wrap:wrap;gap:14px;align-items:center;border:1px solid var(--line);padding:11px 14px;margin:0 0 18px;}
+.controls .lbl{font-size:10px;font-weight:700;letter-spacing:.07em;text-transform:uppercase;color:var(--faint);}
+.controls input[type=range]{accent-color:var(--fg);width:260px;}
+.controls .rv{font-variant-numeric:tabular-nums;font-weight:700;min-width:52px;}
+.controls button{font:inherit;font-size:12px;background:none;color:var(--fg);border:1px solid var(--line);padding:4px 10px;cursor:pointer;}
+.controls .key{display:flex;gap:12px;font-size:11px;color:var(--muted);flex-wrap:wrap;}
+.controls .key span{display:inline-flex;align-items:center;gap:5px;}
+.controls .key i{width:14px;height:3px;display:inline-block;border-radius:2px;}
+svg{display:block;width:100%;height:auto;}
+.cap{font-size:12px;color:var(--muted);line-height:1.6;margin:10px 2px 0;}
+.cap b{color:var(--fg);} .cap .hi{color:var(--hi);font-weight:700;}
+.convo{display:grid;grid-template-columns:1fr 1fr;gap:12px;}
+@media(max-width:720px){.convo{grid-template-columns:1fr;}}
+.cbox{border:1px solid var(--line);border-left-width:4px;padding:9px 12px;}
+.cbox.treat{border-left-color:var(--hi);} .cbox.watch{border-left-color:var(--watch);}
+.cbox.behav{border-left-color:var(--fg);} .cbox.reassure{border-left-color:var(--quiet);}
+.cbox.maintain{border-left-color:var(--substrate);} .cbox.context{border-left-color:var(--ctx);}
+.cbox.corro{border-left-color:var(--instr);}
+.cbox .ct{font-size:10px;text-transform:uppercase;letter-spacing:.05em;font-weight:800;color:var(--faint);margin:0 0 3px;}
+.cbox .cl{font-size:12px;color:var(--muted);line-height:1.5;}
+.cbox .cl b{color:var(--fg);}
+.disc{font-size:11px;color:var(--faint);margin:18px 0 0;line-height:1.5;}
+.sr-only{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0,0,0,0);}
+</style></head>
+<body><div class="wrap">
+<h2 class="sr-only">The full object space for one synthetic patient: felt-state outcomes, clinical severity gauges, gates, behavioral levers, and passive instruments plotted over twelve weeks, with the dominant move in red, the one to watch in amber, screened-quiet items greyed, and device instruments subordinate — measures never confused with levers, and no composite score.</h2>
+
+<div class="lede">
+  <h1>The whole board — every object for one patient, over time</h1>
+  <div class="h">Dana, 52 &middot; 12 weeks &middot; nothing hidden &middot; measures ≠ levers &middot; no score</div>
+  <p>The complete space, typed by what each thing <i>is</i>. <b>Outcomes</b> are how she feels (the ground truth). <b>Clinical severity</b> — PHQ&#8209;9, PEG&#8209;3 — are <i>measures</i> of the depression and pain poles, drawn with their referral thresholds, never as levers. <b>Gates</b> are the locks (a lab or a screen — a read, not a thing you move); the <b>lever</b> is the treatment. Behavioral <b>levers</b> are the dials. <b>Instruments</b> (HRV, resting HR, temperature) are passive sensor reads that <i>corroborate</i> the felt outcome or flag a confounder — they never settle a bet. Scrub <b>now</b> to walk it.</p>
+</div>
+
+<div class="controls">
+  <span class="lbl">Now</span><input type="range" id="nowsl" min="1" max="12" step="1" value="10"><span class="rv" id="nowrv">wk 10</span>
+  <button id="play">▶ play</button>
+  <div class="key">
+    <span><i style="background:var(--hi)"></i>the move</span>
+    <span><i style="background:var(--watch)"></i>watch</span>
+    <span><i style="background:var(--fg)"></i>behavioral lever</span>
+    <span><i style="background:var(--quiet)"></i>screened, quiet</span>
+    <span><i style="background:var(--instr)"></i>instrument (measure)</span>
+  </div>
+</div>
+
+<div class="sec"><div class="ph"><span class="h">Now-lens</span><span class="sub">outcomes only · within-person · baseline → now</span></div>
+  <div class="pad"><svg id="planes" viewBox="0 0 760 230" role="img"><title>Affect and substrate planes at the current week</title></svg></div>
+</div>
+
+<div class="sec"><div class="ph"><span class="h">The full board</span><span class="sub">outcomes · clinical severity · gates · levers · instruments — typed by what each is</span></div>
+  <div class="pad"><svg id="board" viewBox="0 0 760 900" role="img"><title>All object types over time, kept distinct</title></svg>
+  <p class="cap" id="cap"></p></div>
+</div>
+
+<div class="sec"><div class="ph"><span class="h">The conversations on the board</span><span class="sub">what the physician can say, with the data in hand</span></div>
+  <div class="pad"><div class="convo" id="convo"></div></div>
+</div>
+
+<p class="disc">Synthetic patient, illustrative. Object types per the Aleron Vitality model: <b>outcomes</b> (felt dimensions, §3.7), <b>clinical severity gauges</b> (PHQ&#8209;9/PEG&#8209;3 — dual-role outcome trends + gate severity, never the dimension PRO), <b>gates</b> (lab-tracked lines with a reference band, or one-time screen chips — the read, with the treatment named as the lever), <b>levers</b> (behavioral dials), and <b>instruments</b> (passive device corroborators, §2.3 — measure, not lever; the felt report wins on conflict). Each lane has its own axis and direction; nothing is summed, nothing shares a good-bad ramp, no composite score or index. Co-movement is association, not proof. Hypogonadism (male-only) is not applicable here.</p>
+
+</div>
+<script>
+const WK=12;
+// ===== OUTCOMES — the felt dimensions (ground truth, within-person 0–10) =====
+const FELT={
+ mood:[5,5,5,5,5,5,6,6,6,6,6,6],
+ energy:[3,3,3,3,3,4,4,5,5,6,6,6],
+ body:[4,4,4,4,4,4,4,5,5,5,6,6],
+ mind:[3,3,3,3,3,3,4,4,5,5,5,6],
+};
+// ===== CLINICAL SEVERITY — outcome trends that double as gate-severity gauges =====
+const SEVERITY=[
+ {name:'Depression · PHQ-9', sub:'severity 0–27 ↓ · gate+response', max:27, series:[4,4,3,4,3,3,3,2,2,2,2,2], threshold:10, thLabel:'referral ≥10', tone:'var(--affect)', item9:'item 9 = 0 — checked every read'},
+ {name:'Pain · PEG-3', sub:'severity 0–10 ↓ · gate+response', max:10, series:[2,2,2,2,2,2,2,2,2,2,2,2], threshold:7, thLabel:'disabling · activity-limiting', tone:'var(--substrate)'},
+];
+// ===== GATES — pure upstream conditions. Lab-tracked = line + reference band; lever = the treatment =====
+const GATE_LABS=[
+ {name:'Iron · ferritin', sub:'ng/mL ↑ · lever: repletion', max:50, series:[14,14,14,14,18,22,26,30,33,35,37,38], refLo:30, refLabel:'sufficiency ≥30', state:'active', change:4, lat:[6,12]},
+ {name:'Thyroid · TSH', sub:'mIU/L ↓ · lever: levothyroxine (held)', max:6, series:[3.8,3.8,3.9,3.9,4.0,4.0,4.1,4.1,4.2,4.1,4.1,4.0], refHi:4.0, refLabel:'normal ≤4.0', state:'watch'},
+ {name:'Glucose · HbA1c', sub:'% ↓', max:7, series:[5.2,5.2,5.2,5.2,5.2,5.2,5.2,5.2,5.2,5.2,5.2,5.2], refHi:5.7, refLabel:'normal <5.7', state:'quiet'},
+ {name:'B12 / folate', sub:'pg/mL ↑', max:700, series:[420,420,420,420,420,420,420,420,420,420,420,420], refLo:300, refLabel:'normal ≥300', state:'quiet'},
+];
+// screen-only gates — one-time pretest screens → terminal chips (never trends)
+const GATE_SCREENS=[
+ {name:'Sleep apnea', via:'STOP-Bang', val:'1 / 8', result:'low risk — cleared', conseq:'if +: blocks the sleep dial until treated'},
+ {name:'Substance use', via:'AUDIT-C', val:'2', result:'negative', conseq:'if +: serialize — treat before crediting dials'},
+];
+// ===== LEVERS — behavioral dials (the things we actually move) =====
+const DIALS=[
+ {name:'Sleep regularity', sub:'0–10 ↑', max:10, series:[3,3,4,3,3,4,4,6,7,7,8,8], state:'active', change:8, lat:[8,12]},
+ {name:'Movement', sub:'min/day ↑', max:40, series:[10,10,10,10,12,12,15,15,20,20,25,25], state:'active', change:5, lat:[5,11]},
+ {name:'Alcohol', sub:'drinks/wk ↓', max:8, series:[7,7,7,7,6,5,4,4,3,3,3,2], state:'active', change:5, lat:[5,8]},
+ {name:'Social contact', sub:'0–10 ↑', max:10, series:[5,5,5,4,5,5,6,6,6,6,7,7], state:'quiet'},
+ {name:'Caffeine timing', sub:'0–10 ↑', max:10, series:[6,6,6,6,6,6,7,7,7,7,7,7], state:'quiet'},
+];
+// ===== INSTRUMENTS — passive device corroborators (subordinate, device-dependent). Never levers/endpoints =====
+const INSTRUMENTS=[
+ {name:'HRV · overnight', sub:'ms ↑ · 7-day trend · low-conf age >50', max:70, series:[28,28,29,30,31,33,35,38,40,42,44,45], corro:'trend agrees with energy'},
+ {name:'Resting HR', sub:'bpm · illness corroborator', max:80, series:[58,58,59,57,58,64,58,57,57,56,56,56], corro:'wk6 blip → likely mild illness'},
+];
+const TEMP_FLAG={week:6, label:'temp +0.5°C — illness? (or alcohol / late exercise / heat / luteal) → confirm'};
+
+const stateCol=s=>s==='active'?'var(--hi)':s==='watch'?'var(--watch)':'var(--quiet)';
+const dialCol=s=>s==='active'?'var(--fg)':'var(--quiet)';
+let now=10, timer=null;
+
+const nowsl=document.getElementById('nowsl');
+nowsl.addEventListener('input',e=>{now=+e.target.value;render();});
+document.getElementById('play').addEventListener('click',()=>{
+ if(timer){clearInterval(timer);timer=null;document.getElementById('play').textContent='▶ play';return;}
+ document.getElementById('play').textContent='❚❚ pause'; now=1;
+ timer=setInterval(()=>{ now=now>=WK?1:now+1; nowsl.value=now; render(); },650);
+});
+
+// ---------- now-lens planes (outcomes, within-person baseline → now) ----------
+function plane(R,curX,curY,baseX,baseY,color,title,xlab,ylab,good,bad){
+ const px=v=>R.x0+v/10*R.w, py=v=>R.y0+R.h - v/10*R.h; let g='';
+ g+='<rect x="'+R.x0+'" y="'+R.y0+'" width="'+R.w+'" height="'+R.h+'" fill="none" stroke="var(--grid)"/>';
+ g+='<line x1="'+px(5)+'" y1="'+R.y0+'" x2="'+px(5)+'" y2="'+(R.y0+R.h)+'" stroke="var(--grid)"/>';
+ g+='<line x1="'+R.x0+'" y1="'+py(5)+'" x2="'+(R.x0+R.w)+'" y2="'+py(5)+'" stroke="var(--grid)"/>';
+ g+='<text x="'+(px(9.6)).toFixed(1)+'" y="'+(py(9.3)).toFixed(1)+'" text-anchor="end" font-size="9" fill="'+color+'" font-weight="700">'+good+' ↗</text>';
+ g+='<text x="'+(px(0.4)).toFixed(1)+'" y="'+(py(0.6)).toFixed(1)+'" text-anchor="start" font-size="9" fill="var(--faint)">↙ '+bad+'</text>';
+ g+='<text x="'+R.x0+'" y="'+(R.y0-12)+'" font-size="11.5" font-weight="800" fill="'+color+'">'+title+'</text>';
+ g+='<text x="'+(R.x0+R.w)+'" y="'+(R.y0-12)+'" text-anchor="end" font-size="10.5" fill="var(--muted)">'+xlab.toLowerCase()+' '+curX+' · '+ylab.toLowerCase()+' '+curY+'</text>';
+ g+='<text x="'+(R.x0+R.w/2)+'" y="'+(R.y0+R.h+19)+'" text-anchor="middle" font-size="10" font-weight="700" fill="var(--fg)">'+xlab+' →</text>';
+ g+='<text x="'+(R.x0-13)+'" y="'+(R.y0+R.h/2)+'" text-anchor="middle" font-size="10" font-weight="700" fill="var(--fg)" transform="rotate(-90 '+(R.x0-13)+' '+(R.y0+R.h/2)+')">'+ylab+' →</text>';
+ const cx=px(curX),cy=py(curY),bx=px(baseX),by=py(baseY);
+ if(curX!==baseX||curY!==baseY){const dx=cx-bx,dy=cy-by,L=Math.hypot(dx,dy)||1,ux=dx/L,uy=dy/L,ex=cx-ux*9,ey=cy-uy*9;
+  g+='<line x1="'+(bx+ux*7).toFixed(1)+'" y1="'+(by+uy*7).toFixed(1)+'" x2="'+ex.toFixed(1)+'" y2="'+ey.toFixed(1)+'" stroke="'+color+'" stroke-width="2" opacity="0.5"/>';
+  g+='<path d="M'+(ex-ux*9-uy*5).toFixed(1)+' '+(ey-uy*9+ux*5).toFixed(1)+' L'+ex.toFixed(1)+' '+ey.toFixed(1)+' L'+(ex-ux*9+uy*5).toFixed(1)+' '+(ey-uy*9-ux*5).toFixed(1)+'" fill="none" stroke="'+color+'" stroke-width="2" opacity="0.5"/>';
+  g+='<circle cx="'+bx.toFixed(1)+'" cy="'+by.toFixed(1)+'" r="4" fill="var(--bg)" stroke="'+color+'" stroke-width="1.5" opacity="0.8"/>';}
+ g+='<circle cx="'+cx.toFixed(1)+'" cy="'+cy.toFixed(1)+'" r="6" fill="'+color+'"/>';
+ return g;
+}
+function renderPlanes(){
+ const A={x0:96,y0:34,w:185,h:185}, B={x0:452,y0:34,w:185,h:185}; const i=now-1; let g='';
+ g+=plane(A,FELT.mood[i],FELT.energy[i],FELT.mood[0],FELT.energy[0],'var(--affect)','AFFECT','Mood','Energy','energized','flat');
+ g+=plane(B,FELT.body[i],FELT.mind[i],FELT.body[0],FELT.mind[0],'var(--substrate)','SUBSTRATE','Body','Mind','clear','foggy');
+ document.getElementById('planes').innerHTML=g;
+}
+
+// ---------- the full board ----------
+const W=760,L=152,RG=60;
+const xw=w=>L+(w-1)/(WK-1)*(W-L-RG);
+function bandHdr(y,title,sub){
+ return '<text x="'+(L-8)+'" y="'+y+'" text-anchor="end" font-size="10.5" font-weight="800" letter-spacing="0.06em" fill="var(--fg)">'+title+'</text>'
+  +'<text x="'+(L+2)+'" y="'+y+'" font-size="9.5" fill="var(--faint)">'+sub+'</text>'
+  +'<line x1="'+L+'" y1="'+(y+5)+'" x2="'+(W-RG)+'" y2="'+(y+5)+'" stroke="var(--line)" opacity="0.5"/>';
+}
+// generic trend lane (raw value scaled to the lane's own axis). returns SVG; advances global ly.
+let ly=0;
+function trendLane(cfg){
+ // cfg: name, sub, series, max, color, lineW, op, dashed, refLo, refHi, refLabel, threshold, thLabel, state, change, lat, tag, badge, extraTop
+ const laneH=cfg.tall?38:30, top=ly+2, b=ly+laneH-8;
+ const yl=v=>b-(v/cfg.max)*(b-top);
+ let g='';
+ // reference band (normal/sufficiency zone) at true position
+ if(cfg.refLo!=null){ g+='<rect x="'+L+'" y="'+yl(cfg.max).toFixed(1)+'" width="'+(W-RG-L)+'" height="'+(yl(cfg.refLo)-yl(cfg.max)).toFixed(1)+'" fill="var(--ref)" opacity="0.5"/>';
+   g+='<text x="'+(W-RG-3)+'" y="'+(yl(cfg.max)+8).toFixed(1)+'" text-anchor="end" font-size="7.5" fill="var(--substrate)">'+cfg.refLabel+'</text>'; }
+ if(cfg.refHi!=null){ g+='<rect x="'+L+'" y="'+yl(cfg.refHi).toFixed(1)+'" width="'+(W-RG-L)+'" height="'+(b-yl(cfg.refHi)).toFixed(1)+'" fill="var(--ref)" opacity="0.5"/>';
+   g+='<text x="'+(W-RG-3)+'" y="'+(b-2).toFixed(1)+'" text-anchor="end" font-size="7.5" fill="var(--substrate)">'+cfg.refLabel+'</text>'; }
+ // latency window shade
+ if(cfg.lat){ g+='<rect x="'+xw(cfg.lat[0]).toFixed(1)+'" y="'+top+'" width="'+(xw(cfg.lat[1])-xw(cfg.lat[0])).toFixed(1)+'" height="'+(b-top)+'" fill="var(--band)" opacity="0.5"/>'; }
+ // baseline rule
+ g+='<line x1="'+L+'" y1="'+b+'" x2="'+(W-RG)+'" y2="'+b+'" stroke="var(--grid)"/>';
+ // threshold line (severity referral / disabling)
+ if(cfg.threshold!=null){ const ty=yl(cfg.threshold); g+='<line x1="'+L+'" y1="'+ty.toFixed(1)+'" x2="'+(W-RG)+'" y2="'+ty.toFixed(1)+'" stroke="var(--hi)" stroke-width="1" stroke-dasharray="2 3" opacity="0.8"/>';
+   g+='<text x="'+(W-RG-3)+'" y="'+(ty-2).toFixed(1)+'" text-anchor="end" font-size="7.5" fill="var(--hi)">'+cfg.thLabel+'</text>'; }
+ // labels (right-aligned in gutter)
+ g+='<text x="'+(L-8)+'" y="'+(top+6)+'" text-anchor="end" font-size="10" font-weight="'+(cfg.bold?'700':'400')+'" fill="'+(cfg.muted?'var(--faint)':'var(--fg)')+'">'+cfg.name+'</text>';
+ g+='<text x="'+(L-8)+'" y="'+(top+16)+'" text-anchor="end" font-size="7.5" fill="var(--faint)">'+cfg.sub+'</text>';
+ if(cfg.item9){ g+='<text x="'+(L-8)+'" y="'+(top+26)+'" text-anchor="end" font-size="7.5" font-weight="700" fill="var(--hi)">⚑ '+cfg.item9+'</text>'; }
+ // the line
+ const dash=cfg.dashed?' stroke-dasharray="4 3"':'';
+ g+='<path d="'+cfg.series.map((v,k)=>(k?'L':'M')+xw(k+1).toFixed(1)+' '+yl(v).toFixed(1)).join(' ')+'" fill="none" stroke="'+cfg.color+'" stroke-width="'+(cfg.lineW||1.6)+'" opacity="'+(cfg.op||1)+'"'+dash+'/>';
+ // change marker (when a lever moved)
+ if(cfg.change){ const cxk=xw(cfg.change); g+='<path d="M'+(cxk-3.5).toFixed(1)+' '+(top-2)+' L'+(cxk+3.5).toFixed(1)+' '+(top-2)+' L'+cxk.toFixed(1)+' '+(top+4)+' Z" fill="'+cfg.color+'"/>'; }
+ // now dot + value + tag
+ g+='<circle cx="'+xw(now).toFixed(1)+'" cy="'+yl(cfg.series[now-1]).toFixed(1)+'" r="2.6" fill="'+cfg.color+'"/>';
+ g+='<text x="'+(W-RG+4)+'" y="'+(top+6)+'" font-size="10" font-weight="700" fill="'+cfg.color+'">'+cfg.series[now-1]+'</text>';
+ if(cfg.tag){ g+='<text x="'+(W-RG+4)+'" y="'+(top+16)+'" font-size="7.5" fill="var(--faint)">'+cfg.tag+'</text>'; }
+ ly+=laneH+4;
+ return g;
+}
+function chipRow(screens){
+ let g=''; const top=ly+2, h=34;
+ const colW=(W-RG-L)/screens.length;
+ screens.forEach((s,i)=>{
+  const x=L+i*colW+4, w=colW-10;
+  g+='<rect x="'+x.toFixed(1)+'" y="'+top+'" width="'+w.toFixed(1)+'" height="'+h+'" fill="none" stroke="var(--quiet)" stroke-dasharray="3 2"/>';
+  g+='<text x="'+(x+8).toFixed(1)+'" y="'+(top+13)+'" font-size="9.5" font-weight="700" fill="var(--fg)">'+s.name+' · '+s.via+' '+s.val+'</text>';
+  g+='<text x="'+(x+8).toFixed(1)+'" y="'+(top+24)+'" font-size="8.5" fill="var(--substrate)">screened once → '+s.result+'</text>';
+  g+='<text x="'+(x+8).toFixed(1)+'" y="'+(top+32)+'" font-size="7.5" fill="var(--faint)">'+s.conseq+'</text>';
+ });
+ g+='<text x="'+(L-8)+'" y="'+(top+13)+'" text-anchor="end" font-size="8.5" fill="var(--faint)">one-time</text>';
+ g+='<text x="'+(L-8)+'" y="'+(top+23)+'" text-anchor="end" font-size="8.5" fill="var(--faint)">screens</text>';
+ ly+=h+8;
+ return g;
+}
+function renderBoard(){
+ const svg=document.getElementById('board'); let g='';
+ // perimenopause backdrop band (context)
+ g+='<rect x="'+L+'" y="6" width="'+(W-RG-L)+'" height="14" fill="var(--ctx)" opacity="0.14"/>';
+ g+='<text x="'+L+'" y="16" font-size="9.5" font-weight="700" fill="var(--ctx)">PERIMENOPAUSE — context, whole window (night sweats → fragmented sleep → low energy; heavy periods → the low iron)</text>';
+
+ // ===== OUTCOMES: felt chart =====
+ ly=40;
+ g+=bandHdr(ly,'OUTCOMES','how she feels — the ground truth (within-person, 0–10)'); ly+=12;
+ const fcT=ly, fcH=104, fcB=fcT+fcH; const yf=v=>fcB - v/10*fcH;
+ for(let v=0;v<=10;v+=5){g+='<line x1="'+L+'" y1="'+yf(v)+'" x2="'+(W-RG)+'" y2="'+yf(v)+'" stroke="var(--grid)"/><text x="'+(L-8)+'" y="'+(yf(v)+3)+'" text-anchor="end" font-size="9" fill="var(--faint)">'+v+'</text>';}
+ const fline=(arr,color,op,wd)=>'<path d="'+arr.map((v,k)=>(k?'L':'M')+xw(k+1).toFixed(1)+' '+yf(v).toFixed(1)).join(' ')+'" fill="none" stroke="'+color+'" stroke-width="'+wd+'" opacity="'+op+'"/>';
+ g+=fline(FELT.mood,'var(--affect)',0.4,1.5)+fline(FELT.body,'var(--substrate)',0.4,1.5)+fline(FELT.energy,'var(--affect)',1,2.4)+fline(FELT.mind,'var(--substrate)',1,2.4);
+ g+='<text x="'+(W-RG+4)+'" y="'+(yf(FELT.energy[WK-1])+3)+'" font-size="9" font-weight="700" fill="var(--affect)">energy</text>';
+ g+='<text x="'+(W-RG+4)+'" y="'+(yf(FELT.mind[WK-1])+11)+'" font-size="9" font-weight="700" fill="var(--substrate)">mind</text>';
+ g+='<text x="'+L+'" y="'+(fcT-4)+'" font-size="8" fill="var(--faint)">energy &amp; mind bold · mood &amp; body faint</text>';
+ ly=fcB+22;
+
+ // ===== CLINICAL SEVERITY =====
+ g+=bandHdr(ly,'CLINICAL SEVERITY','depression & pain — measures of the poles (gate + response), not the dimension PRO'); ly+=14;
+ SEVERITY.forEach(s=>{ g+=trendLane({name:s.name,sub:s.sub,series:s.series,max:s.max,color:s.tone,lineW:1.8,threshold:s.threshold,thLabel:s.thLabel,item9:s.item9,tall:!!s.item9,tag:'clear'}); });
+
+ // ===== GATES =====
+ ly+=8;
+ g+=bandHdr(ly,'GATES','locks that block progress — a read, not a thing you move (lever = the treatment)'); ly+=14;
+ GATE_LABS.forEach(l=>{ g+=trendLane({name:l.name,sub:l.sub,series:l.series,max:l.max,color:stateCol(l.state),lineW:l.state==='active'?2.2:1.4,op:l.state==='quiet'?0.6:1,refLo:l.refLo,refHi:l.refHi,refLabel:l.refLabel,change:l.change,lat:l.lat,bold:l.state!=='quiet',muted:l.state==='quiet',tag:l.state}); });
+ g+=chipRow(GATE_SCREENS);
+
+ // ===== LEVERS =====
+ g+=bandHdr(ly,'LEVERS','what we actually move — behavioral dials (gate treatments named above)'); ly+=14;
+ DIALS.forEach(l=>{ g+=trendLane({name:l.name,sub:l.sub,series:l.series,max:l.max,color:dialCol(l.state),lineW:l.state==='active'?2.2:1.4,op:l.state==='quiet'?0.6:1,change:l.change,lat:l.lat,bold:l.state==='active',muted:l.state==='quiet',tag:l.state==='active'?'in play':'in range'}); });
+
+ // ===== INSTRUMENTS =====
+ g+=bandHdr(ly,'INSTRUMENTS','sensor reads that corroborate — measure, not lever · never settles a bet · device-dependent'); ly+=14;
+ INSTRUMENTS.forEach((l,i)=>{
+  g+=trendLane({name:l.name,sub:l.sub,series:l.series,max:l.max,color:'var(--instr)',lineW:1.4,op:0.85,dashed:true,muted:true,tag:'measure'});
+  if(i===1){ // temperature confounder pin on the resting-HR lane week
+   const px=xw(TEMP_FLAG.week), py=ly-22;
+   g+='<circle cx="'+px.toFixed(1)+'" cy="'+py.toFixed(1)+'" r="3.2" fill="none" stroke="var(--watch)" stroke-width="1.4"/>';
+   g+='<text x="'+(px+6).toFixed(1)+'" y="'+(py+3).toFixed(1)+'" font-size="7.5" fill="var(--watch)">'+TEMP_FLAG.label+'</text>';
+  }
+ });
+
+ // x axis + now line spanning whole board
+ const axisY=ly+2;
+ for(let w=1;w<=WK;w+=1){g+='<text x="'+xw(w).toFixed(1)+'" y="'+(axisY+8)+'" text-anchor="middle" font-size="8" fill="var(--faint)">'+w+'</text>';}
+ g+='<text x="'+L+'" y="'+(axisY+20)+'" font-size="9" fill="var(--faint)">week →</text>';
+ const nx=xw(now);
+ g+='<line x1="'+nx.toFixed(1)+'" y1="40" x2="'+nx.toFixed(1)+'" y2="'+axisY+'" stroke="var(--hi)" stroke-width="1" stroke-dasharray="3 3" opacity="0.7"/>';
+ svg.setAttribute('viewBox','0 0 760 '+(axisY+26));
+ svg.innerHTML=g;
+
+ // caption
+ let t;
+ if(now<5) t='<b>Baseline.</b> Energy and mind are flat; iron not yet started. Most of the board is already <b>quiet or clear</b> — the screened-clear gates and the below-threshold severity gauges are reassurance you can give right now.';
+ else if(now<8) t='<b>Iron is the only thing moving</b> (started wk 4). Energy is just turning, inside its window, before any dial changed — so the early lift <span class="hi">tracks iron</span> (the only lever moving) — an association, not yet proof. The wk-6 temperature/RHR blip is <i>flagged, not acted on</i> — a likely mild illness, and her felt energy kept rising, so it settles the read.';
+ else t='<b>Now several levers move together</b> — iron, sleep (wk 8), alcohol (wk 5), movement — so the later gains are <span class="hi">confounded</span>; coach the dials but do not over-credit them. The HRV instrument trend agrees with the energy recovery, but it only <i>corroborates</i> — the felt report is what settles the bet.';
+ document.getElementById('cap').innerHTML=t+' Every quiet lane and every below-threshold gauge is itself a conversation: reassurance, with data.';
+}
+
+function renderConvo(){
+ const items=[
+  ['treat','Treat now — the move','<b>Iron deficiency (ferritin 14).</b> The cause of the low energy and fog; a gate, so it goes before the dials. The lever is repletion. "This is the main thing, and it\'s fixable."'],
+  ['watch','Watch — don\'t act yet','<b>Thyroid (TSH high-normal).</b> Borderline, inside the normal band; recheck in 6–8 weeks. "On the edge, worth rechecking — we don\'t treat it yet."'],
+  ['behav','Behavioral levers in play','<b>Sleep regularity, movement, alcohol.</b> The dials supporting recovery — but coach them <i>after</i> the gate, and don\'t over-credit them while iron is also working.'],
+  ['reassure','Reassure — screened &amp; below threshold','<b>Depression (PHQ-9 2), pain (PEG 2), apnea, substance use, HbA1c, B12 — all clear.</b> The highest-value conversation you can only have because you looked: "It is <i>not</i> depression, not apnea, not your sugar. We checked, and we keep checking item 9."'],
+  ['maintain','Maintain — in range','<b>Social contact, caffeine timing.</b> Adequate; nothing to change. Keep an eye if the picture shifts.'],
+  ['context','The backdrop','<b>Perimenopause.</b> Ties the night sweats → fragmented sleep → low energy, and explains the heavy periods behind the low iron. Route to menopause care; don\'t chase a hormone panel.'],
+  ['corro','Corroborate / rule out — instruments','<b>HRV, resting HR, temperature.</b> If she wears a ring: the HRV trend <i>agrees</i> she\'s recovering, and the wk-6 temp/RHR blip reads as a likely mild illness, not a setback. "Your own data agrees — and that odd week was a bug you were fighting." Measures, never the verdict — the felt report wins.'],
+ ];
+ document.getElementById('convo').innerHTML=items.map(([cls,t,l])=>'<div class="cbox '+cls+'"><div class="ct">'+t+'</div><div class="cl">'+l+'</div></div>').join('');
+}
+
+function render(){ document.getElementById('nowrv').textContent='wk '+now; renderPlanes(); renderBoard(); }
+renderConvo(); render();
+</script>
+</body></html>

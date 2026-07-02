@@ -1,5 +1,6 @@
-# Aleron MD Canonical Documents
+# Aleron canonical documents
 
-Static GitHub Pages bundle generated from `/Users/jasonyim/Projects/aleron-md/canonical-documents/index.html`.
+Generated public GitHub Pages bundle for travel-safe access.
 
-Local licensed font files are intentionally not included. The public bundle falls back to system fonts.
+Source of truth: `/Users/jasonyim/Projects/aleron-md`.
+Rebuild with: `python3 scripts/deploy-canonical-documents.py --deploy`.

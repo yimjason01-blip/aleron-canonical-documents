@@ -13,7 +13,7 @@
 /*  POLYSANS bundled local reference                                 */
 /*  The licensed files are copied into ./fonts for deterministic     */
 /*  local rendering. Each original weight is its own family, so this */
-/*  maps them into one CSS family named -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, Arial, sans-serif.                  */
+/*  maps them into one CSS family named "PolySans".                  */
 /* ================================================================ */
 
 
@@ -38,27 +38,32 @@
   --gold: #C9A14E;
   --lit-gold: #EACB7F;
   --text-gold: #8A6A2F;
+  --gold-800: #655127; /* brand gold scale: advisory text on inset (text-gold measures 4.3 there, gold-800 measures 6.6) */
   --ember: #A4452C;
 
   /* Semantic: day register (default) */
   --ground: var(--paper);
   --text-primary: var(--ink);
   --text-secondary: var(--slate);
-  --text-tertiary: rgba(90,99,120,0.60);
+  --text-tertiary: #6E6A63; /* 4.8:1 on paper · lowest legal reading gray */
   --surface-card: #FFFFFF;
   --surface-inset: #F1EDE6;
   --surface-sunken: #F5F1E8;
+  --surface-selected: var(--surface-inset); /* nav/tab selection: recessed inset on light */
   --border-subtle: rgba(29,27,24,0.10);
   --border-base: rgba(29,27,24,0.18);
   --border-strong: rgba(29,27,24,0.35);
+  --hairline: rgba(29,27,24,0.07); /* within-group row separators, lighter than border-subtle */
   --signal-forward: var(--gold);
   --signal-advisory: var(--text-gold);
   --signal-hazard: var(--ember);
   --signal-baseline: var(--slate);
   --signal-unmodeled: #4A6FA5; /* product extension: indigo for unmodeled window */
+  --control-primary-bg: var(--ink);
+  --control-primary-fg: var(--cream);
 
   /* Type */
-  --voice: -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, Arial, sans-serif, 'Hanken Grotesk', -apple-system, BlinkMacSystemFont, sans-serif;
+  --voice: 'PolySans', 'Hanken Grotesk', -apple-system, BlinkMacSystemFont, sans-serif;
   --audit: 'Space Mono', ui-monospace, Menlo, monospace;
 
   /* Type scale */
@@ -90,6 +95,7 @@
   --ease: cubic-bezier(0.4,0,0.2,1);
   --dur-fast: 150ms;
   --dur-base: 240ms;
+  --dur-slow: 400ms;
 
   /* Register v1 · the Cabin, tiered (register.html) */
   --surface-tier1: #FFFFFF;
@@ -98,6 +104,7 @@
   --radius-tier1: 16px;
   --radius-tier2: 12px;
   --radius-control: 10px;
+  --radius-tile: 4px;
   --shadow-tier1: 0 12px 36px rgba(29,27,24,0.09);
 }
 
@@ -105,18 +112,29 @@
 .night {
   --ground: var(--navy);
   --text-primary: var(--cream);
-  --text-secondary: rgba(245,241,232,0.55);
-  --text-tertiary: rgba(245,241,232,0.35);
+  --text-secondary: rgba(245,241,232,0.68); /* 6.7:1 on navy, 5.0:1 on gunmetal */
+  --text-tertiary: rgba(245,241,232,0.55);  /* non-content only below 0.68 */
   --surface-card: var(--gunmetal);
   --surface-inset: #20253A;
   --surface-sunken: #1C2030;
+  /* Selection lifts on dark (a recessed inset is invisible on navy): gunmetal reads
+     at ~1.29 against navy vs the inset's ~1.07, matching the light register's legibility. */
+  --surface-selected: var(--gunmetal);
+  /* Flight-deck tiers: shadow does not read on dark, so Tier 1 lifts by a lighter
+     panel + hairline ring; Tier 2 sinks by a darker inset. Same three-tier grammar. */
+  --surface-tier1: var(--gunmetal);
+  --surface-tier2: #20253A;
+  --shadow-tier1: 0 0 0 1px rgba(245,241,232,0.10);
   --border-subtle: rgba(245,241,232,0.08);
   --border-base: rgba(245,241,232,0.14);
   --border-strong: rgba(245,241,232,0.25);
   --signal-forward: var(--gold);
   --signal-advisory: var(--lit-gold);
   --signal-hazard: var(--ember);
-  --signal-baseline: rgba(245,241,232,0.55);
+  --signal-baseline: rgba(245,241,232,0.68);
+  --control-primary-bg: var(--cream);
+  --control-primary-fg: var(--ink);
+  --hairline: rgba(245,241,232,0.09);
 }
 
 /* ================================================================ */
@@ -166,11 +184,10 @@ a { color: inherit; text-decoration: none; }
   background-clip: text;
 }
 .ds-header-meta {
-  font-family: var(--audit);
-  font-size: 10px;
-  letter-spacing: 0.08em;
+  font-family: var(--voice);
+  font-size: 11px;
+  letter-spacing: 0;
   color: var(--slate);
-  text-transform: uppercase;
 }
 
 /* ================================================================ */
@@ -191,16 +208,16 @@ a { color: inherit; text-decoration: none; }
   overflow-y: auto;
   padding: 40px 20px 40px 32px;
   border-right: 1px solid var(--border-base);
-  font-family: var(--audit);
-  font-size: 10.5px;
-  letter-spacing: 0.06em;
+  font-family: var(--voice);
+  font-size: 12.5px;
+  letter-spacing: 0;
 }
 .ds-nav-label {
-  text-transform: uppercase;
-  color: var(--text-tertiary);
+  color: var(--text-secondary);
+  font-weight: 500;
   margin-bottom: 10px;
-  font-size: 9.5px;
-  letter-spacing: 0.1em;
+  font-size: 11px;
+  letter-spacing: 0;
 }
 .ds-nav ul { list-style: none; margin-bottom: 24px; }
 .ds-nav li { margin-bottom: 2px; }
@@ -238,10 +255,10 @@ section.ds-section {
 section.ds-section:first-child { border-top: none; padding-top: 48px; }
 
 .sec-label {
-  font-family: var(--audit);
-  font-size: 10px;
-  letter-spacing: 0.1em;
-  text-transform: uppercase;
+  font-family: var(--voice);
+  font-size: 12px;
+  font-weight: 500;
+  letter-spacing: 0;
   color: var(--slate);
   margin-bottom: 8px;
 }
@@ -304,16 +321,16 @@ section.ds-section:first-child { border-top: none; padding-top: 48px; }
   margin-bottom: 16px;
   color: var(--slate);
 }
-.night-demo .demo-label { color: rgba(245,241,232,0.45); }
+.night-demo .demo-label { color: rgba(245,241,232,0.68); }
 .demo-caption {
-  font-family: var(--audit);
-  font-size: 9.5px;
-  letter-spacing: 0.04em;
+  font-family: var(--voice);
+  font-size: 11px;
+  letter-spacing: 0;
   color: var(--text-tertiary);
   margin-top: 14px;
   line-height: 1.5;
 }
-.night-demo .demo-caption { color: rgba(245,241,232,0.40); }
+.night-demo .demo-caption { color: rgba(245,241,232,0.68); }
 
 /* ================================================================ */
 /*  COLOR MATERIALS                                                  */
@@ -341,16 +358,17 @@ section.ds-section:first-child { border-top: none; padding-top: 48px; }
   text-transform: capitalize;
 }
 .mat-hex {
-  font-family: var(--audit);
-  font-size: 9.5px;
+  font-family: var(--voice);
+  font-size: 11px;
   color: var(--slate);
-  letter-spacing: 0.04em;
+  font-variant-numeric: tabular-nums;
+  letter-spacing: 0;
 }
 .mat-role {
-  font-family: var(--audit);
-  font-size: 8.5px;
+  font-family: var(--voice);
+  font-size: 10.5px;
   color: var(--text-tertiary);
-  letter-spacing: 0.04em;
+  letter-spacing: 0;
   margin-top: 2px;
 }
 
@@ -364,7 +382,8 @@ section.ds-section:first-child { border-top: none; padding-top: 48px; }
   background: var(--border-base);
   border: 1px solid var(--border-base);
   margin: 16px 0;
-  font-family: var(--audit);
+  font-family: var(--voice);
+  font-variant-numeric: tabular-nums;
 }
 .igrid > div {
   padding: 10px 6px;
@@ -374,17 +393,17 @@ section.ds-section:first-child { border-top: none; padding-top: 48px; }
 }
 .igrid-h {
   background: var(--surface-inset);
-  font-weight: 700;
-  letter-spacing: 0.04em;
+  font-weight: 500;
+  letter-spacing: 0;
   color: var(--slate);
-  font-size: 9px;
+  font-size: 10px;
 }
 .igrid-rh {
   background: var(--surface-inset);
-  font-weight: 700;
-  letter-spacing: 0.04em;
+  font-weight: 500;
+  letter-spacing: 0;
   color: var(--slate);
-  font-size: 9px;
+  font-size: 10px;
   text-align: left;
   padding-left: 10px;
 }
@@ -397,15 +416,14 @@ section.ds-section:first-child { border-top: none; padding-top: 48px; }
   gap: 2px;
 }
 .igrid-cell .aa { font-family: var(--voice); font-size: 16px; font-weight: 500; }
-.igrid-cell .rt { font-size: 9px; color: var(--slate); }
-.igrid-cell.pass .rt { color: var(--text-gold); font-weight: 700; }
+.igrid-cell .rt { font-size: 10px; color: var(--slate); }
+.igrid-cell.pass .rt { color: var(--text-gold); font-weight: 500; }
 .igrid-cell.fail .rt { color: var(--text-tertiary); text-decoration: line-through; }
 .igrid-cell.fail .aa { opacity: 0.25; }
 .igrid-cell .use {
-  font-size: 7px;
-  letter-spacing: 0.05em;
+  font-size: 9.5px;
+  letter-spacing: 0;
   color: var(--text-tertiary);
-  text-transform: uppercase;
 }
 
 /* ================================================================ */
@@ -435,9 +453,10 @@ section.ds-section:first-child { border-top: none; padding-top: 48px; }
   margin-bottom: 16px;
 }
 .type-audit {
-  font-family: var(--audit);
-  font-size: var(--size-audit);
-  letter-spacing: 0.06em;
+  font-family: var(--voice);
+  font-weight: 500;
+  font-variant-numeric: tabular-nums;
+  font-size: 11.5px;
   color: var(--slate);
 }
 .type-scale {
@@ -452,16 +471,17 @@ section.ds-section:first-child { border-top: none; padding-top: 48px; }
   border-bottom: 1px solid var(--border-subtle);
 }
 .type-scale-role {
-  font-family: var(--audit);
-  font-size: 9.5px;
-  letter-spacing: 0.08em;
-  text-transform: uppercase;
+  font-family: var(--voice);
+  font-size: 11px;
+  font-weight: 500;
+  letter-spacing: 0;
   color: var(--slate);
 }
 .type-scale-sample { color: var(--ink); }
 .type-scale-spec {
-  font-family: var(--audit);
-  font-size: 9px;
+  font-family: var(--voice);
+  font-size: 10.5px;
+  font-variant-numeric: tabular-nums;
   color: var(--text-tertiary);
   text-align: right;
 }
@@ -522,6 +542,8 @@ section.ds-section:first-child { border-top: none; padding-top: 48px; }
 }
 .btn-dots span:nth-child(2) { opacity: 0.45; }
 .btn-dots span:nth-child(3) { opacity: 0.20; }
+/* On the night register the primary button inverts to a cream ground, so the dots invert to ink */
+.night-demo .btn-dots span, .night .btn-dots span { background: var(--ink); }
 
 /* Night buttons */
 .night-demo .btn--primary {
@@ -569,11 +591,12 @@ section.ds-section:first-child { border-top: none; padding-top: 48px; }
 .input:focus { outline: 2px solid var(--gold); outline-offset: 1px; }
 .input::placeholder { color: var(--text-tertiary); }
 .input-audit {
-  font-family: var(--audit);
+  font-family: var(--voice);
+  font-weight: 500;
   font-variant-numeric: tabular-nums;
 }
 .input-unit {
-  font-family: var(--audit);
+  font-family: var(--voice);
   font-size: 11px;
   color: var(--slate);
   margin-left: 4px;
@@ -582,6 +605,7 @@ section.ds-section:first-child { border-top: none; padding-top: 48px; }
 .card-demo {
   background: var(--surface-card);
   border: 1px solid var(--border-base);
+  border-radius: var(--radius-tier2);
   padding: 20px;
   margin: 12px 0;
 }
@@ -618,7 +642,7 @@ section.ds-section:first-child { border-top: none; padding-top: 48px; }
 .tab:hover { color: var(--ink); }
 .tab.active {
   color: var(--ink);
-  background: var(--surface-inset);
+  background: var(--surface-selected);
   font-weight: 500;
 }
 
@@ -627,14 +651,14 @@ section.ds-section:first-child { border-top: none; padding-top: 48px; }
 /* ================================================================ */
 .annunciator {
   border: 1px solid var(--border-base);
+  border-radius: var(--radius-control);
   padding: 11px 14px;
   margin: 12px 0;
 }
 .ann-label {
-  font-family: var(--audit);
-  font-size: 8.5px;
-  letter-spacing: 0.1em;
-  text-transform: uppercase;
+  font-family: var(--voice);
+  font-size: 11px;
+  font-weight: 500;
   color: var(--text-secondary);
   margin-bottom: 8px;
 }
@@ -647,15 +671,17 @@ section.ds-section:first-child { border-top: none; padding-top: 48px; }
 .ann-hazard {
   background: var(--ember);
   color: var(--cream);
-  font-family: var(--audit);
-  font-size: 10px;
-  letter-spacing: 0.06em;
+  font-family: var(--voice);
+  font-weight: 500;
+  font-size: 11px;
+  font-variant-numeric: tabular-nums;
   padding: 4px 10px;
+  border-radius: var(--radius-tile);
 }
 .ann-advisory {
-  font-family: var(--audit);
-  font-size: 10px;
-  letter-spacing: 0.05em;
+  font-family: var(--voice);
+  font-size: 11px;
+  font-variant-numeric: tabular-nums;
   color: var(--signal-advisory);
 }
 .annunciator.empty .ann-content { display: none; }
@@ -664,7 +690,7 @@ section.ds-section:first-child { border-top: none; padding-top: 48px; }
 .night-demo .annunciator {
   border-color: rgba(245,241,232,0.14);
 }
-.night-demo .ann-label { color: rgba(245,241,232,0.55); }
+.night-demo .ann-label { color: rgba(245,241,232,0.68); }
 .night-demo .ann-hazard {
   background: var(--ember);
   color: var(--cream);
@@ -699,20 +725,21 @@ section.ds-section:first-child { border-top: none; padding-top: 48px; }
   color: var(--ink);
 }
 .ct-value {
-  font-family: var(--audit);
-  font-size: 13px;
+  font-family: var(--voice);
+  font-weight: 500;
+  font-size: 13.5px;
   font-variant-numeric: tabular-nums;
   text-align: right;
   color: var(--ink);
 }
 .ct-unit {
-  font-family: var(--audit);
-  font-size: 10px;
+  font-family: var(--voice);
+  font-size: 10.5px;
   color: var(--slate);
 }
 .ct-trend {
-  font-family: var(--audit);
-  font-size: 10.5px;
+  font-family: var(--voice);
+  font-size: 11.5px;
 }
 .ct-trend.advisory { color: var(--signal-advisory); }
 .ct-trend.hazard { color: var(--signal-hazard); }
@@ -722,14 +749,13 @@ section.ds-section:first-child { border-top: none; padding-top: 48px; }
   color: var(--slate);
 }
 .ct-missing {
-  font-family: var(--audit);
+  font-family: var(--voice);
   font-size: 13px;
   color: var(--slate);
 }
 .ct-footer {
-  font-family: var(--audit);
-  font-size: 9px;
-  letter-spacing: 0.07em;
+  font-family: var(--voice);
+  font-size: 11.5px;
   color: var(--text-secondary);
   padding-top: 12px;
 }
@@ -738,33 +764,42 @@ section.ds-section:first-child { border-top: none; padding-top: 48px; }
 .night-demo .ct-group { color: var(--cream); border-top-color: rgba(245,241,232,0.25); }
 .night-demo .ct-name { color: rgba(245,241,232,0.70); }
 .night-demo .ct-value { color: rgba(245,241,232,0.88); }
-.night-demo .ct-unit { color: rgba(245,241,232,0.45); }
+.night-demo .ct-unit { color: rgba(245,241,232,0.68); }
 .night-demo .ct-trend.advisory { color: var(--lit-gold); }
 .night-demo .ct-trend.hazard,
 .night .ct-trend.hazard {
   background: var(--signal-hazard);
   color: var(--cream);
   padding: 1px 6px;
+  border-radius: var(--radius-tile);
   justify-self: start;
 }
-.night-demo .ct-note { color: rgba(245,241,232,0.45); }
-.night-demo .ct-missing { color: rgba(245,241,232,0.45); }
-.night-demo .ct-footer { color: rgba(245,241,232,0.45); }
+.night-demo .ct-note { color: rgba(245,241,232,0.68); }
+.night-demo .ct-missing { color: rgba(245,241,232,0.68); }
+.night-demo .ct-footer { color: rgba(245,241,232,0.68); }
 
 /* ================================================================ */
 /*  DOMAIN: ONE-THING CARD                                           */
 /* ================================================================ */
 .one-thing {
   background: var(--gunmetal);
-  border-left: 2px solid var(--gold);
+  border-radius: var(--radius-tier2);
   padding: 14px 16px;
   margin: 12px 0;
 }
+.ot-label::before {
+  content: '';
+  display: inline-block;
+  width: 18px; height: 3px;
+  border-radius: 2px;
+  background: var(--gold);
+  margin-right: 8px;
+  vertical-align: 2px;
+}
 .ot-label {
-  font-family: var(--audit);
-  font-size: 8.5px;
-  letter-spacing: 0.1em;
-  text-transform: uppercase;
+  font-family: var(--voice);
+  font-size: 11.5px;
+  font-weight: 500;
   color: var(--lit-gold);
   margin-bottom: 6px;
 }
@@ -783,18 +818,38 @@ section.ds-section:first-child { border-top: none; padding-top: 48px; }
 .ot-link {
   font-family: var(--voice);
   font-size: 12px;
-  color: rgba(245,241,232,0.55);
+  font-weight: 500;
+  color: var(--cream);
   white-space: nowrap;
 }
 
 /* Day variant of One-Thing */
 .one-thing.day {
-  background: var(--surface-card);
-  border-left-color: var(--gold);
+  background: var(--surface-tier1);
+  border-left: none;
+  border-radius: var(--radius-tier1);
+  box-shadow: var(--shadow-tier1);
+  padding: 18px 20px;
 }
-.one-thing.day .ot-label { color: var(--text-gold); }
+.one-thing.day .ot-label {
+  color: var(--text-gold);
+  font-family: var(--voice);
+  font-size: 12px;
+  font-weight: 500;
+  letter-spacing: 0;
+  text-transform: none;
+}
+.one-thing.day .ot-label::before {
+  content: '';
+  display: inline-block;
+  width: 18px; height: 3px;
+  border-radius: 2px;
+  background: var(--gold);
+  margin-right: 8px;
+  vertical-align: 2px;
+}
 .one-thing.day .ot-text { color: var(--ink); }
-.one-thing.day .ot-link { color: var(--slate); }
+.one-thing.day .ot-link { color: var(--ink); font-weight: 500; }
 
 /* ================================================================ */
 /*  DOMAIN: ACTION CARD                                              */
@@ -802,6 +857,7 @@ section.ds-section:first-child { border-top: none; padding-top: 48px; }
 .action-card {
   background: var(--surface-card);
   border: 1px solid var(--border-base);
+  border-radius: var(--radius-tier2);
   padding: 16px;
   margin: 10px 0;
 }
@@ -818,10 +874,10 @@ section.ds-section:first-child { border-top: none; padding-top: 48px; }
   color: var(--ink);
 }
 .ac-meta {
-  font-family: var(--audit);
-  font-size: 11px;
+  font-family: var(--voice);
+  font-size: 11.5px;
   color: var(--slate);
-  letter-spacing: 0.04em;
+  font-variant-numeric: tabular-nums;
 }
 .ac-body {
   font-family: var(--voice);
@@ -836,13 +892,12 @@ section.ds-section:first-child { border-top: none; padding-top: 48px; }
   align-items: center;
 }
 .ac-status {
-  font-family: var(--audit);
-  font-size: 10px;
-  letter-spacing: 0.06em;
-  text-transform: uppercase;
+  font-family: var(--voice);
+  font-size: 11.5px;
+  font-weight: 500;
 }
-.ac-status.pending { color: var(--slate); }
-.ac-status.accepted { color: var(--text-gold); }
+.ac-status.pending { color: var(--signal-baseline); }
+.ac-status.accepted { color: var(--signal-advisory); }
 .ac-status.deferred { color: var(--text-tertiary); }
 
 /* ================================================================ */
@@ -889,9 +944,9 @@ section.ds-section:first-child { border-top: none; padding-top: 48px; }
 }
 .ms-item.next-up .ms-label { color: var(--ink); font-weight: 500; }
 .ms-date {
-  font-family: var(--audit);
-  font-size: 9px;
-  letter-spacing: 0.04em;
+  font-family: var(--voice);
+  font-size: 11px;
+  font-variant-numeric: tabular-nums;
   color: var(--text-tertiary);
 }
 
@@ -900,21 +955,22 @@ section.ds-section:first-child { border-top: none; padding-top: 48px; }
 /* ================================================================ */
 .trajectory {
   border: 1px solid var(--border-base);
+  border-radius: var(--radius-tier2);
   padding: 16px;
   margin: 12px 0;
 }
 .traj-label {
-  font-family: var(--audit);
-  font-size: 8.5px;
-  letter-spacing: 0.1em;
-  text-transform: uppercase;
+  font-family: var(--voice);
+  font-size: 11.5px;
+  font-weight: 500;
   color: var(--text-secondary);
   margin-bottom: 10px;
 }
 .traj-svg { width: 100%; height: auto; display: block; }
 .traj-foot {
-  font-family: var(--audit);
-  font-size: 9px;
+  font-family: var(--voice);
+  font-size: 11px;
+  font-variant-numeric: tabular-nums;
   color: var(--text-secondary);
   margin-top: 8px;
 }
@@ -924,6 +980,7 @@ section.ds-section:first-child { border-top: none; padding-top: 48px; }
 /* ================================================================ */
 .mockup {
   border: 1px solid var(--border-base);
+  border-radius: var(--radius-tier2);
   margin: 20px 0;
   overflow: hidden;
 }
@@ -961,16 +1018,19 @@ section.ds-section:first-child { border-top: none; padding-top: 48px; }
   min-height: 520px;
 }
 /* Nav rail */
+/* Physician rail: the same codified mechanism as the member rail (R-laws),
+   resolved through the night tokens. Identity variant: the person is the
+   physician (the user), shown at the foot. */
 .cr-nav {
-  background: #20253A;
   padding: 16px 10px;
   display: flex;
   flex-direction: column;
+  gap: 3px;
 }
 .cr-nav-lockup {
   font-family: var(--voice);
   font-size: 17px;
-  color: var(--cream);
+  color: var(--text-primary);
   padding: 0 10px 16px;
 }
 .cr-nav-lockup .md {
@@ -985,34 +1045,37 @@ section.ds-section:first-child { border-top: none; padding-top: 48px; }
   display: flex;
   align-items: center;
   gap: 10px;
-  padding: 7px 10px;
+  padding: 9px 12px;
+  border-radius: var(--radius-control);
   font-family: var(--voice);
-  font-size: 12.5px;
-  color: var(--cream);
-  opacity: 0.55;
+  font-size: 13.5px;
+  color: var(--text-secondary);
+  cursor: pointer;
+  line-height: 1.2;
+  white-space: nowrap;
 }
 .cr-nav-item.active {
-  background: rgba(245,241,232,0.07);
-  opacity: 1;
+  background: var(--surface-selected);
+  color: var(--text-primary);
   font-weight: 500;
 }
-.cr-nav-item svg { flex-shrink: 0; }
+.cr-nav-item svg { flex-shrink: 0; width: 16px; height: 16px; }
+.cr-nav-item svg, .refsurf .r-item svg { stroke-linecap: round; stroke-linejoin: round; }
 .cr-nav-foot {
   margin-top: auto;
   padding: 12px 10px 0;
-  border-top: 1px solid rgba(245,241,232,0.10);
+  border-top: 1px solid var(--border-subtle);
 }
 .cr-nav-foot-name {
-  font-family: var(--audit);
-  font-size: 8.5px;
-  letter-spacing: 0.08em;
-  color: rgba(245,241,232,0.55);
+  font-family: var(--voice);
+  font-size: 11px;
+  font-weight: 500;
+  color: var(--text-primary);
 }
 .cr-nav-foot-id {
-  font-family: var(--audit);
-  font-size: 7.5px;
-  letter-spacing: 0.08em;
-  color: rgba(245,241,232,0.35);
+  font-family: var(--voice);
+  font-size: 10px;
+  color: var(--text-secondary);
   margin-top: 3px;
 }
 /* Main */
@@ -1030,13 +1093,13 @@ section.ds-section:first-child { border-top: none; padding-top: 48px; }
   color: var(--cream);
 }
 .cr-greeting-meta {
-  font-family: var(--audit);
-  font-size: 8.5px;
-  letter-spacing: 0.08em;
-  color: rgba(245,241,232,0.55);
+  font-family: var(--voice);
+  font-size: 11px;
+  color: rgba(245,241,232,0.68);
   margin-top: 4px;
 }
 .cr-msg-btn {
+  border-radius: var(--radius-control);
   padding: 7px 14px;
   background: transparent;
   color: var(--cream);
@@ -1052,15 +1115,15 @@ section.ds-section:first-child { border-top: none; padding-top: 48px; }
 }
 .cr-context-card {
   border: 1px solid rgba(245,241,232,0.14);
+  border-radius: var(--radius-tier2);
   padding: 12px 14px;
   margin-bottom: 12px;
 }
 .cr-context-label {
-  font-family: var(--audit);
-  font-size: 8px;
-  letter-spacing: 0.1em;
-  text-transform: uppercase;
-  color: rgba(245,241,232,0.55);
+  font-family: var(--voice);
+  font-size: 11px;
+  font-weight: 500;
+  color: rgba(245,241,232,0.68);
   margin-bottom: 8px;
 }
 .cr-context-body {
@@ -1070,9 +1133,9 @@ section.ds-section:first-child { border-top: none; padding-top: 48px; }
   line-height: 1.6;
 }
 .cr-context-date {
-  font-family: var(--audit);
-  font-size: 9px;
-  color: rgba(245,241,232,0.45);
+  font-family: var(--voice);
+  font-size: 11px;
+  color: rgba(245,241,232,0.68);
   margin-top: 4px;
 }
 
@@ -1086,15 +1149,14 @@ section.ds-section:first-child { border-top: none; padding-top: 48px; }
   font-size: 12.5px;
 }
 .token-table th {
-  font-family: var(--audit);
-  font-size: 9.5px;
-  letter-spacing: 0.08em;
-  text-transform: uppercase;
+  font-family: var(--voice);
+  font-size: 11px;
+  letter-spacing: 0;
   color: var(--slate);
   text-align: left;
   padding: 8px 12px 8px 0;
   border-bottom: 1px solid var(--border-strong);
-  font-weight: 400;
+  font-weight: 500;
 }
 .token-table td {
   padding: 7px 12px 7px 0;
@@ -1103,8 +1165,9 @@ section.ds-section:first-child { border-top: none; padding-top: 48px; }
   vertical-align: top;
 }
 .token-table td:first-child {
-  font-family: var(--audit);
-  font-size: 11.5px;
+  font-family: var(--voice);
+  font-weight: 500;
+  font-size: 12.5px;
   color: var(--ink);
 }
 .token-table .swatch-cell {
@@ -1133,8 +1196,10 @@ section.ds-section:first-child { border-top: none; padding-top: 48px; }
 }
 .rules li:last-child { border-bottom: none; }
 .rules .rule-num {
-  font-family: var(--audit);
-  font-size: 10px;
+  font-family: var(--voice);
+  font-weight: 500;
+  font-size: 11px;
+  font-variant-numeric: tabular-nums;
   color: var(--text-gold);
   flex-shrink: 0;
   width: 24px;
@@ -1188,11 +1253,10 @@ section.ds-section:first-child { border-top: none; padding-top: 48px; }
   margin: 0 auto;
   display: flex;
   justify-content: space-between;
-  font-family: var(--audit);
-  font-size: 9.5px;
-  letter-spacing: 0.08em;
+  font-family: var(--voice);
+  font-size: 11px;
+  letter-spacing: 0;
   color: var(--slate);
-  text-transform: uppercase;
 }
 
 /* ================================================================ */
@@ -1218,11 +1282,12 @@ section.ds-section:first-child { border-top: none; padding-top: 48px; }
   background: var(--surface-inset);
   padding: 2px 6px;
   border: 1px solid var(--border-base);
+  border-radius: var(--radius-tile);
 }
 .fine {
-  font-family: var(--audit);
-  font-size: 9.5px;
-  letter-spacing: 0.04em;
+  font-family: var(--voice);
+  font-size: 11px;
+  letter-spacing: 0;
   color: var(--text-tertiary);
   line-height: 1.6;
 }
@@ -1234,6 +1299,7 @@ section.ds-section:first-child { border-top: none; padding-top: 48px; }
   display: grid;
   grid-template-columns: 160px 1fr;
   border: 1px solid var(--border-base);
+  border-radius: var(--radius-tier2);
   margin: 16px 0;
   min-height: 240px;
   overflow: hidden;
@@ -1244,11 +1310,11 @@ section.ds-section:first-child { border-top: none; padding-top: 48px; }
   background: var(--surface-inset);
 }
 .ai-rail-label {
-  font-family: var(--audit);
-  font-size: 8.5px;
-  letter-spacing: 0.1em;
-  text-transform: uppercase;
-  color: var(--text-tertiary);
+  font-family: var(--voice);
+  font-size: 10.5px;
+  font-weight: 500;
+  letter-spacing: 0;
+  color: var(--text-secondary);
   margin-bottom: 12px;
 }
 .ai-topic {
@@ -1286,12 +1352,12 @@ section.ds-section:first-child { border-top: none; padding-top: 48px; }
 .ai-msg.user .ai-msg-bubble {
   background: var(--surface-inset);
   padding: 10px 14px;
+  border-radius: var(--radius-tier2);
 }
 .ai-msg.assistant .ai-msg-bubble { padding: 0; }
 .ai-msg-source {
-  font-family: var(--audit);
-  font-size: 9px;
-  letter-spacing: 0.05em;
+  font-family: var(--voice);
+  font-size: 11px;
   color: var(--text-tertiary);
   margin-top: 6px;
   font-variant-numeric: tabular-nums;
@@ -1314,6 +1380,7 @@ section.ds-section:first-child { border-top: none; padding-top: 48px; }
   gap: 5px;
   padding: 4px 10px;
   border: 1px solid var(--border-subtle);
+  border-radius: var(--radius-control);
   background: transparent;
   font-family: var(--voice);
   font-size: 12px;
@@ -1326,6 +1393,7 @@ section.ds-section:first-child { border-top: none; padding-top: 48px; }
 .preset-chips { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 12px; }
 .preset-chip {
   padding: 7px 12px;
+  border-radius: 8px;
   border: 1px solid var(--border-subtle);
   background: transparent;
   font-family: var(--voice);
@@ -1339,18 +1407,19 @@ section.ds-section:first-child { border-top: none; padding-top: 48px; }
   display: inline-flex;
   align-items: center;
   gap: 4px;
-  font-family: var(--audit);
-  font-size: 9.5px;
-  letter-spacing: 0.06em;
-  color: var(--text-gold);
+  font-family: var(--voice);
+  font-size: 11.5px;
+  font-weight: 500;
+  letter-spacing: 0;
+  color: var(--ink);
   cursor: pointer;
   margin-top: 8px;
-  text-transform: uppercase;
 }
 .ai-graduate:hover { color: var(--ink); }
 .escalate-pair { display: flex; gap: 12px; margin-top: 16px; }
 .escalate-btn {
   flex: 1;
+  border-radius: var(--radius-control);
   padding: 11px 14px;
   font-family: var(--voice);
   font-size: 13px;
@@ -1379,10 +1448,9 @@ section.ds-section:first-child { border-top: none; padding-top: 48px; }
 .confidence.moderate .conf-bar.on { background: var(--signal-advisory); }
 .confidence.low .conf-bar.on { background: var(--signal-hazard); }
 .conf-label {
-  font-family: var(--audit);
-  font-size: 9px;
-  letter-spacing: 0.08em;
-  text-transform: uppercase;
+  font-family: var(--voice);
+  font-size: 11px;
+  font-weight: 500;
   min-width: 70px;
 }
 .confidence.high .conf-label { color: var(--signal-baseline); }
@@ -1392,11 +1460,12 @@ section.ds-section:first-child { border-top: none; padding-top: 48px; }
   background: var(--signal-hazard);
   color: var(--cream);
   padding: 1px 6px;
+  border-radius: var(--radius-tile);
   min-width: 0;
 }
 .conf-basis {
-  font-family: var(--audit);
-  font-size: 9px;
+  font-family: var(--voice);
+  font-size: 10.5px;
   color: var(--text-tertiary);
   font-variant-numeric: tabular-nums;
 }
@@ -1410,32 +1479,32 @@ section.ds-section:first-child { border-top: none; padding-top: 48px; }
   color: var(--text-secondary);
   line-height: 1.5;
 }
-.ev-layer.summary { border-left-color: var(--gold); color: var(--ink); }
+.ev-layer.summary { border-left-color: var(--border-strong); color: var(--ink); font-weight: 500; }
 .ev-layer.detail { padding-left: 20px; }
 .ev-layer.citation {
   padding-left: 20px;
-  font-family: var(--audit);
-  font-size: 10px;
+  font-family: var(--voice);
+  font-size: 11.5px;
   color: var(--text-tertiary);
-  letter-spacing: 0.04em;
   font-variant-numeric: tabular-nums;
 }
 .limit-note {
-  font-family: var(--audit);
-  font-size: 9.5px;
-  letter-spacing: 0.05em;
-  color: var(--text-tertiary);
+  font-family: var(--voice);
+  font-size: 12px;
+  letter-spacing: 0;
+  color: var(--text-secondary);
   padding: 8px 12px;
   border: 1px solid var(--border-subtle);
+  border-radius: var(--radius-tier2);
   margin: 12px 0;
 }
 .override-link {
-  font-family: var(--audit);
-  font-size: 9.5px;
-  letter-spacing: 0.06em;
-  color: var(--text-tertiary);
+  font-family: var(--voice);
+  font-size: 11.5px;
+  font-weight: 500;
+  letter-spacing: 0;
+  color: var(--text-secondary);
   cursor: pointer;
-  text-transform: uppercase;
 }
 .override-link:hover { color: var(--signal-hazard); }
 
@@ -1447,6 +1516,7 @@ section.ds-section:first-child { border-top: none; padding-top: 48px; }
 .mic-btn {
   width: 44px;
   height: 44px;
+  border-radius: 50%;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -1471,11 +1541,10 @@ section.ds-section:first-child { border-top: none; padding-top: 48px; }
 .mic-btn.processing { color: var(--signal-advisory); border-color: var(--signal-advisory); }
 .mic-btn.error { color: var(--signal-hazard); border-color: var(--signal-hazard); }
 .mic-state-label {
-  font-family: var(--audit);
-  font-size: 8.5px;
-  letter-spacing: 0.08em;
-  text-transform: uppercase;
-  color: var(--text-tertiary);
+  font-family: var(--voice);
+  font-size: 10.5px;
+  letter-spacing: 0;
+  color: var(--text-secondary);
 }
 .waveform {
   display: flex;
@@ -1495,6 +1564,7 @@ section.ds-section:first-child { border-top: none; padding-top: 48px; }
 }
 .transcript-field {
   border: 1px solid var(--border-base);
+  border-radius: var(--radius-tier2);
   padding: 12px 14px;
   margin: 12px 0;
   min-height: 48px;
@@ -1516,6 +1586,7 @@ section.ds-section:first-child { border-top: none; padding-top: 48px; }
   gap: 12px;
   padding: 10px 14px;
   border: 1px solid var(--border-subtle);
+  border-radius: var(--radius-tier2);
   margin: 12px 0;
 }
 .vp-play {
@@ -1525,6 +1596,7 @@ section.ds-section:first-child { border-top: none; padding-top: 48px; }
   align-items: center;
   justify-content: center;
   border: 1px solid var(--border-base);
+  border-radius: var(--radius-control);
   background: transparent;
   color: var(--ink);
   cursor: pointer;
@@ -1546,15 +1618,16 @@ section.ds-section:first-child { border-top: none; padding-top: 48px; }
   background: var(--slate);
 }
 .vp-time {
-  font-family: var(--audit);
-  font-size: 10px;
-  color: var(--text-tertiary);
+  font-family: var(--voice);
+  font-size: 11px;
+  color: var(--text-secondary);
   font-variant-numeric: tabular-nums;
   white-space: nowrap;
 }
 .vp-speed {
-  font-family: var(--audit);
-  font-size: 10px;
+  font-family: var(--voice);
+  font-size: 11px;
+  font-weight: 500;
   color: var(--slate);
   cursor: pointer;
   white-space: nowrap;
@@ -1565,16 +1638,15 @@ section.ds-section:first-child { border-top: none; padding-top: 48px; }
 /* ================================================================ */
 .proposed-action {
   border: 1px solid var(--border-base);
-  border-left: 3px solid var(--gold);
+  border-radius: var(--radius-tier2);
   padding: 16px 18px;
   margin: 12px 0;
   background: var(--surface-card);
 }
 .pa-label {
-  font-family: var(--audit);
-  font-size: 8.5px;
-  letter-spacing: 0.1em;
-  text-transform: uppercase;
+  font-family: var(--voice);
+  font-size: 11px;
+  font-weight: 500;
   color: var(--signal-advisory);
   margin-bottom: 8px;
 }
@@ -1594,6 +1666,7 @@ section.ds-section:first-child { border-top: none; padding-top: 48px; }
 }
 .pa-controls { display: flex; gap: 10px; margin-top: 14px; }
 .pa-btn {
+  border-radius: var(--radius-control);
   padding: 8px 16px;
   font-family: var(--voice);
   font-size: 12.5px;
@@ -1614,6 +1687,7 @@ section.ds-section:first-child { border-top: none; padding-top: 48px; }
   gap: 12px;
   padding: 10px 14px;
   border: 1px solid var(--border-subtle);
+  border-radius: var(--radius-tier2);
   margin: 10px 0;
 }
 .bg-task-icon {
@@ -1634,10 +1708,9 @@ section.ds-section:first-child { border-top: none; padding-top: 48px; }
   flex: 1;
 }
 .bg-task-status {
-  font-family: var(--audit);
-  font-size: 9.5px;
-  letter-spacing: 0.06em;
-  text-transform: uppercase;
+  font-family: var(--voice);
+  font-size: 11px;
+  font-weight: 500;
   color: var(--signal-advisory);
 }
 .bg-task.done .bg-task-icon { background: var(--signal-baseline); animation: none; }
@@ -1647,10 +1720,9 @@ section.ds-section:first-child { border-top: none; padding-top: 48px; }
   display: inline-flex;
   align-items: center;
   gap: 6px;
-  font-family: var(--audit);
-  font-size: 9px;
-  letter-spacing: 0.06em;
-  text-transform: uppercase;
+  font-family: var(--voice);
+  font-size: 11px;
+  letter-spacing: 0;
   color: var(--text-secondary);
 }
 .agent-badge .dot { width: 6px; height: 6px; border-radius: 50%; }
@@ -1663,6 +1735,7 @@ section.ds-section:first-child { border-top: none; padding-top: 48px; }
 /*  INTERACTION: NOTIFICATION AND AMBIENT                            */
 /* ================================================================ */
 .toast {
+  border-radius: var(--radius-control);
   padding: 12px 16px;
   background: var(--ink);
   color: var(--cream);
@@ -1673,20 +1746,22 @@ section.ds-section:first-child { border-top: none; padding-top: 48px; }
   margin: 12px 0;
 }
 .toast.warn { background: var(--ember); }
+.toast.warn .toast-meta { color: var(--cream); }
 .toast-meta {
-  font-family: var(--audit);
-  font-size: 9px;
-  letter-spacing: 0.05em;
-  color: rgba(245,241,232,0.6);
+  font-family: var(--voice);
+  font-size: 11px;
+  color: rgba(245,241,232,0.85);
   margin-top: 4px;
 }
 .live-val {
-  font-family: var(--audit);
+  font-family: var(--voice);
+  font-weight: 500;
   font-size: 14px;
   font-variant-numeric: tabular-nums;
   color: var(--ink);
   padding: 2px 6px;
   background: rgba(201,161,78,0.15);
+  border-radius: var(--radius-tile);
   animation: live-fade 3s var(--ease) forwards;
 }
 @keyframes live-fade {
@@ -1697,10 +1772,9 @@ section.ds-section:first-child { border-top: none; padding-top: 48px; }
   display: inline-flex;
   align-items: center;
   gap: 6px;
-  font-family: var(--audit);
-  font-size: 9.5px;
-  letter-spacing: 0.06em;
-  text-transform: uppercase;
+  font-family: var(--voice);
+  font-size: 11px;
+  font-weight: 500;
   color: var(--text-secondary);
 }
 .conn-dot { width: 6px; height: 6px; border-radius: 50%; }
@@ -1735,11 +1809,13 @@ section.ds-section:first-child { border-top: none; padding-top: 48px; }
   display: flex;
   align-items: center;
   justify-content: center;
-  font-family: var(--audit);
-  font-size: 9px;
-  font-weight: 700;
+  font-family: var(--voice);
+  font-size: 11px;
+  font-weight: 500;
+  font-variant-numeric: tabular-nums;
   color: var(--text-tertiary);
   border: 1px solid var(--border-base);
+  border-radius: 4px;
   background: var(--paper);
   position: relative;
   z-index: 1;
@@ -1759,6 +1835,7 @@ section.ds-section:first-child { border-top: none; padding-top: 48px; }
 
 .consent-surface {
   border: 1px solid var(--border-base);
+  border-radius: var(--radius-tier2);
   padding: 20px;
   margin: 16px 0;
 }
@@ -1777,9 +1854,9 @@ section.ds-section:first-child { border-top: none; padding-top: 48px; }
   margin-bottom: 14px;
 }
 .consent-meta {
-  font-family: var(--audit);
-  font-size: 9px;
-  letter-spacing: 0.04em;
+  font-family: var(--voice);
+  font-size: 11px;
+  letter-spacing: 0;
   color: var(--text-tertiary);
   font-variant-numeric: tabular-nums;
   margin-bottom: 14px;
@@ -1791,11 +1868,14 @@ section.ds-section:first-child { border-top: none; padding-top: 48px; }
   color: var(--cream);
   font-family: var(--voice);
   font-size: 13px;
+  border-radius: var(--radius-control);
   cursor: pointer;
 }
 
 .disclosure {
   border: 1px solid var(--border-subtle);
+  border-radius: var(--radius-tier2);
+  overflow: hidden;
   margin: 12px 0;
 }
 .disclosure-summary {
@@ -1838,39 +1918,42 @@ section.ds-section:first-child { border-top: none; padding-top: 48px; }
   margin: 12px 0;
 }
 .lab-result-table th {
-  font-family: var(--audit);
-  font-size: 8.5px;
-  letter-spacing: 0.1em;
-  text-transform: uppercase;
-  color: var(--text-tertiary);
+  font-family: var(--voice);
+  font-size: 11px;
+  letter-spacing: 0;
+  color: var(--text-secondary);
   text-align: left;
   padding: 8px 12px;
   border-bottom: 1px solid var(--border-base);
-  font-weight: 400;
+  font-weight: 500;
 }
 .lab-result-table td {
   padding: 10px 12px;
   border-bottom: 1px solid var(--border-subtle);
-  font-family: var(--audit);
-  font-size: 12px;
+  font-family: var(--voice);
+  font-weight: 500;
+  font-size: 12.5px;
   font-variant-numeric: tabular-nums;
   color: var(--ink);
 }
 .lab-result-table .lab-name {
   font-family: var(--voice);
+  font-weight: 400;
   font-size: 13px;
 }
 .lab-flag {
   display: inline-block;
   width: 8px;
   height: 8px;
+  border-radius: 50%;
 }
-.lab-flag.normal { background: var(--slate); }
-.lab-flag.elevated { background: var(--text-gold); }
-.lab-flag.hazard { background: var(--ember); }
+.lab-flag.normal { background: var(--signal-baseline); }
+.lab-flag.elevated { background: var(--signal-advisory); }
+.lab-flag.hazard { background: var(--signal-hazard); }
 
 .upload-zone {
   border: 1px dashed var(--border-base);
+  border-radius: var(--radius-tier2);
   padding: 32px 20px;
   text-align: center;
   margin: 12px 0;
@@ -1879,7 +1962,7 @@ section.ds-section:first-child { border-top: none; padding-top: 48px; }
 }
 .upload-zone:hover { border-color: var(--border-strong); }
 .upload-icon {
-  font-family: var(--audit);
+  font-family: var(--voice);
   font-size: 18px;
   color: var(--text-tertiary);
   margin-bottom: 8px;
@@ -1890,11 +1973,11 @@ section.ds-section:first-child { border-top: none; padding-top: 48px; }
   color: var(--text-secondary);
 }
 .upload-hint {
-  font-family: var(--audit);
-  font-size: 9px;
+  font-family: var(--voice);
+  font-size: 10.5px;
   color: var(--text-tertiary);
   margin-top: 6px;
-  letter-spacing: 0.04em;
+  letter-spacing: 0;
 }
 
 .prom-item {
@@ -1911,6 +1994,8 @@ section.ds-section:first-child { border-top: none; padding-top: 48px; }
 .prom-scale {
   display: flex;
   border: 1px solid var(--border-subtle);
+  border-radius: var(--radius-control);
+  overflow: hidden;
 }
 .prom-opt {
   flex: 1;
@@ -1925,45 +2010,49 @@ section.ds-section:first-child { border-top: none; padding-top: 48px; }
 }
 .prom-opt:last-child { border-right: none; }
 .prom-opt:hover { background: var(--surface-inset); color: var(--ink); }
-.prom-opt.selected { background: var(--ink); color: var(--cream); }
+.prom-opt.selected { background: var(--surface-inset); color: var(--ink); font-weight: 500; }
 
 /* ================================================================ */
 /*  WORKED EXAMPLES: phone frame + assembly helpers                 */
 /* ================================================================ */
 .we-row { display: flex; gap: 28px; flex-wrap: wrap; align-items: flex-start; margin: 16px 0; }
 .we-cap {
-  font-family: var(--audit);
-  font-size: 9px;
-  letter-spacing: 0.07em;
-  text-transform: uppercase;
-  color: var(--text-tertiary);
+  font-family: var(--voice);
+  font-size: 11px;
+  letter-spacing: 0;
+  color: var(--text-secondary);
   text-align: center;
   margin-top: 10px;
 }
+/* Device frame · iPhone 16 Pro · 393 x 852 pt · 19.5:9 · Dynamic Island.
+   One device, one aspect ratio: the frame is a neutral ruler, not a subject. */
 .phone {
   width: 300px;
-  border: 10px solid #15171C;
-  border-radius: 36px;
-  background: #15171C;
+  border: 9px solid var(--graphite);
+  border-radius: 46px;
+  background: var(--graphite);
   overflow: hidden;
   flex-shrink: 0;
-  box-shadow: 0 16px 44px -16px rgba(29,27,24,0.45);
+  position: relative;
+  box-shadow: 0 8px 24px -14px rgba(29,27,24,0.28);
 }
-.phone-notch { height: 24px; background: #15171C; position: relative; }
-.phone-notch::after {
-  content: '';
+.phone-notch { /* Dynamic Island, overlaid on the screen */
   position: absolute;
-  top: 8px; left: 50%;
+  top: 10px; left: 50%;
   transform: translateX(-50%);
-  width: 92px; height: 6px;
-  border-radius: 3px;
+  width: 86px; height: 24px;
+  border-radius: 13px;
   background: #000;
+  z-index: 5;
 }
+.phone-notch::after { content: none; }
 .phone-screen {
   background: var(--paper);
-  min-height: 580px;
+  aspect-ratio: 393 / 852;
+  padding-top: 24px; /* status-bar safe area, clears the Dynamic Island */
   display: flex;
   flex-direction: column;
+  overflow: hidden;
 }
 .phone-screen.night { background: var(--navy); }
 .ps-body { flex: 1; padding: 16px 16px 4px; overflow: hidden; }
@@ -1979,13 +2068,12 @@ section.ds-section:first-child { border-top: none; padding-top: 48px; }
 .phone-screen.night .ps-lockup { color: var(--cream); }
 .phone-screen.night .ps-lockup .md { color: var(--lit-gold); }
 .ps-stamp {
-  font-family: var(--audit);
-  font-size: 8px;
-  letter-spacing: 0.08em;
-  text-transform: uppercase;
+  font-family: var(--voice);
+  font-size: 10.5px;
+  letter-spacing: 0;
   color: var(--text-tertiary);
 }
-.phone-screen.night .ps-stamp { color: rgba(245,241,232,0.5); }
+.phone-screen.night .ps-stamp { color: rgba(245,241,232,0.68); }
 .ps-h {
   font-family: var(--voice);
   font-size: 20px;
@@ -2009,22 +2097,22 @@ section.ds-section:first-child { border-top: none; padding-top: 48px; }
   flex: 1;
   text-align: center;
   padding: 9px 0 13px;
-  font-family: var(--audit);
-  font-size: 7.5px;
-  letter-spacing: 0.05em;
-  text-transform: uppercase;
-  color: var(--text-tertiary);
+  font-family: var(--voice);
+  font-size: 10.5px;
+  letter-spacing: 0;
+  color: var(--text-secondary);
 }
 .ps-tab .ico {
   display: block;
   width: 18px; height: 18px;
   margin: 0 auto 4px;
   border: 1.5px solid var(--text-tertiary);
+  border-radius: var(--radius-tile);
 }
 .ps-tab.active { color: var(--ink); }
 .ps-tab.active .ico { border-color: var(--ink); background: var(--surface-inset); }
-.phone-screen.night .ps-tab { color: rgba(245,241,232,0.45); }
-.phone-screen.night .ps-tab .ico { border-color: rgba(245,241,232,0.45); }
+.phone-screen.night .ps-tab { color: rgba(245,241,232,0.68); }
+.phone-screen.night .ps-tab .ico { border-color: rgba(245,241,232,0.68); }
 .phone-screen.night .ps-tab.active { color: var(--cream); }
 .phone-screen.night .ps-tab.active .ico { border-color: var(--cream); background: rgba(245,241,232,0.08); }
 
@@ -2032,25 +2120,24 @@ section.ds-section:first-child { border-top: none; padding-top: 48px; }
 .sym-card {
   border: 1px solid var(--border-base);
   background: var(--surface-card);
-  padding: 14px;
-  margin: 12px 0;
+  border-radius: var(--radius-tier2);
+  padding: 12px 14px;
+  margin: 10px 0;
 }
 .sym-card-label {
-  font-family: var(--audit);
-  font-size: 8px;
-  letter-spacing: 0.1em;
-  text-transform: uppercase;
+  font-family: var(--voice);
+  font-size: 11px;
+  font-weight: 500;
   color: var(--text-tertiary);
-  margin-bottom: 12px;
+  margin-bottom: 10px;
 }
-.sym-group { margin-bottom: 12px; }
+.sym-group { margin-bottom: 8px; }
 .sym-name {
-  font-family: var(--audit);
-  font-size: 9px;
-  letter-spacing: 0.08em;
-  text-transform: uppercase;
+  font-family: var(--voice);
+  font-size: 11px;
+  font-weight: 500;
   color: var(--ink);
-  margin-bottom: 6px;
+  margin-bottom: 4px;
 }
 .sym-chips { display: flex; flex-wrap: wrap; gap: 5px; }
 .sym-chip {
@@ -2058,10 +2145,12 @@ section.ds-section:first-child { border-top: none; padding-top: 48px; }
   font-size: 11px;
   color: var(--text-secondary);
   border: 1px solid var(--border-subtle);
+  border-radius: var(--radius-tile);
   padding: 3px 8px;
 }
-.confirm-row { display: flex; gap: 8px; margin-top: 6px; }
+.confirm-row { display: flex; gap: 8px; margin-top: 4px; }
 .confirm-btn {
+  border-radius: var(--radius-control);
   flex: 1;
   text-align: center;
   padding: 9px;
@@ -2072,24 +2161,23 @@ section.ds-section:first-child { border-top: none; padding-top: 48px; }
 .confirm-btn.primary { background: var(--ink); color: var(--cream); }
 .confirm-btn.ghost { border: 1px solid var(--border-base); color: var(--text-secondary); }
 .route-card {
-  border-left: 3px solid var(--gold);
   background: var(--surface-inset);
-  padding: 12px 14px;
-  margin-top: 14px;
+  border-radius: var(--radius-tier2);
+  padding: 10px 14px;
+  margin-top: 8px;
 }
 .route-body {
   font-family: var(--voice);
   font-size: 13px;
   color: var(--ink);
   line-height: 1.5;
-  margin-bottom: 8px;
+  margin-bottom: 4px;
 }
 .route-action {
-  font-family: var(--audit);
-  font-size: 9.5px;
-  letter-spacing: 0.06em;
-  text-transform: uppercase;
-  color: var(--text-gold);
+  font-family: var(--voice);
+  font-size: 12px;
+  font-weight: 500;
+  color: var(--ink);
   cursor: pointer;
 }
 .mic-stage {
@@ -2100,11 +2188,11 @@ section.ds-section:first-child { border-top: none; padding-top: 48px; }
   padding: 10px 0 14px;
 }
 .mic-timer {
-  font-family: var(--audit);
+  font-family: var(--voice);
+  font-weight: 500;
   font-size: 13px;
   font-variant-numeric: tabular-nums;
   color: var(--ember);
-  letter-spacing: 0.06em;
 }
 .phone-screen.night .mic-timer { color: var(--cream); }
 
@@ -2119,20 +2207,21 @@ section.ds-section:first-child { border-top: none; padding-top: 48px; }
 .hub-check {
   width: 20px; height: 20px;
   flex-shrink: 0;
+  border-radius: 6px;
   border: 1px solid var(--border-base);
   display: flex;
   align-items: center;
   justify-content: center;
-  font-family: var(--audit);
+  font-family: var(--voice);
   font-size: 11px;
   color: var(--text-tertiary);
 }
 .hub-task.done .hub-check { background: var(--slate); border-color: var(--slate); color: var(--cream); }
-.hub-task.now .hub-check { border-color: var(--gold); color: var(--text-gold); }
+.hub-task.now .hub-check { border-color: var(--border-strong); color: var(--ink); }
 .hub-task-body { flex: 1; }
 .hub-task-title { font-family: var(--voice); font-size: 13.5px; color: var(--ink); }
 .hub-task.done .hub-task-title { color: var(--text-secondary); }
-.hub-task-meta { font-family: var(--audit); font-size: 9px; letter-spacing: 0.04em; color: var(--text-tertiary); margin-top: 2px; }
+.hub-task-meta { font-family: var(--voice); font-size: 11px; color: var(--text-tertiary); margin-top: 2px; }
 
 /* Physician intelligence inbound voice card (navy) */
 .pi-body {
@@ -2144,15 +2233,14 @@ section.ds-section:first-child { border-top: none; padding-top: 48px; }
 }
 .inbound-voice {
   border: 1px solid rgba(245,241,232,0.18);
-  border-left: 3px solid var(--gold);
+  border-radius: var(--radius-tier2);
   padding: 13px 15px;
   margin-bottom: 14px;
 }
 .iv-label {
-  font-family: var(--audit);
-  font-size: 8px;
-  letter-spacing: 0.1em;
-  text-transform: uppercase;
+  font-family: var(--voice);
+  font-size: 11px;
+  font-weight: 500;
   color: var(--lit-gold);
   margin-bottom: 9px;
 }
@@ -2170,25 +2258,24 @@ section.ds-section:first-child { border-top: none; padding-top: 48px; }
   font-size: 10.5px;
   color: rgba(245,241,232,0.75);
   border: 1px solid rgba(245,241,232,0.20);
+  border-radius: var(--radius-tile);
   padding: 2px 7px;
 }
 .pi-section-label {
-  font-family: var(--audit);
-  font-size: 8px;
-  letter-spacing: 0.1em;
-  text-transform: uppercase;
-  color: rgba(245,241,232,0.5);
+  font-family: var(--voice);
+  font-size: 11px;
+  font-weight: 500;
+  color: rgba(245,241,232,0.68);
   margin: 16px 0 8px;
 }
 /* Proposed-action on navy */
 .pi-main .proposed-action {
   background: rgba(245,241,232,0.04);
   border-color: rgba(245,241,232,0.18);
-  border-left-color: var(--gold);
 }
 .pi-main .pa-title { color: var(--cream); }
 .pi-main .pa-body { color: rgba(245,241,232,0.70); }
-.pi-main .ai-msg-source { color: rgba(245,241,232,0.45); }
+.pi-main .ai-msg-source { color: rgba(245,241,232,0.68); }
 .pi-main .pa-btn.modify, .pi-main .pa-btn.reject { color: rgba(245,241,232,0.75); border-color: rgba(245,241,232,0.30); }
 .pi-main .pa-btn.approve { background: var(--cream); color: var(--navy); border-color: var(--cream); }
 .pi-main .bg-task { border-color: rgba(245,241,232,0.16); }
@@ -2198,6 +2285,116 @@ section.ds-section:first-child { border-top: none; padding-top: 48px; }
 /* ================================================================ */
 /*  RESPONSIVE                                                       */
 /* ================================================================ */
+/* Chart-room citation excerpt: the measure holds at column scale */
+.mockup-body.night .ct-row { grid-template-columns: 1fr 92px 100px 1.3fr; gap: 10px; }
+.mockup-body.night .ct-note { font-size: 11.5px; }
+
+/* ================================================================ */
+/*  REFERENCE SURFACE · REGISTER V1 · the ratified member plan       */
+/* ================================================================ */
+.refsurf { max-width: 1224px; overflow: hidden; background: var(--ground); border: 1px solid var(--border-subtle); border-radius: var(--radius-panel); margin: 16px 0; container-type: inline-size; }
+.refsurf .shell { display: grid; grid-template-columns: 188px 1fr; }
+.refsurf .rail { display: flex; flex-direction: column; padding: 26px 16px 20px; }
+.refsurf .r-lockup { font-family: var(--voice); font-weight: 400; letter-spacing: -0.0275em; font-size: 18px; color: var(--text-primary); padding: 0 10px; margin-bottom: 22px; }
+.refsurf .r-lockup .tag {
+  font-family: var(--audit); font-size: 0.444em; vertical-align: super; margin-left: 3%;
+  background: linear-gradient(180deg, var(--gold), var(--text-gold));
+  -webkit-background-clip: text; background-clip: text; -webkit-text-fill-color: transparent;
+}
+.refsurf .r-id { display: flex; gap: 10px; align-items: center; padding: 0 10px; margin-bottom: 18px; }
+.refsurf .r-avatar { width: 32px; height: 32px; border-radius: 50%; display: grid; place-items: center; font-size: 11px; font-weight: 500; flex: 0 0 auto; background: var(--surface-inset); color: var(--text-primary); }
+.refsurf .r-name { font-size: 13px; font-weight: 500; line-height: 1.25; color: var(--text-primary); }
+.refsurf .r-code { font-size: 11px; margin-top: 1px; color: var(--text-secondary); }
+.refsurf .r-rule { height: 1px; background: var(--border-subtle); margin: 0 10px 18px; }
+.refsurf .r-nav { display: grid; gap: 3px; }
+.refsurf .r-item {
+  font-family: var(--voice); display: flex; align-items: center; gap: 10px; width: 100%; text-align: left;
+  background: transparent; border: none; cursor: pointer; line-height: 1.2; white-space: nowrap;
+  color: var(--text-secondary); font-size: 13.5px; padding: 9px 12px; border-radius: var(--radius-control);
+}
+.refsurf .r-item.active { color: var(--text-primary); font-weight: 500; background: var(--surface-selected); }
+.refsurf .r-item svg { width: 16px; height: 16px; flex: 0 0 auto; }
+.refsurf .r-dot { display: inline-block; width: 6px; height: 6px; margin-left: 6px; background: var(--gold); border-radius: 50%; }
+.refsurf .r-foot { margin-top: auto; padding: 14px 10px 0; }
+.refsurf .r-foot-txt { font-size: 11px; color: var(--text-secondary); }
+.refsurf .rmain { min-width: 0; padding: 28px 32px 32px; }
+.refsurf .p-head { display: flex; justify-content: space-between; align-items: flex-start; gap: 16px; }
+.refsurf .p-h { font-size: 25px; font-weight: 500; color: var(--text-primary); letter-spacing: -0.015em; }
+.refsurf .p-meta { font-size: 13px; color: var(--text-secondary); margin-top: 4px; }
+.refsurf .p-btn {
+  font-family: var(--voice); cursor: pointer; white-space: nowrap;
+  background: var(--control-primary-bg); color: var(--control-primary-fg); border: none;
+  border-radius: var(--radius-control); padding: 10px 18px; font-size: 13px; font-weight: 500;
+}
+.refsurf .cols { display: grid; grid-template-columns: 1fr 300px; gap: 20px; align-items: start; margin-top: 8px; }
+.refsurf .colmain, .refsurf .colside { min-width: 0; }
+.refsurf .one { background: var(--surface-tier1); border-radius: var(--radius-tier1); padding: 22px 24px; margin-top: 20px; box-shadow: var(--shadow-tier1); }
+.refsurf .rone-label { font-size: 12.5px; font-weight: 500; color: var(--signal-advisory); margin-bottom: 8px; display: flex; align-items: center; gap: 8px; }
+.refsurf .rone-label::before { content: ''; width: 18px; height: 3px; border-radius: 2px; background: var(--gold); }
+.refsurf .rone-text { font-size: 21px; font-weight: 500; color: var(--text-primary); letter-spacing: -0.005em; line-height: 1.35; }
+.refsurf .rone-link { display: inline-block; cursor: pointer; font-size: 13px; color: var(--text-primary); font-weight: 500; margin-top: 9px; }
+.refsurf .tier2 { background: var(--surface-tier2); border-radius: var(--radius-tier2); padding: 4px 20px 16px; margin-top: 16px; }
+.refsurf .tier2 .g-head { padding-top: 18px; }
+.refsurf .colside .tier2 { padding: 16px 18px; margin-top: 0; }
+.refsurf .colside > * + * { margin-top: 24px; }
+.refsurf .colside { padding-top: 24px; }
+.refsurf .g-head { font-size: 14.5px; font-weight: 500; color: var(--text-primary); padding: 26px 0 6px; }
+.refsurf .g-row {
+  display: grid; grid-template-columns: 1fr 108px 112px 1.55fr; gap: 12px; align-items: baseline;
+  padding: 9px 0; border-bottom: 1px solid var(--hairline);
+}
+.refsurf .g-row:last-of-type { border-bottom: none; }
+.refsurf .g-name { font-size: 14.5px; color: var(--text-primary); }
+.refsurf .g-val { font-family: var(--voice); font-weight: 500; font-variant-numeric: tabular-nums; text-align: right; white-space: nowrap; font-size: 14.5px; color: var(--text-primary); }
+.refsurf .g-val em { font-style: normal; font-weight: 400; font-size: 10.5px; color: var(--text-secondary); }
+.refsurf .g-trend { font-size: 12px; }
+.refsurf .g-trend.adv { color: var(--signal-advisory); }
+.refsurf .tier2 .g-trend.adv, .refsurf .tier2 .proto-status.adv { color: var(--gold-800); }
+.refsurf.night .tier2 .g-trend.adv, .refsurf.night .tier2 .proto-status.adv { color: var(--signal-advisory); }
+.refsurf .g-trend.haz { color: var(--signal-hazard); }
+.refsurf.night .g-trend.haz { background: var(--signal-hazard); color: var(--cream); padding: 1px 6px; border-radius: var(--radius-tile); justify-self: start; }
+.refsurf .g-note { font-size: 13px; color: var(--text-secondary); }
+.refsurf .g-quiet { font-size: 12.5px; color: var(--text-secondary); padding: 12px 0 0; margin-top: 6px; border-top: 1px solid var(--hairline); }
+.refsurf .proto-row { display: grid; grid-template-columns: 1fr auto auto; gap: 14px; align-items: baseline; padding: 9px 0; border-bottom: 1px solid var(--hairline); }
+.refsurf .proto-row:last-child { border-bottom: none; }
+.refsurf .proto-name { font-size: 14.5px; color: var(--text-primary); }
+.refsurf .proto-spec { font-family: var(--voice); white-space: nowrap; font-size: 12px; color: var(--text-secondary); font-variant-numeric: tabular-nums; }
+.refsurf .proto-status { font-size: 12px; color: var(--text-secondary); }
+.refsurf .proto-status.adv { color: var(--signal-advisory); }
+.refsurf .c-label { font-size: 12.5px; color: var(--text-secondary); margin-bottom: 8px; }
+.refsurf .c-valrow { display: flex; align-items: baseline; gap: 7px; }
+.refsurf .c-val { font-family: var(--voice); font-weight: 500; font-variant-numeric: tabular-nums; font-size: 24px; color: var(--text-primary); }
+.refsurf .c-unit { font-family: var(--voice); font-size: 10.5px; color: var(--text-secondary); }
+.refsurf .c-status { font-size: 12px; color: var(--text-secondary); margin-left: auto; }
+.refsurf .plot { display: block; width: 100%; height: auto; margin-top: 10px; }
+.refsurf .plot .grid-l { stroke: var(--hairline); stroke-width: 1; }
+.refsurf .plot .line { fill: none; stroke: var(--text-primary); stroke-width: 1.6; }
+.refsurf .plot .proj { fill: none; stroke: var(--gold); stroke-width: 1.6; stroke-dasharray: 3 4; }
+.refsurf .plot .dot { fill: var(--gold); }
+.refsurf .c-meta { font-size: 12px; color: var(--text-secondary); margin-top: 8px; }
+.refsurf .s-label { font-size: 12.5px; color: var(--text-secondary); margin-bottom: 6px; }
+.refsurf .s-body { font-size: 14px; color: var(--text-primary); line-height: 1.45; }
+.refsurf .s-meta { font-size: 12px; color: var(--text-secondary); margin-top: 5px; }
+.refsurf .s-link { display: inline-block; font-size: 12.5px; color: var(--text-primary); font-weight: 500; margin-top: 6px; cursor: pointer; }
+.refsurf .ask { display: flex; align-items: center; gap: 9px; cursor: pointer; color: var(--text-primary); font-weight: 500; font-size: 13px; }
+.refsurf .ask-spark { font-size: 13px; line-height: 1; color: var(--gold); }
+@container (max-width: 1060px) {
+  .refsurf .cols { grid-template-columns: 1fr; }
+  .refsurf .colside { display: grid; grid-template-columns: 1fr 1fr; gap: 18px 20px; padding-top: 4px; }
+  .refsurf .colside > * + * { margin-top: 0; }
+  .refsurf .colside .tier2 { grid-column: 1 / -1; }
+  .refsurf .colside .ask { grid-column: 1 / -1; }
+}
+@media (max-width: 1120px) {
+  .refsurf .g-row { grid-template-columns: 1fr 96px 110px 1fr; }
+}
+@media (max-width: 760px) {
+  .refsurf .shell { grid-template-columns: 1fr; }
+  .refsurf .rail { flex-direction: row; flex-wrap: wrap; align-items: center; gap: 12px; }
+  .refsurf .r-nav { display: flex; flex-wrap: wrap; width: 100%; }
+  .refsurf .r-rule, .refsurf .r-foot { display: none; }
+}
+
 @media (max-width: 900px) {
   .ds-layout { grid-template-columns: 1fr; }
   .ds-nav { display: none; }
@@ -2231,7 +2428,7 @@ section.ds-section:first-child { border-top: none; padding-top: 48px; }
 <!-- ================================================================ -->
 <header class="ds-header">
   <div class="ds-header-lockup">aleron<span class="md">MD</span></div>
-  <div class="ds-header-meta">Product Design System · v0.3 · Register v1 · 01 Jul 2026</div>
+  <div class="ds-header-meta">Product Design System · v0.3 · Register v1 · 02 Jul 2026</div>
 </header>
 
 <!-- ================================================================ -->
@@ -2273,16 +2470,16 @@ section.ds-section:first-child { border-top: none; padding-top: 48px; }
     <ol class="rules">
       <li><span class="rule-num">01</span><span><b>Two artifacts, one arrow.</b> Brand identity in the brand deck. Product DS here. Inheritance is one-directional.</span></li>
       <li><span class="rule-num">02</span><span><b>Lock what the brand has decided.</b> Color materials, interaction grid, type tokens, wordmark geometry, icon recipe, voice rules. Copied verbatim. Not re-negotiated.</span></li>
-      <li><span class="rule-num">03</span><span><b>The interaction grid is the law.</b> Every color pairing is measured. Forbidden pairs are forbidden in every role, on every surface, in every component.</span></li>
+      <li><span class="rule-num">03</span><span><b>The interaction grid is the law.</b> Every color pairing is measured. Forbidden pairs are forbidden in every role, on every surface, in every component. The same law binds the neutrals: anything meant to be read measures 4.5 or better on its ground; on dark grounds reading cream sits at 0.68 alpha or above. Disabled states and the grid's own illustration of failing pairs are the only exemptions.</span></li>
       <li><span class="rule-num">04</span><span><b>Warm at the surface, rigorous one layer down, calm always.</b> Every component decision checks against this.</span></li>
-      <li><span class="rule-num">05</span><span><b>Gold is the signal, never the control.</b> Gold never appears as a button fill, a button border, or any interactive control.</span></li>
-      <li><span class="rule-num">06</span><span><b>The physician in sentences, the instrument in units.</b> Names and prose use the voice face. Values, units, and IDs use the audit face with tabular-nums.</span></li>
+      <li><span class="rule-num">05</span><span><b>Gold is the signal, never the control.</b> Gold never appears as a button fill, a button border, any interactive control, or a trim along a card edge. The gold fix is the bar in the label, never larger.</span></li>
+      <li><span class="rule-num">06</span><span><b>The physician in sentences, the instrument in units.</b> Names and prose use the voice face. Values and units use the voice face too, set tabular at weight 500 against 400 prose: the instrument speaks through alignment and weight, not a second font. The audit face is retired from product surfaces; it survives in the wordmark's tag.</span></li>
       <li><span class="rule-num">07</span><span><b>No em dashes in user-facing prose.</b> House rule, non-negotiable.</span></li>
-      <li><span class="rule-num">08</span><span><b>Reading is the luxury.</b> Anything that slows the read is the opposite of premium. Parse speed decides every contest between beauty and clarity. Sentence case for everything a member reads; tracked caps survive only in physician instrument chrome.</span></li>
+      <li><span class="rule-num">08</span><span><b>Reading is the luxury.</b> Anything that slows the read is the opposite of premium. Parse speed decides every contest between beauty and clarity. Sentence case for everything anyone reads, member or physician: the flight deck is dark, not harder to read. Tracked caps are retired from product surfaces.</span></li>
       <li><span class="rule-num">09</span><span><b>Emphasis is currency.</b> Three tiers, each earned: one elevated card per surface answering "what do I look at first," flat inset fields for data groups, everything else naked and grouped by air. Tiers never nest. If everything is highlighted, nothing is.</span></li>
       <li><span class="rule-num">10</span><span><b>Air is structure.</b> Space between groups is at least twice the space within them, at every altitude. Under load, content yields before air compresses. Empty is correct.</span></li>
     </ol>
-    <p class="fine">Register v1 ratified 01 Jul 2026: the Cabin, tiered. Canonical spec and reference surface in register.html; lineage in direction-studies.html and cabin-studies.html. Layers 2 through 6 below predate the register and are recut surface by surface, Your Data first; rules 01 through 10 already govern every recut.</p>
+    <p class="fine">Register v1 ratified 01 Jul 2026: the Cabin, tiered. Canonical spec and reference surface in register.html; lineage in direction-studies.html and cabin-studies.html. Layers 2 through 6 below predate the register and are recut surface by surface, Your Data first; rules 01 through 10 already govern every recut. Amended 02 Jul 2026: the audit face is retired from product surfaces; values set in the voice face, tabular, weight 500; Space Mono keeps the wordmark's tag. The brand deck's section 06 charter awaits the matching amendment.</p>
   </div>
 </section>
 
@@ -2318,43 +2515,43 @@ section.ds-section:first-child { border-top: none; padding-top: 48px; }
     <div class="subsec-label">Interaction grid · the law · measured contrast ratios</div>
     <div class="igrid">
       <div class="igrid-h"></div>
-      <div class="igrid-h">INK</div>
-      <div class="igrid-h">CREAM</div>
-      <div class="igrid-h">GOLD</div>
-      <div class="igrid-h">LIT GOLD</div>
-      <div class="igrid-h">TEXT GOLD</div>
-      <div class="igrid-h">EMBER</div>
-      <div class="igrid-h">SLATE</div>
+      <div class="igrid-h">Ink</div>
+      <div class="igrid-h">Cream</div>
+      <div class="igrid-h">Gold</div>
+      <div class="igrid-h">Lit gold</div>
+      <div class="igrid-h">Text gold</div>
+      <div class="igrid-h">Ember</div>
+      <div class="igrid-h">Slate</div>
       <!-- PAPER -->
-      <div class="igrid-rh">PAPER</div>
-      <div class="igrid-cell pass" style="background:#FAF7F2"><span class="aa" style="color:#1D1B18">Aa</span><span class="rt">16.1</span><span class="use">TEXT</span></div>
+      <div class="igrid-rh">Paper</div>
+      <div class="igrid-cell pass" style="background:#FAF7F2"><span class="aa" style="color:#1D1B18">Aa</span><span class="rt">16.1</span><span class="use">Text</span></div>
       <div class="igrid-cell fail" style="background:#FAF7F2"><span class="aa" style="color:#F5F1E8">Aa</span><span class="rt">1.1</span></div>
-      <div class="igrid-cell fail" style="background:#FAF7F2"><span class="aa" style="color:#C9A14E">Aa</span><span class="rt">2.3</span><span class="use">LINE/FILL</span></div>
+      <div class="igrid-cell fail" style="background:#FAF7F2"><span class="aa" style="color:#C9A14E">Aa</span><span class="rt">2.3</span><span class="use">Line/fill</span></div>
       <div class="igrid-cell fail" style="background:#FAF7F2"><span class="aa" style="color:#EACB7F">Aa</span><span class="rt">1.5</span></div>
-      <div class="igrid-cell pass" style="background:#FAF7F2"><span class="aa" style="color:#8A6A2F">Aa</span><span class="rt">4.7</span><span class="use">TEXT</span></div>
-      <div class="igrid-cell pass" style="background:#FAF7F2"><span class="aa" style="color:#A4452C">Aa</span><span class="rt">5.7</span><span class="use">HAZARD</span></div>
-      <div class="igrid-cell pass" style="background:#FAF7F2"><span class="aa" style="color:#5A6378">Aa</span><span class="rt">5.6</span><span class="use">TEXT</span></div>
+      <div class="igrid-cell pass" style="background:#FAF7F2"><span class="aa" style="color:#8A6A2F">Aa</span><span class="rt">4.7</span><span class="use">Text</span></div>
+      <div class="igrid-cell pass" style="background:#FAF7F2"><span class="aa" style="color:#A4452C">Aa</span><span class="rt">5.7</span><span class="use">Hazard</span></div>
+      <div class="igrid-cell pass" style="background:#FAF7F2"><span class="aa" style="color:#5A6378">Aa</span><span class="rt">5.6</span><span class="use">Text</span></div>
       <!-- NAVY -->
-      <div class="igrid-rh">NAVY</div>
+      <div class="igrid-rh">Navy</div>
       <div class="igrid-cell fail" style="background:#252B3D"><span class="aa" style="color:#1D1B18">Aa</span><span class="rt">1.2</span></div>
-      <div class="igrid-cell pass" style="background:#252B3D"><span class="aa" style="color:#F5F1E8">Aa</span><span class="rt">12.5</span><span class="use">TEXT</span></div>
-      <div class="igrid-cell pass" style="background:#252B3D"><span class="aa" style="color:#C9A14E">Aa</span><span class="rt">5.8</span><span class="use">TEXT</span></div>
-      <div class="igrid-cell pass" style="background:#252B3D"><span class="aa" style="color:#EACB7F">Aa</span><span class="rt">8.9</span><span class="use">TEXT</span></div>
+      <div class="igrid-cell pass" style="background:#252B3D"><span class="aa" style="color:#F5F1E8">Aa</span><span class="rt">12.5</span><span class="use">Text</span></div>
+      <div class="igrid-cell pass" style="background:#252B3D"><span class="aa" style="color:#C9A14E">Aa</span><span class="rt">5.8</span><span class="use">Text</span></div>
+      <div class="igrid-cell pass" style="background:#252B3D"><span class="aa" style="color:#EACB7F">Aa</span><span class="rt">8.9</span><span class="use">Text</span></div>
       <div class="igrid-cell fail" style="background:#252B3D"><span class="aa" style="color:#8A6A2F">Aa</span><span class="rt">2.8</span></div>
       <div class="igrid-cell fail" style="background:#252B3D"><span class="aa" style="color:#A4452C">Aa</span><span class="rt">2.3</span></div>
       <div class="igrid-cell fail" style="background:#252B3D"><span class="aa" style="color:#5A6378">Aa</span><span class="rt">2.3</span></div>
       <!-- INK -->
-      <div class="igrid-rh">INK</div>
+      <div class="igrid-rh">Ink</div>
       <div class="igrid-cell fail" style="background:#1D1B18"><span class="aa" style="color:#1D1B18">Aa</span><span class="rt">1.0</span></div>
-      <div class="igrid-cell pass" style="background:#1D1B18"><span class="aa" style="color:#F5F1E8">Aa</span><span class="rt">15.2</span><span class="use">TEXT</span></div>
-      <div class="igrid-cell pass" style="background:#1D1B18"><span class="aa" style="color:#C9A14E">Aa</span><span class="rt">7.1</span><span class="use">TEXT</span></div>
-      <div class="igrid-cell pass" style="background:#1D1B18"><span class="aa" style="color:#EACB7F">Aa</span><span class="rt">10.9</span><span class="use">TEXT</span></div>
+      <div class="igrid-cell pass" style="background:#1D1B18"><span class="aa" style="color:#F5F1E8">Aa</span><span class="rt">15.2</span><span class="use">Text</span></div>
+      <div class="igrid-cell pass" style="background:#1D1B18"><span class="aa" style="color:#C9A14E">Aa</span><span class="rt">7.1</span><span class="use">Text</span></div>
+      <div class="igrid-cell pass" style="background:#1D1B18"><span class="aa" style="color:#EACB7F">Aa</span><span class="rt">10.9</span><span class="use">Text</span></div>
       <div class="igrid-cell fail" style="background:#1D1B18"><span class="aa" style="color:#8A6A2F">Aa</span><span class="rt">3.4</span></div>
       <div class="igrid-cell fail" style="background:#1D1B18"><span class="aa" style="color:#A4452C">Aa</span><span class="rt">2.8</span></div>
       <div class="igrid-cell fail" style="background:#1D1B18"><span class="aa" style="color:#5A6378">Aa</span><span class="rt">2.9</span></div>
       <!-- GOLD -->
-      <div class="igrid-rh">GOLD</div>
-      <div class="igrid-cell pass" style="background:#C9A14E"><span class="aa" style="color:#1D1B18">Aa</span><span class="rt">7.1</span><span class="use">TEXT</span></div>
+      <div class="igrid-rh">Gold</div>
+      <div class="igrid-cell pass" style="background:#C9A14E"><span class="aa" style="color:#1D1B18">Aa</span><span class="rt">7.1</span><span class="use">Text</span></div>
       <div class="igrid-cell fail" style="background:#C9A14E"><span class="aa" style="color:#F5F1E8">Aa</span><span class="rt">2.1</span></div>
       <div class="igrid-cell fail" style="background:#C9A14E"><span class="aa" style="color:#C9A14E">Aa</span><span class="rt">1.0</span></div>
       <div class="igrid-cell fail" style="background:#C9A14E"><span class="aa" style="color:#EACB7F">Aa</span><span class="rt">1.5</span></div>
@@ -2371,7 +2568,7 @@ section.ds-section:first-child { border-top: none; padding-top: 48px; }
     <div class="type-specimen">
       <div class="type-display">Know what not to chase.</div>
       <div class="type-body">ApoB is down to 78 mg/dL from 96 mg/dL in October. Whatever you changed, keep it. Lp(a) is unchanged at 62 nmol/L; that one is genetic, and we manage around it, not against it.</div>
-      <div class="type-audit">QUEST ELITE · 100+ MARKERS · 2×/YR · APOB · LP(A) · HSCRP</div>
+      <div class="type-audit">Quest Elite · 100+ markers · 2×/yr · ApoB · Lp(a) · hsCRP</div>
     </div>
     <div class="type-scale">
       <div class="type-scale-row">
@@ -2395,9 +2592,9 @@ section.ds-section:first-child { border-top: none; padding-top: 48px; }
         <div class="type-scale-spec">15.5 / 400 / 1.6</div>
       </div>
       <div class="type-scale-row">
-        <div class="type-scale-role">Audit</div>
-        <div class="type-scale-sample" style="font-family:var(--audit);font-size:11.5px;letter-spacing:0.06em;color:var(--slate)">HSCRP 1.9 MG/L · APOB 78 MG/DL</div>
-        <div class="type-scale-spec">11.5 / 400 / 0.06em</div>
+        <div class="type-scale-role">Value</div>
+        <div class="type-scale-sample" style="font-family:var(--voice);font-weight:500;font-variant-numeric:tabular-nums;font-size:13px;color:var(--ink)">hsCRP 1.9 mg/L · ApoB 78 mg/dL</div>
+        <div class="type-scale-spec">voice · 500 · tabular</div>
       </div>
     </div>
   </div>
@@ -2438,7 +2635,7 @@ section.ds-section:first-child { border-top: none; padding-top: 48px; }
           <button class="btn btn--primary btn--disabled">Apply</button>
           <button class="btn btn--primary btn--loading"><span class="btn-dots"><span></span><span></span><span></span></span></button>
         </div>
-        <div class="demo-caption">PRIMARY INK · SECONDARY HAIRLINE · TERTIARY BARE · DISABLED LOSES INK TO 38% · LOADING THREE DOTS</div>
+        <div class="demo-caption">Primary ink · secondary hairline · tertiary bare · disabled loses ink to 38% · loading three dots</div>
       </div>
       <div class="demo night-demo">
         <div class="demo-label">Flight-deck register · navy 252B3D</div>
@@ -2449,7 +2646,7 @@ section.ds-section:first-child { border-top: none; padding-top: 48px; }
           <button class="btn btn--primary btn--disabled">Apply</button>
           <button class="btn btn--primary btn--loading"><span class="btn-dots"><span></span><span></span><span></span></span></button>
         </div>
-        <div class="demo-caption">THE SAME THREE, INVERTED TO CREAM ON THE NIGHT REGISTER</div>
+        <div class="demo-caption">The same three, inverted to cream on the night register</div>
       </div>
     </div>
   </div>
@@ -2510,19 +2707,19 @@ section.ds-section:first-child { border-top: none; padding-top: 48px; }
           <div style="font-size:13.5px;font-weight:500;color:var(--ink);padding:0 0 4px">Lipids</div>
           <div style="display:flex;justify-content:space-between;align-items:baseline;padding:8px 0;border-bottom:1px solid rgba(29,27,24,0.07)">
             <span style="font-size:13.5px;color:var(--ink)">ApoB</span>
-            <span style="font-family:var(--audit);font-size:13px;font-variant-numeric:tabular-nums;color:var(--ink)">78 <em style="font-style:normal;font-size:9.5px;color:var(--slate)">mg/dL</em></span>
+            <span style="font-family:var(--voice);font-weight:500;font-size:13px;font-variant-numeric:tabular-nums;color:var(--ink)">78 <em style="font-style:normal;font-size:9.5px;color:var(--slate)">mg/dL</em></span>
           </div>
           <div style="display:flex;justify-content:space-between;align-items:baseline;padding:8px 0">
             <span style="font-size:13.5px;color:var(--ink)">Lp(a)</span>
-            <span style="font-family:var(--audit);font-size:13px;font-variant-numeric:tabular-nums;color:var(--ink)">62 <em style="font-style:normal;font-size:9.5px;color:var(--slate)">nmol/L</em></span>
+            <span style="font-family:var(--voice);font-weight:500;font-size:13px;font-variant-numeric:tabular-nums;color:var(--ink)">62 <em style="font-style:normal;font-size:9.5px;color:var(--slate)">nmol/L</em></span>
           </div>
           <div style="font-size:13.5px;font-weight:500;color:var(--ink);padding:26px 0 4px">Inflammation</div>
           <div style="display:flex;justify-content:space-between;align-items:baseline;padding:8px 0">
             <span style="font-size:13.5px;color:var(--ink)">hsCRP</span>
-            <span style="font-family:var(--audit);font-size:13px;font-variant-numeric:tabular-nums;color:var(--ink)">1.9 <em style="font-style:normal;font-size:9.5px;color:var(--slate)">mg/L</em></span>
+            <span style="font-family:var(--voice);font-weight:500;font-size:13px;font-variant-numeric:tabular-nums;color:var(--ink)">1.9 <em style="font-style:normal;font-size:9.5px;color:var(--slate)">mg/L</em></span>
           </div>
         </div>
-        <p class="demo-caption">BETWEEN &ge; 2&times; WITHIN · THE GROUPS READ BEFORE THE WORDS DO</p>
+        <p class="demo-caption">Between &ge; 2&times; within · the groups read before the words do</p>
       </div>
       <div class="demo" style="background:var(--paper);margin:0">
         <div class="demo-label">Equal air everywhere · forbidden</div>
@@ -2530,19 +2727,19 @@ section.ds-section:first-child { border-top: none; padding-top: 48px; }
           <div style="font-size:13.5px;font-weight:500;color:var(--ink);padding:13px 0">Lipids</div>
           <div style="display:flex;justify-content:space-between;align-items:baseline;padding:13px 0;border-bottom:1px solid rgba(29,27,24,0.07)">
             <span style="font-size:13.5px;color:var(--ink)">ApoB</span>
-            <span style="font-family:var(--audit);font-size:13px;font-variant-numeric:tabular-nums;color:var(--ink)">78 <em style="font-style:normal;font-size:9.5px;color:var(--slate)">mg/dL</em></span>
+            <span style="font-family:var(--voice);font-weight:500;font-size:13px;font-variant-numeric:tabular-nums;color:var(--ink)">78 <em style="font-style:normal;font-size:9.5px;color:var(--slate)">mg/dL</em></span>
           </div>
           <div style="display:flex;justify-content:space-between;align-items:baseline;padding:13px 0;border-bottom:1px solid rgba(29,27,24,0.07)">
             <span style="font-size:13.5px;color:var(--ink)">Lp(a)</span>
-            <span style="font-family:var(--audit);font-size:13px;font-variant-numeric:tabular-nums;color:var(--ink)">62 <em style="font-style:normal;font-size:9.5px;color:var(--slate)">nmol/L</em></span>
+            <span style="font-family:var(--voice);font-weight:500;font-size:13px;font-variant-numeric:tabular-nums;color:var(--ink)">62 <em style="font-style:normal;font-size:9.5px;color:var(--slate)">nmol/L</em></span>
           </div>
           <div style="font-size:13.5px;font-weight:500;color:var(--ink);padding:13px 0">Inflammation</div>
           <div style="display:flex;justify-content:space-between;align-items:baseline;padding:13px 0">
             <span style="font-size:13.5px;color:var(--ink)">hsCRP</span>
-            <span style="font-family:var(--audit);font-size:13px;font-variant-numeric:tabular-nums;color:var(--ink)">1.9 <em style="font-style:normal;font-size:9.5px;color:var(--slate)">mg/L</em></span>
+            <span style="font-family:var(--voice);font-weight:500;font-size:13px;font-variant-numeric:tabular-nums;color:var(--ink)">1.9 <em style="font-style:normal;font-size:9.5px;color:var(--slate)">mg/L</em></span>
           </div>
         </div>
-        <p class="demo-caption">WHEN EVERY DISTANCE MATCHES, GROUPS DISSOLVE INTO A LIST</p>
+        <p class="demo-caption">When every distance matches, groups dissolve into a list</p>
       </div>
     </div>
 
@@ -2552,7 +2749,7 @@ section.ds-section:first-child { border-top: none; padding-top: 48px; }
         <div style="font-size:13.5px;font-weight:500;color:var(--ink);padding:16px 0 4px">Inflammation</div>
         <div style="display:grid;grid-template-columns:1fr auto auto;gap:12px;align-items:baseline;padding:8px 0;border-bottom:1px solid rgba(29,27,24,0.07)">
           <span style="font-size:13.5px;color:var(--ink)">hsCRP</span>
-          <span style="font-family:var(--audit);font-size:13px;font-variant-numeric:tabular-nums;color:var(--ink)">1.9 <em style="font-style:normal;font-size:9.5px;color:var(--slate)">mg/L</em></span>
+          <span style="font-family:var(--voice);font-weight:500;font-size:13px;font-variant-numeric:tabular-nums;color:var(--ink)">1.9 <em style="font-style:normal;font-size:9.5px;color:var(--slate)">mg/L</em></span>
           <span style="font-size:11.5px;color:var(--ember)">up from 0.8</span>
         </div>
         <div style="display:flex;justify-content:space-between;align-items:baseline;padding:9px 0;border-bottom:1px solid rgba(29,27,24,0.07)">
@@ -2565,16 +2762,78 @@ section.ds-section:first-child { border-top: none; padding-top: 48px; }
         </div>
         <div style="font-size:12px;color:var(--slate);padding:11px 0 2px;border-top:1px solid rgba(29,27,24,0.07);margin-top:4px">Kidney, liver and 78 more are all quiet.</div>
       </div>
-      <p class="demo-caption">QUIET GROUPS COLLAPSE TO ONE HONEST LINE · DETAIL DEFERS TO DISCLOSURE · AIR IS NEVER SHRUNK TO FIT</p>
+      <p class="demo-caption">Quiet groups collapse to one honest line · detail defers to disclosure · air is never shrunk to fit</p>
     </div>
 
     <div class="demo" style="background:var(--paper)">
       <div class="demo-label">The measure</div>
       <div style="max-width:48ch;font-size:14px;color:var(--ink);line-height:1.55">Lp(a) is genetic; we manage around it, not against it. Whatever you changed since October, keep it. The retest lands with the autumn draw.</div>
-      <div style="font-family:var(--audit);font-size:10px;letter-spacing:0.08em;color:var(--slate);margin:6px 0 20px">48CH · THE EYE KEEPS ITS RETURN PATH</div>
+      <div style="font-family:var(--voice);font-size:11px;letter-spacing:0;color:var(--slate);margin:6px 0 20px">48ch · the eye keeps its return path</div>
       <div style="font-size:14px;color:var(--ink);line-height:1.55">Lp(a) is genetic; we manage around it, not against it. Whatever you changed since October, keep it. The retest lands with the autumn draw.</div>
-      <div style="font-family:var(--audit);font-size:10px;letter-spacing:0.08em;color:var(--ember);margin-top:6px">FULL WIDTH · THE RETURN PATH IS LOST · FORBIDDEN</div>
-      <p class="demo-caption">READING PROSE 45 TO 75 CHARACTERS · TABLE NOTES NEAR 48</p>
+      <div style="font-family:var(--voice);font-size:11px;letter-spacing:0;color:var(--ember);margin-top:6px">Full width · the return path is lost · forbidden</div>
+      <p class="demo-caption">Reading prose 45 to 75 characters · table notes near 48</p>
+    </div>
+  </div>
+
+  <!-- SHAPE -->
+  <div class="subsec">
+    <div class="subsec-label">Shape · what acts and what holds · register law</div>
+    <p class="type-body">Once every element is a rounded rectangle, radius must carry meaning or it carries nothing. The evidence is settled: when buttons resemble labels and cards blend into ground, people slow down and test before they trust. So shape is assigned, not styled. Every rounded rectangle in the product is either an actor or a holder, kept apart by five redundant cues. Any two suffice at a glance; all five are law.</p>
+    <ol class="rules">
+      <li><span class="rule-num">S1</span><span><b>The 10/12 line.</b> Radius declares role. At 10 and below, it acts: controls at 8 to 10, signal tiles at 4. At 12 and above, it holds: fields 12, cards 16, panels 18. No element crosses the line in either direction.</span></li>
+      <li><span class="rule-num">S2</span><span><b>Ink acts.</b> Filled ink and strong outlines belong to controls alone. A container is never ink-filled and never outlined heavier than border-base. If it is dark or strongly ruled, a finger is invited.</span></li>
+      <li><span class="rule-num">S3</span><span><b>Controls are fixed-height and single-line; containers flow.</b> A control is one thing to do: centered or icon-led, one line, 28 to 44 tall. A box is several things to read: left-aligned, content-driven height, mixed type sizes.</span></li>
+      <li><span class="rule-num">S4</span><span><b>Interactive text is ink at weight 500.</b> Annotations are slate at 400. A verb in slate is a whisper the member misses; a note in ink at 500 is a false invitation. Color never signals alone: weight travels with it.</span></li>
+      <li><span class="rule-num">S5</span><span><b>Containers nest concentric; controls keep their radius.</b> A holder inside a holder steps down with the padding: 18 holds 16 holds 12. A control carries its own radius wherever it sits. The shadow stays Tier 1's alone; controls never float.</span></li>
+      <li><span class="rule-num">S6</span><span><b>Square is for specimens, not surfaces.</b> Radius 0 is off the scale and never renders on anything the product itself draws. It is reserved for references and instruments: color material chips, the interaction grid, the type specimen, data tables, the code manifest, and the simulated browser chrome. If it is a card, field, control, tile, or chip, it takes a radius from the scale; if it sits square, it must be one of these named specimens.</span></li>
+    </ol>
+    <div class="demo" style="background:var(--paper)">
+      <div class="demo-label">The line, drawn</div>
+      <div style="display:flex;gap:22px;align-items:center;flex-wrap:wrap">
+        <span style="display:inline-block;background:var(--ember);color:var(--cream);font-family:var(--voice);font-weight:500;font-size:11px;padding:3px 8px;border-radius:var(--radius-tile)">Tile 4</span>
+        <button class="btn btn--primary" style="min-width:0;padding:11px 20px;margin:0">Control 10</button>
+        <div style="border-left:1px solid var(--border-strong);height:64px"></div>
+        <div style="background:var(--surface-inset);border-radius:var(--radius-tier2);padding:14px 18px;font-size:12.5px;color:var(--slate)">Field 12</div>
+        <div style="background:var(--surface-tier1);border-radius:var(--radius-tier1);box-shadow:var(--shadow-tier1);padding:20px 24px;font-size:12.5px;color:var(--slate)">Card 16</div>
+        <div style="background:var(--paper);border:1px solid rgba(29,27,24,0.12);border-radius:var(--radius-panel);padding:26px 30px;font-size:12.5px;color:var(--slate)">Panel 18</div>
+      </div>
+      <p class="demo-caption">Left of the line, it acts. Right of the line, it holds. Nothing crosses.</p>
+    </div>
+    <div class="demo" style="background:var(--paper)">
+      <div class="demo-label">A button and a box, told apart five ways</div>
+      <div style="display:grid;grid-template-columns:auto 1fr;gap:26px;align-items:start;max-width:640px">
+        <button class="btn btn--primary" style="min-width:0;padding:12px 22px;margin:0">Message Dr. Chen</button>
+        <div style="background:var(--surface-inset);border-radius:var(--radius-tier2);padding:14px 18px">
+          <div style="font-size:13.5px;font-weight:500;color:var(--ink)">Next</div>
+          <div style="font-size:13px;color:var(--slate);margin-top:2px">Autumn draw, with Dr. Chen. 14 October 2026.</div>
+        </div>
+      </div>
+      <p class="demo-caption">Radius 10 vs 12 · ink vs inset · fixed height vs flow · centered verb vs left-aligned reading · neither floats: the shadow is Tier 1's</p>
+    </div>
+  </div>
+
+  <!-- ICONOGRAPHY -->
+  <div class="subsec">
+    <div class="subsec-label">Iconography · one set, one stroke</div>
+    <p class="type-body">Icons are drawn once and reused everywhere: a 24px grid, a 1.6 stroke, round caps and joins, no fills except dots of 8px and under. They render at 16 in the rail and 20 in the mobile bar, always in currentColor, inheriting the text they sit beside; an icon never takes a color of its own. The lowercase a in its tile is the app icon, brand deck section 05; it is not UI iconography and never appears inside a surface.</p>
+    <div class="demo" style="background:var(--paper)">
+      <div class="demo-label">The member set at 16 and 20 · Plan, Quality of Life, Your Data, Risk, Chat, Appointments</div>
+      <div style="display:flex;gap:24px;align-items:center;color:var(--ink)">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M4 5h16M4 12h16M4 19h10"/></svg>
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M3 18l6-6 4 4 8-8"/><path d="M17 8h4v4"/></svg>
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="8" r="4"/><path d="M4 21c0-4 4-7 8-7s8 3 8 7"/></svg>
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3.5l7 3v5.3c0 4.1-2.8 7.8-7 8.7-4.2-.9-7-4.6-7-8.7V6.5l7-3Z"/><path d="M8.5 13.2l2.2-2.2 2.1 2.1 2.8-3.8"/></svg>
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M5 6.5h14a2 2 0 0 1 2 2v6.2a2 2 0 0 1-2 2H10.5L6 20v-3.3H5a2 2 0 0 1-2-2V8.5a2 2 0 0 1 2-2Z"/><path d="M7.5 10.2h9M7.5 13.2h6.2"/></svg>
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><rect x="4" y="5.5" width="16" height="15" rx="2"/><path d="M8 3.5v4M16 3.5v4M4 10h16"/><path d="M8 14h3M13.5 14H16M8 17h3"/></svg>
+        <span style="border-left:1px solid var(--border-base);height:24px"></span>
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M4 5h16M4 12h16M4 19h10"/></svg>
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M3 18l6-6 4 4 8-8"/><path d="M17 8h4v4"/></svg>
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="8" r="4"/><path d="M4 21c0-4 4-7 8-7s8 3 8 7"/></svg>
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3.5l7 3v5.3c0 4.1-2.8 7.8-7 8.7-4.2-.9-7-4.6-7-8.7V6.5l7-3Z"/><path d="M8.5 13.2l2.2-2.2 2.1 2.1 2.8-3.8"/></svg>
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M5 6.5h14a2 2 0 0 1 2 2v6.2a2 2 0 0 1-2 2H10.5L6 20v-3.3H5a2 2 0 0 1-2-2V8.5a2 2 0 0 1 2-2Z"/><path d="M7.5 10.2h9M7.5 13.2h6.2"/></svg>
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><rect x="4" y="5.5" width="16" height="15" rx="2"/><path d="M8 3.5v4M16 3.5v4M4 10h16"/><path d="M8 14h3M13.5 14H16M8 17h3"/></svg>
+      </div>
+      <p class="demo-caption">24 grid · 1.6 stroke · round caps and joins · currentColor · fills only for dots 8px and under · an icon never takes a color of its own</p>
     </div>
   </div>
 
@@ -2609,11 +2868,60 @@ section.ds-section:first-child { border-top: none; padding-top: 48px; }
 <section class="ds-section" id="core">
   <div class="sec-label">03 · Layer 2 · Core Components</div>
   <h1 class="sec-title">The building blocks.</h1>
-  <p class="sec-abstract">Generic components that inherit tokens and follow the brand's structural rules. Each is defined once and renders in both registers via the semantic token contract.</p>
+  <p class="sec-abstract">Generic components that inherit tokens and follow the brand's structural rules. Each is defined once and renders in both registers via the semantic token contract. Before any component: the highlight contract. Four jobs, four costumes, never exchanged.</p>
+
+  <!-- THE HIGHLIGHT CONTRACT -->
+  <div class="subsec">
+    <div class="subsec-label">How to highlight · the contract</div>
+    <p class="type-body">A member should know what is pressable from shape alone, before reading a word. The discriminator is the verb: verbs press, statuses tell, selections sit, groups hold. Every highlight on every surface is one of these four, wearing its own costume.</p>
+    <ol class="rules">
+      <li><span class="rule-num">H1</span><span><b>Verbs press.</b> If it carries a verb, it is a control: filled ink, outlined ink, or plain text link. Controls never take signal color and never sit in an inset field.</span></li>
+      <li><span class="rule-num">H2</span><span><b>Selection sits in an inset.</b> Where-you-are states, the rail, tabs, segments, take the flat inset field: no outline, weight 500. Outlines belong to controls; an outlined selection is a button costume.</span></li>
+      <li><span class="rule-num">H3</span><span><b>Status never wears a button.</b> Signal tiles hold values and states only: small, radius 4, signal-colored per the grid, no verbs inside. Ink fills belong to primary buttons alone.</span></li>
+      <li><span class="rule-num">H4</span><span><b>Emphasis is never a costume.</b> Text that matters more gets weight, scale, or a tier, not an enclosure. A box around plain text promises an interaction the surface will not keep.</span></li>
+    </ol>
+    <div class="demo" style="background:var(--paper)">
+      <div class="demo-label">The four costumes, side by side</div>
+      <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(210px,1fr));gap:20px;align-items:start">
+        <div>
+          <div style="font-size:12px;font-weight:500;color:var(--ink);margin-bottom:10px">Pressable · a verb</div>
+          <button class="btn btn--primary" style="min-width:0;padding:10px 18px;margin:0 8px 8px 0">Approve</button>
+          <button class="btn btn--secondary" style="min-width:0;padding:10px 18px;margin:0">Modify</button>
+        </div>
+        <div>
+          <div style="font-size:12px;font-weight:500;color:var(--ink);margin-bottom:10px">Selected · where you are</div>
+          <div style="display:flex;gap:4px">
+            <span style="padding:8px 14px;border-radius:var(--radius-control);background:var(--surface-inset);color:var(--ink);font-weight:500;font-size:13px">Plan</span>
+            <span style="padding:8px 14px;border-radius:var(--radius-control);color:var(--slate);font-size:13px">Risk</span>
+          </div>
+        </div>
+        <div>
+          <div style="font-size:12px;font-weight:500;color:var(--ink);margin-bottom:10px">Status · a state, never a verb</div>
+          <span style="background:var(--ember);color:var(--cream);font-family:var(--voice);font-weight:500;font-size:11px;font-variant-numeric:tabular-nums;padding:2px 7px;border-radius:var(--radius-tile)">Up from 0.8</span>
+          <span style="color:var(--text-gold);font-size:12px;margin-left:10px">New this quarter</span>
+        </div>
+        <div>
+          <div style="font-size:12px;font-weight:500;color:var(--ink);margin-bottom:10px">Emphasis · weight and tier</div>
+          <div style="font-size:15px;font-weight:500;color:var(--ink)">Keep the statin where it is.</div>
+          <div style="font-size:12.5px;color:var(--slate)">What matters gains weight or a tier, never a box.</div>
+        </div>
+      </div>
+      <p class="demo-caption">The test: cover the words. Shape alone should say which ones press.</p>
+    </div>
+    <div class="demo" style="background:var(--paper)">
+      <div class="demo-label">Forbidden · costumes exchanged</div>
+      <div style="display:flex;gap:14px;flex-wrap:wrap;align-items:center">
+        <span style="padding:8px 16px;border:1px solid var(--border-strong);border-radius:var(--radius-control);font-size:13px;color:var(--ink)">New this quarter</span>
+        <span style="padding:8px 16px;border-radius:var(--radius-control);background:var(--surface-inset);font-size:13px;color:var(--ink)">See the why</span>
+        <span style="padding:8px 16px;border-radius:var(--radius-control);background:var(--gold);font-size:13px;color:var(--ink)">Approve</span>
+      </div>
+      <p class="demo-caption">A status in an outline reads as a button · a verb in an inset reads as selected · gold is never a control · all three forbidden</p>
+    </div>
+  </div>
 
   <!-- BUTTONS (detailed) -->
   <div class="subsec">
-    <div class="subsec-label">Button · five states, square corners, weight from fill</div>
+    <div class="subsec-label">Button · five states, filleted, weight from fill</div>
     <div class="demo">
       <div class="demo-label">Anatomy · day register</div>
       <button class="btn btn--primary">Apply</button>
@@ -2622,13 +2930,13 @@ section.ds-section:first-child { border-top: none; padding-top: 48px; }
       <div style="margin-top:4px"></div>
       <button class="btn btn--primary btn--disabled">Apply</button>
       <button class="btn btn--primary btn--loading"><span class="btn-dots"><span></span><span></span><span></span></span></button>
-      <div class="demo-caption">VOICE 400 · 16PX · -1% EM · SENTENCE CASE · CENTERED · CORNERS SQUARE · WEIGHT FROM FILL, NEVER FACE · GOLD IS NEVER A BUTTON · MIN 160PX</div>
+      <div class="demo-caption">Voice 400 · 16px · -1% em · sentence case · centered · corners filleted R10 · weight from fill, never face · gold is never a button · min 160px</div>
     </div>
   </div>
 
   <!-- INPUT -->
   <div class="subsec">
-    <div class="subsec-label">Input · border-bottom only, gold on focus</div>
+    <div class="subsec-label">Input · inset field, gold on focus</div>
     <div class="demo">
       <div class="field">
         <label class="field-label">Member name</label>
@@ -2638,28 +2946,51 @@ section.ds-section:first-child { border-top: none; padding-top: 48px; }
         <label class="field-label">ApoB <span class="input-unit">mg/dL</span></label>
         <input class="input input-audit" placeholder="78" value="78">
       </div>
-      <p class="demo-caption">NO BOX SHADOW · NO ROUNDED CORNERS · BORDER-BOTTOM AT REST · GOLD 2PX ON FOCUS · AUDIT FACE + TABULAR-NUMS FOR VALUES</p>
+      <p class="demo-caption">Inset field F1EDE6 · R10 · no border at rest · gold 2px outline on focus · voice face, tabular, weight 500 for values</p>
     </div>
   </div>
 
-  <!-- CARD -->
+  <!-- SURFACE TIERS -->
   <div class="subsec">
-    <div class="subsec-label">Card surface · border separation, no shadow</div>
+    <div class="subsec-label">Surface tiers · emphasis is currency</div>
     <div class="row-pair">
-      <div class="card-demo">
-        <div class="card-demo-title">Review · April draw</div>
-        <div class="card-demo-body">104 markers reviewed against October. Two advisories, one hazard, the rest quiet.</div>
+      <div class="demo" style="background:var(--ground)">
+        <div class="demo-label">Day register · paper ground</div>
+        <div style="background:var(--surface-tier1);border-radius:var(--radius-tier1);box-shadow:var(--shadow-tier1);padding:18px 20px">
+          <div style="font-size:12px;font-weight:500;color:var(--signal-advisory);margin-bottom:6px"><span style="display:inline-block;width:18px;height:3px;border-radius:2px;background:var(--gold);margin-right:8px;vertical-align:2px"></span>Tier 1 · the one thing</div>
+          <div style="font-size:17px;font-weight:500;color:var(--text-primary)">One elevated card per surface. The register's only shadow.</div>
+        </div>
+        <div style="background:var(--surface-tier2);border-radius:var(--radius-tier2);padding:14px 18px;margin-top:16px">
+          <div style="font-size:13.5px;font-weight:500;color:var(--text-primary)">Tier 2 · data groups</div>
+          <div style="font-size:13px;color:var(--text-secondary);margin-top:3px">Flat inset fields. Enclosure without spotlight.</div>
+        </div>
+        <div style="margin-top:20px">
+          <div style="font-size:13.5px;font-weight:500;color:var(--text-primary)">Tier 3 · everything else</div>
+          <div style="font-size:13px;color:var(--text-secondary);margin-top:3px">Naked on the ground, grouped by air alone.</div>
+        </div>
       </div>
-      <div class="demo night-demo" style="padding:20px">
-        <div class="card-demo-title" style="color:var(--cream)">Review · April draw</div>
-        <div class="card-demo-body" style="color:rgba(245,241,232,0.55)">Same card on gunmetal. Border separates. No shadow on UI, ever.</div>
+      <div class="demo night night-demo" style="background:var(--ground)">
+        <div class="demo-label">Flight-deck register · navy ground</div>
+        <div style="background:var(--surface-tier1);border-radius:var(--radius-tier1);box-shadow:var(--shadow-tier1);padding:18px 20px">
+          <div style="font-size:12px;font-weight:500;color:var(--signal-advisory);margin-bottom:6px"><span style="display:inline-block;width:18px;height:3px;border-radius:2px;background:var(--gold);margin-right:8px;vertical-align:2px"></span>Tier 1 · the one thing</div>
+          <div style="font-size:17px;font-weight:500;color:var(--text-primary)">One elevated card per surface. The register's only shadow.</div>
+        </div>
+        <div style="background:var(--surface-tier2);border-radius:var(--radius-tier2);padding:14px 18px;margin-top:16px">
+          <div style="font-size:13.5px;font-weight:500;color:var(--text-primary)">Tier 2 · data groups</div>
+          <div style="font-size:13px;color:var(--text-secondary);margin-top:3px">Flat inset fields. Enclosure without spotlight.</div>
+        </div>
+        <div style="margin-top:20px">
+          <div style="font-size:13.5px;font-weight:500;color:var(--text-primary)">Tier 3 · everything else</div>
+          <div style="font-size:13px;color:var(--text-secondary);margin-top:3px">Naked on the ground, grouped by air alone.</div>
+        </div>
       </div>
     </div>
+    <p class="demo-caption">Same three tiers, one class apart. Day: Tier 1 is a white card at R16 carrying the register's only shadow; Tier 2 a flat inset at R12; Tier 3 naked on paper. Flight-deck: shadow does not read on dark, so elevation becomes a lighter panel with a hairline ring, Tier 1 gunmetal raised off the navy ground, Tier 2 a darker inset sunken into it, Tier 3 naked. Same order, same meaning; tiers never nest.</p>
   </div>
 
   <!-- TABS -->
   <div class="subsec">
-    <div class="subsec-label">Tabs · underline highlighter, never pill</div>
+    <div class="subsec-label">Tabs · the active sits in an inset field</div>
     <div class="tabs">
       <div class="tab active">Review</div>
       <div class="tab">Labs</div>
@@ -2667,7 +2998,7 @@ section.ds-section:first-child { border-top: none; padding-top: 48px; }
       <div class="tab">Pulse</div>
       <div class="tab">Message</div>
     </div>
-    <p class="fine">Active: border-bottom 2px solid gold. Container: border-bottom 1px base. Inactive: secondary text. The mechanism is identical at every nav level. Never mix pill and underline.</p>
+    <p class="fine">Active: inset field F1EDE6, radius 10, weight 500. Inactive: secondary text, no container. The mechanism is identical at every nav level; the left rail uses the same inset. Never mix mechanisms.</p>
   </div>
 
   <!-- BADGE -->
@@ -2675,11 +3006,11 @@ section.ds-section:first-child { border-top: none; padding-top: 48px; }
     <div class="subsec-label">Badge · status only, never category</div>
     <div class="demo">
       <div style="display:flex;gap:12px;flex-wrap:wrap;align-items:center">
-        <span style="background:var(--ember);color:var(--cream);font-family:var(--audit);font-size:10px;letter-spacing:0.06em;padding:4px 10px">HSCRP 1.9 · RETEST</span>
-        <span style="font-family:var(--audit);font-size:10px;letter-spacing:0.05em;color:var(--text-gold)">APOB DOWN FROM 96</span>
-        <span style="font-family:var(--audit);font-size:10px;letter-spacing:0.05em;color:var(--slate)">NEXT DRAW OCT</span>
+        <span style="background:var(--ember);color:var(--cream);font-family:var(--voice);font-weight:500;font-size:11px;font-variant-numeric:tabular-nums;padding:4px 10px;border-radius:var(--radius-tile)">hsCRP 1.9 · retest</span>
+        <span style="font-family:var(--voice);font-size:11px;font-variant-numeric:tabular-nums;color:var(--text-gold)">ApoB down from 96</span>
+        <span style="font-family:var(--voice);font-size:11px;color:var(--slate)">Next draw Oct</span>
       </div>
-      <p class="demo-caption">HAZARD: EMBER FILL + CREAM TEXT. ADVISORY: TEXT GOLD. NEUTRAL: SLATE. NEVER A CATEGORY. NEVER DECORATIVE.</p>
+      <p class="demo-caption">Hazard: ember fill + cream text. Advisory: text gold. Neutral: slate. Never a category. Never decorative.</p>
     </div>
   </div>
 
@@ -2687,8 +3018,8 @@ section.ds-section:first-child { border-top: none; padding-top: 48px; }
   <div class="subsec">
     <div class="subsec-label">Empty state · silence is normal</div>
     <div class="demo">
-      <div style="font-family:var(--audit);font-size:8.5px;letter-spacing:0.1em;text-transform:uppercase;color:var(--slate)">ANNUNCIATOR · EMPTY WHEN ALL IS WELL</div>
-      <p class="demo-caption">NO ILLUSTRATION · NO ICON · NO PLACEHOLDER TEXT · THE EMPTY STATE IS QUIET</p>
+      <div style="font-family:var(--voice);font-size:11px;font-weight:500;color:var(--slate)">Annunciator · empty when all is well</div>
+      <p class="demo-caption">No illustration · no icon · no placeholder text · the empty state is quiet</p>
     </div>
   </div>
 </section>
@@ -2699,23 +3030,86 @@ section.ds-section:first-child { border-top: none; padding-top: 48px; }
 <section class="ds-section" id="domain">
   <div class="sec-label">04 · Layer 3 · Domain Components</div>
   <h1 class="sec-title">The Aleron-specific set.</h1>
-  <p class="sec-abstract">These are the primitives that prevent drift. They encode the brand's interaction model: the instrument speaks underneath, the physician speaks above. Each component is demonstrated live with real data.</p>
+  <p class="sec-abstract">These are the primitives that prevent drift. They encode the brand's interaction model: the instrument speaks underneath, the physician speaks above. Each component is demonstrated live with real data. The rail comes first: it is the one structure every desktop surface repeats.</p>
+
+  <!-- THE RAIL -->
+  <div class="subsec">
+    <div class="subsec-label">The rail · the constant left edge</div>
+    <p class="type-body">Every desktop surface hangs off the same left rail, so it is codified once. The anatomy is fixed, top to bottom: the lockup, the person, a rule, the tabs. The member set is Plan, Quality of Life, Your Data, Risk, Chat, Appointments, in that order, always. The physician set is Inbox, Panel, Reviews, Messages in the intelligence inbox. One variant only, and it is about whose rail it is: on a member surface the person is the member, at the top, with the accountable physician at the foot; on a physician surface the person is the physician, the user, at the foot. Everything else about the rail is identical across surfaces and registers. Nothing else may live in the rail.</p>
+    <ol class="rules">
+      <li><span class="rule-num">R1</span><span><b>The anatomy is fixed.</b> Lockup 18, identity block (avatar 32 circle, name 13 at 500, member number 11 slate), rule, tabs, physician foot. 188px wide on desktop. The rail never scrolls and never collapses below its labels.</span></li>
+      <li><span class="rule-num">R2</span><span><b>One selection, one dot, legible in both registers.</b> The active tab is the flat inset field per H2: radius 10, weight 500. It must read as clearly on dark as on light. A recessed inset vanishes on the night ground, so the dark register lifts the selection to a lighter panel (<code>--surface-selected</code>) tuned so its contrast against the ground meets or exceeds the day register's; day recesses, night lifts, both are equally findable. At most one attention dot lives in the rail at a time: 6px, gold, a circle. If two sections want attention, the more urgent takes the dot and the other waits.</span></li>
+      <li><span class="rule-num">R3</span><span><b>Items are one line.</b> Icon 16 from the codified set, label 13.5 voice, 9px vertical padding. Labels never wrap, never truncate, never abbreviate; the rail is sized to its longest label.</span></li>
+      <li><span class="rule-num">R4</span><span><b>Dark is the same design in a different color space.</b> The identical markup resolves through the night tokens: ground, text, inset, borders swap; nothing else may change. Same anatomy, same order, same icons, same content, same spacing. If a dark surface cannot be produced by the token swap alone, the component is wrong, not the mode.</span></li>
+      <li><span class="rule-num">R5</span><span><b>Two navs, two mechanisms, never mixed.</b> The primary rail, the constant left edge of an app surface, is icon plus label with the inset selection above; member and physician surfaces share it exactly. A secondary index, a documentation nav or an in-panel history list, is text only and marks its place with a gold tick and weight, never an inset. A surface picks one mechanism and holds it; the two never appear in the same list.</span></li>
+    </ol>
+    <div class="demo" style="background:var(--paper)">
+      <div class="demo-label">Day and night · the same rail, one class apart</div>
+      <div style="display:flex;gap:24px;align-items:stretch;flex-wrap:wrap">
+        <div class="refsurf" style="width:188px;margin:0">
+          <aside class="rail" style="min-height:420px">
+            <div class="r-lockup">aleron<span class="tag">MD</span></div>
+            <div class="r-id">
+              <div class="r-avatar">DP</div>
+              <div>
+                <div class="r-name">David Park</div>
+                <div class="r-code">Member 042</div>
+              </div>
+            </div>
+            <div class="r-rule"></div>
+            <nav class="r-nav">
+              <button class="r-item active"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M4 5h16M4 12h16M4 19h10"/></svg>Plan</button>
+              <button class="r-item"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M3 18l6-6 4 4 8-8"/><path d="M17 8h4v4"/></svg>Quality of Life</button>
+              <button class="r-item"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><circle cx="12" cy="8" r="4"/><path d="M4 21c0-4 4-7 8-7s8 3 8 7"/></svg>Your Data</button>
+              <button class="r-item"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M12 3.5l7 3v5.3c0 4.1-2.8 7.8-7 8.7-4.2-.9-7-4.6-7-8.7V6.5l7-3Z"/><path d="M8.5 13.2l2.2-2.2 2.1 2.1 2.8-3.8"/></svg>Risk</button>
+              <button class="r-item"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M5 6.5h14a2 2 0 0 1 2 2v6.2a2 2 0 0 1-2 2H10.5L6 20v-3.3H5a2 2 0 0 1-2-2V8.5a2 2 0 0 1 2-2Z"/><path d="M7.5 10.2h9M7.5 13.2h6.2"/></svg>Chat</button>
+              <button class="r-item"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><rect x="4" y="5.5" width="16" height="15" rx="2"/><path d="M8 3.5v4M16 3.5v4M4 10h16"/><path d="M8 14h3M13.5 14H16M8 17h3"/></svg>Appointments<span class="r-dot"></span></button>
+            </nav>
+            <div class="r-foot"><div class="r-foot-txt">Dr. Chen · Cardiology</div></div>
+          </aside>
+        </div>
+        <div class="refsurf night" style="width:188px;margin:0">
+          <aside class="rail" style="min-height:420px">
+            <div class="r-lockup">aleron<span class="tag">MD</span></div>
+            <div class="r-id">
+              <div class="r-avatar">DP</div>
+              <div>
+                <div class="r-name">David Park</div>
+                <div class="r-code">Member 042</div>
+              </div>
+            </div>
+            <div class="r-rule"></div>
+            <nav class="r-nav">
+              <button class="r-item active"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M4 5h16M4 12h16M4 19h10"/></svg>Plan</button>
+              <button class="r-item"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M3 18l6-6 4 4 8-8"/><path d="M17 8h4v4"/></svg>Quality of Life</button>
+              <button class="r-item"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><circle cx="12" cy="8" r="4"/><path d="M4 21c0-4 4-7 8-7s8 3 8 7"/></svg>Your Data</button>
+              <button class="r-item"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M12 3.5l7 3v5.3c0 4.1-2.8 7.8-7 8.7-4.2-.9-7-4.6-7-8.7V6.5l7-3Z"/><path d="M8.5 13.2l2.2-2.2 2.1 2.1 2.8-3.8"/></svg>Risk</button>
+              <button class="r-item"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M5 6.5h14a2 2 0 0 1 2 2v6.2a2 2 0 0 1-2 2H10.5L6 20v-3.3H5a2 2 0 0 1-2-2V8.5a2 2 0 0 1 2-2Z"/><path d="M7.5 10.2h9M7.5 13.2h6.2"/></svg>Chat</button>
+              <button class="r-item"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><rect x="4" y="5.5" width="16" height="15" rx="2"/><path d="M8 3.5v4M16 3.5v4M4 10h16"/><path d="M8 14h3M13.5 14H16M8 17h3"/></svg>Appointments<span class="r-dot"></span></button>
+            </nav>
+            <div class="r-foot"><div class="r-foot-txt">Dr. Chen · Cardiology</div></div>
+          </aside>
+        </div>
+      </div>
+      <p class="demo-caption">Identical markup, one class apart: .night · only the color space changes · 188px · active = inset per H2 · one gold dot max · icons 16 from the set</p>
+    </div>
+  </div>
 
   <!-- ANNUNCIATOR -->
   <div class="subsec">
     <div class="subsec-label">Annunciator · alerts collected, fixed order</div>
     <div class="demo night-demo">
       <div class="annunciator">
-        <div class="ann-label">ANNUNCIATOR · FLAGGED, THEN MOVED, THEN NOTES</div>
+        <div class="ann-label">Annunciator · flagged, then moved, then notes</div>
         <div class="ann-content">
-          <span class="ann-hazard">HSCRP 1.9 MG/L · RETEST SIX WEEKS</span>
-          <span class="ann-advisory">APOB ↓ · LDL-C ↓ · INSULIN ↓ · VIT D ↑</span>
+          <span class="ann-hazard">hsCRP 1.9 mg/L · retest six weeks</span>
+          <span class="ann-advisory">ApoB ↓ · LDL-C ↓ · Insulin ↓ · Vit D ↑</span>
         </div>
       </div>
       <div class="annunciator empty" style="margin-top:12px">
-        <div class="ann-label">ANNUNCIATOR · EMPTY WHEN ALL IS WELL</div>
+        <div class="ann-label">Annunciator · empty when all is well</div>
       </div>
-      <p class="demo-caption">DARK COCKPIT: SILENCE IS NORMAL, ONLY CHANGE SPEAKS · FIXED SCAN ORDER · EMBER TEXT NEVER ON DARK GROUND, ALWAYS A FILLED TILE</p>
+      <p class="demo-caption">Dark cockpit: silence is normal, only change speaks · fixed scan order · ember text never on dark ground, always a filled tile</p>
     </div>
   </div>
 
@@ -2752,28 +3146,40 @@ section.ds-section:first-child { border-top: none; padding-top: 48px; }
         </div>
         <div class="ct-row">
           <span class="ct-name">Omega-3 index</span>
-          <span class="ct-value"><span class="ct-missing">NOT DRAWN</span></span>
+          <span class="ct-value"><span class="ct-missing">Not drawn</span></span>
           <span class="ct-trend"></span>
           <span class="ct-note">declared, never blank; on the next draw</span>
         </div>
-        <div class="ct-footer">QUEST ELITE · 2×/YR · DRAWN 04/2026 · READ AGAINST 10/2025 · THE ONE THING LIVES OUTSIDE THIS TABLE</div>
+        <div class="ct-footer">Quest Elite · 2×/yr · drawn 04/2026 · read against 10/2025 · the one thing lives outside this table</div>
       </div>
-      <p class="demo-caption">NAMES VOICE · VALUES AUDIT + TABULAR-NUMS · UNIT ON EVERY VALUE · DECLARED-MISSING NEVER BLANK · GROUPS NEVER REORDER · GROUPS BREATHE, ROWS TIGHT</p>
+      <p class="demo-caption">Names voice · values voice, tabular, 500 · unit on every value · declared-missing never blank · groups never reorder · groups breathe, rows tight</p>
     </div>
   </div>
 
   <!-- ONE-THING -->
   <div class="subsec">
-    <div class="subsec-label">One-Thing card · the single priority</div>
-    <div class="demo night-demo">
-      <div class="one-thing">
-        <div class="ot-label">THE ONE THING · THIS QUARTER</div>
+    <div class="subsec-label">One-Thing card · the single priority · Tier 1</div>
+    <div class="demo" style="background:var(--paper)">
+      <div class="demo-label">Day register · the register's only elevated card</div>
+      <div class="one-thing day">
+        <div class="ot-label">The one thing this quarter</div>
         <div class="ot-content">
           <div class="ot-text">Keep the statin where it is. Nothing else changes.</div>
           <div class="ot-link">See the why</div>
         </div>
       </div>
-      <p class="demo-caption">ONE PER SURFACE · NEVER INSIDE THE CITATION TABLE · GOLD LEFT BORDER IS THE GOLD FIX · IF PRESENT, NO OTHER GOLD ON THE SURFACE</p>
+      <p class="demo-caption">Tier 1: FFFFFF · R16 · the only shadow · one per surface · never inside the citation table · gold bar in the label is the gold fix · if present, no other gold on the surface</p>
+    </div>
+    <div class="demo night-demo">
+      <div class="demo-label">Flight-deck register</div>
+      <div class="one-thing">
+        <div class="ot-label">The one thing this quarter</div>
+        <div class="ot-content">
+          <div class="ot-text">Keep the statin where it is. Nothing else changes.</div>
+          <div class="ot-link">See the why</div>
+        </div>
+      </div>
+      <p class="demo-caption">Gunmetal ground · the gold bar in the label is the gold fix · never a trim on the edge · same law: one per surface</p>
     </div>
   </div>
 
@@ -2782,7 +3188,7 @@ section.ds-section:first-child { border-top: none; padding-top: 48px; }
     <div class="subsec-label">Trajectory chart · the live instrument</div>
     <div class="demo night-demo">
       <div class="trajectory" style="border-color:rgba(245,241,232,0.14);background:var(--gunmetal)">
-        <div class="traj-label" style="color:rgba(245,241,232,0.55)">THE COURSE · VO2MAX AGAINST THE BANDS</div>
+        <div class="traj-label" style="color:rgba(245,241,232,0.68)">The course · VO2max against the bands</div>
         <svg class="traj-svg" viewBox="0 0 440 100" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Capacity curve on indigo">
           <defs>
             <linearGradient id="rampDemo" x1="0" y1="0" x2="1" y2="0">
@@ -2794,11 +3200,11 @@ section.ds-section:first-child { border-top: none; padding-top: 48px; }
           <path d="M 12 78 C 80 74, 140 64, 200 48 S 360 20, 428 16" fill="none" stroke="url(#rampDemo)" stroke-width="3" stroke-linecap="round"/>
           <line x1="12" y1="90" x2="428" y2="90" stroke="#F5F1E8" stroke-opacity="0.22" stroke-width="1"/>
           <circle cx="100" cy="70" r="4" fill="#C9A14E"/>
-          <text x="100" y="60" text-anchor="middle" font-family="'Space Mono',monospace" font-size="8" fill="rgba(245,241,232,0.55)">YOU</text>
+          <text x="100" y="60" text-anchor="middle" font-family="'PolySans','Hanken Grotesk',sans-serif" font-weight="500" font-size="9" fill="rgba(245,241,232,0.68)">You</text>
         </svg>
-        <div class="traj-foot" style="color:rgba(245,241,232,0.55)">YOU ARE HERE · 41.2 ML/KG/MIN · WELL CONDITIONED</div>
+        <div class="traj-foot" style="color:rgba(245,241,232,0.68)">You are here · 41.2 ml/kg/min · well conditioned</div>
       </div>
-      <p class="demo-caption">FORWARD GRADIENT · GOLD YOU-ARE-HERE MARKER · SLATE BASELINE · EMBER HAZARD FORK · INDIGO FOR THE WINDOW THE INSTRUMENT DOES NOT MODEL · STRUCTURE BEFORE COLOR</p>
+      <p class="demo-caption">Forward gradient · gold you-are-here marker · slate baseline · ember hazard fork · indigo for the window the instrument does not model · structure before color</p>
     </div>
   </div>
 
@@ -2813,7 +3219,7 @@ section.ds-section:first-child { border-top: none; padding-top: 48px; }
         </div>
         <div class="ac-body">ApoB reduction from 96 to 78 mg/dL confirms the current regimen is working. No dose adjustment indicated. Recheck at autumn draw alongside lipid panel.</div>
         <div class="ac-footer">
-          <span class="ac-status accepted">ACCEPTED</span>
+          <span class="ac-status accepted">Accepted</span>
         </div>
       </div>
       <div class="action-card">
@@ -2823,10 +3229,10 @@ section.ds-section:first-child { border-top: none; padding-top: 48px; }
         </div>
         <div class="ac-body">hsCRP elevated at 1.9 mg/L, up from 0.8 mg/L. Marathon nine days before the draw is the likely cause. Retest at rest to rule out chronic inflammation before escalating.</div>
         <div class="ac-footer">
-          <span class="ac-status pending">PENDING</span>
+          <span class="ac-status pending">Pending</span>
         </div>
       </div>
-      <p class="demo-caption">URGENCY + WINDOW IS THE ONLY META LINE · NO CHIPS · NO PILLS · NO COLORED BACKGROUNDS · RATIONALE INSIDE THE BODY, NOT THE HEADER</p>
+      <p class="demo-caption">Urgency + window is the only meta line · no chips · no pills · no colored backgrounds · rationale inside the body, not the header</p>
     </div>
   </div>
 
@@ -2839,27 +3245,27 @@ section.ds-section:first-child { border-top: none; padding-top: 48px; }
           <div class="ms-line"></div>
           <div class="ms-node past"></div>
           <div class="ms-label">Spring draw</div>
-          <div class="ms-date">APR 2026</div>
+          <div class="ms-date">Apr 2026</div>
         </div>
         <div class="ms-item next-up">
           <div class="ms-line"></div>
           <div class="ms-node next"></div>
           <div class="ms-label">Review with Dr. Chen</div>
-          <div class="ms-date">12 JUN</div>
+          <div class="ms-date">12 Jun</div>
         </div>
         <div class="ms-item">
           <div class="ms-line"></div>
           <div class="ms-node"></div>
           <div class="ms-label">Autumn draw</div>
-          <div class="ms-date">OCT 2026</div>
+          <div class="ms-date">Oct 2026</div>
         </div>
         <div class="ms-item">
           <div class="ms-node"></div>
           <div class="ms-label">Annual review</div>
-          <div class="ms-date">APR 2027</div>
+          <div class="ms-date">Apr 2027</div>
         </div>
       </div>
-      <p class="demo-caption">PAST: FILLED BORDER-STRONG · NEXT-UP: GOLD · FUTURE: OUTLINED · VERTICAL ON MOBILE</p>
+      <p class="demo-caption">Past: filled border-strong · next-up: gold · future: outlined · vertical on mobile</p>
     </div>
   </div>
 </section>
@@ -2921,7 +3327,7 @@ section.ds-section:first-child { border-top: none; padding-top: 48px; }
         <svg viewBox="0 0 12 12"><path d="M6 0.75 L7.15 4.85 L11.25 6 L7.15 7.15 L6 11.25 L4.85 7.15 L0.75 6 L4.85 4.85 Z"/></svg>
         Ask
       </div>
-      <span style="font-family:var(--audit);font-size:9px;color:var(--text-tertiary);margin-left:12px">Neutral chrome. The sparkle is the only marker. No accent, no label beyond "Ask".</span>
+      <span style="font-family:var(--voice);font-size:11px;color:var(--text-tertiary);margin-left:12px">Neutral chrome. The sparkle is the only marker. No accent, no label beyond "Ask".</span>
     </div>
 
     <div class="preset-chips">
@@ -2932,7 +3338,7 @@ section.ds-section:first-child { border-top: none; padding-top: 48px; }
 
     <div style="margin-top:20px">
       <div class="escalate-pair">
-        <div class="escalate-btn human">Message Dr. Mizani about this</div>
+        <div class="escalate-btn human">Message Dr. Chen about this</div>
         <div class="escalate-btn ai">Ask Aleron AI about this</div>
       </div>
     </div>
@@ -3047,7 +3453,7 @@ section.ds-section:first-child { border-top: none; padding-top: 48px; }
   <!-- ARCHETYPE 4: AGENTIC ACTION -->
   <div class="subsec">
     <div class="subsec-label">Archetype 04 · Agentic action · AI proposes, human disposes</div>
-    <p class="type-body">When AI suggests an action, the card it lives in is not the same as a confirmed action. It carries a gold signal border, a clear label, and three dispositions: approve, modify, reject. Nothing executes without a human signature. The proposed action is visually distinct from a confirmed one, always.</p>
+    <p class="type-body">When AI suggests an action, the card it lives in is not the same as a confirmed action. It carries a gold-marked label and three dispositions: approve, modify, reject. Nothing executes without a human signature. The proposed action is visually distinct from a confirmed one, always.</p>
 
     <div class="proposed-action">
       <div class="pa-label">AI Proposed · Awaiting Review</div>
@@ -3097,8 +3503,8 @@ section.ds-section:first-child { border-top: none; padding-top: 48px; }
     </div>
 
     <div style="margin:20px 0">
-      <div style="font-family:var(--audit);font-size:9.5px;letter-spacing:0.06em;color:var(--text-tertiary);margin-bottom:6px">LAB VALUE · LIVE UPDATE</div>
-      <div style="font-family:var(--audit);font-size:14px;color:var(--ink)">
+      <div style="font-family:var(--voice);font-size:10.5px;color:var(--text-tertiary);margin-bottom:6px">Lab value · live update</div>
+      <div style="font-family:var(--voice);font-size:14px;color:var(--ink)">
         ApoB <span class="live-val">76 mg/dL</span> <span style="font-size:11px;color:var(--slate)">was 78 mg/dL on 2026-04-10</span>
       </div>
     </div>
@@ -3113,7 +3519,7 @@ section.ds-section:first-child { border-top: none; padding-top: 48px; }
   <!-- ARCHETYPE 6: ONBOARDING -->
   <div class="subsec">
     <div class="subsec-label">Archetype 06 · Onboarding · progressive flow</div>
-    <p class="type-body">Aleron onboarding is multi-step: consent, labs, optional physician visit, care plan. The stepper shows where the patient is without creating urgency. Square nodes, not circles. Consent is a structured surface with version and timestamp, not a checkbox. Complexity reveals itself as the patient engages.</p>
+    <p class="type-body">Aleron onboarding is multi-step: consent, labs, optional physician visit, care plan. The stepper shows where the patient is without creating urgency. Filleted nodes, not circles. Consent is a structured surface with version and timestamp, not a checkbox. Complexity reveals itself as the patient engages.</p>
 
     <div class="stepper">
       <div class="step done">
@@ -3141,7 +3547,7 @@ section.ds-section:first-child { border-top: none; padding-top: 48px; }
     <div class="consent-surface">
       <div class="consent-title">Consent to Genetic Testing</div>
       <div class="consent-body">I understand that genetic testing through Invitae screens for actionable inherited conditions including all 81 ACMG genes. Results are reviewed by a licensed physician before release. I consent to this testing under the terms described in the full consent document.</div>
-      <div class="consent-meta">Version 2026.1 · 2026-06-30 14:32 UTC · Ordering physician: Hamed Mizani, MD</div>
+      <div class="consent-meta">Version 2026.1 · 2026-06-30 14:32 UTC · Ordering physician: H. Okafor, MD</div>
       <div class="consent-action">I Consent</div>
     </div>
 
@@ -3154,7 +3560,7 @@ section.ds-section:first-child { border-top: none; padding-top: 48px; }
   <!-- ARCHETYPE 7: DATA CAPTURE -->
   <div class="subsec">
     <div class="subsec-label">Archetype 07 · Data capture · clinical input</div>
-    <p class="type-body">Clinical data entry follows the audit face with tabular-nums. Values are always shown with units. Out-of-range values are flagged by color signal, not decoration. File uploads accept lab PDFs and insurance cards. PROMs render as scaled instruments, not free text.</p>
+    <p class="type-body">Clinical data entry sets values in the voice face, tabular, at weight 500. Values are always shown with units. Out-of-range values are flagged by color signal, not decoration. File uploads accept lab PDFs and insurance cards. PROMs render as scaled instruments, not free text.</p>
 
     <table class="lab-result-table">
       <thead>
@@ -3216,120 +3622,268 @@ section.ds-section:first-child { border-top: none; padding-top: 48px; }
 <section class="ds-section" id="surfaces">
   <div class="sec-label">06 · Layer 5 · Surface Patterns</div>
   <h1 class="sec-title">Worked surfaces.</h1>
-  <p class="sec-abstract">Primitives assembled into real product. Four surfaces across both audiences and both form factors: patient mobile, patient web, physician web. They share one spine. The patient produces unstructured signal, the AI structures it, the physician disposes of it. Nothing diagnoses. Nothing executes without a human. Every element here is rendered from the same tokens and primitives defined above.</p>
+  <p class="sec-abstract">Primitives assembled into real product. The ratified reference leads: the member plan, exactly as decided in register.html. Every member surface derives from it. The remaining surfaces share one spine: the patient produces unstructured signal, the AI structures it, the physician disposes of it. Nothing diagnoses. Nothing executes without a human.</p>
 
+  <!-- THE RATIFIED REFERENCE -->
   <div class="subsec">
-    <div class="subsec-label">Desktop · chart-room · flight-deck register</div>
-    <div class="mockup">
-      <div class="mockup-chrome">
-        <div class="mockup-dots"><span></span><span></span><span></span></div>
-        <div class="mockup-url">app.aleronmd.com</div>
-      </div>
-      <div class="mockup-body night">
-        <!-- NAV -->
-        <div class="cr-nav">
-          <div class="cr-nav-lockup">aleron<span class="md">MD</span></div>
-          <div class="cr-nav-item active">
-            <svg width="15" height="15" viewBox="0 0 24 24" fill="none"><rect x="4" y="5" width="16" height="14" stroke="#F5F1E8" stroke-width="1.5"/><path d="M8.5 2.5V7 M15.5 2.5V7" stroke="#F5F1E8" stroke-width="1.5"/><circle cx="14.5" cy="13.5" r="1.4" fill="#F5F1E8"/></svg>
-            <span>Review</span>
-          </div>
-          <div class="cr-nav-item">
-            <svg width="15" height="15" viewBox="0 0 24 24" fill="none"><path d="M9.5 3h5 M10.5 3v5 M13.5 3v5 M13.5 8l4 9.2a1 1 0 0 1-.9 1.8H7.4a1 1 0 0 1-.9-1.8L10.5 8 M8.2 15h7.6" stroke="#F5F1E8" stroke-width="1.5"/></svg>
-            <span>Labs</span>
-          </div>
-          <div class="cr-nav-item">
-            <svg width="15" height="15" viewBox="0 0 24 24" fill="none"><path d="M8.5 2 C 8.5 7, 15.5 9, 15.5 12 C 15.5 15, 8.5 17, 8.5 22 M15.5 2 C 15.5 7, 8.5 9, 8.5 12 C 8.5 15, 15.5 17, 15.5 22 M9.4 5.5h5.2 M9 12h6 M9.4 18.5h5.2" stroke="#F5F1E8" stroke-width="1.5"/></svg>
-            <span>Genetics</span>
-          </div>
-          <div class="cr-nav-item">
-            <svg width="15" height="15" viewBox="0 0 24 24" fill="none"><path d="M2 13h4.5l2-6 3 10 2-4h5" stroke="#F5F1E8" stroke-width="1.5"/><circle cx="20.5" cy="13" r="1.7" stroke="#F5F1E8" stroke-width="1.5"/></svg>
-            <span>Pulse</span>
-          </div>
-          <div class="cr-nav-foot">
-            <div class="cr-nav-foot-name">DAVID PARK</div>
-            <div class="cr-nav-foot-id">MEMBER 042</div>
-          </div>
-        </div>
-
-        <!-- MAIN -->
-        <div class="cr-main">
-          <div class="cr-greeting">
+    <div class="subsec-label">Member · the plan · day register · the ratified reference</div>
+    <div class="refsurf">
+      <div class="shell">
+        <aside class="rail">
+          <div class="r-lockup">aleron<span class="tag">MD</span></div>
+          <div class="r-id">
+            <div class="r-avatar">DP</div>
             <div>
-              <h4>Good morning, David.</h4>
-              <div class="cr-greeting-meta">APRIL DRAW · 104 MARKERS · REVIEWED 12 JUN</div>
-            </div>
-            <a class="cr-msg-btn">Message Dr. Chen</a>
-          </div>
-
-          <!-- ONE THING -->
-          <div class="one-thing" style="margin-bottom:14px">
-            <div class="ot-label">THE ONE THING · THIS QUARTER</div>
-            <div class="ot-content">
-              <div class="ot-text">Keep the statin where it is. Nothing else changes.</div>
-              <div class="ot-link">See the why</div>
+              <div class="r-name">David Park</div>
+              <div class="r-code">Member 042</div>
             </div>
           </div>
-
-          <!-- ANNUNCIATOR -->
-          <div class="annunciator" style="background:transparent;border-color:rgba(245,241,232,0.18);margin-bottom:14px">
-            <div class="ann-label" style="color:rgba(245,241,232,0.55)">ANNUNCIATOR · EMPTY WHEN ALL IS WELL</div>
-            <div class="ann-content">
-              <span class="ann-hazard">HSCRP 1.9 · RETEST</span>
-              <span class="ann-advisory">APOB ↓ · LDL-C ↓ · INSULIN ↓ · VIT D ↑</span>
+          <div class="r-rule"></div>
+          <nav class="r-nav">
+            <button class="r-item active"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M4 5h16M4 12h16M4 19h10"/></svg>Plan</button>
+            <button class="r-item"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M3 18l6-6 4 4 8-8"/><path d="M17 8h4v4"/></svg>Quality of Life</button>
+            <button class="r-item"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><circle cx="12" cy="8" r="4"/><path d="M4 21c0-4 4-7 8-7s8 3 8 7"/></svg>Your Data</button>
+            <button class="r-item"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M12 3.5l7 3v5.3c0 4.1-2.8 7.8-7 8.7-4.2-.9-7-4.6-7-8.7V6.5l7-3Z"/><path d="M8.5 13.2l2.2-2.2 2.1 2.1 2.8-3.8"/></svg>Risk</button>
+            <button class="r-item"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M5 6.5h14a2 2 0 0 1 2 2v6.2a2 2 0 0 1-2 2H10.5L6 20v-3.3H5a2 2 0 0 1-2-2V8.5a2 2 0 0 1 2-2Z"/><path d="M7.5 10.2h9M7.5 13.2h6.2"/></svg>Chat</button>
+            <button class="r-item"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><rect x="4" y="5.5" width="16" height="15" rx="2"/><path d="M8 3.5v4M16 3.5v4M4 10h16"/><path d="M8 14h3M13.5 14H16M8 17h3"/></svg>Appointments<span class="r-dot"></span></button>
+          </nav>
+          <div class="r-foot"><div class="r-foot-txt">Dr. Chen · Cardiology</div></div>
+        </aside>
+        <div class="rmain">
+          <div class="p-head">
+            <div>
+              <div class="p-h">Good morning, David.</div>
+              <div class="p-meta">April draw · 104 markers · reviewed 12 June</div>
             </div>
+            <button class="p-btn">Message Dr. Chen</button>
           </div>
-
-          <!-- CITATION TABLE (excerpt) -->
-          <div class="citation" style="color:var(--cream)">
-            <div class="ct-group" style="color:var(--cream);border-top-color:rgba(245,241,232,0.25);padding-top:8px;margin-top:14px">Lipids</div>
-            <div class="ct-row" style="border-bottom-color:rgba(245,241,232,0.06)">
-              <span class="ct-name" style="color:rgba(245,241,232,0.70)">ApoB</span>
-              <span class="ct-value" style="color:rgba(245,241,232,0.88)">78 <span class="ct-unit" style="color:rgba(245,241,232,0.45)">mg/dL</span></span>
-              <span class="ct-trend advisory" style="color:var(--lit-gold)">DOWN FROM 96</span>
-              <span class="ct-note" style="color:rgba(245,241,232,0.45)">whatever you changed, keep it</span>
+          <div class="one">
+            <div class="rone-label">The one thing this quarter</div>
+            <div class="rone-text">Keep the statin where it is. Nothing else changes.</div>
+            <a class="rone-link">See the why</a>
+          </div>
+          <div class="cols">
+            <div class="colmain">
+              <div class="tier2">
+                <div class="g-head">Lipids</div>
+                <div class="g-row">
+                  <span class="g-name">ApoB</span>
+                  <span class="g-val">78 <em>mg/dL</em></span>
+                  <span class="g-trend adv">down from 96</span>
+                  <span class="g-note">whatever you changed, keep it</span>
+                </div>
+                <div class="g-row">
+                  <span class="g-name">Lp(a)</span>
+                  <span class="g-val">62 <em>nmol/L</em></span>
+                  <span class="g-trend"></span>
+                  <span class="g-note">genetic; managed around, not against</span>
+                </div>
+                <div class="g-head">Inflammation</div>
+                <div class="g-row">
+                  <span class="g-name">hsCRP</span>
+                  <span class="g-val">1.9 <em>mg/L</em></span>
+                  <span class="g-trend haz">up from 0.8</span>
+                  <span class="g-note">marathon nine days before; retest six weeks</span>
+                </div>
+                <div class="g-head">Metabolic</div>
+                <div class="g-row">
+                  <span class="g-name">HbA1c</span>
+                  <span class="g-val">5.4 <em>%</em></span>
+                  <span class="g-trend"></span>
+                  <span class="g-note">three years in range</span>
+                </div>
+                <div class="g-quiet">Hormones, kidney, liver and 86 more are all quiet.</div>
+              </div>
+              <div class="tier2">
+                <div class="g-head">The protocol</div>
+                <div class="proto-row">
+                  <span class="proto-name">Rosuvastatin</span>
+                  <span class="proto-spec">10 mg · nightly</span>
+                  <span class="proto-status">Continue</span>
+                </div>
+                <div class="proto-row">
+                  <span class="proto-name">Zone 2 base</span>
+                  <span class="proto-spec">4 × 45 min · weekly</span>
+                  <span class="proto-status">On track</span>
+                </div>
+                <div class="proto-row">
+                  <span class="proto-name">Sauna</span>
+                  <span class="proto-spec">4 × 20 min · weekly</span>
+                  <span class="proto-status adv">New this quarter</span>
+                </div>
+              </div>
             </div>
-            <div class="ct-row" style="border-bottom-color:rgba(245,241,232,0.06)">
-              <span class="ct-name" style="color:rgba(245,241,232,0.70)">Lp(a)</span>
-              <span class="ct-value" style="color:rgba(245,241,232,0.88)">62 <span class="ct-unit" style="color:rgba(245,241,232,0.45)">nmol/L</span></span>
-              <span class="ct-trend"></span>
-              <span class="ct-note" style="color:rgba(245,241,232,0.45)">genetic; managed around</span>
+            <div class="colside">
+              <div class="tier2">
+                <div class="c-label">The course · VO2max</div>
+                <div class="c-valrow"><span class="c-val">41.2</span><span class="c-unit">ml/kg/min</span><span class="c-status">Well</span></div>
+                <svg class="plot" viewBox="0 0 280 104" aria-label="VO2max trajectory">
+                  <line class="grid-l" x1="6" y1="22" x2="274" y2="22"/>
+                  <line class="grid-l" x1="6" y1="52" x2="274" y2="52"/>
+                  <line class="grid-l" x1="6" y1="82" x2="274" y2="82"/>
+                  <polyline class="line" points="8,84 60,77 112,70 164,58 212,50"/>
+                  <polyline class="proj" points="212,50 272,42"/>
+                  <circle class="dot" cx="212" cy="50" r="3.2"/>
+                </svg>
+                <div class="c-meta">Projected 42.5 by spring, a two-year climb.</div>
+              </div>
+              <div>
+                <div class="s-label">Next</div>
+                <div class="s-body">Autumn draw, with Dr. Chen.</div>
+                <div class="s-meta">14 October 2026</div>
+              </div>
+              <div>
+                <div class="s-label">Dr. Chen · Tuesday</div>
+                <div class="s-body">Nothing needed from you this month. Enjoy the snow with Maya.</div>
+                <a class="s-link">Open the message</a>
+              </div>
+              <div class="ask"><span class="ask-spark">✦</span>Ask Aleron about this draw</div>
             </div>
-            <div class="ct-row" style="border-bottom-color:rgba(245,241,232,0.06)">
-              <span class="ct-name" style="color:rgba(245,241,232,0.70)">hsCRP</span>
-              <span class="ct-value" style="color:rgba(245,241,232,0.88)">1.9 <span class="ct-unit" style="color:rgba(245,241,232,0.45)">mg/L</span></span>
-              <span class="ct-trend hazard">UP FROM 0.8</span>
-              <span class="ct-note" style="color:rgba(245,241,232,0.45)">retest six weeks</span>
-            </div>
-            <div class="ct-footer" style="color:rgba(245,241,232,0.45)">METABOLIC · HORMONES · KIDNEY · LIVER · 88 MORE, ALL QUIET · FIXED SCAN ORDER</div>
-          </div>
-        </div>
-
-        <!-- CONTEXT -->
-        <div class="cr-context">
-          <div class="cr-context-card">
-            <div class="cr-context-label">THE COURSE · VO2MAX</div>
-            <svg viewBox="0 0 200 70" style="width:100%;display:block;margin-top:8px" xmlns="http://www.w3.org/2000/svg">
-              <defs><linearGradient id="rampCtx" x1="0" y1="0" x2="1" y2="0"><stop offset="0" stop-color="#8C96AC"/><stop offset="0.55" stop-color="#D86B4F"/><stop offset="1" stop-color="#EACB7F"/></linearGradient></defs>
-              <path d="M 6 54 C 40 50, 70 44, 100 32 S 180 14, 194 11" fill="none" stroke="url(#rampCtx)" stroke-width="2.5" stroke-linecap="round"/>
-              <line x1="6" y1="62" x2="194" y2="62" stroke="#F5F1E8" stroke-opacity="0.22" stroke-width="1"/>
-              <circle cx="50" cy="48" r="3" fill="#C9A14E"/>
-            </svg>
-            <div class="cr-context-date" style="margin-top:6px">41.2 ML/KG/MIN · WELL</div>
-          </div>
-          <div class="cr-context-card">
-            <div class="cr-context-label">NEXT</div>
-            <div class="cr-context-body">Autumn draw<br>Review with Dr. Chen</div>
-            <div class="cr-context-date">OCT 2026 · 14 OCT</div>
-          </div>
-          <div class="cr-context-card">
-            <div class="cr-context-label">DR. CHEN · TUESDAY</div>
-            <div class="cr-context-body">Nothing needed from you this month. Enjoy the snow with Maya.</div>
-            <div class="cr-context-date" style="margin-top:8px">Open the message</div>
           </div>
         </div>
       </div>
     </div>
-    <p class="fine">Three columns: nav rail (176px) + main + context rail (248px). All flight-deck register. Greeting in voice. Draw summary in audit. One-Thing outside the volume. Annunciator below. Citation table with real data. Context rail holds trajectory, next milestone, and physician message. Every component on this page is rendered from the same tokens.</p>
+    <p class="fine">The ratified member plan, register v1, byte for byte the reference in register.html. Rail: lockup, member, rule, tabs; Plan is where you are; Appointments carries the attention dot. One Tier 1 card. Two Tier 2 fields per column at most. Tier 3 holds the calendar, the physician, and the ask. Every member surface, Your Data first, derives from this surface and cites it.</p>
+  </div>
+
+  <div class="subsec">
+    <div class="subsec-label">Member · the plan · flight-deck register · the Cabin in dark</div>
+    <div class="refsurf night">
+      <div class="shell">
+        <aside class="rail">
+          <div class="r-lockup">aleron<span class="tag">MD</span></div>
+          <div class="r-id">
+            <div class="r-avatar">DP</div>
+            <div>
+              <div class="r-name">David Park</div>
+              <div class="r-code">Member 042</div>
+            </div>
+          </div>
+          <div class="r-rule"></div>
+          <nav class="r-nav">
+            <button class="r-item active"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M4 5h16M4 12h16M4 19h10"/></svg>Plan</button>
+            <button class="r-item"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M3 18l6-6 4 4 8-8"/><path d="M17 8h4v4"/></svg>Quality of Life</button>
+            <button class="r-item"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><circle cx="12" cy="8" r="4"/><path d="M4 21c0-4 4-7 8-7s8 3 8 7"/></svg>Your Data</button>
+            <button class="r-item"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M12 3.5l7 3v5.3c0 4.1-2.8 7.8-7 8.7-4.2-.9-7-4.6-7-8.7V6.5l7-3Z"/><path d="M8.5 13.2l2.2-2.2 2.1 2.1 2.8-3.8"/></svg>Risk</button>
+            <button class="r-item"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M5 6.5h14a2 2 0 0 1 2 2v6.2a2 2 0 0 1-2 2H10.5L6 20v-3.3H5a2 2 0 0 1-2-2V8.5a2 2 0 0 1 2-2Z"/><path d="M7.5 10.2h9M7.5 13.2h6.2"/></svg>Chat</button>
+            <button class="r-item"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><rect x="4" y="5.5" width="16" height="15" rx="2"/><path d="M8 3.5v4M16 3.5v4M4 10h16"/><path d="M8 14h3M13.5 14H16M8 17h3"/></svg>Appointments<span class="r-dot"></span></button>
+          </nav>
+          <div class="r-foot"><div class="r-foot-txt">Dr. Chen · Cardiology</div></div>
+        </aside>
+        <div class="rmain">
+          <div class="p-head">
+            <div>
+              <div class="p-h">Good morning, David.</div>
+              <div class="p-meta">April draw · 104 markers · reviewed 12 June</div>
+            </div>
+            <button class="p-btn">Message Dr. Chen</button>
+          </div>
+          <div class="one">
+            <div class="rone-label">The one thing this quarter</div>
+            <div class="rone-text">Keep the statin where it is. Nothing else changes.</div>
+            <a class="rone-link">See the why</a>
+          </div>
+          <div class="cols">
+            <div class="colmain">
+              <div class="tier2">
+                <div class="g-head">Lipids</div>
+                <div class="g-row">
+                  <span class="g-name">ApoB</span>
+                  <span class="g-val">78 <em>mg/dL</em></span>
+                  <span class="g-trend adv">down from 96</span>
+                  <span class="g-note">whatever you changed, keep it</span>
+                </div>
+                <div class="g-row">
+                  <span class="g-name">Lp(a)</span>
+                  <span class="g-val">62 <em>nmol/L</em></span>
+                  <span class="g-trend"></span>
+                  <span class="g-note">genetic; managed around, not against</span>
+                </div>
+                <div class="g-head">Inflammation</div>
+                <div class="g-row">
+                  <span class="g-name">hsCRP</span>
+                  <span class="g-val">1.9 <em>mg/L</em></span>
+                  <span class="g-trend haz">up from 0.8</span>
+                  <span class="g-note">marathon nine days before; retest six weeks</span>
+                </div>
+                <div class="g-head">Metabolic</div>
+                <div class="g-row">
+                  <span class="g-name">HbA1c</span>
+                  <span class="g-val">5.4 <em>%</em></span>
+                  <span class="g-trend"></span>
+                  <span class="g-note">three years in range</span>
+                </div>
+                <div class="g-quiet">Hormones, kidney, liver and 86 more are all quiet.</div>
+              </div>
+              <div class="tier2">
+                <div class="g-head">The protocol</div>
+                <div class="proto-row">
+                  <span class="proto-name">Rosuvastatin</span>
+                  <span class="proto-spec">10 mg · nightly</span>
+                  <span class="proto-status">Continue</span>
+                </div>
+                <div class="proto-row">
+                  <span class="proto-name">Zone 2 base</span>
+                  <span class="proto-spec">4 × 45 min · weekly</span>
+                  <span class="proto-status">On track</span>
+                </div>
+                <div class="proto-row">
+                  <span class="proto-name">Sauna</span>
+                  <span class="proto-spec">4 × 20 min · weekly</span>
+                  <span class="proto-status adv">New this quarter</span>
+                </div>
+              </div>
+            </div>
+            <div class="colside">
+              <div class="tier2">
+                <div class="c-label">The course · VO2max</div>
+                <div class="c-valrow"><span class="c-val">41.2</span><span class="c-unit">ml/kg/min</span><span class="c-status">Well</span></div>
+                <svg class="plot" viewBox="0 0 280 104" aria-label="VO2max trajectory">
+                  <line class="grid-l" x1="6" y1="22" x2="274" y2="22"/>
+                  <line class="grid-l" x1="6" y1="52" x2="274" y2="52"/>
+                  <line class="grid-l" x1="6" y1="82" x2="274" y2="82"/>
+                  <polyline class="line" points="8,84 60,77 112,70 164,58 212,50"/>
+                  <polyline class="proj" points="212,50 272,42"/>
+                  <circle class="dot" cx="212" cy="50" r="3.2"/>
+                </svg>
+                <div class="c-meta">Projected 42.5 by spring, a two-year climb.</div>
+              </div>
+              <div>
+                <div class="s-label">Next</div>
+                <div class="s-body">Autumn draw, with Dr. Chen.</div>
+                <div class="s-meta">14 October 2026</div>
+              </div>
+              <div>
+                <div class="s-label">Dr. Chen · Tuesday</div>
+                <div class="s-body">Nothing needed from you this month. Enjoy the snow with Maya.</div>
+                <a class="s-link">Open the message</a>
+              </div>
+              <div class="ask"><span class="ask-spark">✦</span>Ask Aleron about this draw</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <p class="fine">The same Cabin, one .night class apart: identical markup, tabs, icons, and content as the day reference above, resolved through the flight-deck tokens. Only the color space changes. Tier 1 lifts as a lighter gunmetal panel with a hairline ring, since shadow does not read on dark; Tier 2 sinks as a darker inset; the hazard trend becomes a filled ember tile with cream text, never ember text on a dark ground. If a dark surface cannot be produced by the token swap alone, the component is wrong, not the mode.</p>
+  </div>
+
+  <!-- DEVICE FRAME SPEC -->
+  <div class="subsec">
+    <div class="subsec-label">Device frame · one iPhone, one aspect ratio</div>
+    <p class="type-body">Every mobile prototype is drawn in the same frame, so surfaces are judged against each other and never against a shifting device. The frame is the iPhone 16 Pro: 393 by 852 points, a 19.5:9 glass, with the Dynamic Island. It renders in neutral graphite with a thin uniform bezel and the faintest lift, because the frame is a ruler, not a subject. Nothing about the device competes with the screen it holds.</p>
+    <table class="token-table">
+      <thead><tr><th>Property</th><th>Value</th><th>Why</th></tr></thead>
+      <tbody>
+        <tr><td>Device</td><td>iPhone 16 Pro</td><td>Current mainstream Pro; the default prototype frame in design tools</td></tr>
+        <tr><td>Logical size</td><td>393 × 852 pt</td><td>Prototypes map to it one to one</td></tr>
+        <tr><td>Aspect ratio</td><td>19.5 : 9 (852 : 393)</td><td>Locked; content yields before the ratio does</td></tr>
+        <tr><td>Top cutout</td><td>Dynamic Island</td><td>Not a notch; iPhone 15 Pro and later</td></tr>
+        <tr><td>Bezel</td><td>9px graphite, uniform</td><td>Quiet, even on all four sides</td></tr>
+        <tr><td>Corner radius</td><td>Device 46, screen follows</td><td>Continuous, iPhone-true</td></tr>
+        <tr><td>Elevation</td><td>Whisper shadow only</td><td>The device never outshouts the prototype</td></tr>
+      </tbody>
+    </table>
+    <p class="fine">One device keeps every mobile review comparable. Prototype at 393 × 852 and scale the frame to fit the page; never stretch the aspect ratio to make content fit. The Max and the SE are out of scope. Both registers use the identical frame; only the screen inside changes.</p>
   </div>
 
   <!-- PATIENT MOBILE: ONBOARDING + VOICE SYMPTOM -->
@@ -3355,28 +3909,28 @@ section.ds-section:first-child { border-top: none; padding-top: 48px; }
                 <div class="hub-check">✓</div>
                 <div class="hub-task-body">
                   <div class="hub-task-title">Consent to care</div>
-                  <div class="hub-task-meta">SIGNED · 28 JUN</div>
+                  <div class="hub-task-meta">Signed · 28 Jun</div>
                 </div>
               </div>
               <div class="hub-task now">
                 <div class="hub-check">2</div>
                 <div class="hub-task-body">
                   <div class="hub-task-title">Connect Apple Health</div>
-                  <div class="hub-task-meta">SLEEP · ACTIVITY · HEART RATE</div>
+                  <div class="hub-task-meta">Sleep · Activity · Heart rate</div>
                 </div>
               </div>
               <div class="hub-task">
                 <div class="hub-check">3</div>
                 <div class="hub-task-body">
                   <div class="hub-task-title">Schedule your blood draw</div>
-                  <div class="hub-task-meta">AT HOME OR QUEST · 100+ MARKERS</div>
+                  <div class="hub-task-meta">At home or Quest · 100+ markers</div>
                 </div>
               </div>
               <div class="hub-task">
                 <div class="hub-check">4</div>
                 <div class="hub-task-body">
                   <div class="hub-task-title">Meet your physician</div>
-                  <div class="hub-task-meta">UNLOCKS AFTER LABS</div>
+                  <div class="hub-task-meta">Unlocks after labs</div>
                 </div>
               </div>
             </div>
@@ -3402,7 +3956,7 @@ section.ds-section:first-child { border-top: none; padding-top: 48px; }
                 <div class="ps-stamp">Listening</div>
               </div>
               <div class="ps-h" style="font-size:18px">Tell me what's going on.</div>
-              <div class="ps-sub" style="color:rgba(245,241,232,0.6)">Speak naturally. When and where it started, what it feels like, what makes it better or worse.</div>
+              <div class="ps-sub" style="color:rgba(245,241,232,0.68)">Speak naturally. When and where it started, what it feels like, what makes it better or worse.</div>
 
               <div class="mic-stage">
                 <button class="mic-btn recording" style="width:64px;height:64px;border-color:var(--cream)">
@@ -3425,7 +3979,7 @@ section.ds-section:first-child { border-top: none; padding-top: 48px; }
               </div>
 
               <div class="transcript-field" style="border-color:rgba(245,241,232,0.22);background:rgba(245,241,232,0.04)">
-                <span class="transcript-final" style="color:var(--cream)">Since about Tuesday I've had this tightness in my chest when I climb the stairs. </span><span class="transcript-interim" style="color:rgba(245,241,232,0.55)">It goes away when I rest, maybe a couple minutes</span>
+                <span class="transcript-final" style="color:var(--cream)">Since about Tuesday I've had this tightness in my chest when I climb the stairs. </span><span class="transcript-interim" style="color:rgba(245,241,232,0.68)">It goes away when I rest, maybe a couple minutes</span>
               </div>
             </div>
             <div class="ps-tabbar">
@@ -3473,7 +4027,7 @@ section.ds-section:first-child { border-top: none; padding-top: 48px; }
               </div>
 
               <div class="route-card">
-                <div class="route-body">Exertional chest tightness can be time-sensitive. I've flagged this for Dr. Okafor and she'll see it today. If it happens at rest or with sweating or nausea, call 911.</div>
+                <div class="route-body">Exertional chest tightness can be time-sensitive. I've flagged this for Dr. Okafor today. If it happens at rest, or with sweating or nausea, call 911.</div>
                 <div class="route-action">Sent to your physician →</div>
               </div>
             </div>
@@ -3503,12 +4057,12 @@ section.ds-section:first-child { border-top: none; padding-top: 48px; }
       </div>
       <div class="mockup-body" style="grid-template-columns:1fr 300px;background:var(--paper);color:var(--ink);min-height:480px">
         <div style="padding:24px 26px;min-width:0">
-          <div style="font-family:var(--audit);font-size:8.5px;letter-spacing:0.1em;text-transform:uppercase;color:var(--text-tertiary);margin-bottom:8px">Your plan · this quarter</div>
+          <div style="font-family:var(--voice);font-size:11px;font-weight:500;letter-spacing:0;color:var(--text-tertiary);margin-bottom:8px">Your plan · this quarter</div>
           <div style="font-family:var(--voice);font-size:24px;font-weight:500;color:var(--ink);letter-spacing:-0.01em;margin-bottom:6px">Keep the statin. Move more on the days you can.</div>
-          <div style="font-family:var(--voice);font-size:14px;color:var(--text-secondary);line-height:1.55;margin-bottom:20px">Dr. Okafor reviewed your April panel on June 12. The lipid work is paying off. The one thing worth your attention is hsCRP, which we will recheck in six weeks.</div>
+          <div style="font-family:var(--voice);font-size:14px;color:var(--text-secondary);line-height:1.55;margin-bottom:20px">Dr. Chen reviewed your April panel on June 12. The lipid work is paying off. The one thing worth your attention is hsCRP, which we will recheck in six weeks.</div>
 
           <div class="one-thing" style="margin-bottom:18px">
-            <div class="ot-label">THE ONE THING · THIS QUARTER</div>
+            <div class="ot-label">The one thing this quarter</div>
             <div class="ot-content">
               <div class="ot-text">Recheck hsCRP in six weeks. Nothing else changes.</div>
               <div class="ot-link">See the why</div>
@@ -3518,13 +4072,13 @@ section.ds-section:first-child { border-top: none; padding-top: 48px; }
           <div class="evidence-stack" style="margin-bottom:8px">
             <div class="ev-layer summary">Why ApoB, not LDL, is how we track your heart risk.</div>
             <div class="ev-layer detail">ApoB counts every atherogenic particle, including the Lp(a) your genetics make relevant. Your ApoB fell from 96 mg/dL to 78 mg/dL since October.</div>
-            <div class="ev-layer citation">Source: PREVENT (AHA 2023) · PMID 37947085 · Reviewed by H. Okafor, MD</div>
+            <div class="ev-layer citation">Source: PREVENT (AHA 2023) · PMID 37947085 · Reviewed by Dr. Chen</div>
           </div>
-          <div class="limit-note" style="max-width:none">This explains your physician's plan. It does not change it. Message Dr. Okafor with any questions.</div>
+          <div class="limit-note" style="max-width:none">This explains your physician's plan. It does not change it. Message Dr. Chen with any questions.</div>
         </div>
 
         <div style="padding:20px 18px;border-left:1px solid var(--border-subtle);background:var(--surface-card)">
-          <div style="font-family:var(--audit);font-size:8px;letter-spacing:0.1em;text-transform:uppercase;color:var(--text-tertiary);margin-bottom:12px">Ask Aleron</div>
+          <div style="font-family:var(--voice);font-size:11px;font-weight:500;letter-spacing:0;color:var(--text-tertiary);margin-bottom:12px">Ask Aleron</div>
           <div class="ai-msg user" style="max-width:100%;margin-bottom:12px">
             <div class="ai-msg-bubble" style="font-size:12.5px">Is Lp(a) something I can change?</div>
           </div>
@@ -3554,15 +4108,15 @@ section.ds-section:first-child { border-top: none; padding-top: 48px; }
       </div>
       <div class="pi-body night">
         <!-- Nav -->
-        <div class="cr-nav" style="background:#20253A">
+        <div class="cr-nav">
           <div class="cr-nav-lockup">aleron<span class="md">MD</span></div>
-          <div class="cr-nav-item active"><span>Inbox</span></div>
-          <div class="cr-nav-item"><span>Panel</span></div>
-          <div class="cr-nav-item"><span>Reviews</span></div>
-          <div class="cr-nav-item"><span>Messages</span></div>
+          <div class="cr-nav-item active"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><rect x="3.5" y="5.5" width="17" height="13" rx="2"/><path d="M3.5 13H8l1.5 2.5h5L16 13h4.5"/></svg><span>Inbox</span></div>
+          <div class="cr-nav-item"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><circle cx="9" cy="9" r="3"/><path d="M3.5 19.5c0-3 2.5-5 5.5-5s5.5 2 5.5 5"/><path d="M16 6.5a3 3 0 0 1 0 5"/><path d="M20.5 19.5c0-2.3-1.3-4.2-3.3-4.8"/></svg><span>Panel</span></div>
+          <div class="cr-nav-item"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><rect x="6" y="4.5" width="12" height="16" rx="2"/><path d="M9.5 4.5V3h5v1.5"/><path d="M9 12.5l2 2 4-4"/></svg><span>Reviews</span></div>
+          <div class="cr-nav-item"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M5 6.5h14a2 2 0 0 1 2 2v6.2a2 2 0 0 1-2 2H10.5L6 20v-3.3H5a2 2 0 0 1-2-2V8.5a2 2 0 0 1 2-2Z"/></svg><span>Messages</span></div>
           <div class="cr-nav-foot">
-            <div class="cr-nav-foot-name">H. OKAFOR, MD</div>
-            <div class="cr-nav-foot-id">PANEL · 214 MEMBERS</div>
+            <div class="cr-nav-foot-name">H. Okafor, MD</div>
+            <div class="cr-nav-foot-id">Panel · 214 members</div>
           </div>
         </div>
 
@@ -3571,7 +4125,7 @@ section.ds-section:first-child { border-top: none; padding-top: 48px; }
           <div class="cr-greeting">
             <div>
               <h4>Needs you today</h4>
-              <div class="cr-greeting-meta">3 ITEMS · 1 TIME-SENSITIVE</div>
+              <div class="cr-greeting-meta">3 items · 1 time-sensitive</div>
             </div>
             <div class="conn-state syncing"><div class="conn-dot"></div>Live</div>
           </div>
@@ -3610,11 +4164,11 @@ section.ds-section:first-child { border-top: none; padding-top: 48px; }
         <!-- Context -->
         <div class="cr-context">
           <div class="cr-context-card">
-            <div class="cr-context-label">SARAH M. · AT A GLANCE</div>
+            <div class="cr-context-label">Sarah M. · at a glance</div>
             <div class="cr-context-body" style="margin-top:6px">52 · Member 188<br>ApoB 78 mg/dL<br>Lp(a) 62 nmol/L<br>FHx early CAD</div>
           </div>
           <div class="cr-context-card">
-            <div class="cr-context-label">CONFIDENCE · THIS PROPOSAL</div>
+            <div class="cr-context-label">Confidence · this proposal</div>
             <div class="confidence moderate" style="margin-top:8px">
               <div class="confidence-bars">
                 <div class="conf-bar on"></div><div class="conf-bar on"></div><div class="conf-bar on"></div>
@@ -3628,7 +4182,7 @@ section.ds-section:first-child { border-top: none; padding-top: 48px; }
         </div>
       </div>
     </div>
-    <p class="fine">Three columns: nav rail + triage main + patient context. Flight-deck register throughout. The patient's words are preserved verbatim in the inbound card, then structured into chips beneath, so the physician sees both the human and the parse. The proposed action carries a gold signal border, a moderate-confidence basis stated honestly, and three dispositions. Approve is a filled control; gold never becomes the button. Confidence is categorical, not a false percentage.</p>
+    <p class="fine">Three columns: nav rail + triage main + patient context. Flight-deck register throughout. The patient's words are preserved verbatim in the inbound card, then structured into chips beneath, so the physician sees both the human and the parse. The proposed action carries its gold-marked label, a moderate-confidence basis stated honestly, and three dispositions. Approve is a filled control; gold never becomes the button. Confidence is categorical, not a false percentage.</p>
   </div>
 </section>
 
@@ -3644,7 +4198,7 @@ section.ds-section:first-child { border-top: none; padding-top: 48px; }
     <div class="subsec-label">Forbidden patterns · enforced</div>
     <div class="row-pair">
       <div>
-        <p style="font-family:var(--audit);font-size:9.5px;letter-spacing:0.08em;text-transform:uppercase;color:var(--slate);margin-bottom:8px">Color</p>
+        <p style="font-family:var(--voice);font-size:11px;font-weight:500;letter-spacing:0;color:var(--slate);margin-bottom:8px">Color</p>
         <ul class="forbidden">
           <li>Gold as a button fill or border</li>
           <li>Gold as text on paper</li>
@@ -3653,13 +4207,14 @@ section.ds-section:first-child { border-top: none; padding-top: 48px; }
           <li>Ember as a category color</li>
           <li>Slate text on a dark ground</li>
           <li>More than one gold detail per surface</li>
+          <li>Gold trim along a card edge · the stock AI-product card of 2026, never here</li>
         </ul>
       </div>
       <div>
-        <p style="font-family:var(--audit);font-size:9.5px;letter-spacing:0.08em;text-transform:uppercase;color:var(--slate);margin-bottom:8px">Structure</p>
+        <p style="font-family:var(--voice);font-size:11px;font-weight:500;letter-spacing:0;color:var(--slate);margin-bottom:8px">Structure</p>
         <ul class="forbidden">
-          <li>Rounded corners on UI components</li>
-          <li>Box-shadow on UI cards</li>
+          <li>More than one elevated card per surface</li>
+          <li>Shadow on anything but Tier 1 or a floating overlay (toast, launcher)</li>
           <li>Chip spray on action cards</li>
           <li>Accept/Modify/Defer on every card</li>
           <li>Generic chat for physician messaging</li>
@@ -3675,11 +4230,12 @@ section.ds-section:first-child { border-top: none; padding-top: 48px; }
       </div>
     </div>
     <div>
-      <p style="font-family:var(--audit);font-size:9.5px;letter-spacing:0.08em;text-transform:uppercase;color:var(--slate);margin-bottom:8px;margin-top:16px">Typography and voice</p>
+      <p style="font-family:var(--voice);font-size:11px;font-weight:500;letter-spacing:0;color:var(--slate);margin-bottom:8px;margin-top:16px">Typography and voice</p>
       <ul class="forbidden">
-        <li>Audit face for prose</li>
-        <li>Voice face for values or units</li>
-        <li>Voice face below 13px, or audit face below 8px</li>
+        <li>Audit face anywhere but the wordmark tag</li>
+        <li>Values or units in anything but voice, tabular, weight 500</li>
+        <li>Tracked caps on any product surface</li>
+        <li>Reading prose below 14px, or functional voice text below 10.5px</li>
         <li>Value without unit</li>
         <li>Em dashes in user-facing prose</li>
         <li>Exclamation points</li>
@@ -3692,21 +4248,30 @@ section.ds-section:first-child { border-top: none; padding-top: 48px; }
     <div class="subsec-label">Component registry · JSON manifest</div>
     <div class="registry">{
   "design_system": "aleron-md-product-ds",
-  "version": "0.2.0",
+  "version": "0.3.0",
   "inherits_from": "brand-deck/index.html",
   "registers": ["day", "flight-deck"],
+  "global_forbidden": [
+    "audit-face-except-wordmark-tag",
+    "values-or-units-not-voice-tabular-500",
+    "tracked-caps-on-product-surface",
+    "gold-as-control-or-card-trim",
+    "shadow-except-tier1-toast-launcher",
+    "selection-as-ink-fill",
+    "raw-hex-or-px-literal-in-component"
+  ],
   "components": {
     "core": {
-      "button":    { "forbidden": ["gold-fill","rounded-corners"] },
-      "input":     { "forbidden": ["box-shadow","full-border-rest"] },
-      "card":      { "forbidden": ["box-shadow-ui","rounded-corners"] },
-      "tabs":      { "forbidden": ["pill-style","mixed-mechanism"] }
+      "button":    { "forbidden": ["gold-fill","pill-radius"] },
+      "input":     { "forbidden": ["box-shadow","border-at-rest"] },
+      "card":      { "forbidden": ["shadow-outside-tier1","nested-enclosure"] },
+      "tabs":      { "forbidden": ["pill-radius","mixed-mechanism"] }
     },
     "domain": {
       "annunciator":     { "forbidden": ["ember-text-on-dark","one-thing-inside"] },
       "citation-table":  { "forbidden": ["blank-missing","group-reorder","value-without-unit"] },
       "trajectory":      { "forbidden": ["decorative-use","color-before-structure"] },
-      "one-thing":       { "forbidden": ["multiple-per-surface","inside-data"] },
+      "one-thing":       { "forbidden": ["multiple-per-surface","inside-data","gold-edge-trim"] },
       "action-card":     { "forbidden": ["chip-spray","triad-header","decorative-color"] }
     },
     "interaction": {
@@ -3745,8 +4310,8 @@ section.ds-section:first-child { border-top: none; padding-top: 48px; }
 <!--  FOOTER                                                           -->
 <!-- ================================================================ -->
 <footer class="ds-footer">
-  <div>aleron MD · Product Design System · v0.2</div>
-  <div>Inherits from brand-deck/index.html · One-way arrow · 30 Jun 2026</div>
+  <div>aleron MD · Product Design System · v0.3</div>
+  <div>Inherits from brand-deck/index.html · One-way arrow · 02 Jul 2026</div>
 </footer>
 
 <script>

@@ -1,0 +1,1148 @@
+{
+  "schema_version": "2.0-prototype",
+  "status": "Patient-value overlay for action_library.json. V1 remains the legacy source of action identity, effect size, evidence, findings, and citations. V2 is the valuation layer.",
+  "disclaimer": "Prototype machinery, not clinical guidance. The purpose is to prevent payer-style scalar compression from becoming the core action-library contract.",
+  "valuation_contract": {
+    "perspective": "patient_value",
+    "health_discount_rate": 0,
+    "survival_weighting": true,
+    "intrinsic_value_rule": "Intrinsic QALY is estimated as patient-conditional value if achieved and sustained. Feasibility, adherence, cost, and patient preference are selection axes, not intrinsic-value multipliers.",
+    "direct_action_rule": "Direct interventions must expose C1 prevention, C2 capacity, C3 resilience, burden, and uncertainty. Honest zeroes are required.",
+    "diagnostic_rule": "Diagnostics must expose probability of meaningful reclassification and patient QALY if reclassified. Expected VOI remains available for internal accounting but must not replace the two displayed components.",
+    "legacy_scalar_rule": "qaly_per_event in action_library.json is a fallback projection only. It is not the durable patient-value schema."
+  },
+  "channel_definitions": {
+    "c1_prevention": "Events, morbidity, mortality, or disease onset that do not happen.",
+    "c2_capacity": "Higher lived quality in baseline-survival years, including independence, reserve, vitality, and function.",
+    "c3_resilience": "Better survival, disability, recovery, or tolerance when disease or injury still occurs.",
+    "burden_qaly": "Patient-lived cost, harm, time, effort, anxiety, radiation, procedural risk, or false-positive cascade."
+  },
+  "required_direct_action_fields": [
+    "id",
+    "valuation_kind",
+    "applies_when",
+    "channels",
+    "burden_qaly",
+    "net_qaly_if_achieved",
+    "uncertainty_basis",
+    "overlap_rules"
+  ],
+  "required_diagnostic_fields": [
+    "id",
+    "test_id",
+    "reclassification_probability",
+    "qaly_if_reclassified",
+    "expected_voi_internal",
+    "dominant_reclassification_path",
+    "downstream_decisions_changed",
+    "test_burden",
+    "evidence_grade",
+    "eligibility"
+  ],
+  "bundle_valuations": [
+    {
+      "id": "physical_activity",
+      "valuation_kind": "direct_patient_qaly_bundle",
+      "status": "prototype_anchor",
+      "trace_status": "method_anchored_values_pending_runner",
+      "source_actions": [
+        "physical_activity_rx",
+        "physical_activity_metabolic",
+        "physical_activity_cancer",
+        "act_physical_activity_dementia",
+        "act_exercise_parkinson"
+      ],
+      "applies_when": {
+        "any_findings": [
+          "physical_inactivity"
+        ],
+        "interpretation": "Low-activity or sedentary patient where the lever is a real fitness/activity change, not marginal optimization in an already-active patient."
+      },
+      "patient_value_frame": "Full achievable potential if the patient captures and maintains a clinically meaningful activity/fitness change. Selection feasibility is handled later.",
+      "display_role": "opportunity_pool_not_atomic_recommendation",
+      "reducer_rule": "Use this bundle to value the overall fitness/activity opportunity. Final plans should select scored atomic actions when available, such as supervised resistance training or a specific aerobic prescription, and allocate shared value back to the bundle without summing both.",
+      "channels": {
+        "c1_prevention": {
+          "low": 0.9,
+          "central": 1.3,
+          "high": 1.8,
+          "basis": "Disease incidence, cardiovascular/all-cause mortality, metabolic and activity-sensitive cancer prevention."
+        },
+        "c2_capacity": {
+          "low": 1.6,
+          "central": 2.6,
+          "high": 3.8,
+          "basis": "Independence threshold, reserve, energy, physical readiness, and compression of dependent years.",
+          "anchor": "Per-year Δu anchored to within-person exercise/intervention-RCT utility deltas (EQ-5D/SF-6D pre/post), banded and durability-checked against cross-sectional CRF-vs-QoL gradients, measured net of event-driven quality, applied per-lever. Ratified 2026-07-02 (framework §3 C2 anchoring rule, D1).",
+          "derivation": "capacity_conditioning(delta_u_anchor, survival_weighted_years, dependency_compression)",
+          "trace_status": "method_anchored_values_pending_runner"
+        },
+        "c3_resilience": {
+          "low": 0.1,
+          "central": 0.3,
+          "high": 0.7,
+          "basis": "Better tolerance and recovery if illness still occurs."
+        }
+      },
+      "burden_qaly": {
+        "low": 0.004,
+        "central": 0.008,
+        "high": 0.02,
+        "units": "per_year",
+        "basis": "Time, effort, injury risk, and sustained-behavior friction. This is not an adherence haircut.",
+        "note": "Per-year chronic burden integrated over the sustained horizon, survival-weighted (D4)."
+      },
+      "derivation_inputs": {
+        "method": "fitness_bundle",
+        "vo2max_gain": 10,
+        "hr_per_met": 0.88,
+        "causal_fraction": {"low": 0.40, "central": 0.55, "high": 0.70},
+        "delta_u_per_year": {"low": 0.02, "central": 0.03, "high": 0.05},
+        "dependency_years_compressed": {"low": 0.5, "central": 1.2, "high": 2.0},
+        "c3_resilience": {"low": 0.05, "central": 0.18, "high": 0.40},
+        "basis": {
+          "vo2max_gain": "lever size: a sustained +10 mL/kg/min VO2max change (the bundle's defined achievable target)",
+          "hr_per_met": "[EPI] ~12%/MET all-cause-mortality gradient (Kokkinos, Mandsager)",
+          "causal_fraction": "[JUDGMENT/MR] D3 causality haircut on the observational CRF-mortality gradient",
+          "delta_u_per_year": "[RCT within-person] EQ-5D/SF-6D exercise-RCT utility deltas (D1 anchor); cross-sectional CRF-QoL gradient sets the band",
+          "dependency_years_compressed": "[JUDGMENT] disability-incidence-by-CRF cohorts exist; utility mapping pending",
+          "c3_resilience": "[EPI-weak] better outcomes given residual events"
+        }
+      },
+      "net_qaly_if_achieved": {
+        "low": 2.596,
+        "central": 4.192,
+        "high": 6.28
+      },
+      "finding_allocation": {
+        "physical_inactivity": 0.55,
+        "prediabetes": 0.15,
+        "lifestyle_cancer_incidence_risk": 0.15,
+        "neuro_risk_vascular": 0.15
+      },
+      "allocation_rule": "When the v2 bundle is active, allocate the one bundle value across present findings using these weights normalized to present allocated findings. Do not sum legacy per-event slices on top of this bundle value.",
+      "overlap_rules": [
+        "C2 capacity is credited once for the activity/fitness lever, never once per disease domain.",
+        "C1 disease-prevention slices are included inside the bundle anchor and should not be added again from legacy physical-activity slices.",
+        "C3 resilience is credited once as a general reserve effect, not separately per downstream disease.",
+        "Do not rank the bundle itself as a patient instruction when a more atomic action is present."
+      ],
+      "cohort_projection": {
+        "mode": "bundle_total_if_triggered",
+        "uses_effect_size_for_ranking": false,
+        "notes": "The v1 effect sizes remain evidence descriptors. The v2 bundle total is the QALY projection consumed by the cohort engine when physical_inactivity is present."
+      }
+    }
+  ],
+  "action_valuations": [
+    {
+      "id": "statin_primary",
+      "valuation_kind": "direct_patient_qaly_action",
+      "status": "prototype_projection",
+      "trace_status": "method_anchored_values_pending_runner",
+      "applies_when": {
+        "any_findings": [
+          "cvd_risk_ascvd",
+          "lpa_elevated",
+          "FH",
+          "ckd_cvd_high_risk"
+        ],
+        "interpretation": "Use when primary-prevention lipid treatment is indicated by risk, risk enhancer, or shared decision threshold and contraindications are absent."
+      },
+      "channels": {
+        "c1_prevention": {
+          "projection": "survival_curve_shift",
+          "per_event": {
+            "event_age": 68,
+            "fatal_fraction": 0.15,
+            "fatal_value_rle_x_u": 13.1,
+            "nonfatal_decrement_x_duration": 1.73,
+            "blended_per_event_qaly": 3.44,
+            "band": [2.27, 5.21],
+            "basis": "Derivation object per D2 — replaces the disputed bare scalar. Length/mortality term computed as a survival-curve shift; non-fatal term event-based. See QALY_WORKED_TRACE.md S4 and QALY_METHOD_DECISIONS.md D2."
+          },
+          "legacy_scalar_disputed": {
+            "low": 0.6,
+            "central": 0.8,
+            "high": 1.1,
+            "note": "NOT-YET-DEFENSIBLE (trace F1): the bare per-event scalar 0.8 has no derivation and traces 3-6x higher under the no-discount rules. Retained only for provenance; superseded by projection=survival_curve_shift + per_event."
+          }
+        },
+        "c2_capacity": {
+          "low": 0,
+          "central": 0,
+          "high": 0
+        },
+        "c3_resilience": {
+          "low": 0,
+          "central": 0,
+          "high": 0
+        }
+      },
+      "burden_qaly": {
+        "low": 0.002,
+        "central": 0.005,
+        "high": 0.015,
+        "units": "per_year",
+        "note": "Per-year chronic burden of daily therapy, integrated over the sustained horizon and survival-weighted (D4). Not a total."
+      },
+      "derivation_inputs": {
+        "method": "c1_curve_shift",
+        "risk_domain": "cvd",
+        "reference_risk_30yr": 0.16,
+        "cvd_mortality_share_base": 0.30,
+        "mortality_rrr": {"low": 0.10, "central": 0.152, "high": 0.19},
+        "relative_risk_reduction_events": {"low": 0.26, "central": 0.27, "high": 0.29},
+        "fatal_fraction": {"low": 0.10, "central": 0.15, "high": 0.25},
+        "nonfatal_decrement": {"low": 0.06, "central": 0.10, "high": 0.15},
+        "event_age": 68,
+        "acute_dip": 0.05,
+        "basis": {
+          "risk_domain": "[MODEL] patient 30-yr PREVENT CVD risk from packet; reference 0.16 = AL-47M anchor. The patient's CVD share of mortality is scaled by risk/reference.",
+          "cvd_mortality_share_base": "[TABLE] CVD share of all-cause mortality at these ages",
+          "mortality_rrr": "[RCT] CTT ~0.12 all-cause-mortality RRR per mmol/L LDL x ~1.27 mmol/L dLDL (moderate statin)",
+          "relative_risk_reduction_events": "[RCT] CTT ~22%/mmol/L major vascular events scaled to dLDL",
+          "fatal_fraction": "[EPI] share of first CVD events that are fatal",
+          "nonfatal_decrement": "[EPI] post-MI/stroke/HF mixed utility decrement"
+        }
+      },
+      "net_qaly_if_achieved": {
+        "calculation": "integral[ (S_treated - S_baseline) * u ] (length) + event_based nonfatal term - integral[ burden_per_year * S ]  (runner-computed per D2/D4; the legacy 'patient_risk * RRR * scalar - burden' form is superseded)"
+      },
+      "uncertainty_basis": "Strong event evidence. Capacity and resilience channels are honest zeroes for routine primary-prevention statin use.",
+      "overlap_rules": [
+        "Do not add a C2 healthspan benefit unless a separate patient-specific pathway is established.",
+        "Do not truncate fatal-event benefit solely because a cited endpoint is nonfatal."
+      ],
+      "cohort_projection": {
+        "mode": "risk_scaled_per_event",
+        "risk_scaled_qaly_per_event": {
+          "low": 0.6,
+          "central": 0.8,
+          "high": 1.1
+        }
+      }
+    },
+    {
+      "id": "iron_repletion_confirmed_deficiency",
+      "valuation_kind": "direct_patient_qaly_action",
+      "status": "prototype_projection",
+      "applies_when": {
+        "all_findings": [
+          "confirmed_iron_deficiency"
+        ],
+        "interpretation": "Use only after ferritin, iron indices, anemia status, and symptom context support iron deficiency as an active driver."
+      },
+      "channels": {
+        "c1_prevention": {
+          "low": 0.01,
+          "central": 0.03,
+          "high": 0.08,
+          "basis": "Avoided anemia progression, reduced exercise intolerance, and lower downstream complication burden when deficiency is real."
+        },
+        "c2_capacity": {
+          "low": 0.08,
+          "central": 0.18,
+          "high": 0.35,
+          "basis": "Energy, physical readiness, cognitive stamina, and training tolerance improve when symptomatic deficiency is corrected."
+        },
+        "c3_resilience": {
+          "low": 0,
+          "central": 0.02,
+          "high": 0.06,
+          "basis": "Reserve benefit during illness or training load is plausible but secondary."
+        }
+      },
+      "burden_qaly": {
+        "low": 0.005,
+        "central": 0.015,
+        "high": 0.04,
+        "basis": "GI side effects, infusion burden if needed, monitoring, and risk of overtreatment."
+      },
+      "net_qaly_if_achieved": {
+        "low": 0.085,
+        "central": 0.215,
+        "high": 0.45
+      },
+      "uncertainty_basis": "Moderate certainty when true deficiency is confirmed; weak when used as empiric fatigue treatment without deficiency.",
+      "overlap_rules": [
+        "Do not score unless deficiency is confirmed.",
+        "Do not double count the same vitality lift inside a broad exercise bundle.",
+        "If thyroid dysfunction is also confirmed, allocate shared fatigue benefit explicitly."
+      ]
+    },
+    {
+      "id": "thyroid_treatment_confirmed_dysfunction",
+      "valuation_kind": "direct_patient_qaly_action",
+      "status": "prototype_projection",
+      "applies_when": {
+        "all_findings": [
+          "confirmed_clinically_significant_thyroid_dysfunction"
+        ],
+        "interpretation": "Use only when repeat TSH/free T4 and clinical context support treatment or specialist-directed follow-up."
+      },
+      "channels": {
+        "c1_prevention": {
+          "low": 0.01,
+          "central": 0.03,
+          "high": 0.07,
+          "basis": "Avoided morbidity from untreated clinically significant thyroid dysfunction."
+        },
+        "c2_capacity": {
+          "low": 0.06,
+          "central": 0.14,
+          "high": 0.3,
+          "basis": "Energy, mood, cognition, thermoregulation, and physical readiness may improve when true dysfunction is corrected."
+        },
+        "c3_resilience": {
+          "low": 0,
+          "central": 0.01,
+          "high": 0.04,
+          "basis": "Secondary benefit through better physiologic stability."
+        }
+      },
+      "burden_qaly": {
+        "low": 0.005,
+        "central": 0.015,
+        "high": 0.05,
+        "basis": "Repeat labs, dose titration, over-replacement risk, and monitoring burden."
+      },
+      "net_qaly_if_achieved": {
+        "low": 0.065,
+        "central": 0.165,
+        "high": 0.36
+      },
+      "uncertainty_basis": "Moderate when overt or clinically significant hypothyroidism is confirmed; lower for borderline isolated lab variation.",
+      "overlap_rules": [
+        "Do not score from a single borderline TSH alone.",
+        "Do not double count shared fatigue benefit with iron repletion or sleep treatment.",
+        "Keep overtreatment harm visible in burden."
+      ]
+    },
+    {
+      "id": "vitamin_d_repletion_confirmed_deficiency",
+      "valuation_kind": "direct_patient_qaly_action",
+      "status": "prototype_projection",
+      "applies_when": {
+        "all_findings": [
+          "confirmed_vitamin_d_deficiency"
+        ],
+        "interpretation": "Use for confirmed deficiency, especially when bone health, falls risk, or muscle symptoms change the action sequence."
+      },
+      "channels": {
+        "c1_prevention": {
+          "low": 0.01,
+          "central": 0.03,
+          "high": 0.08,
+          "basis": "Bone and fall-risk pathway in deficiency, especially if DEXA or clinical context shows vulnerability."
+        },
+        "c2_capacity": {
+          "low": 0.01,
+          "central": 0.03,
+          "high": 0.08,
+          "basis": "Small possible muscle and physical-readiness benefit when deficiency is real."
+        },
+        "c3_resilience": {
+          "low": 0,
+          "central": 0.01,
+          "high": 0.03,
+          "basis": "Small reserve benefit through bone and muscle function."
+        }
+      },
+      "burden_qaly": {
+        "low": 0.002,
+        "central": 0.006,
+        "high": 0.015,
+        "basis": "Supplement burden, repeat testing, and hypervitaminosis risk if poorly monitored."
+      },
+      "net_qaly_if_achieved": {
+        "low": 0.018,
+        "central": 0.064,
+        "high": 0.175
+      },
+      "uncertainty_basis": "Lower to moderate. Deficiency correction is reasonable, but broad vitality claims without deficiency should not be credited.",
+      "overlap_rules": [
+        "Do not score as a general longevity intervention.",
+        "Do not double count bone value if pharmacologic osteoporosis treatment is separately scored.",
+        "Keep the expected value small unless deficiency or bone vulnerability is confirmed."
+      ]
+    },
+    {
+      "id": "glp1_gip_metabolic_therapy",
+      "valuation_kind": "direct_patient_qaly_action",
+      "status": "prototype_projection",
+      "applies_when": {
+        "all_findings": [
+          "anti_obesity_medication_eligible",
+          "metabolic_risk_or_adiposity"
+        ],
+        "interpretation": "Use when BMI and comorbidity criteria are met and contraindications, access, side effects, lean-mass protection, and durability are addressed."
+      },
+      "channels": {
+        "c1_prevention": {
+          "low": 0.45,
+          "central": 0.85,
+          "high": 1.4,
+          "basis": "Diabetes prevention, BP/metabolic improvement, and downstream cardiovascular-risk reduction when obesity or insulin resistance is active."
+        },
+        "c2_capacity": {
+          "low": 0.25,
+          "central": 0.6,
+          "high": 1.2,
+          "basis": "Body ease, energy, mobility, and relative VO2max can improve when excess adiposity falls and lean mass is protected."
+        },
+        "c3_resilience": {
+          "low": 0.05,
+          "central": 0.15,
+          "high": 0.35,
+          "basis": "Better reserve through lower adiposity, lower inflammation, and improved cardiometabolic tolerance."
+        }
+      },
+      "burden_qaly": {
+        "low": 0.05,
+        "central": 0.12,
+        "high": 0.35,
+        "basis": "GI side effects, medication burden, cost/access friction, monitoring, rare serious adverse events, and weight-regain risk if stopped."
+      },
+      "net_qaly_if_achieved": {
+        "low": 0.7,
+        "central": 1.48,
+        "high": 2.6
+      },
+      "uncertainty_basis": "Moderate. Strong weight and glycemic evidence, but long-horizon patient-QALY depends on durability, baseline risk, lean-mass protection, and maintenance strategy.",
+      "overlap_rules": [
+        "Do not double count weight-mediated VO2max improvement already credited to physical activity.",
+        "Pair with resistance training or nutrition guardrails when lean-mass loss would reduce capacity value.",
+        "Keep adherence and medication access as feasibility axes, not intrinsic QALY haircuts."
+      ]
+    },
+    {
+      "id": "bp_pharmacotherapy_stage2_primary",
+      "valuation_kind": "direct_patient_qaly_action",
+      "status": "prototype_projection",
+      "applies_when": {
+        "all_findings": [
+          "confirmed_stage2_hypertension"
+        ],
+        "interpretation": "Use after office, home, or ambulatory readings support persistent stage-2 hypertension and secondary causes or sequencing issues are considered."
+      },
+      "channels": {
+        "c1_prevention": {
+          "low": 0.25,
+          "central": 0.55,
+          "high": 0.9,
+          "basis": "Stroke, heart failure, coronary, kidney, and dementia-risk reduction from sustained BP lowering."
+        },
+        "c2_capacity": {
+          "low": 0.02,
+          "central": 0.05,
+          "high": 0.1,
+          "basis": "Small lived-quality benefit through lower symptom burden and safer training clearance when BP is controlled."
+        },
+        "c3_resilience": {
+          "low": 0.02,
+          "central": 0.06,
+          "high": 0.12,
+          "basis": "Lower vulnerability during acute illness or physiologic stress."
+        }
+      },
+      "burden_qaly": {
+        "low": 0.015,
+        "central": 0.03,
+        "high": 0.08,
+        "basis": "Side effects, dose titration, labs, orthostasis risk, and monitoring."
+      },
+      "net_qaly_if_achieved": {
+        "low": 0.275,
+        "central": 0.63,
+        "high": 1.04
+      },
+      "uncertainty_basis": "Strong BP-event evidence, but patient-specific QALY depends on confirmed average BP, competing drivers such as sleep apnea, and medication tolerance.",
+      "overlap_rules": [
+        "Do not score from one isolated BP reading.",
+        "If sleep apnea treatment materially lowers BP, reconcile shared BP-mediated prevention value.",
+        "Do not let BP treatment replace upstream sleep or weight drivers when those are active."
+      ]
+    },
+    {
+      "id": "supervised_resistance_training",
+      "valuation_kind": "direct_patient_qaly_action",
+      "status": "prototype_projection",
+      "applies_when": {
+        "any_findings": [
+          "low_strength_or_low_lean_mass",
+          "low_vo2max",
+          "bone_risk",
+          "weight_loss_therapy_active"
+        ],
+        "interpretation": "Use when preserving or building lean mass, strength, bone loading, and functional reserve is a real patient-specific lever."
+      },
+      "channels": {
+        "c1_prevention": {
+          "low": 0.08,
+          "central": 0.2,
+          "high": 0.45,
+          "basis": "Falls, frailty, metabolic health, and bone-risk prevention."
+        },
+        "c2_capacity": {
+          "low": 0.35,
+          "central": 0.75,
+          "high": 1.35,
+          "basis": "Independence, body ease, physical readiness, strength, and training tolerance."
+        },
+        "c3_resilience": {
+          "low": 0.08,
+          "central": 0.2,
+          "high": 0.4,
+          "basis": "Reserve for illness, injury, surgery, and later-life function."
+        }
+      },
+      "burden_qaly": {
+        "low": 0.03,
+        "central": 0.05,
+        "high": 0.12,
+        "basis": "Time, soreness, injury risk, coaching burden, and behavior friction."
+      },
+      "net_qaly_if_achieved": {
+        "low": 0.48,
+        "central": 1.1,
+        "high": 2.08
+      },
+      "uncertainty_basis": "Moderate. Functional benefit is clinically credible, but realized value depends on progression, adherence, coaching quality, and baseline reserve.",
+      "overlap_rules": [
+        "If the broad physical_activity bundle is active, allocate shared capacity value rather than summing both totals.",
+        "When paired with GLP-1/GIP therapy, credit lean-mass preservation once.",
+        "Do not substitute generic activity minutes for progressive resistance work."
+      ]
+    },
+    {
+      "id": "colorectal_screening_gap_closure",
+      "valuation_kind": "direct_patient_qaly_action",
+      "status": "required_care_gap_projection",
+      "applies_when": {
+        "all_findings": [
+          "age_45_or_older",
+          "colorectal_screening_not_current"
+        ],
+        "interpretation": "Required preventive care gap. Route as must-do even when ranking and patient-QALY display are separate."
+      },
+      "channels": {
+        "c1_prevention": {
+          "low": 0.08,
+          "central": 0.25,
+          "high": 0.6,
+          "basis": "Colorectal cancer prevention or earlier detection through guideline-concordant screening."
+        },
+        "c2_capacity": {
+          "low": 0,
+          "central": 0,
+          "high": 0.02,
+          "basis": "Capacity benefit is not the primary mechanism."
+        },
+        "c3_resilience": {
+          "low": 0.02,
+          "central": 0.04,
+          "high": 0.08,
+          "basis": "Earlier detection improves treatment burden and survivorship if cancer is present."
+        }
+      },
+      "burden_qaly": {
+        "low": 0.02,
+        "central": 0.04,
+        "high": 0.1,
+        "basis": "Preparation, procedure or stool-test burden, false positives, complication risk, and follow-up cascade."
+      },
+      "net_qaly_if_achieved": {
+        "low": 0.08,
+        "central": 0.25,
+        "high": 0.6
+      },
+      "uncertainty_basis": "Strong guideline basis. Patient-specific QALY varies by modality, findings, family history, and prior screening status.",
+      "overlap_rules": [
+        "Required care gap status is independent of optional action ranking.",
+        "Do not compare as an optional wellness intervention when the patient is out of routine screening compliance.",
+        "Avoid double counting with separate colonoscopy-polypectomy benefit if modeled later."
+      ]
+    },
+    {
+      "id": "atm_pathogenic_variant_management",
+      "valuation_kind": "direct_patient_qaly_action",
+      "status": "required_genetics_projection",
+      "applies_when": {
+        "all_findings": [
+          "atm_pathogenic_or_likely_pathogenic_variant"
+        ],
+        "interpretation": "Required genetics guidance and condition-specific surveillance routing. Specific actions depend on sex, family history, variant context, and current guidelines."
+      },
+      "channels": {
+        "c1_prevention": {
+          "low": 0.05,
+          "central": 0.18,
+          "high": 0.5,
+          "basis": "Earlier risk-appropriate surveillance, cascade testing, and prevention discussions for ATM-associated cancers."
+        },
+        "c2_capacity": {
+          "low": 0,
+          "central": 0.02,
+          "high": 0.05,
+          "basis": "Small value from clearer risk understanding and avoided uncertainty when counseling is done well."
+        },
+        "c3_resilience": {
+          "low": 0.03,
+          "central": 0.08,
+          "high": 0.2,
+          "basis": "Earlier detection or prevention planning can reduce treatment burden if disease occurs."
+        }
+      },
+      "burden_qaly": {
+        "low": 0.02,
+        "central": 0.04,
+        "high": 0.1,
+        "basis": "Counseling time, anxiety, cascade-testing burden, surveillance burden, and possible false reassurance or over-escalation."
+      },
+      "net_qaly_if_achieved": {
+        "low": 0.06,
+        "central": 0.24,
+        "high": 0.65
+      },
+      "uncertainty_basis": "Moderate for routing obligation, wider for QALY because surveillance value depends on variant, sex, family history, and guideline-specific eligibility.",
+      "overlap_rules": [
+        "Surface as required genetics guidance when triggered, even if QALY remains uncertain.",
+        "Do not collapse all ATM-associated screening into one undifferentiated intervention once guideline modules exist.",
+        "Do not double count with organ-specific screening actions added later."
+      ]
+    }
+  ],
+  "diagnostic_valuations": [
+    {
+      "id": "cac_primary_prevention_reclassification",
+      "test_id": "cac_score",
+      "status": "schema_anchor",
+      "reclassification_probability": {
+        "low": 0.12,
+        "central": 0.25,
+        "high": 0.45
+      },
+      "qaly_if_reclassified": {
+        "low": 0.3,
+        "central": 0.75,
+        "high": 1.5
+      },
+      "expected_voi_internal": {
+        "calculation": "reclassification_probability.central * qaly_if_reclassified.central - test_burden.central",
+        "central": 0.1875
+      },
+      "dominant_reclassification_path": "Plaque burden changes lipid/BP intensity, urgency, and sequencing.",
+      "downstream_decisions_changed": [
+        "lipid_intensity",
+        "bp_target_intensity",
+        "patient_risk_narrative"
+      ],
+      "test_burden": {
+        "low": 0,
+        "central": 0,
+        "high": 0.01
+      },
+      "evidence_grade": "moderate",
+      "eligibility": {
+        "required_patient_fields": [
+          "age",
+          "sex",
+          "lipids",
+          "blood_pressure",
+          "diabetes_status",
+          "smoking_status"
+        ],
+        "trigger_findings": [
+          "cvd_risk_uncertainty",
+          "risk_enhancer_present",
+          "treatment_intensity_uncertain"
+        ],
+        "do_not_score_when": [
+          "known_clinical_ascvd",
+          "recent_cac_available",
+          "patient_unwilling_to_act_on_result"
+        ]
+      },
+      "display_rule": "Show odds of meaningful reclassification and QALY if reclassified before expected VOI."
+    },
+    {
+      "id": "sleep_apnea_reclassification",
+      "test_id": "home_sleep_apnea_test",
+      "status": "schema_anchor",
+      "reclassification_probability": {
+        "low": 0.2,
+        "central": 0.35,
+        "high": 0.55
+      },
+      "qaly_if_reclassified": {
+        "low": 0.2,
+        "central": 0.45,
+        "high": 1.0
+      },
+      "value_channel": {
+        "channels": ["c2_felt_quality", "bp_sequencing"],
+        "excludes": ["c1_cardiovascular_prevention"],
+        "basis": "D7 mandatory label (trace F6). The 0.45 is defensible as felt-quality (symptom/energy) plus BP-treatment sequencing. It is explicitly NOT cardiovascular-prevention value: CPAP's CV-event evidence is null (SAVE). The same number read as CV prevention would be indefensible; the label is the guardrail on display."
+      },
+      "derivation_inputs": {
+        "method": "diagnostic_voi",
+        "prior": 0.13,
+        "likelihood_ratio": {"low": 2.5, "central": 5.0, "high": 8.0},
+        "p_management_change": 0.80,
+        "delta_u_symptom": {"low": 0.02, "central": 0.033, "high": 0.05},
+        "treated_horizon_yr": 20,
+        "other_channel_qaly": {"low": 0.005, "central": 0.02, "high": 0.04},
+        "excluded_channel_qaly": 0.0,
+        "basis": {
+          "prior": "[EPI] moderate-severe OSA (AHI>=15), middle-aged men",
+          "likelihood_ratio": "[EPI/JUDGMENT] BMI + untreated stage-2 BP + observed overnight nadir 89% desaturation (the strong patient-specific lift)",
+          "p_management_change": "[JUDGMENT] P(confirmed result changes management class); decision-record floor ~0.10",
+          "delta_u_symptom": "[RCT] CPAP sleepiness/QoL uplift in symptomatic OSA (the felt-quality channel)",
+          "other_channel_qaly": "[RCT] BP-sequencing path (small BP-mediated slice)",
+          "excluded_channel_qaly": "[RCT] CV-event prevention = honest zero (SAVE null); see value_channel"
+        }
+      },
+      "expected_voi_internal": {
+        "calculation": "reclassification_probability.central * qaly_if_reclassified.central - test_burden.central",
+        "central": 0.1575
+      },
+      "dominant_reclassification_path": "Sleep-disordered breathing confirmed, changing BP sequencing, fatigue/vitality interpretation, and treatment priority.",
+      "downstream_decisions_changed": [
+        "sleep_pathway",
+        "bp_sequence",
+        "vitality_driver_priority"
+      ],
+      "test_burden": {
+        "low": 0,
+        "central": 0,
+        "high": 0.01
+      },
+      "evidence_grade": "moderate",
+      "eligibility": {
+        "required_patient_fields": [
+          "bmi_or_waist",
+          "blood_pressure",
+          "sleep_symptoms_or_overnight_oxygen",
+          "energy_or_recovery_score"
+        ],
+        "trigger_findings": [
+          "overnight_desaturation",
+          "snoring_or_witnessed_apnea",
+          "resistant_or_unexplained_hypertension",
+          "fatigue_with_sleep_risk"
+        ],
+        "do_not_score_when": [
+          "recent_sleep_study_negative_without_new_symptoms",
+          "known_sleep_apnea_already_treated_effectively"
+        ]
+      },
+      "display_rule": "Do not compress diagnosed-versus-undiagnosed sleep apnea into expected VOI alone."
+    },
+    {
+      "id": "bp_persistence_reclassification",
+      "test_id": "home_or_ambulatory_bp_monitoring",
+      "status": "schema_anchor",
+      "reclassification_probability": {
+        "low": 0.4,
+        "central": 0.65,
+        "high": 0.85
+      },
+      "qaly_if_reclassified": {
+        "low": 0.25,
+        "central": 0.63,
+        "high": 1.04
+      },
+      "expected_voi_internal": {
+        "calculation": "reclassification_probability.central * qaly_if_reclassified.central - test_burden.central",
+        "central": 0.4045
+      },
+      "dominant_reclassification_path": "Home or ambulatory BP average confirms persistent hypertension versus white-coat or measurement artifact, changing medication threshold and upstream driver sequencing.",
+      "downstream_decisions_changed": [
+        "bp_pharmacotherapy",
+        "home_bp_monitoring_cadence",
+        "sleep_apnea_sequence",
+        "exercise_clearance"
+      ],
+      "test_burden": {
+        "low": 0,
+        "central": 0.005,
+        "high": 0.02
+      },
+      "evidence_grade": "strong",
+      "eligibility": {
+        "required_patient_fields": [
+          "office_bp",
+          "bp_measurement_context",
+          "medication_status"
+        ],
+        "trigger_findings": [
+          "elevated_office_bp_not_yet_confirmed",
+          "possible_white_coat_or_masked_hypertension",
+          "bp_treatment_threshold_uncertain"
+        ],
+        "do_not_score_when": [
+          "confirmed_stage2_hypertension_already_materialized",
+          "validated_home_or_ambulatory_bp_already_available"
+        ]
+      },
+      "display_rule": "Use before BP pharmacotherapy when the average BP state is not confirmed. Suppress this diagnostic once confirmed hypertension is materialized."
+    },
+    {
+      "id": "iron_thyroid_fatigue_reclassification",
+      "test_id": "cbc_iron_thyroid_panel",
+      "status": "schema_anchor",
+      "reclassification_probability": {
+        "low": 0.2,
+        "central": 0.4,
+        "high": 0.6
+      },
+      "qaly_if_reclassified": {
+        "low": 0.2,
+        "central": 0.5,
+        "high": 0.9
+      },
+      "expected_voi_internal": {
+        "calculation": "reclassification_probability.central * qaly_if_reclassified.central - test_burden.central",
+        "central": 0.2
+      },
+      "dominant_reclassification_path": "Iron deficiency, anemia, clinically significant thyroid dysfunction, or a combined reversible fatigue driver changes treatment and training sequence.",
+      "downstream_decisions_changed": [
+        "iron_repletion",
+        "thyroid_follow_up_or_treatment",
+        "training_tolerance_sequence",
+        "vitality_driver_priority"
+      ],
+      "test_burden": {
+        "low": 0,
+        "central": 0,
+        "high": 0.01
+      },
+      "evidence_grade": "moderate",
+      "eligibility": {
+        "required_patient_fields": [
+          "ferritin_or_iron_indices",
+          "tsh",
+          "energy_score_or_fatigue_symptom"
+        ],
+        "trigger_findings": [
+          "low_ferritin",
+          "borderline_or_high_tsh",
+          "fatigue_or_cognitive_drag",
+          "low_training_tolerance"
+        ],
+        "do_not_score_when": [
+          "iron_and_thyroid_recently_normal",
+          "already_treated_and_stable",
+          "no_vitality_or_training_signal"
+        ]
+      },
+      "display_rule": "Show whether the vitality pattern is reclassified into a treatable deficiency or endocrine pathway before scoring treatment."
+    },
+    {
+      "id": "vitamin_d_bone_reclassification",
+      "test_id": "vitamin_d_recheck",
+      "status": "schema_anchor",
+      "reclassification_probability": {
+        "low": 0.1,
+        "central": 0.25,
+        "high": 0.45
+      },
+      "qaly_if_reclassified": {
+        "low": 0.04,
+        "central": 0.12,
+        "high": 0.3
+      },
+      "expected_voi_internal": {
+        "calculation": "reclassification_probability.central * qaly_if_reclassified.central - test_burden.central",
+        "central": 0.03
+      },
+      "dominant_reclassification_path": "Confirmed deficiency changes supplement dosing, bone-health sequencing, and resistance-training guardrails.",
+      "downstream_decisions_changed": [
+        "vitamin_d_repletion",
+        "bone_health_sequence",
+        "resistance_training_guardrails"
+      ],
+      "test_burden": {
+        "low": 0,
+        "central": 0,
+        "high": 0.005
+      },
+      "evidence_grade": "low_to_moderate",
+      "eligibility": {
+        "required_patient_fields": [
+          "vitamin_d",
+          "bone_risk_context"
+        ],
+        "trigger_findings": [
+          "low_or_borderline_vitamin_d",
+          "bone_risk",
+          "fall_risk",
+          "muscle_symptom_context"
+        ],
+        "do_not_score_when": [
+          "recent_normal_vitamin_d",
+          "no_bone_or_symptom_context"
+        ]
+      },
+      "display_rule": "Keep deficiency correction visible but do not inflate it into a broad vitality intervention."
+    },
+    {
+      "id": "dexa_bone_lean_mass_reclassification",
+      "test_id": "baseline_dexa",
+      "status": "schema_anchor",
+      "reclassification_probability": {
+        "low": 0.1,
+        "central": 0.2,
+        "high": 0.35
+      },
+      "qaly_if_reclassified": {
+        "low": 0.25,
+        "central": 0.7,
+        "high": 1.2
+      },
+      "expected_voi_internal": {
+        "calculation": "reclassification_probability.central * qaly_if_reclassified.central - test_burden.central",
+        "central": 0.14
+      },
+      "dominant_reclassification_path": "Low bone density, high visceral fat, or low lean mass changes resistance training, nutrition, medication thresholds, and monitoring cadence.",
+      "downstream_decisions_changed": [
+        "resistance_training_priority",
+        "protein_or_body_composition_strategy",
+        "bone_medication_threshold",
+        "monitoring_cadence"
+      ],
+      "test_burden": {
+        "low": 0,
+        "central": 0,
+        "high": 0.01
+      },
+      "evidence_grade": "moderate",
+      "eligibility": {
+        "required_patient_fields": [
+          "age",
+          "sex_or_menopause_status",
+          "bone_risk_context",
+          "body_composition_or_strength_context"
+        ],
+        "trigger_findings": [
+          "family_history_osteoporosis",
+          "low_vitamin_d",
+          "low_strength_or_low_vo2max",
+          "weight_loss_therapy_or_lean_mass_concern"
+        ],
+        "do_not_score_when": [
+          "recent_dexa_available",
+          "result_would_not_change_training_or_bone_plan"
+        ]
+      },
+      "display_rule": "Use as a body-composition and bone-health reclassification test, not as a generic wellness scan."
+    },
+    {
+      "id": "rhythm_safety_reclassification",
+      "test_id": "ecg_holter_bradycardia_workup",
+      "status": "schema_anchor",
+      "reclassification_probability": {
+        "low": 0.05,
+        "central": 0.15,
+        "high": 0.3
+      },
+      "qaly_if_reclassified": {
+        "low": 0.1,
+        "central": 0.4,
+        "high": 1.0
+      },
+      "expected_voi_internal": {
+        "calculation": "reclassification_probability.central * qaly_if_reclassified.central - test_burden.central",
+        "central": 0.05
+      },
+      "dominant_reclassification_path": "Clinically meaningful bradyarrhythmia or conduction disease changes exercise clearance, sleep interpretation, cardiology escalation, and safety monitoring.",
+      "downstream_decisions_changed": [
+        "exercise_clearance",
+        "cardiology_escalation",
+        "sleep_rhythm_interpretation",
+        "monitoring_cadence"
+      ],
+      "test_burden": {
+        "low": 0,
+        "central": 0.01,
+        "high": 0.03
+      },
+      "evidence_grade": "moderate",
+      "eligibility": {
+        "required_patient_fields": [
+          "resting_or_overnight_heart_rate",
+          "fitness_context",
+          "symptoms_or_sleep_context"
+        ],
+        "trigger_findings": [
+          "marked_bradycardia_discordant_with_fitness",
+          "syncope_presyncope_or_exertional_symptoms",
+          "sleep_rhythm_uncertainty",
+          "exercise_clearance_uncertainty"
+        ],
+        "do_not_score_when": [
+          "known_athletic_bradycardia_without_symptoms",
+          "recent_normal_ecg_or_monitoring_with_no_new_signal"
+        ]
+      },
+      "display_rule": "Use for discordant low overnight heart rate patterns; do not present as a primary value lever unless reclassification probability is materially higher."
+    },
+    {
+      "id": "ogtt_diabetes_reclassification",
+      "test_id": "oral_glucose_tolerance_test",
+      "status": "schema_anchor",
+      "reclassification_probability": {
+        "low": 0.01,
+        "central": 0.04,
+        "high": 0.1
+      },
+      "qaly_if_reclassified": {
+        "low": 0.25,
+        "central": 0.85,
+        "high": 1.5
+      },
+      "expected_voi_internal": {
+        "calculation": "reclassification_probability.central * qaly_if_reclassified.central - test_burden.central",
+        "central": 0.034
+      },
+      "dominant_reclassification_path": "Post-load diabetes confirmation changes diabetes labeling, medication eligibility, risk thresholds, and auditability of downstream QALY.",
+      "downstream_decisions_changed": [
+        "diabetes_diagnosis_status",
+        "glp1_sglt2_or_metformin_eligibility",
+        "statin_and_bp_intensity",
+        "risk_model_inputs"
+      ],
+      "test_burden": {
+        "low": 0,
+        "central": 0,
+        "high": 0.01
+      },
+      "evidence_grade": "moderate",
+      "eligibility": {
+        "required_patient_fields": [
+          "hba1c",
+          "fasting_glucose",
+          "insulin_or_homa_ir",
+          "adiposity_or_family_history"
+        ],
+        "trigger_findings": [
+          "prediabetes",
+          "insulin_resistance",
+          "central_adiposity",
+          "diabetes_family_history",
+          "diagnosis_status_changes_medication_eligibility"
+        ],
+        "do_not_score_when": [
+          "diabetes_already_diagnosed",
+          "recent_ogtt_available",
+          "low_reclassification_probability_and_no_downstream_decision"
+        ]
+      },
+      "display_rule": "Keep visible as a diagnostic gate when post-load diabetes is plausible, but do not let low reclassification odds dominate the final plan."
+    },
+    {
+      "id": "masld_fibrosis_staging_reclassification",
+      "test_id": "fib4_fibroscan_if_indicated",
+      "status": "schema_anchor",
+      "reclassification_probability": {
+        "low": 0.08,
+        "central": 0.2,
+        "high": 0.4
+      },
+      "qaly_if_reclassified": {
+        "low": 0.25,
+        "central": 0.7,
+        "high": 1.4
+      },
+      "expected_voi_internal": {
+        "calculation": "reclassification_probability.central * qaly_if_reclassified.central - test_burden.central",
+        "central": 0.13
+      },
+      "dominant_reclassification_path": "Fibrosis risk changes urgency of weight-loss therapy, alcohol guidance, metabolic medication selection, hepatology referral, and monitoring.",
+      "downstream_decisions_changed": [
+        "mash_pathway",
+        "weight_loss_priority",
+        "alcohol_guidance",
+        "hepatology_referral",
+        "monitoring_cadence"
+      ],
+      "test_burden": {
+        "low": 0,
+        "central": 0.01,
+        "high": 0.03
+      },
+      "evidence_grade": "moderate",
+      "eligibility": {
+        "required_patient_fields": [
+          "ast",
+          "alt",
+          "platelets",
+          "metabolic_risk_context"
+        ],
+        "trigger_findings": [
+          "central_adiposity",
+          "insulin_resistance",
+          "elevated_triglycerides",
+          "elevated_liver_enzymes_or_unknown_fibrosis_stage"
+        ],
+        "do_not_score_when": [
+          "fib4_low_and_no_metabolic_liver_signal",
+          "recent_fibroscan_or_liver_staging_available"
+        ],
+        "missing_field_rule": "If AST, ALT, or platelets are absent, emit a pretest-lab gate before FibroScan scoring."
+      },
+      "display_rule": "Use when metabolic and liver-risk fields suggest possible MASLD fibrosis staging gap; keep FIB-4 before FibroScan when appropriate."
+    },
+    {
+      "id": "sleep_fragmentation_reclassification",
+      "test_id": "insomnia_sleep_regularity_screen",
+      "status": "schema_anchor",
+      "reclassification_probability": {
+        "low": 0.15,
+        "central": 0.35,
+        "high": 0.55
+      },
+      "qaly_if_reclassified": {
+        "low": 0.12,
+        "central": 0.35,
+        "high": 0.75
+      },
+      "expected_voi_internal": {
+        "calculation": "reclassification_probability.central * qaly_if_reclassified.central - test_burden.central",
+        "central": 0.1175
+      },
+      "dominant_reclassification_path": "Insomnia, fragmented sleep, menopause symptoms, mood, or schedule irregularity changes recovery intervention and training sequence.",
+      "downstream_decisions_changed": [
+        "sleep_program",
+        "menopause_symptom_discussion",
+        "mood_screen",
+        "exercise_sequence"
+      ],
+      "test_burden": {
+        "low": 0,
+        "central": 0.005,
+        "high": 0.02
+      },
+      "evidence_grade": "moderate",
+      "eligibility": {
+        "required_patient_fields": [
+          "sleep_duration_or_regularity",
+          "energy_or_mood_score",
+          "overnight_oxygen_context"
+        ],
+        "trigger_findings": [
+          "fragmented_sleep",
+          "low_hrv_or_recovery_signal",
+          "fatigue_without_desaturation",
+          "menopause_or_mood_context"
+        ],
+        "do_not_score_when": [
+          "primary_sleep_apnea_signal_present",
+          "sleep_already_stable_and_restorative"
+        ]
+      },
+      "display_rule": "Use when fatigue persists without oxygen desaturation; do not treat as sleep apnea unless breathing criteria are present."
+    }
+  ]
+}
