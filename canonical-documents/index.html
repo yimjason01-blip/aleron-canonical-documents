@@ -53,8 +53,8 @@ function activeDoc(){
   return canonicalDocs.find(doc => doc.id === id) || canonicalDocs[0];
 }
 
-function isHtmlPreview(){
-  return window.location.hostname === "htmlpreview.github.io";
+function shouldUseRawSrcdoc(){
+  return window.location.hostname === "htmlpreview.github.io" || window.location.hostname.endsWith("github.io");
 }
 
 function splitSrc(src){
@@ -67,7 +67,7 @@ async function render(){
   select.value = doc.id;
   document.title = "Aleron MD Canonical Documents - " + doc.label;
 
-  if (!isHtmlPreview()) {
+  if (!shouldUseRawSrcdoc()) {
     frame.removeAttribute("srcdoc");
     frame.src = doc.src;
     return;
