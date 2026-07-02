@@ -53,11 +53,47 @@ function activeDoc(){
   return canonicalDocs.find(doc => doc.id === id) || canonicalDocs[0];
 }
 
-function render(){
+function isHtmlPreview(){
+  return window.location.hostname === "htmlpreview.github.io";
+}
+
+function splitSrc(src){
+  const [pathAndQuery, hash = ""] = src.split("#");
+  return { pathAndQuery, hash };
+}
+
+async function render(){
   const doc = activeDoc();
   select.value = doc.id;
-  frame.src = doc.src;
   document.title = "Aleron MD Canonical Documents - " + doc.label;
+
+  if (!isHtmlPreview()) {
+    frame.removeAttribute("srcdoc");
+    frame.src = doc.src;
+    return;
+  }
+
+  const normalizedSrc = doc.src.replace(/^\.\.\//, "");
+  const { pathAndQuery, hash } = splitSrc(normalizedSrc);
+  const rawBase = "https://raw.githubusercontent.com/yimjason01-blip/aleron-canonical-documents/main/";
+  const rawUrl = rawBase + pathAndQuery;
+  const assetBase = rawBase + pathAndQuery.replace(/[^/]*$/, "");
+  try {
+    const response = await fetch(rawUrl, { cache: "no-store" });
+    if (!response.ok) throw new Error("HTTP " + response.status);
+    let html = await response.text();
+    html = html.replace(/<head([^>]*)>/i, `<head$1><base href="${assetBase}">`);
+    frame.removeAttribute("src");
+    frame.srcdoc = html;
+    if (hash) {
+      frame.addEventListener("load", () => {
+        try { frame.contentWindow.location.hash = hash; } catch (error) {}
+      }, { once: true });
+    }
+  } catch (error) {
+    frame.removeAttribute("srcdoc");
+    frame.src = rawUrl + (hash ? "#" + hash : "");
+  }
 }
 
 select.addEventListener("change", () => {
