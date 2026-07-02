@@ -1,72 +1,117 @@
 <!doctype html>
-<html lang="en"><head><meta charset="utf-8">
+<html lang="en" class="night"><head><meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Aleron Patient Dashboard</title>
 <style>
 /* ================================================================
-   ALERON PRODUCT DESIGN SYSTEM · DAY REGISTER · authored clean
-   One stylesheet, organized by screen — not a wireframe with a
-   theme layer. Register chosen by Jason for the physician surface
-   (diverges from DS 4.1.1 night-primary note; flag for the DS doc).
-   Day-register law: GOLD #C9A14E is line/fill only, never text —
-   advisory text is TEXT GOLD #8A6A2F. Ember text is legal on paper.
-   Icon recipe (DS 0.6): instrument marks, 1.5 hairline, square
-   joints, chart vocabulary — ticks, fixes, courses, sectors.
+   ALERON PRODUCT DESIGN SYSTEM · physician surface · v0.3
+   Built register-clean on the DS semantic token contract: one
+   surface, resolved through two registers by a single .night class
+   (flight-deck default; remove .night on <html> for day). Values
+   set in the voice face, tabular, weight 500 · the audit face is
+   retired to the wordmark tag. Color is meaning, never category:
+   forward gold (line/fill), advisory text-gold/lit-gold, hazard
+   ember, baseline slate, unmodeled indigo. Category rides on mark
+   shape. Radius carries role (S1): controls 10, tiles 4, fields
+   12, cards 16, panels 18. Shadow is Tier 1's alone.
    ================================================================ */
 
 
 :root{
+ /* ── DS semantic layer · day register (default) · v0.3 ──────────── */
  --voice:'PolySans','Hanken Grotesk',-apple-system,BlinkMacSystemFont,"Segoe UI",Helvetica,sans-serif;
- --audit:'Space Mono',ui-monospace,Menlo,monospace;
- --bg:#FAF7F2;                          /* PAPER */
- --card:#FFFFFF;
- --fg:#1D1B18;                          /* INK */
- --line:#1D1B18;
- --l08:rgba(29,27,24,0.08);
- --l12:rgba(29,27,24,0.12);
- --l18:rgba(29,27,24,0.18);
- --l25:rgba(29,27,24,0.25);
- --l45:rgba(29,27,24,0.45);
- --muted:#5A6378;                       /* SLATE */
- --faint:rgba(90,99,120,0.62);
- --shade:#F1EDE6;                       /* surface-inset */
- --sunken:#F5F1E8;                      /* surface-sunken */
- --hi:#A4452C;                          /* EMBER — hazard; legal as text on paper */
- --ember:#A4452C;
- --act:#8A5A4A;                         /* forward-curve russet — geometry only */
- --advisory:#8A6A2F;                    /* TEXT GOLD — the only gold that may be text */
- --drug:#252B3D;                        /* domain hues, UNRATIFIED */
- --life:#C9A14E;
- --proc:#5A6378;
- --must:#C9A14E;                        /* GOLD — line/fill signal only */
- --goldwash:rgba(201,161,78,0.08);
+ --audit:'Space Mono',ui-monospace,Menlo,monospace;   /* retired from surfaces; wordmark tag only */
+ /* materials (brand-locked) */
+ --paper:#FAF7F2; --ink:#1D1B18; --cream:#F5F1E8; --gunmetal:#333E48; --navy:#252B3D;
+ --slate:#5A6378; --gold:#C9A14E; --lit-gold:#EACB7F; --text-gold:#8A6A2F; --ember:#A4452C;
+ /* semantic surfaces */
+ --ground:var(--paper);
+ --surface-card:#FFFFFF;
+ --surface-inset:#F1EDE6;
+ --surface-sunken:#F5F1E8;
+ --surface-selected:var(--surface-inset);
+ --surface-tier1:#FFFFFF;
+ --surface-tier2:var(--surface-inset);
+ /* semantic text */
+ --text-primary:var(--ink);
+ --text-secondary:var(--slate);
+ --text-tertiary:#6E6A63;               /* 4.8:1 on paper · lowest legal reading gray */
+ /* borders */
+ --border-subtle:rgba(29,27,24,0.10);
+ --border-base:rgba(29,27,24,0.18);
+ --border-strong:rgba(29,27,24,0.35);
+ --hairline:rgba(29,27,24,0.07);
+ /* signals · color is meaning, never category */
+ --signal-forward:var(--gold);          /* line/fill only */
+ --signal-advisory:var(--text-gold);    /* advisory text (day) */
+ --signal-hazard:var(--ember);          /* hazard only */
+ --signal-baseline:var(--slate);
+ --signal-unmodeled:#4A6FA5;            /* indigo · the window the instrument does not model */
+ --focus:var(--gold);
+ --goldwash:rgba(201,161,78,0.08);      /* reference-band wash */
+ /* elevation · Tier 1 / toast / launcher only */
+ --shadow-tier1:0 12px 36px rgba(29,27,24,0.09);
+ /* radius scale · S1 the 10/12 line: below acts, above holds */
+ --radius-panel:18px; --radius-card:16px; --radius-field:12px; --radius-control:10px; --radius-tile:4px;
+ /* ── back-compat aliases · original dashboard token names re-grounded ── */
+ --bg:var(--ground); --card:var(--surface-card); --fg:var(--text-primary); --line:var(--text-primary);
+ --muted:var(--text-secondary); --faint:var(--text-tertiary);
+ --shade:var(--surface-inset); --sunken:var(--surface-sunken);
+ --l08:var(--hairline); --l12:var(--border-subtle); --l18:var(--border-base); --l25:var(--border-base); --l45:var(--border-strong);
+ --hi:var(--signal-hazard); --advisory:var(--signal-advisory); --must:var(--signal-forward);
+ --act:#8A5A4A;                         /* russet · forward-curve geometry only */
+ --drug:var(--text-primary); --life:var(--text-primary); --proc:var(--text-secondary);  /* category→shape; hues retired */
+}
+/* ── flight-deck register · one class flips the whole surface ─────── */
+.night{
+ --ground:var(--navy);
+ --surface-card:var(--gunmetal);
+ --surface-inset:#20253A;
+ --surface-sunken:#1C2030;
+ --surface-selected:var(--gunmetal);    /* recessed inset vanishes on navy; selection lifts */
+ --surface-tier1:var(--gunmetal);
+ --surface-tier2:#20253A;
+ --text-primary:var(--cream);
+ --text-secondary:rgba(245,241,232,0.68);
+ --text-tertiary:rgba(245,241,232,0.55);
+ --border-subtle:rgba(245,241,232,0.08);
+ --border-base:rgba(245,241,232,0.14);
+ --border-strong:rgba(245,241,232,0.25);
+ --hairline:rgba(245,241,232,0.09);
+ --signal-advisory:var(--lit-gold);     /* advisory lifts to lit gold on dark */
+ --signal-baseline:rgba(245,241,232,0.68);
+ --signal-unmodeled:#8CA6D8;            /* indigo, lightened for navy */
+ --focus:var(--lit-gold);
+ --shadow-tier1:0 0 0 1px rgba(245,241,232,0.10);  /* shadow doesn't read on dark; lift by ring */
+ --act:#C77B63;                         /* russet lightened for navy */
+ --goldwash:rgba(201,161,78,0.12);
 }
 *{box-sizing:border-box;}
-body{margin:0;background:var(--bg);color:var(--fg);font-family:var(--voice);font-size:13px;line-height:1.45;}
-:focus-visible{outline:2px solid var(--must);outline-offset:2px;}
+body{margin:0;background:var(--bg);color:var(--fg);font-family:var(--voice);font-size:13.5px;line-height:1.45;-webkit-font-smoothing:antialiased;-moz-osx-font-smoothing:grayscale;}
+:focus-visible{outline:2px solid var(--focus);outline-offset:2px;}
 b,strong{font-weight:500;}
-button{font-family:var(--voice);border-radius:0;transition:background 150ms cubic-bezier(.4,0,.2,1),border-color 150ms cubic-bezier(.4,0,.2,1),color 150ms cubic-bezier(.4,0,.2,1);}
-select,textarea{border-radius:0;}
+button{font-family:var(--voice);border-radius:var(--radius-control);transition:background 150ms cubic-bezier(.4,0,.2,1),border-color 150ms cubic-bezier(.4,0,.2,1),color 150ms cubic-bezier(.4,0,.2,1);}
+select,textarea{border-radius:var(--radius-control);}
 svg{display:block;width:100%;height:auto;}
 
 /* ---- app shell + nav rail (DS 4.2: 176px, inset, wordmark 20) ---- */
-.app-shell{display:grid;grid-template-columns:176px minmax(0,1fr);min-height:100vh;}
+.app-shell{display:grid;grid-template-columns:188px minmax(0,1fr);min-height:100vh;}
 .sidebar{position:sticky;top:0;height:100vh;background:var(--shade);border-right:1px solid var(--l12);padding:20px 14px;align-self:start;}
-.brand{font-size:20px;font-weight:400;letter-spacing:-0.0275em;line-height:1;margin:0 0 24px;color:#232325;}
+.brand{font-size:20px;font-weight:400;letter-spacing:-0.0275em;line-height:1;margin:0 0 24px;color:var(--text-primary);}
 .brand span{font-family:var(--audit);font-size:9px;letter-spacing:0;margin-left:2px;vertical-align:top;
  background:linear-gradient(180deg,#C9A14E,#8A6A2F);-webkit-background-clip:text;background-clip:text;color:transparent;}
 .side-patient{display:flex;gap:9px;align-items:center;margin:0 0 14px;}
-.avatar{width:30px;height:30px;border:1px solid var(--l25);border-radius:50%;display:grid;place-items:center;font-family:var(--audit);font-size:10px;color:var(--muted);background:var(--bg);flex:0 0 auto;}
+.avatar{width:32px;height:32px;border:1px solid var(--l25);border-radius:50%;display:grid;place-items:center;font-family:var(--voice);font-weight:500;font-size:11px;color:var(--muted);background:var(--bg);flex:0 0 auto;}
 .side-picker{min-width:0;flex:1;}
 .side-picker select{font-family:var(--voice);width:100%;border:1px solid transparent;background:transparent;color:var(--fg);font-size:13px;font-weight:500;line-height:1.25;padding:2px 18px 2px 0;}
 .side-picker select:focus{outline:1px solid var(--l45);outline-offset:2px;background:var(--bg);}
-.side-code{font-family:var(--audit);font-size:9px;letter-spacing:.04em;color:var(--muted);line-height:1.3;margin-top:3px;}
+.side-code{font-family:var(--voice);font-size:11px;letter-spacing:0;color:var(--muted);line-height:1.3;margin-top:3px;}
 .side-rule{height:1px;background:var(--l12);margin:0 0 14px;}
 .section-nav{display:grid;gap:2px;}
-.section-nav button{width:100%;border:0;border-left:2px solid transparent;background:transparent;color:var(--muted);display:flex;align-items:center;gap:9px;text-align:left;padding:8px 8px 8px 10px;cursor:pointer;font-size:13px;font-weight:400;line-height:1.2;}
+.section-nav button{width:100%;border:0;border-radius:var(--radius-control);background:transparent;color:var(--muted);display:flex;align-items:center;gap:10px;text-align:left;padding:9px 10px;cursor:pointer;font-size:13.5px;font-weight:400;line-height:1.2;}
 .section-nav button:hover{color:var(--fg);}
-.section-nav button.on{border-left-color:var(--must);color:var(--fg);font-weight:500;background:var(--sunken);}
-svg.nav-ico{width:17px;height:17px;flex:0 0 auto;stroke:currentColor;fill:none;stroke-width:1.5;stroke-linecap:square;stroke-linejoin:miter;}
+.section-nav button.on{color:var(--text-primary);font-weight:500;background:var(--surface-selected);}
+svg.nav-ico{width:16px;height:16px;flex:0 0 auto;stroke:currentColor;fill:none;stroke-width:1.6;stroke-linecap:round;stroke-linejoin:round;}
 .main{min-width:0;padding:24px;}
 .wrap{max-width:1020px;margin:0 auto;}
 @media(max-width:860px){.app-shell{display:block;}.sidebar{position:static;height:auto;border-right:0;border-bottom:1px solid var(--l18);padding:16px;}.brand{margin-bottom:14px;}.section-nav{grid-template-columns:repeat(3,minmax(0,1fr));}.main{padding:16px 14px 48px;}}
@@ -78,40 +123,40 @@ svg.nav-ico{width:17px;height:17px;flex:0 0 auto;stroke:currentColor;fill:none;s
 .shead h1{font-size:18px;font-weight:500;letter-spacing:-0.01em;line-height:1.2;margin:0;}
 .shead .sdef{font-size:13px;color:var(--muted);margin:4px 0 0;max-width:760px;}
 .shead .vmodel-tabs{margin:14px 0 0;}
-.foot{font-family:var(--audit);font-size:10px;letter-spacing:.04em;color:var(--faint);line-height:1.55;margin:16px 0 28px;max-width:920px;}
+.foot{font-family:var(--voice);font-size:10px;letter-spacing:0;color:var(--faint);line-height:1.55;margin:16px 0 28px;max-width:920px;}
 .foot b{color:var(--muted);font-weight:400;}
 
 /* ---- module card + annunciator band ---- */
-.sec{margin:0 0 24px;border:1px solid var(--l25);background:var(--card);}
-.sec>.ph{display:flex;justify-content:space-between;align-items:baseline;gap:12px;padding:9px 16px;border-bottom:1px solid var(--l18);background:var(--shade);flex-wrap:wrap;}
-.sec>.ph .h{font-family:var(--audit);font-size:9px;font-weight:400;letter-spacing:.1em;text-transform:uppercase;color:var(--muted);}
+.sec{margin:0 0 24px;border:1px solid var(--l25);background:var(--card);border-radius:var(--radius-card);overflow:hidden;}
+.sec>.ph{display:flex;justify-content:space-between;align-items:baseline;gap:12px;padding:10px 16px;border-bottom:1px solid var(--l18);background:var(--shade);flex-wrap:wrap;}
+.sec>.ph .h{font-family:var(--voice);font-size:10.5px;font-weight:500;letter-spacing:0;color:var(--muted);}
 .sec>.ph .sub{font-size:12.5px;color:var(--muted);font-weight:400;}
 .pad{padding:16px;}
 
-/* ---- shared: tabs (underline highlighter, gold = line-role) ---- */
-.vmodel-tabs{display:flex;gap:18px;border-bottom:1px solid var(--l18);}
-.vmodel-tabs button,.seg button,.maptabs button{border:0;border-bottom:2px solid transparent;background:transparent;color:var(--muted);padding:6px 2px;font-size:13px;cursor:pointer;margin-bottom:-1px;}
-.vmodel-tabs button.on,.seg button.on,.maptabs button.on{border-bottom-color:var(--must);color:var(--fg);font-weight:500;}
+/* ---- shared: tabs · active sits in an inset field (H2), never an underline ---- */
+.vmodel-tabs{display:flex;gap:4px;border-bottom:1px solid var(--l12);padding-bottom:10px;}
+.vmodel-tabs button,.seg button,.maptabs button{border:0;border-radius:var(--radius-control);background:transparent;color:var(--muted);padding:6px 12px;font-size:13px;cursor:pointer;}
+.vmodel-tabs button.on,.seg button.on,.maptabs button.on{background:var(--surface-selected);color:var(--fg);font-weight:500;}
 .vmodel-tabs button:hover,.seg button:hover,.maptabs button:hover{color:var(--fg);}
-.seg{display:inline-flex;gap:14px;}
-.seg button{font-size:12px;padding:2px 1px;}
-.maptabs{display:flex;gap:16px;flex-wrap:wrap;border-bottom:1px solid var(--l12);padding:0 16px;}
-.maptabs button{font-size:12.5px;padding:8px 1px;}
+.seg{display:inline-flex;gap:4px;}
+.seg button{font-size:12px;padding:5px 11px;}
+.maptabs{display:flex;gap:4px;flex-wrap:wrap;border-bottom:1px solid var(--l12);padding:6px 10px;}
+.maptabs button{font-size:12.5px;padding:6px 12px;}
 .vmodel-pane{display:none;}
 .vmodel-pane.on{display:block;}
 .map-panel{display:none;}
 .map-panel.on{display:block;}
 
-/* ---- shared: band + status words (color = meaning, never chips) ---- */
-.bw{font-family:var(--audit);font-size:9.5px;letter-spacing:.07em;text-transform:uppercase;}
-.bw.high{color:var(--hi);}
+/* ---- shared: band + status words · color is meaning; hazard is a filled tile, legal in both registers ---- */
+.bw{font-family:var(--voice);font-size:10.5px;font-weight:500;letter-spacing:0;}
+.bw.high{background:var(--ember);color:var(--cream);padding:1.5px 7px;border-radius:var(--radius-tile);display:inline-block;line-height:1.35;}
 .bw.mod{color:var(--advisory);}
 .bw.low{color:var(--muted);}
-.st{font-family:var(--audit);font-size:10px;letter-spacing:.05em;text-transform:uppercase;white-space:nowrap;}
+.st{font-family:var(--voice);font-size:10.5px;letter-spacing:0;white-space:nowrap;}
 .st.act{color:var(--fg);}
 .st.gated,.st.must{color:var(--advisory);}
 .st.reclass{color:var(--muted);}
-.st.harm{color:var(--hi);}
+.st.harm{background:var(--ember);color:var(--cream);font-weight:500;padding:1.5px 7px;border-radius:var(--radius-tile);display:inline-block;line-height:1.35;}
 
 /* ---- shared: buttons ---- */
 .btn-primary{background:var(--fg);color:var(--bg);border:1px solid var(--fg);padding:9px 16px;font-size:13px;cursor:pointer;}
@@ -120,131 +165,131 @@ svg.nav-ico{width:17px;height:17px;flex:0 0 auto;stroke:currentColor;fill:none;s
 .cp-btn:hover,.agent-prompts button:hover{border-color:var(--l45);}
 
 /* ================================================================
-   SCREEN 1 · PATIENT DATA — one citation table, grouped, complete.
+   SCREEN 1 · PATIENT DATA · one citation table, grouped, complete.
    Names in voice, values in audit; abnormality = a colored word.
    ================================================================ */
-.pd-id{font-family:var(--audit);font-size:11px;letter-spacing:.02em;color:var(--muted);margin:0 0 14px;}
+.pd-id{font-family:var(--voice);font-size:11px;letter-spacing:0;color:var(--muted);margin:0 0 14px;}
 .pd-id b{color:var(--fg);font-weight:400;}
 .pd-table{width:100%;border-collapse:collapse;background:var(--card);border:1px solid var(--l25);}
 .pd-table th,.pd-table td{text-align:left;vertical-align:baseline;padding:8px 14px;border-top:1px solid var(--l08);line-height:1.4;}
-.pd-table tr.pd-g th{font-family:var(--audit);font-size:9px;font-weight:400;letter-spacing:.1em;text-transform:uppercase;color:var(--muted);background:var(--shade);border-top:1px solid var(--l18);padding:7px 14px;}
+.pd-table tr.pd-g th{font-family:var(--voice);font-size:9px;font-weight:400;letter-spacing:0;color:var(--muted);background:var(--shade);border-top:1px solid var(--l18);padding:7px 14px;}
 .pd-table .pd-k{width:30%;font-size:13px;color:var(--fg);}
-.pd-table .pd-v{width:26%;font-family:var(--audit);font-size:12px;color:var(--fg);font-variant-numeric:tabular-nums;white-space:nowrap;}
+.pd-table .pd-v{width:26%;font-family:var(--voice);font-size:12px;color:var(--fg);font-weight:500;font-variant-numeric:tabular-nums;white-space:nowrap;}
 .pd-table .pd-v span{color:var(--faint);font-size:10px;margin-left:4px;}
 .pd-table .pd-f{width:14%;}
 .pd-table .pd-c{width:30%;font-size:12.5px;color:var(--muted);}
-.pd-f i{font-style:normal;font-family:var(--audit);font-size:9.5px;letter-spacing:.06em;text-transform:uppercase;}
-.pd-f .hi{color:var(--hi);}
-.pd-f .adv{color:var(--advisory);}
+.pd-f i{font-style:normal;font-family:var(--voice);font-size:10.5px;letter-spacing:0;}
+.pd-f .hi{background:var(--ember);color:var(--cream);font-weight:500;padding:1.5px 7px;border-radius:var(--radius-tile);display:inline-block;line-height:1.3;}
+.pd-f .adv{color:var(--advisory);font-weight:500;}
 .pd-f .ok{color:var(--faint);}
 @media(max-width:760px){.pd-table .pd-c{display:none;}.pd-table .pd-k{width:44%;}}
 
 /* ================================================================
-   SCREEN 2a · RISK MODELS — domain rail + model instrument panel
+   SCREEN 2a · RISK MODELS · domain rail + model instrument panel
    ================================================================ */
 .risk{display:grid;grid-template-columns:minmax(210px,250px) 1fr;gap:16px;align-items:start;}
 @media(max-width:860px){.risk{grid-template-columns:1fr;}}
 .risk-topics{border:1px solid var(--l25);background:var(--card);display:flex;flex-direction:column;}
-.rt{font-family:var(--voice);text-align:left;border:0;border-top:1px solid var(--l08);border-left:2px solid transparent;background:transparent;color:var(--fg);padding:11px 12px;cursor:pointer;display:grid;gap:4px;}
+.rt{font-family:var(--voice);text-align:left;border:0;border-top:1px solid var(--l08);background:transparent;color:var(--fg);padding:11px 12px;cursor:pointer;display:grid;gap:4px;}
 .rt:first-child{border-top:0;}
 .rt:hover{background:var(--sunken);}
-.rt.on{background:var(--sunken);border-left-color:var(--must);}
+.rt.on{background:var(--surface-selected);border-radius:var(--radius-control);border-top-color:transparent;}
 .rt .row{display:flex;justify-content:space-between;gap:10px;align-items:baseline;}
 .rt .name{font-size:13px;font-weight:500;line-height:1.2;}
-.rt .val{font-family:var(--audit);font-size:15px;font-variant-numeric:tabular-nums;white-space:nowrap;color:var(--fg);}
+.rt .val{font-family:var(--voice);font-size:15px;font-weight:500;font-variant-numeric:tabular-nums;white-space:nowrap;color:var(--fg);}
 .rt .val.txt{font-size:10px;color:var(--muted);}
-.rt .meta{font-family:var(--audit);font-size:9px;color:var(--faint);text-transform:uppercase;letter-spacing:.05em;}
+.rt .meta{font-family:var(--voice);font-size:9px;color:var(--faint);letter-spacing:0;}
 .risk-panels{min-width:0;}
 .risk-panel{display:none;border:1px solid var(--l25);background:var(--card);}
 .risk-panel.on{display:block;}
 .risk-panel .head{display:flex;justify-content:space-between;gap:14px;border-bottom:1px solid var(--l18);padding:14px 16px;align-items:flex-start;}
 .risk-panel .title{font-size:16px;font-weight:500;line-height:1.2;}
-.risk-panel .head .meta{font-family:var(--audit);font-size:9.5px;color:var(--muted);text-transform:uppercase;letter-spacing:.05em;margin-top:5px;}
-.risk-panel .score{text-align:right;font-family:var(--audit);font-size:26px;font-variant-numeric:tabular-nums;white-space:nowrap;line-height:1;}
-.risk-panel.high .score{color:var(--hi);}
+.risk-panel .head .meta{font-family:var(--voice);font-size:9.5px;color:var(--muted);letter-spacing:0;margin-top:5px;}
+.risk-panel .score{text-align:right;font-family:var(--voice);font-size:26px;font-weight:500;font-variant-numeric:tabular-nums;white-space:nowrap;line-height:1;}
+.risk-panel.high .score{color:var(--text-primary);}
 .risk-panel.mod .score{color:var(--fg);}
 .risk-panel.low .score{color:var(--fg);}
 .risk-panel .score .bw{display:block;margin-top:5px;text-align:right;}
-/* model stage cells: one label, the number, the read — pending is ghosted */
+/* model stage cells: one label, the number, the read · pending is ghosted */
 .risk-output-grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));border-bottom:1px solid var(--l18);}
 @media(max-width:980px){.risk-output-grid{grid-template-columns:repeat(2,minmax(0,1fr));}}
 .risk-output{padding:11px 14px;border-left:1px solid var(--l08);border-top:1px solid var(--l08);min-height:84px;}
 .risk-output:nth-child(3n+1){border-left:0;}
 .risk-output:nth-child(-n+3){border-top:0;}
 @media(max-width:980px){.risk-output:nth-child(3n+1){border-left:1px solid var(--l08);}.risk-output:nth-child(2n+1){border-left:0;}.risk-output:nth-child(3){border-top:1px solid var(--l08);}}
-.risk-output .k{font-family:var(--audit);font-size:9px;color:var(--muted);text-transform:uppercase;letter-spacing:.08em;margin-bottom:6px;line-height:1.3;}
-.risk-output .v{font-family:var(--audit);font-size:19px;line-height:1.1;font-variant-numeric:tabular-nums;}
+.risk-output .k{font-family:var(--voice);font-size:9px;color:var(--muted);letter-spacing:0;margin-bottom:6px;line-height:1.3;}
+.risk-output .v{font-family:var(--voice);font-size:19px;line-height:1.1;font-weight:500;font-variant-numeric:tabular-nums;}
 .risk-output .m{font-size:12.5px;color:var(--muted);line-height:1.35;margin-top:5px;}
-.risk-output.pending .v,.risk-output.na .v{font-size:12px;color:var(--faint);letter-spacing:.05em;text-transform:uppercase;}
+.risk-output.pending .v,.risk-output.na .v{font-size:12px;color:var(--faint);letter-spacing:0;}
 .risk-output.pending{background:var(--bg);}
 .risk-model-note{padding:11px 14px;font-size:12.5px;color:var(--muted);line-height:1.45;background:var(--bg);border:1px dashed var(--l18);margin:12px 16px;}
-/* compact single-point trend strip — one honest timepoint, no acreage */
+/* compact single-point trend strip · one honest timepoint, no acreage */
 .risk-chart{padding:10px 16px 6px;border-bottom:1px solid var(--l18);}
 .risk-chart .axis{stroke:var(--l45);stroke-width:1;}
 .risk-chart .grid{stroke:var(--l12);stroke-width:1;}
-.risk-chart .label{fill:var(--faint);font-family:var(--audit);font-size:9px;letter-spacing:.04em;text-transform:uppercase;}
-.risk-chart .value-label{fill:var(--fg);font-family:var(--audit);font-size:11px;}
+.risk-chart .label{fill:var(--faint);font-family:var(--voice);font-size:9px;letter-spacing:0;}
+.risk-chart .value-label{fill:var(--fg);font-family:var(--voice);font-size:11px;}
 .risk-dot{stroke:var(--card);stroke-width:2.5;}
 .risk-dot.high{fill:var(--hi);}
 .risk-dot.mod{fill:var(--must);}
 .risk-dot.low{fill:var(--proc);}
-/* drivers: citation tables — variable names voice, values audit */
+/* drivers: citation tables · variable names voice, values audit */
 .risk-drivers{border-bottom:1px solid var(--l18);}
 .risk-drivers .rdh{display:flex;justify-content:space-between;gap:12px;align-items:baseline;padding:8px 16px;border-bottom:1px solid var(--l12);background:var(--shade);flex-wrap:wrap;}
-.risk-drivers .rdh b{font-family:var(--audit);font-size:9px;font-weight:400;text-transform:uppercase;letter-spacing:.1em;color:var(--muted);}
+.risk-drivers .rdh b{font-family:var(--voice);font-size:9px;font-weight:400;letter-spacing:0;color:var(--muted);}
 .risk-drivers .rdh span{font-size:12px;color:var(--muted);}
 .risk-input-columns{display:grid;grid-template-columns:1fr 1fr;border-bottom:1px solid var(--l12);}
 @media(max-width:1180px){.risk-input-columns{grid-template-columns:1fr;}}
 .risk-var-block{padding:10px 16px 12px;border-left:1px solid var(--l08);}
 .risk-var-block:first-child{border-left:0;}
 @media(max-width:1180px){.risk-var-block{border-left:0;border-top:1px solid var(--l08);}.risk-var-block:first-child{border-top:0;}}
-.risk-var-title{font-family:var(--audit);font-size:9px;color:var(--muted);text-transform:uppercase;letter-spacing:.08em;margin-bottom:6px;}
+.risk-var-title{font-family:var(--voice);font-size:9px;color:var(--muted);letter-spacing:0;margin-bottom:6px;}
 .risk-var-table{width:100%;border-collapse:collapse;table-layout:fixed;}
 .risk-var-table th,.risk-var-table td{font-size:12px;line-height:1.3;text-align:left;vertical-align:top;padding:5px 6px;border-top:1px solid var(--l08);}
-.risk-var-table th{font-family:var(--audit);font-size:8.5px;text-transform:uppercase;letter-spacing:.06em;color:var(--faint);font-weight:400;}
+.risk-var-table th{font-family:var(--voice);font-size:8.5px;letter-spacing:0;color:var(--faint);font-weight:400;}
 .risk-var-table td:first-child{color:var(--fg);}
-.risk-var-table td:nth-child(2){font-family:var(--audit);font-size:11px;font-variant-numeric:tabular-nums;color:var(--fg);}
+.risk-var-table td:nth-child(2){font-family:var(--voice);font-size:11px;font-weight:500;font-variant-numeric:tabular-nums;color:var(--fg);}
 .risk-var-table td:nth-child(3){color:var(--muted);}
 .risk-var-table .note-cell{color:var(--faint);font-size:11px;}
 .risk-sens{padding:10px 16px 14px;}
-.risk-sens-title{font-family:var(--audit);font-size:9px;color:var(--muted);text-transform:uppercase;letter-spacing:.08em;margin-bottom:8px;}
+.risk-sens-title{font-family:var(--voice);font-size:9px;color:var(--muted);letter-spacing:0;margin-bottom:8px;}
 .risk-sens-row{display:grid;grid-template-columns:minmax(120px,190px) 1fr minmax(90px,160px);gap:10px;align-items:center;font-size:12.5px;line-height:1.25;margin:6px 0;}
 @media(max-width:760px){.risk-sens-row{grid-template-columns:1fr;gap:4px;margin:9px 0;}}
 .risk-sens-track{height:8px;border:1px solid var(--l12);background:var(--bg);position:relative;}
 .risk-sens-track i{position:absolute;left:0;top:0;bottom:0;background:var(--proc);opacity:.55;}
-.risk-sens-meta{font-family:var(--audit);font-size:9.5px;color:var(--faint);}
-.risk-foot{padding:9px 16px;font-family:var(--audit);font-size:9.5px;letter-spacing:.03em;color:var(--faint);line-height:1.55;}
+.risk-sens-meta{font-family:var(--voice);font-size:9.5px;color:var(--faint);}
+.risk-foot{padding:9px 16px;font-family:var(--voice);font-size:9.5px;letter-spacing:0;color:var(--faint);line-height:1.55;}
 
 /* ================================================================
    SCREEN 2b · ACTION MAP + evidence ledger + AI pipeline + gates
    ================================================================ */
-.legend{display:flex;gap:14px;flex-wrap:wrap;font-family:var(--audit);font-size:9.5px;letter-spacing:.03em;color:var(--muted);margin:10px 0 0;}
+.legend{display:flex;gap:14px;flex-wrap:wrap;font-family:var(--voice);font-size:9.5px;letter-spacing:0;color:var(--muted);margin:10px 0 0;}
 .legend i{display:inline-block;width:9px;height:9px;border-radius:50%;margin-right:5px;vertical-align:-1px;}
-.mlab{font-family:var(--audit);letter-spacing:.03em;}
-.zlab{font-family:var(--audit);font-size:9px;fill:var(--faint);text-transform:uppercase;letter-spacing:.06em;}
+.mlab{font-family:var(--voice);letter-spacing:0;}
+.zlab{font-family:var(--voice);font-size:9px;fill:var(--faint);letter-spacing:0;}
 .dxvalue{margin-top:14px;border:1px solid var(--l18);}
 .dxvalue .dxh{display:flex;justify-content:space-between;gap:10px;align-items:baseline;border-bottom:1px solid var(--l12);background:var(--shade);padding:8px 16px;flex-wrap:wrap;}
-.dxvalue .dxh b{font-family:var(--audit);font-size:9px;font-weight:400;text-transform:uppercase;letter-spacing:.1em;color:var(--muted);}
+.dxvalue .dxh b{font-family:var(--voice);font-size:9px;font-weight:400;letter-spacing:0;color:var(--muted);}
 .dxvalue .dxh span{font-size:12px;color:var(--muted);}
 .dxtable{width:100%;border-collapse:collapse;table-layout:fixed;}
 .dxtable th,.dxtable td{padding:9px 12px;border-top:1px solid var(--l08);text-align:left;vertical-align:top;line-height:1.4;}
-.dxtable th{font-family:var(--audit);font-size:8.5px;text-transform:uppercase;letter-spacing:.07em;color:var(--faint);font-weight:400;border-top:0;}
+.dxtable th{font-family:var(--voice);font-size:8.5px;letter-spacing:0;color:var(--faint);font-weight:400;border-top:0;}
 .dxtable th:first-child,.dxtable td:first-child{padding-left:16px;}
 .dxtable td{font-size:12.5px;color:var(--muted);}
 .dxtable .name{font-size:13px;color:var(--fg);}
-.dxtable .prov{display:block;font-family:var(--audit);font-size:9px;letter-spacing:.05em;text-transform:uppercase;color:var(--faint);margin-top:3px;padding-left:16px;}
+.dxtable .prov{display:block;font-family:var(--voice);font-size:9px;letter-spacing:0;color:var(--faint);margin-top:3px;padding-left:16px;}
 .dxtable .prov.ai{color:var(--proc);}
-.dxtable .num{font-family:var(--audit);font-variant-numeric:tabular-nums;color:var(--fg);white-space:nowrap;font-size:12px;}
-.dxtable .qu{font-family:var(--audit);font-size:9px;color:var(--faint);margin-left:4px;text-transform:uppercase;}
-.dxtable .qsub{display:block;font-family:var(--audit);font-size:9px;color:var(--faint);letter-spacing:.03em;margin-top:2px;}
+.dxtable .num{font-family:var(--voice);font-weight:500;font-variant-numeric:tabular-nums;color:var(--fg);white-space:nowrap;font-size:12px;}
+.dxtable .qu{font-family:var(--voice);font-size:9px;color:var(--faint);margin-left:4px;}
+.dxtable .qsub{display:block;font-family:var(--voice);font-size:9px;color:var(--faint);letter-spacing:0;margin-top:2px;}
 .dxtable tr.focus td{background:var(--goldwash);}
 .dxm{display:inline-block;width:9px;height:9px;border-radius:50%;margin-right:7px;flex:0 0 auto;vertical-align:0;}
 .dxm.drug{background:var(--drug);}
 .dxm.lifestyle{background:var(--life);}
 .dxm.procedure{background:var(--proc);}
-.dxm.diagnostic{background:var(--must);border-radius:0;}
+.dxm.diagnostic{background:var(--signal-baseline);border-radius:0;}
 .dxm.gated{background:transparent;border:1.5px dashed var(--l45);}
-.dxm.ai{box-shadow:0 0 0 2px var(--card),0 0 0 3px var(--proc);}
+.dxm.ai{box-shadow:0 0 0 2px var(--card),0 0 0 3px var(--signal-unmodeled);}
 .valbar{height:3px;background:var(--l08);margin-top:6px;max-width:110px;}
 .valbar i{display:block;height:100%;background:var(--l45);}
 .valbar i.harm{background:var(--hi);}
@@ -259,21 +304,21 @@ svg.nav-ico{width:17px;height:17px;flex:0 0 auto;stroke:currentColor;fill:none;s
 .discover{display:grid;grid-template-columns:minmax(220px,270px) 1fr;gap:16px;align-items:stretch;}
 @media(max-width:860px){.discover{grid-template-columns:1fr;}}
 .ai-topics{border:1px solid var(--l25);background:var(--card);display:flex;flex-direction:column;}
-.ait{font-family:var(--voice);text-align:left;border:0;border-top:1px solid var(--l08);border-left:2px solid transparent;background:transparent;color:var(--fg);padding:11px 12px;cursor:pointer;display:grid;gap:4px;}
+.ait{font-family:var(--voice);text-align:left;border:0;border-top:1px solid var(--l08);background:transparent;color:var(--fg);padding:11px 12px;cursor:pointer;display:grid;gap:4px;}
 .ait:first-child{border-top:0;}
 .ait:hover{background:var(--sunken);}
-.ait.on{background:var(--sunken);border-left-color:var(--must);}
+.ait.on{background:var(--surface-selected);border-radius:var(--radius-control);border-top-color:transparent;}
 .ait .row{display:flex;justify-content:space-between;gap:10px;align-items:baseline;}
 .ait .name{font-size:13px;font-weight:500;line-height:1.25;}
-.ait .val{font-family:var(--audit);font-size:10.5px;color:var(--fg);font-variant-numeric:tabular-nums;white-space:nowrap;}
-.ait .meta{font-family:var(--audit);font-size:9px;color:var(--faint);text-transform:uppercase;letter-spacing:.05em;}
+.ait .val{font-family:var(--voice);font-size:10.5px;color:var(--fg);font-weight:500;font-variant-numeric:tabular-nums;white-space:nowrap;}
+.ait .meta{font-family:var(--voice);font-size:9px;color:var(--faint);letter-spacing:0;}
 .ai-panels{min-width:0;}
 .air{display:none;border:1px solid var(--l25);background:var(--card);min-height:300px;}
 .air.on{display:block;}
 .air .head{display:flex;justify-content:space-between;gap:14px;border-bottom:1px solid var(--l18);padding:13px 16px;align-items:flex-start;}
 .air .title{font-size:15px;font-weight:500;line-height:1.25;}
-.air .head .meta{font-family:var(--audit);font-size:9px;color:var(--muted);text-transform:uppercase;letter-spacing:.05em;margin-top:5px;}
-.air .score{font-family:var(--audit);font-size:10px;letter-spacing:.06em;text-transform:uppercase;white-space:nowrap;color:var(--fg);}
+.air .head .meta{font-family:var(--voice);font-size:9px;color:var(--muted);letter-spacing:0;margin-top:5px;}
+.air .score{font-family:var(--voice);font-size:10px;letter-spacing:0;white-space:nowrap;color:var(--fg);}
 .air .score.review{color:var(--advisory);}
 .ai-grid{display:grid;grid-template-columns:1.15fr .85fr;border-bottom:1px solid var(--l12);}
 @media(max-width:860px){.ai-grid{grid-template-columns:1fr;}}
@@ -281,27 +326,27 @@ svg.nav-ico{width:17px;height:17px;flex:0 0 auto;stroke:currentColor;fill:none;s
 .ai-block:nth-child(odd){border-left:0;}
 .ai-block:nth-child(-n+2){border-top:0;}
 @media(max-width:860px){.ai-block{border-left:0;}.ai-block:nth-child(2){border-top:1px solid var(--l08);}}
-.ai-block .k{font-family:var(--audit);font-size:9px;color:var(--muted);text-transform:uppercase;letter-spacing:.08em;margin-bottom:6px;}
+.ai-block .k{font-family:var(--voice);font-size:9px;color:var(--muted);letter-spacing:0;margin-bottom:6px;}
 .ai-block .v{font-size:13px;color:var(--muted);line-height:1.45;}
 .ai-block .v b{color:var(--fg);}
-.ai-cites{font-family:var(--audit);font-size:10.5px;color:var(--fg);line-height:1.7;font-variant-numeric:tabular-nums;}
-.ai-footer{padding:9px 16px;font-family:var(--audit);font-size:9.5px;color:var(--faint);letter-spacing:.03em;line-height:1.5;}
+.ai-cites{font-family:var(--voice);font-size:10.5px;color:var(--fg);line-height:1.7;font-weight:500;font-variant-numeric:tabular-nums;}
+.ai-footer{padding:9px 16px;font-family:var(--voice);font-size:9.5px;color:var(--faint);letter-spacing:0;line-height:1.5;}
 
 /* action-changing gates: gold tick = advisory line-role */
 .must{display:flex;flex-direction:column;gap:8px;}
-.md{display:grid;grid-template-columns:auto 1fr;gap:12px;align-items:baseline;border:1px solid var(--l18);border-left:2px solid var(--must);background:var(--card);padding:10px 14px;font-size:13px;color:var(--muted);line-height:1.45;}
-.md .tag{font-family:var(--audit);font-size:9px;letter-spacing:.07em;text-transform:uppercase;color:var(--advisory);white-space:nowrap;}
+.md{display:grid;grid-template-columns:auto 1fr;gap:12px;align-items:baseline;border:1px solid var(--l18);background:var(--card);padding:10px 14px;font-size:13px;color:var(--muted);line-height:1.45;border-radius:var(--radius-field);}
+.md .tag{font-family:var(--voice);font-size:9px;letter-spacing:0;color:var(--advisory);white-space:nowrap;}
 .md b{color:var(--fg);}
 .md.resolve .tag{color:var(--advisory);}
 
 /* ================================================================
-   SCREEN 3 · VITALITY — outcome quads, HRV bridge, driver explorer
+   SCREEN 3 · VITALITY · outcome quads, HRV bridge, driver explorer
    ================================================================ */
 .vm-board{border:1px solid var(--l25);background:var(--card);}
 .vm-block{border-top:1px solid var(--l25);}
 .vm-block:first-child{border-top:0;}
 .vm-block-head{display:grid;grid-template-columns:190px minmax(0,1fr);gap:14px;align-items:baseline;border-bottom:1px solid var(--l12);background:var(--shade);padding:9px 16px;}
-.vm-block-title{font-family:var(--audit);font-size:9px;letter-spacing:.1em;text-transform:uppercase;color:var(--muted);}
+.vm-block-title{font-family:var(--voice);font-size:9px;letter-spacing:0;color:var(--muted);}
 .vm-block-note{font-size:12.5px;line-height:1.4;color:var(--muted);}
 .vm-outcome-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));}
 .vm-outcome-card{border-top:1px solid var(--l08);border-left:1px solid var(--l08);min-width:0;}
@@ -310,45 +355,45 @@ svg.nav-ico{width:17px;height:17px;flex:0 0 auto;stroke:currentColor;fill:none;s
 .vm-outcome-head{display:grid;grid-template-columns:minmax(0,1fr) auto;gap:10px;align-items:start;padding:11px 14px 7px;}
 .vm-outcome-head h3{font-size:14px;font-weight:500;line-height:1.2;margin:0 0 3px;}
 .vm-outcome-head p{font-size:11.5px;line-height:1.35;color:var(--muted);margin:0;}
-.vm-score{font-family:var(--audit);font-size:22px;line-height:1;font-variant-numeric:tabular-nums;text-align:right;white-space:nowrap;color:var(--fg) !important;}
-.vm-score span{display:block;font-size:9px;letter-spacing:.06em;text-transform:uppercase;margin-bottom:4px;}
+.vm-score{font-family:var(--voice);font-size:22px;line-height:1;font-weight:500;font-variant-numeric:tabular-nums;text-align:right;white-space:nowrap;color:var(--fg) !important;}
+.vm-score span{display:block;font-size:9px;letter-spacing:0;margin-bottom:4px;}
 .vm-chart-wrap{padding:4px 14px 12px;min-width:0;}
 .vm-chart{width:100%;height:150px;}
-.vm-status{font-family:var(--audit);border:0;padding:0;font-size:9px;letter-spacing:.06em;text-transform:uppercase;white-space:nowrap;align-self:start;color:var(--muted);}
-.vm-status.low,.vm-status.high{color:var(--hi);}
+.vm-status{font-family:var(--voice);border:0;padding:0;font-size:9px;letter-spacing:0;white-space:nowrap;align-self:start;color:var(--muted);}
+.vm-status.low,.vm-status.high{background:var(--ember);color:var(--cream);font-weight:500;padding:1.5px 7px;border-radius:var(--radius-tile);line-height:1.3;}
 .vm-status.warn{color:var(--advisory);}
 .vm-status.in-range{color:var(--muted);}
 .vm-status.pending,.vm-status.conditional{color:var(--faint);}
 .vm-hrv{display:grid;grid-template-columns:240px minmax(0,1fr);}
 .vm-hrv-meta{padding:14px;border-right:1px solid var(--l08);}
-.vm-type{font-family:var(--audit);font-size:9px;letter-spacing:.08em;text-transform:uppercase;color:var(--faint);margin-bottom:6px;}
+.vm-type{font-family:var(--voice);font-size:9px;letter-spacing:0;color:var(--faint);margin-bottom:6px;}
 .vm-name{font-size:14px;font-weight:500;line-height:1.2;margin-bottom:7px;}
-.vm-current{font-family:var(--audit);font-size:22px;line-height:1.05;font-variant-numeric:tabular-nums;margin-bottom:7px;color:var(--fg) !important;}
+.vm-current{font-family:var(--voice);font-size:22px;line-height:1.05;font-weight:500;font-variant-numeric:tabular-nums;margin-bottom:7px;color:var(--fg) !important;}
 .vm-detail{display:grid;gap:4px;font-size:11.5px;line-height:1.3;color:var(--muted);margin-top:9px;}
-.vm-detail b{color:var(--fg);font-family:var(--audit);font-size:9px;letter-spacing:.05em;text-transform:uppercase;font-weight:400;margin-right:2px;}
+.vm-detail b{color:var(--fg);font-family:var(--voice);font-size:9px;letter-spacing:0;font-weight:400;margin-right:2px;}
 .vm-hrv-main{min-width:0;}
 .vm-bridge{display:grid;grid-template-columns:1fr auto 1fr;align-items:center;gap:10px;padding:7px 14px;border-top:1px solid var(--l08);background:var(--shade);}
-.vm-bridge span{font-family:var(--audit);font-size:8.5px;letter-spacing:.06em;text-transform:uppercase;color:var(--faint);}
+.vm-bridge span{font-family:var(--voice);font-size:8.5px;letter-spacing:0;color:var(--faint);}
 .vm-bridge span:last-child{text-align:right;}
-.vm-bridge b{font-family:var(--audit);font-size:9px;font-weight:400;letter-spacing:.08em;text-transform:uppercase;color:var(--fg);}
+.vm-bridge b{font-family:var(--voice);font-size:9px;font-weight:400;letter-spacing:0;color:var(--fg);}
 .vm-read-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));border-top:1px solid var(--l08);}
 .vm-read-grid.three{grid-template-columns:repeat(3,minmax(0,1fr));}
 .vm-read-grid div{padding:10px 14px;border-left:1px solid var(--l08);font-size:12.5px;line-height:1.4;color:var(--muted);}
 .vm-read-grid div:first-child{border-left:0;}
-.vm-read-grid b{display:block;color:var(--muted);font-family:var(--audit);font-size:9px;font-weight:400;letter-spacing:.08em;text-transform:uppercase;margin-bottom:4px;}
+.vm-read-grid b{display:block;color:var(--muted);font-family:var(--voice);font-size:9px;font-weight:400;letter-spacing:0;margin-bottom:4px;}
 .vm-driver-explorer{display:grid;grid-template-columns:260px minmax(0,1fr);}
 .vm-driver-tabs{border-right:1px solid var(--l08);}
-.vm-driver-tab{font-family:var(--voice);width:100%;display:grid;grid-template-columns:1fr auto;gap:4px 8px;text-align:left;border:0;border-top:1px solid var(--l08);border-left:2px solid transparent;background:transparent;color:var(--fg);padding:10px 12px;cursor:pointer;}
+.vm-driver-tab{font-family:var(--voice);width:100%;display:grid;grid-template-columns:1fr auto;gap:4px 8px;text-align:left;border:0;border-top:1px solid var(--l08);background:transparent;color:var(--fg);padding:10px 12px;cursor:pointer;}
 .vm-driver-tab:first-child{border-top:0;}
 .vm-driver-tab:hover{background:var(--sunken);}
-.vm-driver-tab.on{background:var(--sunken);border-left-color:var(--must);}
+.vm-driver-tab.on{background:var(--surface-selected);border-radius:var(--radius-control);border-top-color:transparent;}
 .vm-driver-tab .name{font-size:13px;font-weight:500;line-height:1.2;}
-.vm-driver-tab .metric{grid-column:1 / -1;font-family:var(--audit);font-size:9.5px;line-height:1.35;color:var(--faint);}
+.vm-driver-tab .metric{grid-column:1 / -1;font-family:var(--voice);font-size:9.5px;line-height:1.35;color:var(--faint);}
 .vm-driver-head{display:grid;grid-template-columns:minmax(0,1fr) auto;gap:10px;align-items:start;padding:13px 14px;border-bottom:1px solid var(--l08);}
 .vm-driver-head h3{font-size:15px;font-weight:500;line-height:1.2;margin:0 0 4px;}
 .vm-driver-head p{font-size:12px;line-height:1.4;color:var(--muted);margin:0;}
-.vm-driver-current{font-family:var(--audit);font-size:20px;line-height:1;font-variant-numeric:tabular-nums;text-align:right;}
-.vm-driver-current span{display:block;font-size:9px;letter-spacing:.06em;text-transform:uppercase;color:var(--muted);margin-bottom:5px;}
+.vm-driver-current{font-family:var(--voice);font-size:20px;line-height:1;font-weight:500;font-variant-numeric:tabular-nums;text-align:right;}
+.vm-driver-current span{display:block;font-size:9px;letter-spacing:0;color:var(--muted);margin-bottom:5px;}
 .vm-driver-chart{width:100%;height:250px;}
 /* chart furniture: gold wash = desired range (calm), ink = intake */
 .vm-axis{stroke:var(--l45);stroke-width:1;}
@@ -359,11 +404,11 @@ svg.nav-ico{width:17px;height:17px;flex:0 0 auto;stroke:currentColor;fill:none;s
 .vm-intake{stroke:var(--l45);stroke-width:1.2;}
 .vm-window{fill:rgba(29,27,24,0.03);}
 .vm-reference{fill:var(--goldwash);}
-.vm-reference-label{fill:var(--advisory);font-family:var(--audit);font-size:8.5px;letter-spacing:.05em;text-transform:uppercase;}
-.vm-label{fill:var(--faint);font-family:var(--audit);font-size:8.5px;letter-spacing:.04em;text-transform:uppercase;}
-.vm-value{fill:var(--fg);font-family:var(--audit);font-size:10px;}
-.vm-pending{fill:var(--faint);font-family:var(--audit);font-size:8.5px;letter-spacing:.05em;text-transform:uppercase;}
-/* compact outcome minis render the 900-wide viewBox at ~460px — scale the
+.vm-reference-label{fill:var(--advisory);font-family:var(--voice);font-size:8.5px;letter-spacing:0;}
+.vm-label{fill:var(--faint);font-family:var(--voice);font-size:8.5px;letter-spacing:0;}
+.vm-value{fill:var(--fg);font-family:var(--voice);font-size:10px;}
+.vm-pending{fill:var(--faint);font-family:var(--voice);font-size:8.5px;letter-spacing:0;}
+/* compact outcome minis render the 900-wide viewBox at ~460px · scale the
    furniture up inside the viewBox so it lands at legible physical size */
 .vm-chart .vm-label,.vm-chart .vm-reference-label,.vm-chart .vm-pending{font-size:15px;}
 .vm-chart .vm-value{font-size:17px;}
@@ -374,7 +419,7 @@ svg.nav-ico{width:17px;height:17px;flex:0 0 auto;stroke:currentColor;fill:none;s
 /* vitality actions view */
 .vm-action-workspace{display:grid;grid-template-columns:290px minmax(0,1fr);gap:16px;}
 .vm-panel{border:1px solid var(--l25);min-width:0;background:var(--card);}
-.vm-panel-head{padding:8px 12px;border-bottom:1px solid var(--l12);background:var(--shade);font-family:var(--audit);font-size:9px;letter-spacing:.1em;text-transform:uppercase;color:var(--muted);}
+.vm-panel-head{padding:8px 12px;border-bottom:1px solid var(--l12);background:var(--shade);font-family:var(--voice);font-size:9px;letter-spacing:0;color:var(--muted);}
 .vm-action-list{display:grid;}
 .vm-action-card{font-family:var(--voice);text-align:left;border:0;border-top:1px solid var(--l08);border-left:2px solid transparent;background:transparent;color:var(--fg);padding:10px 12px;cursor:pointer;}
 .vm-action-card:first-child{border-top:0;}
@@ -382,25 +427,25 @@ svg.nav-ico{width:17px;height:17px;flex:0 0 auto;stroke:currentColor;fill:none;s
 .vm-action-card.on{background:var(--sunken);border-left-color:var(--must);}
 .vm-action-card .top{display:flex;justify-content:space-between;gap:10px;align-items:baseline;}
 .vm-action-card .name{font-size:13px;font-weight:500;line-height:1.25;}
-.vm-action-card .type{font-family:var(--audit);border:0;padding:0;font-size:9px;letter-spacing:.05em;text-transform:uppercase;white-space:nowrap;color:var(--muted);}
-.vm-action-card .meta{font-family:var(--audit);font-size:9.5px;color:var(--faint);line-height:1.45;margin-top:4px;}
+.vm-action-card .type{font-family:var(--voice);border:0;padding:0;font-size:9px;letter-spacing:0;white-space:nowrap;color:var(--muted);}
+.vm-action-card .meta{font-family:var(--voice);font-size:9.5px;color:var(--faint);line-height:1.45;margin-top:4px;}
 .vm-moves{display:flex;flex-wrap:wrap;gap:10px;margin-top:6px;}
-.vm-chip{border:0;padding:0;font-family:var(--audit);font-size:9px;letter-spacing:.04em;text-transform:uppercase;color:var(--muted);}
-.pill{font-family:var(--audit);font-size:9.5px;letter-spacing:.04em;text-transform:uppercase;margin-right:12px;color:var(--muted);}
+.vm-chip{border:0;padding:0;font-family:var(--voice);font-size:9px;letter-spacing:0;color:var(--muted);}
+.pill{font-family:var(--voice);font-size:9.5px;letter-spacing:0;margin-right:12px;color:var(--muted);}
 .vm-plane-pair{display:grid;grid-template-columns:1fr 1fr;gap:12px;padding:12px 12px 8px;}
 .vm-plane-card{border:1px solid var(--l12);min-width:0;background:var(--card);}
 .vm-plane-title{display:flex;justify-content:space-between;gap:10px;align-items:baseline;border-bottom:1px solid var(--l08);background:var(--shade);padding:6px 9px;}
-.vm-plane-title b{font-family:var(--audit);font-size:9px;font-weight:400;letter-spacing:.08em;text-transform:uppercase;color:var(--muted);}
-.vm-plane-title span{font-family:var(--audit);font-size:9.5px;color:var(--faint);}
+.vm-plane-title b{font-family:var(--voice);font-size:9px;font-weight:400;letter-spacing:0;color:var(--muted);}
+.vm-plane-title span{font-family:var(--voice);font-size:9.5px;color:var(--faint);}
 .vm-plane-note{font-size:12px;color:var(--muted);line-height:1.45;padding:2px 12px 12px;}
 .vm-plane-note b{color:var(--fg);}
-.vm-plane-label{fill:var(--faint);font-family:var(--audit);font-size:8.5px;letter-spacing:.05em;text-transform:uppercase;}
+.vm-plane-label{fill:var(--faint);font-family:var(--voice);font-size:8.5px;letter-spacing:0;}
 .vm-plane-hit{fill:transparent;stroke:transparent;pointer-events:all;}
 .vm-patient-dot{fill:var(--fg);}
 .vm-vector{fill:none;stroke-width:2;stroke-linecap:square;}
 .vm-vector.diagnostic{stroke-dasharray:4 3;}
 .vm-vector.selected{stroke-width:3;}
-.vm-vector-label{fill:var(--fg);font-family:var(--audit);font-size:8.5px;pointer-events:none;}
+.vm-vector-label{fill:var(--fg);font-family:var(--voice);font-size:8.5px;pointer-events:none;}
 .vm-action-inspector{display:grid;grid-template-columns:minmax(0,1.1fr) minmax(280px,.9fr);gap:16px;margin-top:16px;}
 .vm-detail-panel{padding:12px 14px;}
 .vm-detail-panel h3{font-size:15px;font-weight:500;line-height:1.2;margin:0 0 6px;}
@@ -408,7 +453,7 @@ svg.nav-ico{width:17px;height:17px;flex:0 0 auto;stroke:currentColor;fill:none;s
 .vm-facts{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));border-top:1px solid var(--l08);margin-top:10px;}
 .vm-facts div{padding:8px 9px;border-left:1px solid var(--l08);font-size:12px;line-height:1.35;color:var(--muted);}
 .vm-facts div:first-child{border-left:0;}
-.vm-facts b{display:block;color:var(--muted);font-family:var(--audit);font-size:8.5px;font-weight:400;letter-spacing:.06em;text-transform:uppercase;margin-bottom:4px;}
+.vm-facts b{display:block;color:var(--muted);font-family:var(--voice);font-size:8.5px;font-weight:400;letter-spacing:0;margin-bottom:4px;}
 .vm-plan-steps{display:grid;gap:8px;}
 .vm-plan-steps div{border-top:1px solid var(--l08);padding-top:8px;font-size:12.5px;line-height:1.45;color:var(--muted);}
 .vm-plan-steps div:first-child{border-top:0;padding-top:0;}
@@ -417,25 +462,25 @@ svg.nav-ico{width:17px;height:17px;flex:0 0 auto;stroke:currentColor;fill:none;s
 @media(max-width:760px){.vm-block-head{display:block;}.vm-block-title{margin-bottom:4px;}.vm-outcome-grid,.vm-plane-pair{grid-template-columns:1fr;}.vm-outcome-card{border-left:0;}.vm-outcome-card:nth-child(2){border-top:1px solid var(--l08);}.vm-facts{grid-template-columns:1fr 1fr;}}
 
 /* ================================================================
-   SCREEN 4 · CARE PLAN — white document vs inset workbench rail
+   SCREEN 4 · CARE PLAN · white document vs inset workbench rail
    ================================================================ */
 .cp-wrap{display:grid;grid-template-columns:minmax(0,1.62fr) minmax(250px,.88fr);gap:20px;align-items:start;}
 @media(max-width:980px){.cp-wrap{grid-template-columns:1fr;}}
-.ap-doc{border:1px solid var(--l25);background:var(--card);}
+.ap-doc{border:1px solid var(--l25);background:var(--card);border-radius:var(--radius-card);overflow:hidden;}
 .ap-dhead{display:flex;align-items:baseline;gap:10px;flex-wrap:wrap;padding:14px 20px;border-bottom:1px solid var(--l18);}
-.doc-state{font-family:var(--audit);font-size:9.5px;letter-spacing:.08em;text-transform:uppercase;color:var(--advisory);}
+.doc-state{font-family:var(--voice);font-size:9.5px;letter-spacing:0;color:var(--advisory);}
 .ap-title{font-size:16px;font-weight:500;line-height:1.2;}
-.ap-meta{margin-left:auto;font-family:var(--audit);font-size:10px;color:var(--muted);}
-.ap-inputs{padding:8px 20px;border-bottom:1px solid var(--l08);font-family:var(--audit);font-size:10px;letter-spacing:.02em;color:var(--muted);line-height:1.5;background:var(--bg);}
+.ap-meta{margin-left:auto;font-family:var(--voice);font-size:10px;color:var(--muted);}
+.ap-inputs{padding:8px 20px;border-bottom:1px solid var(--l08);font-family:var(--voice);font-size:10px;letter-spacing:0;color:var(--muted);line-height:1.5;background:var(--bg);}
 .ap-body{padding:12px 20px 16px;}
-.ap-seclabel{font-family:var(--audit);font-size:9px;color:var(--muted);text-transform:uppercase;letter-spacing:.1em;margin:4px 0 2px;}
+.ap-seclabel{font-family:var(--voice);font-size:9px;color:var(--muted);letter-spacing:0;margin:4px 0 2px;}
 .ap-prob{padding:10px 0 12px;border-bottom:1px solid var(--l08);}
 .ap-prob:last-child{border-bottom:0;padding-bottom:4px;}
 .ap-phead{display:flex;align-items:baseline;gap:8px;flex-wrap:wrap;}
-.ap-pnum{font-family:var(--audit);font-size:12px;flex:0 0 auto;min-width:14px;color:var(--muted);}
+.ap-pnum{font-family:var(--voice);font-size:12px;flex:0 0 auto;min-width:14px;color:var(--muted);}
 .ap-pname{font-size:14px;font-weight:500;line-height:1.25;}
-.ap-pdx{font-family:var(--audit);font-size:10px;color:var(--faint);}
-.ap-tag{font-family:var(--audit);font-size:9px;letter-spacing:.05em;text-transform:uppercase;color:var(--advisory);}
+.ap-pdx{font-family:var(--voice);font-size:10px;color:var(--faint);}
+.ap-tag{font-family:var(--voice);font-size:9px;letter-spacing:0;color:var(--advisory);}
 .ap-assess{font-size:13px;color:var(--muted);line-height:1.5;margin:3px 0 8px 22px;}
 .ap-orow{font-family:var(--voice);display:grid;gap:3px;text-align:left;border:0;border-left:2px solid var(--l18);background:transparent;color:var(--fg);padding:7px 12px;margin:0 0 4px 22px;width:calc(100% - 22px);cursor:pointer;}
 .ap-orow:hover{background:var(--sunken);}
@@ -443,16 +488,16 @@ svg.nav-ico{width:17px;height:17px;flex:0 0 auto;stroke:currentColor;fill:none;s
 .ap-orow .l1{display:flex;align-items:baseline;gap:8px;flex-wrap:wrap;}
 .ap-oname{font-size:14px;font-weight:500;line-height:1.3;}
 .ap-orow.rejected .ap-oname{text-decoration:line-through;color:var(--faint);}
-.ap-ometa{font-family:var(--audit);font-size:9.5px;letter-spacing:.06em;text-transform:uppercase;color:var(--muted);}
-.ap-ostat{margin-left:auto;font-family:var(--audit);font-size:9.5px;color:var(--hi);text-transform:uppercase;letter-spacing:.05em;flex:0 0 auto;}
-.ap-odetail{font-family:var(--audit);font-size:10.5px;color:var(--muted);line-height:1.55;}
-.ap-odx{font-family:var(--audit);font-size:10px;color:var(--faint);}
-.ap-docsig{padding:10px 20px;background:var(--shade);border-top:1px solid var(--l18);font-family:var(--audit);font-size:10px;letter-spacing:.02em;color:var(--muted);line-height:1.6;}
+.ap-ometa{font-family:var(--voice);font-size:9.5px;letter-spacing:0;color:var(--muted);}
+.ap-ostat{margin-left:auto;font-family:var(--voice);font-size:10.5px;color:var(--muted);letter-spacing:0;flex:0 0 auto;}
+.ap-odetail{font-family:var(--voice);font-size:10.5px;color:var(--muted);line-height:1.55;}
+.ap-odx{font-family:var(--voice);font-size:10px;color:var(--faint);}
+.ap-docsig{padding:10px 20px;background:var(--shade);border-top:1px solid var(--l18);font-family:var(--voice);font-size:10px;letter-spacing:0;color:var(--muted);line-height:1.6;}
 .ap-docsig b{color:var(--fg);font-weight:400;}
 /* the rail is the instrument: inset ground, audit labels */
 .cp-rail{position:sticky;top:16px;display:grid;gap:12px;}
-.rl-card{border:1px solid var(--l18);background:var(--shade);padding:13px 14px;display:grid;gap:9px;}
-.rl-k{font-family:var(--audit);font-size:9px;color:var(--muted);text-transform:uppercase;letter-spacing:.1em;}
+.rl-card{border:1px solid var(--l18);background:var(--shade);padding:13px 14px;display:grid;gap:9px;border-radius:var(--radius-field);}
+.rl-k{font-family:var(--voice);font-size:9px;color:var(--muted);letter-spacing:0;}
 .rl-name{font-size:14px;font-weight:500;line-height:1.3;}
 .rl-src{font-size:12.5px;color:var(--muted);line-height:1.5;}
 .rl-src b{color:var(--fg);}
@@ -466,7 +511,7 @@ svg.nav-ico{width:17px;height:17px;flex:0 0 auto;stroke:currentColor;fill:none;s
 .cp-mi{font-family:var(--voice);display:flex;justify-content:space-between;gap:10px;width:100%;text-align:left;border:0;border-top:1px solid var(--l08);background:transparent;color:var(--fg);padding:9px 12px;cursor:pointer;font-size:13px;}
 .cp-mi:first-child{border-top:0;}
 .cp-mi:hover{background:var(--sunken);}
-.cp-mi .r{font-family:var(--audit);font-size:9px;text-transform:uppercase;letter-spacing:.04em;color:var(--faint);white-space:nowrap;}
+.cp-mi .r{font-family:var(--voice);font-size:9px;letter-spacing:0;color:var(--faint);white-space:nowrap;}
 .cp-sign{font-family:var(--voice);font-size:13px;border:0;background:#E7E2D9;color:rgba(29,27,24,0.38);padding:9px 16px;cursor:not-allowed;}
 .jr-x{font-family:var(--voice);font-size:inherit;border:0;background:none;color:var(--fg);text-decoration:underline;text-underline-offset:2px;cursor:pointer;padding:0;}
 /* disclosures under the document */
@@ -474,7 +519,7 @@ svg.nav-ico{width:17px;height:17px;flex:0 0 auto;stroke:currentColor;fill:none;s
 .pt-details summary{cursor:pointer;padding:10px 16px;font-size:13px;color:var(--muted);background:var(--shade);}
 .pt-details summary:hover{color:var(--fg);}
 .pt-details summary::marker{color:var(--muted);}
-.pt-details summary .n{font-family:var(--audit);font-size:9.5px;letter-spacing:.05em;text-transform:uppercase;margin-left:8px;color:var(--faint);}
+.pt-details summary .n{font-family:var(--voice);font-size:9.5px;letter-spacing:0;margin-left:8px;color:var(--faint);}
 .pt-groups{padding:14px 16px;border-top:1px solid var(--l12);}
 
 /* proposal matrix (inside disclosure) */
@@ -483,96 +528,97 @@ svg.nav-ico{width:17px;height:17px;flex:0 0 auto;stroke:currentColor;fill:none;s
 .pmatrix th,.pmatrix td{border-left:1px solid var(--l08);border-top:1px solid var(--l08);padding:10px 12px;text-align:left;vertical-align:top;}
 .pmatrix tr:first-child th{border-top:0;}
 .pmatrix th:first-child,.pmatrix td:first-child{border-left:0;}
-.pmatrix th{font-family:var(--audit);font-size:8.5px;font-weight:400;letter-spacing:.08em;text-transform:uppercase;color:var(--muted);background:var(--shade);}
+.pmatrix th{font-family:var(--voice);font-size:8.5px;font-weight:400;letter-spacing:0;color:var(--muted);background:var(--shade);}
 .pmatrix .dim{width:120px;color:var(--fg);font-size:12px;font-family:var(--voice);font-weight:500;letter-spacing:0;text-transform:none;}
 .pcell{display:grid;gap:9px;}
 .pitem{display:grid;gap:3px;}
 .pitem .name{font-size:12.5px;font-weight:500;line-height:1.25;color:var(--fg);}
-.pitem .meta{font-family:var(--audit);font-size:9.5px;color:var(--advisory);font-variant-numeric:tabular-nums;}
+.pitem .meta{font-family:var(--voice);font-size:9.5px;color:var(--advisory);font-weight:500;font-variant-numeric:tabular-nums;}
 .pitem .detail{font-size:12px;line-height:1.4;color:var(--muted);}
-.pitem .tag{font-family:var(--audit);width:max-content;color:var(--advisory);font-size:9px;letter-spacing:.05em;text-transform:uppercase;}
+.pitem .tag{font-family:var(--voice);width:max-content;color:var(--advisory);font-size:9px;letter-spacing:0;}
 .pitem.na .name{color:var(--faint);}
 .pitem.na .meta{display:none;}
 /* genetics dossier (inside disclosure) */
 .genetic{display:grid;gap:10px;}
-.gf{border:1px solid var(--l18);padding:12px 14px;background:var(--card);}
+.gf{border:1px solid var(--l18);padding:12px 14px;background:var(--card);border-radius:var(--radius-field);}
 .gf .gt{display:flex;justify-content:space-between;gap:12px;align-items:flex-start;flex-wrap:wrap;}
 .gf .gene{font-size:14px;font-weight:500;}
 .gf .cond{font-size:12.5px;color:var(--muted);margin-top:2px;}
 .gbadges{display:flex;gap:12px;flex-wrap:wrap;}
-.gb{border:0;padding:0;font-family:var(--audit);font-size:9.5px;letter-spacing:.04em;text-transform:uppercase;white-space:nowrap;}
+.gb{border:0;padding:0;font-family:var(--voice);font-size:9.5px;letter-spacing:0;white-space:nowrap;}
 .gb.gen{color:var(--muted);}
 .gb.mod{color:var(--advisory);}
 .gb.ok{color:var(--fg);}
 .gb.wait{color:var(--faint);}
-.gmeta{font-family:var(--audit);font-size:10px;color:var(--muted);line-height:1.6;margin-top:8px;max-width:900px;}
+.gmeta{font-family:var(--voice);font-size:10px;color:var(--muted);line-height:1.6;margin-top:8px;max-width:900px;}
 .gacts{display:grid;gap:6px;margin-top:10px;}
 .ga{display:grid;grid-template-columns:92px 1fr;gap:9px;align-items:baseline;border-top:1px solid var(--l08);padding-top:7px;font-size:12.5px;}
 .ga:first-child{border-top:0;padding-top:0;}
-.ga .gs{font-family:var(--audit);font-size:9px;letter-spacing:.05em;text-transform:uppercase;white-space:nowrap;}
+.ga .gs{font-family:var(--voice);font-size:9px;letter-spacing:0;white-space:nowrap;}
 .ga.direct .gs{color:var(--fg);}
 .ga.conditional .gs{color:var(--advisory);}
 .ga.context .gs{color:var(--faint);}
 .ga b{font-weight:500;}
-.ga .gd{font-family:var(--audit);font-size:9.5px;color:var(--faint);margin-top:2px;line-height:1.5;}
+.ga .gd{font-family:var(--voice);font-size:9.5px;color:var(--faint);margin-top:2px;line-height:1.5;}
 
 /* ================================================================
-   SCREEN 5 · JOURNAL — a ledger with a time spine; notes as documents
+   SCREEN 5 · JOURNAL · a ledger with a time spine; notes as documents
    ================================================================ */
 .journal{display:grid;grid-template-columns:minmax(250px,320px) 1fr;gap:16px;align-items:start;}
 @media(max-width:860px){.journal{grid-template-columns:1fr;}}
-.jr-list{border:1px solid var(--l25);background:var(--card);display:flex;flex-direction:column;position:relative;}
+.jr-list{border:1px solid var(--l25);background:var(--card);display:flex;flex-direction:column;position:relative;border-radius:var(--radius-card);overflow:hidden;}
 .jr-list::before{content:"";position:absolute;left:62px;top:18px;bottom:18px;width:1px;background:var(--l12);}
 .jr{font-family:var(--voice);text-align:left;border:0;border-top:1px solid var(--l08);background:transparent;color:var(--fg);padding:12px 12px 12px 14px;cursor:pointer;display:grid;grid-template-columns:34px 12px minmax(0,1fr);gap:2px 10px;align-items:start;position:relative;}
 .jr:first-child{border-top:0;}
 .jr:hover{background:var(--sunken);}
-.jr.on{background:var(--sunken);box-shadow:inset 2px 0 0 var(--must);}
-.jr .jr-when{grid-row:1 / span 3;font-family:var(--audit);font-size:9.5px;color:var(--muted);font-variant-numeric:tabular-nums;padding-top:2px;}
+.jr.on{background:var(--surface-selected);}
+.jr .jr-when{grid-row:1 / span 3;font-family:var(--voice);font-size:10.5px;color:var(--muted);font-weight:500;font-variant-numeric:tabular-nums;padding-top:2px;}
 .jr .jr-node{grid-row:1 / span 3;width:9px;height:9px;margin-top:3px;border:1.5px solid var(--fg);border-radius:50%;background:var(--fg);position:relative;z-index:1;box-shadow:0 0 0 3px var(--card);}
-.jr:hover .jr-node,.jr.on .jr-node{box-shadow:0 0 0 3px var(--sunken);}
+.jr:hover .jr-node{box-shadow:0 0 0 3px var(--sunken);}
+.jr.on .jr-node{box-shadow:0 0 0 3px var(--surface-selected);}
 .jr .jr-node.draft{background:transparent;border-color:var(--must);}
 .jr .jr-node.ext{border-radius:0;background:transparent;border-color:var(--proc);}
 .jr .name{font-size:13px;font-weight:500;line-height:1.3;}
-.jr .meta{font-family:var(--audit);font-size:9px;color:var(--faint);line-height:1.4;text-transform:uppercase;letter-spacing:.04em;}
-.jr .jr-stat{font-family:var(--audit);font-size:9px;letter-spacing:.06em;text-transform:uppercase;color:var(--muted);margin-top:1px;}
+.jr .meta{font-family:var(--voice);font-size:10.5px;color:var(--faint);line-height:1.4;letter-spacing:0;}
+.jr .jr-stat{font-family:var(--voice);font-size:10.5px;letter-spacing:0;color:var(--muted);margin-top:1px;}
 .jr .jr-stat.draft{color:var(--advisory);}
 .jr .jr-stat.ext{color:var(--faint);}
-.jr-note{border:1px solid var(--l25);background:var(--card);min-width:0;}
+.jr-note{border:1px solid var(--l25);background:var(--card);min-width:0;border-radius:var(--radius-card);overflow:hidden;}
 .jr-note .head{padding:14px 20px;border-bottom:1px solid var(--l18);}
-.jr-note .k{font-family:var(--audit);font-size:9px;color:var(--muted);text-transform:uppercase;letter-spacing:.08em;}
+.jr-note .k{font-family:var(--voice);font-size:9px;color:var(--muted);letter-spacing:0;}
 .jr-note .title{font-size:16px;font-weight:500;line-height:1.25;margin-top:4px;}
-.jr-note .byline{font-family:var(--audit);font-size:10px;color:var(--muted);margin-top:5px;}
+.jr-note .byline{font-family:var(--voice);font-size:10px;color:var(--muted);margin-top:5px;}
 .jr-body{padding:14px 20px;font-size:13px;color:var(--muted);line-height:1.55;}
 .jr-body b{color:var(--fg);}
 .jr-sec{margin:0 0 14px;}
 .jr-sec:last-child{margin-bottom:0;}
-.jr-sec>.k{display:block;font-family:var(--audit);font-size:9px;color:var(--muted);text-transform:uppercase;letter-spacing:.08em;margin-bottom:6px;}
+.jr-sec>.k{display:block;font-family:var(--voice);font-size:9px;color:var(--muted);letter-spacing:0;margin-bottom:6px;}
 .jr-sec .note-text{color:var(--fg);}
 .jr-orders{width:100%;border-collapse:collapse;}
 .jr-orders th,.jr-orders td{border-top:1px solid var(--l08);padding:8px;text-align:left;vertical-align:baseline;line-height:1.45;font-size:12.5px;}
 .jr-orders tr:first-child th{border-top:0;padding-top:0;}
-.jr-orders th{font-family:var(--audit);font-size:8.5px;font-weight:400;letter-spacing:.06em;text-transform:uppercase;color:var(--faint);}
+.jr-orders th{font-family:var(--voice);font-size:8.5px;font-weight:400;letter-spacing:0;color:var(--faint);}
 .jr-orders td.o-name{color:var(--fg);width:46%;}
-.jr-orders .o-type{font-family:var(--audit);font-size:9px;letter-spacing:.05em;text-transform:uppercase;color:var(--muted);margin-right:6px;}
-.jr-orders td.o-status{font-family:var(--audit);font-size:10.5px;color:var(--muted);}
-.jr-orders td.o-status.canceled{color:var(--hi);}
-.jr-sig{border-top:1px solid var(--l18);background:var(--shade);padding:10px 20px;font-family:var(--audit);font-size:10px;letter-spacing:.02em;color:var(--muted);line-height:1.6;}
+.jr-orders .o-type{font-family:var(--voice);font-size:9px;letter-spacing:0;color:var(--muted);margin-right:6px;}
+.jr-orders td.o-status{font-family:var(--voice);font-size:10.5px;color:var(--muted);}
+.jr-orders td.o-status.canceled{color:var(--muted);}
+.jr-sig{border-top:1px solid var(--l18);background:var(--shade);padding:10px 20px;font-family:var(--voice);font-size:10px;letter-spacing:0;color:var(--muted);line-height:1.6;}
 .jr-sig b{color:var(--fg);font-weight:400;}
 
 /* ================================================================
-   SCREEN 6 · ALERON AI — context strip, log, compose
+   SCREEN 6 · ALERON AI · context strip, log, compose
    ================================================================ */
 .agent-shell{display:grid;gap:12px;}
 .agent-strip{display:flex;flex-wrap:wrap;gap:0;border:1px solid var(--l18);background:var(--shade);}
 .af{display:grid;gap:3px;padding:9px 14px;border-left:1px solid var(--l12);min-width:0;}
 .af:first-child{border-left:0;}
-.afk{font-family:var(--audit);font-size:8.5px;letter-spacing:.08em;text-transform:uppercase;color:var(--faint);}
+.afk{font-family:var(--voice);font-size:8.5px;letter-spacing:0;color:var(--faint);}
 .afv{font-size:12.5px;color:var(--fg);line-height:1.35;}
 .agent-log{border:1px solid var(--l25);background:var(--card);min-height:240px;max-height:420px;overflow:auto;padding:14px 16px;display:flex;flex-direction:column;gap:12px;}
 .agent-msg{display:flex;flex-direction:column;gap:3px;max-width:88%;}
 .agent-msg.user{align-self:flex-end;text-align:right;}
 .agent-msg.agent{align-self:flex-start;}
-.agent-msg .role{font-family:var(--audit);font-size:8.5px;letter-spacing:.08em;text-transform:uppercase;color:var(--faint);}
+.agent-msg .role{font-family:var(--voice);font-size:8.5px;letter-spacing:0;color:var(--faint);}
 .agent-msg .bubble{font-size:13px;line-height:1.5;color:var(--fg);white-space:pre-wrap;}
 .agent-msg.agent .bubble{border-left:2px solid var(--l18);padding:2px 0 2px 12px;}
 .agent-msg.user .bubble{background:var(--sunken);border:1px solid var(--l08);padding:8px 11px;text-align:left;}
@@ -647,8 +693,8 @@ svg.nav-ico{width:17px;height:17px;flex:0 0 auto;stroke:currentColor;fill:none;s
 
   <div class="vmodel-pane" data-risk-pane="actions" role="tabpanel">
     <div class="sec"><div class="ph"><span class="h">Action map</span><span class="sub">every scored action and diagnostic on one patient-QALY scale</span><span id="surfmode" class="seg"><button data-mode="full" class="on">Full scale</button><button data-mode="zoom">Disease levers</button></span></div>
-      <div class="pad"><div id="swrap" style="position:relative"><svg id="surface" viewBox="0 0 940 560" role="img"><title>Action decision surface</title></svg><div id="tip" style="position:absolute;display:none;pointer-events:none;background:var(--card);border:1px solid rgba(29,27,24,0.25);padding:8px 10px;font-size:11.5px;max-width:240px;z-index:5"></div></div>
-      <div class="legend"><span><i style="background:var(--drug)"></i>drug</span><span><i style="background:var(--life)"></i>lifestyle</span><span><i style="background:var(--proc)"></i>procedure</span><span><i style="background:transparent;border:1.5px dashed rgba(29,27,24,0.45)"></i>gated</span><span><i style="background:var(--must);border-radius:0"></i>diagnostic</span><span><i style="background:transparent;border:1.5px dashed var(--proc)"></i>AI-scored source</span><span><i style="background:var(--hi);opacity:0.45"></i>net harm</span><span><i style="background:var(--act)"></i>VO₂max ladder</span></div>
+      <div class="pad"><div id="swrap" style="position:relative"><svg id="surface" viewBox="0 0 940 560" role="img"><title>Action decision surface</title></svg><div id="tip" style="position:absolute;display:none;pointer-events:none;background:var(--card);border:1px solid var(--l25);border-radius:var(--radius-field);padding:8px 10px;font-size:11.5px;max-width:240px;z-index:5;box-shadow:var(--shadow-tier1)"></div></div>
+      <div class="legend"><span><i style="background:var(--text-primary)"></i>action</span><span><i style="background:var(--signal-baseline);border-radius:0"></i>diagnostic</span><span><i style="background:transparent;border:1.5px dashed var(--l45)"></i>gated</span><span><i style="background:transparent;border:1.5px dashed var(--signal-unmodeled)"></i>AI-scored</span><span><i style="background:var(--hi)"></i>net harm</span><span><i style="background:var(--act)"></i>VO₂max ladder</span></div>
       <div class="dxvalue" id="dxvalue"></div>
     </div>
     </div>
@@ -1133,7 +1179,7 @@ function mapProvenance(item){
  return {word:'library',ai:false};
 }
 function dxMarker(kind,item){
- // the table row carries the same mark the map plots — one vocabulary
+ // the table row carries the same mark the map plots · one vocabulary
  let cls=kind==='diagnostic'?'diagnostic':(item.class==='lifestyle'?'lifestyle':(item.class==='procedure'?'procedure':'drug'));
  if(kind!=='diagnostic'&&item.gated)cls+=' gated';
  if(item.aiCandidate)cls+=' ai';
@@ -1570,7 +1616,7 @@ function renderProfile(patient){
  if(!el)return;
  // One citation table, grouped by panel. Names in voice, values in audit.
  // Flags derive only from the packet's own context fields and standard
- // lab reference ranges — the table interprets nothing new.
+ // lab reference ranges · the table interprets nothing new.
  const p=patient;
  const spo2=(String(p.overnightO2||'').match(/(\d+)%/)||[])[1];
  const crfNum=(String(p.crf||'').match(/[\d.]+/)||[])[0];
@@ -1625,7 +1671,7 @@ function renderProfile(patient){
 }
 
 // ---- risk domain trend view ----
-const BAND={low:['LOW','var(--muted)'],mod:['MODERATE','var(--advisory)'],high:['HIGH','var(--hi)']};
+const BAND={low:['Low','var(--muted)'],mod:['Moderate','var(--advisory)'],high:['High','var(--hi)']};
 function bandWord(k){return '<span class="bw '+html(k||'low')+'">'+(BAND[k]||BAND.low)[0]+'</span>';}
 const RISK_DOMAINS=[
  {id:'cvd',label:'Cardiovascular',value:16,display:'16%',horizon:'30-yr ASCVD',detail:'10-yr 2.7%',band:'mod',axisMax:40,source:'AHA PREVENT',read:'age, sex, BP, TC, HDL, diabetes, smoking'},
@@ -1928,7 +1974,7 @@ function riskDriverBlock(d){
 }
 function riskTrendSvg(d){
  // Compact single-timepoint strip. One measurement exists; the chart says
- // exactly that at the height it deserves — ghost fixes mark the future window.
+ // exactly that at the height it deserves · ghost fixes mark the future window.
  const W=760,H=110,L=52,R=24,T=14,B=28,plotW=W-L-R,plotH=H-T-B;
  const max=d.axisMax;
  const y=v=>T+plotH-(v/max)*plotH;
@@ -2464,7 +2510,7 @@ initAleronAi();
   {id:'rhythm_safety',name:'12-lead ECG, then patch/Holter if persistent',voi:0.05,reclass:0.15,qalyIf:0.40,ev:'moderate',d:1,path:'rhythm finding changes exercise clearance or cardiology escalation',note:'v2: rhythm_safety_reclassification · safety context, not a primary value lever.',planPriority:48},
   {id:'ogtt',name:'75g 2-hour OGTT',voi:0.034,reclass:0.04,qalyIf:0.85,ev:'moderate',d:1,path:'post-load diabetes unlocks diabetes pathway',note:'v2: ogtt_diabetes_reclassification · meaningful if positive, but low reclassification odds for this profile.',planPriority:28}
  ];
- const hue=s=>s.class==='lifestyle'?'var(--life)':(s.class==='procedure'?'var(--proc)':'var(--drug)');
+ const hue=s=>'var(--text-primary)';  /* category rides on shape + the ledger, never hue (DS: color is meaning) */
  const jit=id=>{let h=0;for(let k=0;k<id.length;k++)h=(h*31+id.charCodeAt(k))>>>0;return (h%1000)/1000-0.5;}; // deterministic, NON-semantic order
  const bee=(pts,cx,half)=>{const placed=[];[...pts].sort((a,b)=>jit(a.key)-jit(b.key)).forEach(p=>{const hit=x=>placed.some(q=>Math.abs(q.x-x)<(q.r+p.r)&&Math.abs(q.y-p.y)<(q.r+p.r));let x=cx;if(hit(x)){let f=null;for(let s=1;s<60&&f===null;s++){const o=s*4;for(const cand of [cx+o,cx-o]){if(Math.abs(cand-cx)<=half&&!hit(cand)){f=cand;break;}}}if(f!==null)x=f;}placed.push({key:p.key,x:x,y:p.y,r:p.r,s:p.s,t:p.t});});return placed;}; // collision-free spread, placed in NON-value order
  const tip=document.getElementById('tip'),swrap=document.getElementById('swrap');
@@ -2502,14 +2548,14 @@ initAleronAi();
   for(let i=0;i<3;i++)g+='<text class="mlab" x="'+(LP+(i+0.5)/3*PW)+'" y="'+(MB+18)+'" text-anchor="middle" font-size="10" fill="var(--muted)">'+html(cols[i])+'</text>';
   g+='<text class="mlab" x="'+(LP+PW/2)+'" y="'+(MB+34)+'" text-anchor="middle" font-size="9" fill="var(--faint)">evidence strength · spread within a column is for legibility only</text>';
   // left net-QALY axis (gridlines run through the fitness lane + columns so all read against ONE scale)
-  for(let v=Math.ceil(ymin/step)*step;v<=ymax+1e-9;v+=step){const yy=yv(v);g+='<line x1="'+L+'" y1="'+yy+'" x2="'+(W-R)+'" y2="'+yy+'" stroke="rgba(29,27,24,0.08)"/>'+'<text class="mlab" x="'+(L-8)+'" y="'+(yy+3)+'" text-anchor="end" font-size="9" fill="var(--faint)">'+(v>1e-9?'+':'')+v.toFixed(full?1:2)+'</text>';}
+  for(let v=Math.ceil(ymin/step)*step;v<=ymax+1e-9;v+=step){const yy=yv(v);g+='<line x1="'+L+'" y1="'+yy+'" x2="'+(W-R)+'" y2="'+yy+'" stroke="color-mix(in srgb,var(--line) 8%,transparent)"/>'+'<text class="mlab" x="'+(L-8)+'" y="'+(yy+3)+'" text-anchor="end" font-size="10.5" fill="var(--faint)">'+(v>1e-9?'+':'')+v.toFixed(full?1:2)+'</text>';}
   g+='<text class="mlab" x="'+L+'" y="'+(T-8)+'" font-size="9.5" fill="var(--muted)">patient QALY &uarr;</text>';
-  // the axis carries two value frames — the chart says so itself
+  // the axis carries two value frames · the chart says so itself
   g+='<text class="mlab" x="'+(W-R)+'" y="'+(T-8)+'" font-size="8.5" fill="var(--faint)" text-anchor="end">actions plot net &middot; diagnostics plot value if reclassified</text>';
   // net-harmful zone (ember = this ONE meaning)
   g+='<rect x="'+L+'" y="'+yv(0)+'" width="'+(W-R-L)+'" height="'+(MB-yv(0))+'" fill="var(--hi)" opacity="0.07"/>';
   g+='<line x1="'+L+'" y1="'+yv(0)+'" x2="'+(W-R)+'" y2="'+yv(0)+'" stroke="var(--faint)" stroke-width="1.25"/>';
-  g+='<text class="mlab" x="'+xb('moderate').toFixed(1)+'" y="'+(yv(0)+12)+'" font-size="9" fill="var(--hi)" text-anchor="middle">net-harmful zone · burden exceeds benefit</text>';
+  g+='<text class="mlab" x="'+xb('moderate').toFixed(1)+'" y="'+(yv(0)+13)+'" font-size="10.5" fill="var(--muted)" text-anchor="middle">net-harmful zone · burden exceeds benefit</text>';
   // zoom-only furniture (neutral fill - green is not reused here)
   if(!full){
    const x0s=xcut(2);
@@ -2531,13 +2577,13 @@ initAleronAi();
     if(full)dByCol[c].forEach(d=>marks.push({t:'s',key:d.name,y:yv(diagnosticQalyIf(d)),r:(d.cac?9:6)/2+1.5,s:d}));
     if(full&&c==='moderate'&&SHOW_FIT)FIT.forEach(f=>marks.push({t:'f',key:'fit'+f.t,y:yv(f.val),r:7,s:f}));
     bee(marks,xb(c),half).forEach(p=>{
-      if(p.t==='c'){const s=p.s,h=hue(s);let fillv,strokeA;
+      if(p.t==='c'){const s=p.s,h=(s.net<0?'var(--hi)':hue(s));let fillv,strokeA;
         POS[s.id]={x:p.x,y:p.y,kind:'a',s:s};
         if(s.gated){fillv='none';strokeA='stroke="'+h+'" stroke-width="1.6" stroke-dasharray="3 2"';}else{fillv=h;strokeA='opacity="0.92"';}
         g+='<circle data-id="'+html(s.id)+'" style="cursor:pointer;pointer-events:all" cx="'+p.x.toFixed(1)+'" cy="'+p.y.toFixed(1)+'" r="5" fill="'+fillv+'" '+strokeA+'><title>'+actionLabel(s)+(s.gated?' - gated: '+html(s.gate):'')+'</title></circle>';
-        if(s.aiCandidate)g+='<circle cx="'+p.x.toFixed(1)+'" cy="'+p.y.toFixed(1)+'" r="8.5" fill="none" stroke="var(--proc)" stroke-width="1.2" stroke-dasharray="3 2" pointer-events="none"/>';
+        if(s.aiCandidate)g+='<circle cx="'+p.x.toFixed(1)+'" cy="'+p.y.toFixed(1)+'" r="8.5" fill="none" stroke="var(--signal-unmodeled)" stroke-width="1.4" stroke-dasharray="3 2" pointer-events="none"/>';
       }else if(p.t==='f'){const f=p.s;fitPts.push({x:p.x,y:p.y});ladderYs.push(p.y+3);g+='<circle cx="'+p.x.toFixed(1)+'" cy="'+p.y.toFixed(1)+'" r="6.5" fill="var(--act)"><title>Increase VO₂max to '+html(f.t)+' mL/kg/min (+'+html(f.d)+'): '+signed(f.val,2)+' QALY · moderate evidence (strong association, moderate causal)</title></circle>';g+='<text class="mlab" x="'+(p.x+10).toFixed(1)+'" y="'+(p.y+3).toFixed(1)+'" font-size="9" fill="var(--muted)">&rarr;'+html(f.t)+' '+signed(f.val,2)+'</text>';}
-      else{const d=p.s,sz=d.cac?9:6,stroke=d.aiCandidate?'var(--proc)':(d.cac?'var(--fg)':'var(--must)'),dash=d.aiCandidate?' stroke-dasharray="3 2"':'';POS[d.id]={x:p.x,y:p.y,kind:'d',s:d};g+='<rect data-dx-id="'+html(d.id)+'" style="cursor:pointer;pointer-events:all" x="'+(p.x-sz/2).toFixed(1)+'" y="'+(p.y-sz/2).toFixed(1)+'" width="'+sz+'" height="'+sz+'" fill="'+(d.d?'var(--must)':'none')+'" stroke="'+stroke+'" stroke-width="'+(d.aiCandidate?2:(d.cac?2:1.3))+'"'+dash+' opacity="0.95"><title>'+html(d.name)+'</title></rect>';}
+      else{const d=p.s,sz=d.cac?9:6,stroke=d.aiCandidate?'var(--signal-unmodeled)':(d.cac?'var(--fg)':'var(--signal-baseline)'),dash=d.aiCandidate?' stroke-dasharray="3 2"':'';POS[d.id]={x:p.x,y:p.y,kind:'d',s:d};g+='<rect data-dx-id="'+html(d.id)+'" style="cursor:pointer;pointer-events:all" x="'+(p.x-sz/2).toFixed(1)+'" y="'+(p.y-sz/2).toFixed(1)+'" width="'+sz+'" height="'+sz+'" fill="'+(d.d?'var(--signal-baseline)':'none')+'" stroke="'+stroke+'" stroke-width="'+(d.aiCandidate?2:(d.cac?2:1.3))+'"'+dash+' opacity="0.95"><title>'+html(d.name)+'</title></rect>';}
     });
     if(ofs.length)bee(ofs.map(s=>({t:'c',key:s.id,y:T+6,r:4.5,s:s})),xb(c),half).forEach(p=>{const s=p.s;g+='<circle data-id="'+html(s.id)+'" style="cursor:pointer;pointer-events:all" cx="'+p.x.toFixed(1)+'" cy="'+(T+6)+'" r="3.4" fill="none" stroke="'+hue(s)+'" stroke-width="1.4" opacity="0.85"><title>'+actionLabel(s)+' - '+signed(s.net,2)+' QALY (above this zoom scale)</title></circle>';});
   });
@@ -2545,7 +2591,7 @@ initAleronAi();
   if(!full){const noff=VISIBLE_ACTIONS.filter(s=>s.net>ymax).length;if(noff)g+='<text x="'+(LP+PW/2)+'" y="'+(T+14)+'" text-anchor="middle" font-size="9" fill="var(--faint)">Off scale: '+noff+' high-value levers above this zoom</text>';}
   // ----- instrument overlay: the movers get named on the chart; selection
   // draws a gold ring and, for gated items, the tether to the diagnostic
-  // that unlocks them — the sequencing logic made visible -----
+  // that unlocks them · the sequencing logic made visible -----
   const SHORT={glp1_gip_metabolic_therapy:'GLP-1/GIP',supervised_resistance_training:'Resistance training',physical_activity_rx:'Activity bundle',bariatric_metabolic_surgery:'Bariatric surgery',bp_pharmacotherapy_stage2_primary:'BP pharmacotherapy',resmetirom_mash:'Resmetirom',tirzepatide:'Tirzepatide',semaglutide_24:'Semaglutide',resistance_training:'Resistance training',dpp_lifestyle:'DPP lifestyle',dietary_pattern_med:'Mediterranean diet',statin_primary:'Statin',canakinumab_il1b:'Canakinumab',aspirin_primary:'Aspirin',pcsk9_inhibitor:'PCSK9',ezetimibe_addon:'Ezetimibe',acarbose_cv_igt:'Acarbose',bp_persistence:'BP confirmation',sleep_apnea:'HSAT',cac:'CAC',masld_fibrosis:'Liver staging',iron_thyroid:'Iron / thyroid',dexa:'DEXA',sleep_insomnia:'Sleep screen',vitamin_d:'Vitamin D recheck',rhythm_safety:'ECG / Holter',ogtt:'OGTT'};
   const shortName=q=>SHORT[q.s.id]||String(q.kind==='d'?q.s.name:(LAB[q.s.id]||q.s.id)).slice(0,20);
   const seenPos=Object.values(POS);
@@ -2563,7 +2609,7 @@ initAleronAi();
    const used=side==='R'?usedR:usedL;
    while(used.some(u=>Math.abs(u-ly)<11))ly+=11;
    used.push(ly);
-   if(ly-(q.y+3)>6)g+='<line x1="'+q.x.toFixed(1)+'" y1="'+(q.y+4).toFixed(1)+'" x2="'+(side==='R'?(lx-2):(lx+2)).toFixed(1)+'" y2="'+(ly-3).toFixed(1)+'" stroke="rgba(29,27,24,0.22)" stroke-width="0.75"/>';
+   if(ly-(q.y+3)>6)g+='<line x1="'+q.x.toFixed(1)+'" y1="'+(q.y+4).toFixed(1)+'" x2="'+(side==='R'?(lx-2):(lx+2)).toFixed(1)+'" y2="'+(ly-3).toFixed(1)+'" stroke="color-mix(in srgb,var(--line) 22%,transparent)" stroke-width="0.75"/>';
    g+='<text x="'+lx.toFixed(1)+'" y="'+ly.toFixed(1)+'" font-size="9.5" fill="var(--fg)" text-anchor="'+(side==='R'?'start':'end')+'" pointer-events="none">'+html(nm)+' <tspan class="mlab" font-size="8.5" fill="var(--muted)">'+val+'</tspan></text>';
   });
   const selq=POS[MAP_DETAIL_SELECTION.id];
@@ -2577,7 +2623,7 @@ initAleronAi();
      g+='<line x1="'+a.x.toFixed(1)+'" y1="'+a.y.toFixed(1)+'" x2="'+d.x.toFixed(1)+'" y2="'+d.y.toFixed(1)+'" stroke="var(--muted)" stroke-width="1.1" stroke-dasharray="2 3" opacity="0.8" pointer-events="none"/>';
      g+='<text class="mlab" x="'+((a.x+d.x)/2).toFixed(1)+'" y="'+((a.y+d.y)/2-6).toFixed(1)+'" font-size="8.5" fill="var(--muted)" text-anchor="middle" pointer-events="none">unlocks on result</text>';
     }else{
-     // the gated action and its gate plot as twins — bracket the pair instead
+     // the gated action and its gate plot as twins · bracket the pair instead
      const y0=Math.max(a.y,d.y)+9;
      g+='<path d="M '+a.x.toFixed(1)+' '+y0.toFixed(1)+' V '+(y0+5).toFixed(1)+' H '+d.x.toFixed(1)+' V '+y0.toFixed(1)+'" fill="none" stroke="var(--muted)" stroke-width="1" pointer-events="none"/>';
      g+='<text class="mlab" x="'+((a.x+d.x)/2).toFixed(1)+'" y="'+(y0+17).toFixed(1)+'" text-anchor="middle" font-size="8.5" fill="var(--muted)" pointer-events="none">gated on this result</text>';
@@ -2589,11 +2635,11 @@ initAleronAi();
   document.getElementById('surface').innerHTML=g;
   document.querySelectorAll('#surface circle[data-id]').forEach(ci=>{
    ci.addEventListener('mouseenter',()=>{const s=byId[ci.dataset.id];if(!s)return;
-     // three-channel composition as a stacked bar — ink alphas, no new hues
+     // three-channel composition as a stacked bar · ink alphas, no new hues
      const CH_A={C1:0.6,C2:0.34,C3:0.16};
      const ch=[['C1',s.c1],['C2',s.c2],['C3',s.c3]].filter(x=>isFiniteValue(x[1])&&Number(x[1])>0);
      const chT=ch.reduce((acc,x)=>acc+Number(x[1]),0);
-     const channelLine=ch.length?'<div style="margin-top:6px"><div style="display:flex;height:4px;width:130px;background:rgba(29,27,24,0.07)">'+ch.map(x=>'<i style="display:block;height:100%;width:'+(Number(x[1])/chT*100).toFixed(1)+'%;background:rgba(29,27,24,'+CH_A[x[0]]+')"></i>').join('')+'</div><div style="font-family:var(--audit);font-size:8.5px;letter-spacing:.04em;color:var(--muted);margin-top:3px">'+ch.map(x=>x[0]+' '+signed(x[1],2)).join(' · ')+' · prevention / quality / resilience</div></div>':'';
+     const channelLine=ch.length?'<div style="margin-top:6px"><div style="display:flex;height:4px;width:130px;background:var(--shade);border-radius:var(--radius-tile);overflow:hidden">'+ch.map(x=>'<i style="display:block;height:100%;width:'+(Number(x[1])/chT*100).toFixed(1)+'%;background:color-mix(in srgb,var(--text-primary) '+Math.round(CH_A[x[0]]*100)+'%,transparent)"></i>').join('')+'</div><div style="font-family:var(--voice);font-size:10px;letter-spacing:0;color:var(--muted);margin-top:3px">'+ch.map(x=>x[0]+' '+signed(x[1],2)).join(' · ')+' · prevention / quality / resilience</div></div>':'';
      tip.innerHTML='<div style="font-weight:500;margin-bottom:3px">'+actionLabel(s)+'</div><div style="color:var(--muted);line-height:1.5">'+html(s.class)+' · '+html(s.domain)+' · '+html(s.evidence)+' evidence'+(s.valuation?'<br>'+mapProvenance(s).word:'')+'<br>effect '+html(s.effect.type)+' '+html(s.effect.value)+(s.surrogate?' · surrogate endpoint':'')+channelLine+'<br><span style="color:var(--fg)">'+signed(s.net)+' net QALY</span>'+(s.gated?'<br><span style="color:var(--advisory)">Gated: '+html(s.gate)+'</span>':'')+'</div>';
      const cr=ci.getBoundingClientRect(),wr=swrap.getBoundingClientRect();let x=cr.left-wr.left+12,y=cr.top-wr.top-4;if(x>wr.width-250)x=cr.left-wr.left-250;tip.style.left=Math.max(0,x)+'px';tip.style.top=Math.max(0,y)+'px';tip.style.display='block';});
    ci.addEventListener('mouseleave',()=>{tip.style.display='none';});
@@ -2626,55 +2672,55 @@ initAleronAi();
 // One object, two states: the draft entry at the head IS the Care Plan; signing turns it into the newest immutable entry.
 const JOURNAL={
  'ethan-park':[
-  {id:'c1-draft',date:'7/1',chip:'DRAFT',type:'cycle synthesis · non-visit encounter',title:'Synthesis & plan — Cycle 1',author:'Aleron-drafted · unsigned',
+  {id:'c1-draft',date:'7/1',chip:'DRAFT',type:'cycle synthesis · non-visit encounter',title:'Synthesis & plan · Cycle 1',author:'Aleron-drafted · unsigned',
    trig:'Packet re-frozen 6/24 after baseline results and genetics · risk + vitality models re-run · action map assembled.',
    body:'Dominant phenotype is metabolic: central adiposity with insulin resistance and prediabetes, stage-2 BP (single setting), low fitness. First pass: start metabolic therapy with lean-mass protection, confirm the BP before treating it, complete the ATM obligations. Sleep-apnea testing stays scored on the map, behind these.',
    orders:[],
-   sig:'<b>Unsigned.</b> On signature: orders release through their own channels, the note locks, and this draft becomes the newest signed entry. This draft is the Care Plan section — a care plan is a note before its signature.'},
+   sig:'<b>Unsigned.</b> On signature: orders release through their own channels, the note locks, and this draft becomes the newest signed entry. This draft is the Care Plan section · a care plan is a note before its signature.'},
   {id:'lab-review',date:'6/24',chip:'SIGNED',type:'lab review · non-visit encounter',title:'Baseline results & genetics review',author:'Dr. A. Okafor',
-   trig:'LabReview — baseline panel resulted 6/22 · MBTA 163-gene panel resulted 6/23.',
-   body:'Reviewed: ApoB 112 mg/dL; HbA1c 6.0% with fasting glucose 110 (prediabetes); HOMA-IR 4.3 (insulin-resistant); hsCRP 3.0; Lp(a) 25 nmol/L (normal). Genetics: <b>ATM heterozygous P/LP — confirmed</b>, routed to the required-guidance channel. Packet re-frozen; engine re-run; revised synthesis drafted.',
-   orders:[],noOrders:'None. Review is itself a signed clinical decision — "no new orders yet" is documented like any other decision.',
-   sig:'Results reviewed & note signed · 6/24 09:12 · <b>Dr. A. Okafor</b> — one motion. Asynchronous encounters collapse the two signature clocks: the note is drafted at the decision moment, so nothing is left to catch up on.'},
-  {id:'ext-cardio',date:'6/16',chip:'IMPORTED',type:'external document · read-only',title:'Cardiology consult — Pacific Heart (2024)',author:'L. Ferreira, MD · fax import',
+   trig:'LabReview · baseline panel resulted 6/22 · MBTA 163-gene panel resulted 6/23.',
+   body:'Reviewed: ApoB 112 mg/dL; HbA1c 6.0% with fasting glucose 110 (prediabetes); HOMA-IR 4.3 (insulin-resistant); hsCRP 3.0; Lp(a) 25 nmol/L (normal). Genetics: <b>ATM heterozygous P/LP · confirmed</b>, routed to the required-guidance channel. Packet re-frozen; engine re-run; revised synthesis drafted.',
+   orders:[],noOrders:'None. Review is itself a signed clinical decision · "no new orders yet" is documented like any other decision.',
+   sig:'Results reviewed & note signed · 6/24 09:12 · <b>Dr. A. Okafor</b> · one motion. Asynchronous encounters collapse the two signature clocks: the note is drafted at the decision moment, so nothing is left to catch up on.'},
+  {id:'ext-cardio',date:'6/16',chip:'IMPORTED',type:'external document · read-only',title:'Cardiology consult · Pacific Heart (2024)',author:'L. Ferreira, MD · fax import',
    trig:'Filed to chart 6/16 via document integration; linked to cardiovascular history.',
    body:'Exercise stress echocardiogram (11/2024): no inducible ischemia at 91% predicted max HR; normal LV size and function. Impression: atypical chest discomfort, low likelihood of obstructive coronary disease.',
-   orders:[],noOrders:'None carried in this system — external orders live with their external author.',
+   orders:[],noOrders:'None carried in this system · external orders live with their external author.',
    sig:'Not authored here. External documents enter the journal <b>read-only</b>: the journal is the whole record, not only Aleron’s entries.'},
-  {id:'portal-cgm',date:'6/14',chip:'SIGNED',type:'portal encounter · change of direction',title:'CGM declined — shared decision',author:'Dr. A. Okafor',
-   trig:'Patient message thread 6/12–6/14 (3 messages) — filed to chart.',
+  {id:'portal-cgm',date:'6/14',chip:'SIGNED',type:'portal encounter · change of direction',title:'CGM declined · shared decision',author:'Dr. A. Okafor',
+   trig:'Patient message thread 6/12–6/14 (3 messages) · filed to chart.',
    body:'Patient declines the 14-day CGM trial after discussion (adhesive sensitivity; preference against wearables). Reviewed what interstitial glucose data would and would not change at this stage; risks of forgoing it explained. <b>Informed refusal documented.</b> Baseline acquisition otherwise proceeds unchanged.',
    orders:[
-    {t:'CANCEL',name:'CGM 14-day trial — cancel',status:'canceled 6/14 · a cancellation is itself an order, and this note is its authorization · original order:',jump:'intake',jumpLabel:'intake 6/8',cls:'canceled'}],
-   sig:'Note signed · 6/14 16:05 · <b>Dr. A. Okafor</b>. The intake note is unchanged — a changed decision is a new entry, never an edit.'},
-  {id:'intake',date:'6/8',chip:'SIGNED',type:'intake visit · comprehensive',title:'Intake — history, exam & baseline acquisition',author:'Dr. A. Okafor',
+    {t:'Cancel',name:'CGM 14-day trial · cancel',status:'canceled 6/14 · a cancellation is itself an order, and this note is its authorization · original order:',jump:'intake',jumpLabel:'intake 6/8',cls:'canceled'}],
+   sig:'Note signed · 6/14 16:05 · <b>Dr. A. Okafor</b>. The intake note is unchanged · a changed decision is a new entry, never an edit.'},
+  {id:'intake',date:'6/8',chip:'SIGNED',type:'intake visit · comprehensive',title:'Intake · history, exam & baseline acquisition',author:'Dr. A. Okafor',
    trig:'New-member intake · in person.',
    body:'47M, metabolic-risk phenotype: BMI 29.4 with central adiposity (waist 105 cm), BP 142/90 untreated, low activity, family history of T2D and hypertension. Plan: acquire the baseline packet before any therapy decision.',
    orders:[
-    {t:'LAB',name:'Baseline metabolic & lipid panel',status:'resulted 6/22 → reviewed',jump:'lab-review',jumpLabel:'6/24 review'},
-    {t:'LAB',name:'MBTA 163-gene panel',status:'resulted 6/23 → ATM P/LP → required channel ·',jump:'lab-review',jumpLabel:'6/24 review'},
-    {t:'DEVICE',name:'Overnight pulse oximetry',status:'resulted — SpO₂ nadir 89% · feeds the sleep-apnea candidate ·',jump:'c1-draft',jumpLabel:'Cycle 1 draft'},
-    {t:'DEVICE',name:'CGM 14-day trial',status:'canceled 6/14 →',jump:'portal-cgm',jumpLabel:'portal encounter',cls:'canceled'}],
-   sig:'Orders authorized & released · 6/8 11:02. Note signed · 6/8 18:47 · <b>Dr. A. Okafor</b>. Visit medicine splits the two clocks: orders can’t wait, documentation can. Statuses above are live reads from the ledger — the signed text below them never changes.'}
+    {t:'Lab',name:'Baseline metabolic & lipid panel',status:'resulted 6/22 → reviewed',jump:'lab-review',jumpLabel:'6/24 review'},
+    {t:'Lab',name:'MBTA 163-gene panel',status:'resulted 6/23 → ATM P/LP → required channel ·',jump:'lab-review',jumpLabel:'6/24 review'},
+    {t:'Device',name:'Overnight pulse oximetry',status:'resulted · SpO₂ nadir 89% · feeds the sleep-apnea candidate ·',jump:'c1-draft',jumpLabel:'Cycle 1 draft'},
+    {t:'Device',name:'CGM 14-day trial',status:'canceled 6/14 →',jump:'portal-cgm',jumpLabel:'portal encounter',cls:'canceled'}],
+   sig:'Orders authorized & released · 6/8 11:02. Note signed · 6/8 18:47 · <b>Dr. A. Okafor</b>. Visit medicine splits the two clocks: orders can’t wait, documentation can. Statuses above are live reads from the ledger · the signed text below them never changes.'}
  ],
  'mara-chen':[
-  {id:'m-c1-draft',date:'7/1',chip:'DRAFT',type:'cycle synthesis · non-visit encounter',title:'Synthesis & plan — Cycle 1',author:'Aleron-drafted · unsigned',
+  {id:'m-c1-draft',date:'7/1',chip:'DRAFT',type:'cycle synthesis · non-visit encounter',title:'Synthesis & plan · Cycle 1',author:'Aleron-drafted · unsigned',
    trig:'Packet re-frozen 6/26 after iron, thyroid, and vitamin D results · models re-run · action map assembled.',
-   body:'Low-vitality Lp(a) phenotype: pronounced fatigue with ferritin 18 (iron-deficient) as the leading driver; TSH 4.7 with normal free T4 — subclinical, watch not treat. Lp(a) 165 nmol/L with premature-CAD family history stages the plaque question. Direction: confirm the iron/thyroid driver, stage the plaque question with CAC, protect capacity.',
+   body:'Low-vitality Lp(a) phenotype: pronounced fatigue with ferritin 18 (iron-deficient) as the leading driver; TSH 4.7 with normal free T4 · subclinical, watch not treat. Lp(a) 165 nmol/L with premature-CAD family history stages the plaque question. Direction: confirm the iron/thyroid driver, stage the plaque question with CAC, protect capacity.',
    orders:[],
-   sig:'<b>Unsigned.</b> On signature: orders release, the note locks, and this draft becomes the newest signed entry. This draft is the Care Plan section — a care plan is a note before its signature.'},
+   sig:'<b>Unsigned.</b> On signature: orders release, the note locks, and this draft becomes the newest signed entry. This draft is the Care Plan section · a care plan is a note before its signature.'},
   {id:'m-lab-review',date:'6/26',chip:'SIGNED',type:'lab review · non-visit encounter',title:'Iron, thyroid & vitamin D review',author:'Dr. A. Okafor',
-   trig:'LabReview — CBC, iron studies, TSH/free T4, vitamin D resulted 6/25.',
-   body:'Ferritin 18 ng/mL with low transferrin saturation — <b>iron deficiency identified as the leading fatigue driver</b>. TSH 4.7 with normal free T4 — subclinical hypothyroidism: recheck, do not treat. Vitamin D 24 ng/mL — correction folded into the plan. Packet re-frozen; engine re-run; synthesis drafted.',
-   orders:[],noOrders:'None. Review is itself a signed clinical decision — the new orders belong to the next entry it triggered.',
-   sig:'Results reviewed & note signed · 6/26 08:41 · <b>Dr. A. Okafor</b> — one motion, asynchronous encounter.'},
-  {id:'m-intake',date:'6/10',chip:'SIGNED',type:'intake visit · comprehensive',title:'Intake — history, exam & baseline acquisition',author:'Dr. A. Okafor',
+   trig:'LabReview · CBC, iron studies, TSH/free T4, vitamin D resulted 6/25.',
+   body:'Ferritin 18 ng/mL with low transferrin saturation · <b>iron deficiency identified as the leading fatigue driver</b>. TSH 4.7 with normal free T4 · subclinical hypothyroidism: recheck, do not treat. Vitamin D 24 ng/mL · correction folded into the plan. Packet re-frozen; engine re-run; synthesis drafted.',
+   orders:[],noOrders:'None. Review is itself a signed clinical decision · the new orders belong to the next entry it triggered.',
+   sig:'Results reviewed & note signed · 6/26 08:41 · <b>Dr. A. Okafor</b> · one motion, asynchronous encounter.'},
+  {id:'m-intake',date:'6/10',chip:'SIGNED',type:'intake visit · comprehensive',title:'Intake · history, exam & baseline acquisition',author:'Dr. A. Okafor',
    trig:'New-member intake · telehealth.',
    body:'56F, low-vitality presentation: pronounced fatigue, Lp(a) 165 nmol/L (high) with premature-CAD family history; BP normal untreated; insulin-sensitive. Plan: characterize the fatigue drivers and stage the cardiovascular question.',
    orders:[
-    {t:'LAB',name:'CBC, iron studies, TSH/free T4, vitamin D',status:'resulted 6/25 → reviewed',jump:'m-lab-review',jumpLabel:'6/26 review'},
-    {t:'IMAGING',name:'Baseline DEXA',status:'scheduled 7/8 · open loop — the result will re-enter the pipeline and draw a new entry'}],
-   sig:'Orders authorized & released · 6/10 10:20. Note signed · 6/10 19:04 · <b>Dr. A. Okafor</b>. Statuses above are live reads from the ledger — the signed text never changes.'}
+    {t:'Lab',name:'CBC, iron studies, TSH/free T4, vitamin D',status:'resulted 6/25 → reviewed',jump:'m-lab-review',jumpLabel:'6/26 review'},
+    {t:'Imaging',name:'Baseline DEXA',status:'scheduled 7/8 · open loop · the result will re-enter the pipeline and draw a new entry'}],
+   sig:'Orders authorized & released · 6/10 10:20. Note signed · 6/10 19:04 · <b>Dr. A. Okafor</b>. Statuses above are live reads from the ledger · the signed text never changes.'}
  ]
 };
 const jrSel={};
@@ -2721,7 +2767,7 @@ document.getElementById('journal').addEventListener('click',event=>{
 // ---- care plan = the draft note as a decision surface (same object as the journal head) ----
 const CP_STATE={};
 function cpState(pid){return CP_STATE[pid]||(CP_STATE[pid]={rejected:{},modified:{},added:[],menuOpen:false,pendingAdd:null,assoc:{}});}
-// A&P draft data — problem-oriented (athena/SOAP convention), each order line carrying
+// A&P draft data · problem-oriented (athena/SOAP convention), each order line carrying
 // Canvas's real command grammar (dx codes on every order; Rx = sig/supply/disp/refills;
 // referral = priority + clinical question). Aligned with the engine's chosen levers.
 const AP_DRAFT={
@@ -2729,71 +2775,71 @@ const AP_DRAFT={
   {id:'p-dm',dx:'R73.03',name:'Prediabetes with insulin resistance',
    assess:'HbA1c 6.0%, fasting glucose 110, HOMA-IR 4.3; central adiposity, waist 105 cm. The dominant driver.',
    orders:[
-    {id:'rx-tirz',t:'RX',rx:true,name:'tirzepatide 2.5 mg/0.5 mL — SC auto-injector',
+    {id:'rx-tirz',t:'Rx',rx:true,name:'tirzepatide 2.5 mg/0.5 mL · SC auto-injector',
      detail:'Sig: inject 2.5 mg subcutaneously once weekly · Days supply: 28 · Disp: 2 auto-injectors · Refills: 2 · Substitutions: allowed',
      dx:'E66.01 · R73.03',
-     why:'Highest-net lever for the dominant phenotype (≈ +1.9 QALY, prevention + capacity). The resistance-training order below is its lean-mass guardrail — part of safe use, not a second recommendation.'},
-    {id:'goal-rt',t:'GOAL',name:'Supervised resistance training',
+     why:'Highest-net lever for the dominant phenotype (≈ +1.9 QALY, prevention + capacity). The resistance-training order below is its lean-mass guardrail · part of safe use, not a second recommendation.'},
+    {id:'goal-rt',t:'Goal',name:'Supervised resistance training',
      detail:'2 sessions/wk × 12 weeks · lean-mass protection during weight loss · tracked as a Goal',dx:'',
      why:'≈ +1.15 QALY, capacity-dominant. Sequenced with the GLP-1 as lean-mass insurance; no gate, fires now.'}]},
-  {id:'p-htn',dx:'I10',name:'Hypertension, stage 2 — unconfirmed',
+  {id:'p-htn',dx:'I10',name:'Hypertension, stage 2 · unconfirmed',
    assess:'142/90 in clinic, untreated, single setting. Confirm before committing to lifelong pharmacotherapy.',
    orders:[
-    {id:'dx-bp',t:'TASK',name:'Home BP monitoring — 14 days',
+    {id:'dx-bp',t:'Task',name:'Home BP monitoring · 14 days',
      detail:'Twice daily, AM/PM · patient device · review next cycle',dx:'I10',
-     why:'Reclassification odds 65% · QALY if reclassified 0.63. Also sequences the sleep-apnea question and exercise clearance — sleep testing stays scored on the map, behind this.'}]},
+     why:'Reclassification odds 65% · QALY if reclassified 0.63. Also sequences the sleep-apnea question and exercise clearance · sleep testing stays scored on the map, behind this.'}]},
   {id:'p-atm',dx:'Z15.09',name:'ATM pathogenic variant, heterozygous',
    assess:'Confirmed P/LP (163-gene panel). Moderate penetrance; management is surveillance, not surgery.',
    orders:[
-    {id:'ref-gc',t:'REFER',req:true,name:'Genetic counseling',
+    {id:'ref-gc',t:'Refer',req:true,name:'Genetic counseling',
      detail:'Priority: routine · Clinical question: ongoing management · visit note attached',dx:'Z15.09',
-     why:'Obligation from the genetics library — routed outside the QALY ranking; cannot be out-ranked by higher-value levers.'},
-    {id:'task-fh',t:'TASK',req:true,name:'Family-history gate — breast, pancreatic, prostate',
+     why:'Obligation from the genetics library · routed outside the QALY ranking; cannot be out-ranked by higher-value levers.'},
+    {id:'task-fh',t:'Task',req:true,name:'Family-history gate · breast, pancreatic, prostate',
      detail:'Cascade documentation · pancreatic surveillance conditional on first-degree history',dx:'Z15.09',
      why:'Required follow-through on the finding; conditional surveillance decisions hang on this documentation.'}]},
   {id:'p-hm',dx:'Z12.11',name:'Health maintenance',
    assess:'Age 47; colorectal screening never done.',
    orders:[
-    {id:'ord-crc',t:'ORDER',req:true,name:'Colorectal cancer screening — colonoscopy or FIT',
+    {id:'ord-crc',t:'Order',req:true,name:'Colorectal cancer screening · colonoscopy or FIT',
      detail:'Modality is the patient’s choice: colonoscopy (referral, q10y) vs FIT (lab, annual)',dx:'Z12.11',
      why:'Preventive-care rule (care-gap ≈ +0.25 QALY), modestly reinforced by the ATM context.'}]}
  ]},
  'mara-chen':{problems:[
-  {id:'p-fatigue',dx:'E61.1 · R53.83',name:'Fatigue — iron deficiency suspected',
+  {id:'p-fatigue',dx:'E61.1 · R53.83',name:'Fatigue · iron deficiency suspected',
    assess:'Ferritin 18 ng/mL with low transferrin saturation. The leading reversible driver of her low energy.',
    orders:[
-    {id:'lab-iron',t:'LAB',name:'CBC, iron studies, TSH + free T4 — repeat',
+    {id:'lab-iron',t:'Lab',name:'CBC, iron studies, TSH + free T4 · repeat',
      detail:'Quest · fasting not required · Ordering provider: A. Okafor MD',dx:'E61.1 · R53.83',
      why:'Reclassification ~40% on fatigue-driver attribution (QALY if reclassified 0.5). Confirms the driver before anything is attributed to age, mood, or conditioning.'}]},
-  {id:'p-lpa',dx:'E78.41',name:'Elevated Lp(a) — premature-CAD family history',
+  {id:'p-lpa',dx:'E78.41',name:'Elevated Lp(a) · premature-CAD family history',
    assess:'Lp(a) 165 nmol/L; 10-yr ASCVD ~3.4% understates lifetime exposure.',
    orders:[
-    {id:'img-cac',t:'IMAGING',name:'Coronary artery calcium score',
+    {id:'img-cac',t:'Imaging',name:'Coronary artery calcium score',
      detail:'CT, non-contrast · Priority: routine',dx:'E78.41',
      why:'Reclassification ~25% · QALY if reclassified 0.75. Stages ApoB-lowering intensity from measured plaque instead of population risk.'}]},
-  {id:'p-decon',dx:'M62.81',name:'Deconditioning — bone & capacity context',
+  {id:'p-decon',dx:'M62.81',name:'Deconditioning · bone & capacity context',
    assess:'Cardiorespiratory fitness ~10–15th percentile; menopausal bone context.',
    orders:[
-    {id:'goal-rt-m',t:'GOAL',name:'Resistance training — bone-loading emphasis',
+    {id:'goal-rt-m',t:'Goal',name:'Resistance training · bone-loading emphasis',
      detail:'2 sessions/wk · baseline DEXA (scheduled 7/8) will refine intensity',dx:'',
      why:'≈ +1.1 QALY, capacity-dominant, no gate. The scheduled DEXA is an open loop that will refine this.'}]}
  ]}
 };
 const CP_OFFLIST={
  'ethan-park':{
-  ogtt:{t:'LAB',name:'Oral glucose tolerance test — 75 g, 2-hour',detail:'Quest · fasting required',dx:'R73.03',stamp:'demoted',problem:'p-dm',
-   why:'Already in the library, already weighed: reclassification ~4% for him — clinically defensible, low VOI. Your call stands; the order carries this context, not a veto.'},
-  ecg:{t:'ORDER',name:'12-lead ECG, then patch/Holter if persistent',detail:'In clinic · indication: overnight resting HR 38',dx:'R00.1',stamp:'unscored',
+  ogtt:{t:'Lab',name:'Oral glucose tolerance test · 75 g, 2-hour',detail:'Quest · fasting required',dx:'R73.03',stamp:'demoted',problem:'p-dm',
+   why:'Already in the library, already weighed: reclassification ~4% for him · clinically defensible, low VOI. Your call stands; the order carries this context, not a veto.'},
+  ecg:{t:'Order',name:'12-lead ECG, then patch/Holter if persistent',detail:'In clinic · indication: overnight resting HR 38',dx:'R00.1',stamp:'unscored',
    newProblem:{id:'p-brady',dx:'R00.1',name:'Nocturnal bradycardia, incidental',assess:'Overnight resting HR 38 on wearable; asymptomatic. Physician-initiated workup.'},
-   why:'A genuine library gap — no reclassification probability, no burden model yet. Carried physician-initiated and unscored; logged as a candidate for scoring. No value invented.'}
+   why:'A genuine library gap · no reclassification probability, no burden model yet. Carried physician-initiated and unscored; logged as a candidate for scoring. No value invented.'}
  },
  'mara-chen':{
-  ogtt:{t:'LAB',name:'Oral glucose tolerance test — 75 g, 2-hour',detail:'Quest · fasting required',dx:'Z13.1',stamp:'demoted',
-   newProblem:{id:'p-gluc',dx:'Z13.1',name:'Diabetes screening — physician-elected',assess:'Insulin-sensitive baseline; physician elects post-load confirmation.'},
-   why:'Scored and demoted for her: insulin-sensitive with normal fasting markers — reclassification ~2%. Recorded with that context.'},
-  fbmri:{t:'IMAGING',name:'Whole-body MRI screen',detail:'External imaging center · self-pay',dx:'Z12.9',stamp:'unscored',
+  ogtt:{t:'Lab',name:'Oral glucose tolerance test · 75 g, 2-hour',detail:'Quest · fasting required',dx:'Z13.1',stamp:'demoted',
+   newProblem:{id:'p-gluc',dx:'Z13.1',name:'Diabetes screening · physician-elected',assess:'Insulin-sensitive baseline; physician elects post-load confirmation.'},
+   why:'Scored and demoted for her: insulin-sensitive with normal fasting markers · reclassification ~2%. Recorded with that context.'},
+  fbmri:{t:'Imaging',name:'Whole-body MRI screen',detail:'External imaging center · self-pay',dx:'Z12.9',stamp:'unscored',
    newProblem:{id:'p-screen',dx:'Z12.9',name:'Screening, physician-elected',assess:'No structured indication; ordered on judgment.'},
-   why:'Not a structured diagnostic: no reclassification probability, no false-positive cascade model. Carried unscored and routed to library review — the library learns from the physician.'}
+   why:'Not a structured diagnostic: no reclassification probability, no false-positive cascade model. Carried unscored and routed to library review · the library learns from the physician.'}
  }
 };
 function apView(pid){
@@ -2807,7 +2853,7 @@ function apView(pid){
   return r;
  };
  const problems=ap.problems.map(p=>Object.assign({},p,{orders:p.orders.map(dec)}));
- // Physician-added orders associate to a problem — an existing one if the indication
+ // Physician-added orders associate to a problem · an existing one if the indication
  // matches, otherwise adding the order CREATES the problem (orders require a diagnosis).
  st.added.forEach(k=>{
   const x=(CP_OFFLIST[pid]||{})[k];
@@ -2848,14 +2894,14 @@ function renderCarePlan(){
  if(!el)return;
  const head=(JOURNAL[PT.id]||[])[0];
  const v=apView(PT.id);
- if(!head||head.chip!=='DRAFT'||!v){el.innerHTML='<p class="note">No open draft on this chart — the next cycle draws when new data arrives.</p>';return;}
+ if(!head||head.chip!=='DRAFT'||!v){el.innerHTML='<p class="note">No open draft on this chart · the next cycle draws when new data arrives.</p>';return;}
  const st=cpState(PT.id);
  const all=v.problems.flatMap(p=>p.orders);
  if(st.selected&&!all.some(o=>o.id===st.selected))st.selected=null;
  const releasing=all.filter(o=>!o.rej).length;
  const hasRx=all.some(o=>o.t==='RX'&&!o.rej);
 
- // THE DOCUMENT — a problem-oriented A&P; only what will be signed lives inside this frame.
+ // THE DOCUMENT · a problem-oriented A&P; only what will be signed lives inside this frame.
  // Action Card anatomy (DS 3.5): title line, ONE meta line, body; state = single audit word.
  const orow=o=>{
   const meta=[o.t,
@@ -2883,38 +2929,38 @@ function renderCarePlan(){
    '<div class="ap-docsig">Unsigned · '+releasing+' orders release on signature'+(hasRx?' · e-Rx sign-off stays native and prescriber-only':'')+' · the note locks and becomes the newest journal entry</div>'+
   '</div>';
 
- // THE WORKBENCH — basis and disposition beside the document, never inside it.
+ // THE WORKBENCH · basis and disposition beside the document, never inside it.
  let railTop='';
  const sel=all.find(o=>o.id===st.selected);
  if(sel){
   const src=sel.req
-   ?'Required channel — an obligation from '+(sel.t==='TASK'||sel.t==='REFER'?'the genetics library':'preventive-care rules')+'. Not ranked against opportunities.'
+   ?'Required channel · an obligation from '+(sel.t==='TASK'||sel.t==='REFER'?'the genetics library':'preventive-care rules')+'. Not ranked against opportunities.'
    :(sel.addedKey
-     ?(sel.stamp==='unscored'?'Physician-originated — outside the library. Carried unscored; logged for scoring review. No value invented.':'Physician-originated — in the library, already scored and demoted for this patient. Your call stands; the context rides along.')
-     :'Aleron-scored — from the final action-map state.');
+     ?(sel.stamp==='unscored'?'Physician-originated · outside the library. Carried unscored; logged for scoring review. No value invented.':'Physician-originated · in the library, already scored and demoted for this patient. Your call stands; the context rides along.')
+     :'Aleron-scored · from the final action-map state.');
   const acts=sel.addedKey
    ?'<button type="button" class="cp-btn" data-cp-rm="'+sel.addedKey+'">Remove from draft</button>'
    :(!sel.req
      ?'<button type="button" class="cp-btn" data-cp-rej="'+sel.id+'">'+(sel.rej?'Restore':'Reject')+'</button>'+(sel.rej?'':'<button type="button" class="cp-btn" data-cp-mod="'+sel.id+'">Modify</button>')
-     :'<span class="rl-dim">Obligation — address or document; cannot be rejected.</span>');
+     :'<span class="rl-dim">Obligation · address or document; cannot be rejected.</span>');
   const homeP=v.problems.find(p=>p.orders.some(o=>o.id===sel.id));
   const assoc=sel.addedKey&&homeP
    ?(homeP.added
-     ?'No existing problem matched — adding this order created problem '+(v.problems.indexOf(homeP)+1)+' ('+homeP.dx+'). Orders require a diagnosis.'
-     :'Associated to problem '+(v.problems.indexOf(homeP)+1)+' — '+homeP.name+' ('+homeP.dx+').')
+     ?'No existing problem matched · adding this order created problem '+(v.problems.indexOf(homeP)+1)+' ('+homeP.dx+'). Orders require a diagnosis.'
+     :'Associated to problem '+(v.problems.indexOf(homeP)+1)+' · '+homeP.name+' ('+homeP.dx+').')
    :'';
   railTop='<div class="rl-card"><span class="rl-k">Selected order · basis</span><div class="rl-name">'+sel.name+'</div>'+
    '<div class="rl-src">'+src+'</div>'+
    (assoc?'<div class="rl-src"><b>Dx association:</b> '+assoc+'</div>':'')+
    (sel.why?'<div class="rl-body">'+sel.why+'</div>':'')+
    (sel.rx?'<div class="rl-src"><b>Prescription carve-out:</b> e-Rx sign-off is a native, prescriber-only act.</div>':'')+
-   (sel.rej?'<div class="rl-src">Rejected — suppressed next cycle unless new data changes its basis.</div>':'')+
+   (sel.rej?'<div class="rl-src">Rejected · suppressed next cycle unless new data changes its basis.</div>':'')+
    '<div class="rl-actions">'+acts+'</div></div>';
  }
  const off=CP_OFFLIST[PT.id]||{};
  let addUi;
  if(st.pendingAdd&&off[st.pendingAdd]){
-  // Step 2 of adding: dx association is required — pick the problem, or create it.
+  // Step 2 of adding: dx association is required · pick the problem, or create it.
   const x=off[st.pendingAdd];
   const existing=v.problems.filter(p=>!p.added);
   const sug=x.problem?existing.find(p=>p.id===x.problem):null;
@@ -2923,7 +2969,7 @@ function renderCarePlan(){
   if(sug)rows.push(probRow(sug,'suggested'));
   if(x.newProblem)rows.push('<button type="button" class="cp-mi" data-cp-assoc="__new"><span>＋ New problem: '+x.newProblem.name+'</span><span class="r">'+(sug?'':'suggested · ')+x.newProblem.dx+'</span></button>');
   existing.filter(p=>p!==sug).forEach(p=>rows.push(probRow(p,'')));
-  addUi='<div class="rl-src"><b>Dx association — required.</b> Adding: '+x.name+'</div>'+
+  addUi='<div class="rl-src"><b>Dx association · required.</b> Adding: '+x.name+'</div>'+
    '<div class="cp-menu">'+rows.join('')+
    '<button type="button" class="cp-mi" data-cp-cancel><span>Cancel</span><span class="r">no order without a diagnosis</span></button></div>';
  } else {
@@ -2933,12 +2979,12 @@ function renderCarePlan(){
      return '<button type="button" class="cp-mi" data-cp-add="'+k+'"'+(got?' disabled style="opacity:.4"':'')+'><span>'+off[k].name+'</span><span class="r">'+(got?'added':(off[k].stamp==='unscored'?'not in library':'in library'))+'</span></button>';
     }).join('')+'</div>'
    :'';
-  addUi='<button type="button" class="cp-add" data-cp-open>+ Order something not listed — physician’s call</button>'+menu;
+  addUi='<button type="button" class="cp-add" data-cp-open>+ Order something not listed · physician’s call</button>'+menu;
  }
  const railAct='<div class="rl-card"><span class="rl-k">Act on this draft</span>'+
   (sel?'':'<div class="rl-dim">Select an order for its basis and disposition.</div>')+
   addUi+
-  '<div class="rl-actions"><button type="button" class="cp-sign" disabled>Sign &amp; release — not wired</button></div>'+
+  '<div class="rl-actions"><button type="button" class="cp-sign" disabled>Sign &amp; release · not wired</button></div>'+
   '<div class="rl-src"><button type="button" class="jr-x" data-cp-journal>View as the journal entry it will become</button></div></div>';
 
  el.innerHTML='<div class="cp-wrap">'+doc+'<aside class="cp-rail">'+railTop+railAct+'</aside></div>';
