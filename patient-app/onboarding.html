@@ -1427,18 +1427,38 @@ body {
   object-fit: cover;
   border: 1px solid var(--border-base);
 }
-@media (max-width: 520px) {
-  body { padding: 10px 0; }
-  .device-frame {
-    width: min(420px, calc(100vw - 12px), calc((100dvh - 12px) * 70.6 / 146.6));
-    aspect-ratio: 70.6 / 146.6;
-    height: auto;
-    padding: 10px;
-    border-radius: 54px;
+@media (max-width: 700px) {
+  body {
+    align-items: stretch;
+    min-height: 100dvh;
+    padding: 0;
+    background: var(--ground);
   }
-  .device-screen { border-radius: 44px; }
-  .device-island { top: 15px; }
-  .shell { border-radius: 44px; }
+  .device-frame {
+    width: 100vw;
+    height: 100dvh;
+    aspect-ratio: auto;
+    padding: 0;
+    background: var(--ground);
+    border-radius: 0;
+    box-shadow: none;
+  }
+  .device-screen {
+    height: 100%;
+    background: var(--ground);
+    border-radius: 0;
+  }
+  .device-island,
+  .statusbar {
+    display: none;
+  }
+  .shell {
+    max-width: none;
+    height: 100dvh;
+    border-radius: 0;
+    padding-top: env(safe-area-inset-top);
+  }
+  .shell.external-entry { padding-top: 0; }
 }
 
 @media (prefers-reduced-motion: reduce) {

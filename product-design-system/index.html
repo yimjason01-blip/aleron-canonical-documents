@@ -3955,12 +3955,13 @@ section.ds-section:first-child { border-top: none; padding-top: 48px; }
         <tr><td>Top cutout</td><td>Dynamic Island, responsive clamp</td><td>It must scale with the rendered frame so it never collides with system indicators</td></tr>
         <tr><td>Status bar safe area</td><td>54px row, top padding 18px, horizontal inset 7.1% capped at 28px</td><td>Time and indicators sit in a system-chrome band, not inside app content</td></tr>
         <tr><td>Status indicators</td><td>Cellular 18 × 12, WiFi 17 × 12, battery 27 × 13, 5px cluster gap</td><td>Use native-style SVG forms. Do not use text glyphs or carrier/debug strings.</td></tr>
+        <tr><td>Mobile browser behavior</td><td>Remove the frame, Dynamic Island, and simulated status bar below 700px</td><td>A real phone already supplies OS and browser chrome. Never show a phone inside a phone.</td></tr>
         <tr><td>Bezel</td><td>9px graphite, uniform</td><td>Quiet, even on all four sides</td></tr>
         <tr><td>Corner radius</td><td>Device 46, screen follows</td><td>Continuous, iPhone-true</td></tr>
         <tr><td>Elevation</td><td>Whisper shadow only</td><td>The device never outshouts the prototype</td></tr>
       </tbody>
     </table>
-    <p class="fine">One device keeps every mobile review comparable. Prototype at 393 × 852 and scale the frame to fit the page; never stretch the aspect ratio to make content fit. The Max and the SE are out of scope. Both registers use the identical frame; only the screen inside changes.</p>
+    <p class="fine">One device keeps every mobile review comparable. Prototype at 393 × 852 and scale the frame to fit the page; never stretch the aspect ratio to make content fit. The Max and the SE are out of scope. Both registers use the identical frame; only the screen inside changes. On an actual mobile viewport, the hardware frame is removed: the app fills the browser or web-app viewport and relies on the real device for OS status, browser chrome, and safe-area behavior.</p>
   </div>
 
   <!-- PATIENT MOBILE: ONBOARDING + VOICE SYMPTOM -->
