@@ -4,7 +4,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
 <title>Aleron MD · Onboarding</title>
-<meta name="description" content="Aleron MD patient onboarding prototype. Day register. Spec v1.0.">
+<meta name="description" content="Aleron MD patient onboarding. Day register. Spec v1.0.">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Hanken+Grotesk:wght@400;500;600&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet">
@@ -27,16 +27,16 @@
   --cream: #F5F1E8;
   --graphite: #15171C;
   --gunmetal: #333E48;
-  --slate: #5A6378;
+  --slate: #3F4B61;
   --gold: #C9A14E;
   --lit-gold: #EACB7F;
-  --text-gold: #8A6A2F;
-  --ember: #A4452C;
+  --text-gold: #5F4618;
+  --ember: #6B2A1A;
 
   --ground: var(--paper);
   --text-primary: var(--ink);
   --text-secondary: var(--slate);
-  --text-tertiary: #6E6A63; /* 4.8:1 on paper · lowest legal reading gray */
+  --text-tertiary: #4E4A43; /* AAA reading gray on day register surfaces */
   --surface-card: #FFFFFF;
   --surface-inset: #F1EDE6;
   --surface-sunken: #F5F1E8;
@@ -53,8 +53,8 @@
 
   /* iOS chrome imitation (App Store + system surfaces only) */
   --ios: -apple-system, BlinkMacSystemFont, 'SF Pro Text', 'Helvetica Neue', sans-serif;
-  --ios-blue: #007AFF;
-  --ios-gray: #8E8E93;
+  --ios-blue: #004A99;
+  --ios-gray: #4E4A43;
   --ios-sep: rgba(60,60,67,0.13);
 
   --size-h2: 26px;
@@ -510,7 +510,7 @@ button { font-family: var(--voice); }
   display: flex;
   align-items: center;
   justify-content: center;
-  font-size: 10px;
+  font-size: 10.5px;
   color: var(--text-gold);
 }
 
@@ -1058,7 +1058,7 @@ button { font-family: var(--voice); }
   font-size: 12px;
   color: var(--text-gold);
 }
-.hub-check.skipped { border-color: var(--border-base); color: var(--text-tertiary); font-size: 10px; }
+.hub-check.skipped { border-color: var(--border-base); color: var(--text-tertiary); font-size: 10.5px; }
 .hub-task-body { flex: 1; }
 .hub-task-title { font-size: 14px; color: var(--ink); }
 .hub-task-meta {
@@ -1170,10 +1170,10 @@ body {
   justify-content: space-between;
   height: 44px;
   border-bottom: 1px solid #e5e5ea;
-  color: #007aff;
+  color: var(--ios-blue);
   font-size: 17px;
 }
-.mail-nav-center { color: #8e8e93; font-size: 13px; }
+.mail-nav-center { color: var(--ios-gray); font-size: 13px; }
 .mail-subject-real {
   font-size: 24px;
   line-height: 1.18;
@@ -1202,8 +1202,8 @@ body {
   font-size: 15px;
 }
 .mail-from-real { font-size: 15px; font-weight: 600; color: #111; line-height: 1.2; }
-.mail-to-real { font-size: 13px; color: #8e8e93; margin-top: 2px; }
-.mail-date-real { font-size: 13px; color: #8e8e93; white-space: nowrap; }
+.mail-to-real { font-size: 13px; color: var(--ios-gray); margin-top: 2px; }
+.mail-date-real { font-size: 13px; color: var(--ios-gray); white-space: nowrap; }
 .mail-body-real {
   padding-top: 22px;
   font-size: 16px;
@@ -1214,10 +1214,11 @@ body {
 .mail-link-button {
   display: inline;
   background: transparent;
-  color: #007aff;
+  color: var(--ios-blue);
   border-radius: 0;
   text-align: left;
   padding: 0;
+  min-width: 0;
   font-size: 16px;
   font-weight: 400;
   margin: 0;
@@ -1225,13 +1226,13 @@ body {
   text-underline-offset: 2px;
 }
 .mail-url-real {
-  color: #007aff;
+  color: var(--ios-blue);
   font-size: 14px;
   line-height: 1.4;
   word-break: break-all;
 }
 .mail-footer-real {
-  color: #8e8e93;
+  color: var(--ios-gray);
   font-size: 12px;
   line-height: 1.45;
   margin-top: 28px;
@@ -1251,13 +1252,13 @@ body {
   justify-content: space-between;
   align-items: center;
   height: 44px;
-  color: #007aff;
+  color: var(--ios-blue);
   font-size: 17px;
 }
 .store-search {
   background: #e9e9ee;
   border-radius: 12px;
-  color: #8e8e93;
+  color: var(--ios-gray);
   font-size: 16px;
   padding: 9px 12px;
   margin: 4px 0 18px;
@@ -1270,10 +1271,10 @@ body {
   padding: 6px 0 18px;
 }
 .store-title { font-size: 21px; font-weight: 600; line-height: 1.12; letter-spacing: -0.02em; }
-.store-subtitle { color: #6e6e73; font-size: 13px; line-height: 1.3; margin-top: 4px; }
+.store-subtitle { color: var(--ios-gray); font-size: 13px; line-height: 1.3; margin-top: 4px; }
 .store-get {
   margin-top: 12px;
-  background: #007aff;
+  background: var(--ios-blue);
   color: white;
   border: 0;
   border-radius: 16px;
@@ -1288,7 +1289,7 @@ body {
   border-bottom: 1px solid #d8d8dc;
   padding: 12px 0;
   text-align: center;
-  color: #6e6e73;
+  color: var(--ios-gray);
   font-size: 11px;
   text-transform: uppercase;
 }
@@ -1314,10 +1315,10 @@ body {
   padding: 10px;
   margin-top: 12px;
 }
-.store-mini-kicker { font-size: 8px; letter-spacing: 0.1em; color: #8a6a2f; text-transform: uppercase; margin-bottom: 8px; }
+.store-mini-kicker { font-size: 10.5px; letter-spacing: 0.08em; color: var(--text-gold); text-transform: uppercase; margin-bottom: 8px; }
 .store-mini-line { height: 7px; background: rgba(29,27,24,0.14); margin-bottom: 7px; }
 .store-mini-line.short { width: 62%; }
-.store-mini-result { display: flex; justify-content: space-between; border-top: 1px solid rgba(29,27,24,0.1); padding-top: 9px; margin-top: 10px; font-size: 10px; }
+.store-mini-result { display: flex; justify-content: space-between; border-top: 1px solid rgba(29,27,24,0.1); padding-top: 9px; margin-top: 10px; font-size: 10.5px; }
 .store-mini-score { font-size: 24px; line-height: 1; color: #1d1b18; }
 .store-copy h2 { font-size: 20px; letter-spacing: -0.02em; margin-bottom: 8px; }
 .store-copy p { font-size: 14px; line-height: 1.42; color: #3a3a3c; }

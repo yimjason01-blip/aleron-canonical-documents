@@ -32,13 +32,13 @@
     --cream: #F5F1E8;
     --graphite: #15171C;
     --gunmetal: #333E48;
-    --steel: #46555F;
+    --steel: #3F4B61;
     --navy: #252B3D;
-    --slate: #5A6378;
+    --slate: #3F4B61;
     --gold: #C9A14E;
     --lit-gold: #EACB7F;
-    --text-gold: #8A6A2F;
-    --ember: #A4452C;
+    --text-gold: #5F4618;
+    --ember: #6B2A1A;
 
     /* Surfaces -- day register. Local names retained so component CSS
        is unchanged; values are DS-canonical. */
@@ -522,7 +522,7 @@
     color: var(--accent-bright);
     padding: 2px 8px;
     border-radius: var(--radius-control);
-    font-size: 10px;
+    font-size: 10.5px;
     letter-spacing: 0;
   }
   .decision-num .chip.watch {
@@ -567,7 +567,7 @@
   }
   .kv b {
     display: block;
-    font-size: 10px;
+    font-size: 10.5px;
     font-weight: 500;
     color: var(--text-muted);
     letter-spacing: 0;
@@ -643,6 +643,7 @@
     width: 100%;
     aspect-ratio: 16 / 9;
     background: var(--graphite);
+    color: var(--cream);
   }
   .strategy-video-meta {
     display: flex;
@@ -774,7 +775,7 @@
     color: var(--accent-hover);
     display: block;
     font-family: var(--voice); font-variant-numeric: tabular-nums;
-    font-size: 10px;
+    font-size: 10.5px;
     font-weight: 500;
     letter-spacing: 0;
     margin-bottom: 6px;
@@ -1077,7 +1078,7 @@
     font-variant-numeric: tabular-nums;
   }
   .act-hero-stat .lbl {
-    font-size: 10px;
+    font-size: 10.5px;
     color: var(--text-muted);
     letter-spacing: 0;
   }
@@ -1177,7 +1178,7 @@
     display: flex; align-items: center; justify-content: center;
     background: var(--bg-surface);
     color: var(--text-secondary);
-    font-size: 10px; font-weight: 500; letter-spacing: 0;
+    font-size: 10.5px; font-weight: 500; letter-spacing: 0;
     border: 1px solid var(--border-subtle);
     flex-shrink: 0;
     font-variant-numeric: tabular-nums;
@@ -1467,7 +1468,7 @@
   .appointment-kicker {
     color: var(--text-muted);
     font-family: var(--voice); font-variant-numeric: tabular-nums;
-    font-size: 10px;
+    font-size: 10.5px;
     font-weight: 500;
     letter-spacing: 0;
     margin-bottom: 6px;
@@ -1774,7 +1775,7 @@
   }
   .journey-ticks {
     display: flex; justify-content: space-between;
-    font-size: 10px; color: var(--text-muted); letter-spacing: 0;
+    font-size: 10.5px; color: var(--text-muted); letter-spacing: 0;
   }
   .journey-gain {
     margin-top: 12px; padding-top: 12px;
@@ -2265,7 +2266,7 @@
   }
   .data-subhead {
     color: var(--text-muted);
-    font-size: 10px;
+    font-size: 10.5px;
     font-weight: 500;
     letter-spacing: 0;
     margin: 14px 0 4px;
@@ -2296,11 +2297,11 @@
   }
   .metric .val small {
     display: block; color: var(--text-muted);
-    font-size: 10px; font-weight: 400;
+    font-size: 10.5px; font-weight: 400;
     margin-top: 2px; letter-spacing: 0.02em;
   }
   .metric .flag {
-    font-size: 10px; letter-spacing: 0;
+    font-size: 10.5px; letter-spacing: 0;
     padding: 2px 6px; border-radius: var(--radius-tile); font-weight: 500;
     white-space: nowrap;
   }
@@ -2334,7 +2335,7 @@
   }
   .gene-hero .chip {
     background: rgba(164,69,44,0.18); color: var(--status-crit-text);
-    font-size: 10px; letter-spacing: 0;
+    font-size: 10.5px; letter-spacing: 0;
     padding: 2px 8px; border-radius: var(--radius-control); font-weight: 500;
   }
   .gene-hero .detail {
@@ -2374,7 +2375,7 @@
     padding: 2px 7px;
     border-radius: var(--radius-control);
     font-family: 'PolySans','Hanken Grotesk', sans-serif;
-    font-size: 10px;
+    font-size: 10.5px;
     font-weight: 500;
     letter-spacing: 0;
   }
@@ -2413,7 +2414,7 @@
   }
   .dom-drivers-label {
     font-family: var(--voice); font-variant-numeric: tabular-nums;
-    font-size: 9px;
+    font-size: 10.5px;
     letter-spacing: 0;
     color: var(--text-muted);
     padding: 9px 0 3px;
@@ -2437,7 +2438,7 @@
   .driver-note {
     display: block;
     font-family: var(--voice); font-variant-numeric: tabular-nums;
-    font-size: 10px;
+    font-size: 10.5px;
     font-weight: 400;
     letter-spacing: 0.02em;
     color: var(--text-muted);
@@ -2468,7 +2469,7 @@
     grid-column: 1 / -1;
     justify-self: start;
     font-family: var(--voice); font-variant-numeric: tabular-nums;
-    font-size: 9px;
+    font-size: 10.5px;
     letter-spacing: 0;
     color: var(--text-secondary);
     background: none;
@@ -2481,7 +2482,7 @@
   .driver-chip:hover { border-color: var(--border-strong); color: var(--text); }
   .driver-more {
     font-family: var(--voice); font-variant-numeric: tabular-nums;
-    font-size: 9.5px;
+    font-size: 10.5px;
     letter-spacing: 0;
     color: var(--text-muted);
     padding-top: 9px;
@@ -2519,14 +2520,14 @@
   }
   .vit-note {
     font-family: var(--voice); font-variant-numeric: tabular-nums;
-    font-size: 10px;
+    font-size: 10.5px;
     letter-spacing: 0.02em;
     line-height: 1.45;
     color: var(--text-muted);
   }
   .vit-cap {
     font-family: var(--voice); font-variant-numeric: tabular-nums;
-    font-size: 9.5px;
+    font-size: 10.5px;
     letter-spacing: 0;
     color: var(--text-muted);
     margin: 2px 2px 16px;
@@ -2581,15 +2582,17 @@
     border-top: 1px solid var(--border);
     border-radius: var(--radius-panel);
     z-index: 99;
-    transform: translateY(100%);
+    transform: translateY(calc(100% + 24px));
+    opacity: 0;
     pointer-events: none;
-    transition: transform .22s cubic-bezier(.2,.8,.2,1);
+    transition: transform .22s cubic-bezier(.2,.8,.2,1), opacity .18s ease;
     max-height: 86vh;
     display: flex; flex-direction: column;
     box-shadow: none;
   }
   .risk-sheet.open {
     transform: translateY(0);
+    opacity: 1;
     pointer-events: auto;
   }
   .rs-handle {
@@ -2690,7 +2693,7 @@
   }
   .md-strip .body { flex: 1; min-width: 0; }
   .md-strip .lbl {
-    font-size: 10px;
+    font-size: 10.5px;
     letter-spacing: 0; color: var(--accent-hover);
     font-weight: 500; margin-bottom: 3px;
   }
@@ -2870,7 +2873,7 @@
     width: 28px; height: 28px; border-radius: 50%;
     flex-shrink: 0;
     display: flex; align-items: center; justify-content: center;
-    font-size: 10px; font-weight: 500;
+    font-size: 10.5px; font-weight: 500;
   }
   .msg.ai .av {
     background: var(--accent);
@@ -2906,7 +2909,7 @@
     color: var(--text); font-weight: 500;
   }
   .msg .src {
-    font-size: 10px; color: var(--text-muted);
+    font-size: 10.5px; color: var(--text-muted);
     margin-top: 6px; padding-top: 6px;
     border-top: 1px solid var(--border-subtle);
     letter-spacing: 0.02em;
@@ -2920,7 +2923,7 @@
   }
   .suggest-label {
     width: 100%;
-    font-size: 10px;
+    font-size: 10.5px;
     font-weight: 500;
     letter-spacing: 0;
     color: var(--text-muted);
@@ -5304,7 +5307,7 @@ The action list should therefore feel measured: close the high-value screening g
       title: 'Current plan',
       meta: 'Dr. Thompson · Direct line',
       status: 'Open',
-      context: 'Use this for questions that could change the plan or need clinical judgment.',
+      context: 'Questions that could change the plan or need clinical judgment.',
       createdAt: 1,
       messages: []
     }
@@ -5321,7 +5324,7 @@ The action list should therefore feel measured: close the high-value screening g
       id: 'general',
       title: 'Current plan',
       meta: 'Aleron AI',
-      context: 'General AI thread grounded in your plan, your data, and Dr. Thompson\'s note.',
+      context: 'Grounded in your plan, your data, and Dr. Thompson\'s note.',
       createdAt: 1,
       messages: [{
         from: 'ai',
@@ -5352,7 +5355,7 @@ The action list should therefore feel measured: close the high-value screening g
     setTimeout(() => {
       const canned = matchCanned(q);
       if (canned) thread.messages.push({ from: 'ai', html: canned.text, src: canned.src });
-      else thread.messages.push({ from: 'ai', text: "Good question. I can explain what is in the plan, but I would route anything that changes treatment or timing to Dr. Thompson.", src: '<b>Source:</b> Pattern-matched against your plan + record' });
+      else thread.messages.push({ from: 'ai', text: "Good question. I can explain what is in the plan, but I would route anything that changes treatment or timing to Dr. Thompson.", src: '<b>Source:</b> Your plan and record' });
       if (activeAIThreadId === thread.id) renderAIThreads();
       scrollChatBottom();
     }, 650);
@@ -5445,9 +5448,9 @@ The action list should therefore feel measured: close the high-value screening g
       id,
       title: 'New chat',
       meta: 'Aleron AI · just now',
-      context: 'Open AI thread grounded in your plan and your data.',
+      context: 'Grounded in your plan and your data.',
       createdAt: Date.now(),
-      messages: [{ from: 'ai', text: 'Start a new question here. I will keep it separate from your other topics and route clinical decisions back to Dr. Thompson.', src: '<b>Source:</b> Aleron AI routing rules' }]
+      messages: [{ from: 'ai', text: 'Start a new question here. I will keep it separate from your other topics and route clinical decisions back to Dr. Thompson.', src: '<b>Source:</b> Conversation scope' }]
     };
     activeAIThreadId = id;
     renderAIThreads();
@@ -5468,9 +5471,9 @@ The action list should therefore feel measured: close the high-value screening g
       id,
       title,
       meta: 'Plan card · just now',
-      context: details?.threadIntro?.replace('Focused thread with Dr. Thompson', 'Focused AI explainer') || `Focused AI explainer about ${title}.`,
+      context: details?.threadIntro?.replace('Focused thread with Dr. Thompson', 'Focused explainer') || `Focused explainer about ${title}.`,
       createdAt: Date.now(),
-      messages: [{ from: 'ai', text: `I started a new AI thread for ${title}. I can explain what this priority means, what it changes, and what would need Dr. Thompson.`, src: '<b>Source:</b> Plan priority details · Aleron AI' }]
+      messages: [{ from: 'ai', text: `I started a focused thread for ${title}. I can explain what this priority means, what it changes, and what would need Dr. Thompson.`, src: '<b>Source:</b> Plan priority details' }]
     };
     activeAIThreadId = id;
     const starter = details?.starter || `I have a question about ${title}: `;
@@ -5484,7 +5487,7 @@ The action list should therefore feel measured: close the high-value screening g
       field.focus();
       field.setSelectionRange(field.value.length, field.value.length);
     }
-    toast(`New Aleron AI thread started for ${title}`);
+    toast(`New explainer thread started for ${title}`);
   }
 
   function renderTeamThreads() {
