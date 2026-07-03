@@ -2048,7 +2048,7 @@ section.ds-section:first-child { border-top: none; padding-top: 48px; }
   position: absolute;
   top: 10px; left: 50%;
   transform: translateX(-50%);
-  width: 86px; height: 24px;
+  width: clamp(76px, 29%, 126px); height: clamp(24px, 3.9%, 33px);
   border-radius: 13px;
   background: #000;
   z-index: 5;
@@ -2057,12 +2057,36 @@ section.ds-section:first-child { border-top: none; padding-top: 48px; }
 .phone-screen {
   background: var(--paper);
   aspect-ratio: 393 / 852;
-  padding-top: 24px; /* status-bar safe area, clears the Dynamic Island */
   display: flex;
   flex-direction: column;
   overflow: hidden;
 }
+.phone-statusbar {
+  flex: 0 0 54px;
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  padding: 18px clamp(16px, 7.1%, 28px) 0;
+  font-family: -apple-system, BlinkMacSystemFont, 'SF Pro Text', 'Helvetica Neue', sans-serif;
+  color: #000;
+}
+.phone-status-time {
+  font-size: 15.5px;
+  font-weight: 600;
+  line-height: 1;
+  letter-spacing: -0.02em;
+}
+.phone-status-icons {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+}
+.phone-status-icons svg { display: block; flex: 0 0 auto; }
+.phone-status-icons .ios-cell { width: 18px; height: 12px; }
+.phone-status-icons .ios-wifi { width: 17px; height: 12px; }
+.phone-status-icons .ios-battery { width: 27px; height: 13px; margin-left: 1px; }
 .phone-screen.night { background: var(--navy); }
+.phone-screen.night .phone-statusbar { color: var(--cream); }
 .ps-body { flex: 1; padding: 16px 16px 4px; overflow: hidden; }
 .ps-head { display: flex; justify-content: space-between; align-items: center; margin-bottom: 14px; }
 .ps-lockup { font-family: var(--voice); font-size: 14px; color: var(--ink); }
@@ -3928,7 +3952,9 @@ section.ds-section:first-child { border-top: none; padding-top: 48px; }
         <tr><td>Device</td><td>iPhone 16 Pro</td><td>Current mainstream Pro; the default prototype frame in design tools</td></tr>
         <tr><td>Logical size</td><td>393 × 852 pt</td><td>Prototypes map to it one to one</td></tr>
         <tr><td>Aspect ratio</td><td>19.5 : 9 (852 : 393)</td><td>Locked; content yields before the ratio does</td></tr>
-        <tr><td>Top cutout</td><td>Dynamic Island</td><td>Not a notch; iPhone 15 Pro and later</td></tr>
+        <tr><td>Top cutout</td><td>Dynamic Island, responsive clamp</td><td>It must scale with the rendered frame so it never collides with system indicators</td></tr>
+        <tr><td>Status bar safe area</td><td>54px row, top padding 18px, horizontal inset 7.1% capped at 28px</td><td>Time and indicators sit in a system-chrome band, not inside app content</td></tr>
+        <tr><td>Status indicators</td><td>Cellular 18 × 12, WiFi 17 × 12, battery 27 × 13, 5px cluster gap</td><td>Use native-style SVG forms. Do not use text glyphs or carrier/debug strings.</td></tr>
         <tr><td>Bezel</td><td>9px graphite, uniform</td><td>Quiet, even on all four sides</td></tr>
         <tr><td>Corner radius</td><td>Device 46, screen follows</td><td>Continuous, iPhone-true</td></tr>
         <tr><td>Elevation</td><td>Whisper shadow only</td><td>The device never outshouts the prototype</td></tr>
@@ -3948,6 +3974,7 @@ section.ds-section:first-child { border-top: none; padding-top: 48px; }
         <div class="phone">
           <div class="phone-notch"></div>
           <div class="phone-screen">
+            <div class="phone-statusbar" aria-hidden="true"><span class="phone-status-time">9:41</span><span class="phone-status-icons"><svg class="ios-cell" viewBox="0 0 18 12"><rect x="0" y="8" width="3" height="4" rx="0.8" fill="currentColor"/><rect x="5" y="5.5" width="3" height="6.5" rx="0.8" fill="currentColor"/><rect x="10" y="3" width="3" height="9" rx="0.8" fill="currentColor"/><rect x="15" y="0.5" width="3" height="11.5" rx="0.8" fill="currentColor"/></svg><svg class="ios-wifi" viewBox="0 0 17 12"><path d="M8.5 9.4a1.65 1.65 0 0 1 1.65 1.65L8.5 12.4l-1.65-1.35A1.65 1.65 0 0 1 8.5 9.4zM5.25 7.6a4.85 4.85 0 0 1 6.5 0L10.5 8.85a3.05 3.05 0 0 0-4 0zM2.15 4.8a9.25 9.25 0 0 1 12.7 0L13.6 6.05a7.45 7.45 0 0 0-10.2 0z" fill="currentColor"/></svg><svg class="ios-battery" viewBox="0 0 27 13"><rect x="0.75" y="1" width="22" height="11" rx="3.2" stroke="currentColor" stroke-opacity="0.38" stroke-width="1" fill="none"/><rect x="2.5" y="2.75" width="18.4" height="7.5" rx="1.8" fill="currentColor"/><path d="M24.3 4.2v4.6c1.1-.28 1.9-1.2 1.9-2.3s-.8-2.02-1.9-2.3z" fill="currentColor" fill-opacity="0.38"/></svg></span></div>
             <div class="ps-body">
               <div class="ps-head">
                 <div class="ps-lockup">aleron<span class="md">MD</span></div>
@@ -4001,6 +4028,7 @@ section.ds-section:first-child { border-top: none; padding-top: 48px; }
         <div class="phone">
           <div class="phone-notch"></div>
           <div class="phone-screen night">
+            <div class="phone-statusbar" aria-hidden="true"><span class="phone-status-time">9:41</span><span class="phone-status-icons"><svg class="ios-cell" viewBox="0 0 18 12"><rect x="0" y="8" width="3" height="4" rx="0.8" fill="currentColor"/><rect x="5" y="5.5" width="3" height="6.5" rx="0.8" fill="currentColor"/><rect x="10" y="3" width="3" height="9" rx="0.8" fill="currentColor"/><rect x="15" y="0.5" width="3" height="11.5" rx="0.8" fill="currentColor"/></svg><svg class="ios-wifi" viewBox="0 0 17 12"><path d="M8.5 9.4a1.65 1.65 0 0 1 1.65 1.65L8.5 12.4l-1.65-1.35A1.65 1.65 0 0 1 8.5 9.4zM5.25 7.6a4.85 4.85 0 0 1 6.5 0L10.5 8.85a3.05 3.05 0 0 0-4 0zM2.15 4.8a9.25 9.25 0 0 1 12.7 0L13.6 6.05a7.45 7.45 0 0 0-10.2 0z" fill="currentColor"/></svg><svg class="ios-battery" viewBox="0 0 27 13"><rect x="0.75" y="1" width="22" height="11" rx="3.2" stroke="currentColor" stroke-opacity="0.38" stroke-width="1" fill="none"/><rect x="2.5" y="2.75" width="18.4" height="7.5" rx="1.8" fill="currentColor"/><path d="M24.3 4.2v4.6c1.1-.28 1.9-1.2 1.9-2.3s-.8-2.02-1.9-2.3z" fill="currentColor" fill-opacity="0.38"/></svg></span></div>
             <div class="ps-body">
               <div class="ps-head">
                 <div class="ps-lockup">aleron<span class="md">MD</span></div>
@@ -4049,6 +4077,7 @@ section.ds-section:first-child { border-top: none; padding-top: 48px; }
         <div class="phone">
           <div class="phone-notch"></div>
           <div class="phone-screen">
+            <div class="phone-statusbar" aria-hidden="true"><span class="phone-status-time">9:41</span><span class="phone-status-icons"><svg class="ios-cell" viewBox="0 0 18 12"><rect x="0" y="8" width="3" height="4" rx="0.8" fill="currentColor"/><rect x="5" y="5.5" width="3" height="6.5" rx="0.8" fill="currentColor"/><rect x="10" y="3" width="3" height="9" rx="0.8" fill="currentColor"/><rect x="15" y="0.5" width="3" height="11.5" rx="0.8" fill="currentColor"/></svg><svg class="ios-wifi" viewBox="0 0 17 12"><path d="M8.5 9.4a1.65 1.65 0 0 1 1.65 1.65L8.5 12.4l-1.65-1.35A1.65 1.65 0 0 1 8.5 9.4zM5.25 7.6a4.85 4.85 0 0 1 6.5 0L10.5 8.85a3.05 3.05 0 0 0-4 0zM2.15 4.8a9.25 9.25 0 0 1 12.7 0L13.6 6.05a7.45 7.45 0 0 0-10.2 0z" fill="currentColor"/></svg><svg class="ios-battery" viewBox="0 0 27 13"><rect x="0.75" y="1" width="22" height="11" rx="3.2" stroke="currentColor" stroke-opacity="0.38" stroke-width="1" fill="none"/><rect x="2.5" y="2.75" width="18.4" height="7.5" rx="1.8" fill="currentColor"/><path d="M24.3 4.2v4.6c1.1-.28 1.9-1.2 1.9-2.3s-.8-2.02-1.9-2.3z" fill="currentColor" fill-opacity="0.38"/></svg></span></div>
             <div class="ps-body">
               <div class="ps-head">
                 <div class="ps-lockup">aleron<span class="md">MD</span></div>
