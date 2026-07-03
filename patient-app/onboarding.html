@@ -129,7 +129,7 @@ button { font-family: var(--voice); }
   display: flex;
   align-items: flex-start;
   justify-content: space-between;
-  padding: 18px 28px 0;
+  padding: 18px clamp(16px, 7.1%, 28px) 0;
   font-family: var(--ios);
   z-index: 30;
 }
@@ -1147,7 +1147,7 @@ body {
   max-height: none;
   border: none;
   border-radius: 49px; /* match the screen opening so the bezel stays uniform at the corners */
-  padding-top: 34px;
+  padding-top: 0;
 }
 .shell.external-entry {
   padding-top: 0;

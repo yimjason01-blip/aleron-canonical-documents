@@ -3953,7 +3953,7 @@ section.ds-section:first-child { border-top: none; padding-top: 48px; }
         <tr><td>Logical size</td><td>393 × 852 pt</td><td>Prototypes map to it one to one</td></tr>
         <tr><td>Aspect ratio</td><td>19.5 : 9 (852 : 393)</td><td>Locked; content yields before the ratio does</td></tr>
         <tr><td>Top cutout</td><td>Dynamic Island, responsive clamp</td><td>It must scale with the rendered frame so it never collides with system indicators</td></tr>
-        <tr><td>Status bar safe area</td><td>54px row, top padding 18px, horizontal inset 7.1% capped at 28px</td><td>Time and indicators sit in a system-chrome band, not inside app content</td></tr>
+        <tr><td>Status bar safe area</td><td>54px system row, top padding 18px, horizontal inset 7.1% capped at 28px</td><td>Time, Dynamic Island, and indicators share one top system band. Do not add a second app padding band above the status row.</td></tr>
         <tr><td>Status indicators</td><td>Cellular 18 × 12, WiFi 17 × 12, battery 27 × 13, 5px cluster gap</td><td>Use native-style SVG forms. Do not use text glyphs or carrier/debug strings.</td></tr>
         <tr><td>Mobile browser behavior</td><td>Keep the prototype frame and simulated status bar at every viewport size unless an explicit runtime shell removes them</td><td>Viewport width is not proof of context. Review may happen on phones, tablets, laptops, or narrow desktop windows, so phone chrome rules must be stable and must not auto-switch the artifact.</td></tr>
         <tr><td>Bezel</td><td>9px graphite, uniform</td><td>Quiet, even on all four sides</td></tr>
