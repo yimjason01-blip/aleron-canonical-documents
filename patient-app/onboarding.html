@@ -91,6 +91,32 @@ body {
   justify-content: center;
 }
 button { font-family: var(--voice); }
+.mode-switch {
+  position: fixed;
+  z-index: 80;
+  top: 10px;
+  right: 10px;
+  display: flex;
+  gap: 4px;
+  padding: 4px;
+  background: rgba(245,241,232,0.92);
+  border: 1px solid rgba(29,27,24,0.14);
+  box-shadow: 0 8px 24px -18px rgba(29,27,24,0.45);
+}
+.mode-switch a {
+  min-height: 28px;
+  padding: 7px 10px;
+  color: var(--slate);
+  font-family: var(--voice);
+  font-size: 12px;
+  line-height: 1;
+  text-decoration: none;
+}
+.mode-prototype .mode-link-prototype,
+.mode-runtime .mode-link-runtime {
+  background: var(--ink);
+  color: var(--cream);
+}
 
 .shell {
   width: 100%;
@@ -1440,12 +1466,56 @@ body {
   .device-island { top: 15px; }
   .shell { border-radius: 44px; }
 }
+.mode-runtime {
+  display: block;
+  min-height: 100dvh;
+  padding: 0;
+  background: var(--ground);
+}
+.mode-runtime .mode-switch { top: calc(env(safe-area-inset-top) + 10px); }
+.mode-runtime .device-frame {
+  width: 100vw;
+  height: 100dvh;
+  aspect-ratio: auto;
+  padding: 0;
+  background: var(--ground);
+  border-radius: 0;
+  box-shadow: none;
+}
+.mode-runtime .device-screen {
+  height: 100%;
+  background: var(--ground);
+  border-radius: 0;
+}
+.mode-runtime .device-island,
+.mode-runtime .statusbar,
+.mode-runtime .home-indicator {
+  display: none;
+}
+.mode-runtime .shell {
+  max-width: none;
+  height: 100dvh;
+  border-radius: 0;
+  padding-top: env(safe-area-inset-top);
+}
+.mode-runtime .shell.external-entry { padding-top: 0; }
 @media (prefers-reduced-motion: reduce) {
   * { transition: none !important; animation: none !important; }
 }
 </style>
 </head>
-<body>
+<body class="mode-prototype">
+<script>
+(function () {
+  var mode = new URLSearchParams(location.search).get('mode') === 'runtime' ? 'runtime' : 'prototype';
+  document.body.classList.toggle('mode-runtime', mode === 'runtime');
+  document.body.classList.toggle('mode-prototype', mode !== 'runtime');
+})();
+</script>
+<nav class="mode-switch" aria-label="Prototype render mode">
+  <a class="mode-link-prototype" href="?mode=prototype">Prototype</a>
+  <a class="mode-link-runtime" href="?mode=runtime">Runtime</a>
+</nav>
 
 <div class="device-frame">
   <div class="device-screen">

@@ -3945,7 +3945,7 @@ section.ds-section:first-child { border-top: none; padding-top: 48px; }
   <!-- DEVICE FRAME SPEC -->
   <div class="subsec">
     <div class="subsec-label">Device frame · one iPhone, one aspect ratio</div>
-    <p class="type-body">Every mobile prototype is drawn in the same frame, so surfaces are judged against each other and never against a shifting device. The frame is the iPhone 16 Pro: 393 by 852 points, a 19.5:9 glass, with the Dynamic Island. It renders in neutral graphite with a thin uniform bezel and the faintest lift, because the frame is a ruler, not a subject. Nothing about the device competes with the screen it holds.</p>
+    <p class="type-body">Every mobile prototype is drawn in the same frame when it is in prototype mode, so surfaces are judged against each other and never against a shifting device. Runtime mode is a separate shell: it removes the device frame and simulated iOS chrome because the native app, browser, or install surface supplies those. The frame is the iPhone 16 Pro: 393 by 852 points, a 19.5:9 glass, with the Dynamic Island. It renders in neutral graphite with a thin uniform bezel and the faintest lift, because the frame is a ruler, not a subject.</p>
     <table class="token-table">
       <thead><tr><th>Property</th><th>Value</th><th>Why</th></tr></thead>
       <tbody>
@@ -3955,13 +3955,16 @@ section.ds-section:first-child { border-top: none; padding-top: 48px; }
         <tr><td>Top cutout</td><td>Dynamic Island, responsive clamp</td><td>It must scale with the rendered frame so it never collides with system indicators</td></tr>
         <tr><td>Status bar safe area</td><td>54px system row, top padding 18px, horizontal inset 7.1% capped at 28px</td><td>Time, Dynamic Island, and indicators share one top system band. Do not add a second app padding band above the status row.</td></tr>
         <tr><td>Status indicators</td><td>Cellular 18 × 12, WiFi 17 × 12, battery 27 × 13, 5px cluster gap</td><td>Use native-style SVG forms. Do not use text glyphs or carrier/debug strings.</td></tr>
-        <tr><td>Mobile browser behavior</td><td>Keep the prototype frame and simulated status bar at every viewport size unless an explicit runtime shell removes them</td><td>Viewport width is not proof of context. Review may happen on phones, tablets, laptops, or narrow desktop windows, so phone chrome rules must be stable and must not auto-switch the artifact.</td></tr>
+        <tr><td>Render mode</td><td>Explicit `prototype` or `runtime`; default prototype for review artifacts</td><td>Do not infer intent from viewport width. The same URL may be reviewed from a phone, tablet, laptop, or narrow browser window.</td></tr>
+        <tr><td>Prototype mode</td><td>Device frame, Dynamic Island, 54px status row, home indicator</td><td>Used for decks, design-system comparison, and artifact review.</td></tr>
+        <tr><td>Runtime mode</td><td>No simulated hardware frame, no fake Dynamic Island, no fake iOS status bar</td><td>The actual native app, web app, browser, or install surface owns system chrome and safe-area behavior.</td></tr>
+        <tr><td>Mobile browser behavior</td><td>Keep prototype mode stable unless `mode=runtime` or an equivalent runtime shell is explicitly set</td><td>Viewport width is not proof of context, so phone chrome rules must not auto-switch the artifact.</td></tr>
         <tr><td>Bezel</td><td>9px graphite, uniform</td><td>Quiet, even on all four sides</td></tr>
         <tr><td>Corner radius</td><td>Device 46, screen follows</td><td>Continuous, iPhone-true</td></tr>
         <tr><td>Elevation</td><td>Whisper shadow only</td><td>The device never outshouts the prototype</td></tr>
       </tbody>
     </table>
-    <p class="fine">One device keeps every mobile review comparable. Prototype at 393 × 852 and scale the frame to fit the page; never stretch the aspect ratio to make content fit. The Max and the SE are out of scope. Both registers use the identical frame; only the screen inside changes. Do not infer review context from viewport width: a browser on a phone may still be reviewing the prototype artifact, while a narrow laptop window may still need the same artifact. Removing hardware chrome requires an explicit runtime shell, not a media query.</p>
+    <p class="fine">One device keeps every mobile review comparable. Prototype at 393 × 852 and scale the frame to fit the page; never stretch the aspect ratio to make content fit. The Max and the SE are out of scope. Both registers use the identical frame; only the screen inside changes. Do not infer review context from viewport width: a browser on a phone may still be reviewing the prototype artifact, while a narrow laptop window may still need the same artifact. Removing hardware chrome requires an explicit runtime shell, query parameter, or wrapper class, not a media query.</p>
   </div>
 
   <!-- PATIENT MOBILE: ONBOARDING + VOICE SYMPTOM -->
