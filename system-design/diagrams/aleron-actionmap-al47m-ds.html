@@ -23,7 +23,7 @@
  --audit:'Space Mono',ui-monospace,Menlo,monospace;   /* retired from surfaces; wordmark tag only */
  /* materials (brand-locked) */
  --paper:#FAF7F2; --ink:#1D1B18; --cream:#F5F1E8; --gunmetal:#333E48; --navy:#252B3D;
- --slate:#5A6378; --gold:#C9A14E; --lit-gold:#EACB7F; --text-gold:#8A6A2F; --ember:#A4452C;
+ --slate:#3F4B61; --gold:#C9A14E; --lit-gold:#EACB7F; --text-gold:#5F4618; --ember:#74301E;
  /* semantic surfaces */
  --ground:var(--paper);
  --surface-card:#FFFFFF;
@@ -35,7 +35,7 @@
  /* semantic text */
  --text-primary:var(--ink);
  --text-secondary:var(--slate);
- --text-tertiary:#6E6A63;               /* 4.8:1 on paper · lowest legal reading gray */
+ --text-tertiary:#4E4A43;               /* AAA reading gray on day register surfaces */
  /* borders */
  --border-subtle:rgba(29,27,24,0.10);
  --border-base:rgba(29,27,24,0.18);
@@ -344,6 +344,8 @@ svg.nav-ico{width:16px;height:16px;flex:0 0 auto;stroke:currentColor;fill:none;s
 .ai-block .v b{color:var(--fg);}
 .ai-cites{font-family:var(--voice);font-size:12px;color:var(--fg);line-height:1.7;font-weight:500;font-variant-numeric:tabular-nums;}
 .ai-footer{padding:9px 16px;font-family:var(--voice);font-size:12px;color:var(--faint);letter-spacing:0;line-height:1.5;}
+.ai-provenance{border-top:1px solid var(--l08);background:var(--shade);padding:9px 16px;font-family:var(--voice);font-size:12px;color:var(--muted);letter-spacing:0;line-height:1.5;}
+.ai-provenance b{color:var(--fg);font-weight:500;}
 
 /* action-changing gates: gold tick = advisory line-role */
 .must{display:flex;flex-direction:column;gap:8px;}
@@ -640,6 +642,7 @@ svg.nav-ico{width:16px;height:16px;flex:0 0 auto;stroke:currentColor;fill:none;s
 .agent-msg .bubble{font-size:13px;line-height:1.5;color:var(--fg);white-space:pre-wrap;}
 .agent-msg.agent .bubble{border-left:2px solid var(--l18);padding:2px 0 2px 12px;}
 .agent-msg.user .bubble{background:var(--sunken);border:1px solid var(--l08);padding:8px 11px;text-align:left;}
+.agent-msg .agent-prov{font-family:var(--voice);font-size:12px;letter-spacing:0;color:var(--muted);line-height:1.35;padding-left:12px;}
 .agent-compose{display:grid;grid-template-columns:minmax(0,1fr) auto;gap:8px;align-items:stretch;}
 .agent-compose textarea{font-family:var(--voice);width:100%;min-height:44px;max-height:120px;resize:vertical;border:1px solid var(--l25);background:var(--card);color:var(--fg);padding:10px 12px;font-size:13px;line-height:1.4;}
 .agent-compose textarea:focus{outline:2px solid var(--must);outline-offset:1px;}
@@ -1420,7 +1423,8 @@ function renderDiscovery(items,actionMap){
   const scored=c.item;
   const candidate=scored?'<b>'+html(scored.name||actionLabel(scored))+'</b><br>'+html(c.type)+' · '+html(scored.ev||scored.evidence||'pending')+' evidence · '+(c.type==='diagnostic'?'Reclass odds '+percent(diagnosticReclass(scored))+' · patient QALY if reclassified '+qaly(diagnosticQalyIf(scored)):'Net '+qaly(scored.net)):'Structured candidate pending scoring.';
   const mapStatus=scored?'Placed on action map with AI provenance.':'Not plotted until structured and scored.';
-  return '<div class="air '+(i===0?'on':'')+'" data-discovery-panel="'+html(d.id)+'" role="tabpanel"><div class="head"><div><div class="title">'+html(d.title)+'</div><div class="meta">'+html(d.system)+' · '+html(d.evidence)+' evidence · '+html(c.status)+'</div></div><div class="score'+(scored?'':' review')+'">'+(scored?'scored':'needs review')+'</div></div><div class="ai-grid"><div class="ai-block"><div class="k">Pattern Recognized</div><div class="v">'+html(d.why)+'</div></div><div class="ai-block"><div class="k">Scored Candidate</div><div class="v">'+candidate+'</div></div><div class="ai-block"><div class="k">Map Status</div><div class="v">'+mapStatus+'</div></div><div class="ai-block"><div class="k">Data Used</div>'+chips(d.cites)+'</div></div><div class="ai-footer">AI contributes candidate generation. Only scored candidates enter the map and final synthesis.</div></div>';
+  const provenance='<div class="ai-provenance"><b>AI provenance</b> · feature=gap candidate generation · source='+html(d.system)+' signals · confidence basis='+html(d.evidence)+' evidence, '+html(d.confirm||'review')+' confirmation · map entry='+(scored?'structured and scored':'withheld until scored')+'</div>';
+  return '<div class="air '+(i===0?'on':'')+'" data-discovery-panel="'+html(d.id)+'" role="tabpanel"><div class="head"><div><div class="title">'+html(d.title)+'</div><div class="meta">'+html(d.system)+' · '+html(d.evidence)+' evidence · '+html(c.status)+'</div></div><div class="score'+(scored?'':' review')+'">'+(scored?'scored':'needs review')+'</div></div><div class="ai-grid"><div class="ai-block"><div class="k">Pattern recognized</div><div class="v">'+html(d.why)+'</div></div><div class="ai-block"><div class="k">Scored candidate</div><div class="v">'+candidate+'</div></div><div class="ai-block"><div class="k">Map status</div><div class="v">'+mapStatus+'</div></div><div class="ai-block"><div class="k">Data used</div>'+chips(d.cites)+'</div></div>'+provenance+'<div class="ai-footer">AI contributes candidate generation. Only scored candidates enter the map and final synthesis.</div></div>';
  }).join('');
  el.innerHTML='<div class="ai-topics" role="tablist" aria-label="AI candidate pipeline">'+tabs+'</div><div class="ai-panels">'+panels+'</div>';
  const signalTabs=el.querySelectorAll('[data-discovery-tab]');
@@ -1503,7 +1507,8 @@ function appendAgentMessage(role,text){
  const label=role==='user'?'You':'Aleron AI';
  const node=document.createElement('div');
  node.className='agent-msg '+(role==='user'?'user':'agent');
- node.innerHTML='<div class="role">'+html(label)+'</div><div class="bubble">'+html(text)+'</div>';
+ const provenance=role==='agent'?'<div class="agent-prov">feature=isolated patient-context answer · source=current chart, action map, genetics, vitality, scored candidates · confidence basis=visible source fields only</div>':'';
+ node.innerHTML='<div class="role">'+html(label)+'</div><div class="bubble">'+html(text)+'</div>'+provenance;
  log.appendChild(node);
  log.scrollTop=log.scrollHeight;
 }
@@ -1513,7 +1518,7 @@ function resetAleronAiPanel(){
  const log=document.getElementById('agent-log');
  if(!log)return;
  log.innerHTML='';
- appendAgentMessage('agent','Loaded isolated context for '+PT.name+'. Ask about this patient, the action map, diagnostics, vitality, genetics, or recommendations.\n\nContext rule: each answer uses only the selected patient, current model outputs, action library, genetics, scored AI candidates, and the current question.');
+ appendAgentMessage('agent','Context loaded for '+PT.name+'. Answer scope: selected patient, current model outputs, action library, genetics, scored AI candidates, and the current question.');
  const input=document.getElementById('agent-input');
  if(input)input.value='';
 }
@@ -1623,7 +1628,7 @@ function renderHeader(patient){
  const sideCode=document.getElementById('side-code');
  if(title)title.textContent=patient.name+' Physician Dashboard';
  if(subtitle)subtitle.innerHTML=html(patient.code)+' · '+html(patient.sexShort)+' · '+html(patient.phenotype);
- if(copy)copy.textContent='Use the left menu to review patient data, risk, vitality, the care plan, the journal, and the isolated Aleron AI agent.';
+ if(copy)copy.textContent='Patient data, risk, vitality, the care plan, the journal, and the isolated Aleron AI agent share one synthetic chart state.';
  if(patientSubtitle)patientSubtitle.textContent=patient.code+' synthetic profile';
  if(sideAvatar)sideAvatar.textContent=patient.name.split(/\s+/).map(part=>part[0]||'').join('').slice(0,2).toUpperCase();
  if(sideCode)sideCode.textContent=patient.code+' · '+patient.sexShort;
