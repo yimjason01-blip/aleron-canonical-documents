@@ -166,24 +166,29 @@ svg.nav-ico{width:16px;height:16px;flex:0 0 auto;stroke:currentColor;fill:none;s
 .cp-btn[data-cp-prem]{border-color:rgba(164,69,44,0.55);background:rgba(164,69,44,0.16);color:var(--fg);}
 
 /* ================================================================
-   SCREEN 1 · PATIENT DATA · one citation table, grouped, complete.
-   Names in voice, values in audit; abnormality = a colored word.
+   SCREEN 1 · PATIENT DATA · health marker list, not an EMR table.
+   Group by air, values form the spine, signal tiles appear only when earned.
    ================================================================ */
-.pd-id{font-family:var(--voice);font-size:12px;letter-spacing:0;color:var(--muted);margin:0 0 14px;}
-.pd-id b{color:var(--fg);font-weight:400;}
-.pd-table{width:100%;border-collapse:collapse;background:var(--card);border:1px solid var(--l25);}
-.pd-table th,.pd-table td{text-align:left;vertical-align:baseline;padding:8px 14px;border-top:1px solid var(--l08);line-height:1.4;}
-.pd-table tr.pd-g th{font-family:var(--voice);font-size:12px;font-weight:400;letter-spacing:0;color:var(--muted);background:var(--shade);border-top:1px solid var(--l18);padding:7px 14px;}
-.pd-table .pd-k{width:30%;font-size:13px;color:var(--fg);}
-.pd-table .pd-v{width:26%;font-family:var(--voice);font-size:12px;color:var(--fg);font-weight:500;font-variant-numeric:tabular-nums;white-space:nowrap;}
-.pd-table .pd-v span{color:var(--faint);font-size:12px;margin-left:4px;}
-.pd-table .pd-f{width:14%;}
-.pd-table .pd-c{width:30%;font-size:12.5px;color:var(--muted);}
-.pd-f i{font-style:normal;font-family:var(--voice);font-size:12px;letter-spacing:0;}
-.pd-f .hi{background:var(--ember);color:var(--cream);font-weight:500;padding:1.5px 7px;border-radius:var(--radius-tile);display:inline-block;line-height:1.3;}
-.pd-f .adv{color:var(--advisory);font-weight:500;}
-.pd-f .ok{color:var(--faint);}
-@media(max-width:760px){.pd-table .pd-c{display:none;}.pd-table .pd-k{width:44%;}}
+.pd-panel{background:var(--card);border:1px solid var(--l18);border-radius:var(--radius-panel);padding:22px 24px 20px;}
+.pd-id{font-family:var(--voice);font-size:12px;letter-spacing:0;color:var(--muted);margin:0 0 24px;}
+.pd-id b{color:var(--fg);font-weight:500;}
+.pd-list{display:grid;gap:28px;}
+.pd-group{display:grid;gap:10px;}
+.pd-group h2{font-size:14px;font-weight:500;line-height:1.2;margin:0;color:var(--fg);}
+.pd-rows{display:grid;border-top:1px solid var(--l12);}
+.pd-row{display:grid;grid-template-columns:minmax(180px,1fr) minmax(220px,auto);gap:28px;align-items:baseline;padding:13px 0;border-bottom:1px solid var(--l08);}
+.pd-main{min-width:0;}
+.pd-k{font-size:13.5px;color:var(--fg);line-height:1.25;font-weight:400;}
+.pd-note{font-size:12.5px;color:var(--muted);line-height:1.35;margin-top:4px;max-width:48ch;}
+.pd-measure{display:flex;justify-content:flex-end;align-items:baseline;gap:10px;min-width:0;}
+.pd-v{font-family:var(--voice);font-size:15px;color:var(--fg);font-weight:500;font-variant-numeric:tabular-nums;white-space:nowrap;}
+.pd-v span{color:var(--faint);font-size:12px;margin-left:4px;font-weight:400;}
+.pd-flag{font-style:normal;font-family:var(--voice);font-size:12px;letter-spacing:0;white-space:nowrap;}
+.pd-flag.hi{background:var(--ember);color:var(--cream);font-weight:500;padding:2px 7px;border-radius:var(--radius-tile);display:inline-block;line-height:1.3;}
+.pd-flag.adv{color:var(--advisory);font-weight:500;}
+.pd-flag.route{color:var(--muted);font-weight:500;}
+.pd-quiet{font-size:12px;color:var(--faint);line-height:1.45;margin-top:2px;}
+@media(max-width:760px){.pd-panel{padding:18px 16px;}.pd-row{grid-template-columns:1fr;gap:6px;}.pd-measure{justify-content:flex-start;}}
 
 /* ================================================================
    SCREEN 2a · RISK MODELS · domain rail + model instrument panel
@@ -1620,9 +1625,8 @@ function renderHeader(patient){
 function renderProfile(patient){
  const el=document.getElementById('prof');
  if(!el)return;
- // One citation table, grouped by panel. Names in voice, values in audit.
- // Flags derive only from the packet's own context fields and standard
- // lab reference ranges · the table interprets nothing new.
+ // Health marker list grouped by panel. It follows the product DS data pattern:
+ // section by air, values on a spine, note as reading text, signal only when earned.
  const p=patient;
  const spo2=(String(p.overnightO2||'').match(/(\d+)%/)||[])[1];
  const crfNum=(String(p.crf||'').match(/[\d.]+/)||[])[0];
@@ -1667,13 +1671,16 @@ function renderProfile(patient){
  g('Context');
  r('Smoking',p.smoke,'','','ok','');
  r('Family history',p.fhx,'','','ok','');
- r('Genetics',p.genetics,'',(p.geneticFindings||[]).length?'required channel':'','adv',(p.geneticFindings||[]).length?'routed to the genetic must-do pipeline':'');
+ r('Genetics',p.genetics,'',(p.geneticFindings||[]).length?'required channel':'','route',(p.geneticFindings||[]).length?'routed to the genetic must-do pipeline':'');
  r('Anti-obesity Rx',p.antiObesity,'','','ok','eligibility status');
- const body=rows.map(x=>x.g
-  ?'<tr class="pd-g"><th colspan="4">'+html(x.g)+'</th></tr>'
-  :'<tr><td class="pd-k">'+html(x.k)+'</td><td class="pd-v">'+html(x.v)+(x.u?'<span>'+html(x.u)+'</span>':'')+'</td><td class="pd-f">'+(x.f?'<i class="'+html(x.tone)+'">'+html(x.f)+'</i>':'')+'</td><td class="pd-c">'+html(x.c)+'</td></tr>').join('');
- el.innerHTML='<div class="pd-id"><b>'+html(p.name)+'</b> · '+html(p.code)+' · '+html(p.age)+' '+html(p.sex)+' · '+html(p.phenotype)+'</div>'+
-  '<table class="pd-table"><tbody>'+body+'</tbody></table>';
+ const groups=[];
+ let current=null;
+ rows.forEach(x=>{
+  if(x.g){current={title:x.g,items:[]};groups.push(current);return;}
+  if(current)current.items.push(x);
+ });
+ const groupHtml=groups.map(group=>'<section class="pd-group"><h2>'+html(group.title)+'</h2><div class="pd-rows">'+group.items.map(x=>'<div class="pd-row"><div class="pd-main"><div class="pd-k">'+html(x.k)+'</div>'+(x.c?'<div class="pd-note">'+html(x.c)+'</div>':'')+'</div><div class="pd-measure"><div class="pd-v">'+html(x.v)+(x.u?'<span>'+html(x.u)+'</span>':'')+'</div>'+(x.f?'<i class="pd-flag '+html(x.tone)+'">'+html(x.f)+'</i>':'')+'</div></div>').join('')+'</div></section>').join('');
+ el.innerHTML='<div class="pd-panel"><div class="pd-id"><b>'+html(p.name)+'</b> · '+html(p.code)+' · '+html(p.age)+' '+html(p.sex)+' · '+html(p.phenotype)+'</div><div class="pd-list">'+groupHtml+'</div></div>';
 }
 
 // ---- risk domain trend view ----

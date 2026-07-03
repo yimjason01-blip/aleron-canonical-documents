@@ -3014,6 +3014,49 @@ section.ds-section:first-child { border-top: none; padding-top: 48px; }
     </div>
   </div>
 
+  <!-- PATTERN CONTRACTS -->
+  <div class="subsec">
+    <div class="subsec-label">Pattern contracts · no local translation</div>
+    <p class="type-body">Tokens are not enough. A surface must instantiate the correct pattern for the job. These contracts are binding across member and physician product surfaces unless a later component names a stricter variant.</p>
+    <ol class="rules">
+      <li><span class="rule-num">P1</span><span><b>Use the semantic icon map.</b> Plan is the list icon. Quality of Life is the trend icon. Your Data is the person icon. Risk is the shield-check icon. Chat is the message icon. Appointments is the calendar icon. Aliases inherit the same icon: Care Plan maps to Plan, Vitality maps to Quality of Life, Patient Data maps to Your Data, Aleron AI maps to Chat, Journal maps to Appointments. Do not invent local glyphs.</span></li>
+      <li><span class="rule-num">P2</span><span><b>Health markers render as a marker list.</b> Use section headings, quiet row dividers, a right-side value spine, and reading notes at 45 to 75 characters. Do not convert member or dashboard health markers into a dense four-column EMR table unless the surface is explicitly a specimen table, code manifest, or raw export.</span></li>
+      <li><span class="rule-num">P3</span><span><b>Signal is sparse.</b> Hazard gets the ember tile. Advisory gets text gold. Baseline stays slate or disappears. Normal values do not need badges. Never badge every abnormal value just because a value is abnormal. The question is whether the physician or member must act on it now.</span></li>
+      <li><span class="rule-num">P4</span><span><b>Groups are made by air first.</b> Use space and section text before using boxed rows, header bands, or table borders. A banded section header is a specimen-table move, not the default product move.</span></li>
+      <li><span class="rule-num">P5</span><span><b>Physician does not mean cockpit.</b> Physician surfaces may carry more clinical density, but they still use the same tier grammar, icon map, signal rules, and reading law. If a physician surface feels like an instrument panel before it feels like a document or cabin, it is drifting.</span></li>
+    </ol>
+    <div class="demo night night-demo" style="background:var(--ground)">
+      <div class="demo-label">Health marker list contract · night register</div>
+      <div style="background:var(--surface-tier1);border-radius:var(--radius-panel);box-shadow:var(--shadow-tier1);padding:22px 24px;max-width:760px">
+        <div style="display:grid;gap:24px">
+          <section style="display:grid;gap:10px">
+            <h3 style="margin:0;font-size:14px;font-weight:500;color:var(--text-primary)">Lipids</h3>
+            <div style="border-top:1px solid var(--border-subtle)">
+              <div style="display:grid;grid-template-columns:1fr auto;gap:28px;align-items:baseline;padding:13px 0;border-bottom:1px solid var(--border-subtle)">
+                <div><div style="font-size:13.5px;color:var(--text-primary)">ApoB</div><div style="font-size:12.5px;color:var(--text-secondary);margin-top:4px;max-width:48ch">whatever changed, keep it</div></div>
+                <div style="display:flex;gap:10px;align-items:baseline"><div style="font-size:15px;font-weight:500;font-variant-numeric:tabular-nums;color:var(--text-primary)">78<span style="font-size:12px;color:var(--text-tertiary);margin-left:4px;font-weight:400">mg/dL</span></div><span style="font-size:12px;color:var(--text-gold);font-weight:500">down from 96</span></div>
+              </div>
+              <div style="display:grid;grid-template-columns:1fr auto;gap:28px;align-items:baseline;padding:13px 0;border-bottom:1px solid var(--border-subtle)">
+                <div><div style="font-size:13.5px;color:var(--text-primary)">Lp(a)</div><div style="font-size:12.5px;color:var(--text-secondary);margin-top:4px;max-width:48ch">genetic, managed around, not against</div></div>
+                <div style="font-size:15px;font-weight:500;font-variant-numeric:tabular-nums;color:var(--text-primary)">62<span style="font-size:12px;color:var(--text-tertiary);margin-left:4px;font-weight:400">nmol/L</span></div>
+              </div>
+            </div>
+          </section>
+          <section style="display:grid;gap:10px">
+            <h3 style="margin:0;font-size:14px;font-weight:500;color:var(--text-primary)">Inflammation</h3>
+            <div style="border-top:1px solid var(--border-subtle)">
+              <div style="display:grid;grid-template-columns:1fr auto;gap:28px;align-items:baseline;padding:13px 0;border-bottom:1px solid var(--border-subtle)">
+                <div><div style="font-size:13.5px;color:var(--text-primary)">hsCRP</div><div style="font-size:12.5px;color:var(--text-secondary);margin-top:4px;max-width:48ch">marathon nine days before, retest six weeks</div></div>
+                <div style="display:flex;gap:10px;align-items:baseline"><div style="font-size:15px;font-weight:500;font-variant-numeric:tabular-nums;color:var(--text-primary)">1.9<span style="font-size:12px;color:var(--text-tertiary);margin-left:4px;font-weight:400">mg/L</span></div><span style="background:var(--ember);color:var(--cream);font-size:12px;font-weight:500;padding:2px 7px;border-radius:var(--radius-tile)">retest</span></div>
+              </div>
+            </div>
+          </section>
+        </div>
+      </div>
+      <p class="demo-caption">Section by air · value spine · note as prose · sparse signal · no header bands · no four-column EMR table</p>
+    </div>
+  </div>
+
   <!-- EMPTY STATE -->
   <div class="subsec">
     <div class="subsec-label">Empty state · silence is normal</div>
