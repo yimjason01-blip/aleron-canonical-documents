@@ -477,6 +477,10 @@ svg.nav-ico{width:16px;height:16px;flex:0 0 auto;stroke:currentColor;fill:none;s
 .ap-prob{padding:10px 0 12px;border-bottom:1px solid var(--l08);}
 .ap-prob:last-child{border-bottom:0;padding-bottom:4px;}
 .ap-phead{display:flex;align-items:baseline;gap:8px;flex-wrap:wrap;}
+.ap-pselect{font-family:var(--voice);display:grid;gap:3px;width:100%;border:0;background:transparent;color:var(--fg);text-align:left;cursor:pointer;padding:4px 8px 4px 0;border-radius:var(--radius-control);}
+.ap-pselect:hover{background:var(--sunken);}
+.ap-pselect.sel{background:var(--sunken);}
+.ap-pmeta{font-family:var(--voice);font-size:12px;color:var(--muted);letter-spacing:0;margin-left:22px;}
 .ap-pnum{font-family:var(--voice);font-size:12px;flex:0 0 auto;min-width:14px;color:var(--muted);}
 .ap-pname{font-size:14px;font-weight:500;line-height:1.25;}
 .ap-pdx{font-family:var(--voice);font-size:10px;color:var(--faint);}
@@ -511,6 +515,7 @@ svg.nav-ico{width:16px;height:16px;flex:0 0 auto;stroke:currentColor;fill:none;s
 .cp-mi{font-family:var(--voice);display:flex;justify-content:space-between;gap:10px;width:100%;text-align:left;border:0;border-top:1px solid var(--l08);background:transparent;color:var(--fg);padding:9px 12px;cursor:pointer;font-size:13px;}
 .cp-mi:first-child{border-top:0;}
 .cp-mi:hover{background:var(--sunken);}
+.cp-mi:disabled{opacity:.4;cursor:not-allowed;}
 .cp-mi .r{font-family:var(--voice);font-size:9px;letter-spacing:0;color:var(--faint);white-space:nowrap;}
 .cp-sign{font-family:var(--voice);font-size:13px;border:0;background:#E7E2D9;color:rgba(29,27,24,0.38);padding:9px 16px;cursor:not-allowed;}
 .jr-x{font-family:var(--voice);font-size:inherit;border:0;background:none;color:var(--fg);text-decoration:underline;text-underline-offset:2px;cursor:pointer;padding:0;}
@@ -2766,13 +2771,13 @@ document.getElementById('journal').addEventListener('click',event=>{
 });
 // ---- care plan = the draft note as a decision surface (same object as the journal head) ----
 const CP_STATE={};
-function cpState(pid){return CP_STATE[pid]||(CP_STATE[pid]={rejected:{},modified:{},added:[],menuOpen:false,pendingAdd:null,assoc:{}});}
+function cpState(pid){return CP_STATE[pid]||(CP_STATE[pid]={rejected:{},modified:{},added:[],menuOpen:false,pendingAdd:null,assoc:{},selectedKind:'order',problemDisposition:{},problemStatus:{},problemEdited:{},removedProblems:{},addedProblems:[],problemMenuOpen:false});}
 // A&P draft data · problem-oriented (athena/SOAP convention), each order line carrying
 // Canvas's real command grammar (dx codes on every order; Rx = sig/supply/disp/refills;
 // referral = priority + clinical question). Aligned with the engine's chosen levers.
 const AP_DRAFT={
  'ethan-park':{problems:[
-  {id:'p-dm',dx:'R73.03',name:'Prediabetes with insulin resistance',
+  {id:'p-dm',dx:'R73.03',name:'Prediabetes with insulin resistance',status:'confirmed',disposition:'add',match:'new problem',
    assess:'HbA1c 6.0%, fasting glucose 110, HOMA-IR 4.3; central adiposity, waist 105 cm. The dominant driver.',
    orders:[
     {id:'rx-tirz',t:'Rx',rx:true,name:'tirzepatide 2.5 mg/0.5 mL · SC auto-injector',
@@ -2782,13 +2787,13 @@ const AP_DRAFT={
     {id:'goal-rt',t:'Goal',name:'Supervised resistance training',
      detail:'2 sessions/wk × 12 weeks · lean-mass protection during weight loss · tracked as a Goal',dx:'',
      why:'≈ +1.15 QALY, capacity-dominant. Sequenced with the GLP-1 as lean-mass insurance; no gate, fires now.'}]},
-  {id:'p-htn',dx:'I10',name:'Hypertension, stage 2 · unconfirmed',
+  {id:'p-htn',dx:'I10',name:'Hypertension, stage 2 · unconfirmed',status:'provisional',disposition:'note',match:'new problem',
    assess:'142/90 in clinic, untreated, single setting. Confirm before committing to lifelong pharmacotherapy.',
    orders:[
     {id:'dx-bp',t:'Task',name:'Home BP monitoring · 14 days',
      detail:'Twice daily, AM/PM · patient device · review next cycle',dx:'I10',
      why:'Reclassification odds 65% · QALY if reclassified 0.63. Also sequences the sleep-apnea question and exercise clearance · sleep testing stays scored on the map, behind this.'}]},
-  {id:'p-atm',dx:'Z15.09',name:'ATM pathogenic variant, heterozygous',
+  {id:'p-atm',dx:'Z15.09',name:'ATM pathogenic variant, heterozygous',status:'confirmed',disposition:'update',match:'matches existing genetics condition',
    assess:'Confirmed P/LP (163-gene panel). Moderate penetrance; management is surveillance, not surgery.',
    orders:[
     {id:'ref-gc',t:'Refer',req:true,name:'Genetic counseling',
@@ -2797,7 +2802,7 @@ const AP_DRAFT={
     {id:'task-fh',t:'Task',req:true,name:'Family-history gate · breast, pancreatic, prostate',
      detail:'Cascade documentation · pancreatic surveillance conditional on first-degree history',dx:'Z15.09',
      why:'Required follow-through on the finding; conditional surveillance decisions hang on this documentation.'}]},
-  {id:'p-hm',dx:'Z12.11',name:'Health maintenance',
+  {id:'p-hm',dx:'Z12.11',name:'Health maintenance',status:'monitoring',disposition:'note',match:'preventive gap',
    assess:'Age 47; colorectal screening never done.',
    orders:[
     {id:'ord-crc',t:'Order',req:true,name:'Colorectal cancer screening · colonoscopy or FIT',
@@ -2805,20 +2810,20 @@ const AP_DRAFT={
      why:'Preventive-care rule (care-gap ≈ +0.25 QALY), modestly reinforced by the ATM context.'}]}
  ]},
  'mara-chen':{problems:[
-  {id:'p-fatigue',dx:'E61.1 · R53.83',name:'Fatigue · iron deficiency suspected',
+  {id:'p-fatigue',dx:'E61.1 · R53.83',name:'Fatigue · iron deficiency suspected',status:'provisional',disposition:'note',match:'new problem',
    assess:'Ferritin 18 ng/mL with low transferrin saturation. The leading reversible driver of her low energy.',
    orders:[
     {id:'lab-iron',t:'Lab',name:'CBC, iron studies, TSH + free T4 · repeat',
      detail:'Quest · fasting not required · Ordering provider: A. Okafor MD',dx:'E61.1 · R53.83',
      why:'Reclassification ~40% on fatigue-driver attribution (QALY if reclassified 0.5). Confirms the driver before anything is attributed to age, mood, or conditioning.'}]},
-  {id:'p-lpa',dx:'E78.41',name:'Elevated Lp(a) · premature-CAD family history',
+  {id:'p-lpa',dx:'E78.41',name:'Elevated Lp(a) · premature-CAD family history',status:'confirmed',disposition:'add',match:'new problem',
    assess:'Lp(a) 165 nmol/L; 10-yr ASCVD ~3.4% understates lifetime exposure.',
    orders:[
     {id:'img-cac',t:'Imaging',name:'Coronary artery calcium score',
      detail:'CT, non-contrast · Priority: routine',dx:'E78.41',
      why:'Reclassification ~25% · QALY if reclassified 0.75. Stages ApoB-lowering intensity from measured plaque instead of population risk.'}]},
-  {id:'p-decon',dx:'M62.81',name:'Deconditioning · bone & capacity context',
-   assess:'Cardiorespiratory fitness ~10–15th percentile; menopausal bone context.',
+  {id:'p-decon',dx:'M62.81',name:'Deconditioning · bone & capacity context',status:'monitoring',disposition:'note',match:'new problem',
+   assess:'Cardiorespiratory fitness ~10-15th percentile; menopausal bone context.',
    orders:[
     {id:'goal-rt-m',t:'Goal',name:'Resistance training · bone-loading emphasis',
      detail:'2 sessions/wk · baseline DEXA (scheduled 7/8) will refine intensity',dx:'',
@@ -2842,6 +2847,17 @@ const CP_OFFLIST={
    why:'Not a structured diagnostic: no reclassification probability, no false-positive cascade model. Carried unscored and routed to library review · the library learns from the physician.'}
  }
 };
+const CP_PROBLEM_OFFLIST={
+ 'ethan-park':{
+  p_masld:{id:'p-masld',dx:'K76.0',name:'MASLD risk · metabolic context',status:'monitoring',disposition:'note',match:'new problem',assess:'Central adiposity, insulin resistance, triglycerides 180 mg/dL, and ALT context warrant monitoring; not diagnosis-grade without imaging or fibrosis assessment.',orders:[]},
+  p_osa:{id:'p-osa',dx:'G47.30',name:'Sleep apnea concern · desaturation on wearable',status:'provisional',disposition:'note',match:'new problem',assess:'SpO2 nadir 89% on overnight wearable with discordant low RHR. Needs confirmation before active diagnosis.',orders:[]}
+ },
+ 'mara-chen':{
+  p_vitd:{id:'p-vitd',dx:'E55.9',name:'Vitamin D insufficiency · bone context',status:'monitoring',disposition:'note',match:'new problem',assess:'Bone-health context; physician-elected monitoring until DEXA and repeat labs return.',orders:[]}
+ }
+};
+function problemDispositionLabel(v){return ({add:'will add to problem list',update:'will update existing problem',note:'signed note only',remove:'removed from draft'}[v]||v);}
+function problemStatusLabel(v){return ({confirmed:'confirmed',provisional:'provisional',monitoring:'monitoring'}[v]||v);}
 function apView(pid){
  const ap=AP_DRAFT[pid];
  if(!ap)return null;
@@ -2852,7 +2868,14 @@ function apView(pid){
   if(!o.req&&st.rejected[o.id])r.rej=true;
   return r;
  };
- const problems=ap.problems.map(p=>Object.assign({},p,{orders:p.orders.map(dec)}));
+ const baseProblems=ap.problems.concat((st.addedProblems||[]).map(k=>(CP_PROBLEM_OFFLIST[pid]||{})[k]).filter(Boolean));
+ const problems=baseProblems.filter(p=>!st.removedProblems[p.id]).map(p=>{
+  const r=Object.assign({},p,{orders:(p.orders||[]).map(dec)});
+  r.status=st.problemStatus[p.id]||p.status||'confirmed';
+  r.disposition=st.problemDisposition[p.id]||p.disposition||'note';
+  r.edited=!!st.problemEdited[p.id];
+  return r;
+ });
  // Physician-added orders associate to a problem · an existing one if the indication
  // matches, otherwise adding the order CREATES the problem (orders require a diagnosis).
  st.added.forEach(k=>{
@@ -2897,9 +2920,14 @@ function renderCarePlan(){
  if(!head||head.chip!=='DRAFT'||!v){el.innerHTML='<p class="note">No open draft on this chart · the next cycle draws when new data arrives.</p>';return;}
  const st=cpState(PT.id);
  const all=v.problems.flatMap(p=>p.orders);
- if(st.selected&&!all.some(o=>o.id===st.selected))st.selected=null;
+ if(st.selectedKind==='order'&&st.selected&&!all.some(o=>o.id===st.selected))st.selected=null;
+ if(st.selectedKind==='problem'&&st.selected&&!v.problems.some(p=>p.id===st.selected))st.selected=null;
  const releasing=all.filter(o=>!o.rej).length;
- const hasRx=all.some(o=>o.t==='RX'&&!o.rej);
+ const hasRx=all.some(o=>o.t==='RX'||o.t==='Rx');
+ const signedProblems=v.problems.filter(p=>p.disposition!=='remove');
+ const adds=signedProblems.filter(p=>p.disposition==='add').length;
+ const updates=signedProblems.filter(p=>p.disposition==='update').length;
+ const noteOnly=signedProblems.filter(p=>p.disposition==='note').length;
 
  // THE DOCUMENT · a problem-oriented A&P; only what will be signed lives inside this frame.
  // Action Card anatomy (DS 3.5): title line, ONE meta line, body; state = single audit word.
@@ -2908,30 +2936,49 @@ function renderCarePlan(){
    o.req?'required':null,
    o.addedKey?(o.stamp==='unscored'?'physician-added · unscored':'physician-added · demoted'):null,
    o.mod?'modified':null].filter(Boolean).join(' · ');
-  return '<button type="button" class="ap-orow'+(o.rej?' rejected':'')+(st.selected===o.id?' sel':'')+'" data-cp-sel="'+o.id+'">'+
+  return '<button type="button" class="ap-orow'+(o.rej?' rejected':'')+(st.selectedKind==='order'&&st.selected===o.id?' sel':'')+'" data-cp-sel="'+o.id+'">'+
    '<span class="l1"><span class="ap-oname">'+o.name+'</span>'+(o.rej?'<span class="ap-ostat">rejected</span>':'')+'</span>'+
    '<span class="ap-ometa">'+meta+'</span>'+
    (o.detail?'<span class="ap-odetail">'+o.detail+'</span>':'')+
    (o.dx?'<span class="ap-odx">Dx: '+o.dx+'</span>':'')+
   '</button>';
  };
- const probs=v.problems.map((p,i)=>
-  '<div class="ap-prob">'+
-   '<div class="ap-phead"><span class="ap-pnum">'+(i+1)+'.</span><span class="ap-pname">'+p.name+'</span><span class="ap-pdx">'+p.dx+'</span>'+(p.added?'<span class="ap-tag">new problem · physician-added</span>':'')+'</div>'+
+ const probs=v.problems.map((p,i)=>{
+  const meta=[problemStatusLabel(p.status),problemDispositionLabel(p.disposition),p.match,p.edited?'edited':null,p.added?'physician-added':null].filter(Boolean).join(' · ');
+  return '<div class="ap-prob">'+
+   '<button type="button" class="ap-pselect'+(st.selectedKind==='problem'&&st.selected===p.id?' sel':'')+'" data-cp-prob="'+p.id+'">'+
+    '<span class="ap-phead"><span class="ap-pnum">'+(i+1)+'.</span><span class="ap-pname">'+p.name+'</span><span class="ap-pdx">'+p.dx+'</span></span>'+
+    '<span class="ap-pmeta">'+meta+'</span>'+
+   '</button>'+
    '<div class="ap-assess">'+p.assess+'</div>'+
    p.orders.map(orow).join('')+
-  '</div>').join('');
+  '</div>';
+ }).join('');
  const doc=
   '<div class="ap-doc">'+
    '<div class="ap-dhead"><span class="doc-state">Draft</span><span class="ap-title">'+head.title+'</span><span class="ap-meta">'+head.date+'/26 · '+head.author+'</span></div>'+
    '<div class="ap-inputs">Inputs: '+head.trig+'</div>'+
    '<div class="ap-body"><div class="ap-seclabel">Assessment &amp; Plan</div>'+probs+'</div>'+
-   '<div class="ap-docsig">Unsigned · '+releasing+' orders release on signature'+(hasRx?' · e-Rx sign-off stays native and prescriber-only':'')+' · the note locks and becomes the newest journal entry</div>'+
+   '<div class="ap-docsig">Unsigned · on signature: '+signedProblems.length+' problems in signed note · '+adds+' add to active list · '+updates+' update existing · '+noteOnly+' note only · '+releasing+' orders release'+(hasRx?' · e-Rx sign-off stays native and prescriber-only':'')+'</div>'+
   '</div>';
 
  // THE WORKBENCH · basis and disposition beside the document, never inside it.
  let railTop='';
- const sel=all.find(o=>o.id===st.selected);
+ const sel=st.selectedKind==='order'?all.find(o=>o.id===st.selected):null;
+ const psel=st.selectedKind==='problem'?v.problems.find(p=>p.id===st.selected):null;
+ if(psel){
+  const statusButtons=['confirmed','provisional','monitoring'].map(k=>'<button type="button" class="cp-btn" data-cp-pstatus="'+k+'">'+(psel.status===k?'✓ ':'')+problemStatusLabel(k)+'</button>').join('');
+  const dispButtons=[['add','Add to problem list'],['update','Update existing'],['note','Signed note only']].map(x=>'<button type="button" class="cp-btn" data-cp-pdisp="'+x[0]+'">'+(psel.disposition===x[0]?'✓ ':'')+x[1]+'</button>').join('');
+  railTop='<div class="rl-card"><span class="rl-k">Selected problem · disposition</span><div class="rl-name">'+psel.name+'</div>'+
+   '<div class="rl-src"><b>Commitment:</b> '+problemDispositionLabel(psel.disposition)+' on signature.</div>'+
+   '<div class="rl-src"><b>Status:</b> '+problemStatusLabel(psel.status)+'.</div>'+
+   '<div class="rl-src"><b>EMR match:</b> '+(psel.match||'new problem')+'.</div>'+
+   '<div class="rl-body">'+psel.assess+'</div>'+
+   '<div class="rl-k">Diagnostic status</div><div class="rl-actions">'+statusButtons+'</div>'+
+   '<div class="rl-k">Problem-list disposition</div><div class="rl-actions">'+dispButtons+'</div>'+
+   '<div class="rl-actions"><button type="button" class="cp-btn" data-cp-pedit>Edit framing</button><button type="button" class="cp-btn" data-cp-prem="'+psel.id+'">Remove problem + orders</button></div>'+
+   '<div class="rl-dim">Problem changes are staged here. They crystallize only when the note is signed.</div></div>';
+ }
  if(sel){
   const src=sel.req
    ?'Required channel · an obligation from '+(sel.t==='TASK'||sel.t==='REFER'?'the genetics library':'preventive-care rules')+'. Not ranked against opportunities.'
@@ -2958,6 +3005,11 @@ function renderCarePlan(){
    '<div class="rl-actions">'+acts+'</div></div>';
  }
  const off=CP_OFFLIST[PT.id]||{};
+ const poff=CP_PROBLEM_OFFLIST[PT.id]||{};
+ let addProblemUi='';
+ if(st.problemMenuOpen){
+  addProblemUi='<div class="cp-menu">'+Object.keys(poff).map(k=>{const got=(st.addedProblems||[]).indexOf(k)>=0;return '<button type="button" class="cp-mi" data-cp-padd="'+k+'"'+(got?' disabled':'')+'><span>'+poff[k].name+'</span><span class="r">'+(got?'added':poff[k].dx)+'</span></button>';}).join('')+'</div>';
+ }
  let addUi;
  if(st.pendingAdd&&off[st.pendingAdd]){
   // Step 2 of adding: dx association is required · pick the problem, or create it.
@@ -2982,7 +3034,8 @@ function renderCarePlan(){
   addUi='<button type="button" class="cp-add" data-cp-open>+ Order something not listed · physician’s call</button>'+menu;
  }
  const railAct='<div class="rl-card"><span class="rl-k">Act on this draft</span>'+
-  (sel?'':'<div class="rl-dim">Select an order for its basis and disposition.</div>')+
+  ((sel||psel)?'':'<div class="rl-dim">Select a problem or order for its basis and disposition.</div>')+
+  '<button type="button" class="cp-add" data-cp-popen>+ Add problem not listed · physician’s call</button>'+addProblemUi+
   addUi+
   '<div class="rl-actions"><button type="button" class="cp-sign" disabled>Sign &amp; release · not wired</button></div>'+
   '<div class="rl-src"><button type="button" class="jr-x" data-cp-journal>View as the journal entry it will become</button></div></div>';
@@ -2992,6 +3045,18 @@ function renderCarePlan(){
 function refreshDraftViews(){renderCarePlan();renderJournal();}
 document.getElementById('careplan').addEventListener('click',ev=>{
  const st=cpState(PT.id);
+ const prob=ev.target.closest('[data-cp-prob]');
+ if(prob){st.selectedKind='problem';st.selected=st.selected===prob.dataset.cpProb?null:prob.dataset.cpProb;renderCarePlan();return;}
+ const pdisp=ev.target.closest('[data-cp-pdisp]');
+ if(pdisp&&st.selectedKind==='problem'&&st.selected){st.problemDisposition[st.selected]=pdisp.dataset.cpPdisp;refreshDraftViews();return;}
+ const pstatus=ev.target.closest('[data-cp-pstatus]');
+ if(pstatus&&st.selectedKind==='problem'&&st.selected){st.problemStatus[st.selected]=pstatus.dataset.cpPstatus;refreshDraftViews();return;}
+ if(ev.target.closest('[data-cp-pedit]')&&st.selectedKind==='problem'&&st.selected){st.problemEdited[st.selected]=true;refreshDraftViews();return;}
+ const prem=ev.target.closest('[data-cp-prem]');
+ if(prem){st.removedProblems[prem.dataset.cpPrem]=true;st.selected=null;refreshDraftViews();return;}
+ if(ev.target.closest('[data-cp-popen]')){st.problemMenuOpen=!st.problemMenuOpen;renderCarePlan();return;}
+ const padd=ev.target.closest('[data-cp-padd]');
+ if(padd&&!padd.disabled){st.addedProblems.push(padd.dataset.cpPadd);st.problemMenuOpen=false;st.selectedKind='problem';st.selected=(CP_PROBLEM_OFFLIST[PT.id]||{})[padd.dataset.cpPadd].id;refreshDraftViews();return;}
  const rej=ev.target.closest('[data-cp-rej]');
  if(rej){const n=rej.dataset.cpRej;st.rejected[n]=!st.rejected[n];if(st.rejected[n])delete st.modified[n];refreshDraftViews();return;}
  const mod=ev.target.closest('[data-cp-mod]');
@@ -3005,7 +3070,7 @@ document.getElementById('careplan').addEventListener('click',ev=>{
  if(ev.target.closest('[data-cp-cancel]')){st.pendingAdd=null;renderCarePlan();return;}
  if(ev.target.closest('[data-cp-open]')){st.menuOpen=!st.menuOpen;renderCarePlan();return;}
  const selr=ev.target.closest('[data-cp-sel]');
- if(selr){st.selected=st.selected===selr.dataset.cpSel?null:selr.dataset.cpSel;renderCarePlan();return;}
+ if(selr){st.selectedKind='order';st.selected=st.selected===selr.dataset.cpSel?null:selr.dataset.cpSel;renderCarePlan();return;}
  if(ev.target.closest('[data-cp-journal]')){
   jrSel[PT.id]=(JOURNAL[PT.id][0]||{}).id;
   const btn=[...document.querySelectorAll('#section-nav button')].find(b=>b.dataset.section==='journal');
