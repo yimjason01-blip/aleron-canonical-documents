@@ -1508,6 +1508,7 @@ body {
 <script>
 (function () {
   var mode = new URLSearchParams(location.search).get('mode') === 'runtime' ? 'runtime' : 'prototype';
+  window.ALERON_RENDER_MODE = mode;
   document.body.classList.toggle('mode-runtime', mode === 'runtime');
   document.body.classList.toggle('mode-prototype', mode !== 'runtime');
 })();
@@ -2026,7 +2027,7 @@ body {
 /*  STATE                                                            */
 /* ================================================================ */
 var state = {
-  screen: -2,
+  screen: window.ALERON_RENDER_MODE === 'runtime' ? 1 : -2,
   consents: {},          // key -> ISO stamp
   genetics: { pref: null, acks: {}, version: 'V1.0', stamp: null },
   family: {},            // relative -> { conditions, onsets, unknown, sibCount }
@@ -2611,7 +2612,7 @@ function renderBrandIcons() {
 /* ================================================================ */
 renderConsents();
 renderChrome();
-showScreen(-2, 'fwd');
+showScreen(state.screen, 'fwd');
 renderBrandIcons();
 if (document.fonts && document.fonts.ready) {
   document.fonts.ready.then(renderBrandIcons);
