@@ -25,7 +25,9 @@
     "burden_qaly",
     "net_qaly_if_achieved",
     "uncertainty_basis",
-    "overlap_rules"
+    "overlap_rules",
+    "evidence_trace",
+    "evidence_axis"
   ],
   "required_diagnostic_fields": [
     "id",
@@ -37,7 +39,9 @@
     "downstream_decisions_changed",
     "test_burden",
     "evidence_grade",
-    "eligibility"
+    "eligibility",
+    "evidence_trace",
+    "evidence_axis"
   ],
   "bundle_valuations": [
     {
@@ -73,7 +77,7 @@
           "central": 2.6,
           "high": 3.8,
           "basis": "Independence threshold, reserve, energy, physical readiness, and compression of dependent years.",
-          "anchor": "Per-year Δu anchored to within-person exercise/intervention-RCT utility deltas (EQ-5D/SF-6D pre/post), banded and durability-checked against cross-sectional CRF-vs-QoL gradients, measured net of event-driven quality, applied per-lever. Ratified 2026-07-02 (framework §3 C2 anchoring rule, D1).",
+          "anchor": "Per-year \u0394u anchored to within-person exercise/intervention-RCT utility deltas (EQ-5D/SF-6D pre/post), banded and durability-checked against cross-sectional CRF-vs-QoL gradients, measured net of event-driven quality, applied per-lever. Ratified 2026-07-02 (framework \u00a73 C2 anchoring rule, D1).",
           "derivation": "capacity_conditioning(delta_u_anchor, survival_weighted_years, dependency_compression)",
           "trace_status": "method_anchored_values_pending_runner"
         },
@@ -96,10 +100,26 @@
         "method": "fitness_bundle",
         "vo2max_gain": 10,
         "hr_per_met": 0.88,
-        "causal_fraction": {"low": 0.40, "central": 0.55, "high": 0.70},
-        "delta_u_per_year": {"low": 0.02, "central": 0.03, "high": 0.05},
-        "dependency_years_compressed": {"low": 0.5, "central": 1.2, "high": 2.0},
-        "c3_resilience": {"low": 0.05, "central": 0.18, "high": 0.40},
+        "causal_fraction": {
+          "low": 0.4,
+          "central": 0.55,
+          "high": 0.7
+        },
+        "delta_u_per_year": {
+          "low": 0.02,
+          "central": 0.03,
+          "high": 0.05
+        },
+        "dependency_years_compressed": {
+          "low": 0.5,
+          "central": 1.2,
+          "high": 2.0
+        },
+        "c3_resilience": {
+          "low": 0.05,
+          "central": 0.18,
+          "high": 0.4
+        },
         "basis": {
           "vo2max_gain": "lever size: a sustained +10 mL/kg/min VO2max change (the bundle's defined achievable target)",
           "hr_per_met": "[EPI] ~12%/MET all-cause-mortality gradient (Kokkinos, Mandsager)",
@@ -131,6 +151,89 @@
         "mode": "bundle_total_if_triggered",
         "uses_effect_size_for_ranking": false,
         "notes": "The v1 effect sizes remain evidence descriptors. The v2 bundle total is the QALY projection consumed by the cohort engine when physical_inactivity is present."
+      },
+      "evidence_trace": [
+        {
+          "parameter": "channels.c1_prevention",
+          "supports": [
+            "mortality_gradient",
+            "disease_prevention_direction"
+          ],
+          "basis_type": "cohort",
+          "transformation": "Physical activity and CRF mortality associations are imported with the D3 causality haircut and converted to C1 through the value runner.",
+          "limitations": "Observational dose-response evidence supports direction and scale, but residual confounding and exact patient QALY translation remain model-dependent.",
+          "review_status": "reviewed",
+          "citation": {
+            "pmid": "25844730",
+            "doi": "10.1001/jamainternmed.2015.0533",
+            "title": "Leisure time physical activity and mortality"
+          }
+        },
+        {
+          "parameter": "channels.c2_capacity",
+          "supports": [
+            "activity_guideline_function",
+            "delta_u_per_year"
+          ],
+          "basis_type": "guideline",
+          "transformation": "Guideline-backed physical activity dose supports functional capacity and lived-quality channel; D1 performs the utility translation.",
+          "limitations": "Guidelines do not directly supply EQ-5D/SF-6D deltas or patient-specific QALY magnitudes.",
+          "review_status": "reviewed",
+          "citation": {
+            "title": "Physical Activity Guidelines for Americans, 2nd edition",
+            "guideline_url": "https://odphp.health.gov/sites/default/files/2019-09/Physical_Activity_Guidelines_2nd_edition.pdf"
+          }
+        },
+        {
+          "parameter": "channels.c3_resilience",
+          "supports": [
+            "fall_rate_reduction",
+            "functional_reserve"
+          ],
+          "basis_type": "RCT_meta_analysis",
+          "transformation": "Exercise trial evidence for falls and function supports a resilience channel, strongest in older or fall-risk populations.",
+          "limitations": "Resilience effect is age/risk-dependent and not directly measured as lifetime QALY for younger preventive cohorts.",
+          "review_status": "reviewed",
+          "citation": {
+            "pmid": "30703272",
+            "doi": "10.1002/14651858.CD012424.pub2",
+            "title": "Exercise for preventing falls in older people living in the community"
+          }
+        },
+        {
+          "parameter": "burden_qaly",
+          "supports": [
+            "per_year_behavior_burden"
+          ],
+          "basis_type": "internal_method",
+          "transformation": "D4 burden cadence rule treats sustained behavior friction as per-year burden integrated over survival-weighted horizon.",
+          "limitations": "Magnitude still needs specific burden calibration from time/injury/adherence data.",
+          "review_status": "internal_method",
+          "internal_doc": "QALY_METHOD_DECISIONS.md#D4"
+        }
+      ],
+      "evidence_axis": {
+        "score": 0.66,
+        "level": "medium",
+        "display_label": "Medium evidence",
+        "basis_summary": "Guideline and cohort evidence strongly support direction, but C1 and C2 QALY magnitudes require causal haircut and utility translation.",
+        "component_scores": {
+          "study_design": 0.22,
+          "endpoint_directness": 0.12,
+          "population_match": 0.12,
+          "intervention_match": 0.1,
+          "magnitude_precision": 0.05,
+          "harm_characterization": 0.05
+        },
+        "caps_applied": [
+          "model_translated_value_cap"
+        ],
+        "primary_trace_parameters": [
+          "channels.c1_prevention",
+          "channels.c2_capacity",
+          "channels.c3_resilience",
+          "burden_qaly"
+        ]
       }
     }
   ],
@@ -158,8 +261,11 @@
             "fatal_value_rle_x_u": 13.1,
             "nonfatal_decrement_x_duration": 1.73,
             "blended_per_event_qaly": 3.44,
-            "band": [2.27, 5.21],
-            "basis": "Derivation object per D2 — replaces the disputed bare scalar. Length/mortality term computed as a survival-curve shift; non-fatal term event-based. See QALY_WORKED_TRACE.md S4 and QALY_METHOD_DECISIONS.md D2."
+            "band": [
+              2.27,
+              5.21
+            ],
+            "basis": "Derivation object per D2 \u2014 replaces the disputed bare scalar. Length/mortality term computed as a survival-curve shift; non-fatal term event-based. See QALY_WORKED_TRACE.md S4 and QALY_METHOD_DECISIONS.md D2."
           },
           "legacy_scalar_disputed": {
             "low": 0.6,
@@ -190,11 +296,27 @@
         "method": "c1_curve_shift",
         "risk_domain": "cvd",
         "reference_risk_30yr": 0.16,
-        "cvd_mortality_share_base": 0.30,
-        "mortality_rrr": {"low": 0.10, "central": 0.152, "high": 0.19},
-        "relative_risk_reduction_events": {"low": 0.26, "central": 0.27, "high": 0.29},
-        "fatal_fraction": {"low": 0.10, "central": 0.15, "high": 0.25},
-        "nonfatal_decrement": {"low": 0.06, "central": 0.10, "high": 0.15},
+        "cvd_mortality_share_base": 0.3,
+        "mortality_rrr": {
+          "low": 0.1,
+          "central": 0.152,
+          "high": 0.19
+        },
+        "relative_risk_reduction_events": {
+          "low": 0.26,
+          "central": 0.27,
+          "high": 0.29
+        },
+        "fatal_fraction": {
+          "low": 0.1,
+          "central": 0.15,
+          "high": 0.25
+        },
+        "nonfatal_decrement": {
+          "low": 0.06,
+          "central": 0.1,
+          "high": 0.15
+        },
         "event_age": 68,
         "acute_dip": 0.05,
         "basis": {
@@ -221,6 +343,55 @@
           "central": 0.8,
           "high": 1.1
         }
+      },
+      "evidence_trace": [
+        {
+          "parameter": "channels.c1_prevention",
+          "supports": [
+            "major_vascular_event_rrr",
+            "mortality_curve_shift"
+          ],
+          "basis_type": "RCT_meta_analysis",
+          "transformation": "CTT relative effects are imported; Aleron recomputes patient-specific C1 using baseline risk, survival curve, fatal/nonfatal split, and D2 curve-shift.",
+          "limitations": "Trial populations/effects are population-level; patient QALY depends on accurate baseline risk and sustained therapy.",
+          "review_status": "reviewed",
+          "citation": {
+            "pmid": "21067804",
+            "doi": "10.1016/S0140-6736(10)61350-5",
+            "title": "Efficacy and safety of more intensive lowering of LDL cholesterol: a meta-analysis of data from 170,000 participants in 26 randomised trials",
+            "url": "https://pubmed.ncbi.nlm.nih.gov/21067804/"
+          }
+        },
+        {
+          "parameter": "burden_qaly",
+          "supports": [
+            "per_year_daily_medication_burden"
+          ],
+          "basis_type": "internal_method",
+          "transformation": "D4 cadence treats daily therapy burden as per-year and integrates over sustained horizon.",
+          "limitations": "Per-year statin burden magnitude remains a provisional patient-lived-cost estimate.",
+          "review_status": "internal_method",
+          "internal_doc": "QALY_METHOD_DECISIONS.md#D4"
+        }
+      ],
+      "evidence_axis": {
+        "score": 0.82,
+        "level": "high",
+        "display_label": "High evidence",
+        "basis_summary": "RCT meta-analysis support for lipid lowering with patient-risk scaling; burden and exact patient QALY remain model-translated but direction is strong when indicated.",
+        "component_scores": {
+          "study_design": 0.3,
+          "endpoint_directness": 0.18,
+          "population_match": 0.12,
+          "intervention_match": 0.12,
+          "magnitude_precision": 0.06,
+          "harm_characterization": 0.04
+        },
+        "caps_applied": [],
+        "primary_trace_parameters": [
+          "channels.c1_prevention",
+          "burden_qaly"
+        ]
       }
     },
     {
@@ -269,7 +440,95 @@
         "Do not score unless deficiency is confirmed.",
         "Do not double count the same vitality lift inside a broad exercise bundle.",
         "If thyroid dysfunction is also confirmed, allocate shared fatigue benefit explicitly."
-      ]
+      ],
+      "evidence_trace": [
+        {
+          "parameter": "burden_qaly",
+          "supports": [
+            "oral_iron_burden",
+            "iv_iron_if_intolerant",
+            "monitoring"
+          ],
+          "basis_type": "guideline",
+          "transformation": "Iron repletion burden is bounded by oral dosing, GI intolerance, monitoring, and IV iron only when indicated or oral therapy fails.",
+          "limitations": "Guidelines define management and safety burden but not a utility decrement.",
+          "review_status": "reviewed",
+          "citation": {
+            "pmid": "38864796",
+            "doi": "10.1016/j.cgh.2024.03.046",
+            "title": "AGA Clinical Practice Update on Management of Iron Deficiency Anemia"
+          }
+        },
+        {
+          "parameter": "channels.c1_prevention",
+          "supports": [
+            "anemia_progression_prevention",
+            "deficiency_complication_prevention"
+          ],
+          "basis_type": "guideline",
+          "transformation": "Confirmed iron deficiency or iron deficiency anemia is treated to avoid ongoing deficiency, anemia progression, and downstream morbidity.",
+          "limitations": "C1 QALY magnitude is model-calibrated; strongest when anemia, bleeding source, pregnancy, or comorbidity increases consequence.",
+          "review_status": "needs_source_upgrade",
+          "citation": {
+            "pmid": "34497146",
+            "doi": "10.1136/gutjnl-2021-325210",
+            "title": "British Society of Gastroenterology guidelines for management of iron deficiency anaemia"
+          }
+        },
+        {
+          "parameter": "channels.c2_capacity",
+          "supports": [
+            "fatigue_reduction",
+            "subjective_capacity"
+          ],
+          "basis_type": "RCT_meta_analysis",
+          "transformation": "RCT and meta-analysis evidence shows reduced subjective fatigue in iron-deficient adults; Aleron translates fatigue improvement to C2 capacity.",
+          "limitations": "Heterogeneous populations; objective physical capacity and direct utility/QALY evidence are limited.",
+          "review_status": "reviewed",
+          "citation": {
+            "pmid": "29626044",
+            "doi": "10.1136/bmjopen-2017-019240",
+            "title": "Efficacy of iron supplementation on fatigue and physical capacity in non-anaemic iron-deficient adults"
+          }
+        },
+        {
+          "parameter": "channels.c3_resilience",
+          "supports": [
+            "physiologic_reserve_with_deficiency_corrected"
+          ],
+          "basis_type": "guideline",
+          "transformation": "Correction of confirmed deficiency plausibly improves reserve under illness or training load by restoring iron availability.",
+          "limitations": "Resilience endpoint is not directly trial-quantified and should remain secondary.",
+          "review_status": "needs_source_upgrade",
+          "citation": {
+            "pmid": "34497146",
+            "doi": "10.1136/gutjnl-2021-325210",
+            "title": "British Society of Gastroenterology guidelines for management of iron deficiency anaemia"
+          }
+        }
+      ],
+      "evidence_axis": {
+        "score": 0.58,
+        "level": "medium",
+        "display_label": "Medium evidence",
+        "basis_summary": "Confirmed deficiency treatment is guideline-supported and fatigue benefit is trial/meta-analysis supported, but C1/C3 value is indirect.",
+        "component_scores": {
+          "study_design": 0.2,
+          "endpoint_directness": 0.11,
+          "population_match": 0.1,
+          "intervention_match": 0.12,
+          "magnitude_precision": 0.03,
+          "harm_characterization": 0.02
+        },
+        "caps_applied": [
+          "needs_source_upgrade_primary_cap"
+        ],
+        "primary_trace_parameters": [
+          "channels.c2_capacity",
+          "burden_qaly",
+          "channels.c1_prevention"
+        ]
+      }
     },
     {
       "id": "thyroid_treatment_confirmed_dysfunction",
@@ -317,7 +576,92 @@
         "Do not score from a single borderline TSH alone.",
         "Do not double count shared fatigue benefit with iron repletion or sleep treatment.",
         "Keep overtreatment harm visible in burden."
-      ]
+      ],
+      "evidence_trace": [
+        {
+          "parameter": "burden_qaly",
+          "supports": [
+            "repeat_labs",
+            "dose_titration",
+            "over_replacement_risk"
+          ],
+          "basis_type": "guideline",
+          "transformation": "Thyroid treatment burden comes from TSH/free T4 monitoring, dose titration, and avoiding over-replacement.",
+          "limitations": "Guidelines specify monitoring but not QALY burden magnitude.",
+          "review_status": "reviewed",
+          "citation": {
+            "pmid": "25266247",
+            "doi": "10.1089/thy.2014.0028",
+            "title": "Guidelines for the treatment of hypothyroidism"
+          }
+        },
+        {
+          "parameter": "channels.c1_prevention",
+          "supports": [
+            "morbidity_from_overt_dysfunction"
+          ],
+          "basis_type": "guideline",
+          "transformation": "Treatment of confirmed clinically significant hypothyroidism is standard care to avoid morbidity from untreated dysfunction.",
+          "limitations": "C1 magnitude depends on overt vs subclinical disease; subclinical fatigue-only treatment should not inherit overt-disease benefit.",
+          "review_status": "reviewed",
+          "citation": {
+            "pmid": "25266247",
+            "doi": "10.1089/thy.2014.0028",
+            "title": "Guidelines for the treatment of hypothyroidism"
+          }
+        },
+        {
+          "parameter": "channels.c2_capacity",
+          "supports": [
+            "symptom_capacity_overt_dysfunction",
+            "subclinical_guardrail"
+          ],
+          "basis_type": "guideline",
+          "transformation": "Overt hypothyroidism treatment supports symptom and capacity recovery; TRUST and meta-analysis evidence constrain benefit for most subclinical hypothyroidism.",
+          "limitations": "Must be stratified by overt disease, TSH level, age, pregnancy status, and symptom attribution.",
+          "review_status": "reviewed",
+          "citation": {
+            "pmid": "30285179",
+            "doi": "10.1001/jama.2018.13770",
+            "title": "Association of thyroid hormone therapy with quality of life and thyroid-related symptoms"
+          }
+        },
+        {
+          "parameter": "channels.c3_resilience",
+          "supports": [
+            "physiologic_stability"
+          ],
+          "basis_type": "guideline",
+          "transformation": "Correcting clinically significant thyroid dysfunction supports physiologic stability as a secondary channel.",
+          "limitations": "Direct C3 lifetime QALY magnitude is not trial-derived.",
+          "review_status": "needs_source_upgrade",
+          "citation": {
+            "pmid": "23246686",
+            "doi": "10.4158/EP12280.GL",
+            "title": "Clinical practice guidelines for hypothyroidism in adults"
+          }
+        }
+      ],
+      "evidence_axis": {
+        "score": 0.7,
+        "level": "high",
+        "display_label": "High evidence",
+        "basis_summary": "Overt clinically significant dysfunction has guideline-backed treatment; subclinical fatigue-only benefit is constrained by negative RCT/meta-analysis evidence.",
+        "component_scores": {
+          "study_design": 0.24,
+          "endpoint_directness": 0.14,
+          "population_match": 0.12,
+          "intervention_match": 0.13,
+          "magnitude_precision": 0.03,
+          "harm_characterization": 0.04
+        },
+        "caps_applied": [],
+        "primary_trace_parameters": [
+          "channels.c1_prevention",
+          "channels.c2_capacity",
+          "burden_qaly"
+        ]
+      }
     },
     {
       "id": "vitamin_d_repletion_confirmed_deficiency",
@@ -365,7 +709,95 @@
         "Do not score as a general longevity intervention.",
         "Do not double count bone value if pharmacologic osteoporosis treatment is separately scored.",
         "Keep the expected value small unless deficiency or bone vulnerability is confirmed."
-      ]
+      ],
+      "evidence_trace": [
+        {
+          "parameter": "burden_qaly",
+          "supports": [
+            "supplement_burden",
+            "repeat_testing",
+            "toxicity_guardrail"
+          ],
+          "basis_type": "guideline",
+          "transformation": "Confirmed deficiency treatment burden is low but includes supplementation, repeat testing when indicated, and avoidance of overtreatment.",
+          "limitations": "Screening and threshold guidance has changed; do not use this as support for broad routine testing.",
+          "review_status": "reviewed",
+          "citation": {
+            "pmid": "38828931",
+            "doi": "10.1210/clinem/dgae290",
+            "title": "Vitamin D for the prevention of disease: Endocrine Society guideline"
+          }
+        },
+        {
+          "parameter": "channels.c1_prevention",
+          "supports": [
+            "bone_health_targeted_deficiency",
+            "fracture_guardrail"
+          ],
+          "basis_type": "guideline",
+          "transformation": "Use C1 only for confirmed deficiency or bone-risk contexts; broad supplementation in generally healthy adults has not reduced fractures in VITAL.",
+          "limitations": "Does not justify broad fracture-prevention credit in unselected adults; magnitude requires patient bone-risk modeling.",
+          "review_status": "needs_source_upgrade",
+          "citation": {
+            "pmid": "35939577",
+            "doi": "10.1056/NEJMoa2202106",
+            "title": "Supplemental vitamin D and incident fractures in midlife and older adults"
+          }
+        },
+        {
+          "parameter": "channels.c2_capacity",
+          "supports": [
+            "fatigue_if_deficient_symptomatic"
+          ],
+          "basis_type": "RCT",
+          "transformation": "Vitamin D3 improved self-perceived fatigue in a small RCT of vitamin-D-deficient fatigued adults.",
+          "limitations": "Short-term subjective fatigue endpoint, not direct QALY; applicability depends on symptomatic confirmed deficiency.",
+          "review_status": "reviewed",
+          "citation": {
+            "pmid": "28033244",
+            "doi": "10.1097/MD.0000000000005353",
+            "title": "Effect of vitamin D3 on self-perceived fatigue"
+          }
+        },
+        {
+          "parameter": "channels.c3_resilience",
+          "supports": [
+            "bone_muscle_reserve_targeted_deficiency"
+          ],
+          "basis_type": "guideline",
+          "transformation": "Confirmed deficiency management can support bone and muscle reserve in targeted risk contexts.",
+          "limitations": "Resilience magnitude is not directly endpoint-matched; broad population screening remains unsupported.",
+          "review_status": "needs_source_upgrade",
+          "citation": {
+            "pmid": "38828931",
+            "doi": "10.1210/clinem/dgae290",
+            "title": "Vitamin D for the prevention of disease: Endocrine Society guideline"
+          }
+        }
+      ],
+      "evidence_axis": {
+        "score": 0.38,
+        "level": "low",
+        "display_label": "Low evidence",
+        "basis_summary": "Confirmed deficiency treatment is supported, but broad prevention/fracture and capacity value are limited and context-dependent.",
+        "component_scores": {
+          "study_design": 0.14,
+          "endpoint_directness": 0.06,
+          "population_match": 0.06,
+          "intervention_match": 0.07,
+          "magnitude_precision": 0.02,
+          "harm_characterization": 0.03
+        },
+        "caps_applied": [
+          "broad_screening_insufficient_cap",
+          "needs_source_upgrade_primary_cap"
+        ],
+        "primary_trace_parameters": [
+          "channels.c2_capacity",
+          "channels.c1_prevention",
+          "burden_qaly"
+        ]
+      }
     },
     {
       "id": "glp1_gip_metabolic_therapy",
@@ -414,7 +846,99 @@
         "Do not double count weight-mediated VO2max improvement already credited to physical activity.",
         "Pair with resistance training or nutrition guardrails when lean-mass loss would reduce capacity value.",
         "Keep adherence and medication access as feasibility axes, not intrinsic QALY haircuts."
-      ]
+      ],
+      "evidence_trace": [
+        {
+          "parameter": "channels.c1_prevention",
+          "supports": [
+            "mace_reduction_established_cvd",
+            "diabetes_prevention_metabolic_risk"
+          ],
+          "basis_type": "RCT",
+          "transformation": "SELECT supports cardiovascular event reduction for semaglutide in overweight/obesity with established CVD; SURMOUNT-1 supports large weight-loss/metabolic effect for tirzepatide.",
+          "limitations": "SELECT is secondary prevention with established CVD; primary-prevention C1 must be model-derived and eligibility-gated.",
+          "review_status": "reviewed",
+          "citation": {
+            "pmid": "37952131",
+            "doi": "10.1056/NEJMoa2307563",
+            "title": "Semaglutide and cardiovascular outcomes in obesity without diabetes"
+          }
+        },
+        {
+          "parameter": "channels.c2_capacity",
+          "supports": [
+            "weight_loss",
+            "body_ease",
+            "mobility_metabolic_capacity"
+          ],
+          "basis_type": "RCT",
+          "transformation": "STEP-1 and SURMOUNT-1 provide randomized evidence for large weight loss, supporting capacity and mobility translation when lean mass is protected.",
+          "limitations": "Weight change is a surrogate for C2 utility; durability depends on continued therapy, access, side effects, and resistance training/nutrition.",
+          "review_status": "reviewed",
+          "citation": {
+            "pmid": "35658024",
+            "doi": "10.1056/NEJMoa2206038",
+            "title": "Tirzepatide once weekly for the treatment of obesity"
+          }
+        },
+        {
+          "parameter": "channels.c3_resilience",
+          "supports": [
+            "cardiometabolic_reserve",
+            "mace_reduction_eligible_group"
+          ],
+          "basis_type": "RCT",
+          "transformation": "SELECT supports event reduction and cardiometabolic risk improvement in eligible established-CVD obesity patients, used as resilience support where applicable.",
+          "limitations": "General primary prevention resilience remains extrapolated.",
+          "review_status": "reviewed",
+          "citation": {
+            "pmid": "37952131",
+            "doi": "10.1056/NEJMoa2307563",
+            "title": "Semaglutide and cardiovascular outcomes in obesity without diabetes"
+          }
+        },
+        {
+          "parameter": "burden_qaly",
+          "supports": [
+            "weekly_injection",
+            "gi_adverse_events",
+            "discontinuation",
+            "cost_access"
+          ],
+          "basis_type": "RCT",
+          "transformation": "Semaglutide and tirzepatide RCTs document injection cadence, dose escalation, GI adverse events, and discontinuation that bound patient burden.",
+          "limitations": "Trial burden does not fully capture real-world cost/access friction or long-term regain risk after stopping.",
+          "review_status": "reviewed",
+          "citation": {
+            "pmid": "33567185",
+            "doi": "10.1056/NEJMoa2032183",
+            "title": "Once-weekly semaglutide in adults with overweight or obesity"
+          }
+        }
+      ],
+      "evidence_axis": {
+        "score": 0.64,
+        "level": "medium",
+        "display_label": "Medium evidence",
+        "basis_summary": "Weight-loss efficacy is RCT-backed; cardiovascular outcome value is high only in close-match established-CVD populations and model-translated in primary prevention.",
+        "component_scores": {
+          "study_design": 0.26,
+          "endpoint_directness": 0.13,
+          "population_match": 0.08,
+          "intervention_match": 0.12,
+          "magnitude_precision": 0.03,
+          "harm_characterization": 0.02
+        },
+        "caps_applied": [
+          "population_mismatch_cap",
+          "model_translated_value_cap"
+        ],
+        "primary_trace_parameters": [
+          "channels.c1_prevention",
+          "channels.c2_capacity",
+          "burden_qaly"
+        ]
+      }
     },
     {
       "id": "bp_pharmacotherapy_stage2_primary",
@@ -462,7 +986,90 @@
         "Do not score from one isolated BP reading.",
         "If sleep apnea treatment materially lowers BP, reconcile shared BP-mediated prevention value.",
         "Do not let BP treatment replace upstream sleep or weight drivers when those are active."
-      ]
+      ],
+      "evidence_trace": [
+        {
+          "parameter": "channels.c1_prevention",
+          "supports": [
+            "cv_events_mortality_bp_lowering"
+          ],
+          "basis_type": "RCT",
+          "transformation": "SPRINT provides RCT evidence that intensive BP treatment reduces major cardiovascular events and mortality in eligible high-risk nondiabetic adults.",
+          "limitations": "Excludes diabetes and stroke; routine-office BP measurement differs from SPRINT protocol; patient-specific absolute benefit depends on baseline risk.",
+          "review_status": "reviewed",
+          "citation": {
+            "pmid": "26551272",
+            "doi": "10.1056/NEJMoa1511939",
+            "title": "A randomized trial of intensive versus standard blood-pressure control"
+          }
+        },
+        {
+          "parameter": "channels.c2_capacity",
+          "supports": [
+            "symptom_safety_training_clearance"
+          ],
+          "basis_type": "guideline",
+          "transformation": "Confirmed hypertension treatment can improve safety for activity clearance and reduce symptom/sequelae burden.",
+          "limitations": "C2 lived-quality benefit is small and not the primary endpoint in BP trials.",
+          "review_status": "needs_source_upgrade",
+          "citation": {
+            "pmid": "33904861",
+            "title": "USPSTF hypertension in adults: screening",
+            "guideline_url": "https://www.uspreventiveservicestaskforce.org/uspstf/recommendation/hypertension-in-adults-screening"
+          }
+        },
+        {
+          "parameter": "channels.c3_resilience",
+          "supports": [
+            "reduced_acute_cv_vulnerability"
+          ],
+          "basis_type": "RCT",
+          "transformation": "SPRINT event and mortality reductions support lower physiologic vulnerability under cardiovascular stress in eligible patients.",
+          "limitations": "C3 is an interpretation of event reduction/reserve, not a separately measured utility endpoint.",
+          "review_status": "reviewed",
+          "citation": {
+            "pmid": "34010531",
+            "doi": "10.1056/NEJMoa1901281",
+            "title": "Final report of a trial of intensive versus standard blood-pressure control"
+          }
+        },
+        {
+          "parameter": "burden_qaly",
+          "supports": [
+            "hypotension_syncope_electrolytes_aki",
+            "labs_titration"
+          ],
+          "basis_type": "RCT",
+          "transformation": "SPRINT reports treatment-related adverse events and monitoring burden, including hypotension, syncope, electrolyte abnormalities, and AKI.",
+          "limitations": "Burden varies by drug class, frailty, BP target, and monitoring context.",
+          "review_status": "reviewed",
+          "citation": {
+            "pmid": "26551272",
+            "doi": "10.1056/NEJMoa1511939",
+            "title": "A randomized trial of intensive versus standard blood-pressure control"
+          }
+        }
+      ],
+      "evidence_axis": {
+        "score": 0.8,
+        "level": "high",
+        "display_label": "High evidence",
+        "basis_summary": "BP treatment benefit and harms are RCT/guideline supported for confirmed hypertension, with patient-specific absolute benefit determined by baseline risk and tolerance.",
+        "component_scores": {
+          "study_design": 0.29,
+          "endpoint_directness": 0.18,
+          "population_match": 0.13,
+          "intervention_match": 0.13,
+          "magnitude_precision": 0.04,
+          "harm_characterization": 0.03
+        },
+        "caps_applied": [],
+        "primary_trace_parameters": [
+          "channels.c1_prevention",
+          "channels.c3_resilience",
+          "burden_qaly"
+        ]
+      }
     },
     {
       "id": "supervised_resistance_training",
@@ -513,7 +1120,88 @@
         "If the broad physical_activity bundle is active, allocate shared capacity value rather than summing both totals.",
         "When paired with GLP-1/GIP therapy, credit lean-mass preservation once.",
         "Do not substitute generic activity minutes for progressive resistance work."
-      ]
+      ],
+      "evidence_trace": [
+        {
+          "parameter": "channels.c1_prevention",
+          "supports": [
+            "muscle_strengthening_mortality_metabolic_association"
+          ],
+          "basis_type": "meta_analysis",
+          "transformation": "Muscle-strengthening cohort meta-analysis supports modest prevention association for mortality, CVD, cancer, and diabetes.",
+          "limitations": "Mostly observational; supervised resistance training RCTs are stronger for function than hard outcomes.",
+          "review_status": "reviewed",
+          "citation": {
+            "pmid": "35228201",
+            "doi": "10.1136/bjsports-2021-105061",
+            "title": "Muscle-strengthening activities and risk of mortality"
+          }
+        },
+        {
+          "parameter": "channels.c2_capacity",
+          "supports": [
+            "strength_function_supervision_uplift"
+          ],
+          "basis_type": "RCT_meta_analysis",
+          "transformation": "Resistance-training RCT meta-analyses support improved strength, lean mass, balance, and function; supervision improves functional outcomes in older adults.",
+          "limitations": "Functional endpoints require utility translation and vary by baseline age, frailty, and program quality.",
+          "review_status": "reviewed",
+          "citation": {
+            "pmid": "28573401",
+            "doi": "10.1007/s40279-017-0747-6",
+            "title": "Supervised versus unsupervised training programs for older adults"
+          }
+        },
+        {
+          "parameter": "channels.c3_resilience",
+          "supports": [
+            "falls_functional_reserve"
+          ],
+          "basis_type": "RCT_meta_analysis",
+          "transformation": "Exercise and supervised balance/resistance programs reduce fall risk and improve reserve-relevant function, especially in older adults.",
+          "limitations": "Younger-patient resilience effect remains extrapolated from older/fall-risk data.",
+          "review_status": "reviewed",
+          "citation": {
+            "pmid": "30703272",
+            "doi": "10.1002/14651858.CD012424.pub2",
+            "title": "Exercise for preventing falls in older people living in the community"
+          }
+        },
+        {
+          "parameter": "burden_qaly",
+          "supports": [
+            "time_soreness_injury_coaching_friction"
+          ],
+          "basis_type": "internal_method",
+          "transformation": "D4 treats supervised training friction as sustained per-year burden, including time, soreness, injury risk, and coaching burden.",
+          "limitations": "No parameter-specific utility decrement source attached yet.",
+          "review_status": "needs_source_upgrade",
+          "internal_doc": "QALY_METHOD_DECISIONS.md#D4"
+        }
+      ],
+      "evidence_axis": {
+        "score": 0.57,
+        "level": "medium",
+        "display_label": "Medium evidence",
+        "basis_summary": "Resistance training has strong function evidence and supportive observational prevention evidence, but hard-outcome QALY magnitude is translated.",
+        "component_scores": {
+          "study_design": 0.2,
+          "endpoint_directness": 0.1,
+          "population_match": 0.09,
+          "intervention_match": 0.1,
+          "magnitude_precision": 0.03,
+          "harm_characterization": 0.05
+        },
+        "caps_applied": [
+          "model_translated_value_cap"
+        ],
+        "primary_trace_parameters": [
+          "channels.c2_capacity",
+          "channels.c3_resilience",
+          "channels.c1_prevention",
+          "burden_qaly"
+        ]
+      }
     },
     {
       "id": "colorectal_screening_gap_closure",
@@ -562,7 +1250,73 @@
         "Required care gap status is independent of optional action ranking.",
         "Do not compare as an optional wellness intervention when the patient is out of routine screening compliance.",
         "Avoid double counting with separate colonoscopy-polypectomy benefit if modeled later."
-      ]
+      ],
+      "evidence_trace": [
+        {
+          "parameter": "channels.c1_prevention",
+          "supports": [
+            "crc_mortality_prevention",
+            "screening_gap_closure"
+          ],
+          "basis_type": "guideline",
+          "transformation": "USPSTF recommends colorectal screening for eligible adults and identifies net benefit by age band and modality.",
+          "limitations": "Average-risk guidance; QALY magnitude depends on age, modality, screening history, and follow-up colonoscopy completion.",
+          "review_status": "reviewed",
+          "citation": {
+            "pmid": "34003218",
+            "title": "USPSTF colorectal cancer screening recommendation",
+            "guideline_url": "https://www.uspreventiveservicestaskforce.org/uspstf/recommendation/colorectal-cancer-screening"
+          }
+        },
+        {
+          "parameter": "channels.c3_resilience",
+          "supports": [
+            "earlier_detection_lower_treatment_burden"
+          ],
+          "basis_type": "model_output",
+          "transformation": "USPSTF decision modeling estimates life-years gained and complications across screening strategies, supporting earlier-detection survivorship value.",
+          "limitations": "Model reports life-years and procedures more directly than patient QALY.",
+          "review_status": "reviewed",
+          "citation": {
+            "pmid": "34003219",
+            "title": "USPSTF colorectal cancer screening decision modeling"
+          }
+        },
+        {
+          "parameter": "burden_qaly",
+          "supports": [
+            "prep_procedure_false_positives_complications"
+          ],
+          "basis_type": "model_output",
+          "transformation": "USPSTF modeling and recommendation statements bound burden by test modality, colonoscopy load, false positives, and complications.",
+          "limitations": "Burden differs substantially between FIT, sDNA-FIT, colonoscopy, CT colonography, and follow-up cascades.",
+          "review_status": "reviewed",
+          "citation": {
+            "pmid": "34003219",
+            "title": "USPSTF colorectal cancer screening decision modeling"
+          }
+        }
+      ],
+      "evidence_axis": {
+        "score": 0.9,
+        "level": "high",
+        "display_label": "High evidence",
+        "basis_summary": "Guideline-backed screening with decision-model support for eligible adults; harms and modality burden are well characterized.",
+        "component_scores": {
+          "study_design": 0.3,
+          "endpoint_directness": 0.2,
+          "population_match": 0.16,
+          "intervention_match": 0.15,
+          "magnitude_precision": 0.05,
+          "harm_characterization": 0.04
+        },
+        "caps_applied": [],
+        "primary_trace_parameters": [
+          "channels.c1_prevention",
+          "channels.c3_resilience",
+          "burden_qaly"
+        ]
+      }
     },
     {
       "id": "atm_pathogenic_variant_management",
@@ -610,7 +1364,89 @@
         "Surface as required genetics guidance when triggered, even if QALY remains uncertain.",
         "Do not collapse all ATM-associated screening into one undifferentiated intervention once guideline modules exist.",
         "Do not double count with organ-specific screening actions added later."
-      ]
+      ],
+      "evidence_trace": [
+        {
+          "parameter": "burden_qaly",
+          "supports": [
+            "genetic_counseling_anxiety_surveillance_cascade"
+          ],
+          "basis_type": "guideline",
+          "transformation": "NCCN/GeneReviews management implies counseling, cascade testing, surveillance cadence, and anxiety burden.",
+          "limitations": "Professional NCCN details are context-dependent and may require login; burden magnitude is not a direct utility estimate.",
+          "review_status": "reviewed",
+          "citation": {
+            "title": "NCCN Genetic/Familial High-Risk Assessment: Breast, Ovarian, Pancreatic, and Prostate",
+            "guideline_url": "https://www.nccn.org/guidelines/guidelines-detail?category=2&id=1545"
+          }
+        },
+        {
+          "parameter": "channels.c1_prevention",
+          "supports": [
+            "risk_appropriate_surveillance",
+            "atm_cancer_risk"
+          ],
+          "basis_type": "guideline",
+          "transformation": "ATM pathogenic variants alter breast, pancreatic, and prostate risk management, enabling risk-appropriate surveillance and counseling.",
+          "limitations": "Cancer-risk and management depend on sex, age, variant, and family history; QALY magnitude requires separate modeling.",
+          "review_status": "reviewed",
+          "citation": {
+            "title": "NCCN Genetic/Familial High-Risk Assessment: Breast, Ovarian, Pancreatic, and Prostate",
+            "guideline_url": "https://www.nccn.org/guidelines/guidelines-detail?category=2&id=1545"
+          }
+        },
+        {
+          "parameter": "channels.c2_capacity",
+          "supports": [
+            "risk_clarity_counseling"
+          ],
+          "basis_type": "guideline",
+          "transformation": "Genetic counseling can reduce uncertainty and align preventive planning, supporting a small C2 channel.",
+          "limitations": "Risk-clarity value is preference-sensitive and can be negative if anxiety dominates.",
+          "review_status": "needs_source_upgrade",
+          "citation": {
+            "title": "GeneReviews: ATM-related cancer predisposition",
+            "url": "https://www.ncbi.nlm.nih.gov/books/NBK623002/"
+          }
+        },
+        {
+          "parameter": "channels.c3_resilience",
+          "supports": [
+            "earlier_detection_treatment_burden_reduction"
+          ],
+          "basis_type": "cohort",
+          "transformation": "ATM penetrance evidence supports materially altered cancer-risk category, making earlier detection/planning a resilience pathway.",
+          "limitations": "Penetrance is ascertainment-, variant-, and family-history-dependent; QALY remains model-derived.",
+          "review_status": "reviewed",
+          "citation": {
+            "pmid": "34529012",
+            "doi": "10.1001/jamaoncol.2021.3701",
+            "title": "Risk of pancreatic cancer among individuals with pathogenic variants in ATM"
+          }
+        }
+      ],
+      "evidence_axis": {
+        "score": 0.62,
+        "level": "medium",
+        "display_label": "Medium evidence",
+        "basis_summary": "Guideline-backed genetics management and penetrance evidence support risk routing, but QALY magnitude depends on variant, sex, family history, and modeled surveillance value.",
+        "component_scores": {
+          "study_design": 0.2,
+          "endpoint_directness": 0.1,
+          "population_match": 0.09,
+          "intervention_match": 0.1,
+          "magnitude_precision": 0.03,
+          "harm_characterization": 0.1
+        },
+        "caps_applied": [
+          "model_translated_value_cap"
+        ],
+        "primary_trace_parameters": [
+          "channels.c1_prevention",
+          "channels.c3_resilience",
+          "burden_qaly"
+        ]
+      }
     }
   ],
   "diagnostic_valuations": [
@@ -664,7 +1500,116 @@
           "patient_unwilling_to_act_on_result"
         ]
       },
-      "display_rule": "Show odds of meaningful reclassification and QALY if reclassified before expected VOI."
+      "display_rule": "Show odds of meaningful reclassification and QALY if reclassified before expected VOI.",
+      "evidence_trace": [
+        {
+          "parameter": "reclassification_probability",
+          "supports": [
+            "cac_zero_defer",
+            "cac_1_99_favors_statin",
+            "cac_100_indicates_statin"
+          ],
+          "basis_type": "guideline",
+          "transformation": "ACC/AHA CAC thresholds define when CAC changes statin decision in uncertain primary-prevention adults.",
+          "limitations": "Applies mainly adults 40-75 with LDL 70-189 and uncertain statin decision; probability remains patient-risk dependent.",
+          "review_status": "reviewed",
+          "citation": {
+            "pmid": "30586774",
+            "doi": "10.1161/CIR.0000000000000625",
+            "title": "2018 ACC/AHA cholesterol guideline"
+          }
+        },
+        {
+          "parameter": "qaly_if_reclassified",
+          "supports": [
+            "statin_pathway_qaly",
+            "risk_reclassification_path"
+          ],
+          "basis_type": "model_output",
+          "transformation": "QALY-if-reclassified is the downstream statin/prevention pathway value once CAC changes treatment intensity.",
+          "limitations": "Numeric QALY is model-derived from the Aleron statin pathway, not directly reported by CAC cohort studies.",
+          "review_status": "needs_source_upgrade",
+          "citation": {
+            "pmid": "30586774",
+            "doi": "10.1161/CIR.0000000000000625",
+            "title": "2018 ACC/AHA cholesterol guideline"
+          }
+        },
+        {
+          "parameter": "test_burden",
+          "supports": [
+            "radiation_dose",
+            "incidental_findings_anxiety"
+          ],
+          "basis_type": "cohort",
+          "transformation": "Modern CAC burden is bounded by low-dose noncontrast CT radiation, often around 1 mSv, plus incidental/cascade burden.",
+          "limitations": "Radiation dose varies by scanner/protocol/body size; QALY burden is not directly measured.",
+          "review_status": "reviewed",
+          "citation": {
+            "pmid": "26515964",
+            "doi": "10.1007/s10554-015-0799-3",
+            "title": "Radiation dose from coronary artery calcium scanning in MESA"
+          }
+        },
+        {
+          "parameter": "evidence_grade",
+          "supports": [
+            "cholesterol_guideline_reclassification"
+          ],
+          "basis_type": "guideline",
+          "transformation": "Guideline-supported reclassification pathway in uncertain primary prevention.",
+          "limitations": "Not universal screening.",
+          "review_status": "reviewed",
+          "citation": {
+            "pmid": "30586774",
+            "doi": "10.1161/CIR.0000000000000625",
+            "title": "2018 ACC/AHA cholesterol guideline"
+          }
+        }
+      ],
+      "derivation_inputs": {
+        "method": "diagnostic_direct_voi",
+        "reclassification_probability": {
+          "low": 0.12,
+          "central": 0.25,
+          "high": 0.45
+        },
+        "qaly_if_reclassified": {
+          "low": 0.3,
+          "central": 0.75,
+          "high": 1.5
+        },
+        "test_burden": {
+          "low": 0,
+          "central": 0,
+          "high": 0.01
+        },
+        "basis": "Direct VOI adapter reads traced library inputs; subtype equations should replace this where a patient-specific probability model exists."
+      },
+      "trace_status": "runner_computable_direct_voi",
+      "evidence_axis": {
+        "score": 0.69,
+        "level": "medium",
+        "display_label": "Medium evidence",
+        "basis_summary": "Guideline-supported reclassification for uncertain statin decisions; downstream QALY is modeled from lipid/BP intensity changes.",
+        "component_scores": {
+          "test_validity": 0.18,
+          "reclassification_yield": 0.15,
+          "downstream_action_value": 0.16,
+          "population_match": 0.1,
+          "management_threshold": 0.07,
+          "burden_harms_known": 0.03
+        },
+        "caps_applied": [
+          "model_translated_value_cap"
+        ],
+        "primary_trace_parameters": [
+          "reclassification_probability",
+          "qaly_if_reclassified",
+          "test_burden",
+          "evidence_grade"
+        ]
+      }
     },
     {
       "id": "sleep_apnea_reclassification",
@@ -681,18 +1626,35 @@
         "high": 1.0
       },
       "value_channel": {
-        "channels": ["c2_felt_quality", "bp_sequencing"],
-        "excludes": ["c1_cardiovascular_prevention"],
+        "channels": [
+          "c2_felt_quality",
+          "bp_sequencing"
+        ],
+        "excludes": [
+          "c1_cardiovascular_prevention"
+        ],
         "basis": "D7 mandatory label (trace F6). The 0.45 is defensible as felt-quality (symptom/energy) plus BP-treatment sequencing. It is explicitly NOT cardiovascular-prevention value: CPAP's CV-event evidence is null (SAVE). The same number read as CV prevention would be indefensible; the label is the guardrail on display."
       },
       "derivation_inputs": {
         "method": "diagnostic_voi",
         "prior": 0.13,
-        "likelihood_ratio": {"low": 2.5, "central": 5.0, "high": 8.0},
-        "p_management_change": 0.80,
-        "delta_u_symptom": {"low": 0.02, "central": 0.033, "high": 0.05},
+        "likelihood_ratio": {
+          "low": 2.5,
+          "central": 5.0,
+          "high": 8.0
+        },
+        "p_management_change": 0.8,
+        "delta_u_symptom": {
+          "low": 0.02,
+          "central": 0.033,
+          "high": 0.05
+        },
         "treated_horizon_yr": 20,
-        "other_channel_qaly": {"low": 0.005, "central": 0.02, "high": 0.04},
+        "other_channel_qaly": {
+          "low": 0.005,
+          "central": 0.02,
+          "high": 0.04
+        },
         "excluded_channel_qaly": 0.0,
         "basis": {
           "prior": "[EPI] moderate-severe OSA (AHI>=15), middle-aged men",
@@ -737,7 +1699,92 @@
           "known_sleep_apnea_already_treated_effectively"
         ]
       },
-      "display_rule": "Do not compress diagnosed-versus-undiagnosed sleep apnea into expected VOI alone."
+      "display_rule": "Do not compress diagnosed-versus-undiagnosed sleep apnea into expected VOI alone.",
+      "evidence_trace": [
+        {
+          "parameter": "reclassification_probability",
+          "supports": [
+            "hsat_confirmation_in_high_pretest_probability"
+          ],
+          "basis_type": "guideline",
+          "transformation": "AASM guideline supports HSAT or PSG for uncomplicated adults with signs/symptoms indicating increased risk of moderate-severe OSA.",
+          "limitations": "Yield depends on phenotype and pretest probability; negative/inconclusive HSAT requires PSG.",
+          "review_status": "reviewed",
+          "citation": {
+            "pmid": "28162150",
+            "doi": "10.5664/jcsm.6506",
+            "title": "AASM diagnostic testing for adult obstructive sleep apnea guideline"
+          }
+        },
+        {
+          "parameter": "qaly_if_reclassified",
+          "supports": [
+            "symptom_qol_cpAP",
+            "save_cv_null_guardrail"
+          ],
+          "basis_type": "RCT",
+          "transformation": "QALY-if combines CPAP symptom/QoL benefit while excluding cardiovascular prevention credit where SAVE found no event reduction.",
+          "limitations": "Magnitude is derived from symptom utility translation; trial populations and adherence vary.",
+          "review_status": "needs_source_upgrade",
+          "citation": {
+            "pmid": "27571048",
+            "doi": "10.1056/NEJMoa1606599",
+            "title": "CPAP for prevention of cardiovascular events in obstructive sleep apnea"
+          }
+        },
+        {
+          "parameter": "test_burden",
+          "supports": [
+            "home_sleep_apnea_test_burden"
+          ],
+          "basis_type": "guideline",
+          "transformation": "HSAT is lower burden than in-lab PSG in appropriate uncomplicated adults.",
+          "limitations": "Not appropriate for significant cardiopulmonary disease, neuromuscular weakness, hypoventilation, chronic opioids, stroke, or severe insomnia.",
+          "review_status": "reviewed",
+          "citation": {
+            "pmid": "28162150",
+            "doi": "10.5664/jcsm.6506",
+            "title": "AASM diagnostic testing for adult obstructive sleep apnea guideline"
+          }
+        },
+        {
+          "parameter": "evidence_grade",
+          "supports": [
+            "aasm_diagnostic_testing_guideline"
+          ],
+          "basis_type": "guideline",
+          "transformation": "AASM provides strong diagnostic-testing recommendation for PSG or technically adequate HSAT in the right phenotype.",
+          "limitations": "Applicability is phenotype-gated.",
+          "review_status": "reviewed",
+          "citation": {
+            "pmid": "28162150",
+            "doi": "10.5664/jcsm.6506",
+            "title": "AASM diagnostic testing for adult obstructive sleep apnea guideline"
+          }
+        }
+      ],
+      "trace_status": "runner_computable_diagnostic_voi",
+      "evidence_axis": {
+        "score": 0.69,
+        "level": "medium",
+        "display_label": "Medium evidence",
+        "basis_summary": "AASM-supported testing in high-pretest OSA phenotypes; value comes from symptom/BP sequencing while CV event prevention is explicitly excluded.",
+        "component_scores": {
+          "test_validity": 0.18,
+          "reclassification_yield": 0.15,
+          "downstream_action_value": 0.16,
+          "population_match": 0.1,
+          "management_threshold": 0.06,
+          "burden_harms_known": 0.04
+        },
+        "caps_applied": [],
+        "primary_trace_parameters": [
+          "reclassification_probability",
+          "qaly_if_reclassified",
+          "test_burden",
+          "evidence_grade"
+        ]
+      }
     },
     {
       "id": "bp_persistence_reclassification",
@@ -786,25 +1833,131 @@
           "validated_home_or_ambulatory_bp_already_available"
         ]
       },
-      "display_rule": "Use before BP pharmacotherapy when the average BP state is not confirmed. Suppress this diagnostic once confirmed hypertension is materialized."
+      "display_rule": "Use before BP pharmacotherapy when the average BP state is not confirmed. Suppress this diagnostic once confirmed hypertension is materialized.",
+      "evidence_trace": [
+        {
+          "parameter": "reclassification_probability",
+          "supports": [
+            "abpm_hbpm_confirmation",
+            "white_coat_masked_hypertension"
+          ],
+          "basis_type": "guideline",
+          "transformation": "USPSTF recommends confirming elevated office BP with out-of-office measurement before starting treatment.",
+          "limitations": "Individual reclassification probability depends on office pattern, home readings, and ABPM/HBPM access.",
+          "review_status": "reviewed",
+          "citation": {
+            "pmid": "33904861",
+            "title": "USPSTF hypertension in adults: screening",
+            "guideline_url": "https://www.uspreventiveservicestaskforce.org/uspstf/recommendation/hypertension-in-adults-screening"
+          }
+        },
+        {
+          "parameter": "qaly_if_reclassified",
+          "supports": [
+            "confirmed_hypertension_treatment_pathway"
+          ],
+          "basis_type": "RCT",
+          "transformation": "QALY-if is downstream BP-treatment benefit when persistent hypertension is confirmed, anchored to BP treatment outcome trials.",
+          "limitations": "Aleron QALY magnitude depends on patient baseline risk and target tolerance.",
+          "review_status": "needs_source_upgrade",
+          "citation": {
+            "pmid": "26551272",
+            "doi": "10.1056/NEJMoa1511939",
+            "title": "A randomized trial of intensive versus standard blood-pressure control"
+          }
+        },
+        {
+          "parameter": "test_burden",
+          "supports": [
+            "home_or_ambulatory_bp_monitoring"
+          ],
+          "basis_type": "guideline",
+          "transformation": "Out-of-office BP confirmation is low burden but requires device/time/access.",
+          "limitations": "ABPM availability and comfort vary.",
+          "review_status": "reviewed",
+          "citation": {
+            "pmid": "33904861",
+            "title": "USPSTF hypertension in adults: screening",
+            "guideline_url": "https://www.uspreventiveservicestaskforce.org/uspstf/recommendation/hypertension-in-adults-screening"
+          }
+        },
+        {
+          "parameter": "evidence_grade",
+          "supports": [
+            "uspstf_grade_a_screening"
+          ],
+          "basis_type": "guideline",
+          "transformation": "USPSTF Grade A screening and confirmation recommendation.",
+          "limitations": "Screening evidence does not supply a fixed patient-specific probability.",
+          "review_status": "reviewed",
+          "citation": {
+            "pmid": "33904861",
+            "title": "USPSTF hypertension in adults: screening",
+            "guideline_url": "https://www.uspreventiveservicestaskforce.org/uspstf/recommendation/hypertension-in-adults-screening"
+          }
+        }
+      ],
+      "derivation_inputs": {
+        "method": "diagnostic_direct_voi",
+        "reclassification_probability": {
+          "low": 0.4,
+          "central": 0.65,
+          "high": 0.85
+        },
+        "qaly_if_reclassified": {
+          "low": 0.25,
+          "central": 0.63,
+          "high": 1.04
+        },
+        "test_burden": {
+          "low": 0,
+          "central": 0.005,
+          "high": 0.02
+        },
+        "basis": "Direct VOI adapter reads traced library inputs; subtype equations should replace this where a patient-specific probability model exists."
+      },
+      "trace_status": "runner_computable_direct_voi",
+      "evidence_axis": {
+        "score": 0.69,
+        "level": "medium",
+        "display_label": "Medium evidence",
+        "basis_summary": "USPSTF-backed out-of-office confirmation with strong downstream treatment evidence and clear management threshold.",
+        "component_scores": {
+          "test_validity": 0.18,
+          "reclassification_yield": 0.14,
+          "downstream_action_value": 0.17,
+          "population_match": 0.11,
+          "management_threshold": 0.06,
+          "burden_harms_known": 0.03
+        },
+        "caps_applied": [
+          "needs_source_upgrade_primary_cap"
+        ],
+        "primary_trace_parameters": [
+          "reclassification_probability",
+          "qaly_if_reclassified",
+          "test_burden",
+          "evidence_grade"
+        ]
+      }
     },
     {
       "id": "iron_thyroid_fatigue_reclassification",
       "test_id": "cbc_iron_thyroid_panel",
       "status": "schema_anchor",
       "reclassification_probability": {
-        "low": 0.2,
-        "central": 0.4,
-        "high": 0.6
+        "low": 0.04,
+        "central": 0.08,
+        "high": 0.12
       },
       "qaly_if_reclassified": {
-        "low": 0.2,
-        "central": 0.5,
-        "high": 0.9
+        "low": 0.08,
+        "central": 0.25,
+        "high": 0.6
       },
       "expected_voi_internal": {
         "calculation": "reclassification_probability.central * qaly_if_reclassified.central - test_burden.central",
-        "central": 0.2
+        "central": 0.02
       },
       "dominant_reclassification_path": "Iron deficiency, anemia, clinically significant thyroid dysfunction, or a combined reversible fatigue driver changes treatment and training sequence.",
       "downstream_decisions_changed": [
@@ -837,25 +1990,133 @@
           "no_vitality_or_training_signal"
         ]
       },
-      "display_rule": "Show whether the vitality pattern is reclassified into a treatable deficiency or endocrine pathway before scoring treatment."
+      "display_rule": "Show whether the vitality pattern is reclassified into a treatable deficiency or endocrine pathway before scoring treatment.",
+      "evidence_trace": [
+        {
+          "parameter": "reclassification_probability",
+          "supports": [
+            "fatigue_blood_test_somatic_yield",
+            "hypothyroidism_yield",
+            "anemia_yield"
+          ],
+          "basis_type": "cohort",
+          "transformation": "Primary-care fatigue studies show low single-digit to high-single-digit somatic diagnostic yield, constraining this diagnostic to a conservative prior.",
+          "limitations": "Broad fatigue yield is not the same as patient-specific iron/thyroid probability; pretest features should modify it.",
+          "review_status": "reviewed",
+          "citation": {
+            "pmid": "19341544",
+            "doi": "10.3399/bjgp09X420310",
+            "title": "Blood test ordering for unexplained complaints in general practice: VAMPIRE trial"
+          }
+        },
+        {
+          "parameter": "qaly_if_reclassified",
+          "supports": [
+            "downstream_iron_or_overt_thyroid_treatment"
+          ],
+          "basis_type": "model_output",
+          "transformation": "QALY-if is derived from the downstream iron and thyroid treatment pathways when a true actionable deficiency/dysfunction is found.",
+          "limitations": "Direct QALY evidence is weak; subclinical hypothyroidism should not receive meaningful benefit credit.",
+          "review_status": "needs_source_upgrade",
+          "citation": {
+            "pmid": "29626044",
+            "doi": "10.1136/bmjopen-2017-019240",
+            "title": "Efficacy of iron supplementation on fatigue and physical capacity in non-anaemic iron-deficient adults"
+          }
+        },
+        {
+          "parameter": "test_burden",
+          "supports": [
+            "blood_draw_false_positives"
+          ],
+          "basis_type": "cohort",
+          "transformation": "CBC, ferritin/iron studies, and TSH/free T4 are low direct burden, but expanded testing increases false positives.",
+          "limitations": "False positives and follow-up burden rise with broad panels.",
+          "review_status": "reviewed",
+          "citation": {
+            "pmid": "19341544",
+            "doi": "10.3399/bjgp09X420310",
+            "title": "Blood test ordering for unexplained complaints in general practice: VAMPIRE trial"
+          }
+        },
+        {
+          "parameter": "evidence_grade",
+          "supports": [
+            "fatigue_diagnostic_yield_evidence"
+          ],
+          "basis_type": "meta_analysis",
+          "transformation": "Systematic review and primary-care cohorts support conservative diagnostic-yield bounds.",
+          "limitations": "Evidence is heterogeneous across fatigue definitions and primary-care settings.",
+          "review_status": "reviewed",
+          "citation": {
+            "pmid": "27765009",
+            "doi": "10.1186/s12875-016-0545-5",
+            "title": "Differential diagnosis of tiredness: a systematic review"
+          }
+        }
+      ],
+      "derivation_inputs": {
+        "method": "diagnostic_direct_voi",
+        "reclassification_probability": {
+          "low": 0.04,
+          "central": 0.08,
+          "high": 0.12
+        },
+        "qaly_if_reclassified": {
+          "low": 0.08,
+          "central": 0.25,
+          "high": 0.6
+        },
+        "test_burden": {
+          "low": 0,
+          "central": 0,
+          "high": 0.01
+        },
+        "basis": "Direct VOI adapter reads traced library inputs; subtype equations should replace this where a patient-specific probability model exists."
+      },
+      "trace_status": "runner_computable_direct_voi",
+      "evidence_axis": {
+        "score": 0.47,
+        "level": "medium",
+        "display_label": "Medium evidence",
+        "basis_summary": "Fatigue lab yield is evidence-bounded and low; downstream benefit is real only when true iron deficiency or overt thyroid dysfunction is found.",
+        "component_scores": {
+          "test_validity": 0.12,
+          "reclassification_yield": 0.08,
+          "downstream_action_value": 0.13,
+          "population_match": 0.07,
+          "management_threshold": 0.04,
+          "burden_harms_known": 0.03
+        },
+        "caps_applied": [
+          "diagnostic_downstream_uncertain_cap",
+          "needs_source_upgrade_primary_cap"
+        ],
+        "primary_trace_parameters": [
+          "reclassification_probability",
+          "qaly_if_reclassified",
+          "test_burden",
+          "evidence_grade"
+        ]
+      }
     },
     {
       "id": "vitamin_d_bone_reclassification",
       "test_id": "vitamin_d_recheck",
       "status": "schema_anchor",
       "reclassification_probability": {
-        "low": 0.1,
-        "central": 0.25,
-        "high": 0.45
+        "low": 0.02,
+        "central": 0.06,
+        "high": 0.15
       },
       "qaly_if_reclassified": {
-        "low": 0.04,
-        "central": 0.12,
-        "high": 0.3
+        "low": 0.0,
+        "central": 0.04,
+        "high": 0.15
       },
       "expected_voi_internal": {
         "calculation": "reclassification_probability.central * qaly_if_reclassified.central - test_burden.central",
-        "central": 0.03
+        "central": 0.0024
       },
       "dominant_reclassification_path": "Confirmed deficiency changes supplement dosing, bone-health sequencing, and resistance-training guardrails.",
       "downstream_decisions_changed": [
@@ -868,7 +2129,7 @@
         "central": 0,
         "high": 0.005
       },
-      "evidence_grade": "low_to_moderate",
+      "evidence_grade": "low",
       "eligibility": {
         "required_patient_fields": [
           "vitamin_d",
@@ -885,7 +2146,115 @@
           "no_bone_or_symptom_context"
         ]
       },
-      "display_rule": "Keep deficiency correction visible but do not inflate it into a broad vitality intervention."
+      "display_rule": "Keep deficiency correction visible but do not inflate it into a broad vitality intervention.",
+      "evidence_trace": [
+        {
+          "parameter": "reclassification_probability",
+          "supports": [
+            "routine_screening_insufficient",
+            "targeted_deficiency_context"
+          ],
+          "basis_type": "guideline",
+          "transformation": "USPSTF and Endocrine Society guidance argue against routine vitamin D screening in generally healthy adults; targeted testing remains possible in risk states.",
+          "limitations": "Probability should be low unless symptoms, osteoporosis, malabsorption, CKD, medications, or institutionalization raise pretest probability.",
+          "review_status": "reviewed",
+          "citation": {
+            "pmid": "33847711",
+            "doi": "10.1001/jama.2021.3069",
+            "title": "USPSTF vitamin D deficiency screening in adults"
+          }
+        },
+        {
+          "parameter": "qaly_if_reclassified",
+          "supports": [
+            "fracture_prevention_guardrail",
+            "targeted_deficiency_only"
+          ],
+          "basis_type": "RCT",
+          "transformation": "VITAL and meta-analysis evidence do not support fracture-prevention credit for broad unselected supplementation; QALY-if is limited to targeted deficiency/bone-risk contexts.",
+          "limitations": "Does not answer treatment of frank severe deficiency/osteomalacia.",
+          "review_status": "reviewed",
+          "citation": {
+            "pmid": "35939577",
+            "doi": "10.1056/NEJMoa2202106",
+            "title": "Supplemental vitamin D and incident fractures in midlife and older adults"
+          }
+        },
+        {
+          "parameter": "test_burden",
+          "supports": [
+            "blood_test_low_burden",
+            "overdiagnosis_overtreatment"
+          ],
+          "basis_type": "guideline",
+          "transformation": "25(OH)D testing is low direct burden but can cause threshold-driven overdiagnosis and unnecessary supplementation.",
+          "limitations": "Thresholds and testing indications are contested.",
+          "review_status": "reviewed",
+          "citation": {
+            "pmid": "38828931",
+            "doi": "10.1210/clinem/dgae290",
+            "title": "Vitamin D for the prevention of disease: Endocrine Society guideline"
+          }
+        },
+        {
+          "parameter": "evidence_grade",
+          "supports": [
+            "insufficient_general_screening"
+          ],
+          "basis_type": "guideline",
+          "transformation": "USPSTF finds evidence insufficient for routine asymptomatic adult screening.",
+          "limitations": "Targeted clinical scenarios remain outside broad screening conclusion.",
+          "review_status": "reviewed",
+          "citation": {
+            "pmid": "33847711",
+            "doi": "10.1001/jama.2021.3069",
+            "title": "USPSTF vitamin D deficiency screening in adults"
+          }
+        }
+      ],
+      "derivation_inputs": {
+        "method": "diagnostic_direct_voi",
+        "reclassification_probability": {
+          "low": 0.02,
+          "central": 0.06,
+          "high": 0.15
+        },
+        "qaly_if_reclassified": {
+          "low": 0.0,
+          "central": 0.04,
+          "high": 0.15
+        },
+        "test_burden": {
+          "low": 0,
+          "central": 0,
+          "high": 0.005
+        },
+        "basis": "Direct VOI adapter reads traced library inputs; subtype equations should replace this where a patient-specific probability model exists."
+      },
+      "trace_status": "runner_computable_direct_voi",
+      "evidence_axis": {
+        "score": 0.28,
+        "level": "low",
+        "display_label": "Low evidence",
+        "basis_summary": "Broad asymptomatic vitamin D screening is not guideline-supported and broad fracture-prevention benefit is not shown.",
+        "component_scores": {
+          "test_validity": 0.1,
+          "reclassification_yield": 0.03,
+          "downstream_action_value": 0.03,
+          "population_match": 0.04,
+          "management_threshold": 0.03,
+          "burden_harms_known": 0.05
+        },
+        "caps_applied": [
+          "broad_screening_insufficient_cap"
+        ],
+        "primary_trace_parameters": [
+          "reclassification_probability",
+          "qaly_if_reclassified",
+          "test_burden",
+          "evidence_grade"
+        ]
+      }
     },
     {
       "id": "dexa_bone_lean_mass_reclassification",
@@ -936,7 +2305,116 @@
           "result_would_not_change_training_or_bone_plan"
         ]
       },
-      "display_rule": "Use as a body-composition and bone-health reclassification test, not as a generic wellness scan."
+      "display_rule": "Use as a body-composition and bone-health reclassification test, not as a generic wellness scan.",
+      "evidence_trace": [
+        {
+          "parameter": "reclassification_probability",
+          "supports": [
+            "osteoporosis_screening_eligible_women",
+            "treatment_thresholds"
+          ],
+          "basis_type": "guideline",
+          "transformation": "USPSTF and BHOF support DXA/FRAX reclassification for women 65+ and younger postmenopausal women at increased fracture risk.",
+          "limitations": "Men and low-risk younger adults have weaker/insufficient screening evidence; lean mass requires strength/performance context.",
+          "review_status": "reviewed",
+          "citation": {
+            "pmid": "39808425",
+            "doi": "10.1001/jama.2024.27154",
+            "title": "USPSTF osteoporosis to prevent fractures: screening",
+            "guideline_url": "https://www.uspreventiveservicestaskforce.org/uspstf/recommendation/osteoporosis-screening"
+          }
+        },
+        {
+          "parameter": "qaly_if_reclassified",
+          "supports": [
+            "fracture_prevention_pathway",
+            "high_risk_women_screening_trial"
+          ],
+          "basis_type": "RCT",
+          "transformation": "SCOOP supports downstream hip-fracture reduction when older women are risk-screened and treated.",
+          "limitations": "Applies to older women/high-risk pathway, not general DEXA body-composition screening.",
+          "review_status": "reviewed",
+          "citation": {
+            "pmid": "29254858",
+            "doi": "10.1016/S0140-6736(17)32640-5",
+            "title": "Screening in the community to reduce fractures in older women"
+          }
+        },
+        {
+          "parameter": "test_burden",
+          "supports": [
+            "low_burden_dxa",
+            "radiation_time"
+          ],
+          "basis_type": "guideline",
+          "transformation": "DXA is a low-burden diagnostic test when eligibility criteria are met.",
+          "limitations": "Downstream burden depends on treatment threshold, repeat scans, and incidental body-composition interpretation.",
+          "review_status": "reviewed",
+          "citation": {
+            "pmid": "35478046",
+            "doi": "10.1007/s00198-021-05900-y",
+            "title": "The clinician's guide to prevention and treatment of osteoporosis"
+          }
+        },
+        {
+          "parameter": "evidence_grade",
+          "supports": [
+            "uspstf_b_osteoporosis_screening",
+            "lean_mass_partial"
+          ],
+          "basis_type": "guideline",
+          "transformation": "Osteoporosis screening has guideline support for eligible women; lean-mass reclassification is weaker unless paired with strength/function criteria.",
+          "limitations": "Separate bone and lean-mass algorithms should be split in a future schema.",
+          "review_status": "reviewed",
+          "citation": {
+            "pmid": "39808425",
+            "doi": "10.1001/jama.2024.27154",
+            "title": "USPSTF osteoporosis to prevent fractures: screening",
+            "guideline_url": "https://www.uspreventiveservicestaskforce.org/uspstf/recommendation/osteoporosis-screening"
+          }
+        }
+      ],
+      "derivation_inputs": {
+        "method": "diagnostic_direct_voi",
+        "reclassification_probability": {
+          "low": 0.1,
+          "central": 0.2,
+          "high": 0.35
+        },
+        "qaly_if_reclassified": {
+          "low": 0.25,
+          "central": 0.7,
+          "high": 1.2
+        },
+        "test_burden": {
+          "low": 0,
+          "central": 0,
+          "high": 0.01
+        },
+        "basis": "Direct VOI adapter reads traced library inputs; subtype equations should replace this where a patient-specific probability model exists."
+      },
+      "trace_status": "runner_computable_direct_voi",
+      "evidence_axis": {
+        "score": 0.7,
+        "level": "high",
+        "display_label": "High evidence",
+        "basis_summary": "DXA bone screening is guideline-supported in eligible women/risk groups; lean-mass/body-composition interpretation is weaker and should be split later.",
+        "component_scores": {
+          "test_validity": 0.18,
+          "reclassification_yield": 0.14,
+          "downstream_action_value": 0.19,
+          "population_match": 0.11,
+          "management_threshold": 0.06,
+          "burden_harms_known": 0.02
+        },
+        "caps_applied": [],
+        "primary_trace_parameters": [
+          "reclassification_probability",
+          "qaly_if_reclassified",
+          "test_burden",
+          "evidence_grade"
+        ]
+      }
     },
     {
       "id": "rhythm_safety_reclassification",
@@ -986,7 +2464,113 @@
           "recent_normal_ecg_or_monitoring_with_no_new_signal"
         ]
       },
-      "display_rule": "Use for discordant low overnight heart rate patterns; do not present as a primary value lever unless reclassification probability is materially higher."
+      "display_rule": "Use for discordant low overnight heart rate patterns; do not present as a primary value lever unless reclassification probability is materially higher.",
+      "evidence_trace": [
+        {
+          "parameter": "reclassification_probability",
+          "supports": [
+            "symptom_driven_ambulatory_ecg_yield"
+          ],
+          "basis_type": "guideline",
+          "transformation": "Ambulatory ECG monitoring is indicated when symptom pattern or medication risk creates plausible arrhythmia reclassification.",
+          "limitations": "Yield is highly dependent on symptom frequency, monitor duration, and pretest probability.",
+          "review_status": "reviewed",
+          "citation": {
+            "pmid": "28495301",
+            "doi": "10.1016/j.hrthm.2017.03.038",
+            "title": "ISHNE-HRS expert consensus on ambulatory ECG and external cardiac monitoring"
+          }
+        },
+        {
+          "parameter": "qaly_if_reclassified",
+          "supports": [
+            "arrhythmia_or_qt_safety_management_change"
+          ],
+          "basis_type": "guideline",
+          "transformation": "QALY-if comes from medication safety, arrhythmia diagnosis, or risk mitigation when rhythm findings change management.",
+          "limitations": "No single generic QALY magnitude is guideline-derived.",
+          "review_status": "needs_source_upgrade",
+          "citation": {
+            "pmid": "32929996",
+            "doi": "10.1161/CIR.0000000000000905",
+            "title": "AHA scientific statement on drug-induced arrhythmias"
+          }
+        },
+        {
+          "parameter": "test_burden",
+          "supports": [
+            "holter_patch_event_monitor_duration"
+          ],
+          "basis_type": "guideline",
+          "transformation": "Monitoring burden varies by Holter/patch/event duration and device friction.",
+          "limitations": "Skin irritation, alarms, data gaps, and follow-up burden vary.",
+          "review_status": "reviewed",
+          "citation": {
+            "pmid": "28495301",
+            "doi": "10.1016/j.hrthm.2017.03.038",
+            "title": "ISHNE-HRS expert consensus on ambulatory ECG and external cardiac monitoring"
+          }
+        },
+        {
+          "parameter": "evidence_grade",
+          "supports": [
+            "expert_consensus_ambulatory_ecg",
+            "aha_drug_arrhythmia_statement"
+          ],
+          "basis_type": "guideline",
+          "transformation": "Society consensus supports indication and safety-monitoring framework.",
+          "limitations": "Consensus evidence, not universal screening trial.",
+          "review_status": "reviewed",
+          "citation": {
+            "pmid": "28495301",
+            "doi": "10.1016/j.hrthm.2017.03.038",
+            "title": "ISHNE-HRS expert consensus on ambulatory ECG and external cardiac monitoring"
+          }
+        }
+      ],
+      "derivation_inputs": {
+        "method": "diagnostic_direct_voi",
+        "reclassification_probability": {
+          "low": 0.05,
+          "central": 0.15,
+          "high": 0.3
+        },
+        "qaly_if_reclassified": {
+          "low": 0.1,
+          "central": 0.4,
+          "high": 1.0
+        },
+        "test_burden": {
+          "low": 0,
+          "central": 0.01,
+          "high": 0.03
+        },
+        "basis": "Direct VOI adapter reads traced library inputs; subtype equations should replace this where a patient-specific probability model exists."
+      },
+      "trace_status": "runner_computable_direct_voi",
+      "evidence_axis": {
+        "score": 0.52,
+        "level": "medium",
+        "display_label": "Medium evidence",
+        "basis_summary": "Ambulatory ECG and QT safety monitoring are guideline/consensus-supported when phenotype or medication risk fits, but generic yield and QALY-if are context-heavy.",
+        "component_scores": {
+          "test_validity": 0.14,
+          "reclassification_yield": 0.08,
+          "downstream_action_value": 0.12,
+          "population_match": 0.07,
+          "management_threshold": 0.06,
+          "burden_harms_known": 0.05
+        },
+        "caps_applied": [
+          "diagnostic_downstream_uncertain_cap"
+        ],
+        "primary_trace_parameters": [
+          "reclassification_probability",
+          "qaly_if_reclassified",
+          "test_burden",
+          "evidence_grade"
+        ]
+      }
     },
     {
       "id": "ogtt_diabetes_reclassification",
@@ -1039,7 +2623,113 @@
           "low_reclassification_probability_and_no_downstream_decision"
         ]
       },
-      "display_rule": "Keep visible as a diagnostic gate when post-load diabetes is plausible, but do not let low reclassification odds dominate the final plan."
+      "display_rule": "Keep visible as a diagnostic gate when post-load diabetes is plausible, but do not let low reclassification odds dominate the final plan.",
+      "evidence_trace": [
+        {
+          "parameter": "reclassification_probability",
+          "supports": [
+            "75g_ogtt_diagnostic_criteria",
+            "prediabetes_diabetes_thresholds"
+          ],
+          "basis_type": "guideline",
+          "transformation": "ADA diagnostic criteria define OGTT thresholds for diabetes and prediabetes.",
+          "limitations": "ADA criteria do not supply a patient-specific pretest probability; confirmation is required unless unequivocal hyperglycemia.",
+          "review_status": "reviewed",
+          "citation": {
+            "pmid": "38078589",
+            "doi": "10.2337/dc24-S002",
+            "title": "ADA Standards of Care 2024: diagnosis and classification of diabetes"
+          }
+        },
+        {
+          "parameter": "qaly_if_reclassified",
+          "supports": [
+            "diabetes_prevention_treatment_pathway"
+          ],
+          "basis_type": "guideline",
+          "transformation": "QALY-if is downstream value from earlier diabetes/prediabetes classification and treatment/prevention eligibility.",
+          "limitations": "Magnitude must be modeled from patient risk and downstream intervention selection.",
+          "review_status": "needs_source_upgrade",
+          "citation": {
+            "pmid": "38078589",
+            "doi": "10.2337/dc24-S002",
+            "title": "ADA Standards of Care 2024: diagnosis and classification of diabetes"
+          }
+        },
+        {
+          "parameter": "test_burden",
+          "supports": [
+            "fasting_two_hour_blood_draw_glucose_load"
+          ],
+          "basis_type": "guideline",
+          "transformation": "OGTT requires fasting, glucose load, and 2-hour blood draw, making burden higher than single fasting labs.",
+          "limitations": "GI discomfort and scheduling burden vary.",
+          "review_status": "reviewed",
+          "citation": {
+            "pmid": "38078589",
+            "doi": "10.2337/dc24-S002",
+            "title": "ADA Standards of Care 2024: diagnosis and classification of diabetes"
+          }
+        },
+        {
+          "parameter": "evidence_grade",
+          "supports": [
+            "ada_standards_diagnostic_criteria"
+          ],
+          "basis_type": "guideline",
+          "transformation": "ADA Standards provide authoritative diagnostic thresholds.",
+          "limitations": "Diagnostic threshold support is stronger than generic yield.",
+          "review_status": "reviewed",
+          "citation": {
+            "pmid": "38078589",
+            "doi": "10.2337/dc24-S002",
+            "title": "ADA Standards of Care 2024: diagnosis and classification of diabetes"
+          }
+        }
+      ],
+      "derivation_inputs": {
+        "method": "diagnostic_direct_voi",
+        "reclassification_probability": {
+          "low": 0.01,
+          "central": 0.04,
+          "high": 0.1
+        },
+        "qaly_if_reclassified": {
+          "low": 0.25,
+          "central": 0.85,
+          "high": 1.5
+        },
+        "test_burden": {
+          "low": 0,
+          "central": 0,
+          "high": 0.01
+        },
+        "basis": "Direct VOI adapter reads traced library inputs; subtype equations should replace this where a patient-specific probability model exists."
+      },
+      "trace_status": "runner_computable_direct_voi",
+      "evidence_axis": {
+        "score": 0.55,
+        "level": "medium",
+        "display_label": "Medium evidence",
+        "basis_summary": "ADA criteria make OGTT validity strong; yield and downstream value depend on ambiguous-risk phenotype and subsequent treatment path.",
+        "component_scores": {
+          "test_validity": 0.18,
+          "reclassification_yield": 0.07,
+          "downstream_action_value": 0.13,
+          "population_match": 0.07,
+          "management_threshold": 0.07,
+          "burden_harms_known": 0.03
+        },
+        "caps_applied": [
+          "diagnostic_downstream_uncertain_cap"
+        ],
+        "primary_trace_parameters": [
+          "reclassification_probability",
+          "qaly_if_reclassified",
+          "test_burden",
+          "evidence_grade"
+        ]
+      }
     },
     {
       "id": "masld_fibrosis_staging_reclassification",
@@ -1092,25 +2782,132 @@
         ],
         "missing_field_rule": "If AST, ALT, or platelets are absent, emit a pretest-lab gate before FibroScan scoring."
       },
-      "display_rule": "Use when metabolic and liver-risk fields suggest possible MASLD fibrosis staging gap; keep FIB-4 before FibroScan when appropriate."
+      "display_rule": "Use when metabolic and liver-risk fields suggest possible MASLD fibrosis staging gap; keep FIB-4 before FibroScan when appropriate.",
+      "evidence_trace": [
+        {
+          "parameter": "reclassification_probability",
+          "supports": [
+            "fib4_vcte_elf_mre_triage",
+            "advanced_fibrosis_risk"
+          ],
+          "basis_type": "guideline",
+          "transformation": "AASLD guidance supports sequential noninvasive fibrosis triage to reclassify advanced fibrosis risk.",
+          "limitations": "Probability depends on age, T2D, AST/ALT, platelets, BMI, and pretest risk.",
+          "review_status": "reviewed",
+          "citation": {
+            "pmid": "36727674",
+            "doi": "10.1097/HEP.0000000000000323",
+            "title": "AASLD practice guidance on clinical assessment and management of NAFLD"
+          }
+        },
+        {
+          "parameter": "qaly_if_reclassified",
+          "supports": [
+            "f3_f4_cirrhosis_referral_surveillance"
+          ],
+          "basis_type": "guideline",
+          "transformation": "QALY-if comes from identifying advanced fibrosis/cirrhosis and initiating referral, surveillance, and risk reduction.",
+          "limitations": "No direct generic QALY is supplied; endpoint value must be modeled by fibrosis stage and management changed.",
+          "review_status": "needs_source_upgrade",
+          "citation": {
+            "pmid": "36727674",
+            "doi": "10.1097/HEP.0000000000000323",
+            "title": "AASLD practice guidance on clinical assessment and management of NAFLD"
+          }
+        },
+        {
+          "parameter": "test_burden",
+          "supports": [
+            "fib4_blood_test",
+            "elastography_or_elf_followup"
+          ],
+          "basis_type": "guideline",
+          "transformation": "Staged testing begins with low-burden blood-based FIB-4 and escalates to ELF/VCTE/MRE when indicated.",
+          "limitations": "False positives in older age/inflammation and access to elastography affect burden.",
+          "review_status": "reviewed",
+          "citation": {
+            "pmid": "38489523",
+            "doi": "10.1097/HEP.0000000000000845",
+            "title": "AASLD practice guideline on blood-based noninvasive liver disease assessment"
+          }
+        },
+        {
+          "parameter": "evidence_grade",
+          "supports": [
+            "aasld_guidance_noninvasive_assessment"
+          ],
+          "basis_type": "guideline",
+          "transformation": "AASLD guidance supports noninvasive risk stratification.",
+          "limitations": "Cutoffs are triage/rule-in/rule-out tools, not perfect staging.",
+          "review_status": "reviewed",
+          "citation": {
+            "pmid": "36727674",
+            "doi": "10.1097/HEP.0000000000000323",
+            "title": "AASLD practice guidance on clinical assessment and management of NAFLD"
+          }
+        }
+      ],
+      "derivation_inputs": {
+        "method": "diagnostic_direct_voi",
+        "reclassification_probability": {
+          "low": 0.08,
+          "central": 0.2,
+          "high": 0.4
+        },
+        "qaly_if_reclassified": {
+          "low": 0.25,
+          "central": 0.7,
+          "high": 1.4
+        },
+        "test_burden": {
+          "low": 0,
+          "central": 0.01,
+          "high": 0.03
+        },
+        "basis": "Direct VOI adapter reads traced library inputs; subtype equations should replace this where a patient-specific probability model exists."
+      },
+      "trace_status": "runner_computable_direct_voi",
+      "evidence_axis": {
+        "score": 0.6,
+        "level": "medium",
+        "display_label": "Medium evidence",
+        "basis_summary": "AASLD staged fibrosis assessment is guideline-supported in risk-qualified MASLD; QALY-if depends on stage and management actually changed.",
+        "component_scores": {
+          "test_validity": 0.17,
+          "reclassification_yield": 0.1,
+          "downstream_action_value": 0.14,
+          "population_match": 0.08,
+          "management_threshold": 0.07,
+          "burden_harms_known": 0.04
+        },
+        "caps_applied": [
+          "diagnostic_downstream_uncertain_cap"
+        ],
+        "primary_trace_parameters": [
+          "reclassification_probability",
+          "qaly_if_reclassified",
+          "test_burden",
+          "evidence_grade"
+        ]
+      }
     },
     {
       "id": "sleep_fragmentation_reclassification",
       "test_id": "insomnia_sleep_regularity_screen",
       "status": "schema_anchor",
       "reclassification_probability": {
-        "low": 0.15,
-        "central": 0.35,
-        "high": 0.55
+        "low": 0.08,
+        "central": 0.2,
+        "high": 0.4
       },
       "qaly_if_reclassified": {
-        "low": 0.12,
-        "central": 0.35,
-        "high": 0.75
+        "low": 0.08,
+        "central": 0.25,
+        "high": 0.6
       },
       "expected_voi_internal": {
         "calculation": "reclassification_probability.central * qaly_if_reclassified.central - test_burden.central",
-        "central": 0.1175
+        "central": 0.045
       },
       "dominant_reclassification_path": "Insomnia, fragmented sleep, menopause symptoms, mood, or schedule irregularity changes recovery intervention and training sequence.",
       "downstream_decisions_changed": [
@@ -1124,7 +2921,7 @@
         "central": 0.005,
         "high": 0.02
       },
-      "evidence_grade": "moderate",
+      "evidence_grade": "low_to_moderate",
       "eligibility": {
         "required_patient_fields": [
           "sleep_duration_or_regularity",
@@ -1142,7 +2939,207 @@
           "sleep_already_stable_and_restorative"
         ]
       },
-      "display_rule": "Use when fatigue persists without oxygen desaturation; do not treat as sleep apnea unless breathing criteria are present."
+      "display_rule": "Use when fatigue persists without oxygen desaturation; do not treat as sleep apnea unless breathing criteria are present.",
+      "evidence_trace": [
+        {
+          "parameter": "reclassification_probability",
+          "supports": [
+            "actigraphy_sleep_wake_objective_parameters"
+          ],
+          "basis_type": "guideline",
+          "transformation": "AASM actigraphy guideline supports objective sleep/wake parameters in insomnia and circadian contexts when they can change management.",
+          "limitations": "Conditional recommendations; actigraphy does not diagnose OSA/PLMD and device algorithms vary.",
+          "review_status": "reviewed",
+          "citation": {
+            "pmid": "29991437",
+            "doi": "10.5664/jcsm.7230",
+            "title": "AASM clinical practice guideline for actigraphy"
+          }
+        },
+        {
+          "parameter": "qaly_if_reclassified",
+          "supports": [
+            "sleep_continuity_capacity_pathway"
+          ],
+          "basis_type": "model_output",
+          "transformation": "QALY-if is downstream C2 capacity from identifying treatable sleep schedule/fragmentation patterns.",
+          "limitations": "Direct QALY evidence for generic actigraphy reclassification is limited; should remain below HSAT/OSA where OSA phenotype is present.",
+          "review_status": "needs_source_upgrade",
+          "citation": {
+            "pmid": "29991437",
+            "doi": "10.5664/jcsm.7230",
+            "title": "AASM clinical practice guideline for actigraphy"
+          }
+        },
+        {
+          "parameter": "test_burden",
+          "supports": [
+            "multi_night_wearable_actigraphy"
+          ],
+          "basis_type": "guideline",
+          "transformation": "Actigraphy is low-burden multi-night monitoring relative to PSG.",
+          "limitations": "Adherence/device friction and false reassurance vary.",
+          "review_status": "reviewed",
+          "citation": {
+            "pmid": "29991437",
+            "doi": "10.5664/jcsm.7230",
+            "title": "AASM clinical practice guideline for actigraphy"
+          }
+        },
+        {
+          "parameter": "evidence_grade",
+          "supports": [
+            "aasm_conditional_recommendation"
+          ],
+          "basis_type": "guideline",
+          "transformation": "AASM provides conditional/GRADE recommendations for actigraphy use in selected sleep-wake disorders.",
+          "limitations": "Evidence is weaker than OSA diagnostic testing.",
+          "review_status": "reviewed",
+          "citation": {
+            "pmid": "29991437",
+            "doi": "10.5664/jcsm.7230",
+            "title": "AASM clinical practice guideline for actigraphy"
+          }
+        }
+      ],
+      "derivation_inputs": {
+        "method": "diagnostic_direct_voi",
+        "reclassification_probability": {
+          "low": 0.08,
+          "central": 0.2,
+          "high": 0.4
+        },
+        "qaly_if_reclassified": {
+          "low": 0.08,
+          "central": 0.25,
+          "high": 0.6
+        },
+        "test_burden": {
+          "low": 0,
+          "central": 0.005,
+          "high": 0.02
+        },
+        "basis": "Direct VOI adapter reads traced library inputs; subtype equations should replace this where a patient-specific probability model exists."
+      },
+      "trace_status": "runner_computable_direct_voi",
+      "evidence_axis": {
+        "score": 0.36,
+        "level": "low",
+        "display_label": "Low evidence",
+        "basis_summary": "Actigraphy is low-burden and conditionally guideline-supported, but generic sleep-fragmentation reclassification and QALY value are weak compared with phenotype-driven OSA testing.",
+        "component_scores": {
+          "test_validity": 0.12,
+          "reclassification_yield": 0.06,
+          "downstream_action_value": 0.07,
+          "population_match": 0.05,
+          "management_threshold": 0.03,
+          "burden_harms_known": 0.03
+        },
+        "caps_applied": [
+          "diagnostic_downstream_uncertain_cap",
+          "model_translated_value_cap"
+        ],
+        "primary_trace_parameters": [
+          "reclassification_probability",
+          "qaly_if_reclassified",
+          "test_burden",
+          "evidence_grade"
+        ]
+      }
     }
-  ]
+  ],
+  "evidence_trace_contract": {
+    "purpose": "Every value-bearing parameter must be auditable by an antagonistic reviewer. References support raw clinical claims; transformations explain how those claims become Aleron patient-value QALY/VOI inputs. Aleron judgment is allowed only when labeled as judgment with rationale, limitations, and review status.",
+    "required_on": [
+      "bundle_valuations",
+      "action_valuations",
+      "diagnostic_valuations"
+    ],
+    "required_fields": [
+      "parameter",
+      "supports",
+      "basis_type",
+      "transformation",
+      "limitations",
+      "review_status"
+    ],
+    "basis_types": [
+      "RCT",
+      "RCT_meta_analysis",
+      "cohort",
+      "meta_analysis",
+      "Mendelian_randomization",
+      "guideline",
+      "model_output",
+      "internal_method",
+      "internal_model",
+      "Aleron_judgment"
+    ],
+    "review_statuses": [
+      "reviewed",
+      "provisional_judgment",
+      "internal_method",
+      "needs_source_upgrade"
+    ],
+    "rule": "A scored item may not rely on unlabeled prose basis alone. Clinical parameters need PMID/DOI/URL or explicit Aleron_judgment; method parameters need internal method links."
+  },
+  "evidence_axis_contract": {
+    "meaning": "Confidence that the action or diagnostic produces the claimed patient-relevant value for this patient type. This is the x-axis of the action map.",
+    "not_meaning": [
+      "QALY/VOI magnitude",
+      "clinical urgency",
+      "patient preference",
+      "ease of implementation",
+      "must-do status"
+    ],
+    "native_scale": "0.0-1.0 continuous score",
+    "display_bins": {
+      "low": {
+        "min": 0.0,
+        "max": 0.399
+      },
+      "medium": {
+        "min": 0.4,
+        "max": 0.699
+      },
+      "high": {
+        "min": 0.7,
+        "max": 1.0
+      }
+    },
+    "display_rule": "Dashboard may show three clean groups; engine and audit retain continuous score, components, caps, and trace links.",
+    "action_component_scores": [
+      "study_design",
+      "endpoint_directness",
+      "population_match",
+      "intervention_match",
+      "magnitude_precision",
+      "harm_characterization"
+    ],
+    "diagnostic_component_scores": [
+      "test_validity",
+      "reclassification_yield",
+      "downstream_action_value",
+      "population_match",
+      "management_threshold",
+      "burden_harms_known"
+    ],
+    "allowed_caps": [
+      "Aleron_judgment_primary_cap",
+      "surrogate_only_cap",
+      "broad_screening_insufficient_cap",
+      "population_mismatch_cap",
+      "diagnostic_downstream_uncertain_cap",
+      "needs_source_upgrade_primary_cap",
+      "model_translated_value_cap"
+    ],
+    "cap_rules": [
+      "A primary value-bearing parameter based mainly on Aleron_judgment caps at low.",
+      "Surrogate-only evidence caps at medium unless the surrogate is deeply validated.",
+      "Broad-screening-insufficient guidance caps at low.",
+      "Major population mismatch caps at medium.",
+      "A diagnostic cannot be high unless test validity/reclassification and downstream action value are both supported.",
+      "A primary value parameter with needs_source_upgrade caps at medium."
+    ]
+  }
 }
