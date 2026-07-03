@@ -715,7 +715,7 @@ svg.nav-ico{width:16px;height:16px;flex:0 0 auto;stroke:currentColor;fill:none;s
   <div class="vmodel-pane" data-risk-pane="actions" role="tabpanel">
     <div class="sec"><div class="ph"><span class="h">Action map</span><span class="sub">every scored action and diagnostic on one patient-QALY scale</span><span id="surfmode" class="seg"><button data-mode="full" class="on">Full scale</button><button data-mode="zoom">Disease levers</button></span></div>
       <div class="pad"><div id="swrap" style="position:relative"><svg id="surface" viewBox="0 0 940 560" role="img"><title>Action decision surface</title></svg><div id="tip" style="position:absolute;display:none;pointer-events:none;background:var(--card);border:1px solid var(--l25);border-radius:var(--radius-field);padding:8px 10px;font-size:12px;max-width:240px;z-index:5;box-shadow:var(--shadow-tier1)"></div></div>
-      <div class="legend"><span><i style="background:var(--text-primary)"></i>action</span><span><i style="background:var(--signal-baseline);border-radius:0"></i>diagnostic</span><span><i style="background:transparent;border:1.5px dashed var(--l45)"></i>gated</span><span><i style="background:transparent;border:1.5px dashed var(--signal-unmodeled)"></i>AI-scored</span><span><i style="background:var(--hi)"></i>net harm</span><span><i style="background:var(--act)"></i>VO₂max ladder</span></div>
+      <div class="legend"><span><i style="background:var(--text-primary)"></i>action</span><span><i style="background:var(--signal-baseline);border-radius:0"></i>diagnostic</span><span><i style="background:transparent;border:1.5px dashed var(--l45)"></i>gated</span><span><i style="background:transparent;border:1.5px dashed var(--signal-unmodeled)"></i>candidate signal</span><span><i style="background:var(--hi)"></i>net harm</span><span><i style="background:var(--act)"></i>VO₂max ladder</span></div>
       <div class="dxvalue" id="dxvalue"></div>
     </div>
     </div>
@@ -785,7 +785,7 @@ svg.nav-ico{width:16px;height:16px;flex:0 0 auto;stroke:currentColor;fill:none;s
       <button type="button" data-agent-prompt="How does vitality change the plan?">Vitality lens</button>
     </div>
   </div>
-  <p class="foot">Answers use the selected patient, current model outputs, the action library, genetics, scored AI candidates, and the map · no thread memory.</p>
+  <p class="foot">Answers are limited to the selected patient, current model outputs, the action library, genetics, candidate signals, and the map.</p>
 </section>
 
 </div>
@@ -1194,7 +1194,7 @@ function actionDetailTab(s){
 }
 function mapProvenance(item){
  // provenance in words, never machine enums
- if(item.aiCandidate)return {word:'AI-scored',ai:true};
+ if(item.aiCandidate)return {word:'candidate signal',ai:true};
  if(item.valuation==='v2_bundle')return {word:'library · bundle',ai:false};
  if(item.valuation==='v2_direct_action')return {word:'library · direct',ai:false};
  return {word:'library',ai:false};
@@ -1335,7 +1335,7 @@ function renderMapDetailPanel(actionMap){
 function diagnosticTooltip(d){
  const p=diagnosticReclass(d);
  const q=diagnosticQalyIf(d);
- const source=d.aiCandidate?'<br><span style="color:var(--proc)">AI source: '+html(d.aiDiscoveryTitle||'gap discovery')+'</span>':'';
+ const source=d.aiCandidate?'<br><span style="color:var(--proc)">Signal source: '+html(d.aiDiscoveryTitle||'gap discovery')+'</span>':'';
  return '<div style="font-weight:500;margin-bottom:3px">'+html(d.name)+'</div><div style="color:var(--muted);line-height:1.5">diagnostic &middot; '+html(d.ev)+' evidence'+source+'<br><span style="color:var(--fg)">Patient QALY if reclassified '+qaly(q)+'</span><br><span style="color:var(--advisory)">Reclass odds '+percent(p)+'</span>'+(d.path?'<br>Decision class: '+html(d.path):'')+(d.note?'<br>'+html(d.note):'')+'</div>';
 }
 
@@ -1382,7 +1382,7 @@ function resolveItems(actionMap){
   .map(d=>({
    tag:'resolve',
    label:d.name,
-   why:(d.aiCandidate?'AI source: '+(d.aiDiscoveryTitle||'gap discovery')+'. ':'Validated v2 diagnostic gate. ')+'Reclass odds '+percent(diagnosticReclass(d))+'; patient QALY if reclassified '+qaly(diagnosticQalyIf(d))+'. Decision changed: '+(d.path||'pending review')+'.'
+   why:(d.aiCandidate?'Signal source: '+(d.aiDiscoveryTitle||'gap discovery')+'. ':'Validated v2 diagnostic gate. ')+'Reclass odds '+percent(diagnosticReclass(d))+'; patient QALY if reclassified '+qaly(diagnosticQalyIf(d))+'. Decision changed: '+(d.path||'pending review')+'.'
   }));
 }
 
@@ -1494,7 +1494,7 @@ function renderAleronAiContext(){
   ['Patient',PT.name+' · '+PT.code+' · '+PT.sexShort],
   ['Dominant lens',PT.phenotype+' · '+risk],
   ['Required',must],
-  ['Map',ACTION_LIBRARY_CATALOG.length+' library · '+ctx.aiScored+' AI-scored'],
+  ['Map',ACTION_LIBRARY_CATALOG.length+' library · '+ctx.aiScored+' candidate signals'],
   ['Top action',action],
   ['Top gate',dx]
  ];
@@ -1507,7 +1507,7 @@ function appendAgentMessage(role,text){
  const label=role==='user'?'You':'Aleron AI';
  const node=document.createElement('div');
  node.className='agent-msg '+(role==='user'?'user':'agent');
- const provenance=role==='agent'?'<div class="agent-prov">Source: current chart, action map, genetics, vitality, and scored candidates. Confidence basis: visible source fields only.</div>':'';
+ const provenance=role==='agent'?'<div class="agent-prov">Source: current chart, action map, genetics, vitality, and scored candidates. Limited to visible source fields.</div>':'';
  node.innerHTML='<div class="role">'+html(label)+'</div><div class="bubble">'+html(text)+'</div>'+provenance;
  log.appendChild(node);
  log.scrollTop=log.scrollHeight;
@@ -2406,16 +2406,16 @@ function vitalityPatientState(patient){
 function buildVitalityActions(patient){
  if(patient.id==='mara-chen'){
   return [
-   {id:'iron_thyroid',name:'CBC, iron studies, thyroid repeat',type:'Diagnostic',source:'AI-scored',driver:'iron_status',confidence:78,evidence:'moderate',latency:'same week',burden:'low',vector:{energy:86,mood:28,body:52,clarity:74},rationale:'Tests reversible energy and cognition drivers before symptoms are attributed to age, mood, or conditioning.'},
-   {id:'sleep_screen',name:'Sleep regularity and fragmentation screen',type:'Diagnostic',source:'AI-scored',driver:'sleep_regularity',confidence:62,evidence:'moderate',latency:'same week',burden:'low',vector:{energy:62,mood:50,body:30,clarity:70},rationale:'Clarifies whether fragmentation and recovery timing are suppressing energy before sleep treatment is named.'},
+   {id:'iron_thyroid',name:'CBC, iron studies, thyroid repeat',type:'Diagnostic',source:'candidate signal',driver:'iron_status',confidence:78,evidence:'moderate',latency:'same week',burden:'low',vector:{energy:86,mood:28,body:52,clarity:74},rationale:'Tests reversible energy and cognition drivers before symptoms are attributed to age, mood, or conditioning.'},
+   {id:'sleep_screen',name:'Sleep regularity and fragmentation screen',type:'Diagnostic',source:'candidate signal',driver:'sleep_regularity',confidence:62,evidence:'moderate',latency:'same week',burden:'low',vector:{energy:62,mood:50,body:30,clarity:70},rationale:'Clarifies whether fragmentation and recovery timing are suppressing energy before sleep treatment is named.'},
    {id:'resistance',name:'Supervised resistance training',type:'Lifestyle',source:'library',driver:'strength_lean',confidence:76,evidence:'moderate',latency:'4 to 12 weeks',burden:'moderate',vector:{energy:55,mood:30,body:92,clarity:35},rationale:'Primary progress lever for body readiness, bone loading, and functional reserve.'},
-   {id:'dexa',name:'Baseline DEXA',type:'Diagnostic',source:'AI-scored',driver:'strength_lean',confidence:60,evidence:'moderate',latency:'diagnostic first',burden:'low',vector:{energy:34,mood:18,body:78,clarity:24},rationale:'Clarifies bone and lean-mass context so loading strategy and prevention intensity are not guessed.'},
+   {id:'dexa',name:'Baseline DEXA',type:'Diagnostic',source:'candidate signal',driver:'strength_lean',confidence:60,evidence:'moderate',latency:'diagnostic first',burden:'low',vector:{energy:34,mood:18,body:78,clarity:24},rationale:'Clarifies bone and lean-mass context so loading strategy and prevention intensity are not guessed.'},
    {id:'vitamin_d',name:'Vitamin D recheck',type:'Diagnostic',source:'library',driver:'strength_lean',confidence:45,evidence:'moderate',latency:'same week',burden:'low',vector:{energy:25,mood:18,body:48,clarity:20},rationale:'Only matters as a vitality action if deficiency correction changes bone, muscle, or fall-risk strategy.'},
    {id:'mood_tx',name:'Mood pathway if PHQ or GAD positive',type:'Therapy',source:'library',driver:'mood_burden',confidence:35,evidence:'strong',latency:'4 to 8 weeks',burden:'moderate',vector:{energy:42,mood:92,body:25,clarity:70},rationale:'Kept visible because mood can dominate vitality, but the current profile does not make it primary.'}
   ];
  }
  return [
-  {id:'hsat',name:'Home sleep apnea test',type:'Diagnostic',source:'AI-scored',driver:'sleep_breathing',confidence:72,evidence:'moderate',latency:'diagnostic first',burden:'low',vector:{energy:86,mood:42,body:55,clarity:88},rationale:'Confirms or demotes a sleep-breathing driver before training response is judged.'},
+  {id:'hsat',name:'Home sleep apnea test',type:'Diagnostic',source:'candidate signal',driver:'sleep_breathing',confidence:72,evidence:'moderate',latency:'diagnostic first',burden:'low',vector:{energy:86,mood:42,body:55,clarity:88},rationale:'Confirms or demotes a sleep-breathing driver before training response is judged.'},
   {id:'glp1',name:'Start GLP-1/GIP metabolic therapy',type:'Therapy',source:'library',driver:'cardiorespiratory_fitness',confidence:76,evidence:'moderate',latency:'weeks to months',burden:'moderate',vector:{energy:72,mood:28,body:82,clarity:52},rationale:'Moves adiposity and insulin resistance, indirectly improving body ease, relative VO2max, and sleep burden.'},
   {id:'resistance',name:'Supervised resistance training',type:'Lifestyle',source:'library',driver:'strength_lean',confidence:70,evidence:'moderate',latency:'4 to 12 weeks',burden:'moderate',vector:{energy:55,mood:30,body:92,clarity:35},rationale:'Protects lean mass and body readiness while metabolic therapy reduces weight.'},
   {id:'sleep_regular',name:'Sleep regularity protocol',type:'Lifestyle',source:'library',driver:'sleep_regularity',confidence:52,evidence:'moderate',latency:'2 to 4 weeks',burden:'low',vector:{energy:62,mood:50,body:30,clarity:70},rationale:'Targets sleep timing and fragmentation, but does not replace sleep apnea confirmation.'},
