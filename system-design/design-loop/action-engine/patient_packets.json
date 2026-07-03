@@ -1,0 +1,289 @@
+{
+  "schema_version": "patient_packet_set.v1",
+  "patients": [
+    {
+      "schema_version": "patient_packet.v1",
+      "patient_id": "ethan-park",
+      "display_name": "Ethan Park",
+      "code": "AL-47M",
+      "age": 47,
+      "sex": "male",
+      "phenotype": "metabolic-risk phenotype",
+      "valid_keys": [
+        "age",
+        "sex",
+        "height_cm",
+        "weight_kg",
+        "bmi",
+        "waist_cm",
+        "blood_pressure",
+        "office_bp",
+        "bp_measurement_context",
+        "medication_status",
+        "diabetes_status",
+        "smoking_status",
+        "lipids",
+        "triglycerides",
+        "hscrp",
+        "apob",
+        "lpa",
+        "hba1c",
+        "fasting_glucose",
+        "insulin_or_homa_ir",
+        "homa_ir",
+        "vo2max",
+        "egfr",
+        "uacr",
+        "resting_hr",
+        "overnight_oxygen",
+        "bmi_or_waist",
+        "sleep_symptoms_or_overnight_oxygen",
+        "energy_or_recovery_score",
+        "resting_or_overnight_heart_rate",
+        "fitness_context",
+        "symptoms_or_sleep_context",
+        "adiposity_or_family_history",
+        "metabolic_risk_context"
+      ],
+      "facts": {
+        "bmi": 29.4,
+        "waist_cm": 105,
+        "bp": "142/90 untreated office reading",
+        "hba1c": 6.0,
+        "fasting_glucose": 110,
+        "homa_ir": 4.3,
+        "vo2max_ml_kg_min": 28,
+        "overnight_spo2_nadir": 89,
+        "overnight_resting_hr": 38,
+        "colorectal_screening_status": "never screened",
+        "anti_obesity_medication_eligible": true
+      },
+      "findings": [
+        {"id": "age_45_or_older", "source": "derived"},
+        {"id": "colorectal_screening_not_current", "source": "intake"},
+        {"id": "physical_inactivity", "source": "wearable"},
+        {"id": "low_vo2max", "source": "wearable"},
+        {"id": "low_strength_or_low_lean_mass", "source": "model_context"},
+        {"id": "anti_obesity_medication_eligible", "source": "derived"},
+        {"id": "metabolic_risk_or_adiposity", "source": "model_context"},
+        {"id": "prediabetes", "source": "lab"},
+        {"id": "insulin_resistance", "source": "lab"},
+        {"id": "central_adiposity", "source": "anthropometry"},
+        {"id": "diabetes_family_history", "source": "family_history"},
+        {"id": "elevated_triglycerides", "source": "lab"},
+        {"id": "overnight_desaturation", "source": "wearable"},
+        {"id": "fatigue_with_sleep_risk", "source": "vitality"},
+        {"id": "resistant_or_unexplained_hypertension", "source": "model_context"},
+        {"id": "elevated_office_bp_not_yet_confirmed", "source": "vitals"},
+        {"id": "bp_treatment_threshold_uncertain", "source": "model_context"},
+        {"id": "cvd_risk_uncertainty", "source": "model_context"},
+        {"id": "treatment_intensity_uncertain", "source": "model_context"},
+        {"id": "marked_bradycardia_discordant_with_fitness", "source": "wearable"},
+        {"id": "sleep_rhythm_uncertainty", "source": "wearable"},
+        {"id": "exercise_clearance_uncertainty", "source": "model_context"},
+        {"id": "lifestyle_cancer_incidence_risk", "source": "model_context"},
+        {"id": "neuro_risk_vascular", "source": "model_context"},
+        {"id": "atm_pathogenic_or_likely_pathogenic_variant", "source": "genetics"}
+      ],
+      "model_outputs": {
+        "risk_domains": [
+          {"id": "cvd", "label": "Cardiovascular", "display": "16%", "horizon": "30-yr ASCVD", "source": "AHA PREVENT"},
+          {"id": "metabolic", "label": "Metabolic", "display": "34%", "horizon": "10-yr incident T2D", "source": "pending live model wiring"},
+          {"id": "neuro", "label": "Neuro", "display": "~5%", "horizon": "20-yr dementia", "source": "pending live model wiring"},
+          {"id": "cancer", "label": "Cancer", "display": "~5%", "horizon": "10-yr modifiable-site", "source": "pending live model wiring"},
+          {"id": "kidney", "label": "Kidney", "display": "~3%", "horizon": "5-yr incident CKD", "source": "pending live model wiring"}
+        ],
+        "vitality": {
+          "outcomes": [
+            {"id": "energy", "label": "Energy / aliveness", "value": 4},
+            {"id": "mood", "label": "Mood / emotional lift", "value": 6},
+            {"id": "body", "label": "Body ease / readiness", "value": 5},
+            {"id": "clarity", "label": "Cognitive clarity", "value": 4}
+          ],
+          "primary_driver_read": "sleep, rhythm, metabolic load, and low fitness"
+        }
+      },
+      "required_care_gaps": [
+        {
+          "id": "colorectal_screening_gap_closure",
+          "label": "Colorectal cancer screening",
+          "reason": "Age 47 and colorectal screening not current."
+        }
+      ],
+      "genetic_findings": [
+        {
+          "gene": "ATM",
+          "classification": "P/LP",
+          "zygosity": "heterozygous",
+          "confirmed": true,
+          "source": "MBTA 163-gene panel"
+        }
+      ],
+      "ai_candidate_packets": [
+        {
+          "id": "ogtt_postload",
+          "title": "OGTT may reclassify prediabetes",
+          "candidate_kind": "diagnostic",
+          "candidate_id": "ogtt_diabetes_reclassification",
+          "cited_keys": ["hba1c", "fasting_glucose", "homa_ir", "waist_cm"],
+          "status": "structured_candidate"
+        },
+        {
+          "id": "masld_fibrosis",
+          "title": "MASLD fibrosis stage unknown",
+          "candidate_kind": "diagnostic",
+          "candidate_id": "masld_fibrosis_staging_reclassification",
+          "cited_keys": ["waist_cm", "homa_ir", "triglycerides", "hscrp"],
+          "status": "structured_candidate"
+        },
+        {
+          "id": "sleep_breathing",
+          "title": "Sleep-disordered breathing signal",
+          "candidate_kind": "diagnostic",
+          "candidate_id": "sleep_apnea_reclassification",
+          "cited_keys": ["overnight_oxygen", "bmi", "blood_pressure", "homa_ir", "vo2max"],
+          "status": "structured_candidate"
+        },
+        {
+          "id": "nocturnal_brady",
+          "title": "Nocturnal bradycardia needs rhythm check",
+          "candidate_kind": "diagnostic",
+          "candidate_id": "rhythm_safety_reclassification",
+          "cited_keys": ["resting_hr", "vo2max", "overnight_oxygen"],
+          "status": "structured_candidate"
+        }
+      ]
+    },
+    {
+      "schema_version": "patient_packet.v1",
+      "patient_id": "mara-chen",
+      "display_name": "Mara Chen",
+      "code": "AL-56F",
+      "age": 56,
+      "sex": "female",
+      "phenotype": "low-vitality Lp(a) phenotype",
+      "valid_keys": [
+        "age",
+        "sex",
+        "height_cm",
+        "weight_kg",
+        "bmi",
+        "waist_cm",
+        "blood_pressure",
+        "office_bp",
+        "lipids",
+        "diabetes_status",
+        "smoking_status",
+        "apob",
+        "lpa",
+        "family_history",
+        "hba1c",
+        "fasting_glucose",
+        "homa_ir",
+        "egfr",
+        "uacr",
+        "resting_hr",
+        "overnight_oxygen",
+        "sleep_duration_or_regularity",
+        "energy_or_mood_score",
+        "overnight_oxygen_context",
+        "ferritin_or_iron_indices",
+        "tsh",
+        "energy_score_or_fatigue_symptom",
+        "vitamin_d",
+        "bone_risk_context",
+        "sex_or_menopause_status",
+        "body_composition_or_strength_context"
+      ],
+      "facts": {
+        "bmi": 23.9,
+        "waist_cm": 82,
+        "bp": "118/72",
+        "apob_mg_dl": 82,
+        "lpa_nmol_l": 165,
+        "ferritin_ng_ml": 18,
+        "tsh_miu_l": 4.7,
+        "vitamin_d_ng_ml": 22,
+        "vo2max_ml_kg_min": 25,
+        "overnight_spo2_nadir": 94,
+        "anti_obesity_medication_eligible": false
+      },
+      "findings": [
+        {"id": "age_45_or_older", "source": "derived"},
+        {"id": "lpa_elevated", "source": "lab"},
+        {"id": "FH", "source": "family_history"},
+        {"id": "cvd_risk_uncertainty", "source": "model_context"},
+        {"id": "risk_enhancer_present", "source": "lab"},
+        {"id": "treatment_intensity_uncertain", "source": "model_context"},
+        {"id": "physical_inactivity", "source": "wearable"},
+        {"id": "low_vo2max", "source": "wearable"},
+        {"id": "low_strength_or_low_lean_mass", "source": "model_context"},
+        {"id": "bone_risk", "source": "family_history"},
+        {"id": "family_history_osteoporosis", "source": "family_history"},
+        {"id": "low_vitamin_d", "source": "lab"},
+        {"id": "low_or_borderline_vitamin_d", "source": "lab"},
+        {"id": "low_ferritin", "source": "lab"},
+        {"id": "borderline_or_high_tsh", "source": "lab"},
+        {"id": "fatigue_or_cognitive_drag", "source": "vitality"},
+        {"id": "low_training_tolerance", "source": "vitality"},
+        {"id": "fragmented_sleep", "source": "wearable"},
+        {"id": "low_hrv_or_recovery_signal", "source": "wearable"},
+        {"id": "menopause_or_mood_context", "source": "intake"}
+      ],
+      "model_outputs": {
+        "risk_domains": [
+          {"id": "cvd", "label": "Cardiovascular", "display": "22%", "horizon": "30-yr ASCVD", "source": "AHA PREVENT + Lp(a) overlay"},
+          {"id": "metabolic", "label": "Metabolic", "display": "7%", "horizon": "10-yr incident T2D", "source": "pending live model wiring"},
+          {"id": "neuro", "label": "Neuro", "display": "~7%", "horizon": "20-yr dementia", "source": "pending live model wiring"},
+          {"id": "cancer", "label": "Cancer", "display": "~6%", "horizon": "10-yr modifiable-site", "source": "pending live model wiring"},
+          {"id": "kidney", "label": "Kidney", "display": "~2%", "horizon": "5-yr incident CKD", "source": "pending live model wiring"}
+        ],
+        "vitality": {
+          "outcomes": [
+            {"id": "energy", "label": "Energy / aliveness", "value": 3},
+            {"id": "mood", "label": "Mood / emotional lift", "value": 5},
+            {"id": "body", "label": "Body ease / readiness", "value": 6},
+            {"id": "clarity", "label": "Cognitive clarity", "value": 5}
+          ],
+          "primary_driver_read": "iron, thyroid, sleep fragmentation, bone context, and low fitness"
+        }
+      },
+      "required_care_gaps": [],
+      "genetic_findings": [],
+      "ai_candidate_packets": [
+        {
+          "id": "lpa_lifetime",
+          "title": "Lp(a)-driven CVD risk may be underweighted",
+          "candidate_kind": "diagnostic",
+          "candidate_id": "cac_primary_prevention_reclassification",
+          "cited_keys": ["lpa", "apob", "family_history", "blood_pressure"],
+          "status": "structured_candidate"
+        },
+        {
+          "id": "iron_thyroid_fatigue",
+          "title": "Iron and thyroid pattern may explain low energy",
+          "candidate_kind": "diagnostic",
+          "candidate_id": "iron_thyroid_fatigue_reclassification",
+          "cited_keys": ["ferritin_or_iron_indices", "tsh", "energy_score_or_fatigue_symptom"],
+          "status": "structured_candidate"
+        },
+        {
+          "id": "sleep_fragmentation",
+          "title": "Sleep fragmentation recovery bottleneck",
+          "candidate_kind": "diagnostic",
+          "candidate_id": "sleep_fragmentation_reclassification",
+          "cited_keys": ["sleep_duration_or_regularity", "energy_or_mood_score", "overnight_oxygen_context"],
+          "status": "structured_candidate"
+        },
+        {
+          "id": "bone_menopause_context",
+          "title": "Bone and menopause context missing",
+          "candidate_kind": "diagnostic",
+          "candidate_id": "dexa_bone_lean_mass_reclassification",
+          "cited_keys": ["age", "sex", "vitamin_d", "bone_risk_context"],
+          "status": "structured_candidate"
+        }
+      ]
+    }
+  ]
+}
