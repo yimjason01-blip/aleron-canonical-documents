@@ -198,80 +198,69 @@ svg.nav-ico{width:16px;height:16px;flex:0 0 auto;stroke:currentColor;fill:none;s
 @media(max-width:760px){.pd-panel{padding:18px 16px;}.pd-row{grid-template-columns:1fr;gap:6px;}.pd-measure{justify-content:flex-start;}}
 
 /* ================================================================
-   SCREEN 2a · RISK MODELS · domain rail + model instrument panel
+   SCREEN 2a · RISK MODELS · physician interpretation surface
    ================================================================ */
-.risk{display:grid;grid-template-columns:minmax(210px,250px) 1fr;gap:16px;align-items:start;}
-@media(max-width:860px){.risk{grid-template-columns:1fr;}}
-.risk-topics{border:1px solid var(--l25);background:var(--card);display:flex;flex-direction:column;}
-.rt{font-family:var(--voice);text-align:left;border:0;border-top:1px solid var(--l08);background:transparent;color:var(--fg);padding:11px 12px;cursor:pointer;display:grid;gap:4px;}
-.rt:first-child{border-top:0;}
+.risk{display:grid;grid-template-columns:minmax(220px,260px) 1fr;gap:18px;align-items:start;}
+@media(max-width:900px){.risk{grid-template-columns:1fr;}}
+.risk-topics{border:1px solid var(--l18);background:var(--card);border-radius:var(--radius-panel);padding:8px;display:flex;flex-direction:column;gap:4px;box-shadow:var(--shadow-tier1);}
+.rt{font-family:var(--voice);text-align:left;border:0;background:transparent;color:var(--fg);padding:11px 12px;cursor:pointer;display:grid;gap:6px;border-radius:var(--radius-control);}
 .rt:hover{background:var(--sunken);}
-.rt.on{background:var(--surface-selected);border-radius:var(--radius-control);border-top-color:transparent;}
+.rt.on{background:var(--surface-selected);box-shadow:inset 0 0 0 1px var(--l18);}
 .rt .row{display:flex;justify-content:space-between;gap:10px;align-items:baseline;}
-.rt .name{font-size:13px;font-weight:500;line-height:1.2;}
-.rt .val{font-family:var(--voice);font-size:15px;font-weight:500;font-variant-numeric:tabular-nums;white-space:nowrap;color:var(--fg);}
-.rt .val.txt{font-size:12px;color:var(--muted);}
-.rt .meta{font-family:var(--voice);font-size:12px;color:var(--faint);letter-spacing:0;}
+.rt .name{font-size:13.5px;font-weight:500;line-height:1.2;}
+.rt .tier{font-size:12px;line-height:1.3;}
+.rt .meta{font-family:var(--voice);font-size:12px;color:var(--muted);letter-spacing:0;line-height:1.35;}
+.rt .rail-score{font-family:var(--voice);font-size:12px;color:var(--faint);font-variant-numeric:tabular-nums;}
 .risk-panels{min-width:0;}
-.risk-panel{display:none;border:1px solid var(--l25);background:var(--card);}
+.risk-panel{display:none;border:1px solid var(--l18);background:var(--card);border-radius:var(--radius-panel);overflow:hidden;box-shadow:var(--shadow-tier1);}
 .risk-panel.on{display:block;}
-.risk-panel .head{display:flex;justify-content:space-between;gap:14px;border-bottom:1px solid var(--l18);padding:16px 16px var(--air-tier);align-items:flex-start;}
-.risk-panel .title{font-size:16px;font-weight:500;line-height:1.2;}
-.risk-panel .head .meta{font-family:var(--voice);font-size:12px;color:var(--muted);letter-spacing:0;margin-top:5px;}
-.risk-panel .score{text-align:right;font-family:var(--voice);font-size:26px;font-weight:500;font-variant-numeric:tabular-nums;white-space:nowrap;line-height:1;}
-.risk-panel.high .score{color:var(--text-primary);}
-.risk-panel.mod .score{color:var(--fg);}
-.risk-panel.low .score{color:var(--fg);}
-.risk-panel .score .bw{display:block;margin-top:5px;text-align:right;}
-/* model stage cells: one label, the number, the read · pending is ghosted */
-.risk-output-grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));border-bottom:1px solid var(--l18);}
+.risk-hero{display:grid;grid-template-columns:minmax(0,1fr) minmax(160px,210px);gap:24px;padding:24px;border-bottom:1px solid var(--l12);background:linear-gradient(180deg,var(--card),var(--surface-sunken));}
+@media(max-width:760px){.risk-hero{grid-template-columns:1fr;}}
+.risk-eyebrow{font-family:var(--voice);font-size:12px;font-weight:500;letter-spacing:0.09em;text-transform:uppercase;color:var(--faint);margin:0 0 8px;}
+.risk-hero h2{font-size:22px;font-weight:500;letter-spacing:-0.015em;line-height:1.15;margin:0;color:var(--fg);max-width:720px;}
+.risk-hero p{font-size:13.5px;line-height:1.55;color:var(--muted);margin:10px 0 0;max-width:760px;}
+.risk-route-note{margin-top:14px;padding:11px 13px;border:1px solid var(--l12);background:var(--card);border-radius:var(--radius-field);font-size:12.5px;line-height:1.45;color:var(--muted);}
+.risk-scorecard{border:1px solid var(--l18);background:var(--card);border-radius:var(--radius-card);padding:16px;align-self:start;text-align:left;}
+.risk-scorecard .score{font-family:var(--voice);font-size:30px;line-height:1;font-weight:500;font-variant-numeric:tabular-nums;color:var(--fg);}
+.risk-scorecard .bw{margin-top:8px;}
+.risk-scorecard .horizon{font-size:12px;color:var(--muted);line-height:1.4;margin-top:10px;}
+.risk-meaning-grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));border-bottom:1px solid var(--l12);}
+@media(max-width:980px){.risk-meaning-grid{grid-template-columns:1fr;}}
+.risk-meaning-card{padding:18px 18px 16px;border-left:1px solid var(--l08);min-height:128px;}
+.risk-meaning-card:first-child{border-left:0;}
+@media(max-width:980px){.risk-meaning-card{border-left:0;border-top:1px solid var(--l08);}.risk-meaning-card:first-child{border-top:0;}}
+.risk-meaning-card .k{font-family:var(--voice);font-size:12px;font-weight:500;letter-spacing:0.09em;text-transform:uppercase;color:var(--muted);margin-bottom:9px;}
+.risk-meaning-card .v{font-size:14px;line-height:1.35;color:var(--fg);font-weight:500;}
+.risk-meaning-card .m{font-size:12.5px;line-height:1.45;color:var(--muted);margin-top:5px;}
+.risk-drivers{padding:22px 24px;border-bottom:1px solid var(--l12);}
+.risk-drivers-head{display:flex;justify-content:space-between;gap:14px;align-items:baseline;margin:0 0 16px;flex-wrap:wrap;}
+.risk-drivers-head b{font-size:15px;font-weight:500;color:var(--fg);}
+.risk-drivers-head span{font-size:12.5px;color:var(--muted);}
+.risk-driver-lanes{display:grid;grid-template-columns:1fr 1fr;gap:28px;}
+@media(max-width:900px){.risk-driver-lanes{grid-template-columns:1fr;}}
+.risk-driver-lane{display:grid;gap:10px;align-content:start;}
+.risk-driver-lane h3{font-family:var(--voice);font-size:12px;font-weight:500;letter-spacing:0.09em;text-transform:uppercase;color:var(--faint);margin:0 0 2px;}
+.risk-driver-row{display:grid;grid-template-columns:minmax(0,1fr) auto;gap:16px;align-items:baseline;padding:11px 0;border-top:1px solid var(--l12);}
+.risk-driver-row:first-of-type{border-top:0;}
+.risk-driver-row .name{font-size:13.5px;color:var(--fg);line-height:1.25;font-weight:500;}
+.risk-driver-row .note{font-size:12.5px;color:var(--muted);line-height:1.35;margin-top:3px;}
+.risk-driver-row .value{font-family:var(--voice);font-size:12.5px;font-weight:500;font-variant-numeric:tabular-nums;color:var(--fg);white-space:nowrap;text-align:right;}
+.risk-audit{background:var(--surface-sunken);border-top:1px solid var(--l08);}
+.risk-audit-head{display:flex;justify-content:space-between;gap:12px;align-items:baseline;padding:13px 18px;border-bottom:1px solid var(--l12);flex-wrap:wrap;}
+.risk-audit-head b{font-family:var(--voice);font-size:12px;font-weight:500;letter-spacing:0.09em;text-transform:uppercase;color:var(--faint);}
+.risk-audit-head span{font-size:12px;color:var(--muted);}
+.risk-output-grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));}
 @media(max-width:980px){.risk-output-grid{grid-template-columns:repeat(2,minmax(0,1fr));}}
-.risk-output{padding:18px 14px 14px;border-left:1px solid var(--l08);border-top:1px solid var(--l08);min-height:84px;}
+.risk-output{padding:14px 16px;border-left:1px solid var(--l08);border-top:1px solid var(--l08);min-height:80px;background:var(--card);}
 .risk-output:nth-child(3n+1){border-left:0;}
 .risk-output:nth-child(-n+3){border-top:0;}
 @media(max-width:980px){.risk-output:nth-child(3n+1){border-left:1px solid var(--l08);}.risk-output:nth-child(2n+1){border-left:0;}.risk-output:nth-child(3){border-top:1px solid var(--l08);}}
 .risk-output .k{font-family:var(--voice);font-size:12px;color:var(--muted);letter-spacing:0;margin-bottom:6px;line-height:1.3;}
-.risk-output .v{font-family:var(--voice);font-size:19px;line-height:1.1;font-weight:500;font-variant-numeric:tabular-nums;}
+.risk-output .v{font-family:var(--voice);font-size:17px;line-height:1.1;font-weight:500;font-variant-numeric:tabular-nums;color:var(--fg);}
 .risk-output .m{font-size:12.5px;color:var(--muted);line-height:1.35;margin-top:5px;}
 .risk-output.pending .v,.risk-output.na .v{font-size:12px;color:var(--faint);letter-spacing:0;}
-.risk-output.pending{background:var(--bg);}
-.risk-model-note{padding:11px 14px;font-size:12.5px;color:var(--muted);line-height:1.45;background:var(--bg);border:1px dashed var(--l18);margin:12px 16px;}
-/* compact single-point trend strip · one honest timepoint, no acreage */
-.risk-chart{padding:var(--air-tier) 16px;border-bottom:1px solid var(--l18);}
-.risk-chart .axis{stroke:var(--l45);stroke-width:1;}
-.risk-chart .grid{stroke:var(--l12);stroke-width:1;}
-.risk-chart .label{fill:var(--faint);font-family:var(--voice);font-size:12px;letter-spacing:0;}
-.risk-chart .value-label{fill:var(--fg);font-family:var(--voice);font-size:12px;}
-.risk-dot{stroke:var(--card);stroke-width:2.5;}
-.risk-dot.high{fill:var(--hi);}
-.risk-dot.mod{fill:var(--must);}
-.risk-dot.low{fill:var(--proc);}
-/* drivers: citation tables · variable names voice, values audit */
-.risk-drivers{border-bottom:1px solid var(--l18);}
-.risk-drivers .rdh{display:flex;justify-content:space-between;gap:12px;align-items:baseline;padding:8px 16px;border-bottom:1px solid var(--l12);background:var(--shade);flex-wrap:wrap;}
-.risk-drivers .rdh b{font-family:var(--voice);font-size:12px;font-weight:400;letter-spacing:0;color:var(--muted);}
-.risk-drivers .rdh span{font-size:12px;color:var(--muted);}
-.risk-input-columns{display:grid;grid-template-columns:1fr 1fr;border-bottom:1px solid var(--l12);}
-@media(max-width:1180px){.risk-input-columns{grid-template-columns:1fr;}}
-.risk-var-block{padding:10px 16px 12px;border-left:1px solid var(--l08);}
-.risk-var-block:first-child{border-left:0;}
-@media(max-width:1180px){.risk-var-block{border-left:0;border-top:1px solid var(--l08);}.risk-var-block:first-child{border-top:0;}}
-.risk-var-title{font-family:var(--voice);font-size:12px;color:var(--muted);letter-spacing:0;margin-bottom:6px;}
-.risk-var-table{width:100%;border-collapse:collapse;table-layout:fixed;}
-.risk-var-table th,.risk-var-table td{font-size:12px;line-height:1.3;text-align:left;vertical-align:top;padding:5px 6px;border-top:1px solid var(--l08);}
-.risk-var-table th{font-family:var(--voice);font-size:12px;letter-spacing:0;color:var(--faint);font-weight:400;}
-.risk-var-table td:first-child{color:var(--fg);}
-.risk-var-table td:nth-child(2){font-family:var(--voice);font-size:12px;font-weight:500;font-variant-numeric:tabular-nums;color:var(--fg);}
-.risk-var-table td:nth-child(3){color:var(--muted);}
-.risk-var-table .note-cell{color:var(--faint);font-size:12px;}
-.risk-sens{padding:10px 16px 14px;}
-.risk-sens-title{font-family:var(--voice);font-size:12px;color:var(--muted);letter-spacing:0;margin-bottom:8px;}
-.risk-sens-row{display:grid;grid-template-columns:minmax(120px,190px) 1fr minmax(90px,160px);gap:10px;align-items:center;font-size:12.5px;line-height:1.25;margin:6px 0;}
-@media(max-width:760px){.risk-sens-row{grid-template-columns:1fr;gap:4px;margin:9px 0;}}
-.risk-sens-track{height:8px;border:1px solid var(--l12);background:var(--bg);position:relative;}
-.risk-sens-track i{position:absolute;left:0;top:0;bottom:0;background:var(--proc);opacity:.55;}
-.risk-sens-meta{font-family:var(--voice);font-size:12px;color:var(--faint);}
-.risk-foot{padding:var(--air-tier) 16px;font-family:var(--voice);font-size:12px;letter-spacing:0;color:var(--faint);line-height:1.55;}
+.risk-model-note{padding:12px 14px;font-size:12.5px;color:var(--muted);line-height:1.45;background:var(--card);border:1px solid var(--l12);border-radius:var(--radius-field);}
+.risk-foot{padding:16px 24px;font-family:var(--voice);font-size:12.5px;letter-spacing:0;color:var(--muted);line-height:1.55;background:var(--surface-sunken);}
 
 /* ================================================================
    SCREEN 2b · ACTION MAP + evidence ledger + AI pipeline + gates
@@ -1965,32 +1954,55 @@ function buildRiskReadouts(patient){
 }
 function riskOutputGrid(d){
  if(!d.outputs||!d.outputs.length)return '';
- // One label per cell: the stage role folds into the label line unless it
- // adds real provenance (a model name the label doesn't already carry).
- return '<div class="risk-output-grid">'+d.outputs.map(o=>{
+ return '<div class="risk-audit"><div class="risk-audit-head"><b>Model audit trail</b><span>kept below the clinical interpretation</span></div><div class="risk-output-grid">'+d.outputs.map(o=>{
   const label=String(o.label||'');
   const src=String(o.source||'');
   const redundant=!src||label.toLowerCase().includes(src.toLowerCase())||['base anchor','router','current output','modifier layer','metabolic'].includes(src.toLowerCase());
   const k=redundant?label:label+' · '+src;
   return '<div class="risk-output '+html(o.state||'')+'"><div class="k">'+html(k)+'</div><div class="v">'+html(o.display)+'</div><div class="m">'+html(o.meta)+'</div></div>';
- }).join('')+'</div>';
+ }).join('')+'</div></div>';
 }
-function riskChartBlock(d){
- if(d.chart===false||!isFiniteValue(d.value))return '<div class="risk-chart"><div class="risk-model-note">'+html(d.foot||'This model does not emit one composite risk trend.')+'</div></div>';
- return '<div class="risk-chart">'+riskTrendSvg(d)+'</div>';
+function riskDriverByLabel(d,label){
+ const rows=[...(d.baseVars||[]),...(d.modifierVars||[])];
+ const key=norm(label);
+ if(key.includes('central adiposity')||key.includes('weight')){
+  return rows.find(r=>norm(r.label).includes('waist-to-height'))||rows.find(r=>norm(r.label).includes('weight trajectory'))||null;
+ }
+ if(key.includes('insulin'))return rows.find(r=>norm(r.label).includes('insulin'))||rows.find(r=>norm(r.label).includes('homa'))||null;
+ if(key==='crf')return rows.find(r=>norm(r.label).includes('crf'))||null;
+ const exact=rows.find(r=>norm(r.label)===key);
+ if(exact)return exact;
+ const first=key.split(' ')[0];
+ const loose=rows.find(r=>key.includes(norm(r.label))||norm(r.label).includes(first));
+ return loose||null;
 }
-function riskVarTable(title,rows){
- if(!rows||!rows.length)return '';
- return '<div class="risk-var-block"><div class="risk-var-title">'+html(title)+'</div><table class="risk-var-table"><thead><tr><th>Variable</th><th>Current</th><th>Range</th></tr></thead><tbody>'+rows.map(r=>'<tr><td>'+html(r.label)+'</td><td>'+html(r.current)+(r.note?'<div class="note-cell">'+html(r.note)+'</div>':'')+'</td><td>'+html(r.range)+'</td></tr>').join('')+'</tbody></table></div>';
+function riskDriverRows(d,kind){
+ const sens=[...(d.sensitivity||[])];
+ const filtered=sens.filter(x=>kind==='actionable'?String(x.meta||'').includes('modifier'):!String(x.meta||'').includes('modifier')).slice(0,4);
+ const fallback=(kind==='actionable'?d.modifierVars:d.baseVars)||[];
+ const rows=(filtered.length?filtered.map(x=>riskDriverByLabel(d,x.label)||{label:x.label,current:x.meta||'driver',note:''}):fallback).slice(0,4);
+ return rows.map(r=>'<div class="risk-driver-row"><div><div class="name">'+html(r.label)+'</div><div class="note">'+html(r.note||r.range||'current structured field')+'</div></div><div class="value">'+html(r.current||'pending')+'</div></div>').join('');
 }
-function riskSensitivityBlock(items){
- if(!items||!items.length)return '';
- const max=Math.max(1,...items.map(i=>Number(i.score)||0));
- return '<div class="risk-sens"><div class="risk-sens-title">Sensitivity map</div>'+items.map(i=>'<div class="risk-sens-row"><div class="risk-sens-name">'+html(i.label)+'</div><div class="risk-sens-track"><i style="width:'+Math.max(3,(Number(i.score)||0)/max*100).toFixed(1)+'%"></i></div><div class="risk-sens-meta">'+html(i.meta||'')+'</div></div>').join('')+'</div>';
+function riskClinicalSummary(d){
+ if(d.id==='metabolic')return {headline:'High 10-yr incident diabetes risk, driven by insulin resistance and low fitness.',body:'This is the clinical answer: current prediabetes, elevated HOMA-IR, central adiposity, and low CRF place the patient in a high incident T2D lane. The useful physician read is not the gate mechanics, it is which levers explain the risk and can change it.',route:'No established diabetes is documented, so the model is using the incident-risk pathway. Gate 2 severity is not clinically active until diabetes is established.'};
+ if(d.id==='cvd')return {headline:'Moderate long-horizon ASCVD risk with blood pressure and lipid drivers.',body:'The PREVENT base readout is best used as a cardiovascular risk interpretation plus modifier context, not as a standalone cockpit score.',route:'PREVENT outputs are base estimates. Aleron phenotype modifiers stay visible as context rather than being silently blended.'};
+ if(d.id==='cancer')return {headline:'Cancer risk is site-specific, not one composite score.',body:'This domain should be read as a set of engines and screening obligations. A single total cancer percentage would be falsely precise.',route:'The audit layer keeps engine provenance visible while the clinical surface should lead with the active site-specific obligations.'};
+ if(d.id==='kidney')return {headline:'Low near-term kidney risk with blood pressure and metabolic modifiers to watch.',body:'Current eGFR and UACR are reassuring. The clinical value is monitoring the modifiers that would move the patient out of the low-risk lane.',route:'CKD route depends on whether the patient is Stage A or Stage B by eGFR and UACR.'};
+ if(d.id==='neuro')return {headline:'Moderate directional neurodegenerative risk, mostly modifier-driven.',body:'This readout is directional until biomarker and family-history depth are available. The physician surface should keep that uncertainty visible.',route:'APOE and biomarkers are strategy inputs only when consented and available.'};
+ return {headline:d.label+' risk interpretation',body:d.detail||'Structured risk readout pending.',route:d.source||'Model provenance pending.'};
+}
+function riskMeaningGrid(d){
+ const actionable=((d.sensitivity||[]).filter(x=>String(x.meta||'').includes('modifier')).slice(0,3).map(x=>x.label).join(', '))||'No modifiable driver surfaced';
+ const evidence=(d.modifierVars||d.baseVars||[]).slice(0,3).map(r=>r.label+': '+r.current).join('; ')||'structured fields pending';
+ const caveat=d.foot||((d.outputs||[]).some(o=>o.state==='pending')?'Some model anchors are pending; interpret as a directional current-state read.':'Model output has a single intake timepoint. Trend needs follow-up data.');
+ return '<div class="risk-meaning-grid"><div class="risk-meaning-card"><div class="k">Actionable levers</div><div class="v">'+html(actionable)+'</div><div class="m">Prioritized from the current modifier sensitivity list.</div></div><div class="risk-meaning-card"><div class="k">Patient evidence</div><div class="v">'+html(evidence)+'</div><div class="m">The current fields the physician can verify in chart review.</div></div><div class="risk-meaning-card"><div class="k">Confidence note</div><div class="v">Directional until live wiring is complete</div><div class="m">'+html(caveat)+'</div></div></div>';
 }
 function riskDriverBlock(d){
  if(!(d.baseVars||d.modifierVars||d.sensitivity))return '';
- return '<div class="risk-drivers"><div class="rdh"><b>Model drivers</b><span>current value · model range · sensitivity</span></div><div class="risk-input-columns">'+riskVarTable('Base model variables',d.baseVars)+riskVarTable(d.modifierTitle||'Modifier variables',d.modifierVars)+'</div>'+riskSensitivityBlock(d.sensitivity)+'</div>';
+ return '<div class="risk-drivers"><div class="risk-drivers-head"><b>Why the model believes this</b><span>grouped by physician actionability, not model plumbing</span></div><div class="risk-driver-lanes"><div class="risk-driver-lane"><h3>Modifiable drivers</h3>'+riskDriverRows(d,'actionable')+'</div><div class="risk-driver-lane"><h3>Context and base evidence</h3>'+riskDriverRows(d,'context')+'</div></div></div>';
+}
+function riskChartBlock(d){
+ return '<div class="risk-foot">Trend: one intake timepoint only. Follow-up trend should appear after a second measured visit, not as a decorative chart.</div>';
 }
 function riskTrendSvg(d){
  // Compact single-timepoint strip. One measurement exists; the chart says
@@ -2015,16 +2027,20 @@ function renderRiskDomains(items){
  if(!el)return;
  const activeId=(items.find(d=>d.band==='high')||items[0]||{}).id;
  const tabs=items.map(d=>{
-  const numeric=String(d.display).includes('%');
+  const tier=(BAND[d.band]||BAND.low)[0];
+  const railMetric=d.id==='cancer'?'site-specific':d.display;
   return '<button type="button" class="rt '+html(d.band)+' '+(d.id===activeId?'on':'')+'" data-risk-tab="'+html(d.id)+'" role="tab" aria-selected="'+(d.id===activeId?'true':'false')+'">'
-   +'<span class="row"><span class="name">'+html(d.label)+'</span><span class="val'+(numeric?'':' txt')+'">'+html(d.display)+'</span></span>'
-   +'<span class="meta">'+html(d.horizon)+' · '+bandWord(d.band)+'</span></button>';
+   +'<span class="row"><span class="name">'+html(d.label)+'</span><span class="tier">'+bandWord(d.band)+'</span></span>'
+   +'<span class="meta">'+html(d.horizon)+'</span><span class="rail-score">'+html(railMetric)+' · '+html(tier)+' tier</span></button>';
  }).join('');
- const panels=items.map(d=>'<div class="risk-panel '+html(d.band)+' '+(d.id===activeId?'on':'')+'" data-risk-panel="'+html(d.id)+'" role="tabpanel">'
-  +'<div class="head"><div><div class="title">'+html(d.label)+'</div><div class="meta">'+html(d.horizon)+' · '+html(d.source)+'</div></div>'
-  +'<div class="score">'+html(d.display)+bandWord(d.band)+'</div></div>'
-  +riskOutputGrid(d)+riskChartBlock(d)+riskDriverBlock(d)
-  +'<div class="risk-foot">'+html(d.detail)+' · timepoints 1, slope pending · fields: '+html(d.read)+(d.foot?' · '+html(d.foot):'')+'</div></div>').join('');
+ const panels=items.map(d=>{
+  const s=riskClinicalSummary(d);
+  return '<div class="risk-panel '+html(d.band)+' '+(d.id===activeId?'on':'')+'" data-risk-panel="'+html(d.id)+'" role="tabpanel">'
+   +'<div class="risk-hero"><div><div class="risk-eyebrow">Risk interpretation</div><h2>'+html(s.headline)+'</h2><p>'+html(s.body)+'</p><div class="risk-route-note">'+html(s.route)+'</div></div>'
+   +'<div class="risk-scorecard"><div class="risk-eyebrow">Current read</div><div class="score">'+html(d.display)+'</div>'+bandWord(d.band)+'<div class="horizon">'+html(d.horizon)+'<br>'+html(d.source)+'</div></div></div>'
+   +riskMeaningGrid(d)+riskDriverBlock(d)+riskOutputGrid(d)+riskChartBlock(d)
+   +'</div>';
+ }).join('');
  el.innerHTML='<div class="risk-topics" role="tablist" aria-label="Risk domains">'+tabs+'</div><div class="risk-panels">'+panels+'</div>';
  const riskTabs=el.querySelectorAll('[data-risk-tab]');
  const riskPanels=el.querySelectorAll('[data-risk-panel]');

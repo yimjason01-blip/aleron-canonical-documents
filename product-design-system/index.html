@@ -4296,6 +4296,8 @@ section.ds-section:first-child { border-top: none; padding-top: 48px; }
         <li>Em dashes in user-facing prose</li>
         <li>Exclamation points</li>
         <li>Lorem ipsum past the sketch phase</li>
+        <li>Interface-narrating copy: a string that explains the surface instead of serving its reader</li>
+        <li>Anonymous strings: copy traceable to neither the spec vocabulary nor the data model</li>
       </ul>
     </div>
   </div>
@@ -4356,12 +4358,12 @@ section.ds-section:first-child { border-top: none; padding-top: 48px; }
       <li><span class="rule-num">06</span><span>Identify which interaction archetypes the surface needs (AI, voice, agentic, onboarding, data capture).</span></li>
       <li><span class="rule-num">07</span><span><b>Write the brief before building.</b> Three sentences, shown to the user: what this screen is for, the one thing it must answer first, and the encoding plan, meaning what shape carries, what color carries, what weight carries, what position carries. A surface built without a brief is a re-skin, not a design.</span></li>
       <li><span class="rule-num">08</span><span>Build from the registry. Resolve all tokens via the semantic contract. Every color is a token, never a hex. Every spacing is a token, never a px. This includes chart furniture: gridlines, leader lines, reference bands, and SVG marks draw from tokens so the register flip carries the instrument.</span></li>
-      <li><span class="rule-num">09</span><span>Run the six acceptance tests below and report pass or fail per test. "No violations" is not done; communicating is done.</span></li>
+      <li><span class="rule-num">09</span><span>Run the seven acceptance tests below and report pass or fail per test. "No violations" is not done; communicating is done.</span></li>
     </ol>
   </div>
 
   <div class="subsec">
-    <div class="subsec-label">Acceptance · the six tests a surface must pass</div>
+    <div class="subsec-label">Acceptance · the seven tests a surface must pass</div>
     <ol class="rules">
       <li><span class="rule-num">T1</span><span><b>Cover the words.</b> Shape alone says what presses. Verbs look pressable, statuses do not, selections sit in insets. (H1 to H4.)</span></li>
       <li><span class="rule-num">T2</span><span><b>Squint.</b> Cover the hairlines and the fills; the grouping still reads from air alone, and between-group space is at least twice within-group space. (A1 to A5.) This test has a numeric form and it is the required one: measure rendered text-to-text air on the built page, and between divided by within reads 2.0 or better at every altitude. Source cannot pass this test; only the render can. Tooling: air-audit.js beside this file.</span></li>
@@ -4369,7 +4371,20 @@ section.ds-section:first-child { border-top: none; padding-top: 48px; }
       <li><span class="rule-num">T4</span><span><b>Count the golds.</b> At most one gold detail per surface. If a One-Thing card is present, its label bar is the gold; on an instrument, the selection focus is the gold. Never both.</span></li>
       <li><span class="rule-num">T5</span><span><b>Check the floors.</b> Every value carries a unit; reading prose at 14 and up; functional voice text at 10.5 and up; every color pair passes the interaction grid. Instrument exception, provisional 03 Jul 2026: on charts, annotations secondary to a plotted mark may run 9.5 minimum, per the physician register's O1.</span></li>
       <li><span class="rule-num">T6</span><span><b>Empty is correct.</b> Nothing was added to occupy room. Quiet groups collapsed to one honest line. A surface that got busier without new information fails this test.</span></li>
+      <li><span class="rule-num">T7</span><span><b>Every string would ship.</b> Extract the rendered copy deck (copy-audit.js beside this file) and give every string a provenance class per the string law below: a spec'd constant, a variable fed from the data model, or sanctioned AI content wearing its provenance chrome. A string with no class fails, and the tells scan reports zero unwaived flags. Vocabulary alone never convicts; provenance decides.</span></li>
     </ol>
+  </div>
+
+  <div class="subsec">
+    <div class="subsec-label">Copy · the string provenance law · provisional 03 Jul 2026</div>
+    <p class="type-body">Production surfaces have no anonymous strings: every string is a designed constant or arrives through a variable. Prototypes are held to the same discipline, because filler copy is how a prototype stops predicting the product. This law extends A5, T6, the lorem rule, and the sourceless-AI rule from elements to the words inside them.</p>
+    <ol class="rules">
+      <li><span class="rule-num">C1</span><span><b>Every string has a provenance.</b> A rendered string is one of three things: a constant from the surface's spec vocabulary, a variable fed from the data model, or AI-authored content delivered by a named product feature wearing its provenance chrome. A string that is none of these is filler and does not ship, in prototype or production.</span></li>
+      <li><span class="rule-num">C2</span><span><b>The surface never narrates itself.</b> No string describes, explains, or coaches the interface: no "this view shows," no "use this panel to." If a surface needs a caption to be understood, the design failed the parse-speed law; fix the design, not the copy. Spec'd furniture is not narration: a screen's one-line definition and an audit footer state what a thing is, in the product's voice, and are ratified per surface.</span></li>
+      <li><span class="rule-num">C3</span><span><b>Data-bearing text comes from the data model.</b> A value, a patient-specific sentence, or a clinical read rendered from a literal in the markup instead of the model is a mock leak; it will read plausible and be wrong. If the prototype needs example prose, the prose lives in the data object where it is visible, auditable, and swappable.</span></li>
+      <li><span class="rule-num">C4</span><span><b>The AI never speaks anonymously.</b> Model-authored summaries and reads are a product feature with a name, a source line, and a confidence basis (Archetypes 01 and 02). Any string with an AI-authored register and no chrome is forbidden, which is the copy form of the sourceless-message rule.</span></li>
+    </ol>
+    <p class="fine">Tooling: copy-audit.js beside this file; inventory() extracts the rendered copy deck, tells() flags self-narration, coaching, hedge preambles, slop vocabulary, placeholders, and em dashes, with waivers for spec'd furniture. First field audit of the physician chart: 1,588 rendered strings, 3 filler (one coaching panel), 2 candidates that classified clean as data. Vocabulary collides with clinical language ("comprehensive" is an E/M term), which is why provenance, not word lists, decides.</p>
   </div>
 
   <div class="subsec">
