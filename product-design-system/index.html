@@ -87,6 +87,14 @@
   --s-2xl: 48px;
   --s-3xl: 64px;
 
+  /* Air ladder · A2 tokenized · proposed 02 Jul 2026. The --s scale supplies sizes;
+     these supply relationships. Components spend vertical air only through these,
+     so the ratio law (between is at least twice within) holds by construction. */
+  --air-row: 9px;      /* within a group, leaf to leaf */
+  --air-group: 26px;   /* into a new group, above a head */
+  --air-tier: 20px;    /* between sibling blocks inside a module */
+  --air-section: 44px; /* into a new module or section */
+
   /* Layout */
   --nav-w: 200px;
   --page-max: 1240px;
@@ -2694,7 +2702,7 @@ section.ds-section:first-child { border-top: none; padding-top: 48px; }
     <p class="type-body">Spaciousness is not leftover room; it is the primary grouping instrument, and it is codified. The scale above supplies the units; the laws below decide how they are spent. The test for any surface: cover the hairlines and the fills, and the grouping should still be legible from the air alone.</p>
     <ol class="rules">
       <li><span class="rule-num">A1</span><span><b>Air carries the grouping.</b> Proximity first, enclosure second, lines last. If a grouping fails without hairlines, fix the space, not the lines.</span></li>
-      <li><span class="rule-num">A2</span><span><b>The ratio law.</b> Space between groups is at least twice the space within them, at every altitude: rows within a group, groups within a tier, tiers on a surface. Reference ladder from the ratified surface: 9 within rows, 26 above a group head, 16 between tiers, 20 between columns, 44 into a new section.</span></li>
+      <li><span class="rule-num">A2</span><span><b>The ratio law.</b> Space between groups is at least twice the space within them, at every altitude: rows within a group, groups within a tier, tiers on a surface. Reference ladder from the ratified surface: 9 within rows, 26 above a group head, 16 between tiers, 20 between columns, 44 into a new section. Proposed 02 Jul 2026: the ladder is tokenized (--air-row, --air-group, --air-tier, --air-section) and components spend vertical air only through the tokens; a ladder that lives only in prose does not transfer. The ratio law binds only where the markup preserves the grouping tree: a flat DOM has no group boundaries for air to attach to, so chunking must survive from data to markup to style.</span></li>
       <li><span class="rule-num">A3</span><span><b>The measure.</b> Reading prose runs 45 to 75 characters; table notes hold near 48. A full-width line of text is a legibility failure, not a layout choice.</span></li>
       <li><span class="rule-num">A4</span><span><b>Under load, content yields, air does not.</b> When a surface grows, quiet groups collapse to one honest line and detail defers to disclosure. Air is never shrunk to fit more in. The dark cockpit is a spacing law: 104 markers stay readable because most of them stay quiet.</span></li>
       <li><span class="rule-num">A5</span><span><b>Empty is correct.</b> A quiet surface is the product working. No filler, no decorative dividers, no cards added to occupy room. One enclosure between the reader and the paper, never more.</span></li>
@@ -4227,6 +4235,11 @@ section.ds-section:first-child { border-top: none; padding-top: 48px; }
     </div>
     <p class="fine">Three columns: nav rail + triage main + patient context. Flight-deck register throughout. The patient's words are preserved verbatim in the inbound card, then structured into chips beneath, so the physician sees both the human and the parse. The proposed action carries its gold-marked label, a moderate-confidence basis stated honestly, and three dispositions. Approve is a filled control; gold never becomes the button. Confidence is categorical, not a false percentage.</p>
   </div>
+
+  <div class="subsec">
+    <div class="subsec-label">Physician · web · the per-patient chart · proposed</div>
+    <p class="fine">The deep-read instrument, distinct from the inbox: risk models, the action map, the evidence ledger, the journal. Register study proposed in <b>physician-register.html</b>; reference surface <b>system-design/diagrams/aleron-actionmap-al47m-ds.html</b>, flight-deck default with day one class away, two synthetic patients, six screens. Laws extracted from the build; awaiting ratification. Until ratified, physician chart work derives from the proposal and flags divergence.</p>
+  </div>
 </section>
 
 <!-- ================================================================ -->
@@ -4335,15 +4348,46 @@ section.ds-section:first-child { border-top: none; padding-top: 48px; }
   <div class="subsec">
     <div class="subsec-label">Agent contract · load order</div>
     <ol class="rules">
-      <li><span class="rule-num">01</span><span>Read <b>DESIGN_SYSTEM.md</b> and this reference page fully.</span></li>
+      <li><span class="rule-num">01</span><span>Read <b>this reference page</b> fully. This page is canonical; DESIGN_SYSTEM.md is retired until regenerated from it, and an agent that reads only the markdown is applying superseded law.</span></li>
       <li><span class="rule-num">02</span><span>Read <b>brand-deck/index.html</b> Section 03 (Color) and Section 10 (Application).</span></li>
       <li><span class="rule-num">03</span><span>Read the product spec for the surface being built.</span></li>
-      <li><span class="rule-num">04</span><span>Identify the register (day or flight-deck) from Layer 4.</span></li>
+      <li><span class="rule-num">04</span><span>Identify the register (day or flight-deck) from Layer 4, then find the surface family's <b>ratified register study</b> and derive from its reference surface. If no study exists for the family, say so before building: the work ahead is design, not application, and it runs the study loop (study, ratify, codify, derive), not this contract alone.</span></li>
       <li><span class="rule-num">05</span><span>Identify which domain components the spec requires.</span></li>
       <li><span class="rule-num">06</span><span>Identify which interaction archetypes the surface needs (AI, voice, agentic, onboarding, data capture).</span></li>
-      <li><span class="rule-num">07</span><span>Build from the registry. Resolve all tokens via the semantic contract. Every color is a token, never a hex. Every spacing is a token, never a px.</span></li>
+      <li><span class="rule-num">07</span><span><b>Write the brief before building.</b> Three sentences, shown to the user: what this screen is for, the one thing it must answer first, and the encoding plan, meaning what shape carries, what color carries, what weight carries, what position carries. A surface built without a brief is a re-skin, not a design.</span></li>
+      <li><span class="rule-num">08</span><span>Build from the registry. Resolve all tokens via the semantic contract. Every color is a token, never a hex. Every spacing is a token, never a px. This includes chart furniture: gridlines, leader lines, reference bands, and SVG marks draw from tokens so the register flip carries the instrument.</span></li>
+      <li><span class="rule-num">09</span><span>Run the six acceptance tests below and report pass or fail per test. "No violations" is not done; communicating is done.</span></li>
     </ol>
   </div>
+
+  <div class="subsec">
+    <div class="subsec-label">Acceptance · the six tests a surface must pass</div>
+    <ol class="rules">
+      <li><span class="rule-num">T1</span><span><b>Cover the words.</b> Shape alone says what presses. Verbs look pressable, statuses do not, selections sit in insets. (H1 to H4.)</span></li>
+      <li><span class="rule-num">T2</span><span><b>Squint.</b> Cover the hairlines and the fills; the grouping still reads from air alone, and between-group space is at least twice within-group space. (A1 to A5.) This test has a numeric form and it is the required one: measure rendered text-to-text air on the built page, and between divided by within reads 2.0 or better at every altitude. Source cannot pass this test; only the render can. Tooling: air-audit.js beside this file.</span></li>
+      <li><span class="rule-num">T3</span><span><b>Flip the register.</b> One class swaps day and flight-deck and nothing else changes. Any color that survives the flip unresolved is a defect. (R4.)</span></li>
+      <li><span class="rule-num">T4</span><span><b>Count the golds.</b> At most one gold detail per surface. If a One-Thing card is present, its label bar is the gold; on an instrument, the selection focus is the gold. Never both.</span></li>
+      <li><span class="rule-num">T5</span><span><b>Check the floors.</b> Every value carries a unit; reading prose at 14 and up; functional voice text at 10.5 and up; every color pair passes the interaction grid. Instrument exception, provisional 03 Jul 2026: on charts, annotations secondary to a plotted mark may run 9.5 minimum, per the physician register's O1.</span></li>
+      <li><span class="rule-num">T6</span><span><b>Empty is correct.</b> Nothing was added to occupy room. Quiet groups collapsed to one honest line. A surface that got busier without new information fails this test.</span></li>
+    </ol>
+  </div>
+
+  <div class="subsec">
+    <div class="subsec-label">The ratchet · decisions accumulate</div>
+    <p class="type-body">When a surface forces a decision this system does not cover, a new mark, a new furniture rule, a new register clause, the session does not end until the decision is proposed here: named, one rule, where it applies, marked proposed. Proposed rules are followed or amended, never re-invented. This is how the system grows a jurisdiction at a time; the unmodeled-window indigo and the hazard tile entered exactly this way, from the physician chart work of 02 Jul 2026.</p>
+  </div>
+
+  <div class="subsec">
+    <div class="subsec-label">Dialects · the retrofit law</div>
+    <ol class="rules">
+      <li><span class="rule-num">D1</span><span><b>Native.</b> Built from the registry: DS class names, DS token names, no alias layer. Every new build is native.</span></li>
+      <li><span class="rule-num">D2</span><span><b>Dialect.</b> A living prototype that predates the system keeps its own vocabulary and maps DS-canonical values in through an alias table declared in its head comment. A dialect syncs values, not grammar; the drift lives in that gap. Dialects are debt: tolerated, dated, and graduated to native when the surface is next recut.</span></li>
+      <li><span class="rule-num">D3</span><span><b>Silent dialects are forbidden.</b> An asset that neither builds from the registry nor declares its alias table is out of contract.</span></li>
+    </ol>
+    <p class="fine">Declared dialects as of 02 Jul 2026: the member experience (workspaces/landing-staging/member.html) and the physician chart (system-design/diagrams/aleron-actionmap-al47m-ds.html).</p>
+  </div>
+
+  <p class="fine">Contract amendment drafted 02 Jul 2026: step 01 recanonized to this page, step 04 study-derivation, step 07 the brief, step 09 plus the six tests, the ratchet, and the dialect law. Provisionally in force since 03 Jul 2026 for field validation across the canonical surfaces; ratification pending on the field results. The prior seven-step order survives unchanged in substance as steps 01 to 08.</p>
 </section>
 
 </main>

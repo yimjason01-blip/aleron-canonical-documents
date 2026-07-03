@@ -1,5 +1,5 @@
 <!doctype html>
-<html lang="en" class="night"><head><meta charset="utf-8">
+<html lang="en"><head><meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Aleron Patient Dashboard</title>
 <style>
@@ -53,6 +53,12 @@
  --shadow-tier1:0 12px 36px rgba(29,27,24,0.09);
  /* radius scale · S1 the 10/12 line: below acts, above holds */
  --radius-panel:18px; --radius-card:16px; --radius-field:12px; --radius-control:10px; --radius-tile:4px;
+ /* air ladder · A2 tokenized: between is at least twice within, at every altitude.
+    Grouping is carried by air, not lines; these tokens are the only legal vertical spends. */
+ --air-row:9px;      /* within a group, leaf to leaf */
+ --air-group:26px;   /* into a new group, above a head */
+ --air-tier:20px;    /* between sibling blocks inside a module */
+ --air-section:44px; /* into a new module or section */
  /* ── back-compat aliases · original dashboard token names re-grounded ── */
  --bg:var(--ground); --card:var(--surface-card); --fg:var(--text-primary); --line:var(--text-primary);
  --muted:var(--text-secondary); --faint:var(--text-tertiary);
@@ -98,7 +104,7 @@ svg{display:block;width:100%;height:auto;}
 .app-shell{display:grid;grid-template-columns:188px minmax(0,1fr);min-height:100vh;}
 .sidebar{position:sticky;top:0;height:100vh;background:var(--shade);border-right:1px solid var(--l12);padding:20px 14px;align-self:start;}
 .brand{font-size:20px;font-weight:400;letter-spacing:-0.0275em;line-height:1;margin:0 0 24px;color:var(--text-primary);}
-.brand span{font-family:var(--audit);font-size:9px;letter-spacing:0;margin-left:2px;vertical-align:top;
+.brand span{font-family:var(--audit);font-size:9.5px;letter-spacing:0;margin-left:2px;vertical-align:top;
  background:linear-gradient(180deg,#C9A14E,#8A6A2F);-webkit-background-clip:text;background-clip:text;color:transparent;}
 .side-patient{display:flex;gap:9px;align-items:center;margin:0 0 14px;}
 .avatar{width:32px;height:32px;border:1px solid var(--l25);border-radius:50%;display:grid;place-items:center;font-family:var(--voice);font-weight:500;font-size:12px;color:var(--muted);background:var(--bg);flex:0 0 auto;}
@@ -127,7 +133,7 @@ svg.nav-ico{width:16px;height:16px;flex:0 0 auto;stroke:currentColor;fill:none;s
 .foot b{color:var(--muted);font-weight:400;}
 
 /* ---- module card + annunciator band ---- */
-.sec{margin:0 0 30px;border:1px solid var(--l18);background:var(--card);border-radius:var(--radius-panel);overflow:hidden;}
+.sec{margin:0 0 var(--air-section);border:1px solid var(--l18);background:var(--card);border-radius:var(--radius-panel);overflow:hidden;}
 .sec>.ph{display:flex;justify-content:space-between;align-items:baseline;gap:12px;padding:13px 18px;border-bottom:1px solid var(--l12);background:var(--shade);flex-wrap:wrap;}
 .sec>.ph .h{font-family:var(--voice);font-size:12px;font-weight:500;letter-spacing:0;color:var(--muted);}
 .sec>.ph .sub{font-size:12.5px;color:var(--muted);font-weight:400;}
@@ -209,7 +215,7 @@ svg.nav-ico{width:16px;height:16px;flex:0 0 auto;stroke:currentColor;fill:none;s
 .risk-panels{min-width:0;}
 .risk-panel{display:none;border:1px solid var(--l25);background:var(--card);}
 .risk-panel.on{display:block;}
-.risk-panel .head{display:flex;justify-content:space-between;gap:14px;border-bottom:1px solid var(--l18);padding:14px 16px;align-items:flex-start;}
+.risk-panel .head{display:flex;justify-content:space-between;gap:14px;border-bottom:1px solid var(--l18);padding:16px 16px var(--air-tier);align-items:flex-start;}
 .risk-panel .title{font-size:16px;font-weight:500;line-height:1.2;}
 .risk-panel .head .meta{font-family:var(--voice);font-size:12px;color:var(--muted);letter-spacing:0;margin-top:5px;}
 .risk-panel .score{text-align:right;font-family:var(--voice);font-size:26px;font-weight:500;font-variant-numeric:tabular-nums;white-space:nowrap;line-height:1;}
@@ -220,7 +226,7 @@ svg.nav-ico{width:16px;height:16px;flex:0 0 auto;stroke:currentColor;fill:none;s
 /* model stage cells: one label, the number, the read · pending is ghosted */
 .risk-output-grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));border-bottom:1px solid var(--l18);}
 @media(max-width:980px){.risk-output-grid{grid-template-columns:repeat(2,minmax(0,1fr));}}
-.risk-output{padding:11px 14px;border-left:1px solid var(--l08);border-top:1px solid var(--l08);min-height:84px;}
+.risk-output{padding:18px 14px 14px;border-left:1px solid var(--l08);border-top:1px solid var(--l08);min-height:84px;}
 .risk-output:nth-child(3n+1){border-left:0;}
 .risk-output:nth-child(-n+3){border-top:0;}
 @media(max-width:980px){.risk-output:nth-child(3n+1){border-left:1px solid var(--l08);}.risk-output:nth-child(2n+1){border-left:0;}.risk-output:nth-child(3){border-top:1px solid var(--l08);}}
@@ -231,7 +237,7 @@ svg.nav-ico{width:16px;height:16px;flex:0 0 auto;stroke:currentColor;fill:none;s
 .risk-output.pending{background:var(--bg);}
 .risk-model-note{padding:11px 14px;font-size:12.5px;color:var(--muted);line-height:1.45;background:var(--bg);border:1px dashed var(--l18);margin:12px 16px;}
 /* compact single-point trend strip · one honest timepoint, no acreage */
-.risk-chart{padding:10px 16px 6px;border-bottom:1px solid var(--l18);}
+.risk-chart{padding:var(--air-tier) 16px;border-bottom:1px solid var(--l18);}
 .risk-chart .axis{stroke:var(--l45);stroke-width:1;}
 .risk-chart .grid{stroke:var(--l12);stroke-width:1;}
 .risk-chart .label{fill:var(--faint);font-family:var(--voice);font-size:12px;letter-spacing:0;}
@@ -265,7 +271,7 @@ svg.nav-ico{width:16px;height:16px;flex:0 0 auto;stroke:currentColor;fill:none;s
 .risk-sens-track{height:8px;border:1px solid var(--l12);background:var(--bg);position:relative;}
 .risk-sens-track i{position:absolute;left:0;top:0;bottom:0;background:var(--proc);opacity:.55;}
 .risk-sens-meta{font-family:var(--voice);font-size:12px;color:var(--faint);}
-.risk-foot{padding:9px 16px;font-family:var(--voice);font-size:12px;letter-spacing:0;color:var(--faint);line-height:1.55;}
+.risk-foot{padding:var(--air-tier) 16px;font-family:var(--voice);font-size:12px;letter-spacing:0;color:var(--faint);line-height:1.55;}
 
 /* ================================================================
    SCREEN 2b · ACTION MAP + evidence ledger + AI pipeline + gates
@@ -481,7 +487,7 @@ svg.nav-ico{width:16px;height:16px;flex:0 0 auto;stroke:currentColor;fill:none;s
 .ap-inputs{padding:12px 24px;border-bottom:1px solid var(--l08);font-family:var(--voice);font-size:12px;letter-spacing:0;color:var(--muted);line-height:1.6;background:var(--shade);}
 .ap-body{padding:18px 24px 22px;}
 .ap-seclabel{font-family:var(--voice);font-size:12px;color:var(--muted);letter-spacing:0;margin:2px 0 8px;}
-.ap-prob{padding:18px 0 20px;border-bottom:1px solid var(--l08);}
+.ap-prob{padding:var(--air-group) 0 var(--air-group);border-bottom:1px solid var(--l08);}
 .ap-prob:last-child{border-bottom:0;padding-bottom:4px;}
 .ap-phead{display:flex;align-items:baseline;gap:8px;flex-wrap:wrap;}
 .ap-pselect{font-family:var(--voice);display:grid;gap:5px;width:100%;border:0;background:transparent;color:var(--fg);text-align:left;cursor:pointer;padding:2px 10px 6px 0;border-radius:var(--radius-control);}
@@ -602,12 +608,12 @@ svg.nav-ico{width:16px;height:16px;flex:0 0 auto;stroke:currentColor;fill:none;s
 .jr-note .byline{font-family:var(--voice);font-size:12px;color:var(--muted);margin-top:5px;}
 .jr-body{padding:14px 20px;font-size:13px;color:var(--muted);line-height:1.55;}
 .jr-body b{color:var(--fg);}
-.jr-sec{margin:0 0 14px;}
+.jr-sec{margin:0 0 var(--air-group);}
 .jr-sec:last-child{margin-bottom:0;}
 .jr-sec>.k{display:block;font-family:var(--voice);font-size:12px;color:var(--muted);letter-spacing:0;margin-bottom:6px;}
 .jr-sec .note-text{color:var(--fg);}
 .jr-orders{width:100%;border-collapse:collapse;}
-.jr-orders th,.jr-orders td{border-top:1px solid var(--l08);padding:8px;text-align:left;vertical-align:baseline;line-height:1.45;font-size:12.5px;}
+.jr-orders th,.jr-orders td{border-top:1px solid var(--l08);padding:6px 8px;text-align:left;vertical-align:baseline;line-height:1.45;font-size:12.5px;}
 .jr-orders tr:first-child th{border-top:0;padding-top:0;}
 .jr-orders th{font-family:var(--voice);font-size:12px;font-weight:400;letter-spacing:0;color:var(--faint);}
 .jr-orders td.o-name{color:var(--fg);width:46%;}
@@ -2560,12 +2566,12 @@ initAleronAi();
   g+='<line x1="'+L+'" y1="'+T+'" x2="'+L+'" y2="'+MB+'" stroke="color-mix(in srgb,var(--line) 32%,transparent)"/>';
   [1,2,3].forEach(k=>{const cx=xcut(k);g+='<line x1="'+cx+'" y1="'+T+'" x2="'+cx+'" y2="'+MB+'" stroke="color-mix(in srgb,var(--line) 16%,transparent)"/>';});
   for(let i=0;i<3;i++)g+='<text class="mlab" x="'+(LP+(i+0.5)/3*PW)+'" y="'+(MB+18)+'" text-anchor="middle" font-size="10" fill="var(--muted)">'+html(cols[i])+'</text>';
-  g+='<text class="mlab" x="'+(LP+PW/2)+'" y="'+(MB+34)+'" text-anchor="middle" font-size="9" fill="var(--faint)">evidence strength · spread within a column is for legibility only</text>';
+  g+='<text class="mlab" x="'+(LP+PW/2)+'" y="'+(MB+34)+'" text-anchor="middle" font-size="9.5" fill="var(--faint)">evidence strength · spread within a column is for legibility only</text>';
   // left net-QALY axis (gridlines run through the fitness lane + columns so all read against ONE scale)
   for(let v=Math.ceil(ymin/step)*step;v<=ymax+1e-9;v+=step){const yy=yv(v);g+='<line x1="'+L+'" y1="'+yy+'" x2="'+(W-R)+'" y2="'+yy+'" stroke="color-mix(in srgb,var(--line) 8%,transparent)"/>'+'<text class="mlab" x="'+(L-8)+'" y="'+(yy+3)+'" text-anchor="end" font-size="10.5" fill="var(--faint)">'+(v>1e-9?'+':'')+v.toFixed(full?1:2)+'</text>';}
   g+='<text class="mlab" x="'+L+'" y="'+(T-8)+'" font-size="9.5" fill="var(--muted)">patient QALY &uarr;</text>';
   // the axis carries two value frames · the chart says so itself
-  g+='<text class="mlab" x="'+(W-R)+'" y="'+(T-8)+'" font-size="8.5" fill="var(--faint)" text-anchor="end">actions plot net &middot; diagnostics plot value if reclassified</text>';
+  g+='<text class="mlab" x="'+(W-R)+'" y="'+(T-8)+'" font-size="9.5" fill="var(--faint)" text-anchor="end">actions plot net &middot; diagnostics plot value if reclassified</text>';
   // net-harmful zone (ember = this ONE meaning)
   g+='<rect x="'+L+'" y="'+yv(0)+'" width="'+(W-R-L)+'" height="'+(MB-yv(0))+'" fill="var(--hi)" opacity="0.07"/>';
   g+='<line x1="'+L+'" y1="'+yv(0)+'" x2="'+(W-R)+'" y2="'+yv(0)+'" stroke="var(--faint)" stroke-width="1.25"/>';
@@ -2596,13 +2602,13 @@ initAleronAi();
         if(s.gated){fillv='none';strokeA='stroke="'+h+'" stroke-width="1.6" stroke-dasharray="3 2"';}else{fillv=h;strokeA='opacity="0.92"';}
         g+='<circle data-id="'+html(s.id)+'" style="cursor:pointer;pointer-events:all" cx="'+p.x.toFixed(1)+'" cy="'+p.y.toFixed(1)+'" r="5" fill="'+fillv+'" '+strokeA+'><title>'+actionLabel(s)+(s.gated?' - gated: '+html(s.gate):'')+'</title></circle>';
         if(s.aiCandidate)g+='<circle cx="'+p.x.toFixed(1)+'" cy="'+p.y.toFixed(1)+'" r="8.5" fill="none" stroke="var(--signal-unmodeled)" stroke-width="1.4" stroke-dasharray="3 2" pointer-events="none"/>';
-      }else if(p.t==='f'){const f=p.s;fitPts.push({x:p.x,y:p.y});ladderYs.push(p.y+3);g+='<circle cx="'+p.x.toFixed(1)+'" cy="'+p.y.toFixed(1)+'" r="6.5" fill="var(--act)"><title>Increase VO₂max to '+html(f.t)+' mL/kg/min (+'+html(f.d)+'): '+signed(f.val,2)+' QALY · moderate evidence (strong association, moderate causal)</title></circle>';g+='<text class="mlab" x="'+(p.x+10).toFixed(1)+'" y="'+(p.y+3).toFixed(1)+'" font-size="9" fill="var(--muted)">&rarr;'+html(f.t)+' '+signed(f.val,2)+'</text>';}
+      }else if(p.t==='f'){const f=p.s;fitPts.push({x:p.x,y:p.y});ladderYs.push(p.y+3);g+='<circle cx="'+p.x.toFixed(1)+'" cy="'+p.y.toFixed(1)+'" r="6.5" fill="var(--act)"><title>Increase VO₂max to '+html(f.t)+' mL/kg/min (+'+html(f.d)+'): '+signed(f.val,2)+' QALY · moderate evidence (strong association, moderate causal)</title></circle>';g+='<text class="mlab" x="'+(p.x+10).toFixed(1)+'" y="'+(p.y+3).toFixed(1)+'" font-size="9.5" fill="var(--muted)">&rarr;'+html(f.t)+' '+signed(f.val,2)+'</text>';}
       else{const d=p.s,sz=d.cac?9:6,stroke=d.aiCandidate?'var(--signal-unmodeled)':(d.cac?'var(--fg)':'var(--signal-baseline)'),dash=d.aiCandidate?' stroke-dasharray="3 2"':'';POS[d.id]={x:p.x,y:p.y,kind:'d',s:d};g+='<rect data-dx-id="'+html(d.id)+'" style="cursor:pointer;pointer-events:all" x="'+(p.x-sz/2).toFixed(1)+'" y="'+(p.y-sz/2).toFixed(1)+'" width="'+sz+'" height="'+sz+'" fill="'+(d.d?'var(--signal-baseline)':'none')+'" stroke="'+stroke+'" stroke-width="'+(d.aiCandidate?2:(d.cac?2:1.3))+'"'+dash+' opacity="0.95"><title>'+html(d.name)+'</title></rect>';}
     });
     if(ofs.length)bee(ofs.map(s=>({t:'c',key:s.id,y:T+6,r:4.5,s:s})),xb(c),half).forEach(p=>{const s=p.s;g+='<circle data-id="'+html(s.id)+'" style="cursor:pointer;pointer-events:all" cx="'+p.x.toFixed(1)+'" cy="'+(T+6)+'" r="3.4" fill="none" stroke="'+hue(s)+'" stroke-width="1.4" opacity="0.85"><title>'+actionLabel(s)+' - '+signed(s.net,2)+' QALY (above this zoom scale)</title></circle>';});
   });
   if(full&&fitPts.length){fitPts.sort((a,b)=>a.y-b.y);g+='<path d="M '+fitPts.map(q=>q.x.toFixed(1)+' '+q.y.toFixed(1)).join(' L ')+'" fill="none" stroke="var(--act)" stroke-width="2" opacity="0.4"/>';g+='<text class="mlab" x="'+fitPts[0].x.toFixed(1)+'" y="'+(fitPts[0].y-11).toFixed(1)+'" text-anchor="middle" font-size="9.5" font-weight="500" fill="var(--fg)">VO₂max ladder</text>';}
-  if(!full){const noff=VISIBLE_ACTIONS.filter(s=>s.net>ymax).length;if(noff)g+='<text x="'+(LP+PW/2)+'" y="'+(T+14)+'" text-anchor="middle" font-size="9" fill="var(--faint)">Off scale: '+noff+' high-value levers above this zoom</text>';}
+  if(!full){const noff=VISIBLE_ACTIONS.filter(s=>s.net>ymax).length;if(noff)g+='<text x="'+(LP+PW/2)+'" y="'+(T+14)+'" text-anchor="middle" font-size="9.5" fill="var(--faint)">Off scale: '+noff+' high-value levers above this zoom</text>';}
   // ----- instrument overlay: the movers get named on the chart; selection
   // draws a gold ring and, for gated items, the tether to the diagnostic
   // that unlocks them · the sequencing logic made visible -----
@@ -2624,7 +2630,7 @@ initAleronAi();
    while(used.some(u=>Math.abs(u-ly)<11))ly+=11;
    used.push(ly);
    if(ly-(q.y+3)>6)g+='<line x1="'+q.x.toFixed(1)+'" y1="'+(q.y+4).toFixed(1)+'" x2="'+(side==='R'?(lx-2):(lx+2)).toFixed(1)+'" y2="'+(ly-3).toFixed(1)+'" stroke="color-mix(in srgb,var(--line) 22%,transparent)" stroke-width="0.75"/>';
-   g+='<text x="'+lx.toFixed(1)+'" y="'+ly.toFixed(1)+'" font-size="9.5" fill="var(--fg)" text-anchor="'+(side==='R'?'start':'end')+'" pointer-events="none">'+html(nm)+' <tspan class="mlab" font-size="8.5" fill="var(--muted)">'+val+'</tspan></text>';
+   g+='<text x="'+lx.toFixed(1)+'" y="'+ly.toFixed(1)+'" font-size="9.5" fill="var(--fg)" text-anchor="'+(side==='R'?'start':'end')+'" pointer-events="none">'+html(nm)+' <tspan class="mlab" font-size="9.5" fill="var(--muted)">'+val+'</tspan></text>';
   });
   const selq=POS[MAP_DETAIL_SELECTION.id];
   if(selq){
@@ -2635,12 +2641,12 @@ initAleronAi();
     const len=Math.hypot(a.x-d.x,a.y-d.y);
     if(len>=28){
      g+='<line x1="'+a.x.toFixed(1)+'" y1="'+a.y.toFixed(1)+'" x2="'+d.x.toFixed(1)+'" y2="'+d.y.toFixed(1)+'" stroke="var(--muted)" stroke-width="1.1" stroke-dasharray="2 3" opacity="0.8" pointer-events="none"/>';
-     g+='<text class="mlab" x="'+((a.x+d.x)/2).toFixed(1)+'" y="'+((a.y+d.y)/2-6).toFixed(1)+'" font-size="8.5" fill="var(--muted)" text-anchor="middle" pointer-events="none">unlocks on result</text>';
+     g+='<text class="mlab" x="'+((a.x+d.x)/2).toFixed(1)+'" y="'+((a.y+d.y)/2-6).toFixed(1)+'" font-size="9.5" fill="var(--muted)" text-anchor="middle" pointer-events="none">unlocks on result</text>';
     }else{
      // the gated action and its gate plot as twins · bracket the pair instead
      const y0=Math.max(a.y,d.y)+9;
      g+='<path d="M '+a.x.toFixed(1)+' '+y0.toFixed(1)+' V '+(y0+5).toFixed(1)+' H '+d.x.toFixed(1)+' V '+y0.toFixed(1)+'" fill="none" stroke="var(--muted)" stroke-width="1" pointer-events="none"/>';
-     g+='<text class="mlab" x="'+((a.x+d.x)/2).toFixed(1)+'" y="'+(y0+17).toFixed(1)+'" text-anchor="middle" font-size="8.5" fill="var(--muted)" pointer-events="none">gated on this result</text>';
+     g+='<text class="mlab" x="'+((a.x+d.x)/2).toFixed(1)+'" y="'+(y0+17).toFixed(1)+'" text-anchor="middle" font-size="9.5" fill="var(--muted)" pointer-events="none">gated on this result</text>';
     }
    });
    g+='<circle cx="'+selq.x.toFixed(1)+'" cy="'+selq.y.toFixed(1)+'" r="10" fill="none" stroke="var(--must)" stroke-width="1.6" pointer-events="none"/>';
