@@ -1022,6 +1022,94 @@ button { font-family: var(--voice); }
 .type-area:focus { outline: 2px solid var(--gold); outline-offset: 1px; }
 .type-area::placeholder { color: var(--text-tertiary); }
 .type-area.show { display: block; }
+.type-area.live { display: block; margin-top: 8px; }
+.recorder-note {
+  font-size: 12px;
+  line-height: 1.45;
+  color: var(--text-tertiary);
+  text-align: center;
+  max-width: 260px;
+}
+.transcript-actions,
+.followup-actions {
+  display: flex;
+  gap: 8px;
+  flex-wrap: wrap;
+  margin-top: 12px;
+}
+.micro-btn {
+  border: 1px solid var(--border-base);
+  border-radius: var(--radius-control);
+  background: transparent;
+  color: var(--slate);
+  padding: 8px 10px;
+  font-size: 12px;
+  cursor: pointer;
+}
+.micro-btn.primary { background: var(--ink); color: var(--cream); border-color: var(--ink); }
+.transcript-final[contenteditable="true"] {
+  outline: none;
+  min-height: 54px;
+}
+.transcript-final[contenteditable="true"]:focus {
+  outline: 2px solid var(--gold);
+  outline-offset: 4px;
+}
+.label-card {
+  display: none;
+  border: 1px solid var(--border-base);
+  border-radius: var(--radius-tier2);
+  background: rgba(255,255,255,0.46);
+  padding: 14px 16px;
+  margin: 12px 0 16px;
+}
+.label-card.show { display: block; }
+.label-card-title {
+  font-family: var(--voice);
+  font-size: 13px;
+  font-weight: 500;
+  color: var(--ink);
+  margin-bottom: 8px;
+}
+.label-list { display: grid; gap: 8px; }
+.label-row {
+  border-top: 1px solid var(--border-subtle);
+  padding-top: 8px;
+}
+.label-row:first-child { border-top: 0; padding-top: 0; }
+.label-row-head {
+  display: flex;
+  justify-content: space-between;
+  gap: 10px;
+  font-size: 12.5px;
+  color: var(--ink);
+}
+.label-confidence {
+  font-family: var(--audit);
+  font-size: 10px;
+  color: var(--text-gold);
+  white-space: nowrap;
+}
+.label-evidence {
+  margin-top: 3px;
+  font-size: 12px;
+  color: var(--text-secondary);
+  line-height: 1.45;
+}
+.summary-note {
+  margin-top: 10px;
+  padding-top: 10px;
+  border-top: 1px solid var(--border-subtle);
+  font-size: 12.5px;
+  line-height: 1.5;
+  color: var(--text-secondary);
+}
+.followup-answer {
+  width: 100%;
+  display: block;
+  margin-top: 12px;
+  min-height: 72px;
+}
 
 /* ================================================================ */
 /*  LAB PATH CARDS                                                   */
@@ -1924,7 +2012,7 @@ body {
     <!-- ============================================================ -->
     <section class="screen" data-screen="5">
       <div class="scroll">
-        <p class="framing">This helps your physician understand not just where you are, but where you have been going.</p>
+        <p class="framing">This is a working prototype. You can use browser speech transcription where supported, or type the same answer and see the clinical labels generated from it.</p>
         <h1 class="h-screen" style="font-size:22px">In your own words, how is your body different now than it was five years ago?</h1>
 
         <div class="mic-stage" id="micStage">
@@ -1935,42 +2023,34 @@ body {
             <span class="wave-bar" style="animation-delay:0ms"></span><span class="wave-bar" style="animation-delay:120ms"></span><span class="wave-bar" style="animation-delay:240ms"></span><span class="wave-bar" style="animation-delay:60ms"></span><span class="wave-bar" style="animation-delay:300ms"></span><span class="wave-bar" style="animation-delay:180ms"></span><span class="wave-bar" style="animation-delay:90ms"></span>
           </div>
           <div class="mic-timer" id="micTimer">00:00</div>
-          <div class="mic-state-label" id="micLabel">Tap to speak</div>
+          <div class="mic-state-label" id="micLabel">Tap to transcribe</div>
+          <div class="recorder-note" id="recorderNote">Chrome and Android Chrome use the browser speech recognizer. Safari can use the typing path below.</div>
           <button class="btn btn--tertiary" id="typeInstead" onclick="typeInstead()" style="width:auto">I'd rather type</button>
         </div>
 
-        <textarea class="type-area" id="typeArea" placeholder="Take your time. Anything you have noticed counts." rows="4"></textarea>
+        <textarea class="type-area" id="typeArea" placeholder="Take your time. Anything you have noticed counts." rows="4" oninput="syncTypedTranscript()"></textarea>
 
         <div class="transcript-field" id="transcript1">
-          <div class="transcript-final" id="transcript1Text"></div>
-          <div class="transcript-src">Transcribed on device</div>
+          <div class="transcript-final" id="transcript1Text" contenteditable="true" oninput="syncTranscriptEdit()"></div>
+          <div class="transcript-src" id="transcriptSrc">Live transcript. Edit anything the recognizer heard wrong.</div>
+          <div class="transcript-actions">
+            <button class="micro-btn primary" onclick="acceptTranscript()">Create labels</button>
+            <button class="micro-btn" onclick="resetRecorder()">Record again</button>
+          </div>
+        </div>
+
+        <div class="label-card" id="labelCard">
+          <div class="label-card-title">What Dr. Mizani will see</div>
+          <div class="label-list" id="labelList"></div>
+          <div class="summary-note" id="physicianSummary"></div>
         </div>
 
         <div class="probe" id="probe1">
-          <div class="probe-q">You mentioned waking around four most mornings. When you get up, do you feel rested or worn down?</div>
-          <div class="mini-mic-row">
-            <button class="mini-mic" id="probe1Mic" onclick="probeTap(1)" aria-label="Record answer">
-              <svg viewBox="0 0 24 24"><path d="M12 14a3 3 0 0 0 3-3V5a3 3 0 0 0-6 0v6a3 3 0 0 0 3 3Zm5-3a5 5 0 0 1-10 0H5a7 7 0 0 0 6 6.92V21h2v-3.08A7 7 0 0 0 19 11h-2Z"/></svg>
-            </button>
-            <div class="mic-state-label" id="probe1Label">Tap to answer</div>
-          </div>
-          <div class="transcript-field" id="probe1Field">
-            <div class="transcript-final">Worn down, mostly. I can push through the day but I feel like I start from behind.</div>
-            <div class="transcript-src">Transcribed on device</div>
-          </div>
-        </div>
-
-        <div class="probe" id="probe2">
-          <div class="probe-q">You said the fast group became the middle group. Was that a slow drift, or did something change in one season?</div>
-          <div class="mini-mic-row">
-            <button class="mini-mic" id="probe2Mic" onclick="probeTap(2)" aria-label="Record answer">
-              <svg viewBox="0 0 24 24"><path d="M12 14a3 3 0 0 0 3-3V5a3 3 0 0 0-6 0v6a3 3 0 0 0 3 3Zm5-3a5 5 0 0 1-10 0H5a7 7 0 0 0 6 6.92V21h2v-3.08A7 7 0 0 0 19 11h-2Z"/></svg>
-            </button>
-            <div class="mic-state-label" id="probe2Label">Tap to answer</div>
-          </div>
-          <div class="transcript-field" id="probe2Field">
-            <div class="transcript-final">Slow drift. Nothing broke, I just noticed one spring I was working harder to hold the same wheel.</div>
-            <div class="transcript-src">Transcribed on device</div>
+          <div class="probe-q" id="probe1Question"></div>
+          <textarea class="type-area followup-answer" id="probe1Text" placeholder="Optional. Add a short answer, or skip." rows="3"></textarea>
+          <div class="followup-actions">
+            <button class="micro-btn primary" onclick="submitFollowup()">Add answer</button>
+            <button class="micro-btn" onclick="skipFollowup()">Skip</button>
           </div>
         </div>
       </div>
@@ -2527,17 +2607,39 @@ var TRANSCRIPT = 'I used to ride with the fast group on Saturdays and now I’m 
 var micState = 'idle';
 var micTimerInt = null;
 var micSeconds = 0;
+var speechRecognition = null;
+var speechFinal = '';
+var speechInterim = '';
+var activeTranscript = '';
+var labelResults = [];
+
+var LABEL_RULES = [
+  { key: 'sleep', label: 'Sleep disruption', terms: ['sleep', 'wake', 'waking', 'insomnia', 'rested', 'tired in the morning', '4', 'four'], weight: 0.92 },
+  { key: 'energy', label: 'Energy / fatigue', terms: ['energy', 'fatigue', 'tired', 'worn down', 'exhausted', 'behind', 'crash'], weight: 0.86 },
+  { key: 'exercise', label: 'Exercise capacity change', terms: ['ride', 'run', 'fast group', 'middle group', 'stairs', 'workout', 'pace', 'endurance', 'winded', 'breath'], weight: 0.88 },
+  { key: 'msk', label: 'Musculoskeletal pain', terms: ['knee', 'knees', 'ache', 'pain', 'stiff', 'stairs', 'joint', 'back', 'hip'], weight: 0.82 },
+  { key: 'weight', label: 'Weight / body composition change', terms: ['weight', 'gained', 'lost', 'belly', 'waist', 'muscle', 'appetite'], weight: 0.74 },
+  { key: 'mood', label: 'Mood / stress load', terms: ['stress', 'mood', 'anxious', 'depressed', 'irritable', 'burnout', 'motivation'], weight: 0.70 },
+  { key: 'timeline', label: 'Timeline marker', terms: ['year', 'years', 'months', 'spring', 'since', 'last year', 'five years', 'used to', 'now'], weight: 0.78 },
+  { key: 'cardio_red_flag', label: 'Cardiopulmonary red flag language', terms: ['chest pain', 'pressure', 'faint', 'fainted', 'palpitations', 'short of breath', 'shortness of breath'], weight: 0.96 }
+];
+
+function getRecognizer() {
+  var Ctor = window.SpeechRecognition || window.webkitSpeechRecognition;
+  if (!Ctor) return null;
+  var rec = new Ctor();
+  rec.lang = 'en-US';
+  rec.continuous = true;
+  rec.interimResults = true;
+  return rec;
+}
 
 function micTap() {
   if (micState === 'idle') startRecording();
   else if (micState === 'recording') stopRecording();
 }
 
-function startRecording() {
-  micState = 'recording';
-  document.getElementById('micBtn').classList.add('recording');
-  document.getElementById('micLabel').textContent = 'Recording · tap to stop';
-  document.getElementById('micWave').classList.add('show');
+function startTimer() {
   var timer = document.getElementById('micTimer');
   timer.classList.add('show');
   micSeconds = 0;
@@ -2548,82 +2650,233 @@ function startRecording() {
     var s = String(micSeconds % 60).padStart(2, '0');
     timer.textContent = m + ':' + s;
   }, 1000);
-  document.getElementById('typeInstead').style.display = 'none';
 }
 
-function stopRecording() {
+function startRecording() {
+  speechFinal = '';
+  speechInterim = '';
+  activeTranscript = '';
+  micState = 'recording';
+  var btn = document.getElementById('micBtn');
+  btn.classList.remove('error', 'processing');
+  btn.classList.add('recording');
+  document.getElementById('micLabel').textContent = 'Listening · tap to stop';
+  document.getElementById('recorderNote').textContent = 'Speak naturally. The live transcript will appear below.';
+  document.getElementById('micWave').classList.add('show');
+  document.getElementById('typeInstead').style.display = 'none';
+  document.getElementById('transcript1').classList.add('show');
+  document.getElementById('transcript1Text').textContent = '';
+  document.getElementById('transcriptSrc').textContent = 'Listening';
+  startTimer();
+
+  speechRecognition = getRecognizer();
+  if (!speechRecognition) {
+    btn.classList.add('error');
+    document.getElementById('micLabel').textContent = 'Speech recognition unavailable';
+    document.getElementById('recorderNote').textContent = 'This browser does not expose speech recognition. Use typing below to exercise the same labeling flow.';
+    typeInstead();
+    return;
+  }
+  speechRecognition.onresult = function (event) {
+    speechInterim = '';
+    for (var i = event.resultIndex; i < event.results.length; i++) {
+      var text = event.results[i][0].transcript;
+      if (event.results[i].isFinal) speechFinal += text + ' ';
+      else speechInterim += text;
+    }
+    activeTranscript = (speechFinal + speechInterim).trim();
+    document.getElementById('transcript1Text').textContent = activeTranscript;
+  };
+  speechRecognition.onerror = function (event) {
+    document.getElementById('micBtn').classList.add('error');
+    document.getElementById('micLabel').textContent = event.error === 'not-allowed' ? 'Microphone blocked' : 'Speech recognizer error';
+    document.getElementById('recorderNote').textContent = 'Use the typing path to keep testing labels if the browser blocks mic access.';
+  };
+  speechRecognition.onend = function () {
+    if (micState === 'recording') stopRecording(true);
+  };
+  try { speechRecognition.start(); }
+  catch (err) { document.getElementById('micLabel').textContent = 'Recognizer already active'; }
+}
+
+function stopRecording(fromRecognizer) {
+  if (micState !== 'recording') return;
   micState = 'processing';
   clearInterval(micTimerInt);
+  if (!fromRecognizer && speechRecognition) {
+    try { speechRecognition.stop(); } catch (err) {}
+  }
   var btn = document.getElementById('micBtn');
   btn.classList.remove('recording');
   btn.classList.add('processing');
   document.getElementById('micWave').classList.remove('show');
   document.getElementById('micTimer').classList.remove('show');
-  document.getElementById('micLabel').textContent = 'Processing';
-  setTimeout(finishTranscript, 1400);
+  document.getElementById('micLabel').textContent = 'Review transcript';
+  setTimeout(finishTranscript, 500);
 }
 
 function finishTranscript() {
   micState = 'done';
   document.getElementById('micBtn').classList.remove('processing');
-  document.getElementById('micLabel').textContent = 'Recorded';
-  state.symptoms.transcript = TRANSCRIPT;
-  document.getElementById('transcript1Text').textContent = TRANSCRIPT;
+  var text = cleanText(activeTranscript || speechFinal || document.getElementById('transcript1Text').textContent || '');
+  if (!text) text = TRANSCRIPT;
+  setTranscript(text, 'Transcribed by browser speech recognition. Edit anything it heard wrong.');
+}
+
+function setTranscript(text, source) {
+  activeTranscript = cleanText(text);
+  state.symptoms.transcript = activeTranscript;
+  document.getElementById('transcript1Text').textContent = activeTranscript;
+  document.getElementById('transcriptSrc').textContent = source;
   document.getElementById('transcript1').classList.add('show');
-  setTimeout(function () {
-    document.getElementById('probe1').classList.add('show');
-  }, 700);
 }
 
 function typeInstead() {
+  clearInterval(micTimerInt);
+  micState = 'typing';
   document.getElementById('micStage').style.display = 'none';
   var ta = document.getElementById('typeArea');
   ta.classList.add('show');
-  ta.value = TRANSCRIPT;
+  if (!ta.value) ta.value = TRANSCRIPT;
   ta.focus();
-  state.symptoms.transcript = TRANSCRIPT;
-  setTimeout(function () {
-    document.getElementById('probe1').classList.add('show');
-  }, 900);
+  setTranscript(ta.value, 'Typed prototype input. Same label extraction path.');
 }
 
-var probeStates = { 1: 'idle', 2: 'idle' };
-function probeTap(n) {
-  if (probeStates[n] !== 'idle') return;
-  probeStates[n] = 'recording';
-  var mic = document.getElementById('probe' + n + 'Mic');
-  var label = document.getElementById('probe' + n + 'Label');
-  mic.classList.add('recording');
-  label.textContent = 'Recording · tap to stop';
-  mic.onclick = function () {
-    mic.classList.remove('recording');
-    mic.classList.add('processing');
-    label.textContent = 'Processing';
-    setTimeout(function () {
-      mic.classList.remove('processing');
-      mic.style.display = 'none';
-      label.style.display = 'none';
-      document.getElementById('probe' + n + 'Field').classList.add('show');
-      probeStates[n] = 'done';
-      state.symptoms.probes++;
-      if (n === 1) {
-        setTimeout(function () { document.getElementById('probe2').classList.add('show'); }, 600);
-      } else {
-        state.symptoms.done = true;
-        document.getElementById('symCta').style.display = 'flex';
-      }
-    }, 1100);
-  };
+function syncTypedTranscript() {
+  var val = document.getElementById('typeArea').value;
+  setTranscript(val, 'Typed prototype input. Same label extraction path.');
+}
+
+function syncTranscriptEdit() {
+  activeTranscript = cleanText(document.getElementById('transcript1Text').textContent);
+  state.symptoms.transcript = activeTranscript;
+}
+
+function resetRecorder() {
+  if (speechRecognition) { try { speechRecognition.abort(); } catch (err) {} }
+  clearInterval(micTimerInt);
+  micState = 'idle';
+  speechFinal = '';
+  speechInterim = '';
+  activeTranscript = '';
+  labelResults = [];
+  document.getElementById('micStage').style.display = 'flex';
+  document.getElementById('micBtn').classList.remove('recording', 'processing', 'error');
+  document.getElementById('micLabel').textContent = 'Tap to transcribe';
+  document.getElementById('recorderNote').textContent = 'Chrome and Android Chrome use the browser speech recognizer. Safari can use the typing path below.';
+  document.getElementById('micWave').classList.remove('show');
+  document.getElementById('micTimer').classList.remove('show');
+  document.getElementById('typeInstead').style.display = 'block';
+  document.getElementById('typeArea').classList.remove('show');
+  document.getElementById('transcript1').classList.remove('show');
+  document.getElementById('labelCard').classList.remove('show');
+  document.getElementById('probe1').classList.remove('show');
+  document.getElementById('symCta').style.display = 'none';
+}
+
+function acceptTranscript() {
+  syncTranscriptEdit();
+  if (!activeTranscript) return;
+  labelResults = extractClinicalLabels(activeTranscript);
+  renderLabels(labelResults, activeTranscript);
+  document.getElementById('probe1Question').textContent = generateFollowup(labelResults);
+  document.getElementById('probe1').classList.add('show');
+  document.getElementById('symCta').style.display = 'flex';
+  state.symptoms.done = true;
+}
+
+function submitFollowup() {
+  var answer = cleanText(document.getElementById('probe1Text').value);
+  if (answer) {
+    activeTranscript = cleanText(activeTranscript + ' Follow-up: ' + answer);
+    state.symptoms.transcript = activeTranscript;
+    labelResults = extractClinicalLabels(activeTranscript);
+    renderLabels(labelResults, activeTranscript);
+  }
+  document.getElementById('probe1').classList.remove('show');
+  document.getElementById('symCta').style.display = 'flex';
+}
+
+function skipFollowup() {
+  document.getElementById('probe1').classList.remove('show');
+  document.getElementById('symCta').style.display = 'flex';
 }
 
 function addMore() {
-  micState = 'idle';
-  var stage = document.getElementById('micStage');
-  stage.style.display = 'flex';
-  document.getElementById('micBtn').classList.remove('processing');
-  document.getElementById('micLabel').textContent = 'Tap to speak';
-  document.getElementById('typeInstead').style.display = 'none';
-  stage.closest('.scroll').scrollTop = 0;
+  var ta = document.getElementById('typeArea');
+  ta.classList.add('show');
+  ta.focus();
+  ta.selectionStart = ta.selectionEnd = ta.value.length;
+  document.querySelector('.screen[data-screen="5"] .scroll').scrollTop = 0;
+}
+
+function cleanText(text) {
+  return (text || '').replace(/\s+/g, ' ').trim();
+}
+
+function sentenceFor(text, terms) {
+  var sentences = cleanText(text).split(/(?<=[.!?])\s+/);
+  var lowerTerms = terms.map(function (t) { return t.toLowerCase(); });
+  for (var i = 0; i < sentences.length; i++) {
+    var l = sentences[i].toLowerCase();
+    if (lowerTerms.some(function (term) { return l.indexOf(term) !== -1; })) return sentences[i];
+  }
+  return sentences[0] || text;
+}
+
+function extractClinicalLabels(text) {
+  var ltext = text.toLowerCase();
+  var labels = [];
+  LABEL_RULES.forEach(function (rule) {
+    var hits = rule.terms.filter(function (term) { return ltext.indexOf(term.toLowerCase()) !== -1; });
+    if (!hits.length) return;
+    var confidence = Math.min(0.98, rule.weight + Math.min(0.08, hits.length * 0.02));
+    labels.push({
+      key: rule.key,
+      label: rule.label,
+      confidence: confidence,
+      hits: hits.slice(0, 4),
+      evidence: sentenceFor(text, hits)
+    });
+  });
+  labels.sort(function (a, b) { return b.confidence - a.confidence; });
+  if (!labels.length && text.length > 20) {
+    labels.push({ key: 'narrative', label: 'Longitudinal symptom narrative', confidence: 0.62, hits: [], evidence: sentenceFor(text, []) });
+  }
+  return labels;
+}
+
+function renderLabels(labels, text) {
+  var list = document.getElementById('labelList');
+  list.innerHTML = labels.map(function (item) {
+    return '<div class="label-row">' +
+      '<div class="label-row-head"><span>' + item.label + '</span><span class="label-confidence">' + Math.round(item.confidence * 100) + '%</span></div>' +
+      '<div class="label-evidence">“' + escapeHtml(item.evidence) + '”</div>' +
+    '</div>';
+  }).join('');
+  document.getElementById('physicianSummary').innerHTML = buildPhysicianSummary(labels, text);
+  document.getElementById('labelCard').classList.add('show');
+}
+
+function buildPhysicianSummary(labels, text) {
+  var names = labels.slice(0, 4).map(function (l) { return l.label.toLowerCase(); });
+  var lead = names.length ? 'Signal clusters: ' + names.join(', ') + '.' : 'Narrative captured, no strong structured cluster detected yet.';
+  var timeline = labels.find(function (l) { return l.key === 'timeline'; });
+  var red = labels.find(function (l) { return l.key === 'cardio_red_flag'; });
+  return '<b>Draft synthesis</b><br>' + escapeHtml(lead) + (timeline ? '<br>Timeline language present: “' + escapeHtml(timeline.evidence) + '”' : '') + (red ? '<br><b>Review promptly:</b> possible cardiopulmonary red flag language.' : '') + '<br><br><b>Patient words</b><br>“' + escapeHtml(text.slice(0, 260)) + (text.length > 260 ? '…' : '') + '”';
+}
+
+function generateFollowup(labels) {
+  if (labels.some(function (l) { return l.key === 'sleep'; })) return 'One clarification for Dr. Mizani: when you wake up, do you feel rested, wired, or worn down?';
+  if (labels.some(function (l) { return l.key === 'exercise'; })) return 'One clarification for Dr. Mizani: did this change happen gradually, or was there a specific season or event when you noticed it?';
+  if (labels.some(function (l) { return l.key === 'msk'; })) return 'One clarification for Dr. Mizani: is the pain limiting activity, or is it mostly a nuisance right now?';
+  return 'Anything else about energy, sleep, weight, pain, mood, or exercise capacity that feels important?';
+}
+
+function escapeHtml(str) {
+  return String(str || '').replace(/[&<>"']/g, function (c) {
+    return { '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c];
+  });
 }
 
 /* ================================================================ */
