@@ -51,6 +51,7 @@ EVIDENCE_CAPS = {
     "diagnostic_downstream_uncertain_cap",
     "needs_source_upgrade_primary_cap",
     "model_translated_value_cap",
+    "burden_calibration_pending_cap",
 }
 ACTION_EVIDENCE_COMPONENTS = {
     "study_design",
@@ -80,6 +81,15 @@ def central(spec):
         return float(spec)
     if isinstance(spec, dict) and isinstance(spec.get("central"), (int, float)):
         return float(spec["central"])
+    return None
+
+
+def band_tuple(spec):
+    if isinstance(spec, (int, float)):
+        value = float(spec)
+        return (value, value, value)
+    if isinstance(spec, dict) and all(isinstance(spec.get(band), (int, float)) for band in BANDS):
+        return tuple(float(spec[band]) for band in BANDS)
     return None
 
 
@@ -253,13 +263,48 @@ def validate_evidence_axis(item, label, component_names, errors):
         errors.append("%s Aleron_judgment_primary_cap requires low evidence level" % label)
     if "broad_screening_insufficient_cap" in caps and level != "low":
         errors.append("%s broad_screening_insufficient_cap requires low evidence level" % label)
-    medium_caps = {"surrogate_only_cap", "population_mismatch_cap", "diagnostic_downstream_uncertain_cap", "needs_source_upgrade_primary_cap", "model_translated_value_cap"}
+    medium_caps = {
+        "surrogate_only_cap",
+        "population_mismatch_cap",
+        "diagnostic_downstream_uncertain_cap",
+        "needs_source_upgrade_primary_cap",
+        "model_translated_value_cap",
+        "burden_calibration_pending_cap",
+    }
     if level == "high" and set(caps).intersection(medium_caps):
         errors.append("%s evidence_axis high level conflicts with cap(s): %s" % (label, ", ".join(sorted(set(caps).intersection(medium_caps)))))
 
 
 def required_action_trace_parameters(action):
     params = ["burden_qaly"]
+    derivation_inputs = action.get("derivation_inputs") or {}
+    method = derivation_inputs.get("method")
+    baseline_trace = "risk_domain" if derivation_inputs.get("risk_domain") else "baseline_event_risk"
+    if method == "event_or_curve_shift_action":
+        if str(derivation_inputs.get("effect_type", "RRR")).upper() == "ARR":
+            params.append("effect.absolute_risk_reduction")
+        elif "relative_risk_reduction" in derivation_inputs:
+            params.extend(["effect.relative_risk_reduction", baseline_trace])
+        else:
+            params.extend(["effect.relative_risk", baseline_trace])
+        params.append("event_value_qaly")
+    elif method == "harm_aware_event_action":
+        if str(derivation_inputs.get("effect_type", "RRR")).upper() == "ARR":
+            params.append("effect.absolute_risk_reduction")
+        elif "relative_risk_reduction" in derivation_inputs:
+            params.extend(["effect.relative_risk_reduction", baseline_trace])
+        else:
+            params.extend(["effect.relative_risk", baseline_trace])
+        params.extend(["event_value_qaly", "harm_objects", "burden_schedule"])
+    elif method == "procedure_device_action":
+        params.extend([
+            "procedure_eligibility",
+            "baseline_risk.endpoint_risks",
+            "effect_model",
+            "endpoint_values",
+            "harm_objects",
+            "burden_schedule",
+        ])
     channels = action.get("channels") or {}
     for channel in CHANNELS:
         spec = channels.get(channel)
@@ -269,6 +314,416 @@ def required_action_trace_parameters(action):
         elif c is not None and c != 0:
             params.append("channels.%s" % channel)
     return params
+
+
+def validate_procedure_device_action(action, label, errors):
+    derivation_inputs = action.get("derivation_inputs") or {}
+    if action.get("runner_method") != "procedure_device_action":
+        errors.append("%s runner_method must match procedure_device_action" % label)
+    for key in ("procedure_family", "effect_model", "eligibility_gate", "baseline_risk",
+                "endpoint_values", "harm_objects", "burden_schedule"):
+        if key not in derivation_inputs:
+            errors.append("%s procedure_device_action missing %s" % (label, key))
+    effect_model = derivation_inputs.get("effect_model") or {}
+    effect_type = effect_model.get("type")
+    if effect_type not in {
+        "relative_event_reduction",
+        "absolute_event_reduction",
+        "utility_time_in_state",
+        "survival_curve_shift",
+        "counterfactual_curve_comparison",
+    }:
+        errors.append("%s procedure effect_model.type unsupported: %s" % (label, effect_type))
+    applies_to = effect_model.get("effect_applies_to") or []
+    if effect_type in {"relative_event_reduction", "absolute_event_reduction"} and not applies_to:
+        errors.append("%s procedure effect_model.effect_applies_to must be non-empty" % label)
+    if effect_type == "relative_event_reduction":
+        numeric_band(effect_model.get("relative_risk_reduction"), "%s effect_model.relative_risk_reduction" % label, errors, probability=True)
+    baseline = (derivation_inputs.get("baseline_risk") or {}).get("endpoint_risks") or {}
+    endpoint_values = derivation_inputs.get("endpoint_values") or {}
+    for endpoint_id in applies_to:
+        if effect_type == "relative_event_reduction":
+            numeric_band(baseline.get(endpoint_id), "%s baseline_risk.endpoint_risks.%s" % (label, endpoint_id), errors, probability=True)
+        if effect_type == "absolute_event_reduction":
+            arr = effect_model.get("absolute_risk_reduction")
+            numeric_band(arr.get(endpoint_id) if isinstance(arr, dict) else arr, "%s effect_model.absolute_risk_reduction.%s" % (label, endpoint_id), errors, probability=True)
+        endpoint = endpoint_values.get(endpoint_id) or {}
+        numeric_band(endpoint.get("event_value_qaly"), "%s endpoint_values.%s.event_value_qaly" % (label, endpoint_id), errors)
+    gate = derivation_inputs.get("eligibility_gate") or {}
+    if not isinstance(gate.get("required_findings"), list) or not gate.get("required_findings"):
+        errors.append("%s procedure eligibility_gate.required_findings must be non-empty" % label)
+    if not isinstance(gate.get("thresholds"), list):
+        errors.append("%s procedure eligibility_gate.thresholds must be a list" % label)
+    for idx, harm in enumerate(derivation_inputs.get("harm_objects") or []):
+        if not isinstance(harm, dict):
+            errors.append("%s harm_objects[%d] must be an object" % (label, idx))
+            continue
+        if not harm.get("id"):
+            errors.append("%s harm_objects[%d] missing id" % (label, idx))
+        numeric_band(harm.get("probability"), "%s harm_objects[%s].probability" % (label, harm.get("id", idx)), errors, probability=True)
+        numeric_band(harm.get("value_qaly_loss"), "%s harm_objects[%s].value_qaly_loss" % (label, harm.get("id", idx)), errors)
+        if not harm.get("evidence_trace_parameter"):
+            errors.append("%s harm_objects[%s] missing evidence_trace_parameter" % (label, harm.get("id", idx)))
+    for idx, burden in enumerate(derivation_inputs.get("burden_schedule") or []):
+        if not isinstance(burden, dict):
+            errors.append("%s burden_schedule[%d] must be an object" % (label, idx))
+            continue
+        if burden.get("cadence") not in {"one_time", "per_year", "per_cycle", "replacement_interval", "surveillance_interval", "course"}:
+            errors.append("%s burden_schedule[%s].cadence unsupported" % (label, burden.get("id", idx)))
+        numeric_band(burden.get("duration_years"), "%s burden_schedule[%s].duration_years" % (label, burden.get("id", idx)), errors)
+        numeric_band(burden.get("value_qaly_loss"), "%s burden_schedule[%s].value_qaly_loss" % (label, burden.get("id", idx)), errors)
+        if burden.get("cadence") in {"per_cycle", "replacement_interval", "surveillance_interval"}:
+            interval = burden.get("interval_years")
+            if not isinstance(interval, (int, float)) or interval <= 0:
+                errors.append("%s burden_schedule[%s] requires positive interval_years" % (label, burden.get("id", idx)))
+        if not burden.get("evidence_trace_parameter"):
+            errors.append("%s burden_schedule[%s] missing evidence_trace_parameter" % (label, burden.get("id", idx)))
+    if not isinstance(action.get("overlap_group"), str) or not action.get("overlap_group"):
+        errors.append("%s fully_derived_v2 missing overlap_group" % label)
+
+
+def validate_event_or_curve_shift_net_shape(action, label, errors):
+    """Require event-action net value to be explicitly runner-owned.
+
+    Some fully-derived event actions keep `net_qaly_if_achieved` as a formula
+    object because per-year burden is integrated by the action engine over the
+    declared evidence horizon. This guard prevents a fully-derived event row from
+    silently reverting to an unowned free-text or legacy asserted net scalar.
+    """
+    net = action.get("net_qaly_if_achieved")
+    if isinstance(net, dict) and all(isinstance(net.get(band), (int, float)) for band in BANDS):
+        return
+    calculation = net.get("calculation") if isinstance(net, dict) else None
+    if not isinstance(calculation, str) or "runner_computed" not in calculation or "burden_qaly" not in calculation:
+        errors.append("%s event action net_qaly_if_achieved must be runner_computed and burden-explicit" % label)
+
+
+def validate_event_or_curve_shift_runner_math(action, label, errors):
+    """Verify displayed C1 bands mirror the event runner inputs.
+
+    This enforces the acceptance gate that map-visible C1 values are computed
+    from derivation_inputs, not hand-authored beside them.
+    """
+    derivation_inputs = action.get("derivation_inputs") or {}
+    effect_type = str(derivation_inputs.get("effect_type", "RRR")).upper()
+    event_value = band_tuple(derivation_inputs.get("event_value_qaly"))
+    c1_spec = (action.get("channels") or {}).get("c1_prevention")
+    if not isinstance(c1_spec, dict) or c1_spec.get("projection") != "event_or_curve_shift_action":
+        errors.append("%s channels.c1_prevention projection must be event_or_curve_shift_action" % label)
+    displayed_c1 = band_tuple(c1_spec)
+    if event_value is None or displayed_c1 is None:
+        return
+    if effect_type == "ARR":
+        prevented_events = band_tuple(derivation_inputs.get("absolute_risk_reduction"))
+    else:
+        baseline = band_tuple(derivation_inputs.get("baseline_event_risk"))
+        if baseline is None and derivation_inputs.get("risk_domain"):
+            # Runtime patient packets resolve risk_domain; static validation can
+            # enforce the schema hook but cannot recompute displayed C1.
+            return
+        if "relative_risk_reduction" in derivation_inputs:
+            rrr = band_tuple(derivation_inputs.get("relative_risk_reduction"))
+        elif effect_type in {"RR", "HR"}:
+            effect = band_tuple(derivation_inputs.get("effect_value"))
+            rrr = tuple(1.0 - value for value in effect) if effect is not None else None
+        else:
+            rrr = None
+        prevented_events = tuple(baseline[i] * rrr[i] for i in range(3)) if baseline is not None and rrr is not None else None
+    if prevented_events is None:
+        return
+    for idx, band in enumerate(BANDS):
+        calc = prevented_events[idx] * event_value[idx]
+        if abs(calc - displayed_c1[idx]) > 0.00051:
+            errors.append(
+                "%s channels.c1_prevention.%s %.6f does not match event runner %.6f"
+                % (label, band, displayed_c1[idx], calc)
+            )
+
+
+def validate_event_or_curve_shift_zero_secondary_channels(action, label, errors):
+    """Keep the current event adapter honest about channels it does not score.
+
+    The shared event_or_curve_shift_action scorer emits C1 only, with C2 and C3
+    set to zero. Fully-derived rows using that method must not carry hand-authored
+    nonzero secondary channels until the runner schema computes them directly.
+    """
+    channels = action.get("channels") or {}
+    for channel in ("c2_capacity", "c3_resilience"):
+        values = band_tuple(channels.get(channel))
+        if values is None:
+            continue
+        if any(abs(value) > 1e-12 for value in values):
+            errors.append(
+                "%s %s must be zero for event_or_curve_shift_action until the runner computes secondary channels"
+                % (label, channel)
+            )
+
+
+def validate_event_effect_binding(derivation_inputs, label, errors):
+    """Reject ambiguous event-action effect and baseline bindings.
+
+    The shared runner can score ARR directly, or can convert exactly one RR/HR
+    effect source into an RRR. Fully-derived rows should not carry both a source
+    RR/HR and a derived RRR because the validator could otherwise pass one while
+    reviewers read the other.
+    """
+    effect_type = str(derivation_inputs.get("effect_type", "RRR")).upper()
+    has_baseline = "baseline_event_risk" in derivation_inputs
+    has_risk_domain = "risk_domain" in derivation_inputs
+    has_rrr = "relative_risk_reduction" in derivation_inputs
+    has_effect_value = "effect_value" in derivation_inputs
+
+    if effect_type == "ARR":
+        if "absolute_risk_reduction" not in derivation_inputs:
+            errors.append("%s ARR event action missing absolute_risk_reduction" % label)
+        if has_rrr or has_effect_value:
+            errors.append("%s ARR event action must not also bind relative effect values" % label)
+        return
+
+    if has_baseline == has_risk_domain:
+        errors.append("%s event action must bind exactly one of baseline_event_risk or risk_domain" % label)
+    if effect_type == "RRR":
+        if not has_rrr:
+            errors.append("%s RRR event action missing relative_risk_reduction" % label)
+        if has_effect_value:
+            errors.append("%s RRR event action must not also bind effect_value" % label)
+    elif effect_type in {"RR", "HR"}:
+        if has_rrr == has_effect_value:
+            errors.append("%s RR/HR event action must bind exactly one of relative_risk_reduction or effect_value" % label)
+
+
+def event_action_basis_keys(derivation_inputs):
+    """Audit-basis keys required by the event-action runner schema.
+
+    ARR records do not need a baseline risk basis because the risk delta is
+    already absolute. RR/HR/RRR records must bind either a static baseline event
+    risk or a patient-packet risk domain before they can be runner-owned.
+    """
+    effect_type = str(derivation_inputs.get("effect_type", "RRR")).upper()
+    if effect_type == "ARR":
+        return ["absolute_risk_reduction", "event_value_qaly", "sustained_horizon_years"]
+    baseline_basis_key = "risk_domain" if derivation_inputs.get("risk_domain") else "baseline_event_risk"
+    effect_basis_key = "relative_risk_reduction" if "relative_risk_reduction" in derivation_inputs else "effect_value"
+    return [baseline_basis_key, effect_basis_key, "event_value_qaly", "sustained_horizon_years"]
+
+
+def validate_harm_aware_event_net_shape(action, label, errors):
+    """Require harm-aware event net value to be explicitly runner-owned.
+
+    The harm-aware runner subtracts explicit harm objects and action burden from
+    the C1 benefit. A fully-derived row must not expose a hand-authored net scalar
+    or a calculation string that omits either debit.
+    """
+    net = action.get("net_qaly_if_achieved")
+    if isinstance(net, dict) and all(isinstance(net.get(band), (int, float)) for band in BANDS):
+        return
+    calculation = net.get("calculation") if isinstance(net, dict) else None
+    required_terms = ("runner_computed", "harm_qaly_loss", "action_burden_qaly")
+    if not isinstance(calculation, str) or any(term not in calculation for term in required_terms):
+        errors.append(
+            "%s harm-aware event net_qaly_if_achieved must be runner_computed with harm_qaly_loss and action_burden_qaly"
+            % label
+        )
+
+
+def validate_harm_aware_secondary_channels_runner_math(action, label, errors):
+    """Verify displayed C2/C3 channels are runner-owned for harm-aware events.
+
+    The harm-aware event runner can emit direct_c2_capacity and
+    direct_c3_resilience, but those values must come from derivation_inputs. If a
+    row omits those inputs, the displayed secondary channel must be an honest
+    zero rather than a hand-authored add-on.
+    """
+    derivation_inputs = action.get("derivation_inputs") or {}
+    channels = action.get("channels") or {}
+    expected_by_channel = {
+        "c2_capacity": band_tuple(derivation_inputs.get("direct_c2_capacity", 0.0)),
+        "c3_resilience": band_tuple(derivation_inputs.get("direct_c3_resilience", 0.0)),
+    }
+    for channel, expected in expected_by_channel.items():
+        if expected is None:
+            errors.append("%s derivation_inputs.%s must be a low/central/high band or scalar" % (label, channel))
+            continue
+        displayed = band_tuple(channels.get(channel))
+        if displayed is None:
+            errors.append("%s %s must be a low/central/high band" % (label, channel))
+            continue
+        for idx, band in enumerate(BANDS):
+            if abs(displayed[idx] - expected[idx]) > 0.00051:
+                errors.append(
+                    "%s %s.%s %.6f does not match harm-aware runner %.6f"
+                    % (label, channel, band, displayed[idx], expected[idx])
+                )
+
+
+def validate_harm_objects_and_burden_schedule(action, label, errors):
+    derivation_inputs = action.get("derivation_inputs") or {}
+    harms = derivation_inputs.get("harm_objects")
+    if not isinstance(harms, list) or not harms:
+        errors.append("%s harm_aware_event_action requires non-empty harm_objects" % label)
+    for idx, harm in enumerate(harms or []):
+        if not isinstance(harm, dict):
+            errors.append("%s harm_objects[%d] must be an object" % (label, idx))
+            continue
+        if not harm.get("id"):
+            errors.append("%s harm_objects[%d] missing id" % (label, idx))
+        numeric_band(harm.get("probability"), "%s harm_objects[%s].probability" % (label, harm.get("id", idx)), errors, probability=True)
+        numeric_band(harm.get("value_qaly_loss"), "%s harm_objects[%s].value_qaly_loss" % (label, harm.get("id", idx)), errors)
+        trace_parameter = harm.get("evidence_trace_parameter")
+        if not trace_parameter:
+            errors.append("%s harm_objects[%s] missing evidence_trace_parameter" % (label, harm.get("id", idx)))
+        elif not str(trace_parameter).startswith("harm_objects."):
+            errors.append(
+                "%s harm_objects[%s].evidence_trace_parameter must use harm_objects.* namespace"
+                % (label, harm.get("id", idx))
+            )
+    schedule = derivation_inputs.get("burden_schedule")
+    if not isinstance(schedule, list) or not schedule:
+        errors.append("%s harm_aware_event_action requires non-empty burden_schedule" % label)
+    for idx, burden in enumerate(schedule or []):
+        if not isinstance(burden, dict):
+            errors.append("%s burden_schedule[%d] must be an object" % (label, idx))
+            continue
+        if burden.get("cadence") not in {"one_time", "per_year", "per_cycle", "replacement_interval", "surveillance_interval", "course"}:
+            errors.append("%s burden_schedule[%s].cadence unsupported" % (label, burden.get("id", idx)))
+        numeric_band(burden.get("duration_years"), "%s burden_schedule[%s].duration_years" % (label, burden.get("id", idx)), errors)
+        numeric_band(burden.get("value_qaly_loss"), "%s burden_schedule[%s].value_qaly_loss" % (label, burden.get("id", idx)), errors)
+        if burden.get("cadence") in {"per_cycle", "replacement_interval", "surveillance_interval"}:
+            interval = burden.get("interval_years")
+            if not isinstance(interval, (int, float)) or interval <= 0:
+                errors.append("%s burden_schedule[%s] requires positive interval_years" % (label, burden.get("id", idx)))
+        trace_parameter = burden.get("evidence_trace_parameter")
+        if not trace_parameter:
+            errors.append("%s burden_schedule[%s] missing evidence_trace_parameter" % (label, burden.get("id", idx)))
+        elif not str(trace_parameter).startswith("burden_schedule."):
+            errors.append(
+                "%s burden_schedule[%s].evidence_trace_parameter must use burden_schedule.* namespace"
+                % (label, burden.get("id", idx))
+            )
+
+
+def validate_fully_derived_event_action(action, label, errors):
+    if action.get("status") != "fully_derived_v2":
+        return
+    for key in ("source_action_ids", "trace_status", "runner_method", "derivation_inputs"):
+        if key not in action:
+            errors.append("%s fully_derived_v2 missing %s" % (label, key))
+    if action.get("trace_status") != "runner_computed":
+        errors.append("%s fully_derived_v2 requires trace_status=runner_computed" % label)
+    derivation_inputs = action.get("derivation_inputs") or {}
+    if derivation_inputs.get("method") == "event_or_curve_shift_action":
+        if action.get("runner_method") != "event_or_curve_shift_action":
+            errors.append("%s runner_method must match event_or_curve_shift_action" % label)
+        effect_type = str(derivation_inputs.get("effect_type", "RRR")).upper()
+        if effect_type not in {"RR", "HR", "RRR", "ARR"}:
+            errors.append("%s derivation_inputs.effect_type must be RR, HR, RRR, or ARR" % label)
+        validate_event_effect_binding(derivation_inputs, label, errors)
+        numeric_band(
+            derivation_inputs.get("event_value_qaly"),
+            "%s derivation_inputs.event_value_qaly" % label,
+            errors,
+        )
+        if effect_type == "ARR":
+            numeric_band(
+                derivation_inputs.get("absolute_risk_reduction"),
+                "%s derivation_inputs.absolute_risk_reduction" % label,
+                errors,
+                probability=True,
+            )
+        else:
+            if derivation_inputs.get("risk_domain"):
+                if not isinstance(derivation_inputs.get("risk_domain"), str):
+                    errors.append("%s derivation_inputs.risk_domain must be a string" % label)
+            else:
+                numeric_band(
+                    derivation_inputs.get("baseline_event_risk"),
+                    "%s derivation_inputs.baseline_event_risk" % label,
+                    errors,
+                    probability=True,
+                )
+            if "relative_risk_reduction" in derivation_inputs:
+                numeric_band(
+                    derivation_inputs.get("relative_risk_reduction"),
+                    "%s derivation_inputs.relative_risk_reduction" % label,
+                    errors,
+                    probability=True,
+                )
+            elif effect_type in {"RR", "HR"}:
+                numeric_band(
+                    derivation_inputs.get("effect_value"),
+                    "%s derivation_inputs.effect_value" % label,
+                    errors,
+                    probability=True,
+                )
+            else:
+                errors.append("%s event action missing relative_risk_reduction" % label)
+        if "legacy_qaly_per_event" in derivation_inputs:
+            errors.append("%s fully_derived_v2 must not use legacy_qaly_per_event" % label)
+        horizon = derivation_inputs.get("sustained_horizon_years")
+        if not isinstance(horizon, (int, float)) or horizon <= 0:
+            errors.append("%s event action missing positive sustained_horizon_years" % label)
+        basis = derivation_inputs.get("basis")
+        if not isinstance(basis, dict):
+            errors.append("%s event action missing derivation_inputs.basis audit object" % label)
+        else:
+            for basis_key in event_action_basis_keys(derivation_inputs):
+                if not basis.get(basis_key):
+                    errors.append("%s event action derivation_inputs.basis missing %s" % (label, basis_key))
+        burden = action.get("burden_qaly") or {}
+        if burden.get("units") not in ("per_year", "one_time"):
+            errors.append("%s burden_qaly.units must be per_year or one_time" % label)
+        if not isinstance(action.get("overlap_group"), str) or not action.get("overlap_group"):
+            errors.append("%s fully_derived_v2 missing overlap_group" % label)
+        validate_event_or_curve_shift_net_shape(action, label, errors)
+        validate_event_or_curve_shift_runner_math(action, label, errors)
+        validate_event_or_curve_shift_zero_secondary_channels(action, label, errors)
+    elif derivation_inputs.get("method") == "harm_aware_event_action":
+        if action.get("runner_method") != "harm_aware_event_action":
+            errors.append("%s runner_method must match harm_aware_event_action" % label)
+        effect_type = str(derivation_inputs.get("effect_type", "RRR")).upper()
+        if effect_type not in {"RR", "HR", "RRR", "ARR"}:
+            errors.append("%s derivation_inputs.effect_type must be RR, HR, RRR, or ARR" % label)
+        validate_event_effect_binding(derivation_inputs, label, errors)
+        numeric_band(derivation_inputs.get("event_value_qaly"), "%s derivation_inputs.event_value_qaly" % label, errors)
+        if effect_type == "ARR":
+            numeric_band(derivation_inputs.get("absolute_risk_reduction"), "%s derivation_inputs.absolute_risk_reduction" % label, errors, probability=True)
+        else:
+            if derivation_inputs.get("risk_domain"):
+                if not isinstance(derivation_inputs.get("risk_domain"), str):
+                    errors.append("%s derivation_inputs.risk_domain must be a string" % label)
+            else:
+                numeric_band(derivation_inputs.get("baseline_event_risk"), "%s derivation_inputs.baseline_event_risk" % label, errors, probability=True)
+            if "relative_risk_reduction" in derivation_inputs:
+                numeric_band(derivation_inputs.get("relative_risk_reduction"), "%s derivation_inputs.relative_risk_reduction" % label, errors, probability=True)
+            elif effect_type in {"RR", "HR"}:
+                numeric_band(derivation_inputs.get("effect_value"), "%s derivation_inputs.effect_value" % label, errors, probability=True)
+            else:
+                errors.append("%s harm-aware event action missing relative_risk_reduction" % label)
+        if "legacy_qaly_per_event" in derivation_inputs:
+            errors.append("%s fully_derived_v2 must not use legacy_qaly_per_event" % label)
+        burden = action.get("burden_qaly") or {}
+        if burden.get("units") not in ("per_year", "one_time", "course"):
+            errors.append("%s harm-aware event burden_qaly.units must be per_year, one_time, or course" % label)
+        horizon = derivation_inputs.get("sustained_horizon_years")
+        if not isinstance(horizon, (int, float)) or horizon <= 0:
+            errors.append("%s harm-aware event action missing positive sustained_horizon_years" % label)
+        basis = derivation_inputs.get("basis")
+        if not isinstance(basis, dict):
+            errors.append("%s harm-aware event action missing derivation_inputs.basis audit object" % label)
+        else:
+            for basis_key in event_action_basis_keys(derivation_inputs) + ["harm_objects", "burden_schedule"]:
+                if not basis.get(basis_key):
+                    errors.append("%s harm-aware event action derivation_inputs.basis missing %s" % (label, basis_key))
+        validate_harm_aware_event_net_shape(action, label, errors)
+        validate_harm_objects_and_burden_schedule(action, label, errors)
+        if not isinstance(action.get("overlap_group"), str) or not action.get("overlap_group"):
+            errors.append("%s fully_derived_v2 missing overlap_group" % label)
+        validate_event_or_curve_shift_runner_math(action, label, errors)
+        validate_harm_aware_secondary_channels_runner_math(action, label, errors)
+    elif derivation_inputs.get("method") == "procedure_device_action":
+        validate_procedure_device_action(action, label, errors)
+    elif derivation_inputs:
+        errors.append("%s fully_derived_v2 uses unsupported method %s" % (label, derivation_inputs.get("method")))
 
 
 def required_diagnostic_trace_parameters(_diagnostic):
@@ -330,6 +785,21 @@ def check_net_math(item, label, errors):
                           % (label, band, net[band], calc))
 
 
+def validate_fully_derived_source_action_ids(item, label, legacy_action_ids, errors):
+    """Fully-derived records must map back to concrete legacy 145-action IDs."""
+    if item.get("status") != "fully_derived_v2":
+        return
+    source_ids = item.get("source_action_ids")
+    if not isinstance(source_ids, list) or not source_ids:
+        errors.append("%s fully_derived_v2 source_action_ids must be a non-empty list" % label)
+        return
+    for source_id in source_ids:
+        if not isinstance(source_id, str) or not source_id:
+            errors.append("%s fully_derived_v2 source_action_ids contains a non-string/empty id" % label)
+        elif legacy_action_ids and source_id not in legacy_action_ids:
+            errors.append("%s fully_derived_v2 references unknown legacy source_action_id %s" % (label, source_id))
+
+
 def validate_action(action, required_fields, legacy_action_ids, errors):
     aid = action.get("id", "<missing>")
     if not aid:
@@ -365,9 +835,11 @@ def validate_action(action, required_fields, legacy_action_ids, errors):
         errors.append("action %s missing overlap_rules" % aid)
     validate_evidence_trace(action, "action %s" % aid, required_action_trace_parameters(action), errors)
     validate_evidence_axis(action, "action %s" % aid, ACTION_EVIDENCE_COMPONENTS, errors)
+    validate_fully_derived_source_action_ids(action, "action %s" % aid, legacy_action_ids, errors)
+    validate_fully_derived_event_action(action, "action %s" % aid, errors)
 
 
-def validate_diagnostic(diagnostic, required_fields, errors):
+def validate_diagnostic(diagnostic, required_fields, legacy_action_ids, errors):
     did = diagnostic.get("id", "<missing>")
     if not did:
         errors.append("diagnostic missing id")
@@ -407,6 +879,40 @@ def validate_diagnostic(diagnostic, required_fields, errors):
             errors.append("diagnostic %s eligibility.%s must be a non-empty list" % (did, key))
     validate_evidence_trace(diagnostic, "diagnostic %s" % did, required_diagnostic_trace_parameters(diagnostic), errors)
     validate_evidence_axis(diagnostic, "diagnostic %s" % did, DIAGNOSTIC_EVIDENCE_COMPONENTS, errors)
+    validate_fully_derived_source_action_ids(diagnostic, "diagnostic %s" % did, legacy_action_ids, errors)
+    validate_fully_derived_diagnostic(diagnostic, "diagnostic %s" % did, errors)
+
+
+def validate_fully_derived_diagnostic(diagnostic, label, errors):
+    if diagnostic.get("status") != "fully_derived_v2":
+        return
+    for key in ("source_action_ids", "trace_status", "runner_method", "derivation_inputs"):
+        if key not in diagnostic:
+            errors.append("%s fully_derived_v2 missing %s" % (label, key))
+    if diagnostic.get("trace_status") != "runner_computed":
+        errors.append("%s fully_derived_v2 requires trace_status=runner_computed" % label)
+    if diagnostic.get("runner_method") != "diagnostic_direct_voi":
+        errors.append("%s runner_method must match diagnostic_direct_voi" % label)
+    derivation_inputs = diagnostic.get("derivation_inputs") or {}
+    if derivation_inputs.get("method") != "diagnostic_direct_voi":
+        errors.append("%s fully_derived_v2 uses unsupported diagnostic method %s" % (label, derivation_inputs.get("method")))
+    if "legacy_qaly_per_event" in derivation_inputs:
+        errors.append("%s fully_derived_v2 must not use legacy_qaly_per_event" % label)
+    for key in ("reclassification_probability", "qaly_if_reclassified", "test_burden"):
+        if key not in derivation_inputs:
+            errors.append("%s derivation_inputs missing %s" % (label, key))
+    validate_evidence_trace(
+        diagnostic,
+        label,
+        [
+            "reclassification_probability",
+            "qaly_if_reclassified",
+            "test_burden",
+            "evidence_grade",
+            "downstream_decisions_changed",
+        ],
+        errors,
+    )
 
 
 def extract_candidate_match(candidate):
@@ -492,7 +998,7 @@ def validate_v2_overlay(v2_doc, legacy_actions_doc=None, findings_doc=None, cand
     for action in v2_doc.get("action_valuations", []):
         validate_action(action, required_actions, legacy_action_ids, errors)
     for diagnostic in v2_doc.get("diagnostic_valuations", []):
-        validate_diagnostic(diagnostic, required_diagnostics, errors)
+        validate_diagnostic(diagnostic, required_diagnostics, legacy_action_ids, errors)
 
     scored_ids = set(ids_seen.keys())
     scored_test_ids = {d.get("test_id") for d in v2_doc.get("diagnostic_valuations", []) if d.get("test_id")}

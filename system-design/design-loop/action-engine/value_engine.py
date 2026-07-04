@@ -101,6 +101,56 @@ def _as_band_dict(triple):
     return {"low": round(triple[0], 4), "central": round(triple[1], 4), "high": round(triple[2], 4)}
 
 
+def _relative_risk_reduction_band(di: dict) -> tuple[float, float, float]:
+    """Return a low/central/high relative risk reduction band.
+
+    Fully-derived library records usually store `relative_risk_reduction`
+    directly. Draft derivations sometimes carry a source RR/HR instead; accept
+    that only when `effect_type` is RR or HR and convert it deterministically to
+    RRR = 1 - RR/HR. This keeps the generic event adapter from treating a source
+    hazard ratio as a risk-reduction scalar by accident.
+    """
+    if "relative_risk_reduction" in di:
+        return _band(di["relative_risk_reduction"], "relative_risk_reduction")
+    effect_type = str(di.get("effect_type", "RRR")).upper()
+    if effect_type in {"RR", "HR"} and "effect_value" in di:
+        effect = _band(di["effect_value"], "effect_value")
+        return tuple(1.0 - value for value in effect)
+    raise ValueError(
+        "event_or_curve_shift_action requires relative_risk_reduction, or effect_value when effect_type is RR/HR"
+    )
+
+
+def _require_event_or_curve_shift_inputs(di: dict) -> None:
+    """Runtime input contract for the shared event-action adapter.
+
+    The validator enforces this statically for library rows. Keeping the same
+    contract here prevents ad hoc runner calls or future draft records from being
+    scored with an unbound baseline risk, missing horizon, or ambiguous effect
+    encoding.
+    """
+    effect_type = str(di.get("effect_type", "RRR")).upper()
+    if effect_type not in {"ARR", "RR", "HR", "RRR"}:
+        raise ValueError(
+            "event_or_curve_shift_action effect_type must be ARR, RR, HR, or RRR"
+        )
+    horizon = di.get("sustained_horizon_years")
+    if not isinstance(horizon, (int, float)) or horizon <= 0:
+        raise ValueError("event_or_curve_shift_action requires positive sustained_horizon_years")
+    if "event_value_qaly" not in di and "legacy_qaly_per_event" not in di:
+        raise ValueError("event_or_curve_shift_action requires event_value_qaly or legacy_qaly_per_event")
+    if effect_type == "ARR":
+        if "absolute_risk_reduction" not in di:
+            raise ValueError("event_or_curve_shift_action ARR requires absolute_risk_reduction")
+        return
+    if "baseline_event_risk" not in di and "risk_domain" not in di:
+        raise ValueError("event_or_curve_shift_action requires baseline_event_risk or risk_domain")
+    if "relative_risk_reduction" not in di and not (effect_type in {"RR", "HR"} and "effect_value" in di):
+        raise ValueError(
+            "event_or_curve_shift_action requires relative_risk_reduction, or effect_value when effect_type is RR/HR"
+        )
+
+
 # ============================================================ C1 — curve-shift
 def score_c1_curve_shift(ctx: dict, di: dict) -> dict:
     """C1 prevention for a risk-scaling lever (e.g. statin). D2:
@@ -149,6 +199,213 @@ def score_c1_curve_shift(ctx: dict, di: dict) -> dict:
         "cvd_mortality_share_used": round(share, 4),
         "c2_capacity": _as_band_dict((0.0, 0.0, 0.0)),
         "c3_resilience": _as_band_dict((0.0, 0.0, 0.0)),
+    }
+
+
+# =============================================== C1 — generic event action
+
+def score_event_or_curve_shift_action(ctx: dict, di: dict) -> dict:
+    """Generic C1 event-prevention scorer for legacy actions with HR/RR/RRR/ARR.
+
+    This is the high-throughput bridge for the 145-action conversion. It does
+    not invent baseline risk or event value. A library item must supply either:
+      - baseline_event_risk, or
+      - risk_domain that resolves in the patient packet context.
+
+    C1 = baseline risk over the declared horizon · relative risk reduction ·
+    event value. ARR is supported by passing effect_type='ARR' and using the
+    supplied absolute risk reduction directly.
+    """
+    _require_event_or_curve_shift_inputs(di)
+    effect_type = str(di.get("effect_type", "RRR")).upper()
+    if effect_type == "ARR":
+        prevented_events = _band(di["absolute_risk_reduction"])
+    else:
+        if "baseline_event_risk" in di:
+            baseline_risk = _band(di["baseline_event_risk"])
+        elif di.get("risk_domain") in ctx.get("risk", {}):
+            baseline_risk = _band(ctx["risk"][di["risk_domain"]])
+        else:
+            raise ValueError("event_or_curve_shift_action requires baseline_event_risk or resolvable risk_domain")
+        rrr = _relative_risk_reduction_band(di)
+        prevented_events = tuple(baseline_risk[i] * rrr[i] for i in range(3))
+
+    if "event_value_qaly" in di:
+        event_value = _band(di["event_value_qaly"])
+    elif "legacy_qaly_per_event" in di:
+        event_value = _band(di["legacy_qaly_per_event"])
+    else:
+        raise ValueError("event_or_curve_shift_action requires event_value_qaly or legacy_qaly_per_event")
+
+    c1 = tuple(prevented_events[i] * event_value[i] for i in range(3))
+    return {
+        "c1_prevention": _as_band_dict(c1),
+        "prevented_events": _as_band_dict(prevented_events),
+        "event_value_qaly": _as_band_dict(event_value),
+        "c2_capacity": _as_band_dict((0.0, 0.0, 0.0)),
+        "c3_resilience": _as_band_dict((0.0, 0.0, 0.0)),
+    }
+
+
+# ============================================ C1/C2/C3 — procedure/device action
+def _zero_band():
+    return (0.0, 0.0, 0.0)
+
+
+def _band_add(*bands):
+    return tuple(float(sum(band[i] for band in bands)) for i in range(3))
+
+
+def _band_mul(a, b):
+    return tuple(float(a[i] * b[i]) for i in range(3))
+
+
+def _burden_years(S, start: float, duration: float) -> float:
+    """Survival-weighted years over a possibly fractional interval."""
+    if duration <= 0:
+        return 0.0
+    full_years = int(duration)
+    total = sum(S(start + year + 0.5) for year in range(full_years))
+    remainder = duration - full_years
+    if remainder > 0:
+        total += remainder * S(start + full_years + remainder / 2)
+    return total
+
+
+def _integrate_burden_schedule(ctx: dict, schedule: list[dict]) -> tuple[float, float, float]:
+    sex, age = ctx["sex"], ctx["age"]
+    S = make_S(age, sex)
+    totals = [0.0, 0.0, 0.0]
+    for item in schedule or []:
+        values = _band(item["value_qaly_loss"], "burden_schedule.value_qaly_loss")
+        durations = _band(item.get("duration_years", 0.0), "burden_schedule.duration_years")
+        start = float(item.get("start_year", 0.0) or 0.0)
+        cadence = item.get("cadence")
+        survival_weighted = bool(item.get("survival_weighted", True))
+        for i in range(3):
+            if cadence == "one_time":
+                weight = S(start) if survival_weighted else 1.0
+                totals[i] += values[i] * weight
+            elif cadence in {"per_year", "course"}:
+                years = _burden_years(S, start, durations[i]) if survival_weighted else durations[i]
+                totals[i] += values[i] * years
+            elif cadence in {"surveillance_interval", "replacement_interval", "per_cycle"}:
+                interval = float(item.get("interval_years") or 0.0)
+                if interval <= 0:
+                    raise ValueError(f"{cadence} burden requires positive interval_years")
+                horizon = durations[i]
+                t = start
+                while t <= start + horizon + 1e-9:
+                    weight = S(t) if survival_weighted else 1.0
+                    totals[i] += values[i] * weight
+                    t += interval
+            else:
+                raise ValueError(f"unsupported burden cadence {cadence!r}")
+    return tuple(totals)
+
+
+def _score_harm_objects(di: dict) -> tuple[float, float, float]:
+    """Expected QALY loss from explicit harm objects."""
+    harms = _zero_band()
+    for harm in di.get("harm_objects", []):
+        if harm.get("included_in_endpoint_value"):
+            continue
+        probability = _band(harm["probability"], f"harm_objects.{harm.get('id', '<missing>')}.probability")
+        value_loss = _band(harm["value_qaly_loss"], f"harm_objects.{harm.get('id', '<missing>')}.value_qaly_loss")
+        harms = _band_add(harms, _band_mul(probability, value_loss))
+    return harms
+
+
+def score_harm_aware_event_action(ctx: dict, di: dict) -> dict:
+    """Event-prevention scorer with explicit harms and burden schedule."""
+    benefit = score_event_or_curve_shift_action(ctx, di)
+    c1 = _band(benefit["c1_prevention"], "c1_prevention")
+    c2 = _band(di.get("direct_c2_capacity", 0.0), "direct_c2_capacity")
+    c3 = _band(di.get("direct_c3_resilience", 0.0), "direct_c3_resilience")
+    harms = _score_harm_objects(di)
+    burden = _integrate_burden_schedule(ctx, di.get("burden_schedule", []))
+    net = tuple(c1[i] + c2[i] + c3[i] - harms[i] - burden[i] for i in range(3))
+    return {
+        "c1_prevention": _as_band_dict(c1),
+        "c2_capacity": _as_band_dict(c2),
+        "c3_resilience": _as_band_dict(c3),
+        "prevented_events": benefit.get("prevented_events"),
+        "event_value_qaly": benefit.get("event_value_qaly"),
+        "harm_qaly_loss": _as_band_dict(harms),
+        "action_burden_qaly": _as_band_dict(burden),
+        "net_qaly_if_achieved": _as_band_dict(net),
+    }
+
+
+def score_procedure_device_action(ctx: dict, di: dict) -> dict:
+    """Episode-based procedure/device scorer.
+
+    The runner intentionally consumes only audited, library-supplied parameters:
+    threshold eligibility is validated upstream; the math here turns bound
+    baseline endpoint risks, procedure effects, explicit harm objects, optional
+    direct C2/C3 utility components, and a burden schedule into deterministic
+    banded QALY channels.
+    """
+    effect_model = di["effect_model"]
+    effect_type = effect_model["type"]
+    baseline = di.get("baseline_risk", {}).get("endpoint_risks", {})
+    endpoint_values = di.get("endpoint_values", {})
+
+    c1 = _zero_band()
+    endpoint_absolute_risk_delta: dict[str, dict] = {}
+    if effect_type in {"relative_event_reduction", "absolute_event_reduction"}:
+        for endpoint_id in effect_model.get("effect_applies_to", []):
+            if endpoint_id not in endpoint_values:
+                raise ValueError(f"procedure endpoint {endpoint_id!r} missing endpoint_values")
+            if effect_type == "relative_event_reduction":
+                risk = _band(baseline[endpoint_id], f"baseline_risk.endpoint_risks.{endpoint_id}")
+                rrr = _band(effect_model["relative_risk_reduction"], "effect_model.relative_risk_reduction")
+                risk_delta = _band_mul(risk, rrr)
+            else:
+                arr = effect_model.get("absolute_risk_reduction", {})
+                risk_delta = _band(arr[endpoint_id] if isinstance(arr, dict) and endpoint_id in arr else arr,
+                                   "effect_model.absolute_risk_reduction")
+            value = _band(endpoint_values[endpoint_id]["event_value_qaly"],
+                          f"endpoint_values.{endpoint_id}.event_value_qaly")
+            c1 = _band_add(c1, _band_mul(risk_delta, value))
+            endpoint_absolute_risk_delta[endpoint_id] = _as_band_dict(risk_delta)
+    elif effect_type not in {"utility_time_in_state", "counterfactual_curve_comparison", "survival_curve_shift"}:
+        raise ValueError(f"unsupported procedure effect_model.type {effect_type!r}")
+
+    c2 = _zero_band()
+    c3 = _zero_band()
+    for component in effect_model.get("utility_time_in_state_components", []):
+        channel = component.get("channel")
+        delta_u = _band(component["delta_u"], "utility_time_in_state_components.delta_u")
+        duration = _band(component["duration_years"], "utility_time_in_state_components.duration_years")
+        value = _band_mul(delta_u, duration)
+        if channel == "c2_capacity":
+            c2 = _band_add(c2, value)
+        elif channel == "c3_resilience":
+            c3 = _band_add(c3, value)
+        elif channel == "c1_prevention":
+            c1 = _band_add(c1, value)
+        else:
+            raise ValueError(f"unsupported utility_time_in_state channel {channel!r}")
+
+    harms = _zero_band()
+    for harm in di.get("harm_objects", []):
+        if harm.get("included_in_endpoint_value"):
+            continue
+        probability = _band(harm["probability"], f"harm_objects.{harm.get('id', '<missing>')}.probability")
+        value_loss = _band(harm["value_qaly_loss"], f"harm_objects.{harm.get('id', '<missing>')}.value_qaly_loss")
+        harms = _band_add(harms, _band_mul(probability, value_loss))
+
+    burden = _integrate_burden_schedule(ctx, di.get("burden_schedule", []))
+    net = tuple(c1[i] + c2[i] + c3[i] - harms[i] - burden[i] for i in range(3))
+    return {
+        "c1_prevention": _as_band_dict(c1),
+        "c2_capacity": _as_band_dict(c2),
+        "c3_resilience": _as_band_dict(c3),
+        "endpoint_absolute_risk_delta": endpoint_absolute_risk_delta,
+        "harm_qaly_loss": _as_band_dict(harms),
+        "procedure_burden_qaly": _as_band_dict(burden),
+        "net_qaly_if_achieved": _as_band_dict(net),
     }
 
 
@@ -248,6 +505,9 @@ def score_diagnostic_voi(ctx: dict, di: dict) -> dict:
 
 SCORERS = {
     "c1_curve_shift": score_c1_curve_shift,
+    "event_or_curve_shift_action": score_event_or_curve_shift_action,
+    "harm_aware_event_action": score_harm_aware_event_action,
+    "procedure_device_action": score_procedure_device_action,
     "fitness_bundle": score_fitness_bundle,
     "diagnostic_direct_voi": score_diagnostic_direct_voi,
     "diagnostic_voi": score_diagnostic_voi,

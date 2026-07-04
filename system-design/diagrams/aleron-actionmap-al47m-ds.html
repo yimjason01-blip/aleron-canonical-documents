@@ -886,7 +886,22 @@ const VO2_SCORE_OVERRIDES={
   {t:38,d:13,met:3.71,c1:0.70,c2:2.20,c3:0.25,total:3.15,lo:1.95,hi:5.30}
  ]
 };
+const ENGINE_DERIVED_ACTIONS_BY_PATIENT={
+ "ethan-park":[
+  {"id":"pioglitazone_stroke_mi_ir","net":-0.0581,"c1":0.0283,"c2":0,"c3":0,"class":"drug","domain":"metabolic + cvd","evidence":"moderate","surrogate":false,"bundle":null,"zone":"sure-but-small","gated":false,"gate":"derived v2 · runner_computed · direct_patient_qaly_action","valuation":"v2_derived_action","traceStatus":"runner_computed","effect":{"type":"RRR","value":"stroke/MI"}},
+  {"id":"dpp_lifestyle","net":0.0048,"c1":0.0348,"c2":0,"c3":0,"class":"lifestyle","domain":"metabolic","evidence":"moderate","surrogate":false,"bundle":null,"zone":"sure-but-small","gated":false,"gate":"derived v2 · runner_computed · direct_patient_qaly_action","valuation":"v2_derived_action","traceStatus":"runner_computed","effect":{"type":"RRR","value":"DPP"}},
+  {"id":"metformin_prevention","net":0.0299,"c1":0.0449,"c2":0,"c3":0,"class":"drug","domain":"metabolic","evidence":"moderate","surrogate":false,"bundle":null,"zone":"sure-but-small","gated":false,"gate":"derived v2 · runner_computed · direct_patient_qaly_action","valuation":"v2_derived_action","traceStatus":"runner_computed","effect":{"type":"RRR","value":"T2D"}},
+  {"id":"act_zoster_vaccine_dementia","net":0.033,"c1":0.036,"c2":0,"c3":0,"class":"drug","domain":"neuro","evidence":"weak","surrogate":false,"bundle":null,"zone":"sure-but-small","gated":false,"gate":"derived v2 · runner_computed · direct_patient_qaly_action","valuation":"v2_derived_action","traceStatus":"runner_computed","effect":{"type":"HR","value":"dementia"}},
+  {"id":"physical_activity_metabolic","net":0.0085,"c1":0.0325,"c2":0,"c3":0,"class":"lifestyle","domain":"metabolic","evidence":"moderate","surrogate":false,"bundle":null,"zone":"sure-but-small","gated":false,"gate":"derived v2 · runner_computed · direct_patient_qaly_action","valuation":"v2_derived_action","traceStatus":"runner_computed","effect":{"type":"RR","value":"T2D"}},
+  {"id":"acarbose_cv_igt","net":-0.0068,"c1":0.0196,"c2":0,"c3":0,"class":"drug","domain":"metabolic + cvd","evidence":"weak","surrogate":false,"bundle":null,"zone":"sure-but-small","gated":false,"gate":"derived v2 · runner_computed · direct_patient_qaly_action","valuation":"v2_derived_action","traceStatus":"runner_computed","effect":{"type":"HR","value":"CVD"}}
+ ],
+ "mara-chen":[
+  {"id":"statin_primary","net":0.0222,"c1":0.0722,"c2":0,"c3":0,"class":"drug","domain":"cvd","evidence":"moderate","surrogate":false,"bundle":null,"zone":"sure-but-small","gated":false,"gate":"derived v2 · runner_computed · direct_patient_qaly_action","valuation":"v2_derived_action","traceStatus":"runner_computed","effect":{"type":"RRR","value":"ASCVD"}}
+ ]
+};
 function rerunActionLibraryScoring(patient,items){
+ const derived=ENGINE_DERIVED_ACTIONS_BY_PATIENT[patient.id];
+ if(derived)return derived.map(s=>({...s}));
  const overrides=ACTION_LIBRARY_SCORE_OVERRIDES[patient.id]||{};
  const hide=new Set(ACTION_LIBRARY_V2_HIDE[patient.id]||[]);
  let scored=(items||[]).map(s=>overrides[s.id]?{...s,...overrides[s.id]}:s).filter(s=>!hide.has(s.id));
@@ -1127,11 +1142,28 @@ const DISCOVERED_AL47M=[
 let DISCOVERED=DISCOVERED_AL47M;
 let ACTION_MAP_STATE={actions:SCORED,diagnostics:[],discoveries:DISCOVERED,vo2:[]};
 const THR=0.05;  // patient-value QALY benefit cutoff (~18 quality-days)
-const EVIDENCE=['weak','moderate','strong'];
-const EVX={weak:0,moderate:1,strong:2};
+const CONFIDENCE_ACT_FLOOR=0.67;
+const CONFIDENCE_FALLBACK={weak:0.35,low:0.35,moderate:0.58,medium:0.58,strong:0.82,high:0.82};
+const DERIVED_CONFIDENCE_SCORE={pioglitazone_stroke_mi_ir:0.65,dpp_lifestyle:0.62,metformin_prevention:0.65,act_zoster_vaccine_dementia:0.36,physical_activity_metabolic:0.46,acarbose_cv_igt:0.38,statin_primary:0.68};
 const ENTITIES={'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'};
 const html=v=>String(v ?? '').replace(/[&<>"']/g,ch=>ENTITIES[ch]);
-const evidenceKey=v=>Object.prototype.hasOwnProperty.call(EVX,v)?v:'weak';
+const clamp01=v=>Math.max(0,Math.min(1,Number(v)));
+const numericConfidence=v=>{if(!isFiniteValue(v))return null;const n=Number(v);return clamp01(n>1?n/100:n);};
+function confidenceScore(item){
+ const direct=numericConfidence(item&&((item.confidence_score??item.evidence_score)??item.confidence));
+ if(direct!==null)return direct;
+ const axis=numericConfidence(item&&item.evidence_axis&&item.evidence_axis.score);
+ if(axis!==null)return axis;
+ if(item&&Object.prototype.hasOwnProperty.call(DERIVED_CONFIDENCE_SCORE,item.id))return DERIVED_CONFIDENCE_SCORE[item.id];
+ const label=String((item&&(item.evidence||item.ev||(item.evidence_axis&&item.evidence_axis.level)))||'').toLowerCase();
+ return Object.prototype.hasOwnProperty.call(CONFIDENCE_FALLBACK,label)?CONFIDENCE_FALLBACK[label]:0.35;
+}
+function confidenceLabel(item){
+ const score=confidenceScore(item);
+ const label=String((item&&(item.evidence||item.ev||(item.evidence_axis&&item.evidence_axis.level)))||'').toLowerCase();
+ return 'confidence '+score.toFixed(2)+(label?' · '+label+' evidence':'');
+}
+const evidenceKey=v=>String(v||'weak').toLowerCase();
 const signed=(v,d=3)=>{const n=Number.isFinite(Number(v))?Number(v):0;return (n>=0?'+':'')+n.toFixed(d);};
 const isFiniteValue=v=>v!==null&&v!==undefined&&v!==''&&Number.isFinite(Number(v));
 const percent=v=>isFiniteValue(v)?(Number(v)*100).toFixed(Number(v)>=0.1?0:1)+'%':'pending';
@@ -1336,7 +1368,7 @@ function diagnosticTooltip(d){
  const p=diagnosticReclass(d);
  const q=diagnosticQalyIf(d);
  const source=d.aiCandidate?'<br><span style="color:var(--proc)">Signal source: '+html(d.aiDiscoveryTitle||'gap discovery')+'</span>':'';
- return '<div style="font-weight:500;margin-bottom:3px">'+html(d.name)+'</div><div style="color:var(--muted);line-height:1.5">diagnostic &middot; '+html(d.ev)+' evidence'+source+'<br><span style="color:var(--fg)">Patient QALY if reclassified '+qaly(q)+'</span><br><span style="color:var(--advisory)">Reclass odds '+percent(p)+'</span>'+(d.path?'<br>Decision class: '+html(d.path):'')+(d.note?'<br>'+html(d.note):'')+'</div>';
+ return '<div style="font-weight:500;margin-bottom:3px">'+html(d.name)+'</div><div style="color:var(--muted);line-height:1.5">diagnostic &middot; '+confidenceLabel(d)+source+'<br><span style="color:var(--fg)">Patient QALY if reclassified '+qaly(q)+'</span><br><span style="color:var(--advisory)">Reclass odds '+percent(p)+'</span>'+(d.path?'<br>Decision class: '+html(d.path):'')+(d.note?'<br>'+html(d.note):'')+'</div>';
 }
 
 function routeGeneticFinding(finding,patient){
@@ -1421,9 +1453,9 @@ function renderDiscovery(items,actionMap){
  const panels=visible.map((d,i)=>{
   const c=candidateForDiscovery(d,actionMap);
   const scored=c.item;
-  const candidate=scored?'<b>'+html(scored.name||actionLabel(scored))+'</b><br>'+html(c.type)+' · '+html(scored.ev||scored.evidence||'pending')+' evidence · '+(c.type==='diagnostic'?'Reclass odds '+percent(diagnosticReclass(scored))+' · patient QALY if reclassified '+qaly(diagnosticQalyIf(scored)):'Net '+qaly(scored.net)):'Structured candidate pending scoring.';
+  const candidate=scored?'<b>'+html(scored.name||actionLabel(scored))+'</b><br>'+html(c.type)+' · '+confidenceLabel(scored)+' · '+(c.type==='diagnostic'?'Reclass odds '+percent(diagnosticReclass(scored))+' · patient QALY if reclassified '+qaly(diagnosticQalyIf(scored)):'Net '+qaly(scored.net)):'Structured candidate pending scoring.';
   const mapStatus=scored?'Placed on action map with AI provenance.':'Not plotted until structured and scored.';
-  const provenance='<div class="ai-provenance"><b>AI provenance</b> · Generated from '+html(d.system)+' signals. Confidence basis: '+html(d.evidence)+' evidence, '+html(d.confirm||'review')+' confirmation. Map entry: '+(scored?'structured and scored':'withheld until scored')+'.</div>';
+  const provenance='<div class="ai-provenance"><b>AI provenance</b> · Generated from '+html(d.system)+' signals. Confidence basis: '+html(d.evidence)+' evidence label, '+html(d.confirm||'review')+' confirmation. Map entry: '+(scored?'structured and scored':'withheld until scored')+'.</div>';
   return '<div class="air '+(i===0?'on':'')+'" data-discovery-panel="'+html(d.id)+'" role="tabpanel"><div class="head"><div><div class="title">'+html(d.title)+'</div><div class="meta">'+html(d.system)+' · '+html(d.evidence)+' evidence · '+html(c.status)+'</div></div><div class="score'+(scored?'':' review')+'">'+(scored?'scored':'needs review')+'</div></div><div class="ai-grid"><div class="ai-block"><div class="k">Pattern recognized</div><div class="v">'+html(d.why)+'</div></div><div class="ai-block"><div class="k">Scored candidate</div><div class="v">'+candidate+'</div></div><div class="ai-block"><div class="k">Map status</div><div class="v">'+mapStatus+'</div></div><div class="ai-block"><div class="k">Data used</div>'+chips(d.cites)+'</div></div>'+provenance+'<div class="ai-footer">AI contributes candidate generation. Only scored candidates enter the map and final synthesis.</div></div>';
  }).join('');
  el.innerHTML='<div class="ai-topics" role="tablist" aria-label="AI candidate pipeline">'+tabs+'</div><div class="ai-panels">'+panels+'</div>';
@@ -2584,11 +2616,10 @@ initAleronAi();
 
 // ---- action map ----
 (function(){
- const W=940,T=22,L=58,LP=58,R=62,MB=500;  // LP=L: no separate gutter; fitness lives in the moderate evidence column
- const PW=W-R-LP;                            // evidence-column plot width
- const cols=EVIDENCE;
- const xb=e=>LP+(EVX[e]+0.5)/3*PW;
- const xcut=k=>LP+k/3*PW;
+ const W=940,T=22,L=58,LP=58,R=62,MB=500;  // LP=L: confidence axis shares the QALY frame
+ const PW=W-R-LP;                            // continuous confidence plot width
+ const xs=score=>LP+clamp01(score)*PW;
+ const xcutConf=score=>xs(score);
  // diagnostics: internal VOI is odds times patient-conditional QALY; UI shows the two components separately.
  const DIAG_AL47M=[
   {id:'bp_persistence',name:'Home or ambulatory BP confirmation',voi:0.4045,reclass:0.65,qalyIf:0.63,ev:'strong',d:1,path:'persistent BP state changes medication threshold and sequencing',note:'v2: bp_persistence_reclassification · use before BP pharmacotherapy if average BP is not materialized.',planPriority:96},
@@ -2632,9 +2663,9 @@ initAleronAi();
   let g='';
   // frame + lanes. Left value-axis at L; fitness lane L..LP (inside the frame); evidence columns LP..W-R
   g+='<line x1="'+L+'" y1="'+T+'" x2="'+L+'" y2="'+MB+'" stroke="color-mix(in srgb,var(--line) 32%,transparent)"/>';
-  [1,2,3].forEach(k=>{const cx=xcut(k);g+='<line x1="'+cx+'" y1="'+T+'" x2="'+cx+'" y2="'+MB+'" stroke="color-mix(in srgb,var(--line) 16%,transparent)"/>';});
-  for(let i=0;i<3;i++)g+='<text class="mlab" x="'+(LP+(i+0.5)/3*PW)+'" y="'+(MB+18)+'" text-anchor="middle" font-size="10" fill="var(--muted)">'+html(cols[i])+'</text>';
-  g+='<text class="mlab" x="'+(LP+PW/2)+'" y="'+(MB+34)+'" text-anchor="middle" font-size="9.5" fill="var(--faint)">evidence strength · spread within a column is for legibility only</text>';
+  [0.25,0.5,0.75].forEach(score=>{const cx=xcutConf(score);g+='<line x1="'+cx+'" y1="'+T+'" x2="'+cx+'" y2="'+MB+'" stroke="color-mix(in srgb,var(--line) 16%,transparent)"/>';});
+  [0,0.25,0.5,0.75,1].forEach(score=>g+='<text class="mlab" x="'+xcutConf(score).toFixed(1)+'" y="'+(MB+18)+'" text-anchor="middle" font-size="10" fill="var(--muted)">'+score.toFixed(score===0||score===1?0:2)+'</text>');
+  g+='<text class="mlab" x="'+(LP+PW/2)+'" y="'+(MB+34)+'" text-anchor="middle" font-size="9.5" fill="var(--faint)">evidence confidence score · continuous 0-1 axis; categorical words are labels only</text>';
   // left net-QALY axis (gridlines run through the fitness lane + columns so all read against ONE scale)
   for(let v=Math.ceil(ymin/step)*step;v<=ymax+1e-9;v+=step){const yy=yv(v);g+='<line x1="'+L+'" y1="'+yy+'" x2="'+(W-R)+'" y2="'+yy+'" stroke="color-mix(in srgb,var(--line) 8%,transparent)"/>'+'<text class="mlab" x="'+(L-8)+'" y="'+(yy+3)+'" text-anchor="end" font-size="10.5" fill="var(--faint)">'+(v>1e-9?'+':'')+v.toFixed(full?1:2)+'</text>';}
   g+='<text class="mlab" x="'+L+'" y="'+(T-8)+'" font-size="9.5" fill="var(--muted)">patient QALY &uarr;</text>';
@@ -2643,38 +2674,35 @@ initAleronAi();
   // net-harmful zone (ember = this ONE meaning)
   g+='<rect x="'+L+'" y="'+yv(0)+'" width="'+(W-R-L)+'" height="'+(MB-yv(0))+'" fill="var(--hi)" opacity="0.07"/>';
   g+='<line x1="'+L+'" y1="'+yv(0)+'" x2="'+(W-R)+'" y2="'+yv(0)+'" stroke="var(--faint)" stroke-width="1.25"/>';
-  g+='<text class="mlab" x="'+xb('moderate').toFixed(1)+'" y="'+(yv(0)+13)+'" font-size="10.5" fill="var(--muted)" text-anchor="middle">net-harmful zone · burden exceeds benefit</text>';
+  g+='<text class="mlab" x="'+xcutConf(0.5).toFixed(1)+'" y="'+(yv(0)+13)+'" font-size="10.5" fill="var(--muted)" text-anchor="middle">net-harmful zone · burden exceeds benefit</text>';
   // zoom-only furniture (neutral fill - green is not reused here)
   if(!full){
-   const x0s=xcut(2);
+   const x0s=xcutConf(CONFIDENCE_ACT_FLOOR);
    g+='<rect x="'+x0s+'" y="'+T+'" width="'+(W-R-x0s)+'" height="'+(yv(THR)-T)+'" fill="var(--faint)" opacity="0.09"/>';
    g+='<line x1="'+LP+'" y1="'+yv(THR)+'" x2="'+(W-R)+'" y2="'+yv(THR)+'" stroke="var(--faint)" stroke-dasharray="4 4"/>';
    g+='<text x="'+(LP+4)+'" y="'+(yv(THR)-4)+'" font-size="9.5" fill="var(--faint)">benefit threshold (+'+THR.toFixed(2)+')</text>';
    g+='<text class="zlab" x="'+(x0s+8)+'" y="'+(T+32)+'">Act</text>';
    g+='<text class="zlab" x="'+(LP+8)+'" y="'+(T+32)+'">Get evidence</text>';
-   g+='<text class="zlab" x="'+(x0s+8)+'" y="'+(yv(THR)+16)+'">Sure but small</text>';
-   g+='<text class="zlab" x="'+(LP+8)+'" y="'+(yv(THR)+16)+'">Ignore</text>';
+   g+='<text class="zlab" x="'+(x0s+8)+'" y="'+(yv(THR)+16)+'">Small but confident</text>';
+   g+='<text class="zlab" x="'+(LP+8)+'" y="'+(yv(THR)+16)+'">Low priority</text>';
   }
   // ----- marks: action circles, diagnostic squares, and VO2max ladder -----
-  const byCol={weak:[],moderate:[],strong:[]};VISIBLE_ACTIONS.forEach(s=>byCol[evidenceKey(s.evidence)].push(s));
-  const dByCol={weak:[],moderate:[],strong:[]};VISIBLE_DIAG.forEach(s=>dByCol[evidenceKey(s.ev)].push(s));
-  const half=PW/3*0.46;const fitPts=[];
-  cols.forEach(c=>{
-    const marks=[],ofs=[];
-    byCol[c].forEach(s=>{if(!full&&s.net>ymax)ofs.push(s);else marks.push({t:'c',key:s.id,y:yv(s.net),r:5,s:s});});
-    if(full)dByCol[c].forEach(d=>marks.push({t:'s',key:d.name,y:yv(diagnosticQalyIf(d)),r:(d.cac?9:6)/2+1.5,s:d}));
-    if(full&&c==='moderate'&&SHOW_FIT)FIT.forEach(f=>marks.push({t:'f',key:'fit'+f.t,y:yv(f.val),r:7,s:f}));
-    bee(marks,xb(c),half).forEach(p=>{
-      if(p.t==='c'){const s=p.s,h=(s.net<0?'var(--hi)':hue(s));let fillv,strokeA;
-        POS[s.id]={x:p.x,y:p.y,kind:'a',s:s};
-        if(s.gated){fillv='none';strokeA='stroke="'+h+'" stroke-width="1.6" stroke-dasharray="3 2"';}else{fillv=h;strokeA='opacity="0.92"';}
-        g+='<circle data-id="'+html(s.id)+'" style="cursor:pointer;pointer-events:all" cx="'+p.x.toFixed(1)+'" cy="'+p.y.toFixed(1)+'" r="5" fill="'+fillv+'" '+strokeA+'><title>'+actionLabel(s)+(s.gated?' - gated: '+html(s.gate):'')+'</title></circle>';
-        if(s.aiCandidate)g+='<circle cx="'+p.x.toFixed(1)+'" cy="'+p.y.toFixed(1)+'" r="8.5" fill="none" stroke="var(--signal-unmodeled)" stroke-width="1.4" stroke-dasharray="3 2" pointer-events="none"/>';
-      }else if(p.t==='f'){const f=p.s;fitPts.push({x:p.x,y:p.y});ladderYs.push(p.y+3);g+='<circle cx="'+p.x.toFixed(1)+'" cy="'+p.y.toFixed(1)+'" r="6.5" fill="var(--act)"><title>Increase VO₂max to '+html(f.t)+' mL/kg/min (+'+html(f.d)+'): '+signed(f.val,2)+' QALY · moderate evidence (strong association, moderate causal)</title></circle>';g+='<text class="mlab" x="'+(p.x+10).toFixed(1)+'" y="'+(p.y+3).toFixed(1)+'" font-size="9.5" fill="var(--muted)">&rarr;'+html(f.t)+' '+signed(f.val,2)+'</text>';}
-      else{const d=p.s,sz=d.cac?9:6,stroke=d.aiCandidate?'var(--signal-unmodeled)':(d.cac?'var(--fg)':'var(--signal-baseline)'),dash=d.aiCandidate?' stroke-dasharray="3 2"':'';POS[d.id]={x:p.x,y:p.y,kind:'d',s:d};g+='<rect data-dx-id="'+html(d.id)+'" style="cursor:pointer;pointer-events:all" x="'+(p.x-sz/2).toFixed(1)+'" y="'+(p.y-sz/2).toFixed(1)+'" width="'+sz+'" height="'+sz+'" fill="'+(d.d?'var(--signal-baseline)':'none')+'" stroke="'+stroke+'" stroke-width="'+(d.aiCandidate?2:(d.cac?2:1.3))+'"'+dash+' opacity="0.95"><title>'+html(d.name)+'</title></rect>';}
-    });
-    if(ofs.length)bee(ofs.map(s=>({t:'c',key:s.id,y:T+6,r:4.5,s:s})),xb(c),half).forEach(p=>{const s=p.s;g+='<circle data-id="'+html(s.id)+'" style="cursor:pointer;pointer-events:all" cx="'+p.x.toFixed(1)+'" cy="'+(T+6)+'" r="3.4" fill="none" stroke="'+hue(s)+'" stroke-width="1.4" opacity="0.85"><title>'+actionLabel(s)+' - '+signed(s.net,2)+' QALY (above this zoom scale)</title></circle>';});
+  const fitPts=[];
+  const placeMarks=marks=>{const placed=[];marks.sort((a,b)=>a.y-b.y||a.x-b.x).forEach(m=>{const base=m.x+jit(m.key)*10;let x=Math.max(LP+7,Math.min(W-R-7,base));const hit=cx=>placed.some(q=>Math.abs(q.x-cx)<(q.r+m.r+3)&&Math.abs(q.y-m.y)<(q.r+m.r+3));if(hit(x)){let found=null;for(let step=1;step<16&&found===null;step++){for(const dir of [1,-1]){const cand=Math.max(LP+7,Math.min(W-R-7,base+dir*step*4));if(!hit(cand)){found=cand;break;}}}if(found!==null)x=found;}placed.push({...m,x});});return placed;};
+  const marks=[],ofs=[];
+  VISIBLE_ACTIONS.forEach(s=>{const x=xs(confidenceScore(s));if(!full&&s.net>ymax)ofs.push({t:'c',key:s.id,y:T+6,r:4.5,s:s,x});else marks.push({t:'c',key:s.id,y:yv(s.net),r:5,s:s,x});});
+  if(full)VISIBLE_DIAG.forEach(d=>marks.push({t:'s',key:d.name,y:yv(diagnosticQalyIf(d)),r:(d.cac?9:6)/2+1.5,s:d,x:xs(confidenceScore(d))}));
+  if(full&&SHOW_FIT)FIT.forEach(f=>marks.push({t:'f',key:'fit'+f.t,y:yv(f.val),r:7,s:f,x:xs(0.58)}));
+  placeMarks(marks).forEach(p=>{
+    if(p.t==='c'){const s=p.s,h=(s.net<0?'var(--hi)':hue(s));let fillv,strokeA;
+      POS[s.id]={x:p.x,y:p.y,kind:'a',s:s};
+      if(s.gated){fillv='none';strokeA='stroke="'+h+'" stroke-width="1.6" stroke-dasharray="3 2"';}else{fillv=h;strokeA='opacity="0.92"';}
+      g+='<circle data-id="'+html(s.id)+'" style="cursor:pointer;pointer-events:all" cx="'+p.x.toFixed(1)+'" cy="'+p.y.toFixed(1)+'" r="5" fill="'+fillv+'" '+strokeA+'><title>'+actionLabel(s)+' - '+html(confidenceLabel(s))+(s.gated?' - gated: '+html(s.gate):'')+'</title></circle>';
+      if(s.aiCandidate)g+='<circle cx="'+p.x.toFixed(1)+'" cy="'+p.y.toFixed(1)+'" r="8.5" fill="none" stroke="var(--signal-unmodeled)" stroke-width="1.4" stroke-dasharray="3 2" pointer-events="none"/>';
+    }else if(p.t==='f'){const f=p.s;fitPts.push({x:p.x,y:p.y});ladderYs.push(p.y+3);g+='<circle cx="'+p.x.toFixed(1)+'" cy="'+p.y.toFixed(1)+'" r="6.5" fill="var(--act)"><title>Increase VO₂max to '+html(f.t)+' mL/kg/min (+'+html(f.d)+'): '+signed(f.val,2)+' QALY · confidence 0.58 (strong association, moderate causal)</title></circle>';g+='<text class="mlab" x="'+(p.x+10).toFixed(1)+'" y="'+(p.y+3).toFixed(1)+'" font-size="9.5" fill="var(--muted)">&rarr;'+html(f.t)+' '+signed(f.val,2)+'</text>';}
+    else{const d=p.s,sz=d.cac?9:6,stroke=d.aiCandidate?'var(--signal-unmodeled)':(d.cac?'var(--fg)':'var(--signal-baseline)'),dash=d.aiCandidate?' stroke-dasharray="3 2"':'';POS[d.id]={x:p.x,y:p.y,kind:'d',s:d};g+='<rect data-dx-id="'+html(d.id)+'" style="cursor:pointer;pointer-events:all" x="'+(p.x-sz/2).toFixed(1)+'" y="'+(p.y-sz/2).toFixed(1)+'" width="'+sz+'" height="'+sz+'" fill="'+(d.d?'var(--signal-baseline)':'none')+'" stroke="'+stroke+'" stroke-width="'+(d.aiCandidate?2:(d.cac?2:1.3))+'"'+dash+' opacity="0.95"><title>'+html(d.name)+' - '+html(confidenceLabel(d))+'</title></rect>';}
   });
+  if(ofs.length)placeMarks(ofs).forEach(p=>{const s=p.s;g+='<circle data-id="'+html(s.id)+'" style="cursor:pointer;pointer-events:all" cx="'+p.x.toFixed(1)+'" cy="'+(T+6)+'" r="3.4" fill="none" stroke="'+hue(s)+'" stroke-width="1.4" opacity="0.85"><title>'+actionLabel(s)+' - '+signed(s.net,2)+' QALY (above this zoom scale) · '+html(confidenceLabel(s))+'</title></circle>';});
   if(full&&fitPts.length){fitPts.sort((a,b)=>a.y-b.y);g+='<path d="M '+fitPts.map(q=>q.x.toFixed(1)+' '+q.y.toFixed(1)).join(' L ')+'" fill="none" stroke="var(--act)" stroke-width="2" opacity="0.4"/>';g+='<text class="mlab" x="'+fitPts[0].x.toFixed(1)+'" y="'+(fitPts[0].y-11).toFixed(1)+'" text-anchor="middle" font-size="9.5" font-weight="500" fill="var(--fg)">VO₂max ladder</text>';}
   if(!full){const noff=VISIBLE_ACTIONS.filter(s=>s.net>ymax).length;if(noff)g+='<text x="'+(LP+PW/2)+'" y="'+(T+14)+'" text-anchor="middle" font-size="9.5" fill="var(--faint)">Off scale: '+noff+' high-value levers above this zoom</text>';}
   // ----- instrument overlay: the movers get named on the chart; selection
@@ -2728,7 +2756,7 @@ initAleronAi();
      const ch=[['C1',s.c1],['C2',s.c2],['C3',s.c3]].filter(x=>isFiniteValue(x[1])&&Number(x[1])>0);
      const chT=ch.reduce((acc,x)=>acc+Number(x[1]),0);
      const channelLine=ch.length?'<div style="margin-top:6px"><div style="display:flex;height:4px;width:130px;background:var(--shade);border-radius:var(--radius-tile);overflow:hidden">'+ch.map(x=>'<i style="display:block;height:100%;width:'+(Number(x[1])/chT*100).toFixed(1)+'%;background:color-mix(in srgb,var(--text-primary) '+Math.round(CH_A[x[0]]*100)+'%,transparent)"></i>').join('')+'</div><div style="font-family:var(--voice);font-size:12px;letter-spacing:0;color:var(--muted);margin-top:3px">'+ch.map(x=>x[0]+' '+signed(x[1],2)).join(' · ')+' · prevention / quality / resilience</div></div>':'';
-     tip.innerHTML='<div style="font-weight:500;margin-bottom:3px">'+actionLabel(s)+'</div><div style="color:var(--muted);line-height:1.5">'+html(s.class)+' · '+html(s.domain)+' · '+html(s.evidence)+' evidence'+(s.valuation?'<br>'+mapProvenance(s).word:'')+'<br>effect '+html(s.effect.type)+' '+html(s.effect.value)+(s.surrogate?' · surrogate endpoint':'')+channelLine+'<br><span style="color:var(--fg)">'+signed(s.net)+' net QALY</span>'+(s.gated?'<br><span style="color:var(--advisory)">Gated: '+html(s.gate)+'</span>':'')+'</div>';
+     tip.innerHTML='<div style="font-weight:500;margin-bottom:3px">'+actionLabel(s)+'</div><div style="color:var(--muted);line-height:1.5">'+html(s.class)+' · '+html(s.domain)+' · '+confidenceLabel(s)+(s.valuation?'<br>'+mapProvenance(s).word:'')+'<br>effect '+html(s.effect.type)+' '+html(s.effect.value)+(s.surrogate?' · surrogate endpoint':'')+channelLine+'<br><span style="color:var(--fg)">'+signed(s.net)+' net QALY</span>'+(s.gated?'<br><span style="color:var(--advisory)">Gated: '+html(s.gate)+'</span>':'')+'</div>';
      const cr=ci.getBoundingClientRect(),wr=swrap.getBoundingClientRect();let x=cr.left-wr.left+12,y=cr.top-wr.top-4;if(x>wr.width-250)x=cr.left-wr.left-250;tip.style.left=Math.max(0,x)+'px';tip.style.top=Math.max(0,y)+'px';tip.style.display='block';});
    ci.addEventListener('mouseleave',()=>{tip.style.display='none';});
    ci.addEventListener('click',()=>{const s=byId[ci.dataset.id];if(s)setMapDetailTab(MAP_DETAIL_SELECTION.tab||'all',MAP_DETAIL_SELECTION.id===s.id?'':s.id);});

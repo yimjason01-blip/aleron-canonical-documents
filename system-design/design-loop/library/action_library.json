@@ -3062,7 +3062,7 @@
    "action_class": "lifestyle",
    "domain": "cvd",
    "finding_id": "physical_inactivity",
-   "target_outcome": "all-cause and cardiovascular mortality, incident type-2 diabetes, activity-sensitive cancer incidence (colorectal/postmenopausal breast/endometrial), and incident dementia -- the cross-cutting physical-activity VOLUME lever (subsumes the cardiorespiratory-fitness/CRF route as an alternate parameterization of the same exposure)",
+   "target_outcome": "all-cause and cardiovascular mortality, incident type-2 diabetes, activity-sensitive cancer incidence (colorectal/postmenopausal breast/endometrial), and incident dementia -- the cross-cutting physical-activity volume lever. Keep cardiorespiratory fitness / VO2 max separate as a destination phenotype or mediator, not as the generic exercise-prescription object.",
    "effect": {
     "type": "RR",
     "value": 0.69
@@ -3095,7 +3095,7 @@
      "value": 0.88
     },
     "reference_baseline": "sedentary baseline ~3,000-4,000 steps/day (Paluch Q1 median 3,553 steps/day; equivalently ~0 MET-h/wk leisure activity)",
-    "baseline_dependence": "Convex/diminishing-returns: steepest at the low end. In Paluch (Q1-referenced) most benefit accrues by the second quartile (Q2 HR 0.60) and additional volume above the plateau yields little further mortality reduction. Plateau is age-dependent: ~6,000-8,000 steps/day for adults >=60y, ~8,000-10,000 steps/day for adults <60y. The CRF/fitness route is the same exposure re-parameterized: per +1 MET of cardiorespiratory fitness, all-cause mortality RR ~0.87 (Kodama JAMA 2009, PMID 19454641), steepest at low fitness.",
+    "baseline_dependence": "Convex/diminishing-returns: steepest at the low end. In Paluch (Q1-referenced) most benefit accrues by the second quartile (Q2 HR 0.60) and additional volume above the plateau yields little further mortality reduction. Plateau is age-dependent: ~6,000-8,000 steps/day for adults >=60y, ~8,000-10,000 steps/day for adults <60y. CRF/VO2 is not treated as the same exposure in the action grammar; if used, it should be a separate destination phenotype or mediator with its own measurement and response model. The per +1 MET CRF mortality gradient can inform that separate pathway, not duplicate the activity-volume pathway.",
     "ceiling_effect": {
      "type": "HR",
      "value": 0.47

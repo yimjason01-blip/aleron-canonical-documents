@@ -48,6 +48,8 @@ ACTION_LABELS = {
 }
 
 DIAGNOSTIC_LABELS = {
+    "aaa_ultrasound_screening": "One-time abdominal aortic aneurysm ultrasound",
+    "act_anal_hsil_treatment": "Anal HSIL detection and treatment pathway",
     "cac_primary_prevention_reclassification": "Coronary calcium scoring",
     "sleep_apnea_reclassification": "Home sleep apnea test",
     "bp_persistence_reclassification": "Home or ambulatory BP confirmation",
@@ -162,6 +164,9 @@ def burden_integrated(item: dict[str, Any], ctx: dict[str, Any]) -> float:
     burden = item.get("burden_qaly", {})
     value = central(burden, 0.0) or 0.0
     if isinstance(burden, dict) and burden.get("units") == "per_year":
+        horizon = item.get("derivation_inputs", {}).get("sustained_horizon_years")
+        if isinstance(horizon, (int, float)) and horizon > 0:
+            return round(value * float(horizon), 4)
         S = ve.make_S(ctx["age"], ctx["sex"])
         return round(value * ve.swy(S, 0, 105 - ctx["age"]), 4)
     return round(value, 4)
@@ -173,13 +178,21 @@ def engine_channels(item: dict[str, Any], ctx: dict[str, Any]) -> dict[str, Any]
     c1 = scored.get("c1_prevention", {}).get("central", 0.0)
     c2 = scored.get("c2_capacity", {}).get("central", 0.0)
     c3 = scored.get("c3_resilience", {}).get("central", 0.0)
-    burden = burden_integrated(item, ctx)
+    if item.get("derivation_inputs", {}).get("method") == "procedure_device_action":
+        burden = scored.get("procedure_burden_qaly", {}).get("central", 0.0)
+        net = scored.get("net_qaly_if_achieved", {}).get("central", c1 + c2 + c3 - burden)
+    elif item.get("derivation_inputs", {}).get("method") == "harm_aware_event_action":
+        burden = scored.get("action_burden_qaly", {}).get("central", 0.0)
+        net = scored.get("net_qaly_if_achieved", {}).get("central", c1 + c2 + c3 - burden)
+    else:
+        burden = burden_integrated(item, ctx)
+        net = c1 + c2 + c3 - burden
     return {
         "c1_prevention": round(c1, 4),
         "c2_capacity": round(c2, 4),
         "c3_resilience": round(c3, 4),
-        "burden_qaly": burden,
-        "net_qaly_if_achieved": round(c1 + c2 + c3 - burden, 4),
+        "burden_qaly": round(burden, 4),
+        "net_qaly_if_achieved": round(net, 4),
         "bands": scored,
         "trace_status": "runner_computed",
     }

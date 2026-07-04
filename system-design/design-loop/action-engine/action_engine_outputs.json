@@ -264,6 +264,1111 @@
               "Do not substitute generic activity minutes for progressive resistance work."
             ],
             "recommendation_eligible": true
+          },
+          {
+            "id": "pioglitazone_stroke_mi_ir",
+            "label": "pioglitazone_stroke_mi_ir",
+            "kind": "action",
+            "source": "action_library_v2",
+            "state": "optional",
+            "evidence_grade": "see_library",
+            "evidence_axis": {
+              "score": 0.65,
+              "level": "medium",
+              "display_label": "Medium evidence",
+              "basis_summary": "Hard-outcome randomized evidence supports recurrent stroke/MI reduction in a narrow IRIS-like population; absolute patient QALY is runner-derived from explicit trial baseline risk, internal event-value modeling, adverse-effect burden cadence, and secondary-prevention overlap constraints, so confidence remains medium-capped.",
+              "component_scores": {
+                "study_design": 0.22,
+                "endpoint_directness": 0.15,
+                "population_match": 0.09,
+                "intervention_match": 0.09,
+                "magnitude_precision": 0.05,
+                "harm_characterization": 0.05
+              },
+              "caps_applied": [
+                "model_translated_value_cap",
+                "burden_calibration_pending_cap"
+              ],
+              "primary_trace_parameters": [
+                "effect.relative_risk_reduction",
+                "baseline_event_risk",
+                "event_value_qaly",
+                "channels.c1_prevention",
+                "burden_qaly"
+              ]
+            },
+            "matched_findings": [
+              "insulin_resistance"
+            ],
+            "valuation_kind": "direct_patient_qaly_action",
+            "channels": {
+              "c1_prevention": 0.0283,
+              "c2_capacity": 0.0,
+              "c3_resilience": 0.0,
+              "burden_qaly": 0.0864,
+              "net_qaly_if_achieved": -0.0581,
+              "bands": {
+                "c1_prevention": {
+                  "low": 0.0065,
+                  "central": 0.0283,
+                  "high": 0.0816
+                },
+                "prevented_events": {
+                  "low": 0.0108,
+                  "central": 0.0283,
+                  "high": 0.051
+                },
+                "event_value_qaly": {
+                  "low": 0.6,
+                  "central": 1.0,
+                  "high": 1.6
+                },
+                "c2_capacity": {
+                  "low": 0.0,
+                  "central": 0.0,
+                  "high": 0.0
+                },
+                "c3_resilience": {
+                  "low": 0.0,
+                  "central": 0.0,
+                  "high": 0.0
+                }
+              },
+              "trace_status": "runner_computed"
+            },
+            "trace_status": "runner_computed",
+            "overlap_rules": [
+              "Member of secondary_stroke_prevention, recurrent_mi_prevention, insulin_resistance, diabetes_prevention, medication_harm, heart_failure_harm, fracture_harm, hospitalization, disability, and mortality overlap families; do not sum with antiplatelet therapy, statins, BP control, smoking cessation, GLP-1/SGLT2, metformin, lifestyle, sleep apnea treatment, carotid intervention, or rehab records unless endpoint slices are explicitly partitioned.",
+              "HF, edema, weight, and fracture harms are handled as burden/adverse-effect vigilance here; if endpoint-specific harm event models are later added, reduce this burden slice to avoid double counting."
+            ],
+            "recommendation_eligible": true
+          },
+          {
+            "id": "dpp_lifestyle",
+            "label": "dpp_lifestyle",
+            "kind": "action",
+            "source": "action_library_v2",
+            "state": "optional",
+            "evidence_grade": "see_library",
+            "evidence_axis": {
+              "score": 0.62,
+              "level": "medium",
+              "display_label": "Medium evidence",
+              "basis_summary": "DPP-style evidence supports incident diabetes reduction, but this fully derived record credits only the C1 diabetes-prevention channel; dose-specific C2/C3 lifestyle value remains uncredited until a lifestyle multichannel runner is available.",
+              "component_scores": {
+                "study_design": 0.2,
+                "endpoint_directness": 0.1,
+                "population_match": 0.1,
+                "intervention_match": 0.1,
+                "magnitude_precision": 0.07,
+                "harm_characterization": 0.05
+              },
+              "caps_applied": [
+                "model_translated_value_cap"
+              ],
+              "primary_trace_parameters": [
+                "effect.relative_risk_reduction",
+                "baseline_event_risk",
+                "event_value_qaly",
+                "channels.c1_prevention",
+                "burden_qaly"
+              ]
+            },
+            "matched_findings": [
+              "prediabetes"
+            ],
+            "valuation_kind": "direct_patient_qaly_action",
+            "channels": {
+              "c1_prevention": 0.0348,
+              "c2_capacity": 0.0,
+              "c3_resilience": 0.0,
+              "burden_qaly": 0.03,
+              "net_qaly_if_achieved": 0.0048,
+              "bands": {
+                "c1_prevention": {
+                  "low": 0.0081,
+                  "central": 0.0348,
+                  "high": 0.126
+                },
+                "prevented_events": {
+                  "low": 0.027,
+                  "central": 0.0696,
+                  "high": 0.14
+                },
+                "event_value_qaly": {
+                  "low": 0.3,
+                  "central": 0.5,
+                  "high": 0.9
+                },
+                "c2_capacity": {
+                  "low": 0.0,
+                  "central": 0.0,
+                  "high": 0.0
+                },
+                "c3_resilience": {
+                  "low": 0.0,
+                  "central": 0.0,
+                  "high": 0.0
+                }
+              },
+              "trace_status": "runner_computed"
+            },
+            "trace_status": "runner_computed",
+            "overlap_rules": [
+              "Member of weight_loss_lifestyle overlap family; do not add independently to ir_lifestyle_prevention, direct_weight_remission, physical_activity_metabolic, or med_diet_metabolic unless endpoint and mechanism slices are partitioned.",
+              "Do not double count with incretin_prevention_obesity or metabolic_surgery; use one dominant weight-loss pathway or explicit incremental sequence model.",
+              "If physical activity or Mediterranean diet records are also selected, count shared coaching, diet, and exercise burden once and avoid duplicate C2 capacity credit."
+            ],
+            "recommendation_eligible": true
+          },
+          {
+            "id": "metformin_prevention",
+            "label": "metformin_prevention",
+            "kind": "action",
+            "source": "action_library_v2",
+            "state": "optional",
+            "evidence_grade": "see_library",
+            "evidence_axis": {
+              "score": 0.65,
+              "level": "medium",
+              "display_label": "Medium evidence",
+              "basis_summary": "RCT evidence directly supports incident-diabetes prevention in DPP-like prediabetes, but patient QALY remains medium-capped because the record uses model-translated incident-diabetes event value, phenotype-bound baseline risk, adherence/tolerance assumptions, and internal medication-burden calibration.",
+              "component_scores": {
+                "study_design": 0.22,
+                "endpoint_directness": 0.13,
+                "population_match": 0.1,
+                "intervention_match": 0.09,
+                "magnitude_precision": 0.06,
+                "harm_characterization": 0.05
+              },
+              "caps_applied": [
+                "model_translated_value_cap"
+              ],
+              "primary_trace_parameters": [
+                "effect.relative_risk_reduction",
+                "baseline_event_risk",
+                "event_value_qaly",
+                "channels.c1_prevention",
+                "burden_qaly"
+              ]
+            },
+            "matched_findings": [
+              "prediabetes"
+            ],
+            "valuation_kind": "direct_patient_qaly_action",
+            "channels": {
+              "c1_prevention": 0.0449,
+              "c2_capacity": 0.0,
+              "c3_resilience": 0.0,
+              "burden_qaly": 0.015,
+              "net_qaly_if_achieved": 0.0299,
+              "bands": {
+                "c1_prevention": {
+                  "low": 0.0097,
+                  "central": 0.0449,
+                  "high": 0.1512
+                },
+                "prevented_events": {
+                  "low": 0.0324,
+                  "central": 0.0899,
+                  "high": 0.168
+                },
+                "event_value_qaly": {
+                  "low": 0.3,
+                  "central": 0.5,
+                  "high": 0.9
+                },
+                "c2_capacity": {
+                  "low": 0.0,
+                  "central": 0.0,
+                  "high": 0.0
+                },
+                "c3_resilience": {
+                  "low": 0.0,
+                  "central": 0.0,
+                  "high": 0.0
+                }
+              },
+              "trace_status": "runner_computed"
+            },
+            "trace_status": "runner_computed",
+            "overlap_rules": [
+              "Member of diabetes_prevention overlap family; do not double count incident-diabetes prevention with dpp_lifestyle, incretin_prevention_obesity, ir_lifestyle_prevention, or other weight-loss/metabolic prevention records.",
+              "If physical activity, diet, weight loss, or incretin therapy is also selected, partition incident-diabetes prevention and shared behavior-support burden before scoring.",
+              "Do not credit downstream CKD, CVD, retinopathy, neuropathy, weight, energy, or monitoring-relief value unless mediated through a single incident-diabetes and complication-trajectory model."
+            ],
+            "recommendation_eligible": true
+          },
+          {
+            "id": "act_zoster_vaccine_dementia",
+            "label": "act_zoster_vaccine_dementia",
+            "kind": "action",
+            "source": "action_library_v2",
+            "state": "optional",
+            "evidence_grade": "see_library",
+            "evidence_axis": {
+              "score": 0.36,
+              "level": "low",
+              "display_label": "Low evidence",
+              "basis_summary": "Natural-experiment dementia association is causally guarded; established zoster and phn prevention are deliberately excluded pending endpoint-specific source upgrade, so the record is fully runner-computed but low-confidence and endpoint-limited.",
+              "component_scores": {
+                "study_design": 0.06,
+                "endpoint_directness": 0.06,
+                "population_match": 0.07,
+                "intervention_match": 0.07,
+                "magnitude_precision": 0.05,
+                "harm_characterization": 0.05
+              },
+              "caps_applied": [
+                "model_translated_value_cap",
+                "population_mismatch_cap"
+              ],
+              "primary_trace_parameters": [
+                "effect.relative_risk_reduction",
+                "baseline_event_risk",
+                "event_value_qaly",
+                "channels.c1_prevention",
+                "burden_qaly"
+              ]
+            },
+            "matched_findings": [
+              "neuro_risk_vascular"
+            ],
+            "valuation_kind": "direct_patient_qaly_action",
+            "channels": {
+              "c1_prevention": 0.036,
+              "c2_capacity": 0.0,
+              "c3_resilience": 0.0,
+              "burden_qaly": 0.003,
+              "net_qaly_if_achieved": 0.033,
+              "bands": {
+                "c1_prevention": {
+                  "low": 0.0032,
+                  "central": 0.036,
+                  "high": 0.1344
+                },
+                "prevented_events": {
+                  "low": 0.0032,
+                  "central": 0.018,
+                  "high": 0.0448
+                },
+                "event_value_qaly": {
+                  "low": 1.0,
+                  "central": 2.0,
+                  "high": 3.0
+                },
+                "c2_capacity": {
+                  "low": 0.0,
+                  "central": 0.0,
+                  "high": 0.0
+                },
+                "c3_resilience": {
+                  "low": 0.0,
+                  "central": 0.0,
+                  "high": 0.0
+                }
+              },
+              "trace_status": "runner_computed"
+            },
+            "trace_status": "runner_computed",
+            "overlap_rules": [
+              "Do not double count the same dementia, cognition, function, falls, sensory, pain, or independence value with adjacent neuro, sensory, vaccine, lifestyle, mood, sleep, or multidomain records.",
+              "If the action is embedded in a broader preventive or cognitive program, shared coaching, scheduling, procedure, technology, and follow-up burden must be assigned once.",
+              "Any direct capacity benefit requires a separate sourced C2 utility anchor and explicit endpoint partition before it can be added."
+            ],
+            "recommendation_eligible": true
+          },
+          {
+            "id": "physical_activity_metabolic",
+            "label": "physical_activity_metabolic",
+            "kind": "action",
+            "source": "action_library_v2",
+            "state": "optional",
+            "evidence_grade": "see_library",
+            "evidence_axis": {
+              "score": 0.46,
+              "level": "medium",
+              "display_label": "Medium evidence",
+              "basis_summary": "Dose-response evidence supports activity for diabetes prevention, but this narrow valuation is medium-capped because absolute QALY is phenotype-bound, model-translated, burden-calibrated internally, and excludes shared activity C2 to avoid overlap.",
+              "component_scores": {
+                "study_design": 0.1,
+                "endpoint_directness": 0.09,
+                "population_match": 0.07,
+                "intervention_match": 0.08,
+                "magnitude_precision": 0.06,
+                "harm_characterization": 0.06
+              },
+              "caps_applied": [
+                "model_translated_value_cap",
+                "burden_calibration_pending_cap"
+              ],
+              "primary_trace_parameters": [
+                "effect.relative_risk_reduction",
+                "baseline_event_risk",
+                "event_value_qaly",
+                "channels.c1_prevention",
+                "burden_qaly"
+              ]
+            },
+            "matched_findings": [
+              "prediabetes"
+            ],
+            "valuation_kind": "direct_patient_qaly_action",
+            "channels": {
+              "c1_prevention": 0.0325,
+              "c2_capacity": 0.0,
+              "c3_resilience": 0.0,
+              "burden_qaly": 0.024,
+              "net_qaly_if_achieved": 0.0085,
+              "bands": {
+                "c1_prevention": {
+                  "low": 0.003,
+                  "central": 0.0325,
+                  "high": 0.162
+                },
+                "prevented_events": {
+                  "low": 0.012,
+                  "central": 0.065,
+                  "high": 0.18
+                },
+                "event_value_qaly": {
+                  "low": 0.25,
+                  "central": 0.5,
+                  "high": 0.9
+                },
+                "c2_capacity": {
+                  "low": 0.0,
+                  "central": 0.0,
+                  "high": 0.0
+                },
+                "c3_resilience": {
+                  "low": 0.0,
+                  "central": 0.0,
+                  "high": 0.0
+                }
+              },
+              "trace_status": "runner_computed"
+            },
+            "trace_status": "runner_computed",
+            "overlap_rules": [
+              "Do not double count incident-diabetes prevention with DPP lifestyle, metformin prevention, GLP-1/GIP weight loss, direct weight remission, Mediterranean diet, or other weight-loss records unless endpoint slices are partitioned.",
+              "Do not add general activity C2 capacity here when the physical_activity bundle or resistance/aerobic prescriptions already credit shared fitness capacity. Count activity time, coaching, soreness, and injury burden once."
+            ],
+            "recommendation_eligible": true
+          },
+          {
+            "id": "acarbose_cv_igt",
+            "label": "acarbose_cv_igt",
+            "kind": "action",
+            "source": "action_library_v2",
+            "state": "optional",
+            "evidence_grade": "see_library",
+            "evidence_axis": {
+              "score": 0.38,
+              "level": "low",
+              "display_label": "Low evidence",
+              "basis_summary": "STOP-NIDDM provides randomized relative-effect evidence for an IGT cardiovascular composite, but confidence remains low because absolute value is internally baseline-bound, model-translated, old-standard-care dependent, GI-burden sensitive, and endpoint-limited.",
+              "component_scores": {
+                "study_design": 0.14,
+                "endpoint_directness": 0.07,
+                "population_match": 0.06,
+                "intervention_match": 0.04,
+                "magnitude_precision": 0.03,
+                "harm_characterization": 0.04
+              },
+              "caps_applied": [
+                "model_translated_value_cap",
+                "burden_calibration_pending_cap"
+              ],
+              "primary_trace_parameters": [
+                "effect.relative_risk_reduction",
+                "baseline_event_risk",
+                "event_value_qaly",
+                "channels.c1_prevention",
+                "burden_qaly"
+              ]
+            },
+            "matched_findings": [
+              "prediabetes"
+            ],
+            "valuation_kind": "direct_patient_qaly_action",
+            "channels": {
+              "c1_prevention": 0.0196,
+              "c2_capacity": 0.0,
+              "c3_resilience": 0.0,
+              "burden_qaly": 0.0264,
+              "net_qaly_if_achieved": -0.0068,
+              "bands": {
+                "c1_prevention": {
+                  "low": 0.0004,
+                  "central": 0.0196,
+                  "high": 0.0912
+                },
+                "prevented_events": {
+                  "low": 0.001,
+                  "central": 0.0245,
+                  "high": 0.076
+                },
+                "event_value_qaly": {
+                  "low": 0.4,
+                  "central": 0.8,
+                  "high": 1.2
+                },
+                "c2_capacity": {
+                  "low": 0.0,
+                  "central": 0.0,
+                  "high": 0.0
+                },
+                "c3_resilience": {
+                  "low": 0.0,
+                  "central": 0.0,
+                  "high": 0.0
+                }
+              },
+              "trace_status": "runner_computed"
+            },
+            "trace_status": "runner_computed",
+            "overlap_rules": [
+              "Do not double count diabetes-prevention, weight-loss, BP, lipid, smoking, aspirin, GLP-1/GIP, SGLT2, metformin, lifestyle, or nutrition value unless endpoint slices are explicitly partitioned.",
+              "This promoted valuation credits only the cardiovascular composite event slice; diabetes-onset delay, hypertension prevention, and glycemic symptom effects remain excluded.",
+              "Shared medication review, glucose monitoring, GI adverse effects, adherence, and discontinuation burden must be assigned once across cardiometabolic medication records."
+            ],
+            "recommendation_eligible": true
+          },
+          {
+            "id": "act_bp_control_dementia",
+            "label": "act_bp_control_dementia",
+            "kind": "action",
+            "source": "action_library_v2",
+            "state": "optional",
+            "evidence_grade": "see_library",
+            "evidence_axis": {
+              "score": 0.6,
+              "level": "medium",
+              "display_label": "Medium evidence",
+              "basis_summary": "Source-backed hard-outcome action promoted into the shared QALY event runner; confidence is capped by model-translated value, default baseline-risk binding, provisional burden, and overlap handling.",
+              "component_scores": {
+                "study_design": 0.2,
+                "endpoint_directness": 0.13,
+                "population_match": 0.08,
+                "intervention_match": 0.08,
+                "magnitude_precision": 0.06,
+                "harm_characterization": 0.05
+              },
+              "caps_applied": [
+                "model_translated_value_cap",
+                "burden_calibration_pending_cap"
+              ],
+              "primary_trace_parameters": [
+                "effect.relative_risk_reduction",
+                "baseline_event_risk",
+                "event_value_qaly",
+                "channels.c1_prevention",
+                "burden_qaly"
+              ]
+            },
+            "matched_findings": [
+              "neuro_risk_vascular"
+            ],
+            "valuation_kind": "direct_patient_qaly_action",
+            "channels": {
+              "c1_prevention": 0.0275,
+              "c2_capacity": 0.0,
+              "c3_resilience": 0.0,
+              "burden_qaly": 0.05,
+              "net_qaly_if_achieved": -0.0225,
+              "bands": {
+                "c1_prevention": {
+                  "low": 0.0042,
+                  "central": 0.0275,
+                  "high": 0.1203
+                },
+                "prevented_events": {
+                  "low": 0.0031,
+                  "central": 0.011,
+                  "high": 0.0275
+                },
+                "event_value_qaly": {
+                  "low": 1.375,
+                  "central": 2.5,
+                  "high": 4.375
+                },
+                "c2_capacity": {
+                  "low": 0.0,
+                  "central": 0.0,
+                  "high": 0.0
+                },
+                "c3_resilience": {
+                  "low": 0.0,
+                  "central": 0.0,
+                  "high": 0.0
+                }
+              },
+              "trace_status": "runner_computed"
+            },
+            "trace_status": "runner_computed",
+            "overlap_rules": [
+              "Do not double count incident probable dementia / MCI (adjudicated composite) against other actions claiming the same endpoint or causal pathway.",
+              "When a more specific procedure, diagnostic, genetic, or lifestyle runner exists for this phenotype, prefer that runner and treat this event row as the fallback or residual-risk row.",
+              "Suppress if eligibility, contraindication, prior completion, or patient preference makes the action non-executable."
+            ],
+            "recommendation_eligible": true
+          },
+          {
+            "id": "act_statin_stroke_prevention",
+            "label": "act_statin_stroke_prevention",
+            "kind": "action",
+            "source": "action_library_v2",
+            "state": "optional",
+            "evidence_grade": "see_library",
+            "evidence_axis": {
+              "score": 0.6,
+              "level": "medium",
+              "display_label": "Medium evidence",
+              "basis_summary": "Source-backed hard-outcome action promoted into the shared QALY event runner; confidence is capped by model-translated value, default baseline-risk binding, provisional burden, and overlap handling.",
+              "component_scores": {
+                "study_design": 0.2,
+                "endpoint_directness": 0.13,
+                "population_match": 0.08,
+                "intervention_match": 0.08,
+                "magnitude_precision": 0.06,
+                "harm_characterization": 0.05
+              },
+              "caps_applied": [
+                "model_translated_value_cap",
+                "burden_calibration_pending_cap"
+              ],
+              "primary_trace_parameters": [
+                "effect.relative_risk_reduction",
+                "baseline_event_risk",
+                "event_value_qaly",
+                "channels.c1_prevention",
+                "burden_qaly"
+              ]
+            },
+            "matched_findings": [
+              "neuro_risk_vascular"
+            ],
+            "valuation_kind": "direct_patient_qaly_action",
+            "channels": {
+              "c1_prevention": 0.0504,
+              "c2_capacity": 0.0,
+              "c3_resilience": 0.0,
+              "burden_qaly": 0.04,
+              "net_qaly_if_achieved": 0.0104,
+              "bands": {
+                "c1_prevention": {
+                  "low": 0.0097,
+                  "central": 0.0504,
+                  "high": 0.1929
+                },
+                "prevented_events": {
+                  "low": 0.0118,
+                  "central": 0.0336,
+                  "high": 0.0735
+                },
+                "event_value_qaly": {
+                  "low": 0.825,
+                  "central": 1.5,
+                  "high": 2.625
+                },
+                "c2_capacity": {
+                  "low": 0.0,
+                  "central": 0.0,
+                  "high": 0.0
+                },
+                "c3_resilience": {
+                  "low": 0.0,
+                  "central": 0.0,
+                  "high": 0.0
+                }
+              },
+              "trace_status": "runner_computed"
+            },
+            "trace_status": "runner_computed",
+            "overlap_rules": [
+              "Do not double count incident ischemic stroke per 1.0 mmol/L LDL reduction (cerebrovascular slice; coronary/MACE stock stays in CVD) against other actions claiming the same endpoint or causal pathway.",
+              "When a more specific procedure, diagnostic, genetic, or lifestyle runner exists for this phenotype, prefer that runner and treat this event row as the fallback or residual-risk row.",
+              "Suppress if eligibility, contraindication, prior completion, or patient preference makes the action non-executable."
+            ],
+            "recommendation_eligible": true
+          },
+          {
+            "id": "physical_activity_rx",
+            "label": "physical_activity_rx",
+            "kind": "action",
+            "source": "action_library_v2",
+            "state": "optional",
+            "evidence_grade": "see_library",
+            "evidence_axis": {
+              "score": 0.52,
+              "level": "medium",
+              "display_label": "Medium evidence",
+              "basis_summary": "Source-backed hard-outcome action promoted into the shared QALY event runner; confidence is capped by model-translated value, default baseline-risk binding, provisional burden, and overlap handling.",
+              "component_scores": {
+                "study_design": 0.17,
+                "endpoint_directness": 0.11,
+                "population_match": 0.07,
+                "intervention_match": 0.07,
+                "magnitude_precision": 0.05,
+                "harm_characterization": 0.05
+              },
+              "caps_applied": [
+                "model_translated_value_cap",
+                "burden_calibration_pending_cap"
+              ],
+              "primary_trace_parameters": [
+                "effect.relative_risk_reduction",
+                "baseline_event_risk",
+                "event_value_qaly",
+                "channels.c1_prevention",
+                "burden_qaly"
+              ]
+            },
+            "matched_findings": [
+              "lifestyle_cancer_incidence_risk",
+              "neuro_risk_vascular",
+              "physical_inactivity",
+              "prediabetes"
+            ],
+            "valuation_kind": "direct_patient_qaly_action",
+            "channels": {
+              "c1_prevention": 0.0198,
+              "c2_capacity": 0.0,
+              "c3_resilience": 0.0,
+              "burden_qaly": 0.04,
+              "net_qaly_if_achieved": -0.0202,
+              "bands": {
+                "c1_prevention": {
+                  "low": 0.0029,
+                  "central": 0.0198,
+                  "high": 0.0976
+                },
+                "prevented_events": {
+                  "low": 0.0065,
+                  "central": 0.0248,
+                  "high": 0.0697
+                },
+                "event_value_qaly": {
+                  "low": 0.44,
+                  "central": 0.8,
+                  "high": 1.4
+                },
+                "c2_capacity": {
+                  "low": 0.0,
+                  "central": 0.0,
+                  "high": 0.0
+                },
+                "c3_resilience": {
+                  "low": 0.0,
+                  "central": 0.0,
+                  "high": 0.0
+                }
+              },
+              "trace_status": "runner_computed"
+            },
+            "trace_status": "runner_computed",
+            "overlap_rules": [
+              "Do not double count all-cause and cardiovascular mortality, incident type-2 diabetes, activity-sensitive cancer incidence (colorectal/postmenopausal breast/endometrial), and incident dementia -- the cross-cutting physical-activity volume lever. Keep cardiorespiratory fitness / VO2 max separate as a destination phenotype or mediator, not as the generic exercise-prescription object. against other actions claiming the same endpoint or causal pathway.",
+              "When a more specific procedure, diagnostic, genetic, or lifestyle runner exists for this phenotype, prefer that runner and treat this event row as the fallback or residual-risk row.",
+              "Suppress if eligibility, contraindication, prior completion, or patient preference makes the action non-executable."
+            ],
+            "recommendation_eligible": true
+          },
+          {
+            "id": "med_diet_metabolic",
+            "label": "med_diet_metabolic",
+            "kind": "action",
+            "source": "action_library_v2",
+            "state": "optional",
+            "evidence_grade": "see_library",
+            "evidence_axis": {
+              "score": 0.52,
+              "level": "medium",
+              "display_label": "Medium evidence",
+              "basis_summary": "Source-backed hard-outcome action promoted into the shared QALY event runner; confidence is capped by model-translated value, default baseline-risk binding, provisional burden, and overlap handling.",
+              "component_scores": {
+                "study_design": 0.17,
+                "endpoint_directness": 0.11,
+                "population_match": 0.07,
+                "intervention_match": 0.07,
+                "magnitude_precision": 0.05,
+                "harm_characterization": 0.05
+              },
+              "caps_applied": [
+                "model_translated_value_cap",
+                "burden_calibration_pending_cap"
+              ],
+              "primary_trace_parameters": [
+                "effect.relative_risk_reduction",
+                "baseline_event_risk",
+                "event_value_qaly",
+                "channels.c1_prevention",
+                "burden_qaly"
+              ]
+            },
+            "matched_findings": [
+              "prediabetes"
+            ],
+            "valuation_kind": "direct_patient_qaly_action",
+            "channels": {
+              "c1_prevention": 0.0156,
+              "c2_capacity": 0.0,
+              "c3_resilience": 0.0,
+              "burden_qaly": 0.06,
+              "net_qaly_if_achieved": -0.0444,
+              "bands": {
+                "c1_prevention": {
+                  "low": 0.0025,
+                  "central": 0.0156,
+                  "high": 0.0683
+                },
+                "prevented_events": {
+                  "low": 0.0091,
+                  "central": 0.0312,
+                  "high": 0.078
+                },
+                "event_value_qaly": {
+                  "low": 0.275,
+                  "central": 0.5,
+                  "high": 0.875
+                },
+                "c2_capacity": {
+                  "low": 0.0,
+                  "central": 0.0,
+                  "high": 0.0
+                },
+                "c3_resilience": {
+                  "low": 0.0,
+                  "central": 0.0,
+                  "high": 0.0
+                }
+              },
+              "trace_status": "runner_computed"
+            },
+            "trace_status": "runner_computed",
+            "overlap_rules": [
+              "Do not double count incident type-2 diabetes (Mediterranean dietary-pattern lever, metabolic slice of the mediterranean_diet bundle) against other actions claiming the same endpoint or causal pathway.",
+              "When a more specific procedure, diagnostic, genetic, or lifestyle runner exists for this phenotype, prefer that runner and treat this event row as the fallback or residual-risk row.",
+              "Suppress if eligibility, contraindication, prior completion, or patient preference makes the action non-executable."
+            ],
+            "recommendation_eligible": true
+          },
+          {
+            "id": "physical_activity_cancer",
+            "label": "physical_activity_cancer",
+            "kind": "action",
+            "source": "action_library_v2",
+            "state": "optional",
+            "evidence_grade": "see_library",
+            "evidence_axis": {
+              "score": 0.52,
+              "level": "medium",
+              "display_label": "Medium evidence",
+              "basis_summary": "Source-backed hard-outcome action promoted into the shared QALY event runner; confidence is capped by model-translated value, default baseline-risk binding, provisional burden, and overlap handling.",
+              "component_scores": {
+                "study_design": 0.17,
+                "endpoint_directness": 0.11,
+                "population_match": 0.07,
+                "intervention_match": 0.07,
+                "magnitude_precision": 0.05,
+                "harm_characterization": 0.05
+              },
+              "caps_applied": [
+                "model_translated_value_cap",
+                "burden_calibration_pending_cap"
+              ],
+              "primary_trace_parameters": [
+                "effect.relative_risk_reduction",
+                "baseline_event_risk",
+                "event_value_qaly",
+                "channels.c1_prevention",
+                "burden_qaly"
+              ]
+            },
+            "matched_findings": [
+              "lifestyle_cancer_incidence_risk"
+            ],
+            "valuation_kind": "direct_patient_qaly_action",
+            "channels": {
+              "c1_prevention": 0.0255,
+              "c2_capacity": 0.0,
+              "c3_resilience": 0.0,
+              "burden_qaly": 0.04,
+              "net_qaly_if_achieved": -0.0145,
+              "bands": {
+                "c1_prevention": {
+                  "low": 0.0033,
+                  "central": 0.0255,
+                  "high": 0.1302
+                },
+                "prevented_events": {
+                  "low": 0.0024,
+                  "central": 0.0102,
+                  "high": 0.0298
+                },
+                "event_value_qaly": {
+                  "low": 1.375,
+                  "central": 2.5,
+                  "high": 4.375
+                },
+                "c2_capacity": {
+                  "low": 0.0,
+                  "central": 0.0,
+                  "high": 0.0
+                },
+                "c3_resilience": {
+                  "low": 0.0,
+                  "central": 0.0,
+                  "high": 0.0
+                }
+              },
+              "trace_status": "runner_computed"
+            },
+            "trace_status": "runner_computed",
+            "overlap_rules": [
+              "Do not double count incident activity-sensitive cancers (colorectal/colon, postmenopausal breast, endometrial; basket also includes kidney, liver, NHL) against other actions claiming the same endpoint or causal pathway.",
+              "When a more specific procedure, diagnostic, genetic, or lifestyle runner exists for this phenotype, prefer that runner and treat this event row as the fallback or residual-risk row.",
+              "Suppress if eligibility, contraindication, prior completion, or patient preference makes the action non-executable."
+            ],
+            "recommendation_eligible": true
+          },
+          {
+            "id": "act_physical_activity_dementia",
+            "label": "act_physical_activity_dementia",
+            "kind": "action",
+            "source": "action_library_v2",
+            "state": "optional",
+            "evidence_grade": "see_library",
+            "evidence_axis": {
+              "score": 0.52,
+              "level": "medium",
+              "display_label": "Medium evidence",
+              "basis_summary": "Source-backed hard-outcome action promoted into the shared QALY event runner; confidence is capped by model-translated value, default baseline-risk binding, provisional burden, and overlap handling.",
+              "component_scores": {
+                "study_design": 0.17,
+                "endpoint_directness": 0.11,
+                "population_match": 0.07,
+                "intervention_match": 0.07,
+                "magnitude_precision": 0.05,
+                "harm_characterization": 0.05
+              },
+              "caps_applied": [
+                "model_translated_value_cap",
+                "burden_calibration_pending_cap"
+              ],
+              "primary_trace_parameters": [
+                "effect.relative_risk_reduction",
+                "baseline_event_risk",
+                "event_value_qaly",
+                "channels.c1_prevention",
+                "burden_qaly"
+              ]
+            },
+            "matched_findings": [
+              "neuro_risk_vascular"
+            ],
+            "valuation_kind": "direct_patient_qaly_action",
+            "channels": {
+              "c1_prevention": 0.05,
+              "c2_capacity": 0.0,
+              "c3_resilience": 0.0,
+              "burden_qaly": 0.025,
+              "net_qaly_if_achieved": 0.025,
+              "bands": {
+                "c1_prevention": {
+                  "low": 0.0077,
+                  "central": 0.05,
+                  "high": 0.2188
+                },
+                "prevented_events": {
+                  "low": 0.0056,
+                  "central": 0.02,
+                  "high": 0.05
+                },
+                "event_value_qaly": {
+                  "low": 1.375,
+                  "central": 2.5,
+                  "high": 4.375
+                },
+                "c2_capacity": {
+                  "low": 0.0,
+                  "central": 0.0,
+                  "high": 0.0
+                },
+                "c3_resilience": {
+                  "low": 0.0,
+                  "central": 0.0,
+                  "high": 0.0
+                }
+              },
+              "trace_status": "runner_computed"
+            },
+            "trace_status": "runner_computed",
+            "overlap_rules": [
+              "Do not double count incident all-cause dementia (and Alzheimer's disease) via the leisure-time physical-activity volume lever against other actions claiming the same endpoint or causal pathway.",
+              "When a more specific procedure, diagnostic, genetic, or lifestyle runner exists for this phenotype, prefer that runner and treat this event row as the fallback or residual-risk row.",
+              "Suppress if eligibility, contraindication, prior completion, or patient preference makes the action non-executable."
+            ],
+            "recommendation_eligible": true
+          },
+          {
+            "id": "ir_lifestyle_prevention",
+            "label": "ir_lifestyle_prevention",
+            "kind": "action",
+            "source": "action_library_v2",
+            "state": "optional",
+            "evidence_grade": "see_library",
+            "evidence_axis": {
+              "score": 0.38,
+              "level": "low",
+              "display_label": "Low evidence",
+              "basis_summary": "Source-backed hard-outcome action promoted into the shared QALY event runner; confidence is capped by model-translated value, default baseline-risk binding, provisional burden, and overlap handling.",
+              "component_scores": {
+                "study_design": 0.11,
+                "endpoint_directness": 0.08,
+                "population_match": 0.05,
+                "intervention_match": 0.05,
+                "magnitude_precision": 0.04,
+                "harm_characterization": 0.05
+              },
+              "caps_applied": [
+                "model_translated_value_cap",
+                "burden_calibration_pending_cap"
+              ],
+              "primary_trace_parameters": [
+                "effect.relative_risk_reduction",
+                "baseline_event_risk",
+                "event_value_qaly",
+                "channels.c1_prevention",
+                "burden_qaly"
+              ]
+            },
+            "matched_findings": [
+              "insulin_resistance"
+            ],
+            "valuation_kind": "direct_patient_qaly_action",
+            "channels": {
+              "c1_prevention": 0.0096,
+              "c2_capacity": 0.0,
+              "c3_resilience": 0.0,
+              "burden_qaly": 0.05,
+              "net_qaly_if_achieved": -0.0404,
+              "bands": {
+                "c1_prevention": {
+                  "low": 0.0015,
+                  "central": 0.0096,
+                  "high": 0.042
+                },
+                "prevented_events": {
+                  "low": 0.007,
+                  "central": 0.024,
+                  "high": 0.06
+                },
+                "event_value_qaly": {
+                  "low": 0.22,
+                  "central": 0.4,
+                  "high": 0.7
+                },
+                "c2_capacity": {
+                  "low": 0.0,
+                  "central": 0.0,
+                  "high": 0.0
+                },
+                "c3_resilience": {
+                  "low": 0.0,
+                  "central": 0.0,
+                  "high": 0.0
+                }
+              },
+              "trace_status": "runner_computed"
+            },
+            "trace_status": "runner_computed",
+            "overlap_rules": [
+              "Do not double count incident T2DM (IR phenotype caught before HbA1c crosses the prediabetes threshold) against other actions claiming the same endpoint or causal pathway.",
+              "When a more specific procedure, diagnostic, genetic, or lifestyle runner exists for this phenotype, prefer that runner and treat this event row as the fallback or residual-risk row.",
+              "Suppress if eligibility, contraindication, prior completion, or patient preference makes the action non-executable."
+            ],
+            "recommendation_eligible": true
+          },
+          {
+            "id": "med_diet_cancer",
+            "label": "med_diet_cancer",
+            "kind": "action",
+            "source": "action_library_v2",
+            "state": "optional",
+            "evidence_grade": "see_library",
+            "evidence_axis": {
+              "score": 0.38,
+              "level": "low",
+              "display_label": "Low evidence",
+              "basis_summary": "Source-backed hard-outcome action promoted into the shared QALY event runner; confidence is capped by model-translated value, default baseline-risk binding, provisional burden, and overlap handling.",
+              "component_scores": {
+                "study_design": 0.11,
+                "endpoint_directness": 0.08,
+                "population_match": 0.05,
+                "intervention_match": 0.05,
+                "magnitude_precision": 0.04,
+                "harm_characterization": 0.05
+              },
+              "caps_applied": [
+                "model_translated_value_cap",
+                "burden_calibration_pending_cap"
+              ],
+              "primary_trace_parameters": [
+                "effect.relative_risk_reduction",
+                "baseline_event_risk",
+                "event_value_qaly",
+                "channels.c1_prevention",
+                "burden_qaly"
+              ]
+            },
+            "matched_findings": [
+              "lifestyle_cancer_incidence_risk"
+            ],
+            "valuation_kind": "direct_patient_qaly_action",
+            "channels": {
+              "c1_prevention": 0.015,
+              "c2_capacity": 0.0,
+              "c3_resilience": 0.0,
+              "burden_qaly": 0.06,
+              "net_qaly_if_achieved": -0.045,
+              "bands": {
+                "c1_prevention": {
+                  "low": 0.0019,
+                  "central": 0.015,
+                  "high": 0.0766
+                },
+                "prevented_events": {
+                  "low": 0.0014,
+                  "central": 0.006,
+                  "high": 0.0175
+                },
+                "event_value_qaly": {
+                  "low": 1.375,
+                  "central": 2.5,
+                  "high": 4.375
+                },
+                "c2_capacity": {
+                  "low": 0.0,
+                  "central": 0.0,
+                  "high": 0.0
+                },
+                "c3_resilience": {
+                  "low": 0.0,
+                  "central": 0.0,
+                  "high": 0.0
+                }
+              },
+              "trace_status": "runner_computed"
+            },
+            "trace_status": "runner_computed",
+            "overlap_rules": [
+              "Do not double count incident diet-sensitive cancers (colorectal, breast, and the overall diet-sensitive basket) via a higher-quality Mediterranean dietary pattern against other actions claiming the same endpoint or causal pathway.",
+              "When a more specific procedure, diagnostic, genetic, or lifestyle runner exists for this phenotype, prefer that runner and treat this event row as the fallback or residual-risk row.",
+              "Suppress if eligibility, contraindication, prior completion, or patient preference makes the action non-executable."
+            ],
+            "recommendation_eligible": true
           }
         ],
         "diagnostics": [
@@ -804,6 +1909,1138 @@
             }
           },
           {
+            "id": "act_sglt2i_ckd",
+            "label": "act_sglt2i_ckd",
+            "reason": "eligibility_findings_not_present",
+            "required_findings": {
+              "any_findings": [
+                "ckd_albuminuric"
+              ],
+              "interpretation": "Applies when the matched clinical finding is present and the patient meets the trial/guideline phenotype; contraindications must be checked before recommendation."
+            }
+          },
+          {
+            "id": "act_raasi_ckd",
+            "label": "act_raasi_ckd",
+            "reason": "eligibility_findings_not_present",
+            "required_findings": {
+              "any_findings": [
+                "ckd_albuminuric"
+              ],
+              "interpretation": "Applies when the matched clinical finding is present and the patient meets the trial/guideline phenotype; contraindications must be checked before recommendation."
+            }
+          },
+          {
+            "id": "act_finerenone",
+            "label": "act_finerenone",
+            "reason": "eligibility_findings_not_present",
+            "required_findings": {
+              "any_findings": [
+                "ckd_albuminuric"
+              ],
+              "interpretation": "Applies when the matched clinical finding is present and the patient meets the trial/guideline phenotype; contraindications must be checked before recommendation."
+            }
+          },
+          {
+            "id": "act_glp1_ckd",
+            "label": "act_glp1_ckd",
+            "reason": "eligibility_findings_not_present",
+            "required_findings": {
+              "any_findings": [
+                "ckd_albuminuric"
+              ],
+              "interpretation": "Applies when the matched clinical finding is present and the patient meets the trial/guideline phenotype; contraindications must be checked before recommendation."
+            }
+          },
+          {
+            "id": "act_sglt2i_nondiabetic_ckd",
+            "label": "act_sglt2i_nondiabetic_ckd",
+            "reason": "eligibility_findings_not_present",
+            "required_findings": {
+              "any_findings": [
+                "ckd_proteinuric_nondiabetic"
+              ],
+              "interpretation": "Applies when the matched clinical finding is present and the patient meets the trial/guideline phenotype; contraindications must be checked before recommendation."
+            }
+          },
+          {
+            "id": "act_finerenone_nondiabetic_ckd",
+            "label": "act_finerenone_nondiabetic_ckd",
+            "reason": "eligibility_findings_not_present",
+            "required_findings": {
+              "any_findings": [
+                "ckd_proteinuric_nondiabetic"
+              ],
+              "interpretation": "Applies when proteinuric non-diabetic CKD persists despite appropriate background therapy and finerenone is clinically reasonable; confirm eGFR, albuminuria, potassium, BP, background RAAS/SGLT2 use, CKD etiology, contraindications, and monitoring capacity before recommendation."
+            }
+          },
+          {
+            "id": "act_finerenone_cv_hf",
+            "label": "act_finerenone_cv_hf",
+            "reason": "eligibility_findings_not_present",
+            "required_findings": {
+              "any_findings": [
+                "ckd_albuminuric"
+              ],
+              "interpretation": "Applies when the matched clinical finding is present and the patient meets the trial/guideline phenotype; contraindications must be checked before recommendation."
+            }
+          },
+          {
+            "id": "act_statin_ezetimibe_ckd",
+            "label": "act_statin_ezetimibe_ckd",
+            "reason": "eligibility_findings_not_present",
+            "required_findings": {
+              "any_findings": [
+                "ckd_cvd_high_risk"
+              ],
+              "interpretation": "Applies when the matched clinical finding is present and the patient meets the trial/guideline phenotype; contraindications must be checked before recommendation."
+            }
+          },
+          {
+            "id": "high_intensity_statin_secondary",
+            "label": "high_intensity_statin_secondary",
+            "reason": "eligibility_findings_not_present",
+            "required_findings": {
+              "any_findings": [
+                "established_ascvd_secondary"
+              ],
+              "interpretation": "Applies when the matched clinical finding is present and the patient meets the trial/guideline phenotype; contraindications must be checked before recommendation."
+            }
+          },
+          {
+            "id": "ezetimibe_addon",
+            "label": "ezetimibe_addon",
+            "reason": "eligibility_findings_not_present",
+            "required_findings": {
+              "any_findings": [
+                "cvd_risk_ascvd"
+              ],
+              "interpretation": "Applies to an IMPROVE-IT-like post-acute-coronary-syndrome or very-high-risk ASCVD phenotype with residual LDL-C or apoB risk after maximally tolerated statin therapy; verify current LDL-C/apoB, statin intensity and adherence, recent ACS versus stable ASCVD context, additive PCSK9 or bempedoic options, drug tolerance, access, and overlap before recommendation."
+            }
+          },
+          {
+            "id": "bempedoic_acid",
+            "label": "bempedoic_acid",
+            "reason": "eligibility_findings_not_present",
+            "required_findings": {
+              "any_findings": [
+                "cvd_risk_ascvd"
+              ],
+              "interpretation": "Applies to a CLEAR-Outcomes-like high-risk primary- or secondary-prevention ASCVD phenotype with true or practical statin intolerance and residual LDL-C or apoB risk; verify statin intolerance/rechallenge history, baseline risk, LDL-C/apoB, gout or uric-acid risk, tendon risk, background ezetimibe/PCSK9 use, access, and overlap before recommendation."
+            }
+          },
+          {
+            "id": "incretin_hfpef_obesity",
+            "label": "incretin_hfpef_obesity",
+            "reason": "eligibility_findings_not_present",
+            "required_findings": {
+              "any_findings": [
+                "cardiometabolic_hfpef"
+              ],
+              "interpretation": "Applies only to a SUMMIT-like obesity-related HFpEF phenotype where incretin therapy such as tirzepatide is clinically plausible; verify HFpEF diagnosis, EF, NYHA class, BMI, congestion status, prior HF events, diabetes, kidney function, frailty/sarcopenia risk, background HF/diuretic therapy, GI tolerance, access, and contraindications before recommendation."
+            }
+          },
+          {
+            "id": "metformin_macrovascular_t2dm",
+            "label": "metformin_macrovascular_t2dm",
+            "reason": "eligibility_findings_not_present",
+            "required_findings": {
+              "any_findings": [
+                "undiagnosed_t2dm"
+              ],
+              "interpretation": "Applies only to an overweight or insulin-resistant type-2 diabetes phenotype where metformin is incremental rather than already baseline care; verify diabetes diagnosis, BMI, A1c, ASCVD risk, kidney function, liver disease/alcohol risk, heart-failure status, B12 status, GI tolerance, pregnancy context, and current GLP-1/SGLT2/insulin or lifestyle counterfactual before recommendation."
+            }
+          },
+          {
+            "id": "semaglutide_select_secondary",
+            "label": "semaglutide_select_secondary",
+            "reason": "eligibility_findings_not_present",
+            "required_findings": {
+              "any_findings": [
+                "established_ascvd_secondary",
+                "adiposity_obesity"
+              ],
+              "interpretation": "Applies when the matched clinical finding is present and the patient meets the trial/guideline phenotype; contraindications must be checked before recommendation."
+            }
+          },
+          {
+            "id": "doac_afib_anticoagulation",
+            "label": "doac_afib_anticoagulation",
+            "reason": "eligibility_findings_not_present",
+            "required_findings": {
+              "any_findings": [
+                "atrial_fibrillation",
+                "atrial_fibrillation_stroke_risk"
+              ],
+              "interpretation": "Applies when the matched clinical finding is present and the patient meets the trial/guideline phenotype; contraindications must be checked before recommendation."
+            }
+          },
+          {
+            "id": "arni_hfref",
+            "label": "arni_hfref",
+            "reason": "eligibility_findings_not_present",
+            "required_findings": {
+              "any_findings": [
+                "heart_failure_reduced_ef"
+              ],
+              "interpretation": "Applies when the matched clinical finding is present and the patient meets the trial/guideline phenotype; contraindications must be checked before recommendation."
+            }
+          },
+          {
+            "id": "betablocker_hfref",
+            "label": "betablocker_hfref",
+            "reason": "eligibility_findings_not_present",
+            "required_findings": {
+              "any_findings": [
+                "heart_failure_reduced_ef"
+              ],
+              "interpretation": "Applies when the matched clinical finding is present and the patient meets the trial/guideline phenotype; contraindications must be checked before recommendation."
+            }
+          },
+          {
+            "id": "mra_hfref",
+            "label": "mra_hfref",
+            "reason": "eligibility_findings_not_present",
+            "required_findings": {
+              "any_findings": [
+                "heart_failure_reduced_ef"
+              ],
+              "interpretation": "Applies when the matched clinical finding is present and the patient meets the trial/guideline phenotype; contraindications must be checked before recommendation."
+            }
+          },
+          {
+            "id": "sglt2i_hfref",
+            "label": "sglt2i_hfref",
+            "reason": "eligibility_findings_not_present",
+            "required_findings": {
+              "any_findings": [
+                "heart_failure_reduced_ef"
+              ],
+              "interpretation": "Applies when the matched clinical finding is present and the patient meets the trial/guideline phenotype; contraindications must be checked before recommendation."
+            }
+          },
+          {
+            "id": "sglt2i_hfpef",
+            "label": "sglt2i_hfpef",
+            "reason": "eligibility_findings_not_present",
+            "required_findings": {
+              "any_findings": [
+                "heart_failure_preserved_ef",
+                "cardiometabolic_hfpef"
+              ],
+              "interpretation": "Applies when the matched clinical finding is present and the patient meets the trial/guideline phenotype; contraindications must be checked before recommendation."
+            }
+          },
+          {
+            "id": "multifactorial_intensive_t2dm",
+            "label": "multifactorial_intensive_t2dm",
+            "reason": "eligibility_findings_not_present",
+            "required_findings": {
+              "any_findings": [
+                "t2dm_albuminuria_renalrisk"
+              ],
+              "interpretation": "Applies to type 2 diabetes with albuminuria or renal-risk phenotype matching Steno-2 style intensive multifactorial care; do not score as additive to its component BP, lipid, glycemic, RAASi, antiplatelet, or lifestyle actions."
+            }
+          },
+          {
+            "id": "influenza_vaccination_cv",
+            "label": "influenza_vaccination_cv",
+            "reason": "eligibility_findings_not_present",
+            "required_findings": {
+              "any_findings": [
+                "established_ascvd_secondary"
+              ],
+              "interpretation": "Applies to recent MI or high-risk coronary artery disease during the annual influenza vaccination window; contraindications and vaccination history must be checked before recommendation."
+            }
+          },
+          {
+            "id": "af_catheter_ablation_hf",
+            "label": "af_catheter_ablation_hf",
+            "reason": "eligibility_findings_not_present",
+            "required_findings": {
+              "any_findings": [
+                "atrial_fibrillation",
+                "heart_failure_reduced_ef"
+              ],
+              "interpretation": "Applies only when AF and HFrEF phenotype matches CASTLE-AF style procedural candidacy; electrophysiology eligibility, rhythm strategy, competing device indications, and patient preference must be checked."
+            }
+          },
+          {
+            "id": "icd_primary_ischemic_cardiomyopathy",
+            "label": "icd_primary_ischemic_cardiomyopathy",
+            "reason": "eligibility_findings_not_present",
+            "required_findings": {
+              "any_findings": [
+                "heart_failure_reduced_ef"
+              ],
+              "interpretation": "Applies to ischemic systolic cardiomyopathy primary-prevention ICD phenotype after guideline-directed medical therapy, EF/timing confirmation, life-expectancy gate, and device candidacy review."
+            }
+          },
+          {
+            "id": "antihypertensive_rx",
+            "label": "antihypertensive_rx",
+            "reason": "eligibility_findings_not_present",
+            "required_findings": {
+              "any_findings": [
+                "bp_driven_risk"
+              ],
+              "interpretation": "Applies when elevated blood pressure creates actionable cardiovascular risk and medication intensification is clinically appropriate; confirm persistent BP elevation, orthostasis/fall risk, kidney function, potassium, pregnancy status, contraindications, and current treatment stack before recommendation."
+            }
+          },
+          {
+            "id": "pcsk9_inhibitor",
+            "label": "pcsk9_inhibitor",
+            "reason": "eligibility_findings_not_present",
+            "required_findings": {
+              "any_findings": [
+                "cvd_risk_ascvd"
+              ],
+              "interpretation": "Applies to high-risk or secondary-prevention ASCVD patients with residual LDL-C or apoB risk despite maximally tolerated statin and ezetimibe, or appropriate intolerance; verify LDL-C/apoB, event history, familial hypercholesterolemia, adherence, access, and injection acceptability."
+            }
+          },
+          {
+            "id": "icosapent_ethyl",
+            "label": "icosapent_ethyl",
+            "reason": "eligibility_findings_not_present",
+            "required_findings": {
+              "any_findings": [
+                "high_triglycerides_resid"
+              ],
+              "interpretation": "Applies to a statin-treated REDUCE-IT-like phenotype with elevated triglycerides and established CVD or diabetes plus a risk factor; verify triglyceride range, LDL-C control, atrial-fibrillation history, bleeding risk, fish allergy/intolerance, antithrombotics, and access."
+            }
+          },
+          {
+            "id": "crt_hfref_wide_qrs",
+            "label": "crt_hfref_wide_qrs",
+            "reason": "eligibility_findings_not_present",
+            "required_findings": {
+              "any_findings": [
+                "heart_failure_reduced_ef"
+              ],
+              "interpretation": "Applies to symptomatic HFrEF with LVEF at or below guideline threshold and wide QRS, especially LBBB, despite optimized medical therapy; verify NYHA class, QRS duration/morphology, rhythm or pacing indication, life expectancy, infection risk, device preference, and ICD candidacy."
+            }
+          },
+          {
+            "id": "carotid_endarterectomy_symptomatic",
+            "label": "carotid_endarterectomy_symptomatic",
+            "reason": "eligibility_findings_not_present",
+            "required_findings": {
+              "any_findings": [
+                "carotid_stenosis_symptomatic"
+              ],
+              "interpretation": "Applies to recently symptomatic severe carotid stenosis with suitable anatomy; verify NASCET percent stenosis, symptom timing, surgical risk, age/sex subgroup, life expectancy, antiplatelet/statin/BP therapy, and local perioperative stroke or death rates."
+            }
+          },
+          {
+            "id": "incretin_prevention_obesity",
+            "label": "incretin_prevention_obesity",
+            "reason": "eligibility_findings_not_present",
+            "required_findings": {
+              "any_findings": [
+                "adiposity_obesity"
+              ],
+              "interpretation": "Applies when obesity or overweight with high diabetes-risk phenotype matches incretin-trial eligibility and contraindications, pregnancy plans, pancreatobiliary history, access, and continuation plan have been checked."
+            }
+          },
+          {
+            "id": "metabolic_surgery",
+            "label": "metabolic_surgery",
+            "reason": "eligibility_findings_not_present",
+            "required_findings": {
+              "any_findings": [
+                "adiposity_obesity"
+              ],
+              "interpretation": "Applies only when severe obesity or obesity with qualifying comorbidity meets surgical eligibility and shared-decision thresholds; operative risk, contraindications, anatomy, prior surgery, and patient preference must be checked."
+            }
+          },
+          {
+            "id": "smoking_cessation_program",
+            "label": "smoking_cessation_program",
+            "reason": "eligibility_findings_not_present",
+            "required_findings": {
+              "all_findings": [
+                "tobacco_use_active",
+                "ckd_albuminuric"
+              ],
+              "interpretation": "Narrow map-eligible valuation for active tobacco use in an albuminuric CKD phenotype where structured cessation is expected to reduce CKD progression risk. This does not claim the full tobacco-cessation opportunity across cancer, COPD, or cardiovascular endpoints."
+            }
+          },
+          {
+            "id": "alcohol_reduction",
+            "label": "alcohol_reduction",
+            "reason": "eligibility_findings_not_present",
+            "required_findings": {
+              "any_findings": [
+                "excess_alcohol_use"
+              ],
+              "interpretation": "Narrow map-eligible valuation for hazardous or heavy alcohol use where the patient matches a recurrent atrial-fibrillation risk phenotype and reduction or abstinence is clinically safe. It does not claim full liver, cancer, trauma, mood, sleep, or BP-mediated alcohol value."
+            }
+          },
+          {
+            "id": "lifestyle_bp_lowering",
+            "label": "lifestyle_bp_lowering",
+            "reason": "eligibility_findings_not_present",
+            "required_findings": {
+              "any_findings": [
+                "bp_driven_risk",
+                "high_sodium_intake"
+              ],
+              "interpretation": "Narrow map-eligible valuation for a SSaSS-like salt-substitution or sodium-potassium exposure intervention in elevated-BP or high-sodium phenotype. It does not claim the full diet, weight, exercise, CKD, or dementia lifestyle bundle value."
+            }
+          },
+          {
+            "id": "act_nph_shunt",
+            "label": "act_nph_shunt",
+            "reason": "eligibility_findings_not_present",
+            "required_findings": {
+              "any_findings": [
+                "normal_pressure_hydrocephalus"
+              ],
+              "interpretation": "Applies only to a confirmed or strongly suspected idiopathic normal-pressure hydrocephalus phenotype with gait-predominant impairment, ventriculomegaly, mimics excluded, acceptable surgical risk, and response to temporary CSF drainage or equivalent shunt-candidacy evidence. This valuation is not for nonspecific gait decline."
+            }
+          },
+          {
+            "id": "act_cataract_surgery_dementia",
+            "label": "act_cataract_surgery_dementia",
+            "reason": "eligibility_findings_not_present",
+            "required_findings": {
+              "any_findings": [
+                "vision_impairment_actionable"
+              ],
+              "interpretation": "Applies only when vision-impairing cataract is present and cataract extraction is clinically appropriate; visual acuity/contrast limitation, functional impairment, ocular comorbidity, first-eye or second-eye status, cognitive baseline, and surgical risk must be checked."
+            }
+          },
+          {
+            "id": "act_cognitive_speed_training",
+            "label": "act_cognitive_speed_training",
+            "reason": "eligibility_findings_not_present",
+            "required_findings": {
+              "any_findings": [
+                "neuro_risk_genetic"
+              ],
+              "interpretation": "Applies only to an older adult with elevated cognitive-risk phenotype, preserved ability to participate, and a feasible speed-of-processing training protocol. Baseline cognition, sensory barriers, digital access, depression/sleep confounders, completed sessions, boosters, and multidomain-program overlap must be checked."
+            }
+          },
+          {
+            "id": "colchicine_ldose",
+            "label": "colchicine_ldose",
+            "reason": "eligibility_findings_not_present",
+            "required_findings": {
+              "any_findings": [
+                "hs_crp_residual_inflam"
+              ],
+              "interpretation": "Applies only to chronic coronary disease or recent MI patients with residual inflammatory risk where low-dose colchicine is clinically appropriate after standard lipid, BP, antithrombotic, smoking, and diabetes risk management are addressed. Baseline risk is bound to the CAD residual-inflammation trial phenotype, not to a general elevated-hs-CRP population."
+            }
+          },
+          {
+            "id": "gdm_screen_treat",
+            "label": "gdm_screen_treat",
+            "reason": "eligibility_findings_not_present",
+            "required_findings": {
+              "any_findings": [
+                "gestational_diabetes"
+              ],
+              "interpretation": "Applies only when pregnancy is present and gestational diabetes is screen-detected or otherwise confirmed, with treatment to pregnancy glycemic targets clinically appropriate; baseline risk is bound to a treated-eligible GDM pregnancy phenotype rather than all pregnancies."
+            }
+          },
+          {
+            "id": "orlistat_t2dm_prevention",
+            "label": "orlistat_t2dm_prevention",
+            "reason": "eligibility_findings_not_present",
+            "required_findings": {
+              "any_findings": [
+                "adiposity_obesity"
+              ],
+              "interpretation": "Applies only for adults with obesity and elevated diabetes risk, especially impaired glucose tolerance or prediabetes, where orlistat plus lifestyle support is clinically appropriate and competing anti-obesity therapy is not already claiming the same diabetes-prevention value."
+            }
+          },
+          {
+            "id": "act_ai_chemoprevention_breast",
+            "label": "act_ai_chemoprevention_breast",
+            "reason": "eligibility_findings_not_present",
+            "required_findings": {
+              "any_findings": [
+                "elevated_breast_cancer_risk_nonbrca"
+              ],
+              "interpretation": "Applies only for postmenopausal women with elevated validated breast-cancer risk, a meaningful ER-positive preventable fraction, acceptable bone/fracture risk, and willingness to consider aromatase-inhibitor chemoprevention."
+            }
+          },
+          {
+            "id": "act_serm_chemoprevention_breast",
+            "label": "act_serm_chemoprevention_breast",
+            "reason": "eligibility_findings_not_present",
+            "required_findings": {
+              "any_findings": [
+                "elevated_breast_cancer_risk_nonbrca"
+              ],
+              "interpretation": "Applies only for women with elevated validated breast-cancer risk who are clinically eligible for SERM chemoprevention after menopausal status, VTE/stroke risk, uterus/endometrial context, vasomotor symptoms, and patient preference are reviewed. Do not use for average-risk patients or when aromatase-inhibitor chemoprevention, BRCA surgery/surveillance, or screening VOI supersedes the decision."
+            }
+          },
+          {
+            "id": "act_bp_intensive_renal",
+            "label": "act_bp_intensive_renal",
+            "reason": "eligibility_findings_not_present",
+            "required_findings": {
+              "any_findings": [
+                "htn_nephropathy"
+              ],
+              "interpretation": "Applies only when CKD progression risk is materially BP-driven, baseline BP remains above the individualized intensive target, and orthostasis, frailty, AKI, potassium, and medication-stack risks make intensification clinically reasonable."
+            }
+          },
+          {
+            "id": "act_egfr_dose_review",
+            "label": "act_egfr_dose_review",
+            "reason": "eligibility_findings_not_present",
+            "required_findings": {
+              "any_findings": [
+                "ckd_low_egfr"
+              ],
+              "interpretation": "Applies when reduced eGFR, AKI risk, or a transition of care creates a real opportunity to review active renally cleared or nephrotoxic medications and make an accepted medication change. Do not score when medication data are unavailable or no actionable exposure exists."
+            }
+          },
+          {
+            "id": "direct_weight_remission",
+            "label": "direct_weight_remission",
+            "reason": "eligibility_findings_not_present",
+            "required_findings": {
+              "any_findings": [
+                "undiagnosed_t2dm"
+              ],
+              "interpretation": "Narrow map-eligible valuation for a recent-onset, non-insulin type 2 diabetes phenotype where structured intentional weight loss can plausibly induce remission. Requires diabetes duration, medication status, BMI, HbA1c, contraindications, and eating-disorder/frailty safety checks before recommendation."
+            }
+          },
+          {
+            "id": "fiber_wholegrain_intake",
+            "label": "fiber_wholegrain_intake",
+            "reason": "eligibility_findings_not_present",
+            "required_findings": {
+              "any_findings": [
+                "suboptimal_diet"
+              ],
+              "interpretation": "Narrow low-confidence valuation for low-fiber or low-whole-grain intake where a sustained +8 g/day fiber-equivalent change is realistic and GI tolerance is acceptable. Requires baseline intake, food access, diet-quality context, and whether the change is part of a broader diet bundle before recommendation."
+            }
+          },
+          {
+            "id": "act_brca_rrm",
+            "label": "act_brca_rrm",
+            "reason": "eligibility_findings_not_present",
+            "required_findings": {
+              "any_findings": [
+                "HBOC_BRCA"
+              ],
+              "interpretation": "Applies narrowly to a confirmed pathogenic or likely pathogenic BRCA1/BRCA2 carrier with breast tissue present who is considering bilateral risk-reducing mastectomy after genetics and surgical counseling. Do not use for VUS-only findings, unconfirmed family history, prior bilateral mastectomy, active breast cancer treatment, or patients who would not consider surgery."
+            }
+          },
+          {
+            "id": "act_lynch_gyn_riskreduce",
+            "label": "act_lynch_gyn_riskreduce",
+            "reason": "eligibility_findings_not_present",
+            "required_findings": {
+              "any_findings": [
+                "Lynch"
+              ],
+              "interpretation": "Applies narrowly to a confirmed Lynch syndrome mismatch-repair pathogenic or likely pathogenic variant carrier with uterus and/or ovaries present who is considering risk-reducing hysterectomy with bilateral salpingo-oophorectomy or a staged gynecologic risk-reduction plan after genetics and gynecologic oncology counseling. Do not use for VUS-only findings, completed relevant surgery, active gynecologic cancer treatment, unresolved fertility plans, or patients who would not consider surgery."
+            }
+          },
+          {
+            "id": "act_nephrology_referral_mdc",
+            "label": "act_nephrology_referral_mdc",
+            "reason": "eligibility_findings_not_present",
+            "required_findings": {
+              "any_findings": [
+                "ckd_low_egfr",
+                "ckd_progressive",
+                "ckd_albuminuric"
+              ],
+              "interpretation": "Narrow Batch 020 valuation for advancing, progressive, or high-risk CKD where early nephrology referral and multidisciplinary care are still actionable compared with late referral or unmanaged primary-care-only follow-up. Requires eGFR, slope, albuminuria, CKD cause, current management quality, existing nephrology access, transplant/dialysis planning relevance, and local access constraints before recommendation."
+            }
+          },
+          {
+            "id": "avr_severe_aortic_stenosis",
+            "label": "avr_severe_aortic_stenosis",
+            "reason": "eligibility_findings_not_present",
+            "required_findings": {
+              "any_findings": [
+                "severe_aortic_stenosis"
+              ],
+              "interpretation": "Narrow Batch 020 valuation for confirmed severe symptomatic aortic stenosis where valve replacement is clinically indicated and the counterfactual is no valve replacement or delayed/inaccessible valve intervention. Requires valve metrics, symptom status, EF and flow-gradient phenotype, frailty, STS/procedural risk, TAVR/SAVR candidacy, anatomy, life expectancy, patient goals, and competing noncardiac mortality before recommendation."
+            }
+          },
+          {
+            "id": "aspirin_secondary_prevention",
+            "label": "aspirin_secondary_prevention",
+            "reason": "eligibility_findings_not_present",
+            "required_findings": {
+              "any_findings": [
+                "established_ascvd_secondary"
+              ],
+              "interpretation": "Established ASCVD secondary prevention antiplatelet candidate: prior MI, ischemic stroke/TIA, coronary revascularization, chronic coronary disease, symptomatic PAD, or documented ASCVD; exclude active major bleeding, aspirin allergy, concurrent anticoagulation unless specifically modeled, and active DAPT/other antithrombotic bundles that supersede aspirin monotherapy."
+            }
+          },
+          {
+            "id": "act_sglt2i_progressor",
+            "label": "act_sglt2i_progressor",
+            "reason": "eligibility_findings_not_present",
+            "required_findings": {
+              "any_findings": [
+                "ckd_rapid_progressor"
+              ],
+              "interpretation": "Use only for confirmed serial eGFR slope decline >5 mL/min/1.73m2/year, not a single low eGFR. Best fit is DAPA-CKD-like albuminuric CKD (eGFR 25-75 mL/min/1.73m2, UACR 200-5000 mg/g) on ACEi/ARB unless intolerant; exclude type 1 diabetes and contraindications."
+            }
+          },
+          {
+            "id": "act_kidney_transplant",
+            "label": "act_kidney_transplant",
+            "reason": "eligibility_findings_not_present",
+            "required_findings": {
+              "any_findings": [
+                "kidney_failure_esrd"
+              ],
+              "interpretation": "Use for patients matching kidney_failure_esrd where the legacy source phenotype is clinically confirmed, contraindications are absent, and overlapping actions are de-duplicated."
+            }
+          },
+          {
+            "id": "p2y12_dapt_post_acs",
+            "label": "p2y12_dapt_post_acs",
+            "reason": "eligibility_findings_not_present",
+            "required_findings": {
+              "any_findings": [
+                "established_ascvd_secondary"
+              ],
+              "interpretation": "Use for patients matching established_ascvd_secondary where the legacy source phenotype is clinically confirmed, contraindications are absent, and overlapping actions are de-duplicated."
+            }
+          },
+          {
+            "id": "laa_occlusion_watchman",
+            "label": "laa_occlusion_watchman",
+            "reason": "eligibility_findings_not_present",
+            "required_findings": {
+              "any_findings": [
+                "atrial_fibrillation"
+              ],
+              "interpretation": "Use for patients matching atrial_fibrillation where the legacy source phenotype is clinically confirmed, contraindications are absent, and overlapping actions are de-duplicated."
+            }
+          },
+          {
+            "id": "cabg_high_risk_anatomy",
+            "label": "cabg_high_risk_anatomy",
+            "reason": "eligibility_findings_not_present",
+            "required_findings": {
+              "any_findings": [
+                "obstructive_cad_revascularizable"
+              ],
+              "interpretation": "Use for patients matching obstructive_cad_revascularizable where the legacy source phenotype is clinically confirmed, contraindications are absent, and overlapping actions are de-duplicated."
+            }
+          },
+          {
+            "id": "pfo_closure_cryptogenic_stroke",
+            "label": "pfo_closure_cryptogenic_stroke",
+            "reason": "eligibility_findings_not_present",
+            "required_findings": {
+              "any_findings": [
+                "pfo_cryptogenic_stroke"
+              ],
+              "interpretation": "Use for patients matching pfo_cryptogenic_stroke where the legacy source phenotype is clinically confirmed, contraindications are absent, and overlapping actions are de-duplicated."
+            }
+          },
+          {
+            "id": "dual_pathway_inhibition_pad",
+            "label": "dual_pathway_inhibition_pad",
+            "reason": "eligibility_findings_not_present",
+            "required_findings": {
+              "any_findings": [
+                "peripheral_artery_disease"
+              ],
+              "interpretation": "Use for patients matching peripheral_artery_disease where the legacy source phenotype is clinically confirmed, contraindications are absent, and overlapping actions are de-duplicated."
+            }
+          },
+          {
+            "id": "aaa_repair_screen_detected",
+            "label": "aaa_repair_screen_detected",
+            "reason": "eligibility_findings_not_present",
+            "required_findings": {
+              "any_findings": [
+                "aaa_screen_detectable"
+              ],
+              "interpretation": "Use for patients matching aaa_screen_detectable where the legacy source phenotype is clinically confirmed, contraindications are absent, and overlapping actions are de-duplicated."
+            }
+          },
+          {
+            "id": "act_hpylori_eradication_gastric",
+            "label": "act_hpylori_eradication_gastric",
+            "reason": "eligibility_findings_not_present",
+            "required_findings": {
+              "any_findings": [
+                "hpylori_gastric_risk"
+              ],
+              "interpretation": "Use for patients matching hpylori_gastric_risk where the legacy source phenotype is clinically confirmed, contraindications are absent, and overlapping actions are de-duplicated."
+            }
+          },
+          {
+            "id": "act_hbv_vaccination_hcc",
+            "label": "act_hbv_vaccination_hcc",
+            "reason": "eligibility_findings_not_present",
+            "required_findings": {
+              "any_findings": [
+                "chronic_viral_hepatitis_hcc_risk"
+              ],
+              "interpretation": "Use for patients matching chronic_viral_hepatitis_hcc_risk where the legacy source phenotype is clinically confirmed, contraindications are absent, and overlapping actions are de-duplicated."
+            }
+          },
+          {
+            "id": "act_hbv_antiviral_hcc",
+            "label": "act_hbv_antiviral_hcc",
+            "reason": "eligibility_findings_not_present",
+            "required_findings": {
+              "any_findings": [
+                "chronic_viral_hepatitis_hcc_risk"
+              ],
+              "interpretation": "Use for patients matching chronic_viral_hepatitis_hcc_risk where the legacy source phenotype is clinically confirmed, contraindications are absent, and overlapping actions are de-duplicated."
+            }
+          },
+          {
+            "id": "act_hcv_daa_cure_hcc",
+            "label": "act_hcv_daa_cure_hcc",
+            "reason": "eligibility_findings_not_present",
+            "required_findings": {
+              "any_findings": [
+                "chronic_viral_hepatitis_hcc_risk"
+              ],
+              "interpretation": "Use for patients matching chronic_viral_hepatitis_hcc_risk where the legacy source phenotype is clinically confirmed, contraindications are absent, and overlapping actions are de-duplicated."
+            }
+          },
+          {
+            "id": "act_hcc_surveillance_ultrasound",
+            "label": "act_hcc_surveillance_ultrasound",
+            "reason": "eligibility_findings_not_present",
+            "required_findings": {
+              "any_findings": [
+                "chronic_viral_hepatitis_hcc_risk"
+              ],
+              "interpretation": "Use for patients matching chronic_viral_hepatitis_hcc_risk where the legacy source phenotype is clinically confirmed, contraindications are absent, and overlapping actions are de-duplicated."
+            }
+          },
+          {
+            "id": "act_hpv_vaccination_cervical",
+            "label": "act_hpv_vaccination_cervical",
+            "reason": "eligibility_findings_not_present",
+            "required_findings": {
+              "any_findings": [
+                "hpv_oncogenic_cancer_risk"
+              ],
+              "interpretation": "Use for patients matching hpv_oncogenic_cancer_risk where the legacy source phenotype is clinically confirmed, contraindications are absent, and overlapping actions are de-duplicated."
+            }
+          },
+          {
+            "id": "act_barretts_rfa",
+            "label": "act_barretts_rfa",
+            "reason": "eligibility_findings_not_present",
+            "required_findings": {
+              "any_findings": [
+                "barretts_dysplasia"
+              ],
+              "interpretation": "Use for patients matching barretts_dysplasia where the legacy source phenotype is clinically confirmed, contraindications are absent, and overlapping actions are de-duplicated."
+            }
+          },
+          {
+            "id": "act_aspirin_crc_sporadic",
+            "label": "act_aspirin_crc_sporadic",
+            "reason": "eligibility_findings_not_present",
+            "required_findings": {
+              "any_findings": [
+                "sporadic_crc_chemoprevention_risk"
+              ],
+              "interpretation": "Use for patients matching sporadic_crc_chemoprevention_risk where the legacy source phenotype is clinically confirmed, contraindications are absent, and overlapping actions are de-duplicated."
+            }
+          },
+          {
+            "id": "act_bariatric_surgery_cancer",
+            "label": "act_bariatric_surgery_cancer",
+            "reason": "eligibility_findings_not_present",
+            "required_findings": {
+              "any_findings": [
+                "obesity_associated_cancer_risk",
+                "adiposity_obesity"
+              ],
+              "interpretation": "Use for patients matching obesity_associated_cancer_risk, adiposity_obesity where the legacy source phenotype is clinically confirmed, contraindications are absent, and overlapping actions are de-duplicated."
+            }
+          },
+          {
+            "id": "fh_high_intensity_llt",
+            "label": "fh_high_intensity_llt",
+            "reason": "eligibility_findings_not_present",
+            "required_findings": {
+              "any_findings": [
+                "FH"
+              ],
+              "interpretation": "Use for patients matching FH where the legacy source phenotype is clinically confirmed, contraindications are absent, and overlapping actions are de-duplicated."
+            }
+          },
+          {
+            "id": "fh_cascade_screening",
+            "label": "fh_cascade_screening",
+            "reason": "eligibility_findings_not_present",
+            "required_findings": {
+              "any_findings": [
+                "FH"
+              ],
+              "interpretation": "Use for patients matching FH where the legacy source phenotype is clinically confirmed, contraindications are absent, and overlapping actions are de-duplicated."
+            }
+          },
+          {
+            "id": "lpa_reclassify_intensify",
+            "label": "lpa_reclassify_intensify",
+            "reason": "eligibility_findings_not_present",
+            "required_findings": {
+              "any_findings": [
+                "lpa_elevated"
+              ],
+              "interpretation": "Use for patients matching lpa_elevated where the legacy source phenotype is clinically confirmed, contraindications are absent, and overlapping actions are de-duplicated."
+            }
+          },
+          {
+            "id": "icd_primary_prevention",
+            "label": "icd_primary_prevention",
+            "reason": "eligibility_findings_not_present",
+            "required_findings": {
+              "any_findings": [
+                "inherited_cardiomyopathy"
+              ],
+              "interpretation": "Use for patients matching inherited_cardiomyopathy where the legacy source phenotype is clinically confirmed, contraindications are absent, and overlapping actions are de-duplicated."
+            }
+          },
+          {
+            "id": "betablocker_lqts",
+            "label": "betablocker_lqts",
+            "reason": "eligibility_findings_not_present",
+            "required_findings": {
+              "any_findings": [
+                "inherited_arrhythmia"
+              ],
+              "interpretation": "Use for patients matching inherited_arrhythmia where the legacy source phenotype is clinically confirmed, contraindications are absent, and overlapping actions are de-duplicated."
+            }
+          },
+          {
+            "id": "glp1_cardiovascular_t2dm",
+            "label": "glp1_cardiovascular_t2dm",
+            "reason": "eligibility_findings_not_present",
+            "required_findings": {
+              "any_findings": [
+                "undiagnosed_t2dm"
+              ],
+              "interpretation": "Use for patients matching undiagnosed_t2dm where the legacy source phenotype is clinically confirmed, contraindications are absent, and overlapping actions are de-duplicated."
+            }
+          },
+          {
+            "id": "sglt2_cardiorenal_t2dm",
+            "label": "sglt2_cardiorenal_t2dm",
+            "reason": "eligibility_findings_not_present",
+            "required_findings": {
+              "any_findings": [
+                "t2dm_albuminuria_renalrisk"
+              ],
+              "interpretation": "Use for patients matching t2dm_albuminuria_renalrisk where the legacy source phenotype is clinically confirmed, contraindications are absent, and overlapping actions are de-duplicated."
+            }
+          },
+          {
+            "id": "intensive_glycemic_control",
+            "label": "intensive_glycemic_control",
+            "reason": "eligibility_findings_not_present",
+            "required_findings": {
+              "any_findings": [
+                "t2dm_microvascular_risk"
+              ],
+              "interpretation": "Use for patients matching t2dm_microvascular_risk where the legacy source phenotype is clinically confirmed, contraindications are absent, and overlapping actions are de-duplicated."
+            }
+          },
+          {
+            "id": "mody_sulfonylurea_switch",
+            "label": "mody_sulfonylurea_switch",
+            "reason": "eligibility_findings_not_present",
+            "required_findings": {
+              "any_findings": [
+                "MODY_HNF1A_4A"
+              ],
+              "interpretation": "Use for patients matching MODY_HNF1A_4A where the legacy source phenotype is clinically confirmed, contraindications are absent, and overlapping actions are de-duplicated."
+            }
+          },
+          {
+            "id": "mody_gck_deprescribe",
+            "label": "mody_gck_deprescribe",
+            "reason": "eligibility_findings_not_present",
+            "required_findings": {
+              "any_findings": [
+                "MODY_GCK"
+              ],
+              "interpretation": "Use for patients matching MODY_GCK where the legacy source phenotype is clinically confirmed, contraindications are absent, and overlapping actions are de-duplicated."
+            }
+          },
+          {
+            "id": "neonatal_diabetes_sulfonylurea",
+            "label": "neonatal_diabetes_sulfonylurea",
+            "reason": "eligibility_findings_not_present",
+            "required_findings": {
+              "any_findings": [
+                "neonatal_diabetes_KATP"
+              ],
+              "interpretation": "Use for patients matching neonatal_diabetes_KATP where the legacy source phenotype is clinically confirmed, contraindications are absent, and overlapping actions are de-duplicated."
+            }
+          },
+          {
+            "id": "gdm_treatment_perinatal",
+            "label": "gdm_treatment_perinatal",
+            "reason": "eligibility_findings_not_present",
+            "required_findings": {
+              "any_findings": [
+                "gestational_diabetes"
+              ],
+              "interpretation": "Use for patients matching gestational_diabetes where the legacy source phenotype is clinically confirmed, contraindications are absent, and overlapping actions are de-duplicated."
+            }
+          },
+          {
+            "id": "retinopathy_screen_treat",
+            "label": "retinopathy_screen_treat",
+            "reason": "eligibility_findings_not_present",
+            "required_findings": {
+              "any_findings": [
+                "diabetic_retinopathy_treatable"
+              ],
+              "interpretation": "Use for patients matching diabetic_retinopathy_treatable where the legacy source phenotype is clinically confirmed, contraindications are absent, and overlapping actions are de-duplicated."
+            }
+          },
+          {
+            "id": "teplizumab_t1d_delay",
+            "label": "teplizumab_t1d_delay",
+            "reason": "eligibility_findings_not_present",
+            "required_findings": {
+              "any_findings": [
+                "presymptomatic_t1d_autoimmune"
+              ],
+              "interpretation": "Use for patients matching presymptomatic_t1d_autoimmune where the legacy source phenotype is clinically confirmed, contraindications are absent, and overlapping actions are de-duplicated."
+            }
+          },
+          {
+            "id": "act_colonoscopy_polypectomy",
+            "label": "act_colonoscopy_polypectomy",
+            "reason": "eligibility_findings_not_present",
+            "required_findings": {
+              "any_findings": [
+                "occult_colorectal"
+              ],
+              "interpretation": "Use for patients matching occult_colorectal where the legacy source phenotype is clinically confirmed, contraindications are absent, and overlapping actions are de-duplicated."
+            }
+          },
+          {
+            "id": "act_crc_resect_screendetected",
+            "label": "act_crc_resect_screendetected",
+            "reason": "eligibility_findings_not_present",
+            "required_findings": {
+              "any_findings": [
+                "occult_colorectal"
+              ],
+              "interpretation": "Use for patients matching occult_colorectal where the legacy source phenotype is clinically confirmed, contraindications are absent, and overlapping actions are de-duplicated."
+            }
+          },
+          {
+            "id": "act_ldct_lung_resect",
+            "label": "act_ldct_lung_resect",
+            "reason": "eligibility_findings_not_present",
+            "required_findings": {
+              "any_findings": [
+                "occult_lung"
+              ],
+              "interpretation": "Use for patients matching occult_lung where the legacy source phenotype is clinically confirmed, contraindications are absent, and overlapping actions are de-duplicated."
+            }
+          },
+          {
+            "id": "act_brca_rrso",
+            "label": "act_brca_rrso",
+            "reason": "eligibility_findings_not_present",
+            "required_findings": {
+              "any_findings": [
+                "HBOC_BRCA"
+              ],
+              "interpretation": "Use for patients matching HBOC_BRCA where the legacy source phenotype is clinically confirmed, contraindications are absent, and overlapping actions are de-duplicated."
+            }
+          },
+          {
+            "id": "act_brca_mri_surveillance",
+            "label": "act_brca_mri_surveillance",
+            "reason": "eligibility_findings_not_present",
+            "required_findings": {
+              "any_findings": [
+                "HBOC_BRCA"
+              ],
+              "interpretation": "Use for patients matching HBOC_BRCA where the legacy source phenotype is clinically confirmed, contraindications are absent, and overlapping actions are de-duplicated."
+            }
+          },
+          {
+            "id": "act_brca_chemoprevention",
+            "label": "act_brca_chemoprevention",
+            "reason": "eligibility_findings_not_present",
+            "required_findings": {
+              "any_findings": [
+                "HBOC_BRCA"
+              ],
+              "interpretation": "Use for patients matching HBOC_BRCA where the legacy source phenotype is clinically confirmed, contraindications are absent, and overlapping actions are de-duplicated."
+            }
+          },
+          {
+            "id": "act_lynch_colonoscopy",
+            "label": "act_lynch_colonoscopy",
+            "reason": "eligibility_findings_not_present",
+            "required_findings": {
+              "any_findings": [
+                "Lynch"
+              ],
+              "interpretation": "Use for patients matching Lynch where the legacy source phenotype is clinically confirmed, contraindications are absent, and overlapping actions are de-duplicated."
+            }
+          },
+          {
+            "id": "act_lynch_aspirin",
+            "label": "act_lynch_aspirin",
+            "reason": "eligibility_findings_not_present",
+            "required_findings": {
+              "any_findings": [
+                "Lynch"
+              ],
+              "interpretation": "Use for patients matching Lynch where the legacy source phenotype is clinically confirmed, contraindications are absent, and overlapping actions are de-duplicated."
+            }
+          },
+          {
+            "id": "act_mutyh_colonoscopy",
+            "label": "act_mutyh_colonoscopy",
+            "reason": "eligibility_findings_not_present",
+            "required_findings": {
+              "any_findings": [
+                "MUTYH_biallelic"
+              ],
+              "interpretation": "Use for patients matching MUTYH_biallelic where the legacy source phenotype is clinically confirmed, contraindications are absent, and overlapping actions are de-duplicated."
+            }
+          },
+          {
+            "id": "act_cea_asymptomatic_carotid",
+            "label": "act_cea_asymptomatic_carotid",
+            "reason": "eligibility_findings_not_present",
+            "required_findings": {
+              "any_findings": [
+                "asymptomatic_carotid_stenosis"
+              ],
+              "interpretation": "Use for patients matching asymptomatic_carotid_stenosis where the legacy source phenotype is clinically confirmed, contraindications are absent, and overlapping actions are de-duplicated."
+            }
+          },
+          {
+            "id": "act_dbs_parkinson",
+            "label": "act_dbs_parkinson",
+            "reason": "eligibility_findings_not_present",
+            "required_findings": {
+              "any_findings": [
+                "parkinson_disease_motor"
+              ],
+              "interpretation": "Use for patients matching parkinson_disease_motor where the legacy source phenotype is clinically confirmed, contraindications are absent, and overlapping actions are de-duplicated."
+            }
+          },
+          {
+            "id": "act_ms_dmt",
+            "label": "act_ms_dmt",
+            "reason": "eligibility_findings_not_present",
+            "required_findings": {
+              "any_findings": [
+                "multiple_sclerosis_active"
+              ],
+              "interpretation": "Use for patients matching multiple_sclerosis_active where the legacy source phenotype is clinically confirmed, contraindications are absent, and overlapping actions are de-duplicated."
+            }
+          },
+          {
+            "id": "dietary_pattern_med",
+            "label": "dietary_pattern_med",
+            "reason": "eligibility_findings_not_present",
+            "required_findings": {
+              "any_findings": [
+                "cvd_risk_ascvd",
+                "suboptimal_diet"
+              ],
+              "interpretation": "Use for patients matching cvd_risk_ascvd, suboptimal_diet where the legacy source phenotype is clinically confirmed, contraindications are absent, and overlapping actions are de-duplicated."
+            }
+          },
+          {
+            "id": "act_multidomain_finger",
+            "label": "act_multidomain_finger",
+            "reason": "eligibility_findings_not_present",
+            "required_findings": {
+              "any_findings": [
+                "neuro_risk_genetic"
+              ],
+              "interpretation": "Use for patients matching neuro_risk_genetic where the legacy source phenotype is clinically confirmed, contraindications are absent, and overlapping actions are de-duplicated."
+            }
+          },
+          {
+            "id": "aspirin_primary",
+            "label": "aspirin_primary",
+            "reason": "eligibility_findings_not_present",
+            "required_findings": {
+              "any_findings": [
+                "cvd_risk_ascvd"
+              ],
+              "interpretation": "Use for patients matching cvd_risk_ascvd where the legacy source phenotype is clinically confirmed, contraindications are absent, and overlapping actions are de-duplicated."
+            }
+          },
+          {
+            "id": "canakinumab_il1b",
+            "label": "canakinumab_il1b",
+            "reason": "eligibility_findings_not_present",
+            "required_findings": {
+              "any_findings": [
+                "hs_crp_residual_inflam"
+              ],
+              "interpretation": "Use for patients matching hs_crp_residual_inflam where the legacy source phenotype is clinically confirmed, contraindications are absent, and overlapping actions are de-duplicated."
+            }
+          },
+          {
+            "id": "act_influenza_pneumococcal_vax_ckd",
+            "label": "act_influenza_pneumococcal_vax_ckd",
+            "reason": "eligibility_findings_not_present",
+            "required_findings": {
+              "any_findings": [
+                "ckd_low_egfr"
+              ],
+              "interpretation": "Use for patients matching ckd_low_egfr where the legacy source phenotype is clinically confirmed, contraindications are absent, and overlapping actions are de-duplicated."
+            }
+          },
+          {
+            "id": "act_lfs_wbmri_surveillance",
+            "label": "act_lfs_wbmri_surveillance",
+            "reason": "eligibility_findings_not_present",
+            "required_findings": {
+              "any_findings": [
+                "Li_Fraumeni_TP53"
+              ],
+              "interpretation": "Use for patients matching Li_Fraumeni_TP53 where the legacy source phenotype is clinically confirmed, contraindications are absent, and overlapping actions are de-duplicated."
+            }
+          },
+          {
+            "id": "act_hereditary_other_surveillance",
+            "label": "act_hereditary_other_surveillance",
+            "reason": "eligibility_findings_not_present",
+            "required_findings": {
+              "any_findings": [
+                "hereditary_other_highpen"
+              ],
+              "interpretation": "Use for patients matching hereditary_other_highpen where the legacy source phenotype is clinically confirmed, contraindications are absent, and overlapping actions are de-duplicated."
+            }
+          },
+          {
+            "id": "act_anti_amyloid_mab_symptomatic",
+            "label": "act_anti_amyloid_mab_symptomatic",
+            "reason": "eligibility_findings_not_present",
+            "required_findings": {
+              "any_findings": [
+                "symptomatic_early_ad"
+              ],
+              "interpretation": "Use for patients matching symptomatic_early_ad where the legacy source phenotype is clinically confirmed, contraindications are absent, and overlapping actions are de-duplicated."
+            }
+          },
+          {
             "id": "iron_thyroid_fatigue_reclassification",
             "label": "CBC, iron studies, and thyroid panel",
             "reason": "diagnostic_trigger_not_present",
@@ -827,6 +3064,48 @@
           {
             "id": "sleep_fragmentation_reclassification",
             "label": "Insomnia / sleep regularity screen",
+            "reason": "diagnostic_trigger_not_present",
+            "matched_triggers": [],
+            "blocked_by": []
+          },
+          {
+            "id": "aaa_ultrasound_screening",
+            "label": "One-time abdominal aortic aneurysm ultrasound",
+            "reason": "diagnostic_trigger_not_present",
+            "matched_triggers": [],
+            "blocked_by": []
+          },
+          {
+            "id": "act_anal_hsil_treatment",
+            "label": "Anal HSIL detection and treatment pathway",
+            "reason": "diagnostic_trigger_not_present",
+            "matched_triggers": [],
+            "blocked_by": []
+          },
+          {
+            "id": "act_mammo_breast_treat",
+            "label": "act_mammo_breast_treat",
+            "reason": "diagnostic_trigger_not_present",
+            "matched_triggers": [],
+            "blocked_by": []
+          },
+          {
+            "id": "act_cervical_hpv_treat_precursor",
+            "label": "act_cervical_hpv_treat_precursor",
+            "reason": "diagnostic_trigger_not_present",
+            "matched_triggers": [],
+            "blocked_by": []
+          },
+          {
+            "id": "act_psa_workup_treat",
+            "label": "act_psa_workup_treat",
+            "reason": "diagnostic_trigger_not_present",
+            "matched_triggers": [],
+            "blocked_by": []
+          },
+          {
+            "id": "act_breastmri_supplemental",
+            "label": "act_breastmri_supplemental",
             "reason": "diagnostic_trigger_not_present",
             "matched_triggers": [],
             "blocked_by": []
@@ -1299,6 +3578,322 @@
               "Do not substitute generic activity minutes for progressive resistance work."
             ],
             "recommendation_eligible": true
+          },
+          {
+            "id": "fh_high_intensity_llt",
+            "label": "fh_high_intensity_llt",
+            "kind": "action",
+            "source": "action_library_v2",
+            "state": "optional",
+            "evidence_grade": "see_library",
+            "evidence_axis": {
+              "score": 0.52,
+              "level": "medium",
+              "display_label": "Medium evidence",
+              "basis_summary": "Source-backed hard-outcome action promoted into the shared QALY event runner; confidence is capped by model-translated value, default baseline-risk binding, provisional burden, and overlap handling.",
+              "component_scores": {
+                "study_design": 0.17,
+                "endpoint_directness": 0.11,
+                "population_match": 0.07,
+                "intervention_match": 0.07,
+                "magnitude_precision": 0.05,
+                "harm_characterization": 0.05
+              },
+              "caps_applied": [
+                "model_translated_value_cap",
+                "burden_calibration_pending_cap"
+              ],
+              "primary_trace_parameters": [
+                "effect.relative_risk_reduction",
+                "baseline_event_risk",
+                "event_value_qaly",
+                "channels.c1_prevention",
+                "burden_qaly"
+              ]
+            },
+            "matched_findings": [
+              "FH"
+            ],
+            "valuation_kind": "direct_patient_qaly_action",
+            "channels": {
+              "c1_prevention": 0.088,
+              "c2_capacity": 0.0,
+              "c3_resilience": 0.0,
+              "burden_qaly": 0.03,
+              "net_qaly_if_achieved": 0.058,
+              "bands": {
+                "c1_prevention": {
+                  "low": 0.0169,
+                  "central": 0.088,
+                  "high": 0.3369
+                },
+                "prevented_events": {
+                  "low": 0.0246,
+                  "central": 0.0704,
+                  "high": 0.154
+                },
+                "event_value_qaly": {
+                  "low": 0.6875,
+                  "central": 1.25,
+                  "high": 2.1875
+                },
+                "c2_capacity": {
+                  "low": 0.0,
+                  "central": 0.0,
+                  "high": 0.0
+                },
+                "c3_resilience": {
+                  "low": 0.0,
+                  "central": 0.0,
+                  "high": 0.0
+                }
+              },
+              "trace_status": "runner_computed"
+            },
+            "trace_status": "runner_computed",
+            "overlap_rules": [
+              "Do not double count composite coronary artery disease events + all-cause mortality in heterozygous familial hypercholesterolemia (moderate- to high-intensity statin / lipid-lowering therapy, primary prevention) against other actions claiming the same endpoint or causal pathway.",
+              "When a more specific procedure, diagnostic, genetic, or lifestyle runner exists for this phenotype, prefer that runner and treat this event row as the fallback or residual-risk row.",
+              "Suppress if eligibility, contraindication, prior completion, or patient preference makes the action non-executable."
+            ],
+            "recommendation_eligible": true
+          },
+          {
+            "id": "fh_cascade_screening",
+            "label": "fh_cascade_screening",
+            "kind": "action",
+            "source": "action_library_v2",
+            "state": "optional",
+            "evidence_grade": "see_library",
+            "evidence_axis": {
+              "score": 0.52,
+              "level": "medium",
+              "display_label": "Medium evidence",
+              "basis_summary": "Source-backed hard-outcome action promoted into the shared QALY event runner; confidence is capped by model-translated value, default baseline-risk binding, provisional burden, and overlap handling.",
+              "component_scores": {
+                "study_design": 0.17,
+                "endpoint_directness": 0.11,
+                "population_match": 0.07,
+                "intervention_match": 0.07,
+                "magnitude_precision": 0.05,
+                "harm_characterization": 0.05
+              },
+              "caps_applied": [
+                "model_translated_value_cap",
+                "burden_calibration_pending_cap"
+              ],
+              "primary_trace_parameters": [
+                "effect.relative_risk_reduction",
+                "baseline_event_risk",
+                "event_value_qaly",
+                "channels.c1_prevention",
+                "burden_qaly"
+              ]
+            },
+            "matched_findings": [
+              "FH"
+            ],
+            "valuation_kind": "direct_patient_qaly_action",
+            "channels": {
+              "c1_prevention": 0.066,
+              "c2_capacity": 0.0,
+              "c3_resilience": 0.0,
+              "burden_qaly": 0.002,
+              "net_qaly_if_achieved": 0.064,
+              "bands": {
+                "c1_prevention": {
+                  "low": 0.0127,
+                  "central": 0.066,
+                  "high": 0.2527
+                },
+                "prevented_events": {
+                  "low": 0.0185,
+                  "central": 0.0528,
+                  "high": 0.1155
+                },
+                "event_value_qaly": {
+                  "low": 0.6875,
+                  "central": 1.25,
+                  "high": 2.1875
+                },
+                "c2_capacity": {
+                  "low": 0.0,
+                  "central": 0.0,
+                  "high": 0.0
+                },
+                "c3_resilience": {
+                  "low": 0.0,
+                  "central": 0.0,
+                  "high": 0.0
+                }
+              },
+              "trace_status": "runner_computed"
+            },
+            "trace_status": "runner_computed",
+            "overlap_rules": [
+              "Do not double count major adverse cardiovascular events (ASCVD death / acute coronary syndrome, i.e. premature CAD events) in first-degree relatives identified and treated through FH cascade screening against other actions claiming the same endpoint or causal pathway.",
+              "When a more specific procedure, diagnostic, genetic, or lifestyle runner exists for this phenotype, prefer that runner and treat this event row as the fallback or residual-risk row.",
+              "Suppress if eligibility, contraindication, prior completion, or patient preference makes the action non-executable."
+            ],
+            "recommendation_eligible": true
+          },
+          {
+            "id": "lpa_reclassify_intensify",
+            "label": "lpa_reclassify_intensify",
+            "kind": "action",
+            "source": "action_library_v2",
+            "state": "optional",
+            "evidence_grade": "see_library",
+            "evidence_axis": {
+              "score": 0.52,
+              "level": "medium",
+              "display_label": "Medium evidence",
+              "basis_summary": "Source-backed hard-outcome action promoted into the shared QALY event runner; confidence is capped by model-translated value, default baseline-risk binding, provisional burden, and overlap handling.",
+              "component_scores": {
+                "study_design": 0.17,
+                "endpoint_directness": 0.11,
+                "population_match": 0.07,
+                "intervention_match": 0.07,
+                "magnitude_precision": 0.05,
+                "harm_characterization": 0.05
+              },
+              "caps_applied": [
+                "model_translated_value_cap",
+                "burden_calibration_pending_cap"
+              ],
+              "primary_trace_parameters": [
+                "effect.relative_risk_reduction",
+                "baseline_event_risk",
+                "event_value_qaly",
+                "channels.c1_prevention",
+                "burden_qaly"
+              ]
+            },
+            "matched_findings": [
+              "lpa_elevated"
+            ],
+            "valuation_kind": "direct_patient_qaly_action",
+            "channels": {
+              "c1_prevention": 0.0211,
+              "c2_capacity": 0.0,
+              "c3_resilience": 0.0,
+              "burden_qaly": 0.025,
+              "net_qaly_if_achieved": -0.0039,
+              "bands": {
+                "c1_prevention": {
+                  "low": 0.0041,
+                  "central": 0.0211,
+                  "high": 0.0809
+                },
+                "prevented_events": {
+                  "low": 0.0123,
+                  "central": 0.0352,
+                  "high": 0.077
+                },
+                "event_value_qaly": {
+                  "low": 0.33,
+                  "central": 0.6,
+                  "high": 1.05
+                },
+                "c2_capacity": {
+                  "low": 0.0,
+                  "central": 0.0,
+                  "high": 0.0
+                },
+                "c3_resilience": {
+                  "low": 0.0,
+                  "central": 0.0,
+                  "high": 0.0
+                }
+              },
+              "trace_status": "runner_computed"
+            },
+            "trace_status": "runner_computed",
+            "overlap_rules": [
+              "Do not double count major vascular events (MI, stroke, coronary revascularization) in patients reclassified to higher ASCVD risk by elevated Lp(a), via earlier/more-intensive LDL-lowering (and BP) control against other actions claiming the same endpoint or causal pathway.",
+              "When a more specific procedure, diagnostic, genetic, or lifestyle runner exists for this phenotype, prefer that runner and treat this event row as the fallback or residual-risk row.",
+              "Suppress if eligibility, contraindication, prior completion, or patient preference makes the action non-executable."
+            ],
+            "recommendation_eligible": true
+          },
+          {
+            "id": "physical_activity_rx",
+            "label": "physical_activity_rx",
+            "kind": "action",
+            "source": "action_library_v2",
+            "state": "optional",
+            "evidence_grade": "see_library",
+            "evidence_axis": {
+              "score": 0.52,
+              "level": "medium",
+              "display_label": "Medium evidence",
+              "basis_summary": "Source-backed hard-outcome action promoted into the shared QALY event runner; confidence is capped by model-translated value, default baseline-risk binding, provisional burden, and overlap handling.",
+              "component_scores": {
+                "study_design": 0.17,
+                "endpoint_directness": 0.11,
+                "population_match": 0.07,
+                "intervention_match": 0.07,
+                "magnitude_precision": 0.05,
+                "harm_characterization": 0.05
+              },
+              "caps_applied": [
+                "model_translated_value_cap",
+                "burden_calibration_pending_cap"
+              ],
+              "primary_trace_parameters": [
+                "effect.relative_risk_reduction",
+                "baseline_event_risk",
+                "event_value_qaly",
+                "channels.c1_prevention",
+                "burden_qaly"
+              ]
+            },
+            "matched_findings": [
+              "physical_inactivity"
+            ],
+            "valuation_kind": "direct_patient_qaly_action",
+            "channels": {
+              "c1_prevention": 0.0198,
+              "c2_capacity": 0.0,
+              "c3_resilience": 0.0,
+              "burden_qaly": 0.04,
+              "net_qaly_if_achieved": -0.0202,
+              "bands": {
+                "c1_prevention": {
+                  "low": 0.0029,
+                  "central": 0.0198,
+                  "high": 0.0976
+                },
+                "prevented_events": {
+                  "low": 0.0065,
+                  "central": 0.0248,
+                  "high": 0.0697
+                },
+                "event_value_qaly": {
+                  "low": 0.44,
+                  "central": 0.8,
+                  "high": 1.4
+                },
+                "c2_capacity": {
+                  "low": 0.0,
+                  "central": 0.0,
+                  "high": 0.0
+                },
+                "c3_resilience": {
+                  "low": 0.0,
+                  "central": 0.0,
+                  "high": 0.0
+                }
+              },
+              "trace_status": "runner_computed"
+            },
+            "trace_status": "runner_computed",
+            "overlap_rules": [
+              "Do not double count all-cause and cardiovascular mortality, incident type-2 diabetes, activity-sensitive cancer incidence (colorectal/postmenopausal breast/endometrial), and incident dementia -- the cross-cutting physical-activity volume lever. Keep cardiorespiratory fitness / VO2 max separate as a destination phenotype or mediator, not as the generic exercise-prescription object. against other actions claiming the same endpoint or causal pathway.",
+              "When a more specific procedure, diagnostic, genetic, or lifestyle runner exists for this phenotype, prefer that runner and treat this event row as the fallback or residual-risk row.",
+              "Suppress if eligibility, contraindication, prior completion, or patient preference makes the action non-executable."
+            ],
+            "recommendation_eligible": true
           }
         ],
         "diagnostics": [
@@ -1740,6 +4335,1248 @@
             }
           },
           {
+            "id": "act_sglt2i_ckd",
+            "label": "act_sglt2i_ckd",
+            "reason": "eligibility_findings_not_present",
+            "required_findings": {
+              "any_findings": [
+                "ckd_albuminuric"
+              ],
+              "interpretation": "Applies when the matched clinical finding is present and the patient meets the trial/guideline phenotype; contraindications must be checked before recommendation."
+            }
+          },
+          {
+            "id": "act_raasi_ckd",
+            "label": "act_raasi_ckd",
+            "reason": "eligibility_findings_not_present",
+            "required_findings": {
+              "any_findings": [
+                "ckd_albuminuric"
+              ],
+              "interpretation": "Applies when the matched clinical finding is present and the patient meets the trial/guideline phenotype; contraindications must be checked before recommendation."
+            }
+          },
+          {
+            "id": "act_finerenone",
+            "label": "act_finerenone",
+            "reason": "eligibility_findings_not_present",
+            "required_findings": {
+              "any_findings": [
+                "ckd_albuminuric"
+              ],
+              "interpretation": "Applies when the matched clinical finding is present and the patient meets the trial/guideline phenotype; contraindications must be checked before recommendation."
+            }
+          },
+          {
+            "id": "act_glp1_ckd",
+            "label": "act_glp1_ckd",
+            "reason": "eligibility_findings_not_present",
+            "required_findings": {
+              "any_findings": [
+                "ckd_albuminuric"
+              ],
+              "interpretation": "Applies when the matched clinical finding is present and the patient meets the trial/guideline phenotype; contraindications must be checked before recommendation."
+            }
+          },
+          {
+            "id": "act_sglt2i_nondiabetic_ckd",
+            "label": "act_sglt2i_nondiabetic_ckd",
+            "reason": "eligibility_findings_not_present",
+            "required_findings": {
+              "any_findings": [
+                "ckd_proteinuric_nondiabetic"
+              ],
+              "interpretation": "Applies when the matched clinical finding is present and the patient meets the trial/guideline phenotype; contraindications must be checked before recommendation."
+            }
+          },
+          {
+            "id": "act_finerenone_nondiabetic_ckd",
+            "label": "act_finerenone_nondiabetic_ckd",
+            "reason": "eligibility_findings_not_present",
+            "required_findings": {
+              "any_findings": [
+                "ckd_proteinuric_nondiabetic"
+              ],
+              "interpretation": "Applies when proteinuric non-diabetic CKD persists despite appropriate background therapy and finerenone is clinically reasonable; confirm eGFR, albuminuria, potassium, BP, background RAAS/SGLT2 use, CKD etiology, contraindications, and monitoring capacity before recommendation."
+            }
+          },
+          {
+            "id": "act_finerenone_cv_hf",
+            "label": "act_finerenone_cv_hf",
+            "reason": "eligibility_findings_not_present",
+            "required_findings": {
+              "any_findings": [
+                "ckd_albuminuric"
+              ],
+              "interpretation": "Applies when the matched clinical finding is present and the patient meets the trial/guideline phenotype; contraindications must be checked before recommendation."
+            }
+          },
+          {
+            "id": "act_statin_ezetimibe_ckd",
+            "label": "act_statin_ezetimibe_ckd",
+            "reason": "eligibility_findings_not_present",
+            "required_findings": {
+              "any_findings": [
+                "ckd_cvd_high_risk"
+              ],
+              "interpretation": "Applies when the matched clinical finding is present and the patient meets the trial/guideline phenotype; contraindications must be checked before recommendation."
+            }
+          },
+          {
+            "id": "high_intensity_statin_secondary",
+            "label": "high_intensity_statin_secondary",
+            "reason": "eligibility_findings_not_present",
+            "required_findings": {
+              "any_findings": [
+                "established_ascvd_secondary"
+              ],
+              "interpretation": "Applies when the matched clinical finding is present and the patient meets the trial/guideline phenotype; contraindications must be checked before recommendation."
+            }
+          },
+          {
+            "id": "ezetimibe_addon",
+            "label": "ezetimibe_addon",
+            "reason": "eligibility_findings_not_present",
+            "required_findings": {
+              "any_findings": [
+                "cvd_risk_ascvd"
+              ],
+              "interpretation": "Applies to an IMPROVE-IT-like post-acute-coronary-syndrome or very-high-risk ASCVD phenotype with residual LDL-C or apoB risk after maximally tolerated statin therapy; verify current LDL-C/apoB, statin intensity and adherence, recent ACS versus stable ASCVD context, additive PCSK9 or bempedoic options, drug tolerance, access, and overlap before recommendation."
+            }
+          },
+          {
+            "id": "bempedoic_acid",
+            "label": "bempedoic_acid",
+            "reason": "eligibility_findings_not_present",
+            "required_findings": {
+              "any_findings": [
+                "cvd_risk_ascvd"
+              ],
+              "interpretation": "Applies to a CLEAR-Outcomes-like high-risk primary- or secondary-prevention ASCVD phenotype with true or practical statin intolerance and residual LDL-C or apoB risk; verify statin intolerance/rechallenge history, baseline risk, LDL-C/apoB, gout or uric-acid risk, tendon risk, background ezetimibe/PCSK9 use, access, and overlap before recommendation."
+            }
+          },
+          {
+            "id": "incretin_hfpef_obesity",
+            "label": "incretin_hfpef_obesity",
+            "reason": "eligibility_findings_not_present",
+            "required_findings": {
+              "any_findings": [
+                "cardiometabolic_hfpef"
+              ],
+              "interpretation": "Applies only to a SUMMIT-like obesity-related HFpEF phenotype where incretin therapy such as tirzepatide is clinically plausible; verify HFpEF diagnosis, EF, NYHA class, BMI, congestion status, prior HF events, diabetes, kidney function, frailty/sarcopenia risk, background HF/diuretic therapy, GI tolerance, access, and contraindications before recommendation."
+            }
+          },
+          {
+            "id": "metformin_macrovascular_t2dm",
+            "label": "metformin_macrovascular_t2dm",
+            "reason": "eligibility_findings_not_present",
+            "required_findings": {
+              "any_findings": [
+                "undiagnosed_t2dm"
+              ],
+              "interpretation": "Applies only to an overweight or insulin-resistant type-2 diabetes phenotype where metformin is incremental rather than already baseline care; verify diabetes diagnosis, BMI, A1c, ASCVD risk, kidney function, liver disease/alcohol risk, heart-failure status, B12 status, GI tolerance, pregnancy context, and current GLP-1/SGLT2/insulin or lifestyle counterfactual before recommendation."
+            }
+          },
+          {
+            "id": "pioglitazone_stroke_mi_ir",
+            "label": "pioglitazone_stroke_mi_ir",
+            "reason": "eligibility_findings_not_present",
+            "required_findings": {
+              "any_findings": [
+                "insulin_resistance"
+              ],
+              "interpretation": "Applies only to an IRIS-like non-diabetic insulin-resistant patient after recent ischemic stroke or TIA where pioglitazone is clinically plausible for secondary vascular prevention; verify stroke/TIA timing and subtype, insulin-resistance definition, diabetes exclusion, recurrent-event risk, heart-failure/edema risk, weight and fracture risk, bladder/liver history, background antiplatelet/statin/BP therapy, sleep apnea/smoking/lifestyle care, and contraindications before recommendation."
+            }
+          },
+          {
+            "id": "semaglutide_select_secondary",
+            "label": "semaglutide_select_secondary",
+            "reason": "eligibility_findings_not_present",
+            "required_findings": {
+              "any_findings": [
+                "established_ascvd_secondary",
+                "adiposity_obesity"
+              ],
+              "interpretation": "Applies when the matched clinical finding is present and the patient meets the trial/guideline phenotype; contraindications must be checked before recommendation."
+            }
+          },
+          {
+            "id": "doac_afib_anticoagulation",
+            "label": "doac_afib_anticoagulation",
+            "reason": "eligibility_findings_not_present",
+            "required_findings": {
+              "any_findings": [
+                "atrial_fibrillation",
+                "atrial_fibrillation_stroke_risk"
+              ],
+              "interpretation": "Applies when the matched clinical finding is present and the patient meets the trial/guideline phenotype; contraindications must be checked before recommendation."
+            }
+          },
+          {
+            "id": "arni_hfref",
+            "label": "arni_hfref",
+            "reason": "eligibility_findings_not_present",
+            "required_findings": {
+              "any_findings": [
+                "heart_failure_reduced_ef"
+              ],
+              "interpretation": "Applies when the matched clinical finding is present and the patient meets the trial/guideline phenotype; contraindications must be checked before recommendation."
+            }
+          },
+          {
+            "id": "betablocker_hfref",
+            "label": "betablocker_hfref",
+            "reason": "eligibility_findings_not_present",
+            "required_findings": {
+              "any_findings": [
+                "heart_failure_reduced_ef"
+              ],
+              "interpretation": "Applies when the matched clinical finding is present and the patient meets the trial/guideline phenotype; contraindications must be checked before recommendation."
+            }
+          },
+          {
+            "id": "mra_hfref",
+            "label": "mra_hfref",
+            "reason": "eligibility_findings_not_present",
+            "required_findings": {
+              "any_findings": [
+                "heart_failure_reduced_ef"
+              ],
+              "interpretation": "Applies when the matched clinical finding is present and the patient meets the trial/guideline phenotype; contraindications must be checked before recommendation."
+            }
+          },
+          {
+            "id": "sglt2i_hfref",
+            "label": "sglt2i_hfref",
+            "reason": "eligibility_findings_not_present",
+            "required_findings": {
+              "any_findings": [
+                "heart_failure_reduced_ef"
+              ],
+              "interpretation": "Applies when the matched clinical finding is present and the patient meets the trial/guideline phenotype; contraindications must be checked before recommendation."
+            }
+          },
+          {
+            "id": "sglt2i_hfpef",
+            "label": "sglt2i_hfpef",
+            "reason": "eligibility_findings_not_present",
+            "required_findings": {
+              "any_findings": [
+                "heart_failure_preserved_ef",
+                "cardiometabolic_hfpef"
+              ],
+              "interpretation": "Applies when the matched clinical finding is present and the patient meets the trial/guideline phenotype; contraindications must be checked before recommendation."
+            }
+          },
+          {
+            "id": "multifactorial_intensive_t2dm",
+            "label": "multifactorial_intensive_t2dm",
+            "reason": "eligibility_findings_not_present",
+            "required_findings": {
+              "any_findings": [
+                "t2dm_albuminuria_renalrisk"
+              ],
+              "interpretation": "Applies to type 2 diabetes with albuminuria or renal-risk phenotype matching Steno-2 style intensive multifactorial care; do not score as additive to its component BP, lipid, glycemic, RAASi, antiplatelet, or lifestyle actions."
+            }
+          },
+          {
+            "id": "influenza_vaccination_cv",
+            "label": "influenza_vaccination_cv",
+            "reason": "eligibility_findings_not_present",
+            "required_findings": {
+              "any_findings": [
+                "established_ascvd_secondary"
+              ],
+              "interpretation": "Applies to recent MI or high-risk coronary artery disease during the annual influenza vaccination window; contraindications and vaccination history must be checked before recommendation."
+            }
+          },
+          {
+            "id": "af_catheter_ablation_hf",
+            "label": "af_catheter_ablation_hf",
+            "reason": "eligibility_findings_not_present",
+            "required_findings": {
+              "any_findings": [
+                "atrial_fibrillation",
+                "heart_failure_reduced_ef"
+              ],
+              "interpretation": "Applies only when AF and HFrEF phenotype matches CASTLE-AF style procedural candidacy; electrophysiology eligibility, rhythm strategy, competing device indications, and patient preference must be checked."
+            }
+          },
+          {
+            "id": "icd_primary_ischemic_cardiomyopathy",
+            "label": "icd_primary_ischemic_cardiomyopathy",
+            "reason": "eligibility_findings_not_present",
+            "required_findings": {
+              "any_findings": [
+                "heart_failure_reduced_ef"
+              ],
+              "interpretation": "Applies to ischemic systolic cardiomyopathy primary-prevention ICD phenotype after guideline-directed medical therapy, EF/timing confirmation, life-expectancy gate, and device candidacy review."
+            }
+          },
+          {
+            "id": "antihypertensive_rx",
+            "label": "antihypertensive_rx",
+            "reason": "eligibility_findings_not_present",
+            "required_findings": {
+              "any_findings": [
+                "bp_driven_risk"
+              ],
+              "interpretation": "Applies when elevated blood pressure creates actionable cardiovascular risk and medication intensification is clinically appropriate; confirm persistent BP elevation, orthostasis/fall risk, kidney function, potassium, pregnancy status, contraindications, and current treatment stack before recommendation."
+            }
+          },
+          {
+            "id": "pcsk9_inhibitor",
+            "label": "pcsk9_inhibitor",
+            "reason": "eligibility_findings_not_present",
+            "required_findings": {
+              "any_findings": [
+                "cvd_risk_ascvd"
+              ],
+              "interpretation": "Applies to high-risk or secondary-prevention ASCVD patients with residual LDL-C or apoB risk despite maximally tolerated statin and ezetimibe, or appropriate intolerance; verify LDL-C/apoB, event history, familial hypercholesterolemia, adherence, access, and injection acceptability."
+            }
+          },
+          {
+            "id": "icosapent_ethyl",
+            "label": "icosapent_ethyl",
+            "reason": "eligibility_findings_not_present",
+            "required_findings": {
+              "any_findings": [
+                "high_triglycerides_resid"
+              ],
+              "interpretation": "Applies to a statin-treated REDUCE-IT-like phenotype with elevated triglycerides and established CVD or diabetes plus a risk factor; verify triglyceride range, LDL-C control, atrial-fibrillation history, bleeding risk, fish allergy/intolerance, antithrombotics, and access."
+            }
+          },
+          {
+            "id": "crt_hfref_wide_qrs",
+            "label": "crt_hfref_wide_qrs",
+            "reason": "eligibility_findings_not_present",
+            "required_findings": {
+              "any_findings": [
+                "heart_failure_reduced_ef"
+              ],
+              "interpretation": "Applies to symptomatic HFrEF with LVEF at or below guideline threshold and wide QRS, especially LBBB, despite optimized medical therapy; verify NYHA class, QRS duration/morphology, rhythm or pacing indication, life expectancy, infection risk, device preference, and ICD candidacy."
+            }
+          },
+          {
+            "id": "carotid_endarterectomy_symptomatic",
+            "label": "carotid_endarterectomy_symptomatic",
+            "reason": "eligibility_findings_not_present",
+            "required_findings": {
+              "any_findings": [
+                "carotid_stenosis_symptomatic"
+              ],
+              "interpretation": "Applies to recently symptomatic severe carotid stenosis with suitable anatomy; verify NASCET percent stenosis, symptom timing, surgical risk, age/sex subgroup, life expectancy, antiplatelet/statin/BP therapy, and local perioperative stroke or death rates."
+            }
+          },
+          {
+            "id": "incretin_prevention_obesity",
+            "label": "incretin_prevention_obesity",
+            "reason": "eligibility_findings_not_present",
+            "required_findings": {
+              "any_findings": [
+                "adiposity_obesity"
+              ],
+              "interpretation": "Applies when obesity or overweight with high diabetes-risk phenotype matches incretin-trial eligibility and contraindications, pregnancy plans, pancreatobiliary history, access, and continuation plan have been checked."
+            }
+          },
+          {
+            "id": "metabolic_surgery",
+            "label": "metabolic_surgery",
+            "reason": "eligibility_findings_not_present",
+            "required_findings": {
+              "any_findings": [
+                "adiposity_obesity"
+              ],
+              "interpretation": "Applies only when severe obesity or obesity with qualifying comorbidity meets surgical eligibility and shared-decision thresholds; operative risk, contraindications, anatomy, prior surgery, and patient preference must be checked."
+            }
+          },
+          {
+            "id": "dpp_lifestyle",
+            "label": "dpp_lifestyle",
+            "reason": "eligibility_findings_not_present",
+            "required_findings": {
+              "any_findings": [
+                "prediabetes"
+              ],
+              "interpretation": "Applies when prediabetes or high diabetes-risk phenotype is present and an intensive DPP-like weight-loss lifestyle intervention is plausible; baseline BMI, beta-cell reserve, achievable weight loss, and competing weight-loss plans must be checked."
+            }
+          },
+          {
+            "id": "smoking_cessation_program",
+            "label": "smoking_cessation_program",
+            "reason": "eligibility_findings_not_present",
+            "required_findings": {
+              "all_findings": [
+                "tobacco_use_active",
+                "ckd_albuminuric"
+              ],
+              "interpretation": "Narrow map-eligible valuation for active tobacco use in an albuminuric CKD phenotype where structured cessation is expected to reduce CKD progression risk. This does not claim the full tobacco-cessation opportunity across cancer, COPD, or cardiovascular endpoints."
+            }
+          },
+          {
+            "id": "alcohol_reduction",
+            "label": "alcohol_reduction",
+            "reason": "eligibility_findings_not_present",
+            "required_findings": {
+              "any_findings": [
+                "excess_alcohol_use"
+              ],
+              "interpretation": "Narrow map-eligible valuation for hazardous or heavy alcohol use where the patient matches a recurrent atrial-fibrillation risk phenotype and reduction or abstinence is clinically safe. It does not claim full liver, cancer, trauma, mood, sleep, or BP-mediated alcohol value."
+            }
+          },
+          {
+            "id": "lifestyle_bp_lowering",
+            "label": "lifestyle_bp_lowering",
+            "reason": "eligibility_findings_not_present",
+            "required_findings": {
+              "any_findings": [
+                "bp_driven_risk",
+                "high_sodium_intake"
+              ],
+              "interpretation": "Narrow map-eligible valuation for a SSaSS-like salt-substitution or sodium-potassium exposure intervention in elevated-BP or high-sodium phenotype. It does not claim the full diet, weight, exercise, CKD, or dementia lifestyle bundle value."
+            }
+          },
+          {
+            "id": "metformin_prevention",
+            "label": "metformin_prevention",
+            "reason": "eligibility_findings_not_present",
+            "required_findings": {
+              "any_findings": [
+                "prediabetes"
+              ],
+              "interpretation": "Narrow map-eligible valuation for metformin prevention only when a DPP-like prediabetes/high-transition-risk phenotype is present and metformin is clinically appropriate after kidney function, B12 status, pregnancy context, GI tolerance, and competing lifestyle or incretin prevention are checked."
+            }
+          },
+          {
+            "id": "act_nph_shunt",
+            "label": "act_nph_shunt",
+            "reason": "eligibility_findings_not_present",
+            "required_findings": {
+              "any_findings": [
+                "normal_pressure_hydrocephalus"
+              ],
+              "interpretation": "Applies only to a confirmed or strongly suspected idiopathic normal-pressure hydrocephalus phenotype with gait-predominant impairment, ventriculomegaly, mimics excluded, acceptable surgical risk, and response to temporary CSF drainage or equivalent shunt-candidacy evidence. This valuation is not for nonspecific gait decline."
+            }
+          },
+          {
+            "id": "act_cataract_surgery_dementia",
+            "label": "act_cataract_surgery_dementia",
+            "reason": "eligibility_findings_not_present",
+            "required_findings": {
+              "any_findings": [
+                "vision_impairment_actionable"
+              ],
+              "interpretation": "Applies only when vision-impairing cataract is present and cataract extraction is clinically appropriate; visual acuity/contrast limitation, functional impairment, ocular comorbidity, first-eye or second-eye status, cognitive baseline, and surgical risk must be checked."
+            }
+          },
+          {
+            "id": "act_zoster_vaccine_dementia",
+            "label": "act_zoster_vaccine_dementia",
+            "reason": "eligibility_findings_not_present",
+            "required_findings": {
+              "any_findings": [
+                "neuro_risk_vascular"
+              ],
+              "interpretation": "Applies only when age, immune status, vaccine history, contraindications, and preventive-care context make recombinant zoster vaccination clinically appropriate. Dementia-risk phenotype stratifies the valuation but does not replace routine vaccine eligibility."
+            }
+          },
+          {
+            "id": "act_cognitive_speed_training",
+            "label": "act_cognitive_speed_training",
+            "reason": "eligibility_findings_not_present",
+            "required_findings": {
+              "any_findings": [
+                "neuro_risk_genetic"
+              ],
+              "interpretation": "Applies only to an older adult with elevated cognitive-risk phenotype, preserved ability to participate, and a feasible speed-of-processing training protocol. Baseline cognition, sensory barriers, digital access, depression/sleep confounders, completed sessions, boosters, and multidomain-program overlap must be checked."
+            }
+          },
+          {
+            "id": "colchicine_ldose",
+            "label": "colchicine_ldose",
+            "reason": "eligibility_findings_not_present",
+            "required_findings": {
+              "any_findings": [
+                "hs_crp_residual_inflam"
+              ],
+              "interpretation": "Applies only to chronic coronary disease or recent MI patients with residual inflammatory risk where low-dose colchicine is clinically appropriate after standard lipid, BP, antithrombotic, smoking, and diabetes risk management are addressed. Baseline risk is bound to the CAD residual-inflammation trial phenotype, not to a general elevated-hs-CRP population."
+            }
+          },
+          {
+            "id": "gdm_screen_treat",
+            "label": "gdm_screen_treat",
+            "reason": "eligibility_findings_not_present",
+            "required_findings": {
+              "any_findings": [
+                "gestational_diabetes"
+              ],
+              "interpretation": "Applies only when pregnancy is present and gestational diabetes is screen-detected or otherwise confirmed, with treatment to pregnancy glycemic targets clinically appropriate; baseline risk is bound to a treated-eligible GDM pregnancy phenotype rather than all pregnancies."
+            }
+          },
+          {
+            "id": "orlistat_t2dm_prevention",
+            "label": "orlistat_t2dm_prevention",
+            "reason": "eligibility_findings_not_present",
+            "required_findings": {
+              "any_findings": [
+                "adiposity_obesity"
+              ],
+              "interpretation": "Applies only for adults with obesity and elevated diabetes risk, especially impaired glucose tolerance or prediabetes, where orlistat plus lifestyle support is clinically appropriate and competing anti-obesity therapy is not already claiming the same diabetes-prevention value."
+            }
+          },
+          {
+            "id": "act_ai_chemoprevention_breast",
+            "label": "act_ai_chemoprevention_breast",
+            "reason": "eligibility_findings_not_present",
+            "required_findings": {
+              "any_findings": [
+                "elevated_breast_cancer_risk_nonbrca"
+              ],
+              "interpretation": "Applies only for postmenopausal women with elevated validated breast-cancer risk, a meaningful ER-positive preventable fraction, acceptable bone/fracture risk, and willingness to consider aromatase-inhibitor chemoprevention."
+            }
+          },
+          {
+            "id": "act_serm_chemoprevention_breast",
+            "label": "act_serm_chemoprevention_breast",
+            "reason": "eligibility_findings_not_present",
+            "required_findings": {
+              "any_findings": [
+                "elevated_breast_cancer_risk_nonbrca"
+              ],
+              "interpretation": "Applies only for women with elevated validated breast-cancer risk who are clinically eligible for SERM chemoprevention after menopausal status, VTE/stroke risk, uterus/endometrial context, vasomotor symptoms, and patient preference are reviewed. Do not use for average-risk patients or when aromatase-inhibitor chemoprevention, BRCA surgery/surveillance, or screening VOI supersedes the decision."
+            }
+          },
+          {
+            "id": "act_bp_intensive_renal",
+            "label": "act_bp_intensive_renal",
+            "reason": "eligibility_findings_not_present",
+            "required_findings": {
+              "any_findings": [
+                "htn_nephropathy"
+              ],
+              "interpretation": "Applies only when CKD progression risk is materially BP-driven, baseline BP remains above the individualized intensive target, and orthostasis, frailty, AKI, potassium, and medication-stack risks make intensification clinically reasonable."
+            }
+          },
+          {
+            "id": "act_egfr_dose_review",
+            "label": "act_egfr_dose_review",
+            "reason": "eligibility_findings_not_present",
+            "required_findings": {
+              "any_findings": [
+                "ckd_low_egfr"
+              ],
+              "interpretation": "Applies when reduced eGFR, AKI risk, or a transition of care creates a real opportunity to review active renally cleared or nephrotoxic medications and make an accepted medication change. Do not score when medication data are unavailable or no actionable exposure exists."
+            }
+          },
+          {
+            "id": "direct_weight_remission",
+            "label": "direct_weight_remission",
+            "reason": "eligibility_findings_not_present",
+            "required_findings": {
+              "any_findings": [
+                "undiagnosed_t2dm"
+              ],
+              "interpretation": "Narrow map-eligible valuation for a recent-onset, non-insulin type 2 diabetes phenotype where structured intentional weight loss can plausibly induce remission. Requires diabetes duration, medication status, BMI, HbA1c, contraindications, and eating-disorder/frailty safety checks before recommendation."
+            }
+          },
+          {
+            "id": "physical_activity_metabolic",
+            "label": "physical_activity_metabolic",
+            "reason": "eligibility_findings_not_present",
+            "required_findings": {
+              "any_findings": [
+                "prediabetes"
+              ],
+              "interpretation": "Narrow map-eligible valuation for a sedentary or low-activity prediabetes phenotype where a sustained leisure-time activity increase is feasible. Requires baseline activity, achieved MET-hours per week, mobility/cardiac safety, injury risk, and overlap with any broader physical-activity plan before recommendation."
+            }
+          },
+          {
+            "id": "fiber_wholegrain_intake",
+            "label": "fiber_wholegrain_intake",
+            "reason": "eligibility_findings_not_present",
+            "required_findings": {
+              "any_findings": [
+                "suboptimal_diet"
+              ],
+              "interpretation": "Narrow low-confidence valuation for low-fiber or low-whole-grain intake where a sustained +8 g/day fiber-equivalent change is realistic and GI tolerance is acceptable. Requires baseline intake, food access, diet-quality context, and whether the change is part of a broader diet bundle before recommendation."
+            }
+          },
+          {
+            "id": "act_brca_rrm",
+            "label": "act_brca_rrm",
+            "reason": "eligibility_findings_not_present",
+            "required_findings": {
+              "any_findings": [
+                "HBOC_BRCA"
+              ],
+              "interpretation": "Applies narrowly to a confirmed pathogenic or likely pathogenic BRCA1/BRCA2 carrier with breast tissue present who is considering bilateral risk-reducing mastectomy after genetics and surgical counseling. Do not use for VUS-only findings, unconfirmed family history, prior bilateral mastectomy, active breast cancer treatment, or patients who would not consider surgery."
+            }
+          },
+          {
+            "id": "act_lynch_gyn_riskreduce",
+            "label": "act_lynch_gyn_riskreduce",
+            "reason": "eligibility_findings_not_present",
+            "required_findings": {
+              "any_findings": [
+                "Lynch"
+              ],
+              "interpretation": "Applies narrowly to a confirmed Lynch syndrome mismatch-repair pathogenic or likely pathogenic variant carrier with uterus and/or ovaries present who is considering risk-reducing hysterectomy with bilateral salpingo-oophorectomy or a staged gynecologic risk-reduction plan after genetics and gynecologic oncology counseling. Do not use for VUS-only findings, completed relevant surgery, active gynecologic cancer treatment, unresolved fertility plans, or patients who would not consider surgery."
+            }
+          },
+          {
+            "id": "act_nephrology_referral_mdc",
+            "label": "act_nephrology_referral_mdc",
+            "reason": "eligibility_findings_not_present",
+            "required_findings": {
+              "any_findings": [
+                "ckd_low_egfr",
+                "ckd_progressive",
+                "ckd_albuminuric"
+              ],
+              "interpretation": "Narrow Batch 020 valuation for advancing, progressive, or high-risk CKD where early nephrology referral and multidisciplinary care are still actionable compared with late referral or unmanaged primary-care-only follow-up. Requires eGFR, slope, albuminuria, CKD cause, current management quality, existing nephrology access, transplant/dialysis planning relevance, and local access constraints before recommendation."
+            }
+          },
+          {
+            "id": "avr_severe_aortic_stenosis",
+            "label": "avr_severe_aortic_stenosis",
+            "reason": "eligibility_findings_not_present",
+            "required_findings": {
+              "any_findings": [
+                "severe_aortic_stenosis"
+              ],
+              "interpretation": "Narrow Batch 020 valuation for confirmed severe symptomatic aortic stenosis where valve replacement is clinically indicated and the counterfactual is no valve replacement or delayed/inaccessible valve intervention. Requires valve metrics, symptom status, EF and flow-gradient phenotype, frailty, STS/procedural risk, TAVR/SAVR candidacy, anatomy, life expectancy, patient goals, and competing noncardiac mortality before recommendation."
+            }
+          },
+          {
+            "id": "acarbose_cv_igt",
+            "label": "acarbose_cv_igt",
+            "reason": "eligibility_findings_not_present",
+            "required_findings": {
+              "any_findings": [
+                "prediabetes"
+              ],
+              "interpretation": "Applies narrowly to confirmed impaired glucose tolerance or DPP-like high-risk prediabetes where acarbose is being considered as an incremental medication option after lifestyle and modern cardiometabolic risk management have been reviewed. Do not use for routine low-risk prediabetes, diabetes already requiring other therapy, or patients unlikely to tolerate meal-timed dosing or GI adverse effects."
+            }
+          },
+          {
+            "id": "aspirin_secondary_prevention",
+            "label": "aspirin_secondary_prevention",
+            "reason": "eligibility_findings_not_present",
+            "required_findings": {
+              "any_findings": [
+                "established_ascvd_secondary"
+              ],
+              "interpretation": "Established ASCVD secondary prevention antiplatelet candidate: prior MI, ischemic stroke/TIA, coronary revascularization, chronic coronary disease, symptomatic PAD, or documented ASCVD; exclude active major bleeding, aspirin allergy, concurrent anticoagulation unless specifically modeled, and active DAPT/other antithrombotic bundles that supersede aspirin monotherapy."
+            }
+          },
+          {
+            "id": "act_sglt2i_progressor",
+            "label": "act_sglt2i_progressor",
+            "reason": "eligibility_findings_not_present",
+            "required_findings": {
+              "any_findings": [
+                "ckd_rapid_progressor"
+              ],
+              "interpretation": "Use only for confirmed serial eGFR slope decline >5 mL/min/1.73m2/year, not a single low eGFR. Best fit is DAPA-CKD-like albuminuric CKD (eGFR 25-75 mL/min/1.73m2, UACR 200-5000 mg/g) on ACEi/ARB unless intolerant; exclude type 1 diabetes and contraindications."
+            }
+          },
+          {
+            "id": "act_kidney_transplant",
+            "label": "act_kidney_transplant",
+            "reason": "eligibility_findings_not_present",
+            "required_findings": {
+              "any_findings": [
+                "kidney_failure_esrd"
+              ],
+              "interpretation": "Use for patients matching kidney_failure_esrd where the legacy source phenotype is clinically confirmed, contraindications are absent, and overlapping actions are de-duplicated."
+            }
+          },
+          {
+            "id": "p2y12_dapt_post_acs",
+            "label": "p2y12_dapt_post_acs",
+            "reason": "eligibility_findings_not_present",
+            "required_findings": {
+              "any_findings": [
+                "established_ascvd_secondary"
+              ],
+              "interpretation": "Use for patients matching established_ascvd_secondary where the legacy source phenotype is clinically confirmed, contraindications are absent, and overlapping actions are de-duplicated."
+            }
+          },
+          {
+            "id": "laa_occlusion_watchman",
+            "label": "laa_occlusion_watchman",
+            "reason": "eligibility_findings_not_present",
+            "required_findings": {
+              "any_findings": [
+                "atrial_fibrillation"
+              ],
+              "interpretation": "Use for patients matching atrial_fibrillation where the legacy source phenotype is clinically confirmed, contraindications are absent, and overlapping actions are de-duplicated."
+            }
+          },
+          {
+            "id": "cabg_high_risk_anatomy",
+            "label": "cabg_high_risk_anatomy",
+            "reason": "eligibility_findings_not_present",
+            "required_findings": {
+              "any_findings": [
+                "obstructive_cad_revascularizable"
+              ],
+              "interpretation": "Use for patients matching obstructive_cad_revascularizable where the legacy source phenotype is clinically confirmed, contraindications are absent, and overlapping actions are de-duplicated."
+            }
+          },
+          {
+            "id": "pfo_closure_cryptogenic_stroke",
+            "label": "pfo_closure_cryptogenic_stroke",
+            "reason": "eligibility_findings_not_present",
+            "required_findings": {
+              "any_findings": [
+                "pfo_cryptogenic_stroke"
+              ],
+              "interpretation": "Use for patients matching pfo_cryptogenic_stroke where the legacy source phenotype is clinically confirmed, contraindications are absent, and overlapping actions are de-duplicated."
+            }
+          },
+          {
+            "id": "dual_pathway_inhibition_pad",
+            "label": "dual_pathway_inhibition_pad",
+            "reason": "eligibility_findings_not_present",
+            "required_findings": {
+              "any_findings": [
+                "peripheral_artery_disease"
+              ],
+              "interpretation": "Use for patients matching peripheral_artery_disease where the legacy source phenotype is clinically confirmed, contraindications are absent, and overlapping actions are de-duplicated."
+            }
+          },
+          {
+            "id": "aaa_repair_screen_detected",
+            "label": "aaa_repair_screen_detected",
+            "reason": "eligibility_findings_not_present",
+            "required_findings": {
+              "any_findings": [
+                "aaa_screen_detectable"
+              ],
+              "interpretation": "Use for patients matching aaa_screen_detectable where the legacy source phenotype is clinically confirmed, contraindications are absent, and overlapping actions are de-duplicated."
+            }
+          },
+          {
+            "id": "act_hpylori_eradication_gastric",
+            "label": "act_hpylori_eradication_gastric",
+            "reason": "eligibility_findings_not_present",
+            "required_findings": {
+              "any_findings": [
+                "hpylori_gastric_risk"
+              ],
+              "interpretation": "Use for patients matching hpylori_gastric_risk where the legacy source phenotype is clinically confirmed, contraindications are absent, and overlapping actions are de-duplicated."
+            }
+          },
+          {
+            "id": "act_hbv_vaccination_hcc",
+            "label": "act_hbv_vaccination_hcc",
+            "reason": "eligibility_findings_not_present",
+            "required_findings": {
+              "any_findings": [
+                "chronic_viral_hepatitis_hcc_risk"
+              ],
+              "interpretation": "Use for patients matching chronic_viral_hepatitis_hcc_risk where the legacy source phenotype is clinically confirmed, contraindications are absent, and overlapping actions are de-duplicated."
+            }
+          },
+          {
+            "id": "act_hbv_antiviral_hcc",
+            "label": "act_hbv_antiviral_hcc",
+            "reason": "eligibility_findings_not_present",
+            "required_findings": {
+              "any_findings": [
+                "chronic_viral_hepatitis_hcc_risk"
+              ],
+              "interpretation": "Use for patients matching chronic_viral_hepatitis_hcc_risk where the legacy source phenotype is clinically confirmed, contraindications are absent, and overlapping actions are de-duplicated."
+            }
+          },
+          {
+            "id": "act_hcv_daa_cure_hcc",
+            "label": "act_hcv_daa_cure_hcc",
+            "reason": "eligibility_findings_not_present",
+            "required_findings": {
+              "any_findings": [
+                "chronic_viral_hepatitis_hcc_risk"
+              ],
+              "interpretation": "Use for patients matching chronic_viral_hepatitis_hcc_risk where the legacy source phenotype is clinically confirmed, contraindications are absent, and overlapping actions are de-duplicated."
+            }
+          },
+          {
+            "id": "act_hcc_surveillance_ultrasound",
+            "label": "act_hcc_surveillance_ultrasound",
+            "reason": "eligibility_findings_not_present",
+            "required_findings": {
+              "any_findings": [
+                "chronic_viral_hepatitis_hcc_risk"
+              ],
+              "interpretation": "Use for patients matching chronic_viral_hepatitis_hcc_risk where the legacy source phenotype is clinically confirmed, contraindications are absent, and overlapping actions are de-duplicated."
+            }
+          },
+          {
+            "id": "act_hpv_vaccination_cervical",
+            "label": "act_hpv_vaccination_cervical",
+            "reason": "eligibility_findings_not_present",
+            "required_findings": {
+              "any_findings": [
+                "hpv_oncogenic_cancer_risk"
+              ],
+              "interpretation": "Use for patients matching hpv_oncogenic_cancer_risk where the legacy source phenotype is clinically confirmed, contraindications are absent, and overlapping actions are de-duplicated."
+            }
+          },
+          {
+            "id": "act_barretts_rfa",
+            "label": "act_barretts_rfa",
+            "reason": "eligibility_findings_not_present",
+            "required_findings": {
+              "any_findings": [
+                "barretts_dysplasia"
+              ],
+              "interpretation": "Use for patients matching barretts_dysplasia where the legacy source phenotype is clinically confirmed, contraindications are absent, and overlapping actions are de-duplicated."
+            }
+          },
+          {
+            "id": "act_aspirin_crc_sporadic",
+            "label": "act_aspirin_crc_sporadic",
+            "reason": "eligibility_findings_not_present",
+            "required_findings": {
+              "any_findings": [
+                "sporadic_crc_chemoprevention_risk"
+              ],
+              "interpretation": "Use for patients matching sporadic_crc_chemoprevention_risk where the legacy source phenotype is clinically confirmed, contraindications are absent, and overlapping actions are de-duplicated."
+            }
+          },
+          {
+            "id": "act_bariatric_surgery_cancer",
+            "label": "act_bariatric_surgery_cancer",
+            "reason": "eligibility_findings_not_present",
+            "required_findings": {
+              "any_findings": [
+                "obesity_associated_cancer_risk",
+                "adiposity_obesity"
+              ],
+              "interpretation": "Use for patients matching obesity_associated_cancer_risk, adiposity_obesity where the legacy source phenotype is clinically confirmed, contraindications are absent, and overlapping actions are de-duplicated."
+            }
+          },
+          {
+            "id": "icd_primary_prevention",
+            "label": "icd_primary_prevention",
+            "reason": "eligibility_findings_not_present",
+            "required_findings": {
+              "any_findings": [
+                "inherited_cardiomyopathy"
+              ],
+              "interpretation": "Use for patients matching inherited_cardiomyopathy where the legacy source phenotype is clinically confirmed, contraindications are absent, and overlapping actions are de-duplicated."
+            }
+          },
+          {
+            "id": "betablocker_lqts",
+            "label": "betablocker_lqts",
+            "reason": "eligibility_findings_not_present",
+            "required_findings": {
+              "any_findings": [
+                "inherited_arrhythmia"
+              ],
+              "interpretation": "Use for patients matching inherited_arrhythmia where the legacy source phenotype is clinically confirmed, contraindications are absent, and overlapping actions are de-duplicated."
+            }
+          },
+          {
+            "id": "glp1_cardiovascular_t2dm",
+            "label": "glp1_cardiovascular_t2dm",
+            "reason": "eligibility_findings_not_present",
+            "required_findings": {
+              "any_findings": [
+                "undiagnosed_t2dm"
+              ],
+              "interpretation": "Use for patients matching undiagnosed_t2dm where the legacy source phenotype is clinically confirmed, contraindications are absent, and overlapping actions are de-duplicated."
+            }
+          },
+          {
+            "id": "sglt2_cardiorenal_t2dm",
+            "label": "sglt2_cardiorenal_t2dm",
+            "reason": "eligibility_findings_not_present",
+            "required_findings": {
+              "any_findings": [
+                "t2dm_albuminuria_renalrisk"
+              ],
+              "interpretation": "Use for patients matching t2dm_albuminuria_renalrisk where the legacy source phenotype is clinically confirmed, contraindications are absent, and overlapping actions are de-duplicated."
+            }
+          },
+          {
+            "id": "intensive_glycemic_control",
+            "label": "intensive_glycemic_control",
+            "reason": "eligibility_findings_not_present",
+            "required_findings": {
+              "any_findings": [
+                "t2dm_microvascular_risk"
+              ],
+              "interpretation": "Use for patients matching t2dm_microvascular_risk where the legacy source phenotype is clinically confirmed, contraindications are absent, and overlapping actions are de-duplicated."
+            }
+          },
+          {
+            "id": "mody_sulfonylurea_switch",
+            "label": "mody_sulfonylurea_switch",
+            "reason": "eligibility_findings_not_present",
+            "required_findings": {
+              "any_findings": [
+                "MODY_HNF1A_4A"
+              ],
+              "interpretation": "Use for patients matching MODY_HNF1A_4A where the legacy source phenotype is clinically confirmed, contraindications are absent, and overlapping actions are de-duplicated."
+            }
+          },
+          {
+            "id": "mody_gck_deprescribe",
+            "label": "mody_gck_deprescribe",
+            "reason": "eligibility_findings_not_present",
+            "required_findings": {
+              "any_findings": [
+                "MODY_GCK"
+              ],
+              "interpretation": "Use for patients matching MODY_GCK where the legacy source phenotype is clinically confirmed, contraindications are absent, and overlapping actions are de-duplicated."
+            }
+          },
+          {
+            "id": "neonatal_diabetes_sulfonylurea",
+            "label": "neonatal_diabetes_sulfonylurea",
+            "reason": "eligibility_findings_not_present",
+            "required_findings": {
+              "any_findings": [
+                "neonatal_diabetes_KATP"
+              ],
+              "interpretation": "Use for patients matching neonatal_diabetes_KATP where the legacy source phenotype is clinically confirmed, contraindications are absent, and overlapping actions are de-duplicated."
+            }
+          },
+          {
+            "id": "gdm_treatment_perinatal",
+            "label": "gdm_treatment_perinatal",
+            "reason": "eligibility_findings_not_present",
+            "required_findings": {
+              "any_findings": [
+                "gestational_diabetes"
+              ],
+              "interpretation": "Use for patients matching gestational_diabetes where the legacy source phenotype is clinically confirmed, contraindications are absent, and overlapping actions are de-duplicated."
+            }
+          },
+          {
+            "id": "retinopathy_screen_treat",
+            "label": "retinopathy_screen_treat",
+            "reason": "eligibility_findings_not_present",
+            "required_findings": {
+              "any_findings": [
+                "diabetic_retinopathy_treatable"
+              ],
+              "interpretation": "Use for patients matching diabetic_retinopathy_treatable where the legacy source phenotype is clinically confirmed, contraindications are absent, and overlapping actions are de-duplicated."
+            }
+          },
+          {
+            "id": "teplizumab_t1d_delay",
+            "label": "teplizumab_t1d_delay",
+            "reason": "eligibility_findings_not_present",
+            "required_findings": {
+              "any_findings": [
+                "presymptomatic_t1d_autoimmune"
+              ],
+              "interpretation": "Use for patients matching presymptomatic_t1d_autoimmune where the legacy source phenotype is clinically confirmed, contraindications are absent, and overlapping actions are de-duplicated."
+            }
+          },
+          {
+            "id": "act_colonoscopy_polypectomy",
+            "label": "act_colonoscopy_polypectomy",
+            "reason": "eligibility_findings_not_present",
+            "required_findings": {
+              "any_findings": [
+                "occult_colorectal"
+              ],
+              "interpretation": "Use for patients matching occult_colorectal where the legacy source phenotype is clinically confirmed, contraindications are absent, and overlapping actions are de-duplicated."
+            }
+          },
+          {
+            "id": "act_crc_resect_screendetected",
+            "label": "act_crc_resect_screendetected",
+            "reason": "eligibility_findings_not_present",
+            "required_findings": {
+              "any_findings": [
+                "occult_colorectal"
+              ],
+              "interpretation": "Use for patients matching occult_colorectal where the legacy source phenotype is clinically confirmed, contraindications are absent, and overlapping actions are de-duplicated."
+            }
+          },
+          {
+            "id": "act_ldct_lung_resect",
+            "label": "act_ldct_lung_resect",
+            "reason": "eligibility_findings_not_present",
+            "required_findings": {
+              "any_findings": [
+                "occult_lung"
+              ],
+              "interpretation": "Use for patients matching occult_lung where the legacy source phenotype is clinically confirmed, contraindications are absent, and overlapping actions are de-duplicated."
+            }
+          },
+          {
+            "id": "act_brca_rrso",
+            "label": "act_brca_rrso",
+            "reason": "eligibility_findings_not_present",
+            "required_findings": {
+              "any_findings": [
+                "HBOC_BRCA"
+              ],
+              "interpretation": "Use for patients matching HBOC_BRCA where the legacy source phenotype is clinically confirmed, contraindications are absent, and overlapping actions are de-duplicated."
+            }
+          },
+          {
+            "id": "act_brca_mri_surveillance",
+            "label": "act_brca_mri_surveillance",
+            "reason": "eligibility_findings_not_present",
+            "required_findings": {
+              "any_findings": [
+                "HBOC_BRCA"
+              ],
+              "interpretation": "Use for patients matching HBOC_BRCA where the legacy source phenotype is clinically confirmed, contraindications are absent, and overlapping actions are de-duplicated."
+            }
+          },
+          {
+            "id": "act_brca_chemoprevention",
+            "label": "act_brca_chemoprevention",
+            "reason": "eligibility_findings_not_present",
+            "required_findings": {
+              "any_findings": [
+                "HBOC_BRCA"
+              ],
+              "interpretation": "Use for patients matching HBOC_BRCA where the legacy source phenotype is clinically confirmed, contraindications are absent, and overlapping actions are de-duplicated."
+            }
+          },
+          {
+            "id": "act_lynch_colonoscopy",
+            "label": "act_lynch_colonoscopy",
+            "reason": "eligibility_findings_not_present",
+            "required_findings": {
+              "any_findings": [
+                "Lynch"
+              ],
+              "interpretation": "Use for patients matching Lynch where the legacy source phenotype is clinically confirmed, contraindications are absent, and overlapping actions are de-duplicated."
+            }
+          },
+          {
+            "id": "act_lynch_aspirin",
+            "label": "act_lynch_aspirin",
+            "reason": "eligibility_findings_not_present",
+            "required_findings": {
+              "any_findings": [
+                "Lynch"
+              ],
+              "interpretation": "Use for patients matching Lynch where the legacy source phenotype is clinically confirmed, contraindications are absent, and overlapping actions are de-duplicated."
+            }
+          },
+          {
+            "id": "act_mutyh_colonoscopy",
+            "label": "act_mutyh_colonoscopy",
+            "reason": "eligibility_findings_not_present",
+            "required_findings": {
+              "any_findings": [
+                "MUTYH_biallelic"
+              ],
+              "interpretation": "Use for patients matching MUTYH_biallelic where the legacy source phenotype is clinically confirmed, contraindications are absent, and overlapping actions are de-duplicated."
+            }
+          },
+          {
+            "id": "act_bp_control_dementia",
+            "label": "act_bp_control_dementia",
+            "reason": "eligibility_findings_not_present",
+            "required_findings": {
+              "any_findings": [
+                "neuro_risk_vascular"
+              ],
+              "interpretation": "Use for patients matching neuro_risk_vascular where the legacy source phenotype is clinically confirmed, contraindications are absent, and overlapping actions are de-duplicated."
+            }
+          },
+          {
+            "id": "act_cea_asymptomatic_carotid",
+            "label": "act_cea_asymptomatic_carotid",
+            "reason": "eligibility_findings_not_present",
+            "required_findings": {
+              "any_findings": [
+                "asymptomatic_carotid_stenosis"
+              ],
+              "interpretation": "Use for patients matching asymptomatic_carotid_stenosis where the legacy source phenotype is clinically confirmed, contraindications are absent, and overlapping actions are de-duplicated."
+            }
+          },
+          {
+            "id": "act_statin_stroke_prevention",
+            "label": "act_statin_stroke_prevention",
+            "reason": "eligibility_findings_not_present",
+            "required_findings": {
+              "any_findings": [
+                "neuro_risk_vascular"
+              ],
+              "interpretation": "Use for patients matching neuro_risk_vascular where the legacy source phenotype is clinically confirmed, contraindications are absent, and overlapping actions are de-duplicated."
+            }
+          },
+          {
+            "id": "act_dbs_parkinson",
+            "label": "act_dbs_parkinson",
+            "reason": "eligibility_findings_not_present",
+            "required_findings": {
+              "any_findings": [
+                "parkinson_disease_motor"
+              ],
+              "interpretation": "Use for patients matching parkinson_disease_motor where the legacy source phenotype is clinically confirmed, contraindications are absent, and overlapping actions are de-duplicated."
+            }
+          },
+          {
+            "id": "act_ms_dmt",
+            "label": "act_ms_dmt",
+            "reason": "eligibility_findings_not_present",
+            "required_findings": {
+              "any_findings": [
+                "multiple_sclerosis_active"
+              ],
+              "interpretation": "Use for patients matching multiple_sclerosis_active where the legacy source phenotype is clinically confirmed, contraindications are absent, and overlapping actions are de-duplicated."
+            }
+          },
+          {
+            "id": "dietary_pattern_med",
+            "label": "dietary_pattern_med",
+            "reason": "eligibility_findings_not_present",
+            "required_findings": {
+              "any_findings": [
+                "cvd_risk_ascvd",
+                "suboptimal_diet"
+              ],
+              "interpretation": "Use for patients matching cvd_risk_ascvd, suboptimal_diet where the legacy source phenotype is clinically confirmed, contraindications are absent, and overlapping actions are de-duplicated."
+            }
+          },
+          {
+            "id": "med_diet_metabolic",
+            "label": "med_diet_metabolic",
+            "reason": "eligibility_findings_not_present",
+            "required_findings": {
+              "any_findings": [
+                "prediabetes"
+              ],
+              "interpretation": "Use for patients matching prediabetes where the legacy source phenotype is clinically confirmed, contraindications are absent, and overlapping actions are de-duplicated."
+            }
+          },
+          {
+            "id": "physical_activity_cancer",
+            "label": "physical_activity_cancer",
+            "reason": "eligibility_findings_not_present",
+            "required_findings": {
+              "any_findings": [
+                "lifestyle_cancer_incidence_risk"
+              ],
+              "interpretation": "Use for patients matching lifestyle_cancer_incidence_risk where the legacy source phenotype is clinically confirmed, contraindications are absent, and overlapping actions are de-duplicated."
+            }
+          },
+          {
+            "id": "act_physical_activity_dementia",
+            "label": "act_physical_activity_dementia",
+            "reason": "eligibility_findings_not_present",
+            "required_findings": {
+              "any_findings": [
+                "neuro_risk_vascular"
+              ],
+              "interpretation": "Use for patients matching neuro_risk_vascular where the legacy source phenotype is clinically confirmed, contraindications are absent, and overlapping actions are de-duplicated."
+            }
+          },
+          {
+            "id": "act_multidomain_finger",
+            "label": "act_multidomain_finger",
+            "reason": "eligibility_findings_not_present",
+            "required_findings": {
+              "any_findings": [
+                "neuro_risk_genetic"
+              ],
+              "interpretation": "Use for patients matching neuro_risk_genetic where the legacy source phenotype is clinically confirmed, contraindications are absent, and overlapping actions are de-duplicated."
+            }
+          },
+          {
+            "id": "aspirin_primary",
+            "label": "aspirin_primary",
+            "reason": "eligibility_findings_not_present",
+            "required_findings": {
+              "any_findings": [
+                "cvd_risk_ascvd"
+              ],
+              "interpretation": "Use for patients matching cvd_risk_ascvd where the legacy source phenotype is clinically confirmed, contraindications are absent, and overlapping actions are de-duplicated."
+            }
+          },
+          {
+            "id": "canakinumab_il1b",
+            "label": "canakinumab_il1b",
+            "reason": "eligibility_findings_not_present",
+            "required_findings": {
+              "any_findings": [
+                "hs_crp_residual_inflam"
+              ],
+              "interpretation": "Use for patients matching hs_crp_residual_inflam where the legacy source phenotype is clinically confirmed, contraindications are absent, and overlapping actions are de-duplicated."
+            }
+          },
+          {
+            "id": "act_influenza_pneumococcal_vax_ckd",
+            "label": "act_influenza_pneumococcal_vax_ckd",
+            "reason": "eligibility_findings_not_present",
+            "required_findings": {
+              "any_findings": [
+                "ckd_low_egfr"
+              ],
+              "interpretation": "Use for patients matching ckd_low_egfr where the legacy source phenotype is clinically confirmed, contraindications are absent, and overlapping actions are de-duplicated."
+            }
+          },
+          {
+            "id": "act_lfs_wbmri_surveillance",
+            "label": "act_lfs_wbmri_surveillance",
+            "reason": "eligibility_findings_not_present",
+            "required_findings": {
+              "any_findings": [
+                "Li_Fraumeni_TP53"
+              ],
+              "interpretation": "Use for patients matching Li_Fraumeni_TP53 where the legacy source phenotype is clinically confirmed, contraindications are absent, and overlapping actions are de-duplicated."
+            }
+          },
+          {
+            "id": "act_hereditary_other_surveillance",
+            "label": "act_hereditary_other_surveillance",
+            "reason": "eligibility_findings_not_present",
+            "required_findings": {
+              "any_findings": [
+                "hereditary_other_highpen"
+              ],
+              "interpretation": "Use for patients matching hereditary_other_highpen where the legacy source phenotype is clinically confirmed, contraindications are absent, and overlapping actions are de-duplicated."
+            }
+          },
+          {
+            "id": "act_anti_amyloid_mab_symptomatic",
+            "label": "act_anti_amyloid_mab_symptomatic",
+            "reason": "eligibility_findings_not_present",
+            "required_findings": {
+              "any_findings": [
+                "symptomatic_early_ad"
+              ],
+              "interpretation": "Use for patients matching symptomatic_early_ad where the legacy source phenotype is clinically confirmed, contraindications are absent, and overlapping actions are de-duplicated."
+            }
+          },
+          {
+            "id": "ir_lifestyle_prevention",
+            "label": "ir_lifestyle_prevention",
+            "reason": "eligibility_findings_not_present",
+            "required_findings": {
+              "any_findings": [
+                "insulin_resistance"
+              ],
+              "interpretation": "Use for patients matching insulin_resistance where the legacy source phenotype is clinically confirmed, contraindications are absent, and overlapping actions are de-duplicated."
+            }
+          },
+          {
+            "id": "med_diet_cancer",
+            "label": "med_diet_cancer",
+            "reason": "eligibility_findings_not_present",
+            "required_findings": {
+              "any_findings": [
+                "lifestyle_cancer_incidence_risk"
+              ],
+              "interpretation": "Use for patients matching lifestyle_cancer_incidence_risk where the legacy source phenotype is clinically confirmed, contraindications are absent, and overlapping actions are de-duplicated."
+            }
+          },
+          {
             "id": "sleep_apnea_reclassification",
             "label": "Home sleep apnea test",
             "reason": "diagnostic_trigger_not_present",
@@ -1770,6 +5607,48 @@
           {
             "id": "masld_fibrosis_staging_reclassification",
             "label": "FIB-4 then FibroScan if indicated",
+            "reason": "diagnostic_trigger_not_present",
+            "matched_triggers": [],
+            "blocked_by": []
+          },
+          {
+            "id": "aaa_ultrasound_screening",
+            "label": "One-time abdominal aortic aneurysm ultrasound",
+            "reason": "diagnostic_trigger_not_present",
+            "matched_triggers": [],
+            "blocked_by": []
+          },
+          {
+            "id": "act_anal_hsil_treatment",
+            "label": "Anal HSIL detection and treatment pathway",
+            "reason": "diagnostic_trigger_not_present",
+            "matched_triggers": [],
+            "blocked_by": []
+          },
+          {
+            "id": "act_mammo_breast_treat",
+            "label": "act_mammo_breast_treat",
+            "reason": "diagnostic_trigger_not_present",
+            "matched_triggers": [],
+            "blocked_by": []
+          },
+          {
+            "id": "act_cervical_hpv_treat_precursor",
+            "label": "act_cervical_hpv_treat_precursor",
+            "reason": "diagnostic_trigger_not_present",
+            "matched_triggers": [],
+            "blocked_by": []
+          },
+          {
+            "id": "act_psa_workup_treat",
+            "label": "act_psa_workup_treat",
+            "reason": "diagnostic_trigger_not_present",
+            "matched_triggers": [],
+            "blocked_by": []
+          },
+          {
+            "id": "act_breastmri_supplemental",
+            "label": "act_breastmri_supplemental",
             "reason": "diagnostic_trigger_not_present",
             "matched_triggers": [],
             "blocked_by": []
