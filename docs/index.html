@@ -76,7 +76,8 @@ async function render(){
   const normalizedSrc = doc.src.replace(/^\.\.\//, "");
   const { pathAndQuery, hash } = splitSrc(normalizedSrc);
   const rawBase = "https://raw.githubusercontent.com/yimjason01-blip/aleron-canonical-documents/main/";
-  const rawUrl = rawBase + pathAndQuery;
+  const cacheKey = window.location.search || "?v=" + Date.now();
+  const rawUrl = rawBase + pathAndQuery + cacheKey;
   const assetBase = rawBase + pathAndQuery.replace(/[^/]*$/, "");
   try {
     const response = await fetch(rawUrl, { cache: "no-store" });
