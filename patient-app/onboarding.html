@@ -2603,7 +2603,6 @@ function familyNext() {
 /* ================================================================ */
 /*  SCREEN 5 · SYMPTOMATOLOGY                                        */
 /* ================================================================ */
-var TRANSCRIPT = 'I used to ride with the fast group on Saturdays and now I’m somewhere in the middle. My sleep is lighter than it used to be, I wake up around four most mornings. And my knees ache on stairs, which is new in the last year or two.';
 var micState = 'idle';
 var micTimerInt = null;
 var micSeconds = 0;
@@ -2719,8 +2718,14 @@ function finishTranscript() {
   micState = 'done';
   document.getElementById('micBtn').classList.remove('processing');
   var text = cleanText(activeTranscript || speechFinal || document.getElementById('transcript1Text').textContent || '');
-  if (!text) text = TRANSCRIPT;
-  setTranscript(text, 'Transcribed by browser speech recognition. Edit anything it heard wrong.');
+  if (!text) {
+    document.getElementById('transcript1Text').textContent = '';
+    document.getElementById('transcriptSrc').textContent = 'No speech was captured. Try recording again, or type exactly what you said below. This prototype no longer inserts a canned transcript.';
+    document.getElementById('typeArea').classList.add('show');
+    document.getElementById('typeArea').focus();
+    return;
+  }
+  setTranscript(text, 'Transcribed from your microphone by the browser speech recognizer. Edit anything it heard wrong.');
 }
 
 function setTranscript(text, source) {
@@ -2737,14 +2742,14 @@ function typeInstead() {
   document.getElementById('micStage').style.display = 'none';
   var ta = document.getElementById('typeArea');
   ta.classList.add('show');
-  if (!ta.value) ta.value = TRANSCRIPT;
+  ta.placeholder = 'Type exactly what you would have said into the recorder. Labels will be generated only from this text.';
   ta.focus();
-  setTranscript(ta.value, 'Typed prototype input. Same label extraction path.');
+  setTranscript(ta.value, ta.value ? 'Typed input. Labels are generated only from this text.' : 'Type your own words. No sample transcript is prefilled.');
 }
 
 function syncTypedTranscript() {
   var val = document.getElementById('typeArea').value;
-  setTranscript(val, 'Typed prototype input. Same label extraction path.');
+  setTranscript(val, val ? 'Typed input. Labels are generated only from this text.' : 'Type your own words. No sample transcript is prefilled.');
 }
 
 function syncTranscriptEdit() {
