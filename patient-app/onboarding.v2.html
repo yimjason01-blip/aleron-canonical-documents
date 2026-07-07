@@ -258,6 +258,38 @@ button { font-family: var(--voice); }
   }
   .jump-nav-note { font-size: 10.5px; }
 }
+/* Prototype harness · test accounts (review-only, matches jump nav) */
+.jump-nav-divider {
+  margin-top: 10px;
+  padding: 8px 0 6px;
+  border-top: 1px solid rgba(29,27,24,0.10);
+  font-family: var(--audit);
+  font-size: 10px;
+  line-height: 1;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: rgba(29,27,24,0.56);
+}
+.jump-acct-list { display: flex; flex-direction: column; gap: 3px; }
+.jump-acct { grid-template-columns: 24px 1fr 18px; }
+.jump-acct-meta {
+  display: block;
+  font-family: var(--audit);
+  font-size: 9px;
+  letter-spacing: 0.04em;
+  margin-top: 2px;
+  opacity: 0.72;
+}
+.jump-acct-del {
+  width: 18px;
+  height: 18px;
+  display: grid;
+  place-items: center;
+  opacity: 0.45;
+  font-size: 13px;
+  line-height: 1;
+}
+.jump-acct-del:hover { opacity: 1; }
 
 .shell {
   width: 100%;
@@ -723,6 +755,18 @@ button { font-family: var(--voice); }
   margin-bottom: 12px;
 }
 .consent-body b { color: var(--ink); font-weight: 500; }
+.hw-grid { display: flex; gap: 12px; }
+.hw-field { flex: 1; }
+.hw-inline { display: flex; gap: 8px; }
+.hw-num { text-align: center; }
+.health-area {
+  width: 100%;
+  resize: none;
+  font-family: var(--voice);
+  font-size: 14px;
+  line-height: 1.5;
+  margin-bottom: 12px;
+}
 .consent-meta {
   font-family: var(--voice);
   font-size: 11px;
@@ -886,6 +930,57 @@ button { font-family: var(--voice); }
   margin-bottom: 16px;
 }
 .sib-count-label { font-size: 14px; color: var(--ink); }
+.sub-select {
+  display: none;
+  flex-direction: column;
+  gap: 8px;
+  margin-top: 12px;
+  padding-top: 12px;
+  border-top: 1px solid var(--border-subtle);
+}
+.sub-select.show { display: flex; }
+.chip-row { display: flex; flex-wrap: wrap; gap: 6px; }
+.mini-chip {
+  padding: 7px 13px;
+  font-family: var(--voice);
+  font-size: 12px;
+  color: var(--slate);
+  background: transparent;
+  border: 1px solid var(--border-base);
+  border-radius: var(--radius-control);
+  cursor: pointer;
+  transition: background var(--dur-fast) var(--ease), color var(--dur-fast) var(--ease), border-color var(--dur-fast) var(--ease);
+}
+.mini-chip:hover { border-color: var(--border-strong); color: var(--ink); }
+.mini-chip.on { background: var(--ink); color: var(--cream); border-color: var(--ink); }
+.roster { display: flex; flex-direction: column; gap: 8px; margin-bottom: 12px; }
+.roster-item {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  background: var(--surface-card);
+  border: 1px solid var(--border-base);
+  border-radius: var(--radius-tier2);
+  padding: 14px 16px;
+  cursor: pointer;
+  transition: border-color var(--dur-fast) var(--ease);
+}
+.roster-item:hover { border-color: var(--border-strong); }
+.roster-body { flex: 1; min-width: 0; }
+.roster-name { font-size: 14px; color: var(--ink); }
+.roster-meta { font-size: 12px; color: var(--slate); margin-top: 2px; }
+.roster-del {
+  width: 28px;
+  height: 28px;
+  border: none;
+  background: transparent;
+  color: var(--slate);
+  font-size: 18px;
+  line-height: 1;
+  cursor: pointer;
+  flex-shrink: 0;
+}
+.roster-del:hover { color: var(--ink); }
 
 /* ================================================================ */
 /*  MIC · four states per DS Archetype 03                            */
@@ -1064,6 +1159,7 @@ button { font-family: var(--voice); }
   margin: 12px 0 16px;
 }
 .label-card.show { display: block; }
+.shared-back { font-size: 14px; color: var(--ink); line-height: 1.6; font-style: italic; }
 .label-card-title {
   font-family: var(--voice);
   font-size: 13px;
@@ -1170,6 +1266,8 @@ button { font-family: var(--voice); }
   font-variant-numeric: tabular-nums;
   margin-top: 4px;
 }
+.ship-row { display: flex; gap: 10px; }
+.ship-row .fld { flex: 1; min-width: 0; }
 .edit-link {
   font-size: 13px;
   color: var(--slate);
@@ -1197,6 +1295,81 @@ button { font-family: var(--voice); }
 .quest-loc-name { font-size: 13.5px; color: var(--ink); }
 .quest-loc-addr { font-family: var(--voice); font-size: 10.5px; color: var(--slate); margin-top: 2px; }
 .quest-loc-dist { font-family: var(--voice); font-size: 10.5px; color: var(--text-tertiary); font-variant-numeric: tabular-nums; white-space: nowrap; }
+.psc-zip-row { display: flex; gap: 8px; align-items: flex-end; }
+.psc-zip-row .fld { flex: 1; margin-bottom: 0; }
+.psc-find {
+  flex: 0 0 auto;
+  white-space: nowrap;
+  min-width: 0;
+  width: auto;
+  padding: 12px 16px;
+  min-height: 46px;
+  font-size: 14px;
+  background: var(--surface-inset);
+  color: var(--ink);
+  border: 1px solid var(--border-base);
+}
+.psc-find:hover { border-color: var(--border-strong); }
+.psc-find:disabled { color: var(--text-tertiary); cursor: not-allowed; }
+.psc-section-label { font-family: var(--voice); font-size: 12.5px; color: var(--slate); margin: 14px 0 8px; }
+.psc-dates { display: flex; gap: 8px; overflow-x: auto; padding-bottom: 6px; margin-bottom: 8px; -webkit-overflow-scrolling: touch; }
+.psc-date {
+  flex: 0 0 auto;
+  min-width: 54px;
+  text-align: center;
+  padding: 8px 6px;
+  font-family: var(--voice);
+  background: var(--surface-card);
+  border: 1px solid var(--border-base);
+  border-radius: var(--radius-control);
+  cursor: pointer;
+  transition: border-color var(--dur-fast) var(--ease), background var(--dur-fast) var(--ease);
+}
+.psc-date:hover { border-color: var(--border-strong); }
+.psc-date.selected { background: var(--ink); color: var(--cream); border-color: var(--ink); }
+.psc-dow { font-size: 10.5px; color: var(--slate); }
+.psc-date.selected .psc-dow { color: var(--cream); }
+.psc-dnum { font-size: 15px; font-variant-numeric: tabular-nums; margin-top: 2px; }
+.psc-appt-actions { display: flex; gap: 16px; margin-top: 10px; }
+.psc-link {
+  font-family: var(--voice);
+  font-size: 12.5px;
+  color: var(--text-secondary);
+  background: none;
+  border: none;
+  padding: 0;
+  cursor: pointer;
+  text-decoration: underline;
+  width: auto;
+  min-width: 0;
+}
+.psc-link:hover { color: var(--ink); }
+/* Kit shipment tracking (waiting state) */
+.kit-card {
+  background: var(--surface-card);
+  border: 1px solid var(--border-base);
+  border-radius: var(--radius-tier2);
+  padding: 16px;
+  margin-bottom: 10px;
+}
+.kit-head { display: flex; justify-content: space-between; align-items: baseline; gap: 12px; margin-bottom: 14px; }
+.kit-name { font-size: 14px; color: var(--ink); }
+.kit-status { font-family: var(--voice); font-size: 12px; color: var(--text-gold); white-space: nowrap; }
+.kit-track { display: flex; align-items: center; margin-bottom: 12px; }
+.kit-node {
+  width: 11px;
+  height: 11px;
+  flex: 0 0 auto;
+  box-sizing: border-box;
+  border: 1.5px solid var(--border-strong);
+  border-radius: var(--radius-tile);
+  background: var(--surface-card);
+}
+.kit-node.done { background: var(--ink); border-color: var(--ink); }
+.kit-node.current { width: 15px; height: 15px; background: var(--ink); border-color: var(--ink); }
+.kit-seg { flex: 1; height: 1.5px; background: var(--border-base); }
+.kit-seg.done { background: var(--ink); }
+.kit-note { font-size: 12.5px; color: var(--text-secondary); }
 
 /* ================================================================ */
 /*  WEARABLE                                                         */
@@ -1254,6 +1427,68 @@ button { font-family: var(--voice); }
   font-size: 15px;
   cursor: pointer;
 }
+/* ================================================================ */
+/*  DOCUMENT SHEET · full consent text                              */
+/* ================================================================ */
+.doc-overlay {
+  position: absolute;
+  inset: 0;
+  background: rgba(0,0,0,0.4);
+  display: none;
+  align-items: flex-end;
+  z-index: 25;
+}
+.doc-overlay.show { display: flex; }
+.doc-sheet {
+  width: 100%;
+  max-height: 88%;
+  display: flex;
+  flex-direction: column;
+  background: var(--cream);
+  border-radius: 12px 12px 0 0;
+  overflow: hidden;
+}
+.doc-head {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 12px;
+  padding: 20px 20px 14px;
+  border-bottom: 1px solid var(--hairline);
+}
+.doc-head-title { font-family: var(--voice); font-weight: 600; font-size: 19px; color: var(--ink); letter-spacing: -0.01em; }
+.doc-head-meta { font-size: 12px; color: var(--slate); margin-top: 3px; }
+.doc-close {
+  flex: none;
+  width: 30px;
+  height: 30px;
+  border: none;
+  border-radius: 50%;
+  background: var(--surface-inset);
+  color: var(--ink);
+  font-size: 17px;
+  line-height: 1;
+  cursor: pointer;
+}
+.doc-scroll {
+  overflow-y: auto;
+  -webkit-overflow-scrolling: touch;
+  padding: 16px 20px 32px;
+}
+.doc-scroll h4 {
+  font-family: var(--voice);
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--ink);
+  margin: 16px 0 6px;
+}
+.doc-scroll h4:first-child { margin-top: 0; }
+.doc-scroll p {
+  font-size: 13.5px;
+  line-height: 1.6;
+  color: var(--slate);
+  margin-bottom: 10px;
+}
 .conn-state {
   display: none;
   align-items: center;
@@ -1266,6 +1501,70 @@ button { font-family: var(--voice); }
 }
 .conn-state.show { display: inline-flex; }
 .conn-dot { width: 6px; height: 6px; border-radius: 50%; background: var(--slate); }
+
+/* Wearable sync result — the "it's working" confirmation moment */
+.sync-card {
+  display: none;
+  margin-top: 20px;
+  padding: 18px 20px;
+  border: 1px solid var(--hairline, rgba(0,0,0,0.08));
+  border-radius: 12px;
+  background: var(--surface-quiet, rgba(0,0,0,0.02));
+}
+.sync-card.show { display: block; }
+.sync-headline {
+  font-family: var(--voice);
+  font-size: 13.5px;
+  color: var(--text-primary, #111);
+  margin-bottom: 12px;
+}
+.sync-headline strong { font-weight: 600; }
+.sync-rows { display: flex; flex-direction: column; gap: 8px; }
+.sync-row {
+  display: flex; align-items: center; justify-content: space-between;
+  font-family: var(--voice); font-size: 12px; color: var(--text-secondary);
+}
+.sync-row .sync-metric { display: inline-flex; align-items: center; gap: 8px; }
+.sync-row .sync-metric .conn-dot { background: var(--text-gold); }
+.sync-row .sync-count { font-variant-numeric: tabular-nums; color: var(--text-primary, #111); }
+
+/* Intake · progress strip + 0-N scale control (validated instruments) */
+.intake-progress {
+  font-family: var(--voice);
+  font-size: 11px;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  color: var(--text-secondary);
+  margin-bottom: 10px;
+}
+.scale-row { display: flex; gap: 8px; margin-top: 4px; }
+.scale-dot {
+  flex: 1;
+  min-width: 0;
+  height: 44px;
+  display: flex; align-items: center; justify-content: center;
+  border: 1px solid var(--hairline, rgba(0,0,0,0.12));
+  border-radius: 10px;
+  font-family: var(--voice);
+  font-size: 15px;
+  font-variant-numeric: tabular-nums;
+  color: var(--text-secondary);
+  cursor: pointer;
+  transition: background 0.15s, border-color 0.15s, color 0.15s;
+}
+.scale-dot.selected {
+  background: var(--text-gold);
+  border-color: var(--text-gold);
+  color: #fff;
+}
+.scale-ends {
+  display: flex; justify-content: space-between;
+  margin-top: 8px;
+  font-family: var(--voice);
+  font-size: 11.5px;
+  color: var(--text-secondary);
+}
+.num-unit { font-family: var(--voice); font-size: 13px; color: var(--text-secondary); margin-left: 8px; }
 
 /* ================================================================ */
 /*  INTRO CALL · slots                                               */
@@ -1666,6 +1965,98 @@ body {
   margin-bottom: 4px;
 }
 .claim-value { font-size: 15px; color: var(--ink); }
+.signup-card { padding: 18px 20px 20px; }
+.auth-stack { display: flex; flex-direction: column; gap: 12px; }
+.sso-btn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  width: 100%;
+  min-height: 50px;
+  padding: 12px 16px;
+  border-radius: var(--radius-control);
+  border: 1px solid var(--border-base);
+  background: var(--surface-card);
+  color: var(--ink);
+  font-family: var(--voice);
+  font-size: 15.5px;
+  font-weight: 500;
+  cursor: pointer;
+  transition: border-color var(--dur-fast) var(--ease), background var(--dur-fast) var(--ease);
+}
+.sso-btn:hover { border-color: var(--border-strong); }
+.sso-glyph { width: 18px; height: 18px; flex: 0 0 18px; }
+.sso-apple { background: var(--ink); color: var(--cream); border-color: var(--ink); }
+.sso-apple:hover { background: #000; border-color: #000; }
+.sso-email { background: var(--surface-inset); }
+.auth-divider {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  color: var(--text-tertiary);
+  font-size: 12px;
+  margin: 2px 0;
+}
+.auth-divider::before, .auth-divider::after {
+  content: '';
+  flex: 1;
+  height: 1px;
+  background: var(--border-subtle);
+}
+#emailAuthForm .btn--primary { margin-top: 4px; }
+.auth-confirm {
+  display: none;
+  align-items: center;
+  gap: 8px;
+  padding: 10px 12px;
+  margin-bottom: 14px;
+  border-radius: var(--radius-control);
+  background: var(--surface-inset);
+  font-size: 13px;
+  color: var(--text-secondary);
+}
+.auth-confirm.show { display: flex; }
+.auth-confirm b { color: var(--ink); font-weight: 500; }
+.fld { margin-bottom: 14px; }
+.fld:last-of-type { margin-bottom: 6px; }
+.fld-label {
+  display: block;
+  font-family: var(--voice);
+  font-size: 12px;
+  color: var(--slate);
+  margin-bottom: 6px;
+}
+.fld-input {
+  width: 100%;
+  background: var(--surface-inset);
+  border: 1px solid var(--border-base);
+  border-radius: var(--radius-control);
+  padding: 12px 14px;
+  font-family: var(--voice);
+  font-size: 15px;
+  color: var(--ink);
+  line-height: 1.4;
+  outline: none;
+  -webkit-appearance: none;
+  appearance: none;
+  transition: border-color var(--dur-fast) var(--ease), outline-color var(--dur-fast) var(--ease);
+}
+.fld-input:focus { outline: 2px solid var(--gold); outline-offset: 1px; border-color: var(--gold); }
+.fld-input::placeholder { color: var(--text-tertiary); }
+select.fld-input {
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8' viewBox='0 0 12 8'%3E%3Cpath d='M1 1l5 5 5-5' fill='none' stroke='%233F4B61' stroke-width='1.5' stroke-linecap='round'/%3E%3C/svg%3E");
+  background-repeat: no-repeat;
+  background-position: right 14px center;
+  padding-right: 34px;
+}
+.signup-meta {
+  font-family: var(--audit);
+  font-size: 10px;
+  letter-spacing: 0.06em;
+  color: var(--text-tertiary);
+  margin-top: 14px;
+}
 .physician-strip {
   display: grid;
   grid-template-columns: 56px 1fr;
@@ -1751,7 +2142,9 @@ body {
 <aside class="screen-jump-nav" aria-label="Prototype screen navigator">
   <div class="jump-nav-eyebrow">Screen jump</div>
   <div class="jump-nav-list" id="screenJumpNav"></div>
-  <div class="jump-nav-note">For review only. The in-app Next and Back path still runs in chronological order.</div>
+  <div class="jump-nav-divider">Test accounts</div>
+  <div class="jump-nav-list jump-acct-list" id="acctList"></div>
+  <div class="jump-nav-note">For review only. The in-app Next and Back path still runs in chronological order. Test accounts persist on this device only.</div>
 </aside>
 <button class="screen-jump-toggle" type="button" aria-controls="screenJumpNav" aria-expanded="false" onclick="toggleJumpNav()">Screens</button>
 
@@ -1784,107 +2177,83 @@ body {
 
 
     <!-- ============================================================ -->
-    <!-- PRE-SCREEN · WELCOME EMAIL / DEFERRED DEEP LINK              -->
-    <!-- ============================================================ -->
-    <section class="screen" data-screen="-2">
-      <div class="scroll">
-        <div class="mail-screen">
-          <div class="mail-status"><span class="ios-status-time">9:12</span><span class="mail-icons ios-status-icons" aria-hidden="true"><svg class="ios-cell" viewBox="0 0 18 12"><rect x="0" y="8" width="3" height="4" rx="0.8" fill="currentColor"/><rect x="5" y="5.5" width="3" height="6.5" rx="0.8" fill="currentColor"/><rect x="10" y="3" width="3" height="9" rx="0.8" fill="currentColor"/><rect x="15" y="0.5" width="3" height="11.5" rx="0.8" fill="currentColor"/></svg><svg class="ios-wifi" viewBox="0 0 17 12"><path d="M8.5 9.4a1.65 1.65 0 0 1 1.65 1.65L8.5 12.4l-1.65-1.35A1.65 1.65 0 0 1 8.5 9.4zM5.25 7.6a4.85 4.85 0 0 1 6.5 0L10.5 8.85a3.05 3.05 0 0 0-4 0zM2.15 4.8a9.25 9.25 0 0 1 12.7 0L13.6 6.05a7.45 7.45 0 0 0-10.2 0z" fill="currentColor"/></svg><svg class="ios-battery" viewBox="0 0 27 13"><rect x="0.75" y="1" width="22" height="11" rx="3.2" stroke="currentColor" stroke-opacity="0.38" stroke-width="1" fill="none"/><rect x="2.5" y="2.75" width="18.4" height="7.5" rx="1.8" fill="currentColor"/><path d="M24.3 4.2v4.6c1.1-.28 1.9-1.2 1.9-2.3s-.8-2.02-1.9-2.3z" fill="currentColor" fill-opacity="0.38"/></svg></span></div>
-          <div class="mail-nav"><span>‹ Inbox</span><span class="mail-nav-center">1 of 4</span><span>↗</span></div>
-          <div class="mail-subject-real">Your Aleron MD membership is ready</div>
-          <div class="mail-header-real">
-            <div class="mail-avatar">A</div>
-            <div><div class="mail-from-real">Aleron MD</div><div class="mail-to-real">to David Park</div></div>
-            <div class="mail-date-real">Today</div>
-          </div>
-          <div class="mail-body-real">
-            <p>David,</p>
-            <p>Your Aleron MD membership through Northstar Ventures is active.</p>
-            <p>Use the secure link below to install the app and activate your account.</p>
-            <p><a class="mail-link-button" onclick="goNext()">Install Aleron MD</a></p>
-            <p class="mail-url-real">https://join.aleronmd.com/activate/dp-7429?branch_match_id=138240612</p>
-            <p>This link expires in 72 hours. If it expires, you can request a fresh link from the app.</p>
-            <div class="mail-footer-real">Aleron MD<br>Physician-led preventive care<br>You received this because your employer submitted an eligible enrollment file.</div>
-          </div>
-        </div>
-      </div>
-      <div class="cta-bar" style="display:none"></div>
-    </section>
-
-    <!-- ============================================================ -->
-    <!-- PRE-SCREEN · APP STORE / INSTALL HANDOFF                     -->
+    <!-- SCREEN -1 · CREATE ACCOUNT (AUTH ONLY)                       -->
     <!-- ============================================================ -->
     <section class="screen" data-screen="-1">
-      <div class="scroll">
-        <div class="store-screen">
-          <div class="mail-status"><span class="ios-status-time">9:13</span><span class="mail-icons ios-status-icons" aria-hidden="true"><svg class="ios-cell" viewBox="0 0 18 12"><rect x="0" y="8" width="3" height="4" rx="0.8" fill="currentColor"/><rect x="5" y="5.5" width="3" height="6.5" rx="0.8" fill="currentColor"/><rect x="10" y="3" width="3" height="9" rx="0.8" fill="currentColor"/><rect x="15" y="0.5" width="3" height="11.5" rx="0.8" fill="currentColor"/></svg><svg class="ios-wifi" viewBox="0 0 17 12"><path d="M8.5 9.4a1.65 1.65 0 0 1 1.65 1.65L8.5 12.4l-1.65-1.35A1.65 1.65 0 0 1 8.5 9.4zM5.25 7.6a4.85 4.85 0 0 1 6.5 0L10.5 8.85a3.05 3.05 0 0 0-4 0zM2.15 4.8a9.25 9.25 0 0 1 12.7 0L13.6 6.05a7.45 7.45 0 0 0-10.2 0z" fill="currentColor"/></svg><svg class="ios-battery" viewBox="0 0 27 13"><rect x="0.75" y="1" width="22" height="11" rx="3.2" stroke="currentColor" stroke-opacity="0.38" stroke-width="1" fill="none"/><rect x="2.5" y="2.75" width="18.4" height="7.5" rx="1.8" fill="currentColor"/><path d="M24.3 4.2v4.6c1.1-.28 1.9-1.2 1.9-2.3s-.8-2.02-1.9-2.3z" fill="currentColor" fill-opacity="0.38"/></svg></span></div>
-          <div class="store-top"><span>‹ Search</span><span>Today</span></div>
-          <div class="store-search">⌕ Aleron MD</div>
-          <div class="store-app-head">
-            <div class="app-icon-tile" data-icon data-scale="1.15" data-fade="1" style="width:94px;height:94px" role="img" aria-label="Aleron MD app icon"></div>
-            <div>
-              <div class="store-title">Aleron MD</div>
-              <div class="store-subtitle">Physician-led preventive care</div>
-              <button class="store-get" id="getBtn" onclick="installApp()">GET</button>
-              <div class="dl-ring" id="dlRing">
-                <svg viewBox="0 0 30 30"><circle class="track" cx="15" cy="15" r="12" fill="none" stroke-width="2.5"/><path class="arc" d="M15 3a12 12 0 0 1 12 12" fill="none" stroke-width="2.5" stroke-linecap="round"/></svg>
-              </div>
-            </div>
+      <div class="scroll claim-screen">
+        <div class="claim-lockup">
+          <div class="app-icon-tile" data-icon data-scale="1.15" data-fade="1" style="width:56px;height:56px;margin:0 0 14px" role="img" aria-label="Aleron MD app"></div>
+          <h1 class="h-screen">Create your account.</h1>
+          <p class="claim-note">Sign in to begin. Your physician builds your record from here.</p>
+        </div>
+        <div class="auth-stack">
+          <button class="sso-btn sso-apple" onclick="ssoAuth('apple')">
+            <svg class="sso-glyph" viewBox="0 0 16 16" aria-hidden="true"><path fill="currentColor" d="M11.05 8.5c-.02-1.6 1.3-2.37 1.36-2.4-.74-1.08-1.9-1.23-2.31-1.25-.98-.1-1.92.58-2.42.58-.5 0-1.27-.57-2.09-.55-1.07.02-2.06.62-2.61 1.58-1.11 1.93-.28 4.78.8 6.34.53.76 1.16 1.62 1.98 1.59.8-.03 1.1-.51 2.06-.51.96 0 1.23.51 2.07.5.86-.02 1.4-.78 1.92-1.55.61-.89.86-1.75.87-1.8-.02-.01-1.67-.64-1.7-2.56zM9.5 3.85c.44-.53.73-1.27.65-2.01-.63.03-1.39.42-1.84.95-.4.47-.76 1.22-.66 1.94.7.05 1.42-.36 1.85-.88z"/></svg>
+            <span>Continue with Apple</span>
+          </button>
+          <button class="sso-btn sso-google" onclick="ssoAuth('google')">
+            <svg class="sso-glyph" viewBox="0 0 18 18" aria-hidden="true"><path fill="#4285F4" d="M17.6 9.2c0-.64-.06-1.25-.16-1.84H9v3.48h4.84a4.14 4.14 0 0 1-1.8 2.72v2.26h2.92c1.7-1.57 2.68-3.88 2.68-6.62z"/><path fill="#34A853" d="M9 18c2.43 0 4.47-.8 5.96-2.18l-2.92-2.26c-.8.54-1.84.86-3.04.86-2.34 0-4.32-1.58-5.03-3.7H.94v2.33A9 9 0 0 0 9 18z"/><path fill="#FBBC05" d="M3.97 10.72a5.4 5.4 0 0 1 0-3.44V4.95H.94a9 9 0 0 0 0 8.1l3.03-2.33z"/><path fill="#EA4335" d="M9 3.58c1.32 0 2.5.45 3.44 1.35l2.58-2.58A9 9 0 0 0 .94 4.95l3.03 2.33C4.68 5.16 6.66 3.58 9 3.58z"/></svg>
+            <span>Continue with Google</span>
+          </button>
+          <div class="auth-divider"><span>or</span></div>
+          <div id="emailAuthCollapsed">
+            <button class="sso-btn sso-email" onclick="revealEmailAuth()">
+              <span>Continue with email</span>
+            </button>
           </div>
-          <div class="store-meta">
-            <div>Rating<b>4.9</b></div>
-            <div>Age<b>17+</b></div>
-            <div>Category<b>Medical</b></div>
-          </div>
-          <div class="store-preview-row">
-            <div class="store-preview">
-              <h3>Your physician, labs, and plan</h3>
-              <div class="store-mini-card">
-                <div class="store-mini-kicker">Care plan</div>
-                <div class="store-mini-line"></div>
-                <div class="store-mini-line short"></div>
-                <div class="store-mini-result"><span>ApoB</span><b>84 mg/dL</b></div>
-                <div class="store-mini-result"><span>Sleep</span><b>6h 42m</b></div>
-              </div>
+          <div id="emailAuthForm" style="display:none">
+            <div class="fld">
+              <label class="fld-label" for="authEmail">Email</label>
+              <input class="fld-input" id="authEmail" type="email" autocomplete="email" placeholder="you@example.com" oninput="checkEmailAuthReady()">
             </div>
-            <div class="store-preview">
-              <h3>Review results when ready</h3>
-              <div class="store-mini-card">
-                <div class="store-mini-kicker">Physician note</div>
-                <div class="store-mini-score">7</div>
-                <div class="store-mini-line"></div>
-                <div class="store-mini-line"></div>
-                <div class="store-mini-line short"></div>
-              </div>
-            </div>
-          </div>
-          <div class="store-copy">
-            <h2>Aleron MD</h2>
-            <p>Install the app to continue your membership setup.</p>
+            <button class="btn btn--primary" id="emailAuthCta" disabled onclick="ssoAuth('email')">Continue</button>
           </div>
         </div>
       </div>
-      <div class="cta-bar" style="display:none"></div>
     </section>
 
     <!-- ============================================================ -->
-    <!-- PRE-SCREEN · MAGIC LINK ACCOUNT CLAIM                        -->
+    <!-- SCREEN 0 · CONFIRM DETAILS (CLINICAL DEMOGRAPHICS)          -->
     <!-- ============================================================ -->
     <section class="screen" data-screen="0">
       <div class="scroll claim-screen">
         <div class="claim-lockup">
-          <div class="app-icon-tile" data-icon data-scale="1.15" data-fade="1" style="width:56px;height:56px;margin:0 0 14px" role="img" aria-label="Aleron MD app"></div>
-          <h1 class="h-screen">Activate your membership.</h1>
-          <p class="claim-note">Signed in from your invite link.</p>
+          <h1 class="h-screen">Confirm your details.</h1>
+          <p class="claim-note">These start your clinical record. Only you and your care team see them.</p>
         </div>
-        <div class="card">
-          <div class="claim-field"><div class="claim-label">Member</div><div class="claim-value">David Park</div></div>
-          <div class="claim-field"><div class="claim-label">Email</div><div class="claim-value">david.park@example.com</div></div>
-          <div class="claim-field"><div class="claim-label">Employer benefit</div><div class="claim-value">Northstar Ventures</div></div>
+        <div class="card signup-card">
+          <div class="auth-confirm" id="authConfirm"></div>
+          <div class="fld">
+            <label class="fld-label" for="suFirst">Legal first name</label>
+            <input class="fld-input" id="suFirst" type="text" autocomplete="given-name" placeholder="First name" oninput="checkSignupReady()">
+          </div>
+          <div class="fld">
+            <label class="fld-label" for="suLast">Legal last name</label>
+            <input class="fld-input" id="suLast" type="text" autocomplete="family-name" placeholder="Last name" oninput="checkSignupReady()">
+          </div>
+          <div class="fld">
+            <label class="fld-label" for="suDob">Date of birth</label>
+            <input class="fld-input" id="suDob" type="date" oninput="checkSignupReady()">
+          </div>
+          <div class="fld">
+            <label class="fld-label" for="suSex">Sex at birth</label>
+            <select class="fld-input" id="suSex" onchange="checkSignupReady()">
+              <option value="" disabled selected>Select</option>
+              <option value="female">Female</option>
+              <option value="male">Male</option>
+              <option value="intersex">Intersex</option>
+            </select>
+          </div>
+          <div class="fld">
+            <label class="fld-label" for="suState">State of residence</label>
+            <select class="fld-input" id="suState" onchange="checkSignupReady()">
+              <option value="" disabled selected>Select</option>
+            </select>
+          </div>
         </div>
       </div>
       <div class="cta-bar">
-        <button class="btn btn--primary" onclick="goNext()">Activate my membership</button>
+        <button class="btn btn--primary" id="signupCta" disabled onclick="createAccount()">Create account</button>
       </div>
     </section>
 
@@ -1894,7 +2263,7 @@ body {
     <section class="screen" data-screen="1">
       <div class="scroll letter-scroll">
         <div class="letter-body">
-          <p>Dear David,</p>
+          <p>Dear <span data-identity-first>there</span>,</p>
           <p>Welcome. I'm Dr. Mizani, and I'll be your physician here. I mean that plainly. I read your labs myself, I study your history myself, and when something deserves a conversation, you will have it with me.</p>
           <p>Most of medicine waits until something goes wrong. Our work begins earlier, while there is still time to choose the road rather than repair it.</p>
           <p>The next twenty minutes are how I start to learn what no blood panel can tell me on its own: the history your family carries, and how your body has been changing through the years. Then we will arrange your first blood draw, at home or nearby, whichever fits your life.</p>
@@ -1930,27 +2299,51 @@ body {
 
     <!-- ============================================================ -->
     <!-- SCREEN 3 · GENETICS CONSENT                                  -->
+    <!-- Two views: Decide (yes/no) -> Confirm (only after opt-in)    -->
     <!-- ============================================================ -->
     <section class="screen" data-screen="3">
-      <div class="scroll">
+
+      <!-- VIEW A · DECIDE -->
+      <div class="scroll" id="genDecideScroll">
         <h1 class="h-screen">Genetic testing is a separate decision.</h1>
-        <p class="framing">Genetic results are permanent and can carry implications for your family. So this consent stands on its own, and it is entirely yours to give or decline.</p>
+        <p class="framing">Genetic results are permanent and can carry implications for your family. So this decision stands on its own, and it is entirely yours to make.</p>
 
         <div class="consent-surface">
           <div class="consent-title">What the panel looks at</div>
           <p class="consent-body">Inherited cancer risk, cardiovascular genetics, and how your body processes common medications. Not a raw gene list. Your physician interprets everything in context.</p>
 
           <div class="consent-title">How results are handled</div>
-          <p class="consent-body">Some findings are called pathogenic or likely pathogenic, which means the variant is known to raise risk. Any result that is serious, ambiguous, or needs clinical context is <b>always held for a conversation with your physician first</b>, regardless of the preference you choose below.</p>
+          <p class="consent-body">Some findings are called pathogenic or likely pathogenic, which means the variant is known to raise risk. Any result that is serious, ambiguous, or needs clinical context is <b>always held for a conversation with your physician first</b>.</p>
 
-          <div class="consent-title">Your employer</div>
-          <p class="consent-body"><b>Your employer will never see your genetic results or any information derived from them.</b> Not individually, not in aggregate. Participation is entirely voluntary. Your benefits, premiums, and employment are not affected by whether you participate.</p>
+          <div class="consent-title">Your data stays private</div>
+          <p class="consent-body"><b>We never share or sell your genetic information, or anything derived from it.</b> Your data is encrypted in transit and at rest, and only your care team can access it, solely to deliver your care. <b>Your employer will never see your genetic results or any information derived from them, and your benefits are not affected by whether you participate.</b></p>
 
-          <div class="consent-title">Your data</div>
+          <div class="consent-title">Your control</div>
           <p class="consent-body">You may request deletion of your genetic data and your biological samples at any time, and we honor it.</p>
+        </div>
+      </div>
+      <div class="cta-bar" id="genDecideCta">
+        <button class="btn btn--primary" onclick="chooseGenetics()">Include genetic testing</button>
+        <button class="btn btn--tertiary" onclick="declineGenetics()">Not now</button>
+      </div>
+
+      <!-- VIEW B · CONFIRM (shown only after opting in) -->
+      <div class="scroll" id="genConfirmScroll" style="display:none">
+        <h1 class="h-screen">Two things to confirm.</h1>
+        <p class="framing">Then choose how you'd like results shared. You can change this later with your physician.</p>
+
+        <div class="consent-surface">
+          <div class="ack-row" id="ackFamily" onclick="toggleAck('ackFamily')">
+            <div class="ack-sq">✓</div>
+            <div class="ack-label">I understand genetic results may have implications for my biological family members.</div>
+          </div>
+          <div class="ack-row" id="ackVoluntary" onclick="toggleAck('ackVoluntary')">
+            <div class="ack-sq">✓</div>
+            <div class="ack-label">I understand participation is voluntary, my genetic information is never shared or sold, and my employer never sees my results or benefits change either way.</div>
+          </div>
 
           <div class="consent-title" style="margin-top:16px">How would you like results disclosed</div>
-          <div class="radio-row" id="prefA" onclick="selectPref('A')">
+          <div class="radio-row selected" id="prefA" onclick="selectPref('A')">
             <div class="radio-sq"></div>
             <div>
               <div class="radio-label">I'd like my physician to walk me through all results before I see them in the app.</div>
@@ -1963,21 +2356,11 @@ body {
               <div class="radio-label">Routine and reassuring results can appear in my care plan when ready. I'd prefer my physician for anything serious.</div>
             </div>
           </div>
-
-          <div class="ack-row" id="ackFamily" onclick="toggleAck('ackFamily')">
-            <div class="ack-sq">✓</div>
-            <div class="ack-label">I understand genetic results may have implications for my biological family members.</div>
-          </div>
-          <div class="ack-row" id="ackVoluntary" onclick="toggleAck('ackVoluntary')">
-            <div class="ack-sq">✓</div>
-            <div class="ack-label">I understand participation is voluntary and my employer will never see my results.</div>
-          </div>
-
-          <div class="consent-meta" id="geneticsMeta">GENETICS CONSENT · V1.0 · SUBMISSION IS TIMESTAMPED UTC</div>
         </div>
       </div>
-      <div class="cta-bar">
+      <div class="cta-bar" id="genConfirmCta" style="display:none">
         <button class="btn btn--primary" id="geneticsCta" disabled onclick="submitGenetics()">I consent to genetic testing</button>
+        <button class="btn btn--tertiary" onclick="backToGenDecide()">Go back</button>
       </div>
     </section>
 
@@ -1989,30 +2372,75 @@ body {
         <div class="relative-tag" id="relativeTag"></div>
         <h1 class="h-screen" id="familyHeading"></h1>
         <p class="framing" id="familyFraming"></p>
-        <div id="sibCountBlock" style="display:none">
-          <div class="sib-count-row">
-            <div class="sib-count-label">Biological siblings</div>
-            <div class="step-ctl">
-              <button onclick="sibCount(-1)">−</button>
-              <div class="val" id="sibCountVal">0</div>
-              <button onclick="sibCount(1)">+</button>
+        <div id="famBody"></div>
+      </div>
+      <div class="cta-bar" id="familyCtaBar"></div>
+    </section>
+
+    <!-- ============================================================ -->
+    <!-- SCREEN 5 · PERSONAL HEALTH (body metrics + med history)      -->
+    <!-- ============================================================ -->
+    <section class="screen" data-screen="5">
+      <div class="scroll" id="healthScroll">
+        <h1 class="h-screen">A little about your health today.</h1>
+        <p class="framing">These help your physician read your results in context. Answer what you know, skip what you don't.</p>
+
+        <div class="consent-surface">
+          <div class="consent-title">Height and weight</div>
+          <div class="hw-grid">
+            <div class="hw-field">
+              <label class="fld-label" for="hFt">Height</label>
+              <div class="hw-inline">
+                <input class="fld-input hw-num" id="hFt" type="number" inputmode="numeric" min="3" max="8" placeholder="ft" oninput="onHealthInput()">
+                <input class="fld-input hw-num" id="hIn" type="number" inputmode="numeric" min="0" max="11" placeholder="in" oninput="onHealthInput()">
+              </div>
+            </div>
+            <div class="hw-field">
+              <label class="fld-label" for="wLb">Weight</label>
+              <div class="hw-inline">
+                <input class="fld-input hw-num" id="wLb" type="number" inputmode="numeric" min="50" max="600" placeholder="lb" oninput="onHealthInput()">
+              </div>
             </div>
           </div>
         </div>
-        <div id="condRows"></div>
-        <button class="btn btn--tertiary" id="dontKnowAll" onclick="markAllUnknown()" style="text-align:left; padding-left:0">I don't know their history</button>
+
+        <div class="consent-surface">
+          <div class="consent-title">Any conditions you're managing</div>
+          <p class="consent-body">Tap any that apply. If none, tap the last one.</p>
+          <div id="condRows"></div>
+        </div>
+
+        <div class="consent-surface">
+          <div class="consent-title">Medications you take regularly</div>
+          <p class="consent-body">Include prescriptions, and any supplements you'd want your physician to know about. One per line.</p>
+          <textarea class="fld-input health-area" id="medsText" rows="3" placeholder="e.g. Metformin 500mg&#10;Vitamin D" oninput="onHealthInput()"></textarea>
+          <div class="ack-row" id="medsNone" onclick="toggleNone('meds')">
+            <div class="ack-sq">✓</div>
+            <div class="ack-label">I don't take any regular medications.</div>
+          </div>
+        </div>
+
+        <div class="consent-surface">
+          <div class="consent-title">Allergies</div>
+          <p class="consent-body">Medications, foods, or anything else. One per line.</p>
+          <textarea class="fld-input health-area" id="allergyText" rows="2" placeholder="e.g. Penicillin" oninput="onHealthInput()"></textarea>
+          <div class="ack-row" id="allergyNone" onclick="toggleNone('allergy')">
+            <div class="ack-sq">✓</div>
+            <div class="ack-label">No known allergies.</div>
+          </div>
+        </div>
       </div>
       <div class="cta-bar">
-        <button class="btn btn--primary" id="familyCta" onclick="familyNext()">Next</button>
+        <button class="btn btn--primary" onclick="submitHealth()">Continue</button>
       </div>
     </section>
 
     <!-- ============================================================ -->
-    <!-- SCREEN 5 · SYMPTOMATOLOGY                                    -->
+    <!-- SCREEN 6 · SYMPTOMATOLOGY                                    -->
     <!-- ============================================================ -->
-    <section class="screen" data-screen="5">
+    <section class="screen" data-screen="6">
       <div class="scroll">
-        <p class="framing">This is a working prototype. You can use browser speech transcription where supported, or type the same answer and see the clinical labels generated from it.</p>
+        <p class="framing">However you have been feeling lately, tell us in your own words. You can say it out loud or type it, whichever is easier.</p>
         <h1 class="h-screen" style="font-size:22px">In your own words, how is your body different now than it was five years ago?</h1>
 
         <div class="mic-stage" id="micStage">
@@ -2023,8 +2451,8 @@ body {
             <span class="wave-bar" style="animation-delay:0ms"></span><span class="wave-bar" style="animation-delay:120ms"></span><span class="wave-bar" style="animation-delay:240ms"></span><span class="wave-bar" style="animation-delay:60ms"></span><span class="wave-bar" style="animation-delay:300ms"></span><span class="wave-bar" style="animation-delay:180ms"></span><span class="wave-bar" style="animation-delay:90ms"></span>
           </div>
           <div class="mic-timer" id="micTimer">00:00</div>
-          <div class="mic-state-label" id="micLabel">Tap to transcribe</div>
-          <div class="recorder-note" id="recorderNote">Chrome and Android Chrome use the browser speech recognizer. Safari can use the typing path below.</div>
+          <div class="mic-state-label" id="micLabel">Tap to speak</div>
+          <div class="recorder-note" id="recorderNote">Speak your answer, or type it instead.</div>
           <button class="btn btn--tertiary" id="typeInstead" onclick="typeInstead()" style="width:auto">I'd rather type</button>
         </div>
 
@@ -2032,15 +2460,15 @@ body {
 
         <div class="transcript-field" id="transcript1">
           <div class="transcript-final" id="transcript1Text" contenteditable="true" oninput="syncTranscriptEdit()"></div>
-          <div class="transcript-src" id="transcriptSrc">Live transcript. Edit anything the recognizer heard wrong.</div>
+          <div class="transcript-src" id="transcriptSrc">Your words. Edit anything that came out wrong.</div>
           <div class="transcript-actions">
-            <button class="micro-btn primary" onclick="acceptTranscript()">Create labels</button>
+            <button class="micro-btn primary" onclick="acceptTranscript()">Continue</button>
             <button class="micro-btn" onclick="resetRecorder()">Record again</button>
           </div>
         </div>
 
         <div class="label-card" id="labelCard">
-          <div class="label-card-title">What Dr. Mizani will see</div>
+          <div class="label-card-title">What you shared</div>
           <div class="label-list" id="labelList"></div>
           <div class="summary-note" id="physicianSummary"></div>
         </div>
@@ -2063,7 +2491,7 @@ body {
     <!-- ============================================================ -->
     <!-- SCREEN 6 · LAB PATH SELECTION                                -->
     <!-- ============================================================ -->
-    <section class="screen" data-screen="6">
+    <section class="screen" data-screen="7">
       <div class="scroll">
         <h1 class="h-screen">Choose how you'd like your blood draw done.</h1>
         <p class="framing">Both paths run the same panel. Pick whichever fits your life.</p>
@@ -2079,9 +2507,27 @@ body {
           <div class="path-detail" id="tassoDetail">
             <div class="address-box">
               <div class="address-name">Ships to</div>
-              <div class="address-lines">David Park<br>2140 Vallejo St, Apt 4<br>San Francisco, CA 94123</div>
+              <div class="fld" style="margin-top:10px">
+                <label class="fld-label" for="shipStreet">Street address</label>
+                <input class="fld-input" id="shipStreet" type="text" autocomplete="street-address" placeholder="Street, apt or unit" oninput="syncShip()" onclick="event.stopPropagation()">
+              </div>
+              <div class="fld">
+                <label class="fld-label" for="shipCity">City</label>
+                <input class="fld-input" id="shipCity" type="text" autocomplete="address-level2" placeholder="City" oninput="syncShip()" onclick="event.stopPropagation()">
+              </div>
+              <div class="ship-row">
+                <div class="fld">
+                  <label class="fld-label" for="shipState">State</label>
+                  <select class="fld-input" id="shipState" onchange="syncShip()" onclick="event.stopPropagation()">
+                    <option value="" disabled selected>Select</option>
+                  </select>
+                </div>
+                <div class="fld">
+                  <label class="fld-label" for="shipZip">ZIP</label>
+                  <input class="fld-input" id="shipZip" type="text" inputmode="numeric" autocomplete="postal-code" placeholder="ZIP" maxlength="10" oninput="syncShip()" onclick="event.stopPropagation()">
+                </div>
+              </div>
             </div>
-            <span class="edit-link">Edit address</span>
           </div>
         </div>
 
@@ -2093,45 +2539,44 @@ body {
           <p class="path-body">A standard venous draw at a Quest location near you. Venous is the clinical standard.</p>
           <div class="path-timing">Results ≈ 5 to 7 days from draw</div>
           <div class="path-detail" id="questDetail">
-            <div style="margin-top:6px">
-              <div class="quest-loc" onclick="selectQuest(event, 0)">
-                <div class="quest-loc-body">
-                  <div class="quest-loc-name">Quest Diagnostics · Laurel Village</div>
-                  <div class="quest-loc-addr">3838 California St, Suite 110</div>
-                </div>
-                <div class="quest-loc-dist">1.4 mi</div>
+            <div class="psc-zip-row" style="margin-top:6px">
+              <div class="fld">
+                <label class="fld-label" for="pscZip">Your ZIP code</label>
+                <input class="fld-input" id="pscZip" type="text" inputmode="numeric" autocomplete="postal-code" maxlength="10" placeholder="ZIP" oninput="onPscZip()" onclick="event.stopPropagation()">
               </div>
-              <div class="quest-loc" onclick="selectQuest(event, 1)">
-                <div class="quest-loc-body">
-                  <div class="quest-loc-name">Quest Diagnostics · Downtown</div>
-                  <div class="quest-loc-addr">490 Post St, Suite 542</div>
-                </div>
-                <div class="quest-loc-dist">2.9 mi</div>
-              </div>
-              <div class="quest-loc" onclick="selectQuest(event, 2)">
-                <div class="quest-loc-body">
-                  <div class="quest-loc-name">Quest Diagnostics · Daly City</div>
-                  <div class="quest-loc-addr">901 Campus Dr, Suite 106</div>
-                </div>
-                <div class="quest-loc-dist">8.2 mi</div>
+              <button class="btn psc-find" id="pscFindBtn" disabled onclick="findPscLocations(event)">Find locations</button>
+            </div>
+            <div id="pscLocations"></div>
+            <div id="pscSlots"></div>
+            <div class="booked-box" id="pscBooked">
+              <div class="booked-title">Appointment booked</div>
+              <div class="booked-meta" id="pscBookedMeta"></div>
+              <div class="booked-note">A confirmation will be sent to your email. Bring a photo ID.</div>
+              <div class="psc-appt-actions">
+                <button class="psc-link" onclick="reschedulePsc(event)">Reschedule</button>
+                <button class="psc-link" onclick="cancelPsc(event)">Cancel</button>
               </div>
             </div>
           </div>
         </div>
       </div>
       <div class="cta-bar">
-        <button class="btn btn--primary" id="labCta" disabled onclick="goNext()">Confirm home kit</button>
+        <button class="btn btn--primary" id="labCta" disabled onclick="labPrimary()">Confirm home kit</button>
       </div>
     </section>
 
     <!-- ============================================================ -->
     <!-- SCREEN 7 · WEARABLE CONNECTION                               -->
     <!-- ============================================================ -->
-    <section class="screen" data-screen="7">
+    <section class="screen" data-screen="8">
       <div class="scroll">
         <h1 class="h-screen">Connect a wearable.</h1>
         <p class="lede">If you wear an Apple Watch or fitness tracker, connecting it gives your physician a much richer picture than labs alone. This step is optional. You can connect a device later from settings.</p>
         <div class="conn-state" id="connState"><span class="conn-dot" style="background:var(--text-gold)"></span>Apple Health · connected</div>
+        <div class="sync-card" id="syncCard">
+          <div class="sync-headline"><strong>Your data is flowing.</strong> Your physician can now see these trends alongside your labs.</div>
+          <div class="sync-rows" id="syncRows"></div>
+        </div>
         <p class="framing" style="margin-top:22px">Have an Oura, Garmin, or Whoop? You can connect those from settings after setup.</p>
       </div>
       <div class="cta-bar">
@@ -2143,7 +2588,7 @@ body {
     <!-- ============================================================ -->
     <!-- SCREEN 8 · INTRO CALL                                        -->
     <!-- ============================================================ -->
-    <section class="screen" data-screen="8">
+    <section class="screen" data-screen="9">
       <div class="scroll">
         <h1 class="h-screen">Say hello first, if you'd like.</h1>
         <div class="physician-strip">
@@ -2180,14 +2625,34 @@ body {
     </section>
 
     <!-- ============================================================ -->
-    <!-- SCREEN 9 · CONFIRMATION / WAITING STATE                      -->
+    <!-- SCREEN 10 · STRUCTURED INTAKE (multi-section engine)          -->
+    <!-- Least motivating step, placed last before the waiting state.  -->
+    <!-- One screen hosts all six sections via an internal step index. -->
     <!-- ============================================================ -->
-    <section class="screen" data-screen="9">
+    <section class="screen" data-screen="10">
+      <div class="scroll" id="intakeScroll">
+        <div class="intake-progress" id="intakeProgress"></div>
+        <h1 class="h-screen" id="intakeTitle">A few specifics your physician uses.</h1>
+        <p class="framing" id="intakeIntro">You already told us the story in your own words. These short questions turn part of that story into structured signals your physician and risk models can use.</p>
+        <div id="intakeBody"></div>
+      </div>
+      <div class="cta-bar">
+        <button class="btn btn--primary" id="intakeNextBtn" onclick="intakeAdvance()">Continue</button>
+        <button class="btn btn--tertiary" id="intakeSkipBtn" onclick="intakeSkipSection()">Skip this section</button>
+      </div>
+    </section>
+
+    <!-- ============================================================ -->
+    <!-- SCREEN 11 · CONFIRMATION / WAITING STATE                     -->
+    <!-- ============================================================ -->
+    <section class="screen" data-screen="11">
       <div class="scroll">
-        <h1 class="h-screen">You're all set, David.</h1>
-        <p class="framing">Here is everything on file. Your physician will review your results and be in touch. Most members hear back within 7 days of sample receipt.</p>
+        <h1 class="h-screen">You're all set, <span data-identity-first>there</span>.</h1>
+        <p class="framing">Your physician now has your family history, your health narrative, your structured health signals, and your selected next steps. Labs, genetics, and wearable data will attach here as they arrive.</p>
 
         <div class="card" id="summaryList" style="padding:6px 20px"></div>
+
+        <div id="kitTracking"></div>
 
         <div class="section-label">While you wait</div>
         <div class="disclosure" id="exp1">
@@ -2236,6 +2701,20 @@ body {
     </div>
   </div>
 
+  <!-- DOCUMENT SHEET · full consent text -->
+  <div class="doc-overlay" id="docOverlay" onclick="if(event.target===this)closeDoc()">
+    <div class="doc-sheet">
+      <div class="doc-head">
+        <div>
+          <div class="doc-head-title" id="docTitle"></div>
+          <div class="doc-head-meta" id="docMeta"></div>
+        </div>
+        <button class="doc-close" onclick="closeDoc()" aria-label="Close">×</button>
+      </div>
+      <div class="doc-scroll" id="docScroll"></div>
+    </div>
+  </div>
+
   <!-- SPLASH OVERLAY · app first open -->
   <div class="splash-overlay" id="splashOverlay">
     <div class="splash-lockup">aleron<span class="md">MD</span></div>
@@ -2252,56 +2731,472 @@ body {
 /*  STATE                                                            */
 /* ================================================================ */
 var state = {
-  screen: window.ALERON_RENDER_MODE === 'runtime' ? 1 : -2,
-  consents: {},          // key -> ISO stamp
-  genetics: { pref: null, acks: {}, version: 'V1.0', stamp: null },
-  family: {},            // relative -> { conditions, onsets, unknown, sibCount }
+  screen: window.ALERON_RENDER_MODE === 'runtime' ? 1 : -1,
+  auth: null,            // authentication result (apple|google|email)
+  identity: null,        // account_signup.v1 (set on createAccount)
+  consents: {},          // key -> { version, stamp }
+  genetics: { pref: 'A', acks: {}, version: 'V1.0', decision: null, stamp: null, order: null },
+  family: {},            // mother/father -> record; siblings -> [record]
   familyIndex: 0,
+  siblingEdit: null,     // index of sibling being edited, or null (roster)
+  health: { heightFt: null, heightIn: null, weightLb: null, conditions: {}, meds: null, medsNone: false, allergies: null, allergyNone: false, done: false },
   symptoms: { transcript: null, probes: 0, done: false },
   labPath: null,         // 'tasso' | 'quest'
-  questLoc: null,
+  ship: { street: '', city: '', state: '', zip: '' },
+  quest: { zip: '', locationIdx: null, location: null, date: null, dateLabel: null, slot: null, status: null, stamp: null },
   wearable: null,        // 'connected' | 'skipped'
+  wearableSync: null,    // { rows_synced, by_metric, stamp } — the "it's working" moment
   call: null             // slot string | 'skipped'
 };
 
-var STEP_LABELS = ['Welcome','Consents','Genetics','Family','Symptoms','Labs','Wearable','Intro call','Done'];
-var PRE_LABELS = { '-2': 'Welcome email', '-1': 'App install', '0': 'Account claim' };
+var STEP_LABELS = ['Welcome','Consents','Genetics','Family','Health today','In your words','Labs','Wearable','Intro call','Structured signals','Done'];
+var CHAPTER_LABELS = {
+  1: 'Welcome',
+  2: 'Consent',
+  3: 'Consent',
+  4: 'Your health',
+  5: 'Your health',
+  6: 'Your health',
+  7: 'Logistics',
+  8: 'Logistics',
+  9: 'Logistics',
+  10: 'Your health',
+  11: 'Waiting'
+};
+var PRE_LABELS = { '-1': 'Create account', '0': 'Your details' };
 var SCREEN_JUMP_ITEMS = [
-  { screen: -2, code: 'E', label: 'Welcome email' },
-  { screen: -1, code: 'AS', label: 'App Store install' },
-  { screen: 0, code: '0', label: 'Account claim' },
+  { code: 'S', label: 'Splash', action: 'replaySplash()' },
+  { screen: -1, code: 'A', label: 'Create account' },
+  { screen: 0, code: 'D', label: 'Your details' },
   { screen: 1, code: '1', label: 'Welcome' },
   { screen: 2, code: '2', label: 'Consents' },
   { screen: 3, code: '3', label: 'Genetics' },
   { screen: 4, code: '4', label: 'Family history' },
-  { screen: 5, code: '5', label: 'Symptoms' },
-  { screen: 6, code: '6', label: 'Lab path' },
-  { screen: 7, code: '7', label: 'Wearable' },
-  { screen: 8, code: '8', label: 'Intro call' },
-  { screen: 9, code: '9', label: 'Waiting state' }
+  { screen: 5, code: '5', label: 'Health today' },
+  { screen: 6, code: '6', label: 'In your words' },
+  { screen: 7, code: '7', label: 'Lab path' },
+  { screen: 8, code: '8', label: 'Wearable' },
+  { screen: 9, code: '9', label: 'Intro call' },
+  { screen: 10, code: 'I', label: 'Structured signals' },
+  { screen: 11, code: '0', label: 'Waiting state' }
 ];
 
 /* ================================================================ */
-/*  APP STORE · GET -> download -> OPEN -> splash -> claim           */
+/*  PROTOTYPE HARNESS · TEST ACCOUNTS                                */
+/*  Review-only affordance, lives in the jump nav with the screen    */
+/*  jumper. Each run through the real signup is saved locally so     */
+/*  multiple accounts can be created and switched between on         */
+/*  device. None of this ships.                                      */
 /* ================================================================ */
-function installApp() {
-  var btn = document.getElementById('getBtn');
-  btn.style.display = 'none';
-  document.getElementById('dlRing').style.display = 'flex';
-  setTimeout(function () {
-    document.getElementById('dlRing').style.display = 'none';
-    btn.textContent = 'OPEN';
-    btn.style.display = 'inline-block';
-    btn.onclick = openApp;
-  }, 2400);
+var ACCT_STORE_KEY = 'aleron.proto.accounts.v1';
+var ACCT_ACTIVE_KEY = 'aleron.proto.activeAccount.v1';
+
+function loadAcctStore() {
+  try { return JSON.parse(localStorage.getItem(ACCT_STORE_KEY)) || {}; }
+  catch (err) { return {}; }
 }
-function openApp() {
+function saveAcctStore(store) {
+  try { localStorage.setItem(ACCT_STORE_KEY, JSON.stringify(store)); } catch (err) {}
+}
+
+/* Snapshot the whole state object under the account's patient_id. */
+function persistAccount() {
+  if (!state.identity) return;
+  var store = loadAcctStore();
+  store[state.identity.patient_id] = { state: state, savedAt: new Date().toISOString() };
+  saveAcctStore(store);
+  try { localStorage.setItem(ACCT_ACTIVE_KEY, state.identity.patient_id); } catch (err) {}
+  renderAccounts();
+}
+
+function freshState() {
+  return {
+    screen: -1, auth: null, identity: null, consents: {},
+    genetics: { pref: 'A', acks: {}, version: 'V1.0', decision: null, stamp: null, order: null },
+    family: {}, familyIndex: 0, siblingEdit: null,
+    health: { heightFt: null, heightIn: null, weightLb: null, conditions: {}, meds: null, medsNone: false, allergies: null, allergyNone: false, done: false },
+    symptoms: { transcript: null, probes: 0, done: false },
+    intake: {},   /* A2 structured-intake sections; each: { started, done, declined, data } */
+    labPath: null, ship: { street: '', city: '', state: '', zip: '' },
+    quest: { zip: '', locationIdx: null, location: null, date: null, dateLabel: null, slot: null, status: null, stamp: null },
+    wearable: null, wearableSync: null, call: null
+  };
+}
+
+function newAccount() {
+  try { localStorage.removeItem(ACCT_ACTIVE_KEY); } catch (err) {}
+  state = freshState();
+  resetSurfaces();
+  renderAccounts();
+  jumpToScreen(-1);
+}
+
+function fillSignupForm(p) {
+  document.getElementById('suFirst').value = p.first;
+  document.getElementById('suLast').value = p.last;
+  document.getElementById('suDob').value = p.dob;
+  document.getElementById('suSex').value = p.sex;
+  document.getElementById('suState').value = p.state;
+  checkSignupReady();
+}
+
+function switchAccount(pid) {
+  var store = loadAcctStore();
+  var rec = store[pid];
+  if (!rec || !rec.state) return;
+  state = rec.state;
+  try { localStorage.setItem(ACCT_ACTIVE_KEY, pid); } catch (err) {}
+  resetSurfaces();
+  rehydrate();
+  renderAccounts();
+  jumpToScreen(state.screen);
+}
+
+function deleteAccount(ev, pid) {
+  ev.stopPropagation();
+  var store = loadAcctStore();
+  delete store[pid];
+  saveAcctStore(store);
+  var active = null;
+  try { active = localStorage.getItem(ACCT_ACTIVE_KEY); } catch (err) {}
+  if (active === pid) { newAccount(); return; }
+  renderAccounts();
+}
+
+function renderAccounts() {
+  var wrap = document.getElementById('acctList');
+  if (!wrap) return;
+  var store = loadAcctStore();
+  var active = null;
+  try { active = localStorage.getItem(ACCT_ACTIVE_KEY); } catch (err) {}
+  var pids = Object.keys(store).sort(function (a, b) {
+    return store[a].savedAt < store[b].savedAt ? 1 : -1;
+  });
+  var rows = pids.map(function (pid) {
+    var s = store[pid].state;
+    var name = s.identity.first_name + ' ' + s.identity.last_name;
+    var progress = s.screen >= 9 ? 'Complete' : s.screen >= 1 ? 'Step ' + s.screen + ' of 9' : 'Signup';
+    return '<button class="jump-nav-item jump-acct' + (pid === active ? ' active' : '') + '" type="button" onclick="switchAccount(\'' + pid + '\')">' +
+      '<span class="jump-nav-num">' + escapeHtml(s.identity.first_name.charAt(0)) + '</span>' +
+      '<span class="jump-nav-label">' + escapeHtml(name) +
+        '<span class="jump-acct-meta">' + pid + ' · ' + progress + '</span></span>' +
+      '<span class="jump-acct-del" role="button" aria-label="Delete ' + escapeHtml(name) + '" onclick="deleteAccount(event, \'' + pid + '\')">×</span>' +
+    '</button>';
+  });
+  rows.push('<button class="jump-nav-item" type="button" onclick="newAccount()">' +
+    '<span class="jump-nav-num">+</span><span class="jump-nav-label">New account</span></button>');
+  wrap.innerHTML = rows.join('');
+}
+
+/* Return every screen's DOM to its blank first-visit condition. */
+function resetSurfaces() {
+  /* Auth + details */
+  document.getElementById('emailAuthForm').style.display = 'none';
+  document.getElementById('emailAuthCollapsed').style.display = '';
+  document.getElementById('authEmail').value = '';
+  document.getElementById('emailAuthCta').disabled = true;
+  var strip = document.getElementById('authConfirm');
+  strip.innerHTML = '';
+  strip.classList.remove('show');
+  ['suFirst', 'suLast', 'suDob'].forEach(function (id) { document.getElementById(id).value = ''; });
+  document.getElementById('suSex').selectedIndex = 0;
+  document.getElementById('suState').selectedIndex = 0;
+  document.getElementById('signupCta').disabled = true;
+  /* Consents */
+  renderConsents();
+  document.getElementById('consentContinue').disabled = true;
+  /* Genetics — default disclosure pref (A) selected, decide view */
+  document.getElementById('prefA').classList.add('selected');
+  document.getElementById('prefB').classList.remove('selected');
+  ['ackFamily', 'ackVoluntary'].forEach(function (id) {
+    var el = document.getElementById(id);
+    if (el) el.classList.remove('confirmed');
+  });
+  document.getElementById('geneticsCta').disabled = true;
+  resetGenView();
+  /* Symptoms */
+  resetRecorder();
+  document.getElementById('typeArea').value = '';
+  /* Lab path */
+  document.getElementById('pathTasso').classList.remove('selected');
+  document.getElementById('pathQuest').classList.remove('selected');
+  document.getElementById('tassoDetail').classList.remove('show');
+  document.getElementById('questDetail').classList.remove('show');
+  ['shipStreet', 'shipCity', 'shipZip'].forEach(function (id) { document.getElementById(id).value = ''; });
+  document.getElementById('shipState').selectedIndex = 0;
+  document.getElementById('pscZip').value = '';
+  document.getElementById('pscFindBtn').disabled = true;
+  document.getElementById('pscLocations').innerHTML = '';
+  document.getElementById('pscSlots').innerHTML = '';
+  document.getElementById('pscBooked').classList.remove('show');
+  var labCta = document.getElementById('labCta');
+  labCta.disabled = true;
+  labCta.textContent = 'Confirm home kit';
+  /* Wearable */
+  document.getElementById('connState').classList.remove('show');
+  var hk = document.getElementById('healthKitBtn');
+  hk.textContent = 'Connect Apple Health';
+  hk.onclick = openPermSheet;
+  document.getElementById('wearableSkip').style.display = '';
+  /* Intro call */
+  document.querySelectorAll('.slot').forEach(function (s) { s.classList.remove('selected'); });
+  document.getElementById('bookedBox').classList.remove('show');
+  var callCta = document.getElementById('callCta');
+  callCta.disabled = true;
+  callCta.textContent = 'Book an intro call';
+  callCta.onclick = bookCall;
+}
+
+/* Re-apply a restored state object to the DOM, without re-stamping. */
+function rehydrate() {
+  applyIdentity();
+  if (state.identity) {
+    fillSignupForm({
+      first: state.identity.first_name, last: state.identity.last_name,
+      dob: state.identity.dob, sex: state.identity.sex_at_birth, state: state.identity.state
+    });
+  }
+  if (state.auth) {
+    var label = { apple: 'Apple', google: 'Google', email: 'email' }[state.auth.method];
+    var strip = document.getElementById('authConfirm');
+    strip.innerHTML = 'Signed in with <b>' + label + '</b> · ' + escapeHtml(state.auth.email) +
+      (state.auth.email_verified ? ' · verified' : '');
+    strip.classList.add('show');
+  }
+  /* Consents */
+  Object.keys(state.consents).forEach(function (key) {
+    var slot = document.getElementById('agree-' + key);
+    if (!slot) return;
+    var rec = state.consents[key];
+    slot.innerHTML = '<div class="agreed-tag"><span class="check-sq">✓</span>Agreed</div>';
+    var glyph = document.querySelector('#row-' + key + ' .disclosure-summary .expand-glyph');
+    glyph.textContent = '✓';
+    glyph.style.color = 'var(--text-gold)';
+  });
+  if (Object.keys(state.consents).length === CONSENT_ITEMS.length) {
+    document.getElementById('consentContinue').disabled = false;
+  }
+  /* Genetics */
+  if (state.genetics.pref) {
+    document.getElementById('prefA').classList.toggle('selected', state.genetics.pref === 'A');
+    document.getElementById('prefB').classList.toggle('selected', state.genetics.pref === 'B');
+  }
+  Object.keys(state.genetics.acks).forEach(function (id) {
+    var el = document.getElementById(id);
+    if (el) el.classList.toggle('confirmed', !!state.genetics.acks[id]);
+  });
+  checkGeneticsReady();
+  resetGenView();
+  /* Health */
+  if (state.health && state.health.done) renderHealth();
+  /* Symptoms */
+  if (state.symptoms.transcript) {
+    micState = 'done';
+    document.getElementById('micStage').style.display = 'none';
+    document.getElementById('typeInstead').style.display = 'none';
+    setTranscript(state.symptoms.transcript, 'Your words. Edit anything that came out wrong.');
+    if (state.symptoms.done) {
+      labelResults = extractClinicalLabels(state.symptoms.transcript);
+      renderLabels(labelResults, state.symptoms.transcript);
+      document.getElementById('symCta').style.display = 'flex';
+    }
+  }
+  /* Lab path */
+  renderShip();
+  if (state.labPath) selectPath(state.labPath);
+  /* Wearable */
+  if (state.wearable === 'connected') {
+    document.getElementById('connState').classList.add('show');
+    if (!state.wearableSync) state.wearableSync = simulateWearableSync();
+    paintWearableSync();
+    var hk = document.getElementById('healthKitBtn');
+    hk.textContent = 'Continue';
+    hk.onclick = goNext;
+    document.getElementById('wearableSkip').style.display = 'none';
+  }
+  /* Intro call */
+  if (state.call && state.call !== 'skipped') {
+    document.querySelectorAll('.slot').forEach(function (s) {
+      s.classList.toggle('selected', s.dataset.slot === state.call);
+    });
+    document.getElementById('bookedMeta').textContent = state.call + ' · 15 min';
+    document.getElementById('bookedBox').classList.add('show');
+    var cta = document.getElementById('callCta');
+    cta.disabled = false;
+    cta.textContent = 'Continue';
+    cta.onclick = goNext;
+  }
+}
+
+/* On load: resume the active account where it left off. */
+function restoreActiveAccount() {
+  if (window.ALERON_RENDER_MODE === 'runtime') return;
+  var active = null;
+  try { active = localStorage.getItem(ACCT_ACTIVE_KEY); } catch (err) {}
+  if (!active) { renderAccounts(); return; }
+  var store = loadAcctStore();
+  var rec = store[active];
+  if (!rec || !rec.state || !rec.state.identity) { renderAccounts(); return; }
+  state = rec.state;
+  rehydrate();
+  prepareScreen(state.screen);
+  renderAccounts();
+}
+
+/* ================================================================ */
+/*  SPLASH · app first paint                                        */
+/* ================================================================ */
+function bootSplash() {
+  if (window.ALERON_RENDER_MODE === 'runtime') return;
   var splash = document.getElementById('splashOverlay');
+  if (!splash) return;
   splash.classList.add('show');
-  setTimeout(function () {
-    goNext();
-    setTimeout(function () { splash.classList.remove('show'); }, 300);
-  }, 1700);
+  setTimeout(function () { splash.classList.remove('show'); }, 1900);
+}
+
+function replaySplash() {
+  toggleJumpNav(false);
+  var splash = document.getElementById('splashOverlay');
+  if (!splash) return;
+  splash.classList.add('show');
+  // Stay on the splash when opened from the nav; tap anywhere to dismiss.
+  splash.onclick = function () {
+    splash.classList.remove('show');
+    splash.onclick = null;
+  };
+}
+
+/* ================================================================ */
+/*  SCREEN 0 · CREATE ACCOUNT · account_signup.v1                    */
+/* ================================================================ */
+var US_STATES = ['AL','AK','AZ','AR','CA','CO','CT','DE','FL','GA','HI','ID','IL','IN','IA','KS','KY','LA','ME','MD','MA','MI','MN','MS','MO','MT','NE','NV','NH','NJ','NM','NY','NC','ND','OH','OK','OR','PA','RI','SC','SD','TN','TX','UT','VT','VA','WA','WV','WI','WY','DC'];
+
+function fillStates() {
+  ['suState', 'shipState'].forEach(function (id) {
+    var sel = document.getElementById(id);
+    if (!sel) return;
+    US_STATES.forEach(function (st) {
+      var o = document.createElement('option');
+      o.value = st; o.textContent = st;
+      sel.appendChild(o);
+    });
+  });
+}
+
+function checkSignupReady() {
+  var ok = ['suFirst','suLast','suDob','suSex','suState'].every(function (id) {
+    var el = document.getElementById(id);
+    return el && cleanText(el.value);
+  });
+  var cta = document.getElementById('signupCta');
+  if (cta) cta.disabled = !ok;
+  return ok;
+}
+
+/* ---- Authentication (simulated SSO / email) --------------------- */
+var SSO_SAMPLE = {
+  apple:  { email: 'user@privaterelay.appleid.com', first: 'Alex', last: 'Rivera' },
+  google: { email: 'user@gmail.com', first: 'Alex', last: 'Rivera' }
+};
+
+function revealEmailAuth() {
+  document.getElementById('emailAuthCollapsed').style.display = 'none';
+  document.getElementById('emailAuthForm').style.display = 'block';
+  document.getElementById('authEmail').focus();
+}
+
+function checkEmailAuthReady() {
+  var v = cleanText(document.getElementById('authEmail').value);
+  document.getElementById('emailAuthCta').disabled = !(v && v.indexOf('@') !== -1);
+}
+
+function ssoAuth(method) {
+  var email, first = '', last = '', verified, prefilled = [];
+  if (method === 'email') {
+    email = cleanText(document.getElementById('authEmail').value);
+    if (!email || email.indexOf('@') === -1) return;
+    verified = false;              // email link would verify later
+    prefilled = ['email'];
+  } else {
+    var sample = SSO_SAMPLE[method];
+    email = sample.email; first = sample.first; last = sample.last;
+    verified = true;               // IdP returns a verified email
+    prefilled = ['email', 'first_name', 'last_name'];
+  }
+  state.auth = {
+    method: method,
+    provider_subject: method + '|' + Math.random().toString(36).slice(2, 12),
+    email: email,
+    email_verified: verified,
+    prefilled: prefilled,
+    authed_at: new Date().toISOString().replace(/\.\d{3}Z$/, 'Z')
+  };
+  applyAuthPrefill();
+  goNext();
+}
+
+/* Prefill the confirm-details screen from what the IdP supplied. */
+function applyAuthPrefill() {
+  if (!state.auth) return;
+  var a = state.auth;
+  if (a.prefilled.indexOf('first_name') !== -1 && SSO_SAMPLE[a.method]) {
+    document.getElementById('suFirst').value = SSO_SAMPLE[a.method].first;
+    document.getElementById('suLast').value = SSO_SAMPLE[a.method].last;
+  }
+  var label = { apple: 'Apple', google: 'Google', email: 'email' }[a.method];
+  var strip = document.getElementById('authConfirm');
+  if (strip) {
+    strip.innerHTML = 'Signed in with <b>' + label + '</b> \u00b7 ' + escapeHtml(a.email) +
+      (a.email_verified ? ' \u00b7 verified' : '');
+    strip.classList.add('show');
+  }
+  checkSignupReady();
+}
+
+function genPatientId() {
+  var d = new Date();
+  var stamp = d.getFullYear().toString().slice(2) + String(d.getMonth() + 1).padStart(2, '0') + String(d.getDate()).padStart(2, '0');
+  var rand = Math.random().toString(36).slice(2, 6).toUpperCase();
+  return 'AL-' + stamp + '-' + rand;
+}
+
+function createAccount() {
+  if (!checkSignupReady()) return;
+  var first = cleanText(document.getElementById('suFirst').value);
+  var last = cleanText(document.getElementById('suLast').value);
+  var stamp = new Date().toISOString().replace(/\.\d{3}Z$/, 'Z');
+  var auth = state.auth || { method: 'email', email: '', email_verified: false, prefilled: [], provider_subject: null };
+  state.identity = {
+    schema: 'account_signup.v1',
+    patient_id: genPatientId(),
+    auth: {
+      method: auth.method,
+      provider_subject: auth.provider_subject,
+      email_verified: auth.email_verified,
+      prefilled: auth.prefilled
+    },
+    first_name: first,
+    last_name: last,
+    email: auth.email,
+    dob: document.getElementById('suDob').value,
+    sex_at_birth: document.getElementById('suSex').value,
+    state: document.getElementById('suState').value,
+    identity_status: 'unverified',
+    care_status: 'intake_started',
+    created_at: stamp
+  };
+  applyIdentity();
+  persistAccount();
+  setTimeout(goNext, 300);
+}
+
+/* Repoint every hardcoded "David" reference to the created account. */
+function applyIdentity() {
+  if (!state.identity) return;
+  var first = state.identity.first_name;
+  var full = first + ' ' + state.identity.last_name;
+  document.querySelectorAll('[data-identity-first]').forEach(function (el) { el.textContent = first; });
+  document.querySelectorAll('[data-identity-full]').forEach(function (el) { el.textContent = full; });
 }
 
 /* ================================================================ */
@@ -2318,15 +3213,15 @@ function renderChrome() {
     renderJumpNavState();
     return;
   }
-  for (var i = 1; i <= 9; i++) {
+  for (var i = 1; i <= 11; i++) {
     var n = document.createElement('div');
     n.className = 'step-node' + (i < state.screen ? ' done' : i === state.screen ? ' current' : '');
     n.setAttribute('aria-hidden', 'true');
     stepper.appendChild(n);
   }
   document.getElementById('stepCaption').textContent =
-    'Step ' + state.screen + ' of 9 · ' + STEP_LABELS[state.screen - 1];
-  back.classList.toggle('show', state.screen > -2 && state.screen < 9);
+    (CHAPTER_LABELS[state.screen] || 'Onboarding') + ' · ' + STEP_LABELS[state.screen - 1];
+  back.classList.toggle('show', state.screen > 1 && state.screen < 11);
   renderJumpNavState();
 }
 
@@ -2334,7 +3229,9 @@ function renderJumpNav() {
   var nav = document.getElementById('screenJumpNav');
   if (!nav) return;
   nav.innerHTML = SCREEN_JUMP_ITEMS.map(function (item) {
-    return '<button class="jump-nav-item" type="button" data-jump-screen="' + item.screen + '" onclick="jumpToScreen(' + item.screen + ')">' +
+    var onclick = item.action ? item.action : 'jumpToScreen(' + item.screen + ')';
+    var ds = item.action ? '' : ' data-jump-screen="' + item.screen + '"';
+    return '<button class="jump-nav-item" type="button"' + ds + ' onclick="' + onclick + '">' +
       '<span class="jump-nav-num">' + item.code + '</span>' +
       '<span class="jump-nav-label">' + item.label + '</span>' +
     '</button>';
@@ -2358,8 +3255,11 @@ function toggleJumpNav(force) {
 }
 
 function prepareScreen(n) {
+  if (n === 3) resetGenView();
   if (n === 4) renderFamily();
-  if (n === 9) buildSummary();
+  if (n === 5) renderHealth();
+  if (n === 10) renderIntake();
+  if (n === 11) buildSummary();
 }
 
 function jumpToScreen(n) {
@@ -2383,42 +3283,104 @@ function showScreen(n, dir) {
   });
   state.screen = n;
   renderChrome();
+  persistAccount();
 }
 
 function goNext() {
-  if (state.screen < 9) {
+  if (state.screen < 11) {
     var next = state.screen + 1;
     prepareScreen(next);
     showScreen(next, 'fwd');
   }
 }
 function goBack() {
-  if (state.screen > -2) showScreen(state.screen - 1, 'back');
+  if (state.screen > -1) {
+    var prev = state.screen - 1;
+    prepareScreen(prev);
+    showScreen(prev, 'back');
+  }
 }
 
 /* ================================================================ */
 /*  SCREEN 2 · CONSENTS                                              */
 /* ================================================================ */
+/* Full document text shown when a "Read the full …" link is tapped.
+   Plain-language prototype copy; final legal wording pending counsel. */
+var DOC_FULL = {
+  membership: {
+    title: 'Membership agreement',
+    meta: 'Aleron MD',
+    body:
+      '<h4>What your membership includes</h4>' +
+      '<p>Aleron MD is physician-led preventive care. Your membership covers your lab panels, genetic testing if you choose it, review of your wearable data, and direct access to your physician through the app.</p>' +
+      '<h4>How it is paid</h4>' +
+      '<p>Your membership is paid through your employer benefit. You are not billed a membership fee directly while that benefit is in place.</p>' +
+      '<h4>What is not included</h4>' +
+      '<p>Your physician may recommend prescriptions or additional diagnostics that fall outside your membership. Those are not always covered by insurance, and your physician will tell you before anything like that is ordered.</p>' +
+      '<h4>Leaving</h4>' +
+      '<p>You can leave at any time. Your records remain available to you and are handled under the HIPAA authorization you sign here.</p>'
+  },
+  hipaa: {
+    title: 'HIPAA authorization',
+    meta: 'Aleron MD',
+    body:
+      '<h4>What this authorizes</h4>' +
+      '<p>This lets Aleron’s clinical team, the labs that run your panels, and the genetics provider share your health information with each other for the purpose of your care.</p>' +
+      '<h4>What it does not allow</h4>' +
+      '<p>Your information is not sold and is not used for advertising. It is used to deliver and coordinate your care, and for the limited operations required to run that care.</p>' +
+      '<h4>Your rights</h4>' +
+      '<p>You may revoke this authorization in writing at any time. Revoking it does not affect information already shared while it was in effect, and it does not change your protections under HIPAA.</p>'
+  },
+  telehealth: {
+    title: 'Telehealth consent',
+    meta: 'Aleron MD',
+    body:
+      '<h4>How visits work</h4>' +
+      '<p>All consults with your physician are virtual visits through the app. There is no in-person clinic.</p>' +
+      '<h4>If you need hands-on care</h4>' +
+      '<p>If anything ever requires in-person or emergency care, your physician will refer you and help coordinate it. Telehealth is not for emergencies. If you have a medical emergency, call your local emergency number.</p>' +
+      '<h4>Quality and privacy</h4>' +
+      '<p>Virtual visits use secure, encrypted connections. As with any technology, a connection can occasionally fail; if that happens during a visit, your physician will reconnect or reschedule.</p>'
+  }
+};
+
+function openDoc(key) {
+  var doc = DOC_FULL[key];
+  if (!doc) return;
+  document.getElementById('docTitle').textContent = doc.title;
+  document.getElementById('docMeta').textContent = doc.meta;
+  document.getElementById('docScroll').innerHTML = doc.body;
+  document.getElementById('docScroll').scrollTop = 0;
+  document.getElementById('docOverlay').classList.add('show');
+}
+function closeDoc() {
+  document.getElementById('docOverlay').classList.remove('show');
+}
+
 var CONSENT_ITEMS = [
   {
     key: 'membership',
+    version: 'v1.0',
     title: 'Membership agreement',
-    body: '<p>Aleron MD provides preventive care led by your physician: lab panels, genetic testing if you choose it, wearable review, and direct physician access. Your membership is paid through your employer benefit. You can leave at any time.</p><p><span class="doc-link">Read the full agreement</span></p>'
+    body: '<p>Aleron MD provides preventive care led by your physician: lab panels, genetic testing if you choose it, wearable review, and direct physician access. Your membership is paid through your employer benefit. You can leave at any time.</p><p><span class="doc-link" onclick="openDoc(\'membership\')">Read the full agreement</span></p>'
   },
   {
     key: 'hipaa',
+    version: 'v1.0',
     title: 'HIPAA authorization',
-    body: '<p>Your health information is protected under HIPAA. This authorization lets Aleron’s clinical team, the labs that run your panels, and the genetics provider handle your results for your care and nothing else. You may revoke it in writing at any time.</p><p><span class="doc-link">Read the full authorization</span></p>'
+    body: '<p>Your health information is protected under HIPAA. This authorization lets Aleron’s clinical team, the labs that run your panels, and the genetics provider handle your results for your care and nothing else. You may revoke it in writing at any time.</p><p><span class="doc-link" onclick="openDoc(\'hipaa\')">Read the full authorization</span></p>'
   },
   {
     key: 'telehealth',
+    version: 'v1.0',
     title: 'Telehealth consent',
-    body: '<p>All consults with your physician are virtual visits. There is no in person clinic. If anything ever requires hands on care, your physician will refer you and coordinate it.</p><p><span class="doc-link">Read the full consent</span></p>'
+    body: '<p>All consults with your physician are virtual visits. There is no in person clinic. If anything ever requires hands on care, your physician will refer you and coordinate it.</p><p><span class="doc-link" onclick="openDoc(\'telehealth\')">Read the full consent</span></p>'
   },
   {
     key: 'billing',
+    version: 'v1.0',
     title: 'Billing acknowledgment',
-    body: '<p>Labs and genetic tests are billed directly by the providers who perform them, not bundled into your Aleron membership. Some advanced panels are not covered by insurance. We tell you this now, before anything is ordered, so there are no surprises later.</p>'
+    body: '<p>Your lab panels and genetic testing are included in your Aleron membership. Along the way, your physician may recommend prescriptions or additional diagnostics that fall outside it, and those are not always covered by insurance. We tell you before anything like that is ordered, so there are no surprises later.</p>'
   }
 ];
 
@@ -2451,9 +3413,11 @@ function toggleRow(key) {
 
 function agreeTo(key) {
   var stamp = new Date().toISOString().replace(/\.\d{3}Z$/, 'Z');
-  state.consents[key] = stamp;
+  var item = CONSENT_ITEMS.filter(function (c) { return c.key === key; })[0];
+  var version = item ? item.version : 'v1.0';
+  state.consents[key] = { version: version, stamp: stamp };
   var slot = document.getElementById('agree-' + key);
-  slot.innerHTML = '<div class="agreed-tag"><span class="check-sq">✓</span>AGREED · ' + stamp + '</div>';
+  slot.innerHTML = '<div class="agreed-tag"><span class="check-sq">✓</span>Agreed</div>';
   var glyph = document.querySelector('#row-' + key + ' .disclosure-summary .expand-glyph');
   glyph.textContent = '✓';
   glyph.style.color = 'var(--text-gold)';
@@ -2463,137 +3427,409 @@ function agreeTo(key) {
   if (Object.keys(state.consents).length === CONSENT_ITEMS.length) {
     document.getElementById('consentContinue').disabled = false;
   }
+  persistAccount();
 }
 
 /* ================================================================ */
 /*  SCREEN 3 · GENETICS                                              */
+/*  Two views: Decide (yes/no) then Confirm (acks + disclosure).    */
+/*  Opting out never touches the Confirm view.                      */
 /* ================================================================ */
+function showGenView(which) {
+  var confirming = which === 'confirm';
+  document.getElementById('genDecideScroll').style.display = confirming ? 'none' : '';
+  document.getElementById('genDecideCta').style.display = confirming ? 'none' : '';
+  document.getElementById('genConfirmScroll').style.display = confirming ? '' : 'none';
+  document.getElementById('genConfirmCta').style.display = confirming ? '' : 'none';
+}
+/* Reset to the decision view whenever the screen is (re)entered. */
+function resetGenView() { showGenView('decide'); }
+
+/* Opting in moves to the confirmation step; it is not consent yet. */
+function chooseGenetics() {
+  showGenView('confirm');
+  document.getElementById('genConfirmScroll').scrollTop = 0;
+}
+function backToGenDecide() { showGenView('decide'); }
+
 function selectPref(which) {
   state.genetics.pref = which;
   document.getElementById('prefA').classList.toggle('selected', which === 'A');
   document.getElementById('prefB').classList.toggle('selected', which === 'B');
   checkGeneticsReady();
+  persistAccount();
 }
 function toggleAck(id) {
   state.genetics.acks[id] = !state.genetics.acks[id];
   document.getElementById(id).classList.toggle('confirmed', !!state.genetics.acks[id]);
   checkGeneticsReady();
+  persistAccount();
 }
+/* Disclosure preference defaults to the recommended option, so only
+   the two acknowledgments gate confirmation. */
 function checkGeneticsReady() {
-  var ready = state.genetics.pref &&
-    state.genetics.acks.ackFamily && state.genetics.acks.ackVoluntary;
+  var ready = state.genetics.acks.ackFamily && state.genetics.acks.ackVoluntary;
   document.getElementById('geneticsCta').disabled = !ready;
 }
+/* Simulated Junction order: orderable-tests -> preview -> orders.
+   Fired on consent so the packet carries a real order handle (not just a
+   decision). The live Meridian API swaps this stub for the two-step call;
+   results arrive later and land in measurements, same as labs. */
+function simulateGeneticsOrder(stamp) {
+  return {
+    schema: 'genetics_order.v1',
+    order_id: 'gen_' + Math.random().toString(36).slice(2, 10),
+    panel: 'aleron_genomics_v1',
+    components: ['inherited_cancer', 'cardiovascular_genetics', 'pharmacogenomics'],
+    provider: 'junction',
+    status: 'ordered_pending_results',
+    ordered_at: stamp
+  };
+}
+
 function submitGenetics() {
   var stamp = new Date().toISOString().replace(/\.\d{3}Z$/, 'Z');
+  state.genetics.decision = 'consented';
   state.genetics.stamp = stamp;
-  document.getElementById('geneticsMeta').textContent =
-    'GENETICS CONSENT · V1.0 · CONSENTED ' + stamp;
+  state.genetics.order = simulateGeneticsOrder(stamp);
+  persistAccount();
   setTimeout(goNext, 500);
+}
+
+/* Declining is a first-class outcome: version-stamped like consent,
+   never gates the rest of onboarding. Disclosure pref is left at its
+   default and simply unused while declined. */
+function declineGenetics() {
+  var stamp = new Date().toISOString().replace(/\.\d{3}Z$/, 'Z');
+  state.genetics.decision = 'declined';
+  state.genetics.stamp = stamp;
+  persistAccount();
+  goNext();
 }
 
 /* ================================================================ */
 /*  SCREEN 4 · FAMILY HISTORY                                        */
 /* ================================================================ */
+/* Family history feeds the risk models. Conditions and the fields
+   collected per condition map to model inputs:
+   - heart + onset + relative sex  -> CVD premature-ASCVD flag (M<55/F<65)
+   - diabetes + onset + count       -> metabolic T2D multiplier (onset 35/45)
+   - dementia + onset               -> neuro multiplier (onset </>= 70)
+   - kidney                         -> CKD monitoring flag
+   - cancer + type                  -> site-specific cancer engines
+   - earlydeath + cause             -> CVD sudden-death flag
+   Siblings are individual records (sex + count matter to the models). */
 var RELATIVES = [
-  { key: 'mother', tag: 'Relative 1 of 3', heading: 'Your biological mother.', framing: 'Answer what you know. Don’t know is always a fine answer and never counts against you.' },
-  { key: 'father', tag: 'Relative 2 of 3', heading: 'Your biological father.', framing: 'Same questions. Only what you know.' },
-  { key: 'siblings', tag: 'Relative 3 of 3', heading: 'Your biological siblings.', framing: 'How many siblings do you have, and has anything significant come up for any of them.' }
+  { key: 'mother', sex: 'female', tag: 'Relative 1 of 3', heading: 'Your biological mother.', framing: 'Answer what you know. Don’t know is always a fine answer and never counts against you.' },
+  { key: 'father', sex: 'male', tag: 'Relative 2 of 3', heading: 'Your biological father.', framing: 'Same questions. Only what you know.' },
+  { key: 'siblings', tag: 'Relative 3 of 3', heading: 'Your biological siblings.', framing: 'Add each biological sibling and tell us their sex and anything significant. If you have none, continue.' }
 ];
 var CONDITIONS = [
-  { key: 'heart', name: 'Heart attack or coronary artery disease', onset: true },
-  { key: 'stroke', name: 'Stroke', onset: false },
-  { key: 'cancer', name: 'Cancer', onset: true },
-  { key: 'diabetes', name: 'Type 2 diabetes', onset: false },
-  { key: 'earlydeath', name: 'Death before 60', onset: false }
+  { key: 'heart', name: 'Heart attack or coronary artery disease', short: 'Heart', onset: true, onsetDefault: 55 },
+  { key: 'stroke', name: 'Stroke', short: 'Stroke' },
+  { key: 'diabetes', name: 'Type 2 diabetes', short: 'Diabetes', onset: true, onsetDefault: 45 },
+  { key: 'cancer', name: 'Cancer', short: 'Cancer', onset: true, onsetDefault: 55, type: true },
+  { key: 'dementia', name: 'Dementia or Alzheimer’s', short: 'Dementia', onset: true, onsetDefault: 72 },
+  { key: 'kidney', name: 'Kidney disease, dialysis, or transplant', short: 'Kidney' },
+  { key: 'earlydeath', name: 'Death before 60', short: 'Early death', cause: true }
 ];
+var CANCER_TYPES = ['Breast', 'Colorectal', 'Prostate', 'Other'];
+var DEATH_CAUSES = ['Heart or sudden', 'Cancer', 'Stroke', 'Other', 'Unknown'];
 var CHOICES = ['Yes', 'No', 'Don’t know'];
 
-function relState(key) {
-  if (!state.family[key]) state.family[key] = { conditions: {}, onsets: {}, sibCount: 0 };
+/* ================================================================ */
+/*  SCREEN 5 · PERSONAL HEALTH                                       */
+/*  Body metrics + personal med history. Feeds patient_packet        */
+/*  clinical_context (diagnoses/medications/allergies) + demographics */
+/*  (height_cm/weight_kg). All optional; nothing gates Continue.     */
+/* ================================================================ */
+var PERSONAL_CONDITIONS = [
+  { key: 'hypertension', name: 'High blood pressure' },
+  { key: 'high_cholesterol', name: 'High cholesterol' },
+  { key: 'type_2_diabetes', name: 'Type 2 diabetes or prediabetes' },
+  { key: 'heart_disease', name: 'Heart disease' },
+  { key: 'thyroid', name: 'Thyroid condition' },
+  { key: 'asthma_copd', name: 'Asthma or COPD' },
+  { key: 'cancer', name: 'Cancer (current or past)' },
+  { key: 'depression_anxiety', name: 'Depression or anxiety' },
+  { key: 'none', name: 'None of these' }
+];
+
+function renderHealth() {
+  var h = state.health;
+  document.getElementById('hFt').value = h.heightFt != null ? h.heightFt : '';
+  document.getElementById('hIn').value = h.heightIn != null ? h.heightIn : '';
+  document.getElementById('wLb').value = h.weightLb != null ? h.weightLb : '';
+  document.getElementById('medsText').value = h.meds || '';
+  document.getElementById('allergyText').value = h.allergies || '';
+  document.getElementById('medsNone').classList.toggle('confirmed', !!h.medsNone);
+  document.getElementById('allergyNone').classList.toggle('confirmed', !!h.allergyNone);
+  var box = document.getElementById('condRows');
+  box.innerHTML = '';
+  PERSONAL_CONDITIONS.forEach(function (c) {
+    var on = !!h.conditions[c.key];
+    var row = document.createElement('div');
+    row.className = 'ack-row' + (on ? ' confirmed' : '');
+    row.id = 'cond-' + c.key;
+    row.setAttribute('onclick', "toggleCondition('" + c.key + "')");
+    row.innerHTML = '<div class="ack-sq">✓</div><div class="ack-label">' + c.name + '</div>';
+    box.appendChild(row);
+  });
+}
+
+function toggleCondition(key) {
+  var h = state.health;
+  var turningOn = !h.conditions[key];
+  if (key === 'none') {
+    // "None" is exclusive: selecting it clears the rest.
+    h.conditions = turningOn ? { none: true } : {};
+  } else {
+    if (turningOn) delete h.conditions.none;
+    if (turningOn) h.conditions[key] = true; else delete h.conditions[key];
+  }
+  renderHealth();
+}
+
+function toggleNone(which) {
+  var h = state.health;
+  if (which === 'meds') {
+    h.medsNone = !h.medsNone;
+    if (h.medsNone) { h.meds = ''; document.getElementById('medsText').value = ''; }
+    document.getElementById('medsNone').classList.toggle('confirmed', h.medsNone);
+  } else {
+    h.allergyNone = !h.allergyNone;
+    if (h.allergyNone) { h.allergies = ''; document.getElementById('allergyText').value = ''; }
+    document.getElementById('allergyNone').classList.toggle('confirmed', h.allergyNone);
+  }
+}
+
+function onHealthInput() {
+  var h = state.health;
+  var ft = parseInt(document.getElementById('hFt').value, 10);
+  var inch = parseInt(document.getElementById('hIn').value, 10);
+  var lb = parseInt(document.getElementById('wLb').value, 10);
+  h.heightFt = isNaN(ft) ? null : ft;
+  h.heightIn = isNaN(inch) ? null : inch;
+  h.weightLb = isNaN(lb) ? null : lb;
+  var meds = document.getElementById('medsText').value;
+  var allergies = document.getElementById('allergyText').value;
+  h.meds = meds;
+  h.allergies = allergies;
+  if (meds.trim() && h.medsNone) { h.medsNone = false; document.getElementById('medsNone').classList.remove('confirmed'); }
+  if (allergies.trim() && h.allergyNone) { h.allergyNone = false; document.getElementById('allergyNone').classList.remove('confirmed'); }
+}
+
+function submitHealth() {
+  onHealthInput();
+  state.health.done = true;
+  persistAccount();
+  goNext();
+}
+
+function famRec(key) {
+  if (!state.family[key]) state.family[key] = { conditions: {}, onsets: {}, cancerType: null, deathCause: null, unknown: false };
   return state.family[key];
+}
+function sibArray() {
+  if (!Array.isArray(state.family.siblings)) state.family.siblings = [];
+  return state.family.siblings;
+}
+/* The record the condition controls currently read and write. */
+function currentRec() {
+  var rel = RELATIVES[state.familyIndex];
+  if (rel.key !== 'siblings') return famRec(rel.key);
+  if (state.siblingEdit === null || state.siblingEdit === undefined) return null;
+  return sibArray()[state.siblingEdit] || null;
+}
+
+function primaryBtn(label, onclick) {
+  return '<button class="btn btn--primary" id="familyPrimary" onclick="' + onclick + '">' + label + '</button>';
+}
+function tertiaryBtn(label, onclick) {
+  return '<button class="btn btn--tertiary" onclick="' + onclick + '">' + label + '</button>';
+}
+
+function condRowsHtml(rec) {
+  return CONDITIONS.map(function (c) {
+    var saved = rec.conditions[c.key];
+    var choices = CHOICES.map(function (ch, i) {
+      return '<button class="cond-choice' + (saved === ch ? ' on' : '') + '" onclick="setCond(\'' + c.key + '\',' + i + ',this)">' + ch + '</button>';
+    }).join('');
+    var extra = '';
+    if (c.onset) {
+      var ov = rec.onsets[c.key] || c.onsetDefault;
+      extra += '<div class="onset' + (saved === 'Yes' ? ' show' : '') + '" id="onset-' + c.key + '">' +
+        '<div class="onset-label">Age at onset, if known</div>' +
+        '<div class="step-ctl">' +
+          '<button onclick="bumpOnset(\'' + c.key + '\',-1)">−</button>' +
+          '<div class="val" id="onsetval-' + c.key + '">' + ov + '</div>' +
+          '<button onclick="bumpOnset(\'' + c.key + '\',1)">+</button>' +
+        '</div></div>';
+    }
+    if (c.type) {
+      extra += '<div class="sub-select' + (saved === 'Yes' ? ' show' : '') + '" id="type-' + c.key + '">' +
+        '<div class="onset-label">Type</div><div class="chip-row">' +
+        CANCER_TYPES.map(function (t, i) {
+          return '<button class="mini-chip' + (rec.cancerType === t ? ' on' : '') + '" onclick="setCancerType(' + i + ',this)">' + t + '</button>';
+        }).join('') + '</div></div>';
+    }
+    if (c.cause) {
+      extra += '<div class="sub-select' + (saved === 'Yes' ? ' show' : '') + '" id="cause-' + c.key + '">' +
+        '<div class="onset-label">Cause, if known</div><div class="chip-row">' +
+        DEATH_CAUSES.map(function (t, i) {
+          return '<button class="mini-chip' + (rec.deathCause === t ? ' on' : '') + '" onclick="setDeathCause(' + i + ',this)">' + t + '</button>';
+        }).join('') + '</div></div>';
+    }
+    return '<div class="cond-row"><div class="cond-name">' + c.name + '</div>' +
+      '<div class="cond-choices">' + choices + '</div>' + extra + '</div>';
+  }).join('');
+}
+
+function sexToggleHtml(rec) {
+  var opts = [['female', 'Sister'], ['male', 'Brother']];
+  return '<div class="cond-row"><div class="cond-name">This sibling is a</div><div class="cond-choices">' +
+    opts.map(function (o) {
+      return '<button class="cond-choice' + (rec.sex === o[0] ? ' on' : '') + '" onclick="setSiblingSex(\'' + o[0] + '\',this)">' + o[1] + '</button>';
+    }).join('') + '</div></div>';
+}
+
+function summarizeRec(rec) {
+  var yes = CONDITIONS.filter(function (c) { return rec.conditions[c.key] === 'Yes'; })
+    .map(function (c) { return c.short; });
+  return yes.length ? yes.join(', ') : 'No conditions noted';
+}
+
+function siblingRosterHtml() {
+  var sibs = sibArray();
+  var list = sibs.map(function (s, i) {
+    var label = s.sex === 'male' ? 'Brother' : s.sex === 'female' ? 'Sister' : 'Sibling';
+    return '<div class="roster-item" onclick="editSibling(' + i + ')">' +
+      '<div class="roster-body"><div class="roster-name">' + label + ' ' + (i + 1) + '</div>' +
+      '<div class="roster-meta">' + escapeHtml(summarizeRec(s)) + '</div></div>' +
+      '<button class="roster-del" onclick="removeSibling(event,' + i + ')" aria-label="Remove sibling">×</button></div>';
+  }).join('');
+  return (sibs.length ? '<div class="roster">' + list + '</div>'
+    : '<p class="framing" style="margin-top:0">No siblings added yet. If you have none, continue.</p>') +
+    '<button class="btn btn--tertiary" onclick="addSibling()" style="text-align:left; padding-left:0">+ Add a sibling</button>';
 }
 
 function renderFamily() {
   var rel = RELATIVES[state.familyIndex];
-  var rs = relState(rel.key);
   document.getElementById('relativeTag').textContent = rel.tag;
   document.getElementById('familyHeading').textContent = rel.heading;
   document.getElementById('familyFraming').textContent = rel.framing;
-  document.getElementById('sibCountBlock').style.display = rel.key === 'siblings' ? 'block' : 'none';
-  if (rel.key === 'siblings') {
-    document.getElementById('sibCountVal').textContent = rs.sibCount;
+  var body = document.getElementById('famBody');
+  var bar = document.getElementById('familyCtaBar');
+  if (rel.key !== 'siblings') {
+    body.innerHTML = condRowsHtml(famRec(rel.key));
+    bar.innerHTML = tertiaryBtn('I don’t know their history', 'markAllUnknown()') + primaryBtn('Next', 'familyAdvance()');
+  } else if (state.siblingEdit === null || state.siblingEdit === undefined) {
+    body.innerHTML = siblingRosterHtml();
+    bar.innerHTML = primaryBtn('Done with family history', 'familyAdvance()');
+  } else {
+    var rec = sibArray()[state.siblingEdit];
+    body.innerHTML = sexToggleHtml(rec) + condRowsHtml(rec);
+    bar.innerHTML = tertiaryBtn('Cancel', 'cancelSibling()') + primaryBtn('Save sibling', 'saveSibling()');
+    if (!rec.sex) document.getElementById('familyPrimary').disabled = true;
   }
-  var wrap = document.getElementById('condRows');
-  wrap.innerHTML = '';
-  var showConds = rel.key !== 'siblings' || rs.sibCount > 0;
-  if (showConds) {
-    CONDITIONS.forEach(function (c) {
-      var saved = rs.conditions[c.key];
-      var row = document.createElement('div');
-      row.className = 'cond-row';
-      var choicesHtml = CHOICES.map(function (ch, i) {
-        var on = saved === ch ? ' on' : '';
-        return '<button class="cond-choice' + on + '" onclick="setCond(\'' + c.key + '\',' + i + ', this)">' + ch + '</button>';
-      }).join('');
-      var onsetVal = rs.onsets[c.key] || 55;
-      row.innerHTML =
-        '<div class="cond-name">' + c.name + '</div>' +
-        '<div class="cond-choices">' + choicesHtml + '</div>' +
-        (c.onset ?
-          '<div class="onset' + (saved === 'Yes' ? ' show' : '') + '" id="onset-' + c.key + '">' +
-            '<div class="onset-label">Age at onset, if known</div>' +
-            '<div class="step-ctl">' +
-              '<button onclick="bumpOnset(\'' + c.key + '\',-1)">−</button>' +
-              '<div class="val" id="onsetval-' + c.key + '">' + onsetVal + '</div>' +
-              '<button onclick="bumpOnset(\'' + c.key + '\',1)">+</button>' +
-            '</div>' +
-          '</div>' : '');
-      wrap.appendChild(row);
-    });
-  }
-  document.getElementById('dontKnowAll').style.display = showConds ? 'block' : 'none';
-  document.getElementById('familyCta').textContent =
-    state.familyIndex === RELATIVES.length - 1 ? 'Done with family history' : 'Next';
   document.getElementById('familyScroll').scrollTop = 0;
 }
 
 function setCond(condKey, choiceIdx, btn) {
-  var rel = RELATIVES[state.familyIndex];
+  var rec = currentRec();
+  if (!rec) return;
   var choice = CHOICES[choiceIdx];
-  relState(rel.key).conditions[condKey] = choice;
-  var row = btn.closest('.cond-row');
-  row.querySelectorAll('.cond-choice').forEach(function (b) { b.classList.remove('on'); });
+  rec.conditions[condKey] = choice;
+  btn.closest('.cond-row').querySelectorAll('.cond-choice').forEach(function (b) { b.classList.remove('on'); });
   btn.classList.add('on');
-  var onset = document.getElementById('onset-' + condKey);
-  if (onset) onset.classList.toggle('show', choice === 'Yes');
+  ['onset', 'type', 'cause'].forEach(function (p) {
+    var el = document.getElementById(p + '-' + condKey);
+    if (el) el.classList.toggle('show', choice === 'Yes');
+  });
+  persistAccount();
 }
 
 function bumpOnset(condKey, delta) {
-  var rel = RELATIVES[state.familyIndex];
-  var rs = relState(rel.key);
-  var cur = rs.onsets[condKey] || 55;
-  cur = Math.max(18, Math.min(95, cur + delta));
-  rs.onsets[condKey] = cur;
+  var rec = currentRec();
+  if (!rec) return;
+  var c = CONDITIONS.filter(function (x) { return x.key === condKey; })[0];
+  var cur = rec.onsets[condKey] || (c ? c.onsetDefault : 55);
+  cur = Math.max(18, Math.min(100, cur + delta));
+  rec.onsets[condKey] = cur;
   document.getElementById('onsetval-' + condKey).textContent = cur;
+  persistAccount();
 }
 
-function markAllUnknown() {
-  var rs = relState(RELATIVES[state.familyIndex].key);
-  CONDITIONS.forEach(function (c) { rs.conditions[c.key] = CHOICES[2]; });
-  rs.unknown = true;
-  familyNext();
+function setCancerType(idx, btn) {
+  var rec = currentRec();
+  if (!rec) return;
+  rec.cancerType = CANCER_TYPES[idx];
+  btn.closest('.chip-row').querySelectorAll('.mini-chip').forEach(function (b) { b.classList.remove('on'); });
+  btn.classList.add('on');
+  persistAccount();
 }
 
-function sibCount(delta) {
-  var s = relState('siblings');
-  s.sibCount = Math.max(0, Math.min(12, s.sibCount + delta));
+function setDeathCause(idx, btn) {
+  var rec = currentRec();
+  if (!rec) return;
+  rec.deathCause = DEATH_CAUSES[idx];
+  btn.closest('.chip-row').querySelectorAll('.mini-chip').forEach(function (b) { b.classList.remove('on'); });
+  btn.classList.add('on');
+  persistAccount();
+}
+
+function setSiblingSex(sex, btn) {
+  var rec = currentRec();
+  if (!rec) return;
+  rec.sex = sex;
+  btn.closest('.cond-choices').querySelectorAll('.cond-choice').forEach(function (b) { b.classList.remove('on'); });
+  btn.classList.add('on');
+  var p = document.getElementById('familyPrimary');
+  if (p) p.disabled = false;
+  persistAccount();
+}
+
+function addSibling() {
+  sibArray().push({ sex: null, conditions: {}, onsets: {}, cancerType: null, deathCause: null });
+  state.siblingEdit = sibArray().length - 1;
+  renderFamily();
+}
+function editSibling(i) {
+  state.siblingEdit = i;
+  renderFamily();
+}
+function removeSibling(ev, i) {
+  ev.stopPropagation();
+  sibArray().splice(i, 1);
+  persistAccount();
+  renderFamily();
+}
+function cancelSibling() {
+  var rec = sibArray()[state.siblingEdit];
+  if (rec && !rec.sex && !Object.keys(rec.conditions).length) sibArray().splice(state.siblingEdit, 1);
+  state.siblingEdit = null;
+  renderFamily();
+}
+function saveSibling() {
+  var rec = currentRec();
+  if (!rec || !rec.sex) return;
+  state.siblingEdit = null;
+  persistAccount();
   renderFamily();
 }
 
-function familyNext() {
+function markAllUnknown() {
+  var rec = currentRec();
+  if (!rec) return;
+  CONDITIONS.forEach(function (c) { rec.conditions[c.key] = CHOICES[2]; });
+  rec.unknown = true;
+  familyAdvance();
+}
+
+function familyAdvance() {
   if (state.familyIndex < RELATIVES.length - 1) {
     state.familyIndex++;
+    state.siblingEdit = null;
     renderFamily();
   } else {
     goNext();
@@ -2688,14 +3924,14 @@ function startRecording() {
   };
   speechRecognition.onerror = function (event) {
     document.getElementById('micBtn').classList.add('error');
-    document.getElementById('micLabel').textContent = event.error === 'not-allowed' ? 'Microphone blocked' : 'Speech recognizer error';
-    document.getElementById('recorderNote').textContent = 'Use the typing path to keep testing labels if the browser blocks mic access.';
+    document.getElementById('micLabel').textContent = event.error === 'not-allowed' ? 'Microphone blocked' : 'Something went wrong';
+    document.getElementById('recorderNote').textContent = 'You can type your answer instead.';
   };
   speechRecognition.onend = function () {
     if (micState === 'recording') stopRecording(true);
   };
   try { speechRecognition.start(); }
-  catch (err) { document.getElementById('micLabel').textContent = 'Recognizer already active'; }
+  catch (err) { document.getElementById('micLabel').textContent = 'Listening'; }
 }
 
 function stopRecording(fromRecognizer) {
@@ -2716,16 +3952,17 @@ function stopRecording(fromRecognizer) {
 
 function finishTranscript() {
   micState = 'done';
+  state.symptoms.inputSource = 'voice';
   document.getElementById('micBtn').classList.remove('processing');
   var text = cleanText(activeTranscript || speechFinal || document.getElementById('transcript1Text').textContent || '');
   if (!text) {
     document.getElementById('transcript1Text').textContent = '';
-    document.getElementById('transcriptSrc').textContent = 'No speech was captured. Try recording again, or type exactly what you said below. This prototype no longer inserts a canned transcript.';
+    document.getElementById('transcriptSrc').textContent = 'We did not catch that. Try again, or type your answer below.';
     document.getElementById('typeArea').classList.add('show');
     document.getElementById('typeArea').focus();
     return;
   }
-  setTranscript(text, 'Transcribed from your microphone by the browser speech recognizer. Edit anything it heard wrong.');
+  setTranscript(text, 'Your words. Edit anything that came out wrong.');
 }
 
 function setTranscript(text, source) {
@@ -2742,14 +3979,15 @@ function typeInstead() {
   document.getElementById('micStage').style.display = 'none';
   var ta = document.getElementById('typeArea');
   ta.classList.add('show');
-  ta.placeholder = 'Type exactly what you would have said into the recorder. Labels will be generated only from this text.';
+  ta.placeholder = 'Type how you have been feeling.';
   ta.focus();
-  setTranscript(ta.value, ta.value ? 'Typed input. Labels are generated only from this text.' : 'Type your own words. No sample transcript is prefilled.');
+  setTranscript(ta.value, ta.value ? 'Your words. Edit anything that came out wrong.' : 'Type how you have been feeling.');
 }
 
 function syncTypedTranscript() {
+  state.symptoms.inputSource = 'typed';
   var val = document.getElementById('typeArea').value;
-  setTranscript(val, val ? 'Typed input. Labels are generated only from this text.' : 'Type your own words. No sample transcript is prefilled.');
+  setTranscript(val, val ? 'Your words. Edit anything that came out wrong.' : 'Type how you have been feeling.');
 }
 
 function syncTranscriptEdit() {
@@ -2767,8 +4005,8 @@ function resetRecorder() {
   labelResults = [];
   document.getElementById('micStage').style.display = 'flex';
   document.getElementById('micBtn').classList.remove('recording', 'processing', 'error');
-  document.getElementById('micLabel').textContent = 'Tap to transcribe';
-  document.getElementById('recorderNote').textContent = 'Chrome and Android Chrome use the browser speech recognizer. Safari can use the typing path below.';
+  document.getElementById('micLabel').textContent = 'Tap to speak';
+  document.getElementById('recorderNote').textContent = 'Speak your answer, or type it instead.';
   document.getElementById('micWave').classList.remove('show');
   document.getElementById('micTimer').classList.remove('show');
   document.getElementById('typeInstead').style.display = 'block';
@@ -2788,6 +4026,37 @@ function acceptTranscript() {
   document.getElementById('probe1').classList.add('show');
   document.getElementById('symCta').style.display = 'flex';
   state.symptoms.done = true;
+  persistSymptomCapture();
+  persistAccount();
+}
+
+/* Durable, downstream-useful object. Three separated layers:
+   patient_reported (raw words), ai_inferred (draft labels/synthesis),
+   physician_review_required. AI never overwrites the patient; the
+   physician owns interpretation. */
+function persistSymptomCapture() {
+  var redFlags = labelResults.filter(function (l) { return /red_flag/.test(l.key); })
+    .map(function (l) { return { label: l.label, evidence: l.evidence, confidence: l.confidence }; });
+  state.symptoms.capture = {
+    schema: 'symptom_capture.v1',
+    patient_id: state.identity ? state.identity.patient_id : null,
+    captured_at: new Date().toISOString().replace(/\.\d{3}Z$/, 'Z'),
+    patient_reported: {
+      raw_narrative: activeTranscript,
+      source: state.symptoms.inputSource || (micState === 'typing' ? 'typed' : 'voice')
+    },
+    ai_inferred: {
+      model: 'rules-v1',
+      is_draft: true,
+      structured_signals: labelResults.map(function (l) {
+        return { key: l.key, label: l.label, confidence: l.confidence, evidence_span: l.evidence };
+      }),
+      red_flag_screen: redFlags,
+      physician_draft_synthesis: stripTags(buildPhysicianSummary(labelResults, activeTranscript))
+    },
+    physician_review_required: true
+  };
+  return state.symptoms.capture;
 }
 
 function submitFollowup() {
@@ -2797,6 +4066,9 @@ function submitFollowup() {
     state.symptoms.transcript = activeTranscript;
     labelResults = extractClinicalLabels(activeTranscript);
     renderLabels(labelResults, activeTranscript);
+    state.symptoms.probes++;
+    persistSymptomCapture();
+    persistAccount();
   }
   document.getElementById('probe1').classList.remove('show');
   document.getElementById('symCta').style.display = 'flex';
@@ -2812,7 +4084,7 @@ function addMore() {
   ta.classList.add('show');
   ta.focus();
   ta.selectionStart = ta.selectionEnd = ta.value.length;
-  document.querySelector('.screen[data-screen="5"] .scroll').scrollTop = 0;
+  document.querySelector('.screen[data-screen="6"] .scroll').scrollTop = 0;
 }
 
 function cleanText(text) {
@@ -2852,14 +4124,13 @@ function extractClinicalLabels(text) {
 }
 
 function renderLabels(labels, text) {
+  /* Patient view is deliberately casual: we echo their own words back so
+     they can review what they shared. Diagnostic labels, confidence, and
+     synthesis are NOT shown to the patient. They live only in
+     symptom_capture.v1 for the physician. */
   var list = document.getElementById('labelList');
-  list.innerHTML = labels.map(function (item) {
-    return '<div class="label-row">' +
-      '<div class="label-row-head"><span>' + item.label + '</span><span class="label-confidence">' + Math.round(item.confidence * 100) + '%</span></div>' +
-      '<div class="label-evidence">“' + escapeHtml(item.evidence) + '”</div>' +
-    '</div>';
-  }).join('');
-  document.getElementById('physicianSummary').innerHTML = buildPhysicianSummary(labels, text);
+  list.innerHTML = '<div class="shared-back">“' + escapeHtml(text) + '”</div>';
+  document.getElementById('physicianSummary').innerHTML = '';
   document.getElementById('labelCard').classList.add('show');
 }
 
@@ -2872,9 +4143,9 @@ function buildPhysicianSummary(labels, text) {
 }
 
 function generateFollowup(labels) {
-  if (labels.some(function (l) { return l.key === 'sleep'; })) return 'One clarification for Dr. Mizani: when you wake up, do you feel rested, wired, or worn down?';
-  if (labels.some(function (l) { return l.key === 'exercise'; })) return 'One clarification for Dr. Mizani: did this change happen gradually, or was there a specific season or event when you noticed it?';
-  if (labels.some(function (l) { return l.key === 'msk'; })) return 'One clarification for Dr. Mizani: is the pain limiting activity, or is it mostly a nuisance right now?';
+  if (labels.some(function (l) { return l.key === 'sleep'; })) return 'One more thing: when you wake up, do you feel rested, wired, or worn down?';
+  if (labels.some(function (l) { return l.key === 'exercise'; })) return 'One more thing: did this come on gradually, or was there a moment you first noticed it?';
+  if (labels.some(function (l) { return l.key === 'msk'; })) return 'One more thing: is it holding you back from things, or more of a nuisance right now?';
   return 'Anything else about energy, sleep, weight, pain, mood, or exercise capacity that feels important?';
 }
 
@@ -2884,31 +4155,279 @@ function escapeHtml(str) {
   });
 }
 
+function stripTags(html) {
+  return String(html || '').replace(/<br\s*\/?>/gi, ' ').replace(/<[^>]+>/g, '').replace(/\s+/g, ' ').trim();
+}
+
+/* Render an ISO timestamp as a calm, human date for patient-facing screens.
+   The raw ISO string stays in the data model (consent record / physician
+   packet); this only changes what the patient reads. Falls back to the
+   original value if it is not a parseable date. */
+function prettyStamp(iso) {
+  if (!iso) return '';
+  var d = new Date(iso);
+  if (isNaN(d.getTime())) return iso;
+  var months = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
+  return months[d.getMonth()] + ' ' + d.getDate() + ', ' + d.getFullYear();
+}
+
 /* ================================================================ */
 /*  SCREEN 6 · LAB PATH                                              */
 /* ================================================================ */
+function shipState() {
+  if (!state.ship) state.ship = { street: '', city: '', state: '', zip: '' };
+  return state.ship;
+}
+
+function shipReady() {
+  var s = shipState();
+  return !!(cleanText(s.street) && cleanText(s.city) && s.state && /^\d{5}(-\d{4})?$/.test(cleanText(s.zip)));
+}
+
+/* Write state.ship into the fields; prefill state from signup once. */
+function renderShip() {
+  var s = shipState();
+  if (!s.state && state.identity && state.identity.state) s.state = state.identity.state;
+  document.getElementById('shipStreet').value = s.street;
+  document.getElementById('shipCity').value = s.city;
+  document.getElementById('shipState').value = s.state;
+  document.getElementById('shipZip').value = s.zip;
+}
+
+function syncShip() {
+  var s = shipState();
+  s.street = document.getElementById('shipStreet').value;
+  s.city = document.getElementById('shipCity').value;
+  s.state = document.getElementById('shipState').value;
+  s.zip = document.getElementById('shipZip').value;
+  if (state.labPath === 'tasso') document.getElementById('labCta').disabled = !shipReady();
+  persistAccount();
+}
+
 function selectPath(which) {
   state.labPath = which;
   document.getElementById('pathTasso').classList.toggle('selected', which === 'tasso');
   document.getElementById('pathQuest').classList.toggle('selected', which === 'quest');
   document.getElementById('tassoDetail').classList.toggle('show', which === 'tasso');
   document.getElementById('questDetail').classList.toggle('show', which === 'quest');
-  var cta = document.getElementById('labCta');
   if (which === 'tasso') {
-    cta.textContent = 'Confirm home kit';
-    cta.disabled = false;
+    renderShip();
   } else {
-    cta.textContent = 'Book a Quest appointment';
-    cta.disabled = state.questLoc === null;
+    renderQuest();
+  }
+  refreshLabCta();
+  persistAccount();
+}
+
+/* Lab CTA branches by path. Tasso confirms and advances once the address
+   is valid. Quest books first (enabled once a slot is chosen), then the
+   same button becomes Continue. */
+function refreshLabCta() {
+  var cta = document.getElementById('labCta');
+  if (state.labPath === 'tasso') {
+    cta.textContent = 'Confirm home kit';
+    cta.disabled = !shipReady();
+  } else if (state.labPath === 'quest') {
+    var q = questState();
+    if (q.status === 'scheduled') {
+      cta.textContent = 'Continue';
+      cta.disabled = false;
+    } else {
+      cta.textContent = 'Book a Quest appointment';
+      cta.disabled = !q.slot;
+    }
   }
 }
-function selectQuest(ev, idx) {
-  ev.stopPropagation();
-  state.questLoc = idx;
-  document.querySelectorAll('.quest-loc').forEach(function (el, i) {
-    el.classList.toggle('selected', i === idx);
+
+function labPrimary() {
+  if (state.labPath === 'quest' && questState().status !== 'scheduled') {
+    bookPsc();
+    return;
+  }
+  goNext();
+}
+
+/* ---- Quest / Junction PSC scheduling ---------------------------------
+   Mirrors the Junction PSC API shape: availability by zip + radius returns
+   nearby patient service centers, each with 14 days of slots; booking
+   confirms an appointment that can be rescheduled or cancelled. Data here
+   is simulated; endpoints map 1:1 for the iOS build. */
+function questState() {
+  if (!state.quest) state.quest = { zip: '', locationIdx: null, location: null, date: null, dateLabel: null, slot: null, status: null, stamp: null };
+  return state.quest;
+}
+
+/* Deterministic PSC list so a given zip always returns the same centers
+   (keeps reschedule stable). Stand-in for the availability API response. */
+var QUEST_CENTERS = [
+  { name: 'Quest Diagnostics · Laurel Village', addr: '3838 California St, Suite 110', dist: '1.4 mi' },
+  { name: 'Quest Diagnostics · Financial District', addr: '490 Post St, Suite 542', dist: '2.9 mi' },
+  { name: 'Quest Diagnostics · Daly City', addr: '901 Campus Dr, Suite 106', dist: '8.2 mi' }
+];
+var PSC_TIME_POOL = ['7:15 AM', '8:00 AM', '8:45 AM', '9:30 AM', '10:15 AM', '11:00 AM', '1:30 PM', '2:15 PM', '3:00 PM', '3:45 PM'];
+
+function onPscZip() {
+  var v = cleanText(document.getElementById('pscZip').value);
+  questState().zip = v;
+  document.getElementById('pscFindBtn').disabled = !/^\d{5}(-\d{4})?$/.test(v);
+}
+
+function findPscLocations(ev) {
+  if (ev) ev.stopPropagation();
+  var q = questState();
+  if (!/^\d{5}(-\d{4})?$/.test(cleanText(q.zip))) return;
+  renderPscLocations();
+  persistAccount();
+}
+
+function renderPscLocations() {
+  var wrap = document.getElementById('pscLocations');
+  var q = questState();
+  wrap.innerHTML = '<div class="psc-section-label">Patient service centers near ' + escapeHtml(q.zip) + '</div>' +
+    QUEST_CENTERS.map(function (c, i) {
+      return '<div class="quest-loc' + (q.locationIdx === i ? ' selected' : '') + '" onclick="selectPscLocation(event,' + i + ')">' +
+        '<div class="quest-loc-body"><div class="quest-loc-name">' + c.name + '</div>' +
+        '<div class="quest-loc-addr">' + c.addr + '</div></div>' +
+        '<div class="quest-loc-dist">' + c.dist + '</div></div>';
+    }).join('');
+}
+
+function selectPscLocation(ev, idx) {
+  if (ev) ev.stopPropagation();
+  var q = questState();
+  q.locationIdx = idx;
+  q.location = QUEST_CENTERS[idx];
+  if (q.status === 'scheduled') { q.status = null; q.stamp = null; }
+  renderPscLocations();
+  renderPscSlots();
+  refreshLabCta();
+  persistAccount();
+}
+
+/* 14 days of availability from today, Sundays closed (PSC pattern). */
+function pscAvailability() {
+  var days = [];
+  var d = new Date();
+  d.setHours(0, 0, 0, 0);
+  while (days.length < 14) {
+    if (d.getDay() !== 0) {
+      days.push({
+        iso: d.getFullYear() + '-' + String(d.getMonth() + 1).padStart(2, '0') + '-' + String(d.getDate()).padStart(2, '0'),
+        dow: ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'][d.getDay()],
+        dnum: d.getDate(),
+        label: ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'][d.getDay()] + ' ' +
+               ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'][d.getMonth()] + ' ' + d.getDate()
+      });
+    }
+    d.setDate(d.getDate() + 1);
+  }
+  return days;
+}
+
+/* Deterministic per-day slot subset (Saturdays are shorter). */
+function pscSlotsForDay(iso, index) {
+  if (iso.slice(-2) && new Date(iso + 'T00:00:00').getDay() === 6) return PSC_TIME_POOL.slice(0, 4);
+  var start = index % 3;
+  return PSC_TIME_POOL.filter(function (_, i) { return (i + start) % 4 !== 0; });
+}
+
+function renderPscSlots() {
+  var wrap = document.getElementById('pscSlots');
+  var q = questState();
+  if (q.locationIdx === null) { wrap.innerHTML = ''; return; }
+  var days = pscAvailability();
+  if (!q.date || !days.some(function (d) { return d.iso === q.date; })) {
+    q.date = days[0].iso;
+    q.dateLabel = days[0].label;
+  }
+  var dateStrip = '<div class="psc-section-label">Choose a date</div><div class="psc-dates">' +
+    days.map(function (d, i) {
+      return '<button class="psc-date' + (q.date === d.iso ? ' selected' : '') + '" onclick="selectPscDate(event,\'' + d.iso + '\',\'' + d.label + '\',' + i + ')">' +
+        '<div class="psc-dow">' + d.dow + '</div><div class="psc-dnum">' + d.dnum + '</div></button>';
+    }).join('') + '</div>';
+  var dayIndex = days.map(function (d) { return d.iso; }).indexOf(q.date);
+  var times = pscSlotsForDay(q.date, dayIndex < 0 ? 0 : dayIndex);
+  var timeGrid = '<div class="psc-section-label">Available times</div><div class="slot-grid">' +
+    times.map(function (t) {
+      return '<button class="slot' + (q.slot === t ? ' selected' : '') + '" onclick="selectPscSlot(event,\'' + t + '\')">' + t + '</button>';
+    }).join('') + '</div>';
+  wrap.innerHTML = dateStrip + timeGrid;
+}
+
+function selectPscDate(ev, iso, label, idx) {
+  if (ev) ev.stopPropagation();
+  var q = questState();
+  q.date = iso;
+  q.dateLabel = label;
+  q.slot = null;
+  renderPscSlots();
+  refreshLabCta();
+  persistAccount();
+}
+
+function selectPscSlot(ev, time) {
+  if (ev) ev.stopPropagation();
+  questState().slot = time;
+  document.querySelectorAll('#pscSlots .slot').forEach(function (el) {
+    el.classList.toggle('selected', el.textContent === time);
   });
-  if (state.labPath === 'quest') document.getElementById('labCta').disabled = false;
+  refreshLabCta();
+  persistAccount();
+}
+
+function bookPsc() {
+  var q = questState();
+  if (!q.location || !q.date || !q.slot) return;
+  q.status = 'scheduled';
+  q.stamp = new Date().toISOString().replace(/\.\d{3}Z$/, 'Z');
+  renderQuest();
+  refreshLabCta();
+  persistAccount();
+}
+
+function reschedulePsc(ev) {
+  if (ev) ev.stopPropagation();
+  var q = questState();
+  q.status = null;
+  q.stamp = null;
+  q.slot = null;
+  renderQuest();
+  refreshLabCta();
+  persistAccount();
+}
+
+function cancelPsc(ev) {
+  if (ev) ev.stopPropagation();
+  var q = questState();
+  q.status = null;
+  q.stamp = null;
+  q.slot = null;
+  q.date = null;
+  q.dateLabel = null;
+  renderQuest();
+  refreshLabCta();
+  persistAccount();
+}
+
+/* Render the Quest sub-surface to match current state (used on entry and
+   after booking / reschedule / cancel). */
+function renderQuest() {
+  var q = questState();
+  if (!q.zip && state.ship && state.ship.zip) q.zip = state.ship.zip;
+  else if (!q.zip && state.identity && state.identity.zip) q.zip = state.identity.zip;
+  document.getElementById('pscZip').value = q.zip || '';
+  document.getElementById('pscFindBtn').disabled = !/^\d{5}(-\d{4})?$/.test(cleanText(q.zip || ''));
+  var booked = q.status === 'scheduled';
+  document.getElementById('pscBooked').classList.toggle('show', booked);
+  if (booked) {
+    document.getElementById('pscBookedMeta').innerHTML =
+      escapeHtml(q.location.name) + '<br>' + q.dateLabel + ' · ' + q.slot;
+    document.getElementById('pscLocations').innerHTML = '';
+    document.getElementById('pscSlots').innerHTML = '';
+  } else {
+    if (q.locationIdx !== null) { renderPscLocations(); renderPscSlots(); }
+    else { document.getElementById('pscLocations').innerHTML = ''; document.getElementById('pscSlots').innerHTML = ''; }
+  }
 }
 
 /* ================================================================ */
@@ -2916,17 +4435,58 @@ function selectQuest(ev, idx) {
 /* ================================================================ */
 function openPermSheet() { document.getElementById('permOverlay').classList.add('show'); }
 function closePermSheet() { document.getElementById('permOverlay').classList.remove('show'); }
+
+/* Simulated Junction sync: POST /wearables/connections/apple/sync -> rows_synced.
+   The per-metric breakdown maps to the permission-sheet categories the member
+   just authorized. Numbers are illustrative 30-day pulls; the real integration
+   (Meridian API) swaps this stub for the live connections/sync call. */
+function simulateWearableSync() {
+  var byMetric = [
+    { label: 'Heart rate',             rows: 41210 },
+    { label: 'Heart rate variability', rows: 612 },
+    { label: 'Sleep analysis',         rows: 214 },
+    { label: 'Activity and steps',     rows: 8930 },
+    { label: 'Blood oxygen',           rows: 388 }
+  ];
+  var total = byMetric.reduce(function (n, m) { return n + m.rows; }, 0);
+  return {
+    rows_synced: total,
+    by_metric: byMetric,
+    stamp: new Date().toISOString().replace(/\.\d{3}Z$/, 'Z')
+  };
+}
+
+/* Paint the sync-result card from state.wearableSync (idempotent; also used on resume). */
+function paintWearableSync() {
+  var sync = state.wearableSync;
+  var card = document.getElementById('syncCard');
+  var rows = document.getElementById('syncRows');
+  if (!card || !rows) return;
+  if (!sync) { card.classList.remove('show'); rows.innerHTML = ''; return; }
+  rows.innerHTML = sync.by_metric.map(function (m) {
+    return '<div class="sync-row">' +
+             '<span class="sync-metric"><span class="conn-dot"></span>' + escapeHtml(m.label) + '</span>' +
+             '<span class="sync-count">' + m.rows.toLocaleString() + ' readings</span>' +
+           '</div>';
+  }).join('');
+  card.classList.add('show');
+}
+
 function allowHealthKit() {
   closePermSheet();
   state.wearable = 'connected';
+  state.wearableSync = simulateWearableSync();
   document.getElementById('connState').classList.add('show');
+  paintWearableSync();
   var btn = document.getElementById('healthKitBtn');
   btn.textContent = 'Continue';
   btn.onclick = goNext;
   document.getElementById('wearableSkip').style.display = 'none';
+  persistAccount();
 }
 function skipWearable() {
   state.wearable = 'skipped';
+  state.wearableSync = null;
   goNext();
 }
 
@@ -2939,6 +4499,7 @@ function selectSlot(el) {
   state.call = el.dataset.slot;
   document.getElementById('callCta').disabled = false;
   document.getElementById('bookedBox').classList.remove('show');
+  persistAccount();
 }
 function bookCall() {
   document.getElementById('bookedMeta').textContent = state.call + ' · 15 min';
@@ -2946,6 +4507,7 @@ function bookCall() {
   var cta = document.getElementById('callCta');
   cta.textContent = 'Continue';
   cta.onclick = goNext;
+  persistAccount();
 }
 function skipCall() {
   state.call = 'skipped';
@@ -2953,43 +4515,748 @@ function skipCall() {
 }
 
 /* ================================================================ */
+/*  SCREEN 10 · STRUCTURED INTAKE ENGINE                            */
+/*  One screen hosts six sections via an internal step index.       */
+/*  Declarative: each section is a list of questions; the renderer   */
+/*  paints them with existing DS controls (.consent-surface,         */
+/*  .ack-row). Answers persist to state.intake[key].data after every */
+/*  interaction, so the section is resumable mid-way. Advancing marks */
+/*  the section done; "Skip this section" marks it declined (a        */
+/*  first-class clinical signal, not a gap).                          */
+/*                                                                    */
+/*  Question types:                                                   */
+/*    single  · one choice (radio-style, exclusive)                   */
+/*    multi   · any number of choices                                 */
+/*    scale   · 0-N frequency/intensity (validated instrument scoring)*/
+/*    number  · free numeric with unit                                */
+/*  Clinical instruments: PHQ-2 + GAD-2 (mood), a STOP-Bang-derived   */
+/*  OSA screen (sleep), CogDrisk-aligned factors (neuro). Section     */
+/*  keys match assembleIntakeStatus() exactly.                        */
+/* ================================================================ */
+var INTAKE_SECTIONS = [
+  {
+    key: 'demographics_ext',
+    title: 'Background context.',
+    intro: 'Some risk calculations are more accurate with this context. You can choose not to answer where noted; it is used only for your care.',
+    required_for: 'risk',
+    questions: [
+      { id: 'ethnicity', type: 'single', prompt: 'Which best describes your background?',
+        options: [
+          { v: 'white', label: 'White' },
+          { v: 'black', label: 'Black or African American' },
+          { v: 'south_asian', label: 'South Asian' },
+          { v: 'east_asian', label: 'East or Southeast Asian' },
+          { v: 'hispanic', label: 'Hispanic or Latino' },
+          { v: 'middle_eastern', label: 'Middle Eastern or North African' },
+          { v: 'mixed_other', label: 'Mixed or other' },
+          { v: 'prefer_not', label: 'Prefer not to say' }
+        ] },
+      { id: 'smoking', type: 'single', prompt: 'Do you smoke, or have you in the past?',
+        options: [
+          { v: 'never', label: 'Never smoked' },
+          { v: 'former', label: 'Used to, but quit' },
+          { v: 'current', label: 'Currently smoke' }
+        ] }
+    ]
+  },
+  {
+    key: 'lived_state',
+    title: 'Day-to-day function.',
+    intro: 'You shared the story in your own words. These simple scales make part of that story usable for your physician and vitality model.',
+    required_for: 'vitality',
+    questions: [
+      { id: 'energy',    type: 'scale', prompt: 'Physical energy through the day', min: 0, max: 4, lowLabel: 'Depleted', highLabel: 'Abundant' },
+      { id: 'comfort',   type: 'scale', prompt: 'Physical comfort, free of aches or pain', min: 0, max: 4, lowLabel: 'Constant discomfort', highLabel: 'Fully at ease' },
+      { id: 'sharpness', type: 'scale', prompt: 'Mental sharpness and focus', min: 0, max: 4, lowLabel: 'Foggy', highLabel: 'Clear' },
+      { id: 'drive',     type: 'scale', prompt: 'Motivation and drive', min: 0, max: 4, lowLabel: 'Flat', highLabel: 'Motivated' }
+    ]
+  },
+  {
+    key: 'mood',
+    title: 'Mood and wellbeing.',
+    intro: 'Over the last two weeks, how often have you been bothered by the following? This is a brief physician screen. Scores are for physician review, not patient-facing labels.',
+    required_for: 'vitality',
+    questions: [
+      /* PHQ-2 */
+      { id: 'phq_interest', type: 'scale', prompt: 'Little interest or pleasure in doing things', min: 0, max: 3, lowLabel: 'Not at all', highLabel: 'Nearly every day' },
+      { id: 'phq_down',     type: 'scale', prompt: 'Feeling down, depressed, or hopeless', min: 0, max: 3, lowLabel: 'Not at all', highLabel: 'Nearly every day' },
+      /* GAD-2 */
+      { id: 'gad_nervous',  type: 'scale', prompt: 'Feeling nervous, anxious, or on edge', min: 0, max: 3, lowLabel: 'Not at all', highLabel: 'Nearly every day' },
+      { id: 'gad_worry',    type: 'scale', prompt: 'Not being able to stop or control worrying', min: 0, max: 3, lowLabel: 'Not at all', highLabel: 'Nearly every day' }
+    ]
+  },
+  {
+    key: 'sleep_osa',
+    title: 'Sleep context.',
+    intro: 'Sleep shapes almost everything else. These questions help your physician screen for common, treatable issues without labeling you from the app.',
+    required_for: 'vitality',
+    questions: [
+      { id: 'hours', type: 'number', prompt: 'On a typical night, how many hours do you sleep?', unit: 'hours', min: 0, max: 14, step: 0.5 },
+      { id: 'snore', type: 'single', prompt: 'Have you been told you snore loudly?',
+        options: [ { v: 'yes', label: 'Yes' }, { v: 'no', label: 'No' }, { v: 'unsure', label: 'Not sure' } ] },
+      { id: 'tired', type: 'single', prompt: 'Do you often feel tired or sleepy during the day?',
+        options: [ { v: 'yes', label: 'Yes, often' }, { v: 'sometimes', label: 'Sometimes' }, { v: 'no', label: 'Rarely' } ] },
+      { id: 'apnea', type: 'single', prompt: 'Has anyone noticed you stop breathing during sleep?',
+        options: [ { v: 'yes', label: 'Yes' }, { v: 'no', label: 'No' }, { v: 'unsure', label: 'Not sure' } ] }
+    ]
+  },
+  {
+    key: 'female_hormonal',
+    title: 'Hormonal and life stage.',
+    intro: 'Hormonal context changes how several of your results are read. Answer what applies.',
+    required_for: 'vitality',
+    female_only: true,
+    questions: [
+      { id: 'cycle_status', type: 'single', prompt: 'Which best describes where you are right now?',
+        options: [
+          { v: 'regular', label: 'Regular monthly cycles' },
+          { v: 'irregular', label: 'Irregular cycles' },
+          { v: 'perimenopause', label: 'Perimenopause (cycles changing)' },
+          { v: 'postmenopause', label: 'Postmenopause (no cycle for 12+ months)' },
+          { v: 'pregnant', label: 'Pregnant or recently postpartum' },
+          { v: 'na', label: 'None of these' }
+        ] },
+      { id: 'hormone_meds', type: 'multi', prompt: 'Are you currently taking any of these?',
+        options: [
+          { v: 'contraceptive', label: 'Hormonal contraception' },
+          { v: 'hrt', label: 'Hormone replacement therapy' },
+          { v: 'none', label: 'None of these', exclusive: true }
+        ] }
+    ]
+  },
+  {
+    key: 'neuro_factors',
+    title: 'Brain health factors.',
+    intro: 'Long-term brain health is shaped by everyday factors. These help your physician see what is protective and what may be worth attention.',
+    required_for: 'risk',
+    questions: [
+      { id: 'education', type: 'single', prompt: 'Highest level of education you completed',
+        options: [
+          { v: 'secondary', label: 'Secondary school' },
+          { v: 'some_college', label: 'Some college or vocational' },
+          { v: 'bachelors', label: 'Bachelor\u2019s degree' },
+          { v: 'postgrad', label: 'Postgraduate degree' }
+        ] },
+      { id: 'activity', type: 'single', prompt: 'In a typical week, how many days are you physically active for 30+ minutes?',
+        options: [
+          { v: '0', label: 'None' },
+          { v: '1_2', label: '1 to 2 days' },
+          { v: '3_4', label: '3 to 4 days' },
+          { v: '5_plus', label: '5 or more days' }
+        ] },
+      { id: 'social', type: 'single', prompt: 'How often do you connect meaningfully with friends or family?',
+        options: [
+          { v: 'daily', label: 'Most days' },
+          { v: 'weekly', label: 'Weekly' },
+          { v: 'monthly', label: 'A few times a month' },
+          { v: 'rarely', label: 'Rarely' }
+        ] },
+      { id: 'hearing', type: 'single', prompt: 'Do you have difficulty hearing in conversation?',
+        options: [ { v: 'no', label: 'No' }, { v: 'some', label: 'Some difficulty' }, { v: 'aid', label: 'Yes, I use a hearing aid' } ] },
+      { id: 'head_injury', type: 'single', prompt: 'Have you ever had a head injury with loss of consciousness?',
+        options: [ { v: 'no', label: 'No' }, { v: 'once', label: 'Once' }, { v: 'multiple', label: 'More than once' } ] },
+      { id: 'alcohol', type: 'single', prompt: 'On average, how many alcoholic drinks do you have per week?',
+        options: [
+          { v: '0', label: 'None' },
+          { v: '1_3', label: '1 to 3' },
+          { v: '4_7', label: '4 to 7' },
+          { v: '8_14', label: '8 to 14' },
+          { v: '15_plus', label: '15 or more' }
+        ] }
+    ]
+  }
+];
+
+/* Active-section index within the intake screen. */
+var intakeIdx = 0;
+
+/* Sections applicable to this member (female-only filtered out for male). */
+function intakeApplicableSections() {
+  var sexAtBirth = state.identity && state.identity.sex_at_birth;
+  return INTAKE_SECTIONS.filter(function (sec) {
+    return !(sec.female_only && sexAtBirth === 'male');
+  });
+}
+
+/* Ensure a state slot exists for a section. */
+function intakeSlot(key) {
+  if (!state.intake) state.intake = {};
+  if (!state.intake[key]) state.intake[key] = { started: false, done: false, declined: false, data: {} };
+  return state.intake[key];
+}
+
+/* Entry point (prepareScreen). Resume at first not-yet-finished section. */
+function renderIntake() {
+  var secs = intakeApplicableSections();
+  var resumeAt = 0;
+  for (var i = 0; i < secs.length; i++) {
+    var blk = state.intake && state.intake[secs[i].key];
+    if (!blk || (!blk.done && !blk.declined)) { resumeAt = i; break; }
+    resumeAt = i + 1;
+  }
+  intakeIdx = Math.min(resumeAt, secs.length - 1);
+  paintIntakeSection();
+}
+
+function paintIntakeSection() {
+  var secs = intakeApplicableSections();
+  var sec = secs[intakeIdx];
+  if (!sec) { goNext(); return; }
+  var slot = intakeSlot(sec.key);
+
+  /* progress strip */
+  var prog = document.getElementById('intakeProgress');
+  prog.innerHTML = 'Your health · structured signals · ' + (intakeIdx + 1) + ' of ' + secs.length;
+
+  document.getElementById('intakeTitle').textContent = sec.title;
+  document.getElementById('intakeIntro').textContent = sec.intro;
+
+  var body = document.getElementById('intakeBody');
+  body.innerHTML = sec.questions.map(function (q) {
+    return renderIntakeQuestion(sec.key, q, slot.data[q.id]);
+  }).join('');
+
+  /* CTA label: last section says "Finish", else "Continue" */
+  var nextBtn = document.getElementById('intakeNextBtn');
+  nextBtn.textContent = (intakeIdx === secs.length - 1) ? 'Finish' : 'Continue';
+
+  document.getElementById('intakeScroll').scrollTop = 0;
+}
+
+function renderIntakeQuestion(secKey, q, val) {
+  var head = '<div class="consent-surface"><div class="consent-title">' + escapeHtml(q.prompt) + '</div>';
+  if (q.type === 'single' || q.type === 'multi') {
+    var rows = q.options.map(function (o) {
+      var on;
+      if (q.type === 'multi') { on = Array.isArray(val) && val.indexOf(o.v) !== -1; }
+      else { on = val === o.v; }
+      return '<div class="ack-row' + (on ? ' confirmed' : '') + '" onclick="intakePick(\'' + secKey + '\',\'' + q.id + '\',\'' + o.v + '\',\'' + q.type + '\')">' +
+               '<div class="ack-sq">\u2713</div><div class="ack-label">' + escapeHtml(o.label) + '</div></div>';
+    }).join('');
+    return head + rows + '</div>';
+  }
+  if (q.type === 'scale') {
+    var n = q.max - q.min + 1;
+    var dots = '';
+    for (var v = q.min; v <= q.max; v++) {
+      var sel = (val === v) ? ' selected' : '';
+      dots += '<div class="scale-dot' + sel + '" onclick="intakeScale(\'' + secKey + '\',\'' + q.id + '\',' + v + ')">' + v + '</div>';
+    }
+    return head +
+      '<div class="scale-row">' + dots + '</div>' +
+      '<div class="scale-ends"><span>' + escapeHtml(q.lowLabel) + '</span><span>' + escapeHtml(q.highLabel) + '</span></div>' +
+      '</div>';
+  }
+  if (q.type === 'number') {
+    var cur = (val != null) ? val : '';
+    return head +
+      '<div class="hw-inline"><input class="fld-input hw-num" id="intake-' + secKey + '-' + q.id + '" type="number" inputmode="decimal" ' +
+      (q.min != null ? 'min="' + q.min + '" ' : '') + (q.max != null ? 'max="' + q.max + '" ' : '') + (q.step ? 'step="' + q.step + '" ' : '') +
+      'value="' + cur + '" placeholder="' + escapeHtml(q.unit || '') + '" ' +
+      'oninput="intakeNumber(\'' + secKey + '\',\'' + q.id + '\',this.value)"> <span class="num-unit">' + escapeHtml(q.unit || '') + '</span></div>' +
+      '</div>';
+  }
+  return head + '</div>';
+}
+
+/* --- answer handlers: persist after every interaction --- */
+function intakeMarkStarted(secKey) {
+  var slot = intakeSlot(secKey);
+  slot.started = true;
+  slot.declined = false;
+}
+function intakePick(secKey, qid, value, type) {
+  intakeMarkStarted(secKey);
+  var slot = intakeSlot(secKey);
+  if (type === 'multi') {
+    var arr = Array.isArray(slot.data[qid]) ? slot.data[qid].slice() : [];
+    /* find option to honor exclusivity */
+    var sec = INTAKE_SECTIONS.filter(function (s) { return s.key === secKey; })[0];
+    var q = sec.questions.filter(function (x) { return x.id === qid; })[0];
+    var opt = q.options.filter(function (o) { return o.v === value; })[0];
+    if (opt && opt.exclusive) {
+      arr = (arr.indexOf(value) !== -1) ? [] : [value];
+    } else {
+      /* toggling a normal option clears any exclusive one */
+      var exclusiveVals = q.options.filter(function (o) { return o.exclusive; }).map(function (o) { return o.v; });
+      arr = arr.filter(function (v) { return exclusiveVals.indexOf(v) === -1; });
+      var at = arr.indexOf(value);
+      if (at === -1) arr.push(value); else arr.splice(at, 1);
+    }
+    slot.data[qid] = arr;
+  } else {
+    slot.data[qid] = (slot.data[qid] === value) ? null : value;
+  }
+  persistAccount();
+  paintIntakeSection();
+}
+function intakeScale(secKey, qid, value) {
+  intakeMarkStarted(secKey);
+  var slot = intakeSlot(secKey);
+  slot.data[qid] = (slot.data[qid] === value) ? null : value;
+  persistAccount();
+  paintIntakeSection();
+}
+function intakeNumber(secKey, qid, raw) {
+  intakeMarkStarted(secKey);
+  var slot = intakeSlot(secKey);
+  var n = parseFloat(raw);
+  slot.data[qid] = isNaN(n) ? null : n;
+  persistAccount();
+  /* no repaint: keep input focus while typing */
+}
+
+/* Advance: mark current section done, move to next or leave the screen. */
+function intakeAdvance() {
+  var secs = intakeApplicableSections();
+  var sec = secs[intakeIdx];
+  var slot = intakeSlot(sec.key);
+  /* done if any answer was given; otherwise treat empty continue as declined */
+  var answered = Object.keys(slot.data).some(function (k) {
+    var v = slot.data[k];
+    return v != null && !(Array.isArray(v) && v.length === 0);
+  });
+  slot.done = answered;
+  slot.declined = !answered;
+  slot.started = true;
+  persistAccount();
+  if (intakeIdx < secs.length - 1) {
+    intakeIdx++;
+    paintIntakeSection();
+  } else {
+    goNext();
+  }
+}
+
+/* Skip: explicit opt-out of the whole section (clinical signal). */
+function intakeSkipSection() {
+  var secs = intakeApplicableSections();
+  var sec = secs[intakeIdx];
+  var slot = intakeSlot(sec.key);
+  slot.declined = true;
+  slot.done = false;
+  slot.started = true;
+  persistAccount();
+  if (intakeIdx < secs.length - 1) {
+    intakeIdx++;
+    paintIntakeSection();
+  } else {
+    goNext();
+  }
+}
+
+/* ================================================================ */
+/*  PATIENT PACKET ASSEMBLER · state -> patient_packet.v1           */
+/*  This is the seam between onboarding and the clinical engine.     */
+/*  It transforms the flat onboarding `state` into the packet shape  */
+/*  the engine consumes (schemas/patient_packet.schema.json).        */
+/*                                                                   */
+/*  What onboarding CAN fill: demographics, clinical_context         */
+/*  (personal + family history, meds, allergies), genetics decision. */
+/*  What arrives LATER (labs, vitals, wearable metrics) is stamped   */
+/*  into missing_data so the engine knows it is pending, not absent. */
+/* ================================================================ */
+function ftInToCm(ft, inch) {
+  if (ft == null && inch == null) return null;
+  var totalIn = (ft || 0) * 12 + (inch || 0);
+  return totalIn > 0 ? Math.round(totalIn * 2.54) : null;
+}
+function lbToKg(lb) {
+  return lb != null ? Math.round(lb * 0.45359237 * 10) / 10 : null;
+}
+function ageFromDob(dob) {
+  if (!dob) return null;
+  var d = new Date(dob);
+  if (isNaN(d)) return null;
+  var now = new Date();
+  var age = now.getFullYear() - d.getFullYear();
+  var m = now.getMonth() - d.getMonth();
+  if (m < 0 || (m === 0 && now.getDate() < d.getDate())) age--;
+  return age >= 0 ? age : null;
+}
+function splitLines(text) {
+  if (!text || !text.trim()) return [];
+  return text.split('\n').map(function (s) { return s.trim(); }).filter(Boolean);
+}
+
+/* ================================================================ */
+/*  INTAKE COVERAGE + RESUMABILITY                                   */
+/*  Distinguishes, per section:                                       */
+/*    complete    · finished                                          */
+/*    in_progress · started, saved, resumable                        */
+/*    declined    · patient opted out (a clinical signal, not a gap)  */
+/*    pending     · not yet reached / surface not built              */
+/*  The physician note must read "flowing", never bare "missing".    */
+/* ================================================================ */
+function assembleIntakeStatus() {
+  var s = state;
+
+  function consentsStatus() {
+    var n = Object.keys(s.consents || {}).length;
+    if (n >= CONSENT_ITEMS.length) return 'complete';
+    return n > 0 ? 'in_progress' : 'pending';
+  }
+  function geneticsStatus() {
+    if (s.genetics.decision === 'consented') return 'complete';
+    if (s.genetics.decision === 'declined') return 'declined';
+    return 'pending';
+  }
+  function familyStatus() {
+    return (s.family && (s.family.mother || s.family.father)) ? 'complete' : 'pending';
+  }
+  function healthStatus() {
+    if (s.health && s.health.done) return 'complete';
+    var touched = s.health && (s.health.heightFt != null || s.health.weightLb != null ||
+      Object.keys(s.health.conditions || {}).length);
+    return touched ? 'in_progress' : 'pending';
+  }
+  function symptomsStatus() {
+    if (s.symptoms && s.symptoms.done) return 'complete';
+    return (s.symptoms && s.symptoms.transcript) ? 'in_progress' : 'pending';
+  }
+  /* A2 structured-intake sections — surfaces not yet built, so they read
+     'pending' until the questionnaire screens land. State slot is
+     s.intake.<section> = { done, started } once implemented. */
+  function a2Status(key) {
+    var blk = (s.intake && s.intake[key]) || null;
+    if (!blk) return 'pending';
+    if (blk.declined) return 'declined';
+    if (blk.done) return 'complete';
+    return blk.started ? 'in_progress' : 'pending';
+  }
+
+  var sections = [
+    { key: 'consents',        label: 'Consents',              status: consentsStatus(),  required_for: [] },
+    { key: 'genetics',        label: 'Genetics decision',     status: geneticsStatus(),  required_for: [] },
+    { key: 'family_history',  label: 'Family history',        status: familyStatus(),    required_for: ['risk'] },
+    { key: 'health',          label: 'Health today',          status: healthStatus(),    required_for: ['risk','vitality'] },
+    { key: 'symptoms',        label: 'In your own words',     status: symptomsStatus(),  required_for: [] },
+    { key: 'demographics_ext',label: 'Ethnicity & background',status: a2Status('demographics_ext'), required_for: ['risk'] },
+    { key: 'lived_state',     label: 'How you feel (0-4)',    status: a2Status('lived_state'),       required_for: ['vitality'] },
+    { key: 'mood',            label: 'Mood & wellbeing',      status: a2Status('mood'),              required_for: ['vitality'] },
+    { key: 'sleep_osa',       label: 'Sleep screen',          status: a2Status('sleep_osa'),         required_for: ['vitality'] },
+    { key: 'female_hormonal', label: 'Hormonal & life stage', status: a2Status('female_hormonal'),   required_for: ['vitality'] },
+    { key: 'neuro_factors',   label: 'Brain health factors',  status: a2Status('neuro_factors'),     required_for: ['risk'] }
+  ];
+
+  /* Female-only section is not applicable to male-at-birth members. */
+  if ((state.identity && state.identity.sex_at_birth) === 'male') {
+    sections = sections.filter(function (x) { return x.key !== 'female_hormonal'; });
+  }
+
+  var considered = sections.filter(function (x) {
+    return x.status !== 'declined';
+  });
+  var complete = considered.filter(function (x) { return x.status === 'complete'; }).length;
+  var total = considered.length;
+  /* Resume pointer = first section not yet complete/declined. */
+  var next = null;
+  for (var i = 0; i < sections.length; i++) {
+    if (sections[i].status === 'in_progress' || sections[i].status === 'pending') { next = sections[i].key; break; }
+  }
+  var allComplete = complete === total;
+
+  return {
+    schema: 'intake_status.v1',
+    complete: complete,
+    total: total,
+    all_complete: allComplete,
+    resume_section: next,
+    resumable: true,
+    sections: sections
+  };
+}
+
+/* Physician-facing status line. Reads as flowing, not failed. */
+function intakeNote(intakeStatus) {
+  if (intakeStatus.all_complete) {
+    return 'Intake complete (' + intakeStatus.complete + ' of ' + intakeStatus.total + ' sections).';
+  }
+  return 'Intake in progress (' + intakeStatus.complete + ' of ' + intakeStatus.total +
+    ' sections complete; patient can save and resume at any point). ' +
+    'Vitality pending remaining items.';
+}
+
+/* Serialize intake answers + compute validated-instrument scores for the
+   physician packet. Raw answers travel under structured_intake.sections;
+   derived scores (PHQ-2, GAD-2, OSA risk) travel under .scores so the
+   engine and physician note can consume them without re-deriving. */
+function assembleIntake() {
+  var intake = state.intake || {};
+  var out = { schema: 'structured_intake.v1', sections: {}, scores: {} };
+
+  intakeApplicableSections().forEach(function (sec) {
+    var blk = intake[sec.key];
+    if (!blk) { out.sections[sec.key] = { status: 'pending' }; return; }
+    out.sections[sec.key] = {
+      status: blk.declined ? 'declined' : blk.done ? 'complete' : blk.started ? 'in_progress' : 'pending',
+      data: blk.data || {}
+    };
+  });
+
+  /* PHQ-2 (0-6): interest + down. >=3 is a positive depression screen. */
+  var mood = (intake.mood && intake.mood.data) || {};
+  if (mood.phq_interest != null && mood.phq_down != null) {
+    var phq2 = mood.phq_interest + mood.phq_down;
+    out.scores.phq2 = { value: phq2, max: 6, positive: phq2 >= 3, instrument: 'PHQ-2' };
+  }
+  /* GAD-2 (0-6): nervous + worry. >=3 is a positive anxiety screen. */
+  if (mood.gad_nervous != null && mood.gad_worry != null) {
+    var gad2 = mood.gad_nervous + mood.gad_worry;
+    out.scores.gad2 = { value: gad2, max: 6, positive: gad2 >= 3, instrument: 'GAD-2' };
+  }
+  /* OSA screen: count positive risk signals (snore/tired/apnea + short sleep). */
+  var sleep = (intake.sleep_osa && intake.sleep_osa.data) || {};
+  if (sleep.snore != null || sleep.tired != null || sleep.apnea != null || sleep.hours != null) {
+    var flags = 0;
+    if (sleep.snore === 'yes') flags++;
+    if (sleep.tired === 'yes') flags++;
+    if (sleep.apnea === 'yes') flags++;
+    if (sleep.hours != null && sleep.hours < 6) flags++;
+    out.scores.osa_screen = {
+      flags: flags,
+      risk: flags >= 2 ? 'elevated' : flags === 1 ? 'moderate' : 'low',
+      routing: flags >= 2 ? 'consider_HSAT_or_PSG' : 'monitor',
+      sleep_hours: sleep.hours != null ? sleep.hours : null
+    };
+  }
+  return out;
+}
+
+function assemblePacket() {
+  var id = state.identity || {};
+  var h = state.health || {};
+  var now = new Date();
+  var snapshot = now.toISOString().slice(0, 10);
+
+  /* demographics */
+  var heightCm = ftInToCm(h.heightFt, h.heightIn);
+  var weightKg = lbToKg(h.weightLb);
+  var demographics = {
+    age: ageFromDob(id.dob),
+    sex_at_birth: id.sex_at_birth || null,
+    state_of_residence: id.state || null
+  };
+  if (heightCm != null) demographics.height_cm = heightCm;
+  if (weightKg != null) demographics.weight_kg = weightKg;
+
+  /* clinical_context */
+  var diagnoses = Object.keys(h.conditions || {}).filter(function (k) { return k !== 'none'; });
+  var medications = h.medsNone ? [] : splitLines(h.meds);
+  var allergies = h.allergyNone ? [] : splitLines(h.allergies);
+
+  var familyHistory = [];
+  ['mother', 'father'].forEach(function (rel) {
+    var rec = state.family[rel];
+    if (!rec || !rec.conditions) return;
+    Object.keys(rec.conditions).forEach(function (cond) {
+      if (rec.conditions[cond] === 'Yes') {
+        var entry = { condition: cond, relation: rel };
+        if (rec.onsets && rec.onsets[cond] != null) entry.onset_age = rec.onsets[cond];
+        familyHistory.push(entry);
+      }
+    });
+  });
+  (Array.isArray(state.family.siblings) ? state.family.siblings : []).forEach(function (sib) {
+    if (!sib || !sib.conditions) return;
+    Object.keys(sib.conditions).forEach(function (cond) {
+      if (sib.conditions[cond] === 'Yes') {
+        familyHistory.push({ condition: cond, relation: 'sibling' });
+      }
+    });
+  });
+
+  var clinicalContext = {
+    diagnoses: diagnoses,
+    medications: medications,
+    allergies: allergies,
+    contraindications: [],
+    family_history: familyHistory
+  };
+
+  /* facts + valid_keys: only what onboarding actually knows now */
+  var facts = {};
+  var validKeys = [];
+  if (demographics.age != null) { facts.age = demographics.age; validKeys.push('age'); }
+  if (demographics.sex_at_birth) { facts.sex = demographics.sex_at_birth; validKeys.push('sex'); }
+  if (heightCm != null) { facts.height_cm = heightCm; validKeys.push('height_cm'); }
+  if (weightKg != null) { facts.weight_kg = weightKg; validKeys.push('weight_kg'); }
+  if (heightCm != null && weightKg != null) {
+    var bmi = Math.round((weightKg / Math.pow(heightCm / 100, 2)) * 10) / 10;
+    facts.bmi = bmi; validKeys.push('bmi');
+  }
+  /* valid_keys must be non-empty per schema; patient_id always present */
+  if (!validKeys.length) validKeys.push('patient_id');
+
+  /* missing_data: values that arrive AFTER onboarding. The engine uses
+     this to distinguish "pending" from "measured and normal". Flat array
+     kept for engine compatibility; the categorized view lives in coverage. */
+  var intakeStatus = assembleIntakeStatus();
+  var missing = ['labs', 'vitals'];
+  if (state.wearable !== 'connected') missing.push('wearables');
+  if (state.genetics.decision !== 'consented') missing.push('genetics_panel');
+  if (!intakeStatus.all_complete) missing.push('structured_intake');
+
+  /* coverage: categorized, so "pending-resumable" reads differently from
+     "declined" and "in-flight (ordered, results pending)". */
+  var inFlight = [
+    { item: 'labs', state: 'ordered_pending_results' },
+    { item: 'vitals', state: 'pending' }
+  ];
+  if (state.genetics.order) {
+    inFlight.push({ item: 'genetics_panel', state: state.genetics.order.status, order_id: state.genetics.order.order_id });
+  }
+  var coverage = {
+    schema: 'coverage.v1',
+    in_flight: inFlight,          /* ordered/connected, data arrives later */
+    intake: {
+      state: intakeStatus.all_complete ? 'complete' : 'in_progress',
+      resumable: true,
+      complete: intakeStatus.complete,
+      total: intakeStatus.total,
+      resume_section: intakeStatus.resume_section
+    },
+    wearables: state.wearable === 'connected' ? 'connected' : 'not_connected',
+    genetics: state.genetics.decision === 'consented' ? 'consented'
+      : state.genetics.decision === 'declined' ? 'declined' : 'undecided'
+  };
+
+  /* genetics */
+  var genetics = {
+    decision: state.genetics.decision,
+    version: state.genetics.version || 'V1.0',
+    timestamp: state.genetics.stamp || null,
+    disclosure_preference: state.genetics.decision === 'consented'
+      ? (state.genetics.pref === 'B' ? 'routine_results_in_app' : 'physician_first')
+      : null,
+    order: state.genetics.order || null,
+    panel: null,
+    findings: []
+  };
+
+  /* provenance */
+  var provenance = {
+    source: 'patient_onboarding.v2',
+    assembled_at: now.toISOString().replace(/\.\d{3}Z$/, 'Z'),
+    consents: Object.keys(state.consents).map(function (k) {
+      var rec = state.consents[k];
+      return { type: k, version: rec.version, stamp: rec.stamp };
+    }),
+    lab_path: state.labPath || null,
+    intro_call: state.call && state.call !== 'skipped' ? state.call : null
+  };
+
+  return {
+    schema_version: 'patient_packet.v1',
+    patient_id: id.patient_id || 'unknown',
+    display_name: [id.first_name, id.last_name].filter(Boolean).join(' ') || 'Member',
+    snapshot_date: snapshot,
+    demographics: demographics,
+    clinical_context: clinicalContext,
+    measurements: { labs: {}, vitals: {}, wearables: state.wearableSync ? { sync: state.wearableSync } : {} },
+    facts: facts,
+    findings: [],
+    model_outputs: { risk_domains: [], vitality: { outcomes: [] } },
+    genetics: genetics,
+    symptom_narrative_ref: state.symptoms && state.symptoms.done ? 'symptom_capture.v1' : null,
+    intake_status: intakeStatus,
+    intake_note: intakeNote(intakeStatus),
+    structured_intake: assembleIntake(),
+    coverage: coverage,
+    missing_data: missing,
+    valid_keys: validKeys,
+    provenance: provenance
+  };
+}
+
+/* ================================================================ */
 /*  SCREEN 9 · SUMMARY                                               */
 /* ================================================================ */
 function buildSummary() {
+  /* Assemble the engine-facing packet at the waiting state and stash it
+     on state so it persists with the account and can be inspected. */
+  state.patient_packet = assemblePacket();
+  persistAccount();
   var rows = [];
-  var consentStamp = state.consents.billing || state.consents.membership || '';
+  var consentRec = state.consents.billing || state.consents.membership || null;
+  var consentStamp = consentRec ? (consentRec.stamp || consentRec) : '';
+  var consentCount = Object.keys(state.consents).length;
   rows.push({
     done: true,
     title: 'Consents signed',
-    meta: '4 of 4 · ' + consentStamp
+    meta: consentCount + ' of ' + CONSENT_ITEMS.length + ' recorded for physician review'
   });
-  rows.push({
-    done: true,
-    title: 'Genetic testing consent',
-    meta: 'v1.0 · ' + (state.genetics.stamp || '') +
-      '<br>Disclosure · ' + (state.genetics.pref === 'B' ? 'Routine in app, serious with physician' : 'Physician walks through all results')
-  });
-  rows.push({
-    done: true,
-    title: 'Family history captured',
-    meta: 'Mother · Father · Siblings'
-  });
-  rows.push({
-    done: true,
-    title: 'Symptomatology recorded',
-    meta: 'Voice note + ' + state.symptoms.probes + ' follow-ups · Transcribed'
-  });
-  if (state.labPath === 'quest') {
+  if (state.genetics.decision === 'declined') {
     rows.push({
-      done: true,
-      title: 'Quest appointment path selected',
-      meta: 'Venous draw · Results ≈ 5 to 7 days from draw'
+      done: false,
+      title: 'Genetic testing declined',
+      meta: 'You can revisit this with your physician at any time'
     });
   } else {
     rows.push({
       done: true,
+      title: 'Genetic testing consent',
+      meta: (state.genetics.pref === 'B' ? 'Routine results in app, serious results with physician' : 'Physician walks through all results')
+    });
+  }
+  var sibN = Array.isArray(state.family.siblings) ? state.family.siblings.length : 0;
+  rows.push({
+    done: true,
+    title: 'Family history captured',
+    meta: 'Mother · Father · ' + (sibN === 1 ? '1 sibling' : sibN + ' siblings')
+  });
+  if (state.health && state.health.done) {
+    var hh = state.health;
+    var bits = [];
+    if (hh.heightFt != null || hh.weightLb != null) bits.push('Height and weight');
+    var condN = Object.keys(hh.conditions || {}).filter(function (k) { return k !== 'none'; }).length;
+    bits.push(condN ? (condN === 1 ? '1 condition noted' : condN + ' conditions noted') : 'No conditions');
+    bits.push(hh.medsNone ? 'No medications' : (hh.meds && hh.meds.trim() ? 'Medications listed' : 'Medications skipped'));
+    rows.push({
+      done: true,
+      title: 'Your health today',
+      meta: bits.join(' · ')
+    });
+  }
+  rows.push({
+    done: true,
+    title: 'What you shared',
+    meta: state.symptoms.probes
+      ? 'In your own words · ' + state.symptoms.probes + (state.symptoms.probes === 1 ? ' follow-up' : ' follow-ups')
+      : 'In your own words'
+  });
+  var structuredSecs = intakeApplicableSections();
+  var structuredDone = structuredSecs.filter(function (sec) {
+    var blk = state.intake && state.intake[sec.key];
+    return blk && (blk.done || blk.declined);
+  }).length;
+  rows.push({
+    done: structuredDone === structuredSecs.length,
+    title: 'Structured health signals',
+    meta: structuredDone + ' of ' + structuredSecs.length + ' sections completed or skipped for physician review'
+  });
+  if (state.labPath === 'quest') {
+    var q = state.quest || {};
+    if (q.status === 'scheduled' && q.location) {
+      rows.push({
+        done: true,
+        title: 'Quest appointment booked',
+        meta: escapeHtml(q.location.name) + '<br>' + q.dateLabel + ' · ' + q.slot + ' · Results ≈ 5 to 7 days from draw'
+      });
+    } else {
+      rows.push({
+        done: true,
+        title: 'Quest venous draw selected',
+        meta: 'Venous draw · No appointment booked yet · Results ≈ 5 to 7 days from draw'
+      });
+    }
+  } else {
+    var s = shipState();
+    var shipTo = cleanText(s.street) ? cleanText(s.street) + ', ' + cleanText(s.city) : 'your address';
+    rows.push({
+      done: true,
       title: 'Home kit on the way',
-      meta: 'Tasso kit ships to Vallejo St · Results ≈ 7 to 10 days from sample receipt'
+      meta: 'Tasso kit ships to ' + escapeHtml(shipTo) + ' · Results ≈ 7 to 10 days from sample receipt'
     });
   }
   rows.push({
@@ -3016,6 +5283,77 @@ function buildSummary() {
 
   document.getElementById('expWearable').style.display =
     state.wearable === 'skipped' ? 'block' : 'none';
+  document.getElementById('exp2').style.display =
+    state.genetics.decision === 'declined' ? 'none' : 'block';
+  renderKitTracking();
+}
+
+/* ================================================================ */
+/*  KIT SHIPMENT TRACKING                                            */
+/*  A tracker renders only for kits that physically ship: the Tasso  */
+/*  home blood kit (home-kit path) and the Invitae genetics kit      */
+/*  (if consented). Quest venous is a PSC appointment, no kit. The   */
+/*  member-facing stages map to Junction testkit statuses:           */
+/*  ordered/requisition_created, transit_customer, out_for_delivery, */
+/*  with_customer, transit_lab, delivered_to_lab. A real build       */
+/*  advances these from order webhooks plus an email on ship; there  */
+/*  is no confirmed carrier tracking number, so none is shown.       */
+/*  Whether genetics is a separate kit or combined with the blood    */
+/*  draw is an open spec question (ONBOARDING_SPEC_V1 section 8).    */
+/* ================================================================ */
+var KIT_STAGES = [
+  { key: 'ordered', label: 'Order received', note: 'Your kit is being prepared.' },
+  { key: 'shipped', label: 'Shipped', note: 'On its way to you. We’ll email you when it is out for delivery.' },
+  { key: 'out_for_delivery', label: 'Out for delivery', note: 'Arriving today.' },
+  { key: 'delivered', label: 'Delivered', note: 'Collect your sample and drop it in the prepaid mailer.' },
+  { key: 'transit_lab', label: 'On the way to the lab', note: 'Your sample is heading to the lab.' },
+  { key: 'received_lab', label: 'Received at lab', note: null }
+];
+
+function activeKits() {
+  var kits = [];
+  if (state.labPath === 'tasso') {
+    kits.push({ id: 'tasso', name: 'Home blood kit', done: 'The lab has your sample. Results in 7 to 10 days.' });
+  }
+  if (state.genetics && state.genetics.decision === 'consented') {
+    kits.push({ id: 'genetics', name: 'Genetics kit', done: 'The lab has your sample. Your physician reviews results with you.' });
+  }
+  return kits;
+}
+
+function renderKitTracking() {
+  var wrap = document.getElementById('kitTracking');
+  if (!wrap) return;
+  var kits = activeKits();
+  if (!kits.length) { wrap.innerHTML = ''; return; }
+  if (!state.kits) state.kits = {};
+  var showProto = window.ALERON_RENDER_MODE !== 'runtime';
+  wrap.innerHTML = '<div class="section-label">Tracking your kit' + (kits.length > 1 ? 's' : '') + '</div>' +
+    kits.map(function (k) {
+      if (state.kits[k.id] === undefined) state.kits[k.id] = 0;
+      var stage = state.kits[k.id];
+      var st = KIT_STAGES[stage];
+      var track = '';
+      for (var i = 0; i < KIT_STAGES.length; i++) {
+        var cls = i < stage ? 'done' : i === stage ? 'current' : '';
+        track += '<div class="kit-node ' + cls + '"></div>';
+        if (i < KIT_STAGES.length - 1) track += '<div class="kit-seg' + (i < stage ? ' done' : '') + '"></div>';
+      }
+      var note = st.note || k.done;
+      return '<div class="kit-card">' +
+        '<div class="kit-head"><div class="kit-name">' + k.name + '</div><div class="kit-status">' + st.label + '</div></div>' +
+        '<div class="kit-track">' + track + '</div>' +
+        '<div class="kit-note">' + note + '</div>' +
+        (showProto ? '<button class="btn btn--tertiary" onclick="advanceKit(\'' + k.id + '\')" style="text-align:left; padding:8px 0 0; font-size:12px">Advance status (prototype)</button>' : '') +
+      '</div>';
+    }).join('');
+}
+
+function advanceKit(id) {
+  if (!state.kits) state.kits = {};
+  state.kits[id] = Math.min(KIT_STAGES.length - 1, (state.kits[id] || 0) + 1);
+  renderKitTracking();
+  persistAccount();
 }
 
 /* ================================================================ */
@@ -3066,11 +5404,14 @@ function renderBrandIcons() {
 /* ================================================================ */
 /*  INIT                                                             */
 /* ================================================================ */
+fillStates();
 renderConsents();
 renderJumpNav();
+restoreActiveAccount();
 renderChrome();
 showScreen(state.screen, 'fwd');
 renderBrandIcons();
+bootSplash();
 if (document.fonts && document.fonts.ready) {
   document.fonts.ready.then(renderBrandIcons);
 }
