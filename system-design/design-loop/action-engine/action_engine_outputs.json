@@ -3158,7 +3158,8 @@
         "source_action_map_state": "1d8079b7d1452e73",
         "patient_id": "ethan-park",
         "title": "Ethan Park clinical plan from scored engine state",
-        "summary": "Ethan Park has 3 required items separated from the optional action map. The recommended next-step set is limited to 3 scored items after library scoring, diagnostic scoring, genetics routing, and AI candidate admission.",
+        "summary": "Ethan Park has 3 required items separated from the optional action map. The compiler selected 3 scored next steps from typed action and diagnostic state, with vitality used only as context for sequencing and near-term felt progress.",
+        "clinical_overview": "Ethan Park has 3 required items separated from the optional action map. The compiler selected 3 scored next steps from typed action and diagnostic state, with vitality used only as context for sequencing and near-term felt progress.",
         "required_items": [
           {
             "id": "colorectal_screening_gap_closure",
@@ -3181,13 +3182,12 @@
             "guideline": "NCCN / CAPS consortium"
           }
         ],
-        "non_required_next_steps": [
+        "recommended_next_steps": [
           {
             "id": "glp1_gip_metabolic_therapy",
             "label": "GLP-1/GIP metabolic therapy",
             "kind": "action",
             "source": "action_library_v2",
-            "patient_value_qaly": 1.48,
             "evidence_axis": {
               "score": 0.64,
               "level": "medium",
@@ -3211,14 +3211,21 @@
                 "burden_qaly"
               ]
             },
-            "why_now": "Highest patient-value optional action after eligibility and required-item separation."
+            "why_now": "High patient-value eligible action after required-item separation and overlap gating.",
+            "action_phrase": "Start GLP-1/GIP metabolic therapy.",
+            "value_summary": "net patient value 1.48 QALY",
+            "matched_findings": [
+              "anti_obesity_medication_eligible",
+              "metabolic_risk_or_adiposity"
+            ],
+            "trace_status": "asserted_legacy",
+            "patient_value_qaly": 1.48
           },
           {
             "id": "supervised_resistance_training",
             "label": "Supervised resistance training",
             "kind": "action",
             "source": "action_library_v2",
-            "patient_value_qaly": 1.1,
             "evidence_axis": {
               "score": 0.57,
               "level": "medium",
@@ -3242,31 +3249,35 @@
                 "burden_qaly"
               ]
             },
-            "why_now": "Highest patient-value optional action after eligibility and required-item separation."
+            "why_now": "High patient-value eligible action after required-item separation and overlap gating.",
+            "action_phrase": "Start Supervised resistance training.",
+            "value_summary": "net patient value 1.10 QALY",
+            "matched_findings": [
+              "low_strength_or_low_lean_mass",
+              "low_vo2max"
+            ],
+            "trace_status": "asserted_legacy",
+            "patient_value_qaly": 1.1
           },
           {
-            "id": "bp_persistence_reclassification",
-            "label": "Home or ambulatory BP confirmation",
+            "id": "sleep_apnea_reclassification",
+            "label": "Home sleep apnea test",
             "kind": "diagnostic",
-            "source": "action_library_v2",
-            "reclassification_probability": 0.65,
-            "qaly_if_reclassified": 0.63,
+            "source": "ai_scored_candidate",
             "evidence_axis": {
               "score": 0.69,
               "level": "medium",
               "display_label": "Medium evidence",
-              "basis_summary": "USPSTF-backed out-of-office confirmation with strong downstream treatment evidence and clear management threshold.",
+              "basis_summary": "AASM-supported testing in high-pretest OSA phenotypes; value comes from symptom/BP sequencing while CV event prevention is explicitly excluded.",
               "component_scores": {
                 "test_validity": 0.18,
-                "reclassification_yield": 0.14,
-                "downstream_action_value": 0.17,
-                "population_match": 0.11,
+                "reclassification_yield": 0.15,
+                "downstream_action_value": 0.16,
+                "population_match": 0.1,
                 "management_threshold": 0.06,
-                "burden_harms_known": 0.03
+                "burden_harms_known": 0.04
               },
-              "caps_applied": [
-                "needs_source_upgrade_primary_cap"
-              ],
+              "caps_applied": [],
               "primary_trace_parameters": [
                 "reclassification_probability",
                 "qaly_if_reclassified",
@@ -3274,7 +3285,269 @@
                 "evidence_grade"
               ]
             },
-            "why_now": "Home or ambulatory BP average confirms persistent hypertension versus white-coat or measurement artifact, changing medication threshold and upstream driver sequencing."
+            "why_now": "Sleep-disordered breathing confirmed, changing BP sequencing, fatigue/vitality interpretation, and treatment priority.",
+            "action_phrase": "Complete Home sleep apnea test.",
+            "value_summary": "P(reclass) 34%; QALY if reclassified 0.64",
+            "matched_findings": [
+              "fatigue_with_sleep_risk",
+              "overnight_desaturation",
+              "resistant_or_unexplained_hypertension"
+            ],
+            "trace_status": "runner_computed",
+            "reclassification_probability": 0.3421,
+            "qaly_if_reclassified": 0.6435,
+            "expected_voi_internal": 0.2201,
+            "dominant_reclassification_path": "Sleep-disordered breathing confirmed, changing BP sequencing, fatigue/vitality interpretation, and treatment priority.",
+            "downstream_decisions_changed": [
+              "sleep_pathway",
+              "bp_sequence",
+              "vitality_driver_priority"
+            ]
+          }
+        ],
+        "non_required_next_steps": [
+          {
+            "id": "glp1_gip_metabolic_therapy",
+            "label": "GLP-1/GIP metabolic therapy",
+            "kind": "action",
+            "source": "action_library_v2",
+            "evidence_axis": {
+              "score": 0.64,
+              "level": "medium",
+              "display_label": "Medium evidence",
+              "basis_summary": "Weight-loss efficacy is RCT-backed; cardiovascular outcome value is high only in close-match established-CVD populations and model-translated in primary prevention.",
+              "component_scores": {
+                "study_design": 0.26,
+                "endpoint_directness": 0.13,
+                "population_match": 0.08,
+                "intervention_match": 0.12,
+                "magnitude_precision": 0.03,
+                "harm_characterization": 0.02
+              },
+              "caps_applied": [
+                "population_mismatch_cap",
+                "model_translated_value_cap"
+              ],
+              "primary_trace_parameters": [
+                "channels.c1_prevention",
+                "channels.c2_capacity",
+                "burden_qaly"
+              ]
+            },
+            "why_now": "High patient-value eligible action after required-item separation and overlap gating.",
+            "action_phrase": "Start GLP-1/GIP metabolic therapy.",
+            "value_summary": "net patient value 1.48 QALY",
+            "matched_findings": [
+              "anti_obesity_medication_eligible",
+              "metabolic_risk_or_adiposity"
+            ],
+            "trace_status": "asserted_legacy",
+            "patient_value_qaly": 1.48
+          },
+          {
+            "id": "supervised_resistance_training",
+            "label": "Supervised resistance training",
+            "kind": "action",
+            "source": "action_library_v2",
+            "evidence_axis": {
+              "score": 0.57,
+              "level": "medium",
+              "display_label": "Medium evidence",
+              "basis_summary": "Resistance training has strong function evidence and supportive observational prevention evidence, but hard-outcome QALY magnitude is translated.",
+              "component_scores": {
+                "study_design": 0.2,
+                "endpoint_directness": 0.1,
+                "population_match": 0.09,
+                "intervention_match": 0.1,
+                "magnitude_precision": 0.03,
+                "harm_characterization": 0.05
+              },
+              "caps_applied": [
+                "model_translated_value_cap"
+              ],
+              "primary_trace_parameters": [
+                "channels.c2_capacity",
+                "channels.c3_resilience",
+                "channels.c1_prevention",
+                "burden_qaly"
+              ]
+            },
+            "why_now": "High patient-value eligible action after required-item separation and overlap gating.",
+            "action_phrase": "Start Supervised resistance training.",
+            "value_summary": "net patient value 1.10 QALY",
+            "matched_findings": [
+              "low_strength_or_low_lean_mass",
+              "low_vo2max"
+            ],
+            "trace_status": "asserted_legacy",
+            "patient_value_qaly": 1.1
+          },
+          {
+            "id": "sleep_apnea_reclassification",
+            "label": "Home sleep apnea test",
+            "kind": "diagnostic",
+            "source": "ai_scored_candidate",
+            "evidence_axis": {
+              "score": 0.69,
+              "level": "medium",
+              "display_label": "Medium evidence",
+              "basis_summary": "AASM-supported testing in high-pretest OSA phenotypes; value comes from symptom/BP sequencing while CV event prevention is explicitly excluded.",
+              "component_scores": {
+                "test_validity": 0.18,
+                "reclassification_yield": 0.15,
+                "downstream_action_value": 0.16,
+                "population_match": 0.1,
+                "management_threshold": 0.06,
+                "burden_harms_known": 0.04
+              },
+              "caps_applied": [],
+              "primary_trace_parameters": [
+                "reclassification_probability",
+                "qaly_if_reclassified",
+                "test_burden",
+                "evidence_grade"
+              ]
+            },
+            "why_now": "Sleep-disordered breathing confirmed, changing BP sequencing, fatigue/vitality interpretation, and treatment priority.",
+            "action_phrase": "Complete Home sleep apnea test.",
+            "value_summary": "P(reclass) 34%; QALY if reclassified 0.64",
+            "matched_findings": [
+              "fatigue_with_sleep_risk",
+              "overnight_desaturation",
+              "resistant_or_unexplained_hypertension"
+            ],
+            "trace_status": "runner_computed",
+            "reclassification_probability": 0.3421,
+            "qaly_if_reclassified": 0.6435,
+            "expected_voi_internal": 0.2201,
+            "dominant_reclassification_path": "Sleep-disordered breathing confirmed, changing BP sequencing, fatigue/vitality interpretation, and treatment priority.",
+            "downstream_decisions_changed": [
+              "sleep_pathway",
+              "bp_sequence",
+              "vitality_driver_priority"
+            ]
+          }
+        ],
+        "deferred_not_selected": [
+          {
+            "id": "act_zoster_vaccine_dementia",
+            "label": "act_zoster_vaccine_dementia",
+            "kind": "action",
+            "source": "action_library_v2",
+            "reason": "Eligible, but not in the top limited recommendation set after value and sequencing review.",
+            "value_summary": "net patient value 0.03 QALY",
+            "patient_value_qaly": 0.033
+          },
+          {
+            "id": "metformin_prevention",
+            "label": "metformin_prevention",
+            "kind": "action",
+            "source": "action_library_v2",
+            "reason": "Eligible, but not in the top limited recommendation set after value and sequencing review.",
+            "value_summary": "net patient value 0.03 QALY",
+            "patient_value_qaly": 0.0299
+          },
+          {
+            "id": "act_physical_activity_dementia",
+            "label": "act_physical_activity_dementia",
+            "kind": "action",
+            "source": "action_library_v2",
+            "reason": "Eligible, but not in the top limited recommendation set after value and sequencing review.",
+            "value_summary": "net patient value 0.03 QALY",
+            "patient_value_qaly": 0.025
+          },
+          {
+            "id": "act_statin_stroke_prevention",
+            "label": "act_statin_stroke_prevention",
+            "kind": "action",
+            "source": "action_library_v2",
+            "reason": "Eligible, but not in the top limited recommendation set after value and sequencing review.",
+            "value_summary": "net patient value 0.01 QALY",
+            "patient_value_qaly": 0.0104
+          },
+          {
+            "id": "physical_activity_metabolic",
+            "label": "physical_activity_metabolic",
+            "kind": "action",
+            "source": "action_library_v2",
+            "reason": "Eligible, but not in the top limited recommendation set after value and sequencing review.",
+            "value_summary": "net patient value 0.01 QALY",
+            "patient_value_qaly": 0.0085
+          }
+        ],
+        "clinical_note_draft": {
+          "assessment": "Ethan Park is a 47-year-old male with metabolic-risk phenotype. Current engine state separates 3 required items from 3 selected scored next steps. Vitality context: sleep, rhythm, metabolic load, and low fitness.",
+          "plan": "Required 1. Complete Colorectal cancer screening. Reason: Age 47 and colorectal screening not current.\nRequired 2. Complete ATM genetic counseling and documentation. Reason: ATM P/LP heterozygous finding requires documented guidance.\nRequired 3. Complete ATM family-history gate. Reason: CONSIDER pancreatic surveillance (MRI/MRCP and/or EUS) only if a first- or second-degree relative has had pancreatic cancer\nNext step 1. Start GLP-1/GIP metabolic therapy. net patient value 1.48 QALY. Why now: High patient-value eligible action after required-item separation and overlap gating.\nNext step 2. Start Supervised resistance training. net patient value 1.10 QALY. Why now: High patient-value eligible action after required-item separation and overlap gating.\nNext step 3. Complete Home sleep apnea test. P(reclass) 34%; QALY if reclassified 0.64. Why now: Sleep-disordered breathing confirmed, changing BP sequencing, fatigue/vitality interpretation, and treatment priority.\nDeferred. act_zoster_vaccine_dementia: Eligible, but not in the top limited recommendation set after value and sequencing review.",
+          "orders": [
+            {
+              "id": "plan:glp1_gip_metabolic_therapy",
+              "type": "treatment_plan_candidate",
+              "label": "GLP-1/GIP metabolic therapy",
+              "source_item_id": "glp1_gip_metabolic_therapy",
+              "status": "physician_review_required"
+            },
+            {
+              "id": "order:sleep_apnea_reclassification",
+              "type": "diagnostic_order_candidate",
+              "label": "Home sleep apnea test",
+              "source_item_id": "sleep_apnea_reclassification",
+              "status": "physician_review_required"
+            }
+          ],
+          "referrals": [
+            {
+              "id": "referral:supervised_resistance_training",
+              "type": "program_referral_candidate",
+              "label": "Supervised resistance training",
+              "source_item_id": "supervised_resistance_training",
+              "status": "physician_review_required"
+            },
+            {
+              "id": "referral:genetic_guidance:ATM",
+              "type": "genetics_referral_candidate",
+              "label": "ATM genetic counseling and documentation",
+              "source_item_id": "genetic_guidance:ATM",
+              "status": "physician_review_required"
+            },
+            {
+              "id": "referral:genetic_gate:ATM:1",
+              "type": "genetics_referral_candidate",
+              "label": "ATM family-history gate",
+              "source_item_id": "genetic_gate:ATM:1",
+              "status": "physician_review_required"
+            }
+          ],
+          "patient_message": "We separated required items from optional opportunities, then chose the few next steps with the best combination of patient value, evidence, actionability, and sequencing. Items not selected remain visible for review rather than being hidden.",
+          "signature_status": "draft_for_physician_review"
+        },
+        "synthesis_checks": [
+          {
+            "id": "required_items_separate",
+            "pass": true
+          },
+          {
+            "id": "max_three_recommendations",
+            "pass": true
+          },
+          {
+            "id": "selected_items_are_atomic",
+            "pass": true
+          },
+          {
+            "id": "diagnostics_expose_reclass_and_qaly",
+            "pass": true
+          },
+          {
+            "id": "note_draft_present",
+            "pass": true
+          },
+          {
+            "id": "selected_items_appear_in_note_plan",
+            "pass": true
+          },
+          {
+            "id": "deferred_item_explained_when_available",
+            "pass": true
           }
         ]
       },
@@ -3285,12 +3558,17 @@
         "checks": {
           "patient_packet_hash_present": true,
           "diagnostics_expose_reclass_and_qaly_if_reclassified": true,
+          "diagnostic_recommendations_expose_reclass_and_qaly": true,
           "required_items_are_separate_from_optional_action_map": true,
           "required_items_are_not_duplicated": true,
           "all_recommendations_are_scored": true,
           "raw_ai_text_not_recommended": true,
           "ai_scored_candidates_have_valid_cited_keys": true,
           "max_three_non_required_next_steps": true,
+          "recommendations_have_action_phrases": true,
+          "clinical_note_draft_present": true,
+          "selected_items_appear_in_note_plan": true,
+          "synthesis_checks_pass": true,
           "patient_id_used_for_identity_not_rule_branching": true
         },
         "pass": true
@@ -5701,15 +5979,15 @@
         "source_action_map_state": "ebaf64741f919574",
         "patient_id": "mara-chen",
         "title": "Mara Chen clinical plan from scored engine state",
-        "summary": "Mara Chen has 0 required items separated from the optional action map. The recommended next-step set is limited to 3 scored items after library scoring, diagnostic scoring, genetics routing, and AI candidate admission.",
+        "summary": "Mara Chen has 0 required items separated from the optional action map. The compiler selected 3 scored next steps from typed action and diagnostic state, with vitality used only as context for sequencing and near-term felt progress.",
+        "clinical_overview": "Mara Chen has 0 required items separated from the optional action map. The compiler selected 3 scored next steps from typed action and diagnostic state, with vitality used only as context for sequencing and near-term felt progress.",
         "required_items": [],
-        "non_required_next_steps": [
+        "recommended_next_steps": [
           {
             "id": "supervised_resistance_training",
             "label": "Supervised resistance training",
             "kind": "action",
             "source": "action_library_v2",
-            "patient_value_qaly": 1.1,
             "evidence_axis": {
               "score": 0.57,
               "level": "medium",
@@ -5733,15 +6011,22 @@
                 "burden_qaly"
               ]
             },
-            "why_now": "Highest patient-value optional action after eligibility and required-item separation."
+            "why_now": "High patient-value eligible action after required-item separation and overlap gating.",
+            "action_phrase": "Start Supervised resistance training.",
+            "value_summary": "net patient value 1.10 QALY",
+            "matched_findings": [
+              "bone_risk",
+              "low_strength_or_low_lean_mass",
+              "low_vo2max"
+            ],
+            "trace_status": "asserted_legacy",
+            "patient_value_qaly": 1.1
           },
           {
             "id": "cac_primary_prevention_reclassification",
             "label": "Coronary calcium scoring",
             "kind": "diagnostic",
             "source": "ai_scored_candidate",
-            "reclassification_probability": 0.25,
-            "qaly_if_reclassified": 0.75,
             "evidence_axis": {
               "score": 0.69,
               "level": "medium",
@@ -5765,15 +6050,30 @@
                 "evidence_grade"
               ]
             },
-            "why_now": "Plaque burden changes lipid/BP intensity, urgency, and sequencing."
+            "why_now": "Plaque burden changes lipid/BP intensity, urgency, and sequencing.",
+            "action_phrase": "Complete Coronary calcium scoring.",
+            "value_summary": "P(reclass) 25%; QALY if reclassified 0.75",
+            "matched_findings": [
+              "cvd_risk_uncertainty",
+              "risk_enhancer_present",
+              "treatment_intensity_uncertain"
+            ],
+            "trace_status": "runner_computed",
+            "reclassification_probability": 0.25,
+            "qaly_if_reclassified": 0.75,
+            "expected_voi_internal": 0.1875,
+            "dominant_reclassification_path": "Plaque burden changes lipid/BP intensity, urgency, and sequencing.",
+            "downstream_decisions_changed": [
+              "lipid_intensity",
+              "bp_target_intensity",
+              "patient_risk_narrative"
+            ]
           },
           {
             "id": "dexa_bone_lean_mass_reclassification",
             "label": "Baseline DEXA",
             "kind": "diagnostic",
             "source": "ai_scored_candidate",
-            "reclassification_probability": 0.2,
-            "qaly_if_reclassified": 0.7,
             "evidence_axis": {
               "score": 0.7,
               "level": "high",
@@ -5795,7 +6095,265 @@
                 "evidence_grade"
               ]
             },
-            "why_now": "Low bone density, high visceral fat, or low lean mass changes resistance training, nutrition, medication thresholds, and monitoring cadence."
+            "why_now": "Low bone density, high visceral fat, or low lean mass changes resistance training, nutrition, medication thresholds, and monitoring cadence.",
+            "action_phrase": "Complete Baseline DEXA.",
+            "value_summary": "P(reclass) 20%; QALY if reclassified 0.70",
+            "matched_findings": [
+              "family_history_osteoporosis",
+              "low_vitamin_d"
+            ],
+            "trace_status": "runner_computed",
+            "reclassification_probability": 0.2,
+            "qaly_if_reclassified": 0.7,
+            "expected_voi_internal": 0.14,
+            "dominant_reclassification_path": "Low bone density, high visceral fat, or low lean mass changes resistance training, nutrition, medication thresholds, and monitoring cadence.",
+            "downstream_decisions_changed": [
+              "resistance_training_priority",
+              "protein_or_body_composition_strategy",
+              "bone_medication_threshold",
+              "monitoring_cadence"
+            ]
+          }
+        ],
+        "non_required_next_steps": [
+          {
+            "id": "supervised_resistance_training",
+            "label": "Supervised resistance training",
+            "kind": "action",
+            "source": "action_library_v2",
+            "evidence_axis": {
+              "score": 0.57,
+              "level": "medium",
+              "display_label": "Medium evidence",
+              "basis_summary": "Resistance training has strong function evidence and supportive observational prevention evidence, but hard-outcome QALY magnitude is translated.",
+              "component_scores": {
+                "study_design": 0.2,
+                "endpoint_directness": 0.1,
+                "population_match": 0.09,
+                "intervention_match": 0.1,
+                "magnitude_precision": 0.03,
+                "harm_characterization": 0.05
+              },
+              "caps_applied": [
+                "model_translated_value_cap"
+              ],
+              "primary_trace_parameters": [
+                "channels.c2_capacity",
+                "channels.c3_resilience",
+                "channels.c1_prevention",
+                "burden_qaly"
+              ]
+            },
+            "why_now": "High patient-value eligible action after required-item separation and overlap gating.",
+            "action_phrase": "Start Supervised resistance training.",
+            "value_summary": "net patient value 1.10 QALY",
+            "matched_findings": [
+              "bone_risk",
+              "low_strength_or_low_lean_mass",
+              "low_vo2max"
+            ],
+            "trace_status": "asserted_legacy",
+            "patient_value_qaly": 1.1
+          },
+          {
+            "id": "cac_primary_prevention_reclassification",
+            "label": "Coronary calcium scoring",
+            "kind": "diagnostic",
+            "source": "ai_scored_candidate",
+            "evidence_axis": {
+              "score": 0.69,
+              "level": "medium",
+              "display_label": "Medium evidence",
+              "basis_summary": "Guideline-supported reclassification for uncertain statin decisions; downstream QALY is modeled from lipid/BP intensity changes.",
+              "component_scores": {
+                "test_validity": 0.18,
+                "reclassification_yield": 0.15,
+                "downstream_action_value": 0.16,
+                "population_match": 0.1,
+                "management_threshold": 0.07,
+                "burden_harms_known": 0.03
+              },
+              "caps_applied": [
+                "model_translated_value_cap"
+              ],
+              "primary_trace_parameters": [
+                "reclassification_probability",
+                "qaly_if_reclassified",
+                "test_burden",
+                "evidence_grade"
+              ]
+            },
+            "why_now": "Plaque burden changes lipid/BP intensity, urgency, and sequencing.",
+            "action_phrase": "Complete Coronary calcium scoring.",
+            "value_summary": "P(reclass) 25%; QALY if reclassified 0.75",
+            "matched_findings": [
+              "cvd_risk_uncertainty",
+              "risk_enhancer_present",
+              "treatment_intensity_uncertain"
+            ],
+            "trace_status": "runner_computed",
+            "reclassification_probability": 0.25,
+            "qaly_if_reclassified": 0.75,
+            "expected_voi_internal": 0.1875,
+            "dominant_reclassification_path": "Plaque burden changes lipid/BP intensity, urgency, and sequencing.",
+            "downstream_decisions_changed": [
+              "lipid_intensity",
+              "bp_target_intensity",
+              "patient_risk_narrative"
+            ]
+          },
+          {
+            "id": "dexa_bone_lean_mass_reclassification",
+            "label": "Baseline DEXA",
+            "kind": "diagnostic",
+            "source": "ai_scored_candidate",
+            "evidence_axis": {
+              "score": 0.7,
+              "level": "high",
+              "display_label": "High evidence",
+              "basis_summary": "DXA bone screening is guideline-supported in eligible women/risk groups; lean-mass/body-composition interpretation is weaker and should be split later.",
+              "component_scores": {
+                "test_validity": 0.18,
+                "reclassification_yield": 0.14,
+                "downstream_action_value": 0.19,
+                "population_match": 0.11,
+                "management_threshold": 0.06,
+                "burden_harms_known": 0.02
+              },
+              "caps_applied": [],
+              "primary_trace_parameters": [
+                "reclassification_probability",
+                "qaly_if_reclassified",
+                "test_burden",
+                "evidence_grade"
+              ]
+            },
+            "why_now": "Low bone density, high visceral fat, or low lean mass changes resistance training, nutrition, medication thresholds, and monitoring cadence.",
+            "action_phrase": "Complete Baseline DEXA.",
+            "value_summary": "P(reclass) 20%; QALY if reclassified 0.70",
+            "matched_findings": [
+              "family_history_osteoporosis",
+              "low_vitamin_d"
+            ],
+            "trace_status": "runner_computed",
+            "reclassification_probability": 0.2,
+            "qaly_if_reclassified": 0.7,
+            "expected_voi_internal": 0.14,
+            "dominant_reclassification_path": "Low bone density, high visceral fat, or low lean mass changes resistance training, nutrition, medication thresholds, and monitoring cadence.",
+            "downstream_decisions_changed": [
+              "resistance_training_priority",
+              "protein_or_body_composition_strategy",
+              "bone_medication_threshold",
+              "monitoring_cadence"
+            ]
+          }
+        ],
+        "deferred_not_selected": [
+          {
+            "id": "statin_primary",
+            "label": "Statin primary prevention",
+            "kind": "action",
+            "source": "action_library_v2",
+            "reason": "Eligible, but not in the top limited recommendation set after value and sequencing review.",
+            "value_summary": "net patient value 0.43 QALY",
+            "patient_value_qaly": 0.4271
+          },
+          {
+            "id": "fh_cascade_screening",
+            "label": "fh_cascade_screening",
+            "kind": "action",
+            "source": "action_library_v2",
+            "reason": "Eligible, but not in the top limited recommendation set after value and sequencing review.",
+            "value_summary": "net patient value 0.06 QALY",
+            "patient_value_qaly": 0.064
+          },
+          {
+            "id": "fh_high_intensity_llt",
+            "label": "fh_high_intensity_llt",
+            "kind": "action",
+            "source": "action_library_v2",
+            "reason": "Eligible, but not in the top limited recommendation set after value and sequencing review.",
+            "value_summary": "net patient value 0.06 QALY",
+            "patient_value_qaly": 0.058
+          },
+          {
+            "id": "lpa_reclassify_intensify",
+            "label": "lpa_reclassify_intensify",
+            "kind": "action",
+            "source": "action_library_v2",
+            "reason": "Eligible, but not in the top limited recommendation set after value and sequencing review.",
+            "value_summary": "net patient value -0.00 QALY",
+            "patient_value_qaly": -0.0039
+          },
+          {
+            "id": "physical_activity_rx",
+            "label": "physical_activity_rx",
+            "kind": "action",
+            "source": "action_library_v2",
+            "reason": "Eligible, but not in the top limited recommendation set after value and sequencing review.",
+            "value_summary": "net patient value -0.02 QALY",
+            "patient_value_qaly": -0.0202
+          }
+        ],
+        "clinical_note_draft": {
+          "assessment": "Mara Chen is a 56-year-old female with low-vitality Lp(a) phenotype. Current engine state separates 0 required items from 3 selected scored next steps. Vitality context: iron, thyroid, sleep fragmentation, bone context, and low fitness.",
+          "plan": "Next step 1. Start Supervised resistance training. net patient value 1.10 QALY. Why now: High patient-value eligible action after required-item separation and overlap gating.\nNext step 2. Complete Coronary calcium scoring. P(reclass) 25%; QALY if reclassified 0.75. Why now: Plaque burden changes lipid/BP intensity, urgency, and sequencing.\nNext step 3. Complete Baseline DEXA. P(reclass) 20%; QALY if reclassified 0.70. Why now: Low bone density, high visceral fat, or low lean mass changes resistance training, nutrition, medication thresholds, and monitoring cadence.\nDeferred. Statin primary prevention: Eligible, but not in the top limited recommendation set after value and sequencing review.",
+          "orders": [
+            {
+              "id": "order:cac_primary_prevention_reclassification",
+              "type": "diagnostic_order_candidate",
+              "label": "Coronary calcium scoring",
+              "source_item_id": "cac_primary_prevention_reclassification",
+              "status": "physician_review_required"
+            },
+            {
+              "id": "order:dexa_bone_lean_mass_reclassification",
+              "type": "diagnostic_order_candidate",
+              "label": "Baseline DEXA",
+              "source_item_id": "dexa_bone_lean_mass_reclassification",
+              "status": "physician_review_required"
+            }
+          ],
+          "referrals": [
+            {
+              "id": "referral:supervised_resistance_training",
+              "type": "program_referral_candidate",
+              "label": "Supervised resistance training",
+              "source_item_id": "supervised_resistance_training",
+              "status": "physician_review_required"
+            }
+          ],
+          "patient_message": "We separated required items from optional opportunities, then chose the few next steps with the best combination of patient value, evidence, actionability, and sequencing. Items not selected remain visible for review rather than being hidden.",
+          "signature_status": "draft_for_physician_review"
+        },
+        "synthesis_checks": [
+          {
+            "id": "required_items_separate",
+            "pass": true
+          },
+          {
+            "id": "max_three_recommendations",
+            "pass": true
+          },
+          {
+            "id": "selected_items_are_atomic",
+            "pass": true
+          },
+          {
+            "id": "diagnostics_expose_reclass_and_qaly",
+            "pass": true
+          },
+          {
+            "id": "note_draft_present",
+            "pass": true
+          },
+          {
+            "id": "selected_items_appear_in_note_plan",
+            "pass": true
+          },
+          {
+            "id": "deferred_item_explained_when_available",
+            "pass": true
           }
         ]
       },
@@ -5806,12 +6364,17 @@
         "checks": {
           "patient_packet_hash_present": true,
           "diagnostics_expose_reclass_and_qaly_if_reclassified": true,
+          "diagnostic_recommendations_expose_reclass_and_qaly": true,
           "required_items_are_separate_from_optional_action_map": true,
           "required_items_are_not_duplicated": true,
           "all_recommendations_are_scored": true,
           "raw_ai_text_not_recommended": true,
           "ai_scored_candidates_have_valid_cited_keys": true,
           "max_three_non_required_next_steps": true,
+          "recommendations_have_action_phrases": true,
+          "clinical_note_draft_present": true,
+          "selected_items_appear_in_note_plan": true,
+          "synthesis_checks_pass": true,
           "patient_id_used_for_identity_not_rule_branching": true
         },
         "pass": true

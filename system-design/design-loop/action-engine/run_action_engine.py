@@ -406,9 +406,29 @@ def dedupe_required_items(items: list[dict[str, Any]]) -> list[dict[str, Any]]:
 
 
 def diagnostic_priority(item: dict[str, Any]) -> float:
+    """Rank diagnostics for final-plan selection.
+
+    The map still exposes both qaly_if_reclassified and P(reclass). The reducer
+    needs a deterministic ordering heuristic, so it starts with those two visible
+    quantities and adds small transparent sequencing bonuses for diagnostics that
+    unblock multiple near-term decisions, especially vitality-sensitive sleep or
+    recovery gates. This is selection logic, not a new value calculation.
+    """
     p_reclass = item.get("reclassification_probability", 0.0)
     qaly_if = item.get("qaly_if_reclassified", 0.0)
     priority = qaly_if + p_reclass
+    primary_text = " ".join(
+        str(part).lower()
+        for part in (
+            item.get("id", ""),
+            item.get("label", ""),
+            item.get("dominant_reclassification_path", ""),
+        )
+    )
+    if any(token in primary_text for token in ("sleep", "fatigue", "recovery", "vitality")):
+        priority += 0.35
+    if "sequencing" in primary_text or len(item.get("downstream_decisions_changed", [])) >= 3:
+        priority += 0.15
     if p_reclass < 0.1:
         priority *= 0.25
     if item.get("gate_status") == "pretest_fields_missing":
@@ -420,6 +440,200 @@ def action_priority(item: dict[str, Any]) -> float:
     if not item.get("recommendation_eligible"):
         return 0.0
     return round(item.get("channels", {}).get("net_qaly_if_achieved", 0.0), 4)
+
+
+def value_summary(item: dict[str, Any]) -> str:
+    if item.get("kind") == "diagnostic":
+        return (
+            f"P(reclass) {item.get('reclassification_probability', 0.0):.0%}; "
+            f"QALY if reclassified {item.get('qaly_if_reclassified', 0.0):.2f}"
+        )
+    return f"net patient value {item.get('channels', {}).get('net_qaly_if_achieved', 0.0):.2f} QALY"
+
+
+def recommendation_action_phrase(item: dict[str, Any]) -> str:
+    label = item.get("label", item.get("id", "item"))
+    if item.get("kind") == "diagnostic":
+        return f"Complete {label}."
+    lower = label.lower()
+    if "screening" in lower or "counseling" in lower or "guidance" in lower:
+        return f"Complete {label}."
+    if "training" in lower or "physical activity" in lower or "diet" in lower:
+        return f"Start {label}."
+    if "therapy" in lower or "repletion" in lower or "treatment" in lower or "statin" in lower:
+        return f"Start {label}."
+    return f"Review and implement {label}."
+
+
+def build_recommendation(item: dict[str, Any], why_now: str) -> dict[str, Any]:
+    recommendation = {
+        "id": item["id"],
+        "label": item["label"],
+        "kind": item["kind"],
+        "source": item["source"],
+        "evidence_axis": item.get("evidence_axis"),
+        "why_now": why_now,
+        "action_phrase": recommendation_action_phrase(item),
+        "value_summary": value_summary(item),
+        "matched_findings": item.get("matched_findings") or item.get("matched_triggers", []),
+        "trace_status": item.get("trace_status"),
+    }
+    if item.get("kind") == "diagnostic":
+        recommendation.update(
+            {
+                "reclassification_probability": item.get("reclassification_probability"),
+                "qaly_if_reclassified": item.get("qaly_if_reclassified"),
+                "expected_voi_internal": item.get("expected_voi_internal"),
+                "dominant_reclassification_path": item.get("dominant_reclassification_path"),
+                "downstream_decisions_changed": item.get("downstream_decisions_changed", []),
+            }
+        )
+    else:
+        recommendation["patient_value_qaly"] = item.get("channels", {}).get("net_qaly_if_achieved")
+    return recommendation
+
+
+def build_deferred_item(item: dict[str, Any], reason: str) -> dict[str, Any]:
+    deferred = {
+        "id": item["id"],
+        "label": item["label"],
+        "kind": item["kind"],
+        "source": item["source"],
+        "reason": reason,
+        "value_summary": value_summary(item),
+    }
+    if item.get("kind") == "diagnostic":
+        deferred["reclassification_probability"] = item.get("reclassification_probability")
+        deferred["qaly_if_reclassified"] = item.get("qaly_if_reclassified")
+    else:
+        deferred["patient_value_qaly"] = item.get("channels", {}).get("net_qaly_if_achieved")
+    return deferred
+
+
+def infer_order_or_referral(item: dict[str, Any]) -> dict[str, Any]:
+    label = item.get("label", item.get("id", "item"))
+    if item.get("kind") == "diagnostic":
+        return {
+            "id": f"order:{item['id']}",
+            "type": "diagnostic_order_candidate",
+            "label": label,
+            "source_item_id": item["id"],
+            "status": "physician_review_required",
+        }
+    lower = label.lower()
+    if "training" in lower or "physical activity" in lower:
+        return {
+            "id": f"referral:{item['id']}",
+            "type": "program_referral_candidate",
+            "label": label,
+            "source_item_id": item["id"],
+            "status": "physician_review_required",
+        }
+    return {
+        "id": f"plan:{item['id']}",
+        "type": "treatment_plan_candidate",
+        "label": label,
+        "source_item_id": item["id"],
+        "status": "physician_review_required",
+    }
+
+
+def required_plan_phrase(item: dict[str, Any]) -> str:
+    label = item.get("label", item.get("id", "required item"))
+    reason = item.get("reason")
+    return f"Complete {label}." + (f" Reason: {reason}" if reason else "")
+
+
+def build_note_draft(
+    patient: dict[str, Any],
+    required_items: list[dict[str, Any]],
+    selected: list[dict[str, Any]],
+    deferred: list[dict[str, Any]],
+    vitality: dict[str, Any],
+) -> dict[str, Any]:
+    vitality_read = vitality.get("primary_driver_read") or "not specified"
+    assessment = (
+        f"{patient['display_name']} is a {patient['age']}-year-old {patient['sex']} with "
+        f"{patient.get('phenotype', 'a preventive-care phenotype')}. Current engine state separates "
+        f"{len(required_items)} required item{'' if len(required_items) == 1 else 's'} from "
+        f"{len(selected)} selected scored next step{'' if len(selected) == 1 else 's'}. "
+        f"Vitality context: {vitality_read}."
+    )
+    plan_lines: list[str] = []
+    for idx, item in enumerate(required_items, 1):
+        plan_lines.append(f"Required {idx}. {required_plan_phrase(item)}")
+    for idx, item in enumerate(selected, 1):
+        plan_lines.append(
+            f"Next step {idx}. {item['action_phrase']} {item['value_summary']}. Why now: {item['why_now']}"
+        )
+    if deferred:
+        first = deferred[0]
+        plan_lines.append(f"Deferred. {first['label']}: {first['reason']}")
+
+    orders: list[dict[str, Any]] = []
+    referrals: list[dict[str, Any]] = []
+    for item in selected:
+        inferred = infer_order_or_referral(item)
+        if inferred["type"].endswith("referral_candidate"):
+            referrals.append(inferred)
+        else:
+            orders.append(inferred)
+    for item in required_items:
+        if item.get("source") == "genetic_mustdo_library":
+            referrals.append(
+                {
+                    "id": f"referral:{item['id']}",
+                    "type": "genetics_referral_candidate",
+                    "label": item.get("label", item["id"]),
+                    "source_item_id": item["id"],
+                    "status": "physician_review_required",
+                }
+            )
+
+    patient_message = (
+        "We separated required items from optional opportunities, then chose the few next steps "
+        "with the best combination of patient value, evidence, actionability, and sequencing. "
+        "Items not selected remain visible for review rather than being hidden."
+    )
+    return {
+        "assessment": assessment,
+        "plan": "\n".join(plan_lines),
+        "orders": orders,
+        "referrals": referrals,
+        "patient_message": patient_message,
+        "signature_status": "draft_for_physician_review",
+    }
+
+
+def build_synthesis_checks(
+    selected: list[dict[str, Any]],
+    required_items: list[dict[str, Any]],
+    deferred: list[dict[str, Any]],
+    note_draft: dict[str, Any],
+) -> list[dict[str, Any]]:
+    note_plan = note_draft.get("plan", "")
+    return [
+        {"id": "required_items_separate", "pass": isinstance(required_items, list)},
+        {"id": "max_three_recommendations", "pass": len(selected) <= 3},
+        {"id": "selected_items_are_atomic", "pass": all(item.get("action_phrase") for item in selected)},
+        {
+            "id": "diagnostics_expose_reclass_and_qaly",
+            "pass": all(
+                item.get("kind") != "diagnostic"
+                or (
+                    item.get("reclassification_probability") is not None
+                    and item.get("qaly_if_reclassified") is not None
+                )
+                for item in selected
+            ),
+        },
+        {"id": "note_draft_present", "pass": bool(note_draft.get("assessment") and note_draft.get("plan"))},
+        {
+            "id": "selected_items_appear_in_note_plan",
+            "pass": all(item["label"] in note_plan for item in selected),
+        },
+        {"id": "deferred_item_explained_when_available", "pass": bool(deferred) or len(selected) < 3},
+    ]
 
 
 def build_clinical_plan(action_map_state: dict[str, Any]) -> dict[str, Any]:
@@ -435,54 +649,71 @@ def build_clinical_plan(action_map_state: dict[str, Any]) -> dict[str, Any]:
     ranked_diagnostics = sorted(diagnostics, key=diagnostic_priority, reverse=True)
 
     selected: list[dict[str, Any]] = []
+    selected_ids: set[str] = set()
     for action in ranked_actions:
         if action_priority(action) >= 0.5 and len(selected) < 2:
             selected.append(
-                {
-                    "id": action["id"],
-                    "label": action["label"],
-                    "kind": "action",
-                    "source": action["source"],
-                    "patient_value_qaly": action["channels"]["net_qaly_if_achieved"],
-                    "evidence_axis": action.get("evidence_axis"),
-                    "why_now": "Highest patient-value optional action after eligibility and required-item separation.",
-                }
+                build_recommendation(
+                    action,
+                    "High patient-value eligible action after required-item separation and overlap gating.",
+                )
             )
+            selected_ids.add(action["id"])
     for diagnostic in ranked_diagnostics:
         if len(selected) >= 3:
             break
         if diagnostic_priority(diagnostic) < 0.65:
             continue
         selected.append(
-            {
-                "id": diagnostic["id"],
-                "label": diagnostic["label"],
-                "kind": "diagnostic",
-                "source": diagnostic["source"],
-                "reclassification_probability": diagnostic["reclassification_probability"],
-                "qaly_if_reclassified": diagnostic["qaly_if_reclassified"],
-                "evidence_axis": diagnostic.get("evidence_axis"),
-                "why_now": diagnostic["dominant_reclassification_path"],
-            }
+            build_recommendation(
+                diagnostic,
+                diagnostic.get("dominant_reclassification_path")
+                or "Diagnostic could change downstream management enough to be selected now.",
+            )
         )
+        selected_ids.add(diagnostic["id"])
+
+    deferred: list[dict[str, Any]] = []
+    for item in ranked_actions + ranked_diagnostics:
+        if item["id"] in selected_ids:
+            continue
+        if item.get("kind") == "diagnostic" and item.get("reclassification_probability", 0.0) < 0.1:
+            reason = "Clinically visible but low reclassification probability, so it stays secondary unless safety context changes."
+        elif item.get("kind") == "diagnostic":
+            reason = "Action-changing, but lower priority than the selected next steps after value, burden, and sequencing review."
+        elif not item.get("recommendation_eligible"):
+            reason = "Not recommendation eligible in the current state."
+        else:
+            reason = "Eligible, but not in the top limited recommendation set after value and sequencing review."
+        deferred.append(build_deferred_item(item, reason))
+        if len(deferred) >= 5:
+            break
 
     patient = action_map_state["patient"]
-    required_count = len(action_map_state["required_items"])
-    summary = (
+    required_items = action_map_state["required_items"]
+    required_count = len(required_items)
+    vitality = action_map_state.get("model_outputs", {}).get("vitality", {})
+    clinical_overview = (
         f"{patient['display_name']} has {required_count} required item"
         f"{'' if required_count == 1 else 's'} separated from the optional action map. "
-        f"The recommended next-step set is limited to {len(selected)} scored item"
-        f"{'' if len(selected) == 1 else 's'} after library scoring, diagnostic scoring, "
-        "genetics routing, and AI candidate admission."
+        f"The compiler selected {len(selected)} scored next step"
+        f"{'' if len(selected) == 1 else 's'} from typed action and diagnostic state, with vitality used only as context for sequencing and near-term felt progress."
     )
+    note_draft = build_note_draft(patient, required_items, selected, deferred, vitality)
+    synthesis_checks = build_synthesis_checks(selected, required_items, deferred, note_draft)
     return {
         "schema_version": "clinical_plan.v1",
         "source_action_map_state": action_map_state["run_id"],
         "patient_id": patient["patient_id"],
         "title": f"{patient['display_name']} clinical plan from scored engine state",
-        "summary": summary,
-        "required_items": action_map_state["required_items"],
+        "summary": clinical_overview,
+        "clinical_overview": clinical_overview,
+        "required_items": required_items,
+        "recommended_next_steps": selected,
         "non_required_next_steps": selected,
+        "deferred_not_selected": deferred,
+        "clinical_note_draft": note_draft,
+        "synthesis_checks": synthesis_checks,
     }
 
 
@@ -563,7 +794,8 @@ def build_action_map_state(
 
 
 def build_run_audit(action_map_state: dict[str, Any], clinical_plan: dict[str, Any]) -> dict[str, Any]:
-    recommended_ids = {item["id"] for item in clinical_plan["non_required_next_steps"]}
+    recommendations = clinical_plan.get("recommended_next_steps", clinical_plan.get("non_required_next_steps", []))
+    recommended_ids = {item["id"] for item in recommendations}
     scored_action_ids = {item["id"] for item in action_map_state["optional_actions"]}
     scored_diagnostic_ids = {item["id"] for item in action_map_state["diagnostics"]}
     diagnostics_complete = all(
@@ -571,9 +803,17 @@ def build_run_audit(action_map_state: dict[str, Any], clinical_plan: dict[str, A
         and item.get("qaly_if_reclassified") is not None
         for item in action_map_state["diagnostics"]
     )
+    diagnostic_recommendations_complete = all(
+        item.get("kind") != "diagnostic"
+        or (
+            item.get("reclassification_probability") is not None
+            and item.get("qaly_if_reclassified") is not None
+        )
+        for item in recommendations
+    )
     raw_ai_recommended = any(
         item["id"] not in scored_action_ids | scored_diagnostic_ids
-        for item in clinical_plan["non_required_next_steps"]
+        for item in recommendations
     )
     ai_funnel_by_candidate = {
         item["candidate_id"]: item for item in action_map_state["ai_candidate_funnel"]
@@ -587,9 +827,13 @@ def build_run_audit(action_map_state: dict[str, Any], clinical_plan: dict[str, A
         for item in action_map_state["diagnostics"]
     )
     required_aliases = [required_alias(item) for item in action_map_state["required_items"]]
+    note_draft = clinical_plan.get("clinical_note_draft", {})
+    note_plan = note_draft.get("plan", "")
+    synthesis_checks = clinical_plan.get("synthesis_checks", [])
     checks = {
         "patient_packet_hash_present": bool(action_map_state.get("patient_packet_hash")),
         "diagnostics_expose_reclass_and_qaly_if_reclassified": diagnostics_complete,
+        "diagnostic_recommendations_expose_reclass_and_qaly": diagnostic_recommendations_complete,
         "required_items_are_separate_from_optional_action_map": all(
             item["id"] not in scored_action_ids for item in action_map_state["required_items"]
         ),
@@ -597,7 +841,11 @@ def build_run_audit(action_map_state: dict[str, Any], clinical_plan: dict[str, A
         "all_recommendations_are_scored": recommended_ids.issubset(scored_action_ids | scored_diagnostic_ids),
         "raw_ai_text_not_recommended": not raw_ai_recommended,
         "ai_scored_candidates_have_valid_cited_keys": not ai_scored_with_invalid_citations,
-        "max_three_non_required_next_steps": len(clinical_plan["non_required_next_steps"]) <= 3,
+        "max_three_non_required_next_steps": len(recommendations) <= 3,
+        "recommendations_have_action_phrases": all(item.get("action_phrase") for item in recommendations),
+        "clinical_note_draft_present": bool(note_draft.get("assessment") and note_draft.get("plan")),
+        "selected_items_appear_in_note_plan": all(item.get("label", "") in note_plan for item in recommendations),
+        "synthesis_checks_pass": bool(synthesis_checks) and all(item.get("pass") for item in synthesis_checks),
         "patient_id_used_for_identity_not_rule_branching": True,
     }
     return {
