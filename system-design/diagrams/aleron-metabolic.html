@@ -132,13 +132,8 @@ svg{display:block;width:100%;height:auto;}
   <p><b>Two gates, because the question changes once diabetes is present.</b> <b>Gate 1</b> (no diabetes) predicts 10-year incident T2D from <b>QDiabetes-2018</b> (Hippisley-Cox 2017, derived on 8.87M patients, C-statistic ~0.89/0.87). Unlike the CVD widget's live PREVENT, QDiabetes is used here as a <b>calibrated anchor you set directly</b>. On top sits the fully-computed overlay: five modifiers &mdash; insulin resistance, central adiposity &amp; weight trajectory, hepatic risk (FIB-4), family history, and cardiorespiratory fitness &mdash; combined through a <b>log-odds sigmoid</b> (kept, unlike the flat CVD/CKD layer, because Gate-1 base risk can be high enough that a flat product would overshoot), with the non-CRF contribution capped at <b>3.0&times;</b> and CRF applied last. <b>Gate 2</b> (established T2D) emits no probability &mdash; complications are already owned by the CVD, CKD, cancer, and neuro models &mdash; only a structured <b>severity vector</b>: glycemic tier, hepatic tier, treatment-adequacy gaps, and trajectory. Illustrative use; not medical advice.</p>
 </div>
 
-<!-- EXTREMES -->
-<div class="sec"><div class="ph"><span class="h">The extremes</span><span class="sub">same Gate-1 modifier layer, two non-diabetic patients &middot; 10-year incident T2D</span></div>
-  <div class="extremes" id="extremes"></div>
-</div>
-
 <!-- LAYER 1 -->
-<div class="sec"><div class="ph"><span class="h">Gate 1 &middot; base anchor &middot; set the patient</span><span class="sub">QDiabetes 10-year incident-T2D point estimate &middot; not recomputed live</span></div>
+<div class="sec"><div class="ph"><span class="h">Base model</span><span class="sub">Gate 1 &middot; QDiabetes 10-year incident-T2D point estimate &middot; set the patient</span></div>
   <div class="pad calc">
     <div>
       <div class="presets">
@@ -156,7 +151,7 @@ svg{display:block;width:100%;height:auto;}
 </div>
 
 <!-- ALERON MODIFIER LAYER -->
-<div class="sec layer2"><div class="ph"><span class="h">Gate 1 &middot; the five Aleron modifiers</span><span class="sub">log-odds sigmoid &middot; non-CRF contribution capped at 3.0&times; &middot; CRF last</span></div>
+<div class="sec layer2"><div class="ph"><span class="h">Modifiers</span><span class="sub">the five Aleron modifiers &middot; log-odds sigmoid &middot; non-CRF contribution capped at 3.0&times; &middot; CRF last</span></div>
   <div class="pad modlayer">
     <div>
       <div class="presets" id="mpresets">
@@ -195,28 +190,10 @@ svg{display:block;width:100%;height:auto;}
 </div>
 
 <!-- TORNADO -->
-<div class="sec"><div class="ph"><span class="h">What moves risk most &middot; the five Gate-1 modifiers</span><span class="sub">sensitivity &middot; full range of each modifier at a fixed base &middot; independent of the sliders</span></div>
+<div class="sec"><div class="ph"><span class="h">Sensitivity map</span><span class="sub">full range of each Gate-1 modifier at a fixed base &middot; independent of the sliders</span></div>
   <div class="pad"><div class="torn" id="torn"></div>
-  <p class="note">Each bar = the swing in adjusted 10-year T2D risk as that one Gate-1 modifier moves across its <b>full range</b> (best&rarr;worst), the others held at neutral and the base fixed at a representative <b>15%</b>. This is a <b>fixed sensitivity ranking</b> &mdash; which modifier <i>can</i> move risk most &mdash; and does <b>not</b> change with the sliders above. <b>Cardiorespiratory fitness carries the widest range (0.65&rarr;1.4&times;)</b>, so it tops the list. One-at-a-time, so they don't sum.</p></div>
+  <p class="note">Each bar = the swing in adjusted 10-year T2D risk as that one Gate-1 modifier moves across its <b>full range</b> (best&rarr;worst), the others held at neutral and the base fixed at a representative <b>15%</b>. This is a <b>fixed sensitivity ranking</b> of which modifier <i>can</i> move risk most, and does <b>not</b> change with the sliders above. <b>Cardiorespiratory fitness carries the widest range (0.65&rarr;1.4&times;)</b>, so it tops the list. One-at-a-time, so they don't sum.</p></div>
 </div>
-
-<!-- COMBINATION BEHAVIOR -->
-<div class="sec"><div class="ph"><span class="h">How the Gate-1 combination behaves</span><span class="sub">this patient's modifier stack applied across the plausible base range</span></div>
-  <div class="pad"><svg id="sweep" viewBox="0 0 920 320" role="img"><title>Adjusted risk versus base risk</title></svg>
-  <p class="note">Modifiers add in <b>log-odds</b>, so the adjusted curve <b>compresses as the base rises</b> &mdash; the exact reason Gate 1 keeps the sigmoid instead of the flat product used for CVD and CKD. The faint dotted line is the identity (no modifiers); the solid line is the adjusted risk after the 3.0&times; contribution cap and CRF. At low base risk the lift is large; at high base risk a flat product would have overshot past 100%.</p></div>
-</div>
-
-<!-- BEHAVIORS -->
-<div class="sec"><div class="ph"><span class="h">Model behaviors to know</span><span class="sub">design choices that are deliberate, not bugs</span></div>
-  <div class="pad"><p class="kfact" style="margin:0">The metabolic layer routes by clinical question and keeps the combination honest at high base risk:</p>
-  <ul style="font-size:12.5px;color:var(--muted);line-height:1.65;margin:10px 0 0;padding-left:18px">
-    <li><b>Gate 2 has no probability.</b> Once T2D is established, complications are owned by the CVD, CKD, cancer, and neuro models; a separate severity probability would double-count. Gate 2 emits an action state, not a number.</li>
-    <li><b>The sigmoid is kept for Gate 1</b> (unlike the flat CVD/CKD layer) because QDiabetes base risk can be high enough that a flat product would overshoot &mdash; log-odds compress the stack instead.</li>
-    <li><b>Coverage gates the output.</b> A base-only run (no informative modifier) holds at the base and lists the highest-value missing tests, rather than applying a CRF-only discount that implies unsupported precision.</li>
-    <li><b>Weight gain and loss are mutually exclusive</b>, and central adiposity prefers waist-to-height (travels across sex and ethnicity) over a single BMI term.</li>
-    <li><b>Shared inputs are not double-counting.</b> Raw metabolic inputs feed CVD, CKD, cancer, and neuro independently because each predicts a different outcome; the action layer dedupes the interventions.</li>
-    <li><b>Genetics route out.</b> MODY genes, the diabetes PRS, PNPLA3, and TM6SF2 are diagnostic/reclassification signals handled outside this score, not phenotype modifiers.</li>
-  </ul></div></div>
 
 <p class="disc">Base model: QDiabetes-2018 with fasting-glucose/HbA1c enhancement (Hippisley-Cox J, Coupland C, <i>BMJ</i> 2017; PMID 29158232). Modifier thresholds, weights, the 3.0&times; non-CRF contribution cap, the sigmoid combination, and the Gate-2 severity tiers per the Aleron Metabolic Phenotype Risk Model v3.0. Base anchors here are illustrative point estimates, not live recomputation; the Gate-1 modifier arithmetic is computed exactly as specified, including the 3.0&times; cap (which binds slightly earlier than the v3.0 M-002 prose, where the cap was not applied). Framing for adults ~35&ndash;60.</p>
 
@@ -278,21 +255,6 @@ const FAMSEG=[['none','None'],['strong','≥2 FDR or onset <45 (×1.3)'],['early
 function band(a){ return a<10?'low':a<25?'moderate':'high'; }
 function rrRow(lab,val,max){const w=Math.max(1,Math.min(100,val/max*100));
   return '<span class="lab">'+lab+'</span><span class="track"><span class="fill" style="width:'+w+'%"></span></span><span class="v">'+f1(val)+'%</span>';}
-
-function renderExtremes(){
-  const host=document.getElementById('extremes');
-  function card(cls,tag,s){
-    const o=adjOf(s);
-    const prof='base <b>'+f1(s.base)+'%</b> · HOMA <b>'+s.homa.toFixed(1)+'</b> · WHtR <b>'+s.whtr.toFixed(2)+'</b> · FIB-4 <b>'+s.fib4.toFixed(1)+'</b> · CRF <b>'+s.crf+'th</b>'+(s.wtraj!=='none'?' · '+s.wtraj:'')+(s.fhx!=='none'?' · FHx '+s.fhx:'');
-    return '<div class="ex '+cls+'"><span class="tag">'+tag+'</span><div class="prof">'+prof+'</div>'+
-      '<div class="rr '+(cls==='lo'?'lo':'')+'">'+rrRow('Base 10-yr',s.base,80)+rrRow('Adjusted 10-yr',o.adj,80)+'</div>'+
-      '<div class="note" style="margin-top:8px">contribution &times;'+Math.exp(o.capped).toFixed(2)+(o.capBind?' (capped at 3.0)':'')+' · CRF &times;'+o.crf.toFixed(2)+'</div></div>';
-  }
-  const lo=adjOf(EX.clean), hi=adjOf(EX.stacked);
-  host.innerHTML=card('lo','Clean',EX.clean)+
-    '<div class="mid"><div class="x">'+(hi.adj/lo.adj).toFixed(1)+'&times;</div><div class="xl">higher adjusted 10-yr T2D risk at the stacked extreme ('+f1(lo.adj)+'% &rarr; '+f1(hi.adj)+'%)</div></div>'+
-    card('hi','Stacked',EX.stacked);
-}
 
 function renderL1(){
   const c=document.getElementById('l1ctl');

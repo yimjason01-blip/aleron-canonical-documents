@@ -114,13 +114,8 @@ svg{display:block;width:100%;height:auto;}
   <p><b>Two layers, kept distinct.</b> <b>Layer 1</b> is AHA PREVENT (2023), a validated equation for 10- and 30-year <b>total CVD</b> (atherosclerotic events plus heart failure) and <b>ASCVD</b> from age, sex, cholesterol, blood pressure, diabetes, smoking, BMI, kidney function (eGFR), and treatment. It dropped the race term of the old Pooled Cohort Equations, and every number here is computed live from its published coefficients (validated against the AHA calculator). <b>Layer 2</b> adds the five Aleron phenotype modifiers PREVENT does not capture: lipoprotein(a), ApoB/LDL-C discordance, hs-CRP, HOMA-IR, and cardiorespiratory fitness, applied as a transparent multiplicative overlay on the base. The 10-year total-CVD number is the calibrated anchor; the 30-year is directional. Build a patient under Layer 1, then layer the modifiers on top. Illustrative use; not medical advice.</p>
 </div>
 
-<!-- EXTREMES -->
-<div class="sec"><div class="ph"><span class="h">The extremes</span><span class="sub">identical model, two patients &middot; 10-year total-CVD risk</span></div>
-  <div class="extremes" id="extremes"></div>
-</div>
-
 <!-- CALCULATOR -->
-<div class="sec"><div class="ph"><span class="h">Layer 1 &middot; PREVENT base &middot; build a patient</span><span class="sub">live recompute from the real equations</span></div>
+<div class="sec"><div class="ph"><span class="h">Base model</span><span class="sub">PREVENT base &middot; build a patient &middot; live recompute from the real equations</span></div>
   <div class="pad calc">
     <div>
       <div class="presets">
@@ -144,7 +139,7 @@ svg{display:block;width:100%;height:auto;}
 </div>
 
 <!-- ALERON MODIFIER LAYER -->
-<div class="sec layer2"><div class="ph"><span class="h">Layer 2 &middot; the five Aleron modifiers</span><span class="sub">PREVENT base &times; phenotype signals it doesn't capture &middot; live on the Layer-1 patient</span></div>
+<div class="sec layer2"><div class="ph"><span class="h">Modifiers</span><span class="sub">the five Aleron modifiers &middot; PREVENT base &times; phenotype signals it doesn't capture &middot; live on the base patient</span></div>
   <div class="pad modlayer">
     <div>
       <div class="presets" id="mpresets">
@@ -168,7 +163,7 @@ svg{display:block;width:100%;height:auto;}
 </div>
 
 <!-- TORNADO -->
-<div class="sec"><div class="ph"><span class="h">What drives CVD risk most</span><span class="sub">sensitivity &middot; full range of each PREVENT factor &middot; fixed reference patient, independent of the sliders</span></div>
+<div class="sec"><div class="ph"><span class="h">Sensitivity map</span><span class="sub">full range of each PREVENT factor &middot; fixed reference patient, independent of the sliders</span></div>
   <div class="pad">
     <div style="margin:0 0 13px;display:flex;align-items:center;gap:10px;flex-wrap:wrap">
       <span style="font-size:12px;color:var(--muted)">Outcome</span>
@@ -177,20 +172,6 @@ svg{display:block;width:100%;height:auto;}
     <div class="torn" id="torn"></div>
   <p class="note">Each bar = the change in 10-year risk as that one factor moves across its <b>full range</b> (best&rarr;worst), everything else held at a representative patient (age 55, TC 200, HDL 50, SBP 130, eGFR 90, female). A <b>fixed sensitivity ranking</b> &mdash; which levers move risk most &mdash; that does <b>not</b> change with the sliders above. <b>Flip the outcome</b> and the profile genuinely changes, because PREVENT fits each separately: <b>cholesterol drives atherosclerosis but has zero weight in heart failure</b>, while <b>BMI drives heart failure but has zero weight in atherosclerotic / total CVD</b>. Age and kidney function drive all three. Confounded treatment markers (BP meds, statin) are excluded; swings are one-at-a-time and don't sum.</p></div>
 </div>
-
-<!-- AGE SWEEP -->
-<div class="sec"><div class="ph"><span class="h">Why 30-year risk exists</span><span class="sub">same patient, risk vs. age &middot; 10-yr stays low for the young; 30-yr does not</span></div>
-  <div class="pad"><svg id="sweep" viewBox="0 0 920 320" role="img"><title>Risk versus age curve</title></svg></div>
-</div>
-
-<div class="sec"><div class="ph"><span class="h">Validated model behaviors to know</span><span class="sub">faithful to PREVENT, but counterintuitive &middot; confirmed by independent reimplementation</span></div>
-  <div class="pad"><p class="kfact" style="margin:0">PREVENT is built from age&times;risk-factor interactions and separately-fitted outcomes, so several behaviors surprise clinicians yet are exactly what the published equations do (verified, not bugs):</p>
-  <ul style="font-size:12.5px;color:var(--muted);line-height:1.65;margin:10px 0 0;padding-left:18px">
-    <li><b>Below SBP 110</b>, raising blood pressure <i>lowers</i> predicted risk &mdash; the low-BP J-curve spline.</li>
-    <li><b>Past mid-age, worsening a risk factor can lower predicted risk.</b> Higher cholesterol reverses around age&nbsp;59, and &mdash; most sharply &mdash; <b>lower eGFR (worse kidneys) reduces 30-year risk in older patients</b> (male ASCVD flips near age&nbsp;52, up to ~10-point swings); even diabetes reverses near age&nbsp;79. Risk-factor hazard ratios attenuate with age by design.</li>
-    <li><b>&ldquo;On treatment&rdquo; raises predicted risk.</b> BP-meds and statin are confounded markers (treated people were higher-risk), not causal effects &mdash; the statin penalty reaches ~+12 points on 30-year risk. Don&rsquo;t read them as benefits.</li>
-    <li><b>Outcomes are fit separately</b>, so HF or ASCVD can slightly exceed total CVD at BMI/age extremes; total CVD is the model&rsquo;s own fit, not ASCVD&nbsp;+&nbsp;HF.</li>
-  </ul></div></div>
 
 <p class="disc">Coefficients: AHA PREVENT base model (Khan SS et al., <i>Circulation</i> 2024;149:430&ndash;449), sex-specific. Base model excludes the optional enhancements (HbA1c, urine albumin-creatinine ratio, social-deprivation index). Cholesterol shown in mg/dL; eGFR by CKD-EPI 2021. Valid for ages 30&ndash;79.</p>
 <p class="disc" style="margin-top:6px">Validated three independent ways: reference vectors vs the AHA calculator (exact to 3 decimals); the live widget vs a reference engine (max diff 3e-16 across 480 values); and a from-scratch reimplementation off the primary R-package sources, which also cross-checked all 372 coefficients + 12 intercepts between two implementations with zero mismatch (max diff 2e-16).</p>
@@ -252,24 +233,6 @@ function esc(s){return String(s);}
 function rrRow(lab,val,max,lo){const w=Math.max(1,Math.min(100,val/max*100));
   return '<span class="lab">'+lab+'</span><span class="track"><span class="fill" style="width:'+w+'%"></span></span><span class="v">'+f1(val)+'%</span>';}
 
-function renderExtremes(){
-  const host=document.getElementById('extremes');
-  function card(cls,tag,prof,sex){
-    const rows=[["10-yr total CVD","total_cvd","10"],["10-yr ASCVD","ascvd","10"],["30-yr total CVD","total_cvd","30"],["30-yr ASCVD","ascvd","30"]];
-    const p=Object.assign({sex},prof);
-    const bars=rows.map(([l,o,h])=>'<div class="rr '+(cls==='lo'?'lo':'')+'" style="display:contents">'+rrRow(l,pct(risk(p,o,h)),60)+'</div>').join('');
-    const profstr='age <b>'+prof.age+'</b> · '+sex+' · TC <b>'+prof.tc+'</b>/HDL <b>'+prof.hdl+'</b> · SBP <b>'+prof.sbp+'</b> · eGFR <b>'+prof.egfr+'</b>'+
-      (prof.dm?' · <b>diabetes</b>':'')+(prof.smk?' · <b>smoker</b>':'')+(prof.bpmeds?' · on BP meds':'');
-    return '<div class="ex '+cls+'"><span class="tag">'+tag+'</span><div class="prof">'+profstr+'</div>'+
-      '<div class="rr '+(cls==='lo'?'lo':'')+'">'+bars+'</div></div>';
-  }
-  const lo=Object.assign({sex:'female'},PRESETS.low), hi=Object.assign({sex:'female'},PRESETS.high);
-  const ratio=risk(hi,'total_cvd','10')/risk(lo,'total_cvd','10');
-  host.innerHTML=card('lo','Low risk',PRESETS.low,'female')+
-    '<div class="mid"><div class="x">'+Math.round(ratio)+'&times;</div><div class="xl">higher 10-yr total-CVD risk at the high extreme ('+f1(pct(risk(lo,'total_cvd','10')))+'% &rarr; '+f1(pct(risk(hi,'total_cvd','10')))+'%)</div></div>'+
-    card('hi','High risk',PRESETS.high,'female');
-}
-
 function renderControls(){
   const s=document.getElementById('sliders');
   s.innerHTML=SLIDERS.map(o=>'<label>'+o.lab+'</label><input type="range" data-k="'+o.k+'" min="'+o.min+'" max="'+o.max+'" step="'+o.step+'" value="'+P[o.k]+'"><span class="rv" id="rv_'+o.k+'"></span>').join('');
@@ -315,32 +278,6 @@ function renderTorn(){
   rows.sort((a,b)=>b.d-a.d);
   document.getElementById('torn').innerHTML=rows.map(r=>
     '<span class="lab">'+r.lab+'</span><span class="track '+(r.isAge?'age':'')+'"><span class="fill" style="width:'+(r.d/max*100)+'%"></span></span><span class="v">'+(r.d>=0.05?(f1(r.d)+' pts'):'flat')+'</span>').join('');
-}
-
-function renderSweep(){
-  const svg=document.getElementById('sweep'); const W=920,H=320,L=52,R=64,T=18,B=40;
-  const ages=[];for(let a=30;a<=79;a++)ages.push(a);
-  const v10=ages.map(a=>{const p=Object.assign({},P);p.age=a;return pct(risk(p,'total_cvd','10'));});
-  const v30=ages.map(a=>{const p=Object.assign({},P);p.age=a;return pct(risk(p,'total_cvd','30'));});
-  const maxv=Math.max(...v10,...v30);
-  const ymax=Math.min(100,Math.max(30,Math.ceil(maxv/10)*10));   // autoscale so the curve always fits
-  const step=ymax<=40?10:(ymax<=80?20:25);
-  const xa=a=>L+(a-30)/(79-30)*(W-L-R);
-  const yv=v=>Math.max(T,Math.min(H-B, T+(1-Math.min(v,ymax)/ymax)*(H-T-B)));
-  const mk=arr=>arr.map((v,i)=>(i?'L':'M')+xa(ages[i]).toFixed(1)+' '+yv(v).toFixed(1)).join(' ');
-  let g='';
-  for(let v=0;v<=ymax+0.001;v+=step){g+='<line class="axline" x1="'+L+'" y1="'+yv(v)+'" x2="'+(W-R)+'" y2="'+yv(v)+'"/>'+
-    '<text x="'+(L-8)+'" y="'+(yv(v)+3)+'" text-anchor="end" font-size="10" fill="var(--faint)">'+v+'%</text>';}
-  for(let a=30;a<=79;a+=10){g+='<text x="'+xa(a)+'" y="'+(H-B+16)+'" text-anchor="middle" font-size="10" fill="var(--faint)">'+a+'</text>';}
-  const cx=xa(P.age);
-  g+='<line x1="'+cx+'" y1="'+T+'" x2="'+cx+'" y2="'+(H-B)+'" stroke="var(--faint)" stroke-dasharray="3 3" stroke-width="1"/>';
-  g+='<text x="'+cx+'" y="'+(H-B+30)+'" text-anchor="middle" font-size="9" fill="var(--faint)">this patient (age '+P.age+')</text>';
-  g+='<path d="'+mk(v30)+'" fill="none" stroke="var(--fg)" stroke-width="2.4"/>';
-  g+='<path d="'+mk(v10)+'" fill="none" stroke="var(--fg)" stroke-width="1.4" stroke-dasharray="5 3"/>';
-  g+='<text x="'+(W-R+6)+'" y="'+(yv(v30[v30.length-1])+3)+'" font-size="11" font-weight="700" fill="var(--fg)">30-yr</text>';
-  g+='<text x="'+(W-R+6)+'" y="'+(yv(v10[v10.length-1])+3)+'" font-size="11" fill="var(--muted)">10-yr</text>';
-  g+='<text x="'+L+'" y="'+(T-4)+'" font-size="10" fill="var(--faint)">total-CVD risk</text>';
-  svg.innerHTML=g;
 }
 
 // ---- Layer 2: Aleron modifier overlay ----
@@ -396,7 +333,7 @@ function renderMod(){
     'Same overlay on the other anchors &middot; 10-yr ASCVD <b>'+f1(a10b)+'% &rarr; '+f1(Math.min(99,a10b*lab*crf))+'%</b> &middot; 30-yr total CVD (directional) <b>'+f1(t30b)+'% &rarr; '+f1(Math.min(99,t30b*lab*crf))+'%</b>';
 }
 
-function render(){renderOut();renderTorn();renderSweep();renderMod();}
-renderExtremes();renderControls();renderModControls();syncInputs();syncMod();render();
+function render(){renderOut();renderTorn();renderMod();}
+renderControls();renderModControls();syncInputs();syncMod();render();
 </script>
 </body></html>

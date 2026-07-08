@@ -1354,6 +1354,14 @@ button { font-family: var(--voice); }
 }
 .kit-head { display: flex; justify-content: space-between; align-items: baseline; gap: 12px; margin-bottom: 14px; }
 .kit-name { font-size: 14px; color: var(--ink); }
+.kit-vendor {
+  display: block;
+  font-family: var(--voice);
+  font-size: 11px;
+  letter-spacing: 0;
+  color: var(--text-tertiary);
+  margin-top: 2px;
+}
 .kit-status { font-family: var(--voice); font-size: 12px; color: var(--text-gold); white-space: nowrap; }
 .kit-track { display: flex; align-items: center; margin-bottom: 12px; }
 .kit-node {
@@ -1370,6 +1378,97 @@ button { font-family: var(--voice); }
 .kit-seg { flex: 1; height: 1.5px; background: var(--border-base); }
 .kit-seg.done { background: var(--ink); }
 .kit-note { font-size: 12.5px; color: var(--text-secondary); }
+.kit-tracking {
+  font-family: var(--voice);
+  font-size: 11px;
+  letter-spacing: 0;
+  color: var(--text-tertiary);
+  font-variant-numeric: tabular-nums;
+  margin-top: 8px;
+  padding-top: 8px;
+  border-top: 1px solid var(--border-subtle);
+}
+
+/* Beat lead — day-aware "kit update" card. Gold left rule = signal that
+   this is the live, changing beat, not static chrome. No shadow, squared. */
+.beat-lead {
+  background: var(--surface-card);
+  border: 1px solid var(--border-base);
+  border-left: 3px solid var(--gold);
+  padding: 14px 16px;
+  margin-bottom: 18px;
+}
+.beat-lead-label {
+  font-family: var(--voice);
+  font-size: 11px;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: var(--text-gold);
+  margin-bottom: 6px;
+}
+.beat-lead-body {
+  font-size: 13.5px;
+  line-height: 1.5;
+  color: var(--ink);
+  margin: 0;
+}
+.beat-lead-cta {
+  display: inline-block;
+  margin-top: 12px;
+  padding: 0;
+  border: 0;
+  background: none;
+  font-family: var(--voice);
+  font-size: 12.5px;
+  color: var(--text-gold);
+  cursor: pointer;
+}
+.beat-lead-cta:hover { color: var(--ink); }
+
+/* Live wearable tiles — glanceable, three across. Numbers use the brand
+   voice face; labels are quiet. Squared, hairline, no shadow. */
+.live-vitals {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 8px;
+  margin-bottom: 18px;
+}
+.live-vital {
+  background: var(--surface-card);
+  border: 1px solid var(--border-base);
+  padding: 14px 10px;
+  text-align: center;
+}
+.live-vital-value {
+  font-family: var(--voice);
+  font-size: 22px;
+  color: var(--ink);
+  font-variant-numeric: tabular-nums;
+  line-height: 1;
+}
+.live-vital-label {
+  font-size: 10.5px;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  color: var(--text-tertiary);
+  margin-top: 6px;
+}
+.live-vitals-meta {
+  font-family: var(--voice);
+  font-size: 11.5px;
+  color: var(--text-secondary);
+  margin: -10px 0 10px;
+}
+.live-vitals-empty {
+  font-family: var(--voice);
+  font-size: 13px;
+  line-height: 1.45;
+  color: var(--text-secondary);
+  border: 1px solid var(--border-base);
+  padding: 14px 16px;
+  margin-bottom: 18px;
+  background: var(--surface-card);
+}
 
 /* ================================================================ */
 /*  WEARABLE                                                         */
@@ -1519,6 +1618,12 @@ button { font-family: var(--voice); }
   margin-bottom: 12px;
 }
 .sync-headline strong { font-weight: 600; }
+.sync-meta {
+  font-family: var(--voice);
+  font-size: 11.5px;
+  color: var(--text-secondary);
+  margin: -4px 0 12px;
+}
 .sync-rows { display: flex; flex-direction: column; gap: 8px; }
 .sync-row {
   display: flex; align-items: center; justify-content: space-between;
@@ -1649,6 +1754,71 @@ button { font-family: var(--voice); }
   letter-spacing: 0;
   color: var(--slate);
   margin: 26px 0 10px;
+}
+
+/* ---- V3 Home hub: resumable chapter cards + vitality lock ---- */
+.hub-chapter {
+  display: flex;
+  align-items: flex-start;
+  gap: 12px;
+  width: 100%;
+  text-align: left;
+  padding: 14px 14px;
+  margin-bottom: 8px;
+  background: var(--paper, #FAF7F2);
+  border: 1px solid rgba(29,27,24,0.18);
+  border-radius: 0;
+  cursor: pointer;
+  font: inherit;
+  color: inherit;
+  transition: border-color 160ms ease, background 160ms ease;
+}
+.hub-chapter:hover { border-color: rgba(29,27,24,0.4); }
+.hub-chapter.done { background: transparent; }
+.hub-chapter .hub-task-body { min-width: 0; }
+.hub-vitality-hint { color: var(--text-gold); }
+.hub-chapter-cta {
+  flex-shrink: 0;
+  align-self: center;
+  font-family: var(--voice);
+  font-size: 11px;
+  font-weight: 500;
+  letter-spacing: 0.02em;
+  color: var(--ink);
+  text-transform: uppercase;
+}
+.hub-chapter.done .hub-chapter-cta { color: var(--text-tertiary); }
+
+.vitality-tile {
+  border: 1px solid rgba(29,27,24,0.18);
+  border-radius: 0;
+  padding: 16px;
+  margin-top: 18px;
+}
+.vitality-tile.unlocked { border-color: var(--gold); }
+.vitality-tile-head {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 10px;
+}
+.vitality-tile-title { font-size: 15px; color: var(--ink); }
+.vitality-tile-badge {
+  font-family: var(--voice);
+  font-size: 10.5px;
+  letter-spacing: 0.02em;
+  color: var(--text-tertiary);
+  font-variant-numeric: tabular-nums;
+  text-transform: uppercase;
+  flex-shrink: 0;
+}
+.vitality-tile.unlocked .vitality-tile-badge { color: var(--text-gold); }
+.vitality-tile-body {
+  font-family: var(--voice);
+  font-size: 12.5px;
+  line-height: 1.55;
+  color: var(--slate);
+  margin: 8px 0 0;
 }
 
 
@@ -2266,8 +2436,8 @@ select.fld-input {
           <p>Dear <span data-identity-first>there</span>,</p>
           <p>Welcome. I'm Dr. Mizani, and I'll be your physician here. I mean that plainly. I read your labs myself, I study your history myself, and when something deserves a conversation, you will have it with me.</p>
           <p>Most of medicine waits until something goes wrong. Our work begins earlier, while there is still time to choose the road rather than repair it.</p>
-          <p>The next twenty minutes are how I start to learn what no blood panel can tell me on its own: the history your family carries, and how your body has been changing through the years. Then we will arrange your first blood draw, at home or nearby, whichever fits your life.</p>
-          <p>None of it needs to be perfect, and none of it is a test. Answer what you know, skip what you don't, and pause whenever you like. Everything keeps until you return.</p>
+          <p>The next few minutes are short: a couple of agreements, your decision about genetic testing, and arranging your first blood draw, at home or nearby, whichever fits your life. Everything else, the history your family carries and how your body has been changing, we gather during the week your results are on their way. Nothing is a test, and nothing needs to be perfect.</p>
+          <p>Answer what you know, skip what you don't, and pause whenever you like. Everything keeps until you return.</p>
           <p>I look forward to the work ahead.</p>
         </div>
         <div class="letter-sig">
@@ -2572,9 +2742,10 @@ select.fld-input {
       <div class="scroll">
         <h1 class="h-screen">Connect a wearable.</h1>
         <p class="lede">If you wear an Apple Watch or fitness tracker, connecting it gives your physician a much richer picture than labs alone. This step is optional. You can connect a device later from settings.</p>
-        <div class="conn-state" id="connState"><span class="conn-dot" style="background:var(--text-gold)"></span>Apple Health · connected</div>
+        <div class="conn-state" id="connState"><span class="conn-dot"></span>Apple Health · ready to connect</div>
         <div class="sync-card" id="syncCard">
-          <div class="sync-headline"><strong>Your data is flowing.</strong> Your physician can now see these trends alongside your labs.</div>
+          <div class="sync-headline" id="syncHeadline"><strong>Apple Health is connected.</strong> Readings appear as your phone syncs them, usually within an hour.</div>
+          <div class="sync-meta" id="syncMeta"></div>
           <div class="sync-rows" id="syncRows"></div>
         </div>
         <p class="framing" style="margin-top:22px">Have an Oura, Garmin, or Whoop? You can connect those from settings after setup.</p>
@@ -2643,18 +2814,30 @@ select.fld-input {
     </section>
 
     <!-- ============================================================ -->
-    <!-- SCREEN 11 · CONFIRMATION / WAITING STATE                     -->
+    <!-- SCREEN 11 · HOME · persistent wait-state hub                 -->
+    <!-- After Day-0 activation (account, consents, genetics + labs   -->
+    <!-- ordered, wearable), the member lands here. The kit tracker   -->
+    <!-- is the engagement spine; the chapters are resumable cards    -->
+    <!-- worked during the results wait. Vitality is a locked tile    -->
+    <!-- that fills in as the chapters that feed it are completed.    -->
     <!-- ============================================================ -->
     <section class="screen" data-screen="11">
       <div class="scroll">
-        <h1 class="h-screen">You're all set, <span data-identity-first>there</span>.</h1>
-        <p class="framing">Your physician now has your family history, your health narrative, your structured health signals, and your selected next steps. Labs, genetics, and wearable data will attach here as they arrive.</p>
-
-        <div class="card" id="summaryList" style="padding:6px 20px"></div>
+        <h1 class="h-screen">While you wait, <span data-identity-first>there</span>.</h1>
+        <p class="framing" id="homeIntro">Your blood draw and genetic testing are ordered. Results take about a week to come back. In the meantime, a few short chapters help your physician read them in the fullest context.</p>
 
         <div id="kitTracking"></div>
 
-        <div class="section-label">While you wait</div>
+        <div id="beatLead"></div>
+
+        <div id="liveVitals"></div>
+
+        <div class="section-label">Prepare for results day</div>
+        <div id="chapterCards"></div>
+
+        <div id="vitalityTile"></div>
+
+        <div class="section-label">Good to know</div>
         <div class="disclosure" id="exp1">
           <div class="disclosure-summary" onclick="toggleExplainer('exp1')">About your panel<span class="expand-glyph">+</span></div>
           <div class="disclosure-body">
@@ -2742,26 +2925,29 @@ var state = {
   health: { heightFt: null, heightIn: null, weightLb: null, conditions: {}, meds: null, medsNone: false, allergies: null, allergyNone: false, done: false },
   symptoms: { transcript: null, probes: 0, done: false },
   labPath: null,         // 'tasso' | 'quest'
+  labOrder: null,        // lab_order.v1 — blood panel, placed on lab-path confirm
   ship: { street: '', city: '', state: '', zip: '' },
   quest: { zip: '', locationIdx: null, location: null, date: null, dateLabel: null, slot: null, status: null, stamp: null },
   wearable: null,        // 'connected' | 'skipped'
-  wearableSync: null,    // { rows_synced, by_metric, stamp } — the "it's working" moment
+  wearableSync: null,    // { source, rows_synced, by_metric, synced_at, latest } — Junction-normalized sync
   call: null             // slot string | 'skipped'
 };
 
-var STEP_LABELS = ['Welcome','Consents','Genetics','Family','Health today','In your words','Labs','Wearable','Intro call','Structured signals','Done'];
+var STEP_LABELS = ['Welcome','Consents','Genetics','Family','Health today','In your words','Labs','Wearable','Intro call','Structured signals','Home'];
+/* v3: activation-flow screens read as "Getting set up"; chapters and
+   Home read differently. renderChrome picks the right prefix. */
 var CHAPTER_LABELS = {
-  1: 'Welcome',
-  2: 'Consent',
-  3: 'Consent',
+  1: 'Getting set up',
+  2: 'Getting set up',
+  3: 'Getting set up',
   4: 'Your health',
   5: 'Your health',
   6: 'Your health',
-  7: 'Logistics',
-  8: 'Logistics',
-  9: 'Logistics',
+  7: 'Getting set up',
+  8: 'Getting set up',
+  9: 'Your physician',
   10: 'Your health',
-  11: 'Waiting'
+  11: 'Home'
 };
 var PRE_LABELS = { '-1': 'Create account', '0': 'Your details' };
 var SCREEN_JUMP_ITEMS = [
@@ -2771,14 +2957,14 @@ var SCREEN_JUMP_ITEMS = [
   { screen: 1, code: '1', label: 'Welcome' },
   { screen: 2, code: '2', label: 'Consents' },
   { screen: 3, code: '3', label: 'Genetics' },
-  { screen: 4, code: '4', label: 'Family history' },
-  { screen: 5, code: '5', label: 'Health today' },
-  { screen: 6, code: '6', label: 'In your words' },
-  { screen: 7, code: '7', label: 'Lab path' },
-  { screen: 8, code: '8', label: 'Wearable' },
-  { screen: 9, code: '9', label: 'Intro call' },
-  { screen: 10, code: 'I', label: 'Structured signals' },
-  { screen: 11, code: '0', label: 'Waiting state' }
+  { screen: 7, code: '4', label: 'Lab path' },
+  { screen: 8, code: '5', label: 'Wearable' },
+  { screen: 11, code: 'H', label: 'Home' },
+  { screen: 4, code: 'c', label: 'Chapter · Family history' },
+  { screen: 5, code: 'c', label: 'Chapter · Health today' },
+  { screen: 6, code: 'c', label: 'Chapter · In your words' },
+  { screen: 10, code: 'c', label: 'Chapter · Structured signals' },
+  { screen: 9, code: 'c', label: 'Chapter · Intro call' }
 ];
 
 /* ================================================================ */
@@ -2817,7 +3003,7 @@ function freshState() {
     health: { heightFt: null, heightIn: null, weightLb: null, conditions: {}, meds: null, medsNone: false, allergies: null, allergyNone: false, done: false },
     symptoms: { transcript: null, probes: 0, done: false },
     intake: {},   /* A2 structured-intake sections; each: { started, done, declined, data } */
-    labPath: null, ship: { street: '', city: '', state: '', zip: '' },
+    labPath: null, labOrder: null, ship: { street: '', city: '', state: '', zip: '' },
     quest: { zip: '', locationIdx: null, location: null, date: null, dateLabel: null, slot: null, status: null, stamp: null },
     wearable: null, wearableSync: null, call: null
   };
@@ -2933,7 +3119,11 @@ function resetSurfaces() {
   labCta.disabled = true;
   labCta.textContent = 'Confirm home kit';
   /* Wearable */
-  document.getElementById('connState').classList.remove('show');
+  var conn = document.getElementById('connState');
+  conn.innerHTML = '<span class="conn-dot"></span>Apple Health · ready to connect';
+  conn.classList.remove('show');
+  var syncMeta = document.getElementById('syncMeta');
+  if (syncMeta) syncMeta.textContent = '';
   var hk = document.getElementById('healthKitBtn');
   hk.textContent = 'Connect Apple Health';
   hk.onclick = openPermSheet;
@@ -3006,7 +3196,9 @@ function rehydrate() {
   if (state.labPath) selectPath(state.labPath);
   /* Wearable */
   if (state.wearable === 'connected') {
-    document.getElementById('connState').classList.add('show');
+    var conn = document.getElementById('connState');
+    conn.innerHTML = '<span class="conn-dot" style="background:var(--text-gold)"></span>Apple Health · connected';
+    conn.classList.add('show');
     if (!state.wearableSync) state.wearableSync = simulateWearableSync();
     paintWearableSync();
     var hk = document.getElementById('healthKitBtn');
@@ -3206,22 +3398,49 @@ function renderChrome() {
   var stepper = document.getElementById('stepper');
   stepper.innerHTML = '';
   var back = document.getElementById('backBtn');
-  document.querySelector('.shell').classList.toggle('external-entry', state.screen <= 0);
-  if (state.screen < 1) {
+  var n = state.screen;
+  document.querySelector('.shell').classList.toggle('external-entry', n <= 0);
+
+  /* Account + details: no stepper, no back. */
+  if (n < 1) {
     back.classList.toggle('show', false);
-    document.getElementById('stepCaption').textContent = PRE_LABELS[String(state.screen)] || '';
+    document.getElementById('stepCaption').textContent = PRE_LABELS[String(n)] || '';
     renderJumpNavState();
     return;
   }
-  for (var i = 1; i <= 11; i++) {
-    var n = document.createElement('div');
-    n.className = 'step-node' + (i < state.screen ? ' done' : i === state.screen ? ' current' : '');
-    n.setAttribute('aria-hidden', 'true');
-    stepper.appendChild(n);
+
+  /* Home hub: the persistent wait-state surface. No stepper. */
+  if (n === HOME_SCREEN) {
+    back.classList.toggle('show', false);
+    document.getElementById('stepCaption').textContent = 'Home';
+    renderJumpNavState();
+    return;
   }
+
+  /* Chapters (family, health, narrative, structured signals, intro call):
+     no activation stepper; a back control returns to Home. */
+  if (isChapter(n)) {
+    back.classList.toggle('show', true);
+    document.getElementById('stepCaption').textContent =
+      (CHAPTER_LABELS[n] || 'Your health') + ' · ' + (STEP_LABELS[n - 1] || '');
+    renderJumpNavState();
+    return;
+  }
+
+  /* Activation flow (welcome, consents, genetics, lab path, wearable):
+     stepper reflects position among the activation-only steps. */
+  var actSteps = ACTIVATION_FLOW.filter(function (s) { return s >= 1 && s !== HOME_SCREEN; });
+  var pos = actSteps.indexOf(n);
+  actSteps.forEach(function (s, i) {
+    var node = document.createElement('div');
+    node.className = 'step-node' + (i < pos ? ' done' : i === pos ? ' current' : '');
+    node.setAttribute('aria-hidden', 'true');
+    stepper.appendChild(node);
+  });
   document.getElementById('stepCaption').textContent =
-    (CHAPTER_LABELS[state.screen] || 'Onboarding') + ' · ' + STEP_LABELS[state.screen - 1];
-  back.classList.toggle('show', state.screen > 1 && state.screen < 11);
+    (CHAPTER_LABELS[n] || 'Getting set up') + ' · ' + (STEP_LABELS[n - 1] || '');
+  /* Back within activation is allowed after the welcome letter. */
+  back.classList.toggle('show', pos > 0);
   renderJumpNavState();
 }
 
@@ -3259,7 +3478,7 @@ function prepareScreen(n) {
   if (n === 4) renderFamily();
   if (n === 5) renderHealth();
   if (n === 10) renderIntake();
-  if (n === 11) buildSummary();
+  if (n === HOME_SCREEN) renderHome();
 }
 
 function jumpToScreen(n) {
@@ -3286,19 +3505,86 @@ function showScreen(n, dir) {
   persistAccount();
 }
 
+/* ================================================================ */
+/*  V3 NAVIGATION MODEL · activation flow + Home hub + chapters      */
+/*  ------------------------------------------------------------    */
+/*  v3 splits activation from intake. The Day-0 first sitting is a   */
+/*  short linear flow that ends at the persistent Home hub (screen   */
+/*  11). Everything that used to be a linear onboarding step and can */
+/*  wait for the results window is now a resumable CHAPTER launched  */
+/*  from Home; finishing (or backing out of) a chapter returns to    */
+/*  Home rather than marching to the next screen.                    */
+/*                                                                    */
+/*  DECISION (Jason, this session):                                   */
+/*   - Genetics stays in the Day-0 activation set BESIDE labs. Both   */
+/*     are commitment/reward kickoffs, ordered in the first sitting.  */
+/*   - The mood screen (PHQ-2 / GAD-2 in the structured-signals       */
+/*     chapter) stays UNIVERSAL. It is never adaptively gated on      */
+/*     narrative signal.                                              */
+/*   - The voice/text narrative is symptomatology ONLY. It is not a   */
+/*     general parse-the-whole-story extraction layer; the structured */
+/*     fields remain explicit asks.                                   */
+/* ================================================================ */
+var HOME_SCREEN = 11;
+/* Screens in the Day-0 first sitting, in order. Genetics (3) and lab */
+/* path (7) both live here so labs + genetics are ordered same-day.   */
+var ACTIVATION_FLOW = [-1, 0, 1, 2, 3, 7, 8, HOME_SCREEN];
+/* Screens launched from Home as resumable chapters during the wait.  */
+var CHAPTERS = [4, 5, 6, 10, 9];
+
+function isChapter(n) { return CHAPTERS.indexOf(n) !== -1; }
+
 function goNext() {
-  if (state.screen < 11) {
-    var next = state.screen + 1;
+  var here = state.screen;
+  /* A chapter completing returns to Home (and records completion). */
+  if (isChapter(here)) {
+    markChapterDone(here);
+    openHome('fwd');
+    return;
+  }
+  /* Activation flow: advance to the next activation screen. */
+  var idx = ACTIVATION_FLOW.indexOf(here);
+  if (idx !== -1 && idx < ACTIVATION_FLOW.length - 1) {
+    var next = ACTIVATION_FLOW[idx + 1];
+    if (next === HOME_SCREEN) { openHome('fwd'); return; }
     prepareScreen(next);
     showScreen(next, 'fwd');
   }
 }
+
 function goBack() {
-  if (state.screen > -1) {
-    var prev = state.screen - 1;
+  var here = state.screen;
+  /* Backing out of a chapter returns to Home without discarding work. */
+  if (isChapter(here)) { openHome('back'); return; }
+  var idx = ACTIVATION_FLOW.indexOf(here);
+  if (idx > 0) {
+    var prev = ACTIVATION_FLOW[idx - 1];
     prepareScreen(prev);
     showScreen(prev, 'back');
   }
+}
+
+/* Open the persistent Home hub. */
+function openHome(dir) {
+  prepareScreen(HOME_SCREEN);
+  showScreen(HOME_SCREEN, dir || 'fwd');
+}
+
+/* Launch a chapter card from Home. Reuses the existing per-screen
+   prepare hooks (renderFamily/renderHealth/renderIntake) so a chapter
+   resumes exactly where the member left off. */
+function openChapter(n) {
+  prepareScreen(n);
+  showScreen(n, 'fwd');
+}
+
+/* Record that a chapter was completed on this return to Home. Most
+   chapters derive their own status from state (health.done,
+   symptoms.done, intake slots, call), but family history has no
+   natural completion flag, so we stamp one here. */
+function markChapterDone(n) {
+  if (!state.chapters) state.chapters = {};
+  if (n === 4) state.chapters.family = true;
 }
 
 /* ================================================================ */
@@ -3475,6 +3761,39 @@ function checkGeneticsReady() {
    Fired on consent so the packet carries a real order handle (not just a
    decision). The live Meridian API swaps this stub for the two-step call;
    results arrive later and land in measurements, same as labs. */
+/* Simulated carrier tracking number. Shape only; a real build receives
+   this from the vendor's shipment webhook, relayed through Junction. */
+function genTrackingNumber() {
+  var d = '';
+  for (var i = 0; i < 16; i++) d += Math.floor(Math.random() * 10);
+  return '1Z' + d.slice(0, 3) + 'W' + d.slice(3, 11);
+}
+
+/* Blood panel order. Triggered through Junction (the integration/router),
+   but the fulfilling VENDOR differs by path and is SEPARATE from the
+   genetics vendor: Tasso for the mailed home kit (ships, so it carries a
+   tracking number) or Quest for a venous PSC draw (an appointment, no
+   shipped kit and therefore no tracking number). This is a distinct order
+   with its own order_id and tracking, never combined with genetics. */
+function simulateLabOrder(stamp) {
+  var isHome = state.labPath === 'tasso';
+  return {
+    schema: 'lab_order.v1',
+    order_id: 'lab_' + Math.random().toString(36).slice(2, 10),
+    panel: 'aleron_core_panel_v1',
+    provider: 'junction',
+    vendor: isHome ? 'tasso' : 'quest',
+    fulfillment: isHome ? 'home_kit' : 'psc_venous',
+    tracking_number: isHome ? genTrackingNumber() : null,
+    status: 'ordered_pending_results',
+    ordered_at: stamp
+  };
+}
+
+/* Genetics panel order. Also triggered through Junction, but a SEPARATE
+   order from the blood panel, with a SEPARATE tracking number and a
+   different vendor (Invitae). The Invitae kit ships to the member, so it
+   always carries its own tracking number. */
 function simulateGeneticsOrder(stamp) {
   return {
     schema: 'genetics_order.v1',
@@ -3482,6 +3801,9 @@ function simulateGeneticsOrder(stamp) {
     panel: 'aleron_genomics_v1',
     components: ['inherited_cancer', 'cardiovascular_genetics', 'pharmacogenomics'],
     provider: 'junction',
+    vendor: 'invitae',
+    fulfillment: 'home_kit',
+    tracking_number: genTrackingNumber(),
     status: 'ordered_pending_results',
     ordered_at: stamp
   };
@@ -4244,6 +4566,13 @@ function labPrimary() {
     bookPsc();
     return;
   }
+  /* Confirming the lab path places the blood-panel order (separate from
+     any genetics order). Idempotent so re-entering the screen from Home
+     does not mint a second order. */
+  if (!state.labOrder) {
+    state.labOrder = simulateLabOrder(new Date().toISOString().replace(/\.\d{3}Z$/, 'Z'));
+    persistAccount();
+  }
   goNext();
 }
 
@@ -4436,10 +4765,26 @@ function renderQuest() {
 function openPermSheet() { document.getElementById('permOverlay').classList.add('show'); }
 function closePermSheet() { document.getElementById('permOverlay').classList.remove('show'); }
 
+function wearableSyncedAt(sync) {
+  return sync && (sync.synced_at || sync.stamp || sync.connected_at);
+}
+function formatSyncRecency(iso) {
+  if (!iso) return 'Waiting for first sync';
+  var then = new Date(iso).getTime();
+  if (isNaN(then)) return 'Sync time pending';
+  var mins = Math.max(0, Math.round((Date.now() - then) / 60000));
+  if (mins < 2) return 'just now';
+  if (mins < 60) return mins + ' min ago';
+  var hrs = Math.round(mins / 60);
+  if (hrs < 24) return hrs + 'h ago';
+  var days = Math.round(hrs / 24);
+  return days + 'd ago';
+}
+
 /* Simulated Junction sync: POST /wearables/connections/apple/sync -> rows_synced.
    The per-metric breakdown maps to the permission-sheet categories the member
    just authorized. Numbers are illustrative 30-day pulls; the real integration
-   (Meridian API) swaps this stub for the live connections/sync call. */
+   (Junction API) swaps this stub for the live connections/sync call. */
 function simulateWearableSync() {
   var byMetric = [
     { label: 'Heart rate',             rows: 41210 },
@@ -4449,10 +4794,21 @@ function simulateWearableSync() {
     { label: 'Blood oxygen',           rows: 388 }
   ];
   var total = byMetric.reduce(function (n, m) { return n + m.rows; }, 0);
+  var syncedAt = new Date().toISOString().replace(/\.\d{3}Z$/, 'Z');
   return {
+    source: 'apple_health',
     rows_synced: total,
     by_metric: byMetric,
-    stamp: new Date().toISOString().replace(/\.\d{3}Z$/, 'Z')
+    /* Representative latest readings surfaced as live Home tiles. Carried
+       in the packet under measurements.wearables.sync.latest so the engine
+       sees the same glanceable values the member does. Units explicit. */
+    latest: {
+      resting_hr: { value: 58, unit: 'bpm' },
+      sleep_last_night: { value: '7:12', unit: 'h:mm' },
+      steps_today: { value: 6432, unit: 'count' }
+    },
+    synced_at: syncedAt,
+    stamp: syncedAt
   };
 }
 
@@ -4461,8 +4817,22 @@ function paintWearableSync() {
   var sync = state.wearableSync;
   var card = document.getElementById('syncCard');
   var rows = document.getElementById('syncRows');
+  var headline = document.getElementById('syncHeadline');
+  var meta = document.getElementById('syncMeta');
   if (!card || !rows) return;
-  if (!sync) { card.classList.remove('show'); rows.innerHTML = ''; return; }
+  if (!sync) {
+    card.classList.remove('show');
+    rows.innerHTML = '';
+    if (meta) meta.textContent = '';
+    return;
+  }
+  var syncedAt = wearableSyncedAt(sync);
+  if (headline) {
+    headline.innerHTML = '<strong>Apple Health is connected.</strong> Readings appear as your phone syncs them, usually within an hour.';
+  }
+  if (meta) {
+    meta.textContent = syncedAt ? ('Last sync · ' + formatSyncRecency(syncedAt)) : 'Waiting for first sync · Open Health › Sharing to confirm what you are sharing';
+  }
   rows.innerHTML = sync.by_metric.map(function (m) {
     return '<div class="sync-row">' +
              '<span class="sync-metric"><span class="conn-dot"></span>' + escapeHtml(m.label) + '</span>' +
@@ -4476,7 +4846,9 @@ function allowHealthKit() {
   closePermSheet();
   state.wearable = 'connected';
   state.wearableSync = simulateWearableSync();
-  document.getElementById('connState').classList.add('show');
+  var conn = document.getElementById('connState');
+  conn.innerHTML = '<span class="conn-dot" style="background:var(--text-gold)"></span>Apple Health · connected';
+  conn.classList.add('show');
   paintWearableSync();
   var btn = document.getElementById('healthKitBtn');
   btn.textContent = 'Continue';
@@ -5180,13 +5552,25 @@ function assemblePacket() {
   if (!intakeStatus.all_complete) missing.push('structured_intake');
 
   /* coverage: categorized, so "pending-resumable" reads differently from
-     "declined" and "in-flight (ordered, results pending)". */
-  var inFlight = [
-    { item: 'labs', state: 'ordered_pending_results' }
-  ];
+     "declined" and "in-flight (ordered, results pending)". Labs and
+     genetics are SEPARATE orders (separate vendors, separate tracking),
+     both triggered through Junction. */
+  var labsInFlight = { item: 'labs', state: 'ordered_pending_results' };
+  if (state.labOrder) {
+    labsInFlight.order_id = state.labOrder.order_id;
+    labsInFlight.vendor = state.labOrder.vendor;
+    if (state.labOrder.tracking_number) labsInFlight.tracking_number = state.labOrder.tracking_number;
+  }
+  var inFlight = [labsInFlight];
   if (!Object.keys(vitals).length) inFlight.push({ item: 'vitals', state: 'pending' });
   if (state.genetics.order) {
-    inFlight.push({ item: 'genetics_panel', state: state.genetics.order.status, order_id: state.genetics.order.order_id });
+    inFlight.push({
+      item: 'genetics_panel',
+      state: state.genetics.order.status,
+      order_id: state.genetics.order.order_id,
+      vendor: state.genetics.order.vendor,
+      tracking_number: state.genetics.order.tracking_number
+    });
   }
   var coverage = {
     schema: 'coverage.v1',
@@ -5252,136 +5636,184 @@ function assemblePacket() {
 }
 
 /* ================================================================ */
-/*  SCREEN 9 · SUMMARY                                               */
+/*  SCREEN 11 · HOME HUB                                             */
 /* ================================================================ */
-function buildSummary() {
-  /* Assemble the engine-facing packet at the waiting state and stash it
-     on state so it persists with the account and can be inspected. */
-  state.patient_packet = assemblePacket();
-  persistAccount();
-  var rows = [];
-  var consentRec = state.consents.billing || state.consents.membership || null;
-  var consentStamp = consentRec ? (consentRec.stamp || consentRec) : '';
-  var consentCount = Object.keys(state.consents).length;
-  rows.push({
-    done: true,
-    title: 'Consents signed',
-    meta: consentCount + ' of ' + CONSENT_ITEMS.length + ' recorded for physician review'
-  });
-  if (state.genetics.decision === 'declined') {
-    rows.push({
-      done: false,
-      title: 'Genetic testing declined',
-      meta: 'You can revisit this with your physician at any time'
-    });
-  } else {
-    rows.push({
-      done: true,
-      title: 'Genetic testing consent',
-      meta: (state.genetics.pref === 'B' ? 'Routine results in app, serious results with physician' : 'Physician walks through all results')
-    });
-  }
-  var sibN = Array.isArray(state.family.siblings) ? state.family.siblings.length : 0;
-  rows.push({
-    done: true,
-    title: 'Family history captured',
-    meta: 'Mother · Father · ' + (sibN === 1 ? '1 sibling' : sibN + ' siblings')
-  });
-  if (state.health && state.health.done) {
-    var hh = state.health;
-    var bits = [];
-    if (hh.heightFt != null || hh.weightLb != null) bits.push('Height and weight');
-    var condN = Object.keys(hh.conditions || {}).filter(function (k) { return k !== 'none'; }).length;
-    bits.push(condN ? (condN === 1 ? '1 condition noted' : condN + ' conditions noted') : 'No conditions');
-    bits.push(hh.medsNone ? 'No medications' : (hh.meds && hh.meds.trim() ? 'Medications listed' : 'Medications skipped'));
-    rows.push({
-      done: true,
-      title: 'Your health today',
-      meta: bits.join(' · ')
-    });
-  }
-  rows.push({
-    done: true,
-    title: 'What you shared',
-    meta: state.symptoms.probes
-      ? 'In your own words · ' + state.symptoms.probes + (state.symptoms.probes === 1 ? ' follow-up' : ' follow-ups')
-      : 'In your own words'
-  });
-  var structuredSecs = intakeApplicableSections();
-  var structuredDone = structuredSecs.filter(function (sec) {
+/* ================================================================ */
+/*  HOME · persistent wait-state hub renderer                        */
+/*  Replaces the old one-shot buildSummary. Still assembles the      */
+/*  engine-facing packet (the seam is unchanged), but the surface is */
+/*  now durable: a set of resumable chapter cards plus the vitality  */
+/*  lock. Called on every entry to Home (prepareScreen(11)).         */
+/* ================================================================ */
+
+/* The five chapters worked during the results wait, in the order the
+   member sees them on Home. Each derives its own status from state so
+   the card reflects real progress and is safe to re-render any time.
+   `feedsVitality` marks chapters whose completion unlocks the vitality
+   panel on results day (the completion hook). */
+function homeChapters() {
+  var sab = state.identity && state.identity.sex_at_birth;
+
+  /* Structured signals: count applicable sections done/declined. */
+  var secs = intakeApplicableSections();
+  var secDone = secs.filter(function (sec) {
     var blk = state.intake && state.intake[sec.key];
     return blk && (blk.done || blk.declined);
   }).length;
-  rows.push({
-    done: structuredDone === structuredSecs.length,
-    title: 'Structured health signals',
-    meta: structuredDone + ' of ' + structuredSecs.length + ' sections completed or skipped for physician review'
-  });
-  if (state.labPath === 'quest') {
-    var q = state.quest || {};
-    if (q.status === 'scheduled' && q.location) {
-      rows.push({
-        done: true,
-        title: 'Quest appointment booked',
-        meta: escapeHtml(q.location.name) + '<br>' + q.dateLabel + ' · ' + q.slot + ' · Results ≈ 5 to 7 days from draw'
-      });
-    } else {
-      rows.push({
-        done: true,
-        title: 'Quest venous draw selected',
-        meta: 'Venous draw · No appointment booked yet · Results ≈ 5 to 7 days from draw'
-      });
+  var structuredComplete = secs.length > 0 && secDone === secs.length;
+
+  var chapters = [
+    {
+      screen: 4, key: 'family', title: 'Family history',
+      blurb: 'The conditions your biological family carries. About 5 questions.',
+      done: !!(state.chapters && state.chapters.family),
+      feedsVitality: false,
+      metaDone: (function () {
+        var sibN = Array.isArray(state.family.siblings) ? state.family.siblings.length : 0;
+        return 'Mother · Father · ' + (sibN === 1 ? '1 sibling' : sibN + ' siblings');
+      })()
+    },
+    {
+      screen: 5, key: 'health', title: 'Your health today',
+      blurb: 'Height, weight, conditions, medications, allergies. A couple of minutes.',
+      done: !!(state.health && state.health.done),
+      feedsVitality: true,
+      metaDone: (function () {
+        var hh = state.health || {};
+        var condN = Object.keys(hh.conditions || {}).filter(function (k) { return k !== 'none'; }).length;
+        return (hh.heightFt != null || hh.weightLb != null ? 'Height and weight · ' : '') +
+          (condN ? (condN === 1 ? '1 condition' : condN + ' conditions') : 'No conditions');
+      })()
+    },
+    {
+      screen: 6, key: 'symptoms', title: 'In your own words',
+      blurb: 'How your body has changed. Speak it or type it, however you like.',
+      done: !!(state.symptoms && state.symptoms.done),
+      feedsVitality: false,
+      metaDone: state.symptoms && state.symptoms.probes
+        ? 'Shared · ' + state.symptoms.probes + (state.symptoms.probes === 1 ? ' follow-up' : ' follow-ups')
+        : 'Shared in your own words'
+    },
+    {
+      screen: 10, key: 'structured', title: 'Structured health signals',
+      blurb: 'Short specifics your physician and the risk models use. Includes a brief, standard mood and sleep screen everyone completes.',
+      done: structuredComplete,
+      feedsVitality: true,
+      metaDone: secDone + ' of ' + secs.length + ' sections'
+    },
+    {
+      screen: 9, key: 'call', title: 'Say hello to Dr. Mizani',
+      blurb: 'An optional 15 minute intro call before your results. Entirely up to you.',
+      done: !!(state.call && state.call !== 'skipped'),
+      feedsVitality: false,
+      optional: true,
+      metaDone: state.call && state.call !== 'skipped' ? (state.call + ' · 15 min') : 'No call booked'
     }
-  } else {
-    var s = shipState();
-    var shipTo = cleanText(s.street) ? cleanText(s.street) + ', ' + cleanText(s.city) : 'your address';
-    rows.push({
-      done: true,
-      title: 'Home kit on the way',
-      meta: 'Tasso kit ships to ' + escapeHtml(shipTo) + ' · Results ≈ 7 to 10 days from sample receipt'
-    });
+  ];
+  return chapters;
+}
+
+function renderHome() {
+  /* Assemble the engine-facing packet on every Home entry and stash it
+     on state so it persists and can be inspected. The packet seam is
+     unchanged from v2. */
+  state.patient_packet = assemblePacket();
+  persistAccount();
+
+  var chapters = homeChapters();
+
+  /* Chapter cards. A resumable card shows Start / Resume / Done and,
+     when relevant, that finishing it unlocks the vitality panel. */
+  var wrap = document.getElementById('chapterCards');
+  if (wrap) {
+    wrap.innerHTML = chapters.map(function (c) {
+      var stateLabel = c.done ? 'Done' : (chapterTouched(c) ? 'Resume' : 'Start');
+      var meta = c.done ? c.metaDone : (c.optional ? 'Optional' : c.blurb);
+      return '<button class="hub-chapter' + (c.done ? ' done' : '') + '" type="button" onclick="openChapter(' + c.screen + ')">' +
+        '<div class="hub-check' + (c.done ? '' : ' skipped') + '">' + (c.done ? '✓' : '·') + '</div>' +
+        '<div class="hub-task-body">' +
+          '<div class="hub-task-title">' + c.title + '</div>' +
+          '<div class="hub-task-meta">' + meta + '</div>' +
+          (c.feedsVitality && !c.done ? '<div class="hub-task-meta hub-vitality-hint">Unlocks your vitality reading</div>' : '') +
+        '</div>' +
+        '<div class="hub-chapter-cta">' + stateLabel + '</div>' +
+      '</button>';
+    }).join('');
   }
-  rows.push({
-    done: state.wearable === 'connected',
-    title: state.wearable === 'connected' ? 'Apple Health connected' : 'Wearable not connected',
-    meta: state.wearable === 'connected' ? 'HR · HRV · Sleep · Activity · SpO2' : 'You can connect one anytime from settings'
-  });
-  rows.push({
-    done: !!state.call && state.call !== 'skipped',
-    title: state.call && state.call !== 'skipped' ? 'Intro call booked' : 'No intro call',
-    meta: state.call && state.call !== 'skipped' ? (state.call + ' · Dr Mizani · 15 min') : 'Your physician reaches out when results are ready'
-  });
 
-  var wrap = document.getElementById('summaryList');
-  wrap.innerHTML = rows.map(function (r) {
-    return '<div class="hub-task">' +
-      '<div class="hub-check' + (r.done ? '' : ' skipped') + '">' + (r.done ? '✓' : '·') + '</div>' +
-      '<div class="hub-task-body">' +
-        '<div class="hub-task-title">' + r.title + '</div>' +
-        '<div class="hub-task-meta">' + r.meta + '</div>' +
-      '</div>' +
-    '</div>';
-  }).join('');
+  renderVitalityTile(chapters);
 
-  document.getElementById('expWearable').style.display =
-    state.wearable === 'skipped' ? 'block' : 'none';
-  document.getElementById('exp2').style.display =
-    state.genetics.decision === 'declined' ? 'none' : 'block';
+  /* Contextual disclosures. */
+  var expW = document.getElementById('expWearable');
+  if (expW) expW.style.display = state.wearable === 'skipped' ? 'block' : 'none';
+  var exp2 = document.getElementById('exp2');
+  if (exp2) exp2.style.display = state.genetics.decision === 'declined' ? 'none' : 'block';
+
+  /* Home intro reflects whether genetics was ordered alongside labs. */
+  var intro = document.getElementById('homeIntro');
+  if (intro) {
+    intro.textContent = (state.genetics.decision === 'consented')
+      ? 'Your blood draw and genetic testing are both ordered. Results take about a week to come back. In the meantime, a few short chapters help your physician read them in the fullest context.'
+      : 'Your blood draw is ordered. Results take about a week to come back. In the meantime, a few short chapters help your physician read them in the fullest context.';
+  }
+
   renderKitTracking();
+  renderBeatLead();
+  renderLiveVitals();
+}
+
+/* Has the member opened/partially completed this chapter? Drives
+   Start vs Resume on the card. */
+function chapterTouched(c) {
+  if (c.key === 'family') return state.familyIndex > 0 || (state.family && Object.keys(state.family).length > 0);
+  if (c.key === 'health') return !!(state.health && (state.health.heightFt != null || state.health.weightLb != null || Object.keys(state.health.conditions || {}).length));
+  if (c.key === 'symptoms') return !!(state.symptoms && state.symptoms.transcript);
+  if (c.key === 'structured') {
+    return !!(state.intake && Object.keys(state.intake).some(function (k) {
+      var b = state.intake[k];
+      return b && (b.started || b.done || b.declined);
+    }));
+  }
+  return false;
+}
+
+/* Vitality-lock mechanic. The vitality models are all-or-nothing:
+   skip a vitality-feeding chapter and the panel returns
+   insufficient_input. On Home we surface that as a locked tile that
+   fills in as those chapters complete. Finishing them is the reward. */
+function renderVitalityTile(chapters) {
+  var el = document.getElementById('vitalityTile');
+  if (!el) return;
+  var feeders = chapters.filter(function (c) { return c.feedsVitality; });
+  var doneCount = feeders.filter(function (c) { return c.done; }).length;
+  var unlocked = doneCount === feeders.length && feeders.length > 0;
+  el.innerHTML =
+    '<div class="vitality-tile' + (unlocked ? ' unlocked' : ' locked') + '">' +
+      '<div class="vitality-tile-head">' +
+        '<div class="vitality-tile-title">Your vitality reading</div>' +
+        '<div class="vitality-tile-badge">' + (unlocked ? 'Ready for results day' : doneCount + ' of ' + feeders.length) + '</div>' +
+      '</div>' +
+      '<p class="vitality-tile-body">' +
+        (unlocked
+          ? 'You have completed everything your vitality reading needs. It will be ready alongside your results.'
+          : 'Your vitality reading needs a complete picture. Finish the chapters marked above to unlock it on results day.') +
+      '</p>' +
+    '</div>';
 }
 
 /* ================================================================ */
 /*  KIT SHIPMENT TRACKING                                            */
-/*  A tracker renders only for kits that physically ship: the Tasso  */
-/*  home blood kit (home-kit path) and the Invitae genetics kit      */
-/*  (if consented). Quest venous is a PSC appointment, no kit. The   */
-/*  member-facing stages map to Junction testkit statuses:           */
-/*  ordered/requisition_created, transit_customer, out_for_delivery, */
-/*  with_customer, transit_lab, delivered_to_lab. A real build       */
-/*  advances these from order webhooks plus an email on ship; there  */
-/*  is no confirmed carrier tracking number, so none is shown.       */
-/*  Whether genetics is a separate kit or combined with the blood    */
-/*  draw is an open spec question (ONBOARDING_SPEC_V1 section 8).    */
+/*  A tracker renders per SHIPPED kit. Labs and genetics are SEPARATE */
+/*  orders from separate vendors, each with its own tracking number,  */
+/*  both triggered through Junction:                                  */
+/*    - Blood panel · Tasso home kit (ships → has tracking) OR Quest  */
+/*      venous PSC draw (appointment, no shipped kit, no tracker).    */
+/*    - Genetics panel · Invitae home kit (ships → has tracking).     */
+/*  The member-facing stages map to Junction testkit statuses:        */
+/*  ordered/requisition_created, transit_customer, out_for_delivery,  */
+/*  with_customer, transit_lab, delivered_to_lab. A real build         */
+/*  advances these from each vendor's order webhooks; the tracking     */
+/*  number shown comes from the vendor's shipment event via Junction.  */
 /* ================================================================ */
 var KIT_STAGES = [
   { key: 'ordered', label: 'Order received', note: 'Your kit is being prepared.' },
@@ -5392,13 +5824,59 @@ var KIT_STAGES = [
   { key: 'received_lab', label: 'Received at lab', note: null }
 ];
 
+/* Appointment lifecycle for a Quest venous draw. A PSC visit does not ship,
+   so it never enters KIT_STAGES; it has its own beats — booked, drawn on
+   site, in transit to the lab, received. This is what gives a member who
+   picks Quest AND declines genetics a real spine on Home instead of an
+   empty wait. Maps to Junction PSC appointment + resulting order statuses. */
+var APPT_STAGES = [
+  { key: 'booked', label: 'Appointment booked', note: 'Your draw is scheduled. Bring a photo ID.' },
+  { key: 'drawn', label: 'Sample collected', note: 'Your blood was drawn and is being prepared for the lab.' },
+  { key: 'transit_lab', label: 'On the way to the lab', note: 'Your sample is heading to the lab.' },
+  { key: 'received_lab', label: 'Received at lab', note: null }
+];
+
+/* Human-readable vendor labels. Kept separate from the machine `vendor`
+   key so the packet stays canonical while the UI reads naturally. */
+var VENDOR_LABELS = { tasso: 'Tasso', quest: 'Quest Diagnostics', invitae: 'Invitae' };
+
 function activeKits() {
   var kits = [];
+  /* Blood panel, two shapes:
+     - Tasso home kit physically SHIPS → shipment track (KIT_STAGES).
+     - Quest venous draw is a PSC APPOINTMENT → appointment track
+       (APPT_STAGES), no tracking number, but still a real spine. */
   if (state.labPath === 'tasso') {
-    kits.push({ id: 'tasso', name: 'Home blood kit', done: 'The lab has your sample. Results in 7 to 10 days.' });
+    kits.push({
+      kind: 'shipment',
+      id: 'tasso',
+      name: 'Blood panel kit',
+      vendor: (state.labOrder && state.labOrder.vendor) || 'tasso',
+      tracking: state.labOrder && state.labOrder.tracking_number,
+      done: 'The lab has your sample. Results in 7 to 10 days.'
+    });
+  } else if (state.labPath === 'quest') {
+    var q = state.quest || {};
+    kits.push({
+      kind: 'appointment',
+      id: 'quest',
+      name: 'Blood panel draw',
+      vendor: 'quest',
+      tracking: null,
+      appointment: q.dateLabel || (q.location && q.location.name) || null,
+      done: 'The lab has your sample. Results in 7 to 10 days.'
+    });
   }
+  /* Genetics: separate Invitae kit, separate tracking number. */
   if (state.genetics && state.genetics.decision === 'consented') {
-    kits.push({ id: 'genetics', name: 'Genetics kit', done: 'The lab has your sample. Your physician reviews results with you.' });
+    kits.push({
+      kind: 'shipment',
+      id: 'genetics',
+      name: 'Genetics kit',
+      vendor: (state.genetics.order && state.genetics.order.vendor) || 'invitae',
+      tracking: state.genetics.order && state.genetics.order.tracking_number,
+      done: 'The lab has your sample. Your physician reviews results with you.'
+    });
   }
   return kits;
 }
@@ -5412,20 +5890,33 @@ function renderKitTracking() {
   var showProto = window.ALERON_RENDER_MODE !== 'runtime';
   wrap.innerHTML = '<div class="section-label">Tracking your kit' + (kits.length > 1 ? 's' : '') + '</div>' +
     kits.map(function (k) {
+      var stages = k.kind === 'appointment' ? APPT_STAGES : KIT_STAGES;
       if (state.kits[k.id] === undefined) state.kits[k.id] = 0;
-      var stage = state.kits[k.id];
-      var st = KIT_STAGES[stage];
+      var stage = Math.min(state.kits[k.id], stages.length - 1);
+      var st = stages[stage];
       var track = '';
-      for (var i = 0; i < KIT_STAGES.length; i++) {
+      for (var i = 0; i < stages.length; i++) {
         var cls = i < stage ? 'done' : i === stage ? 'current' : '';
         track += '<div class="kit-node ' + cls + '"></div>';
-        if (i < KIT_STAGES.length - 1) track += '<div class="kit-seg' + (i < stage ? ' done' : '') + '"></div>';
+        if (i < stages.length - 1) track += '<div class="kit-seg' + (i < stage ? ' done' : '') + '"></div>';
       }
       var note = st.note || k.done;
+      var vendorLabel = VENDOR_LABELS[k.vendor] || '';
+      /* Shipment kits surface a tracking number once shipped (stage >= 1).
+         Appointment draws surface the booked slot instead — no tracking. */
+      var detailRow = '';
+      if (k.kind === 'appointment' && k.appointment) {
+        detailRow = '<div class="kit-tracking">' + escapeHtml(k.appointment) + '</div>';
+      } else if (k.tracking && stage >= 1) {
+        detailRow = '<div class="kit-tracking">Tracking · ' + escapeHtml(k.tracking) + '</div>';
+      }
       return '<div class="kit-card">' +
-        '<div class="kit-head"><div class="kit-name">' + k.name + '</div><div class="kit-status">' + st.label + '</div></div>' +
+        '<div class="kit-head"><div class="kit-name">' + k.name +
+          (vendorLabel ? '<span class="kit-vendor">' + vendorLabel + '</span>' : '') +
+        '</div><div class="kit-status">' + st.label + '</div></div>' +
         '<div class="kit-track">' + track + '</div>' +
         '<div class="kit-note">' + note + '</div>' +
+        detailRow +
         (showProto ? '<button class="btn btn--tertiary" onclick="advanceKit(\'' + k.id + '\')" style="text-align:left; padding:8px 0 0; font-size:12px">Advance status (prototype)</button>' : '') +
       '</div>';
     }).join('');
@@ -5435,7 +5926,123 @@ function advanceKit(id) {
   if (!state.kits) state.kits = {};
   state.kits[id] = Math.min(KIT_STAGES.length - 1, (state.kits[id] || 0) + 1);
   renderKitTracking();
+  renderBeatLead();
   persistAccount();
+}
+
+/* ================================================================ */
+/*  BEAT LEAD · "the wait becomes the product"                       */
+/*  A single day-aware card that ties the CURRENT shipping beat to    */
+/*  the next thing worth doing. It keys off the BOTTLENECK kit (the   */
+/*  least-advanced active order), because results day arrives only     */
+/*  when every ordered panel is back — labs AND genetics. So the beat  */
+/*  the member sees is honest about the slowest lane, never overstated */
+/*  by the faster one. The card points at the next incomplete chapter, */
+/*  turning each shipping event into a re-entry point.                 */
+/* ================================================================ */
+function nextOpenChapter() {
+  var chs = homeChapters();
+  /* Prefer a vitality-feeding, non-optional, unfinished chapter; then any
+     non-optional unfinished; then fall through to null (all done). */
+  var pri = chs.filter(function (c) { return !c.done && !c.optional && c.feedsVitality; });
+  if (pri.length) return pri[0];
+  var req = chs.filter(function (c) { return !c.done && !c.optional; });
+  if (req.length) return req[0];
+  return null;
+}
+
+/* Per-stage lead copy. {n} is replaced with the next chapter's title and
+   its time estimate, so the nudge always points somewhere real. */
+var BEAT_COPY = {
+  ordered: 'Your kit is being prepared. While it’s readied, {n} gives Dr. Mizani context no panel can.',
+  shipped: 'Your kit shipped this morning. While it travels, {n} gives Dr. Mizani context no panel can.',
+  out_for_delivery: 'Your kit arrives today. A good moment for {n} before it lands.',
+  delivered: 'Your kit has arrived. Collect your sample when it suits you, then {n} while you’re here.',
+  transit_lab: 'Your sample is on its way to the lab. While it travels, {n} rounds out your picture.',
+  received_lab: 'The lab has your sample. Results in 7 to 10 days. {n} is the last thing that helps them read it well.',
+  /* Quest appointment beats — a booked draw, not a shipped kit. */
+  booked: 'Your blood draw is booked. Until then, {n} gives Dr. Mizani context no panel can.',
+  drawn: 'Your sample is collected and heading in. While it travels, {n} rounds out your picture.'
+};
+
+function renderBeatLead() {
+  var el = document.getElementById('beatLead');
+  if (!el) return;
+  var kits = activeKits();
+  if (!kits.length) { el.innerHTML = ''; return; }
+  if (!state.kits) state.kits = {};
+
+  /* Bottleneck = the least-advanced active kit, measured by progress
+     FRACTION so shipment kits (6 beats) and appointment draws (4 beats)
+     compare fairly. Results day arrives only when every lane is back. */
+  var slowest = null, minFrac = 2;
+  kits.forEach(function (k) {
+    var stages = k.kind === 'appointment' ? APPT_STAGES : KIT_STAGES;
+    var s = state.kits[k.id] === undefined ? 0 : Math.min(state.kits[k.id], stages.length - 1);
+    var frac = s / (stages.length - 1);
+    if (frac < minFrac) { minFrac = frac; slowest = { key: stages[s].key }; }
+  });
+  var stageKey = slowest ? slowest.key : 'ordered';
+
+  var nxt = nextOpenChapter();
+  var tmpl = BEAT_COPY[stageKey] || BEAT_COPY.shipped;
+  var body;
+  if (nxt) {
+    var est = nxt.blurb && /min/.test(nxt.blurb) ? '' : '';
+    var phrase = 'a couple of minutes on ' + nxt.title.toLowerCase();
+    body = tmpl.replace('{n}', phrase);
+  } else {
+    /* Everything's done — the card becomes a calm confirmation, not a nudge. */
+    body = (stageKey === 'received_lab')
+      ? 'The lab has your sample and your record is complete. Everything is ready for results day.'
+      : 'Your record is complete. We’ll keep you posted as your kit moves toward the lab.';
+  }
+
+  el.innerHTML =
+    '<div class="beat-lead">' +
+      '<div class="beat-lead-label">Kit update</div>' +
+      '<p class="beat-lead-body">' + body + '</p>' +
+      (nxt ? '<button class="beat-lead-cta" type="button" onclick="openChapter(' + nxt.screen + ')">' +
+               (chapterTouched(nxt) ? 'Resume' : 'Start') + ' · ' + escapeHtml(nxt.title) +
+             '</button>' : '') +
+    '</div>';
+}
+
+/* ================================================================ */
+/*  LIVE VITALS · makes Home worth opening before any result exists   */
+/*  Only shown when a wearable is connected. Reads the same `latest`   */
+/*  block that hydrates into the packet, so UI and engine agree.       */
+/* ================================================================ */
+function renderLiveVitals() {
+  var el = document.getElementById('liveVitals');
+  if (!el) return;
+  var sync = state.wearableSync;
+  if (state.wearable !== 'connected') { el.innerHTML = ''; return; }
+  if (!sync || !sync.latest) {
+    el.innerHTML =
+      '<div class="section-label">From your wearable</div>' +
+      '<div class="live-vitals-empty">Waiting for first sync. Open Health › Sharing to confirm what you are sharing.</div>';
+    return;
+  }
+  var L = sync.latest;
+  var syncedAt = wearableSyncedAt(sync);
+  var tiles = [
+    { v: L.resting_hr && L.resting_hr.value, label: 'Resting HR', unit: L.resting_hr && L.resting_hr.unit },
+    { v: L.sleep_last_night && L.sleep_last_night.value, label: 'Sleep', unit: L.sleep_last_night && L.sleep_last_night.unit },
+    { v: L.steps_today && (typeof L.steps_today.value === 'number' ? (L.steps_today.value >= 1000 ? (L.steps_today.value / 1000).toFixed(1).replace(/\.0$/, '') + 'k' : L.steps_today.value) : L.steps_today.value), label: 'Steps', unit: L.steps_today && L.steps_today.unit }
+  ];
+  el.innerHTML =
+    '<div class="section-label">From your wearable</div>' +
+    '<div class="live-vitals-meta">As of · ' + escapeHtml(formatSyncRecency(syncedAt)) + '</div>' +
+    '<div class="live-vitals">' +
+      tiles.map(function (t) {
+        var value = t.v === undefined || t.v === null ? 'Pending' : String(t.v) + (t.unit ? ' ' + t.unit : '');
+        return '<div class="live-vital">' +
+          '<div class="live-vital-value">' + escapeHtml(value) + '</div>' +
+          '<div class="live-vital-label">' + escapeHtml(t.label) + '</div>' +
+        '</div>';
+      }).join('') +
+    '</div>';
 }
 
 /* ================================================================ */
