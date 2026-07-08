@@ -200,17 +200,15 @@ svg.nav-ico{width:16px;height:16px;flex:0 0 auto;stroke:currentColor;fill:none;s
 /* ================================================================
    SCREEN 2a · RISK MODELS · physician interpretation surface
    ================================================================ */
-.risk{display:grid;grid-template-columns:minmax(220px,260px) 1fr;gap:18px;align-items:start;}
-@media(max-width:900px){.risk{grid-template-columns:1fr;}}
-.risk-topics{border:1px solid var(--l18);background:var(--card);border-radius:var(--radius-panel);padding:8px;display:flex;flex-direction:column;gap:4px;box-shadow:var(--shadow-tier1);}
-.rt{font-family:var(--voice);text-align:left;border:0;background:transparent;color:var(--fg);padding:11px 12px;cursor:pointer;display:grid;gap:6px;border-radius:var(--radius-control);}
+.risk{display:block;}
+.risk-nav{display:flex;flex-wrap:wrap;gap:6px;border-bottom:1px solid var(--l12);padding-bottom:12px;margin-bottom:18px;}
+.rt{font-family:var(--voice);text-align:left;border:1px solid var(--l12);background:var(--card);color:var(--fg);padding:8px 13px;cursor:pointer;display:flex;align-items:baseline;gap:10px;border-radius:var(--radius-control);}
 .rt:hover{background:var(--sunken);}
-.rt.on{background:var(--surface-selected);box-shadow:inset 0 0 0 1px var(--l18);}
-.rt .row{display:flex;justify-content:space-between;gap:10px;align-items:baseline;}
-.rt .name{font-size:13.5px;font-weight:500;line-height:1.2;}
-.rt .tier{font-size:12px;line-height:1.3;}
-.rt .meta{font-family:var(--voice);font-size:12px;color:var(--muted);letter-spacing:0;line-height:1.35;}
-.rt .rail-score{font-family:var(--voice);font-size:12px;color:var(--faint);font-variant-numeric:tabular-nums;}
+.rt.on{background:var(--surface-selected);box-shadow:inset 0 0 0 1px var(--l25);}
+.rt .rt-name{font-size:13.5px;font-weight:500;line-height:1.2;}
+.rt .rt-val{font-family:var(--voice);font-size:12.5px;color:var(--muted);font-variant-numeric:tabular-nums;}
+.rt .bw{margin-top:0;}
+@media(max-width:900px){.risk-nav{flex-wrap:nowrap;overflow-x:auto;padding-bottom:14px;}.rt{flex:none;}}
 .risk-panels{min-width:0;}
 .risk-panel{display:none;border:1px solid var(--l18);background:var(--card);border-radius:var(--radius-panel);overflow:hidden;box-shadow:var(--shadow-tier1);}
 .risk-panel.on{display:block;}
@@ -272,6 +270,54 @@ svg.nav-ico{width:16px;height:16px;flex:0 0 auto;stroke:currentColor;fill:none;s
 .risk-output.pending .v,.risk-output.na .v{font-size:12px;color:var(--faint);letter-spacing:0;}
 .risk-model-note{padding:12px 14px;font-size:12.5px;color:var(--muted);line-height:1.45;background:var(--card);border:1px solid var(--l12);border-radius:var(--radius-field);}
 .risk-foot{padding:16px 24px;font-family:var(--voice);font-size:12.5px;letter-spacing:0;color:var(--muted);line-height:1.55;background:var(--surface-sunken);}
+.rvars{padding:22px 24px;border-bottom:1px solid var(--l12);}
+.rvars-head{display:flex;justify-content:space-between;gap:14px;align-items:baseline;margin:0 0 6px;flex-wrap:wrap;}
+.rvars-head b{font-size:15px;font-weight:500;color:var(--fg);}
+.rvars-head span{font-size:12.5px;color:var(--muted);}
+.rvars-legend{display:flex;gap:16px;flex-wrap:wrap;font-size:11.5px;color:var(--faint);margin:0 0 12px;}
+.rvars-legend i{display:inline-block;width:4px;height:12px;vertical-align:-2px;margin-right:5px;background:var(--hi);}
+.rvars-legend i.inr{width:3px;background:var(--muted);}
+.rvars-attn{font-size:13px;line-height:1.5;color:var(--fg);background:var(--surface-sunken);border-radius:var(--radius-field);padding:11px 13px;margin:0 0 14px;}
+.rvars-attn b{font-weight:500;}
+.rvars-grp{font-family:var(--voice);font-size:12px;font-weight:500;letter-spacing:0.09em;text-transform:uppercase;color:var(--faint);margin:16px 0 2px;}
+.rvars-grp span{text-transform:none;letter-spacing:0;font-weight:400;color:var(--muted);margin-left:6px;}
+.rvar-row{display:grid;grid-template-columns:minmax(150px,190px) minmax(0,1fr) 118px 16px;gap:14px;align-items:center;padding:11px 8px 11px 10px;border-top:1px solid var(--l12);border-left:2px solid transparent;cursor:pointer;}
+.rvar-row:hover{background:var(--sunken);}
+.rvar-row.attn{border-left:2px solid var(--hi);}
+.rvar-nm{font-size:12.5px;color:var(--muted);line-height:1.3;}
+.rvar-vl{font-size:14px;font-variant-numeric:tabular-nums;color:var(--fg);margin-top:1px;}
+.rvar-row.attn .rvar-vl{font-weight:500;}
+.rvar-track{position:relative;height:22px;}
+.rvar-base{position:absolute;left:0;right:0;top:10px;height:1px;background:var(--l25);}
+.rvar-norm{position:absolute;top:6px;height:9px;background:var(--card);border:1px solid var(--l25);border-radius:2px;}
+.rvar-mk{position:absolute;top:2px;width:3px;height:18px;background:var(--muted);border-radius:2px;transform:translateX(-1px);}
+.rvar-mk.oor{background:var(--hi);width:4px;top:0;height:22px;}
+.rvar-st{font-size:11px;color:var(--muted);text-align:right;margin-top:1px;}
+.rvar-sens{display:flex;align-items:center;gap:8px;}
+.rvar-sbar{flex:1;height:7px;background:var(--card);border:1px solid var(--l18);border-radius:4px;overflow:hidden;}
+.rvar-sbar i{display:block;height:100%;background:var(--muted);}
+.rvar-row.attn .rvar-sbar i{background:var(--fg);}
+.rvar-sval{font-size:11px;color:var(--faint);font-variant-numeric:tabular-nums;width:22px;text-align:right;}
+.rvar-chev{color:var(--faint);font-size:12px;text-align:center;transition:transform .15s ease;}
+.rvar-row.open .rvar-chev{transform:rotate(90deg);}
+.rvar-pill{display:inline-block;font-size:12px;color:var(--muted);background:var(--card);border:1px solid var(--l18);border-radius:var(--radius-field);padding:1px 9px;}
+.rvar-detail{display:none;padding:2px 2px 14px 12px;}
+.rvar-detail.open{display:block;}
+.rvar-detail-inner{background:var(--surface-sunken);border-radius:var(--radius-field);padding:16px 18px;display:grid;gap:14px;}
+.rvar-d-lab{font-family:var(--voice);font-size:11px;letter-spacing:0.08em;text-transform:uppercase;color:var(--faint);margin:0 0 6px;}
+.rvar-btrack{position:relative;height:40px;margin:2px 0;}
+.rvar-btrack .rvar-base{top:26px;}
+.rvar-btrack .rvar-norm{top:20px;height:12px;}
+.rvar-btrack .rvar-mk{top:16px;height:24px;}
+.rvar-btrack .rvar-mk.oor{top:14px;height:28px;}
+.rvar-tgt{position:absolute;top:16px;width:2px;height:24px;background:var(--muted);border-radius:2px;}
+.rvar-tick{position:absolute;top:0;font-size:10px;color:var(--faint);transform:translateX(-50%);white-space:nowrap;}
+.rvar-gain{display:flex;align-items:baseline;gap:12px;font-variant-numeric:tabular-nums;flex-wrap:wrap;}
+.rvar-gain .g{font-size:22px;font-weight:500;color:var(--fg);}
+.rvar-gain .arw{color:var(--faint);}
+.rvar-note{font-size:13px;line-height:1.55;color:var(--fg);margin:0;}
+.rvar-note .also{color:var(--muted);}
+@media(max-width:760px){.rvar-row{grid-template-columns:1fr auto auto 16px;}}
 
 /* ================================================================
    SCREEN 2b · ACTION MAP + evidence ledger + AI pipeline + gates
@@ -2106,6 +2152,134 @@ function riskTrendSvg(d){
   +[0.55,0.7,0.85].map(f=>'<circle cx="'+(L+plotW*f).toFixed(1)+'" cy="'+(T+plotH)+'" r="3" fill="var(--bg)" stroke="var(--faint)" stroke-dasharray="2 2"/>').join('')
   +'<text class="label" x="'+(W-R)+'" y="'+(H-8)+'" text-anchor="end">follow-up trend pending</text></svg>';
 }
+function rvParseRange(str){var m=String(str||'').replace(/,/g,'').match(/(-?\d+(?:\.\d+)?)\s*(?:to|[-–])\s*(-?\d+(?:\.\d+)?)/);return m?[parseFloat(m[1]),parseFloat(m[2])]:null;}
+function rvParseLead(str){var m=String(str||'').replace(/,/g,'').match(/-?\d+(?:\.\d+)?/);return m?parseFloat(m[0]):null;}
+function rvPct(v,a,b){return Math.max(0,Math.min(100,(v-a)/(b-a)*100));}
+function rvTick(v){return Math.abs(v)>=1000?(v/1000)+'k':(v%1===0?String(v):v.toFixed(1));}
+function rvJoin(a){if(a.length===1)return a[0];if(a.length===2)return a[0]+' and '+a[1];return a.slice(0,-1).join(', ')+', and '+a[a.length-1];}
+function rvStatusWord(r){
+ if(r.binary)return r.inrange?'in range':'present';
+ if(r.pos==null||!r.axis)return 'pending';
+ if(!r.ref)return r.sens>=90?'not modifiable':'context';
+ if(!r.oor)return 'in range';
+ if(r.pos>r.ref[1])return 'above range';
+ if(r.pos<r.ref[0])return 'below range';
+ return 'out of range';
+}
+function rvSensFor(d,label){
+ var s=(d.sensitivity||[]),key=norm(label),best=null;
+ s.forEach(function(x){var k=norm(x.label);if(k===key||k.indexOf(key)>=0||key.indexOf(k.split(' ')[0])>=0){if(!best||x.score>best.score)best=x;}});
+ return best?best.score:38;
+}
+function cvdVariables(p){
+ var disp=function(v){return riskPctDisplay(v);};
+ function gain(field,target,ep){
+  ep=ep||['ascvd','30'];
+  var b=preventRiskPct(p,ep[0],ep[1]),clone=Object.assign({},p);clone[field]=target;
+  var a=preventRiskPct(clone,ep[0],ep[1]);
+  if(b==null||a==null)return null;
+  var dd=b-a,mag=Math.abs(dd);
+  return {from:disp(b),to:disp(a),delta:(mag>=10?mag.toFixed(0):mag.toFixed(1)),dir:dd>0.05?'down':(dd<-0.05?'up':'flat'),endpoint:ep[1]+'-yr '+(ep[0]==='ascvd'?'ASCVD':(ep[0]==='hf'?'heart failure':'total CVD'))};
+ }
+ var age=Number(p.age),sbp=Number(p.sbp),tc=Number(p.tc),hdl=Number(p.hdl),egfr=Number(p.egfr),bmi=Number(p.bmi);
+ var dm=diabetesStatus(p),smk=smokingStatus(p);
+ var apob=Number(p.apob),ldl=Number(p.ldl),crp=Number(p.hscrp),homa=Number(p.homa),lpa=Number(p.lpa);
+ var crfVo2=rvParseLead(p.crf);
+ var crfPctM=String(p.crf||'').match(/(\d+)\s*[-–]?\s*\d*\s*th\s*pct/i);
+ var crfPct=crfPctM?parseFloat(crfPctM[1]):null;
+ var base=[
+  {name:'Age',value:numUnit(age,'yr',0),axis:[30,79],pos:age,ref:null,oor:false,sens:100,gain:null,note:'The single largest driver of this risk, and not modifiable. Read it as the backdrop the other levers work against, and spend the visit elsewhere.'},
+  {name:'Systolic BP',value:numUnit(sbp,'mmHg',0),axis:[90,200],ref:[90,120],pos:sbp,oor:sbp>120,sens:82,tgt:120,gain:gain('sbp',120),note:'Confirm with home or ambulatory readings before treating. This is the highest-yield modifiable lever the equation exposes.',also:'A shared lever with the kidney and neurodegenerative models.'},
+  {name:'eGFR',value:numUnit(egfr,'mL/min/1.73m²',0),axis:[15,140],ref:[90,140],pos:egfr,oor:egfr<90,sens:66,gain:(egfr<90?gain('egfr',95):null),note:'Kidney function feeds every PREVENT endpoint. Reassuring today, so monitor rather than act.'},
+  {name:'Total cholesterol',value:numUnit(tc,'mg/dL',0),axis:[130,320],ref:[130,200],pos:tc,oor:tc>200,sens:54,tgt:180,gain:gain('tc',180),note:'Real but not the headline. Fold it into the lipid decision rather than treating it in isolation.'},
+  {name:'HDL-C',value:numUnit(hdl,'mg/dL',0),axis:[20,100],ref:[50,100],pos:hdl,oor:hdl<50,invert:true,sens:54,tgt:55,gain:gain('hdl',55),note:'Marginally low. It tends to move with fitness and weight rather than as a direct target.'},
+  {name:'BMI',value:numUnit(bmi,'kg/m²',1),axis:[18.5,40],ref:[18.5,25],pos:bmi,oor:bmi>25,sens:22,tgt:25,gain:gain('bmi',25,['hf','10']),note:'In PREVENT the BMI coefficient is zero for atherosclerotic and total CVD; it moves only heart failure, so the change shown is on the 10-year heart-failure endpoint. Its atherosclerotic effect is treated as mediated through blood pressure, glucose, and lipids.'},
+  {name:'Diabetes',value:dm,binary:true,inrange:dm==='no',sens:46,gain:null,note:dm==='no'?'Absent. Incident diabetes risk is carried in the metabolic model, not here.':'Present, and a strong multiplier on every endpoint.'},
+  {name:'Smoking',value:smk,binary:true,inrange:String(smk).toLowerCase()!=='current',sens:36,gain:null,note:'Never smoker. No action.'}
+ ];
+ var mod=[
+  {name:'Cardiorespiratory fitness',value:(crfVo2!=null?crfVo2+' mL/kg/min':'pending'),axis:[1,99],ref:[50,99],pos:crfPct,oor:(crfPct!=null&&crfPct<50),sens:60,gain:null,note:'Applied last in the overlay and able to move risk either way. It is shown as a layer and not folded into the PREVENT number. Prescribe measurable aerobic progression and retest capacity.',also:'A shared lever with the metabolic and neurodegenerative models.'},
+  {name:'Insulin resistance (HOMA-IR)',value:numUnit(homa,'',1),axis:[0.5,8],ref:[0.5,2.9],pos:homa,oor:homa>2.9,sens:20,gain:null,note:'Small effect on this model, but the dominant lever in the metabolic model. Treat it there and the cardiovascular benefit follows.',also:'Primary driver in the metabolic model.'},
+  {name:'ApoB',value:numUnit(apob,'mg/dL',0),axis:[50,200],ref:[50,90],pos:apob,oor:apob>90,sens:28,gain:null,note:(apob>130&&ldl<130)?'Discordant with LDL-C, so the overlay fires as a risk enhancer.':'Elevated and clinically actionable for lipids, but the overlay only fires on ApoB / LDL-C discordance, which is absent here, so it does not move this model number today.'},
+  {name:'hs-CRP',value:numUnit(crp,'mg/L',1),axis:[0.2,12],ref:[0.2,2],pos:crp,oor:crp>2,sens:20,gain:null,note:'Intermediate inflammatory signal. Context for the discussion, not a direct target.'},
+  {name:'Lp(a)',value:numUnit(lpa,'nmol/L',0),axis:[5,400],ref:[5,75],pos:lpa,oor:lpa>75,sens:28,gain:null,note:'Kept as a separate risk-enhancer discussion and never folded into the PREVENT number.'}
+ ];
+ return {groups:[{title:'PREVENT base inputs',sub:'validated equation',rows:base},{title:'Aleron modifier overlay',sub:'first-pass, shown as a layer',rows:mod}],live:true};
+}
+function domainVariables(d){
+ function mapRows(arr){
+  return (arr||[]).map(function(v){
+   var axis=rvParseRange(v.range),pos=rvParseLead(v.current);
+   var isNum=!!axis&&pos!=null&&/\d/.test(String(v.current));
+   return {name:v.label,value:(v.current&&v.current!=='pending'?v.current:'pending'),axis:axis||null,pos:isNum?pos:null,ref:null,oor:false,sens:rvSensFor(d,v.label),gain:null,binary:!isNum,note:(v.note||v.range||'structured field')};
+  });
+ }
+ var groups=[];
+ if(d.baseVars&&d.baseVars.length)groups.push({title:'Base inputs',sub:(d.source||'').slice(0,60),rows:mapRows(d.baseVars)});
+ if(d.modifierVars&&d.modifierVars.length)groups.push({title:d.modifierTitle||'Modifiers',sub:'Aleron overlay',rows:mapRows(d.modifierVars)});
+ return {groups:groups,live:false};
+}
+function buildRiskVariables(patient,d){return d.id==='cvd'?cvdVariables(patient):domainVariables(d);}
+function rvarTrack(r,big){
+ if(r.binary||r.pos==null||!r.axis)return '<span class="rvar-pill">'+html(r.value)+(r.binary&&r.inrange!=null?' · '+(r.inrange?'in range':'present'):'')+'</span>';
+ var cls=big?'rvar-track rvar-btrack':'rvar-track';
+ var p=rvPct(r.pos,r.axis[0],r.axis[1]),norm='';
+ if(r.ref){var l=rvPct(r.ref[0],r.axis[0],r.axis[1]),w=rvPct(r.ref[1],r.axis[0],r.axis[1])-l;norm='<div class="rvar-norm" style="left:'+l+'%;width:'+w+'%"></div>';}
+ var ticks='',tgt='';
+ if(big){
+  ticks='<span class="rvar-tick" style="left:0%">'+rvTick(r.axis[0])+'</span><span class="rvar-tick" style="left:100%">'+rvTick(r.axis[1])+'</span>';
+  if(r.ref)ticks+='<span class="rvar-tick" style="left:'+rvPct(r.ref[1],r.axis[0],r.axis[1]).toFixed(1)+'%">range</span>';
+  if(r.tgt!=null)tgt='<div class="rvar-tgt" style="left:'+rvPct(r.tgt,r.axis[0],r.axis[1]).toFixed(1)+'%"></div>';
+ }
+ return '<div class="'+cls+'"><div class="rvar-base"></div>'+norm+ticks+tgt+'<div class="rvar-mk '+(r.oor?'oor':'')+'" style="left:'+p.toFixed(1)+'%"></div></div>';
+}
+function rvarDetail(r,live){
+ var out='';
+ if(!r.binary&&r.pos!=null&&r.axis){
+  out+='<div><div class="rvar-d-lab">Where this patient sits</div>'+rvarTrack(r,true)
+   +'<div style="display:flex;justify-content:space-between;font-size:11px;color:var(--faint);margin-top:2px;"><span>patient · '+html(r.value)+'</span>'+(r.tgt!=null?'<span>target · into range</span>':'')+'</div></div>';
+ }
+ out+='<div><div class="rvar-d-lab">How much it moves risk</div><div class="rvar-sens"><div class="rvar-sbar" style="max-width:260px;"><i style="width:'+Math.round(r.sens)+'%"></i></div><span class="rvar-sval">'+Math.round(r.sens)+'</span><span style="font-size:12px;color:var(--muted);">of the model range</span></div></div>';
+ if(r.gain){
+  var arw=r.gain.dir==='down'?'↓':(r.gain.dir==='up'?'↑':'→');
+  out+='<div><div class="rvar-d-lab">If moved into range, for this patient</div><div class="rvar-gain"><span class="g">'+html(r.gain.from)+'</span><span class="arw">→</span><span class="g">'+html(r.gain.to)+'</span><span class="rvar-pill">'+arw+' '+html(r.gain.delta)+' pts</span></div><div style="font-size:12px;color:var(--muted);margin-top:6px;">'+html(r.gain.endpoint)+' · directional, single timepoint</div></div>';
+ } else if(live){
+  out+='<div class="rvar-note" style="color:var(--muted);">Not folded into this model number today.</div>';
+ } else {
+  out+='<div class="rvar-note" style="color:var(--muted);">Patient-specific projection pending model calibration.</div>';
+ }
+ out+='<p class="rvar-note">'+html(r.note)+(r.also?' <span class="also">'+html(r.also)+'</span>':'')+'</p>';
+ return out;
+}
+function rvarRow(r,live){
+ var track=rvarTrack(r,false);
+ var st=(!r.binary&&r.pos!=null&&r.axis)?'<div class="rvar-st">'+html(rvStatusWord(r))+'</div>':'';
+ var attn=(r.oor&&r.sens>=50&&!r.binary)?' attn':'';
+ return '<div class="rvar-row'+attn+'" role="button" tabindex="0" aria-expanded="false">'
+  +'<div><div class="rvar-nm">'+html(r.name)+'</div><div class="rvar-vl">'+html(r.value)+'</div></div>'
+  +'<div>'+track+st+'</div>'
+  +'<div class="rvar-sens"><div class="rvar-sbar"><i style="width:'+Math.round(r.sens)+'%"></i></div><span class="rvar-sval">'+Math.round(r.sens)+'</span></div>'
+  +'<i class="rvar-chev" aria-hidden="true">▸</i></div>'
+  +'<div class="rvar-detail"><div class="rvar-detail-inner">'+rvarDetail(r,live)+'</div></div>';
+}
+function riskVariableBlock(d){
+ var model=buildRiskVariables(PT,d);
+ if(!model.groups.length)return '';
+ var attn='';
+ if(model.live){
+  var flagged=[];
+  model.groups.forEach(function(g){g.rows.forEach(function(r){if(r.oor&&r.sens>=50&&!r.binary)flagged.push(String(r.name).replace(/\s*\(.*\)/,''));});});
+  if(flagged.length)attn='<div class="rvars-attn"><b>Needs attention.</b> '+html(rvJoin(flagged))+' sit outside range and carry high leverage here. Open any row to see what moving it would do for this patient.</div>';
+ }
+ var groupsHtml=model.groups.map(function(g){
+  var rows=g.rows.map(function(r){return rvarRow(r,model.live);}).join('');
+  return '<div class="rvars-grp">'+html(g.title)+(g.sub?'<span>· '+html(g.sub)+'</span>':'')+'</div>'+rows;
+ }).join('');
+ var legend=model.live
+  ?'<div class="rvars-legend"><span><i></i>out of range</span><span><i class="inr"></i>in range</span><span>bar = model sensitivity</span></div>'
+  :'<div class="rvars-legend"><span>bar = model sensitivity · reference ranges and patient-specific projection pending calibration</span></div>';
+ return '<div class="rvars"><div class="rvars-head"><b>Variables</b><span>value vs reference · and how much each moves risk</span></div>'+legend+attn+groupsHtml+'</div>';
+}
 function renderRiskDomains(items){
  const el=document.getElementById('risk');
  if(!el)return;
@@ -2113,19 +2287,23 @@ function renderRiskDomains(items){
  const tabs=items.map(d=>{
   const tier=(BAND[d.band]||BAND.low)[0];
   const railMetric=d.id==='cancer'?'site-specific':d.display;
-  return '<button type="button" class="rt '+html(d.band)+' '+(d.id===activeId?'on':'')+'" data-risk-tab="'+html(d.id)+'" role="tab" aria-selected="'+(d.id===activeId?'true':'false')+'">'
-   +'<span class="row"><span class="name">'+html(d.label)+'</span><span class="tier">'+bandWord(d.band)+'</span></span>'
-   +'<span class="meta">'+html(d.horizon)+'</span><span class="rail-score">'+html(railMetric)+' · '+html(tier)+' tier</span></button>';
+  return '<button type="button" class="rt '+html(d.band)+' '+(d.id===activeId?'on':'')+'" data-risk-tab="'+html(d.id)+'" role="tab" aria-selected="'+(d.id===activeId?'true':'false')+'" title="'+html(d.horizon)+'">'
+   +'<span class="rt-name">'+html(d.label)+'</span><span class="rt-val">'+html(railMetric)+'</span>'+bandWord(d.band)+'</button>';
  }).join('');
  const panels=items.map(d=>{
   const s=riskClinicalSummary(d);
   return '<div class="risk-panel '+html(d.band)+' '+(d.id===activeId?'on':'')+'" data-risk-panel="'+html(d.id)+'" role="tabpanel">'
    +'<div class="risk-hero"><div><div class="risk-eyebrow">Risk interpretation</div><h2>'+html(s.headline)+'</h2><p>'+html(s.body)+'</p><div class="risk-route-note">'+html(s.route)+'</div></div>'
    +'<div class="risk-scorecard"><div class="risk-eyebrow">Current read</div><div class="score">'+html(d.display)+'</div>'+bandWord(d.band)+'<div class="horizon">'+html(d.horizon)+'<br>'+html(d.source)+'</div></div></div>'
-   +riskMeaningGrid(d)+riskNextMoves(d)+riskDriverBlock(d)+riskOutputGrid(d)+riskChartBlock(d)
+   +riskMeaningGrid(d)+riskNextMoves(d)+riskVariableBlock(d)+riskOutputGrid(d)+riskChartBlock(d)
    +'</div>';
  }).join('');
- el.innerHTML='<div class="risk-topics" role="tablist" aria-label="Risk domains">'+tabs+'</div><div class="risk-panels">'+panels+'</div>';
+ el.innerHTML='<div class="risk-nav" role="tablist" aria-label="Risk domains">'+tabs+'</div><div class="risk-panels">'+panels+'</div>';
+ if(!el._rvarBound){el._rvarBound=true;
+  const toggle=row=>{const det=row.nextElementSibling;if(!det||!det.classList.contains('rvar-detail'))return;const open=det.classList.toggle('open');row.classList.toggle('open',open);};
+  el.addEventListener('click',ev=>{const row=ev.target.closest('.rvar-row');if(row&&el.contains(row))toggle(row);});
+  el.addEventListener('keydown',ev=>{if(ev.key!=='Enter'&&ev.key!==' ')return;const row=ev.target.closest('.rvar-row');if(row&&el.contains(row)){ev.preventDefault();toggle(row);}});
+ }
  const riskTabs=el.querySelectorAll('[data-risk-tab]');
  const riskPanels=el.querySelectorAll('[data-risk-panel]');
  riskTabs.forEach(tab=>{

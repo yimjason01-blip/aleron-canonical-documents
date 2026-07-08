@@ -332,54 +332,59 @@
             <div class="card status-good">
               <strong>Backend workflow groundwork</strong>
               <p>Local backend tests cover durable tables, opaque sessions, packet submission, idempotent work item creation, and release visibility boundaries.</p>
-              <div class="tag-row"><span class="tag">backend</span><span class="tag">43 passed</span></div>
+              <div class="tag-row"><span class="tag">backend</span><span class="tag">45 passed</span></div>
+            </div>
+            <div class="card status-good">
+              <strong>Session restoration and onboarding resume</strong>
+              <p>App stores the bearer session in Keychain, calls <code>/me</code> on launch, fetches backend onboarding state, and resumes at the next incomplete chapter.</p>
+              <div class="tag-row"><span class="tag">iOS</span><span class="tag">auth</span><span class="tag">27 passed</span></div>
+            </div>
+            <div class="card status-good">
+              <strong>Packet submission state machine</strong>
+              <p>Final onboarding step now exposes not-started, submitting, submitted, and failed states. Failed submission stays on the send screen with retry copy.</p>
+              <div class="tag-row"><span class="tag">workflow</span><span class="tag">mobile</span><span class="tag">28 passed</span></div>
+            </div>
+            <div class="card status-good">
+              <strong>Backend-derived waiting and Home</strong>
+              <p>Completed onboarding routes to Waiting until release. Waiting and Home now render packet receipt, review status, logistics, message count, action count, and release availability from backend-safe projections.</p>
+              <div class="tag-row"><span class="tag">patient Home</span><span class="tag">backend truth</span><span class="tag">30 passed</span></div>
+            </div>
+            <div class="card status-good">
+              <strong>Postgres migration parity guard</strong>
+              <p>Postgres workflow migration now declares every table used by the durable local backend, including invites and artifacts, with a regression test.</p>
+              <div class="tag-row"><span class="tag">infra</span><span class="tag">migration</span><span class="tag">46 passed</span></div>
+            </div>
+            <div class="card status-good">
+              <strong>Supabase migration scaffold</strong>
+              <p>Supabase project is linked, the Postgres workflow migration is applied, all 16 workflow tables are visible through REST, and the staging API now runs as the <code>patient-api</code> Supabase Edge Function.</p>
+              <div class="tag-row"><span class="tag">Supabase</span><span class="tag">migration applied</span><span class="tag">edge function live</span></div>
             </div>
           </div>
 
           <div class="lane">
             <h3>Now</h3>
-            <div class="card status-blue">
-              <strong>Session restoration in iOS</strong>
-              <p>Persist bearer session in Keychain, attach it to backend calls, and restore patient state from the backend on launch.</p>
-              <div class="tag-row"><span class="tag">iOS</span><span class="tag">auth</span><span class="tag">next blocker</span></div>
-            </div>
-            <div class="card status-blue">
-              <strong>Backend auth route polish</strong>
-              <p>Keep strict auth compatibility while preserving local pilot paths. Tests must prove patient scope and physician role boundaries.</p>
-              <div class="tag-row"><span class="tag">backend</span><span class="tag">tests</span></div>
+            <div class="card status-good">
+              <strong>Supabase-only staging backend</strong>
+              <p>The deployed Edge Function preserves the patient app route contract for account creation, session restore, onboarding, packet submission, physician queue creation, and patient-safe reads.</p>
+              <div class="tag-row"><span class="tag">Supabase Edge</span><span class="tag">live HTTPS</span><span class="tag">smoke passed</span></div>
             </div>
           </div>
 
           <div class="lane">
             <h3>Next</h3>
             <div class="card status-warn">
-              <strong>Incremental onboarding persistence</strong>
-              <p>Save completed chapters to backend and resume from backend state after app kill or device change.</p>
-              <div class="tag-row"><span class="tag">iOS</span><span class="tag">backend</span></div>
-            </div>
-            <div class="card status-warn">
-              <strong>Packet submission state machine</strong>
-              <p>Add explicit submit states, idempotency keys, retry handling, and blocking validation errors.</p>
-              <div class="tag-row"><span class="tag">workflow</span><span class="tag">mobile</span></div>
-            </div>
-            <div class="card status-warn">
-              <strong>Backend-derived waiting and Home</strong>
-              <p>Render packet received, review status, logistics, actions, messages, and release availability from backend truth.</p>
-              <div class="tag-row"><span class="tag">patient Home</span></div>
+              <strong>Physician queue and release surface</strong>
+              <p>Wire minimum queue, review, preview, sign, and release steps to real auth and workflow state.</p>
+              <div class="tag-row"><span class="tag">physician</span><span class="tag">release boundary</span></div>
             </div>
           </div>
 
           <div class="lane">
             <h3>Blocked or risk</h3>
             <div class="card status-risk">
-              <strong>No managed staging database yet</strong>
-              <p>SQLite remains local-only. Staging needs managed Postgres and migration execution.</p>
-              <div class="tag-row"><span class="tag">infra</span><span class="tag">durability</span></div>
-            </div>
-            <div class="card status-risk">
-              <strong>No deployed stable backend URL yet</strong>
-              <p>Local tunnels are useful for TestFlight smoke tests but are not a staging environment.</p>
-              <div class="tag-row"><span class="tag">deploy</span><span class="tag">staging</span></div>
+              <strong>Shared Supabase project risk</strong>
+              <p>The current Supabase staging project also contains older GoVO2 Edge Functions. The Aleron function slug and tables are isolated, but a dedicated Aleron Supabase project remains cleaner before production.</p>
+              <div class="tag-row"><span class="tag">infra</span><span class="tag">project isolation</span></div>
             </div>
             <div class="card status-risk">
               <strong>Physician UI is not production spine yet</strong>
@@ -403,6 +408,7 @@
             <tr><td>Staging fixture fallback</td><td>Forbidden.</td></tr>
             <tr><td>Token storage</td><td>Backend stores hashes only. Client stores bearer session in Keychain.</td></tr>
             <tr><td>Release boundary</td><td>Patient sees only released clinical package and safe status projections.</td></tr>
+            <tr><td>Staging backend</td><td>Supabase Edge Function <code>patient-api</code>; no Render, Railway, or Fly service for now.</td></tr>
           </tbody>
         </table>
       </aside>
