@@ -22,6 +22,12 @@ function stateText(value) {
   return String(value ?? 'unknown').replaceAll('_', ' ');
 }
 
+function compactTimestamp(value) {
+  const timestamp = new Date(value);
+  if (Number.isNaN(timestamp.getTime())) return String(value ?? 'Timestamp missing');
+  return `${new Intl.DateTimeFormat('en-US', { month: 'short', day: 'numeric', hour: 'numeric', minute: '2-digit', timeZone: 'UTC' }).format(timestamp)} UTC`;
+}
+
 function empty(message) {
   return `<div class="empty-state">${esc(message)}</div>`;
 }
@@ -172,11 +178,81 @@ function decisionForm(action, taxonomy, disabled) {
   </form>`;
 }
 
-function releaseRail(state) {
+function releaseProgress(state) {
   const preview = state.releasePackage;
   const previewReady = Boolean(preview);
   const authorized = preview?.release_state === 'authorized_not_released' || preview?.release_state === 'released_to_patient';
   const released = preview?.release_state === 'released_to_patient' && preview?.patient_visible === true;
+  const step = released || authorized ? 4 : previewReady ? 3 : state.reviewStarted ? 2 : 1;
+  const stepLabel = released ? 'Released' : authorized ? 'Release' : previewReady ? 'Attestation' : state.reviewStarted ? 'Preview' : 'Review';
+  return { previewReady, authorized, released, step, stepLabel };
+}
+
+function requiredGateNote(requiredDecisions) {
+  const total = requiredDecisions?.total ?? 0;
+  if (!total) return '';
+  const remaining = total - (requiredDecisions?.decided ?? 0);
+  if (remaining > 0) return `${remaining} of ${total} required ${remaining === 1 ? 'item' : 'items'} undecided. `;
+  return `All ${total} required ${total === 1 ? 'item' : 'items'} decided. `;
+}
+
+function nextPhysicianAction(state, requiredDecisions) {
+  const { previewReady, authorized, released } = releaseProgress(state);
+  const blocker = state.selectedTask?.blocker;
+  if (blocker) return `Resolve hold: ${blocker}`;
+  if (released) return 'Released. No physician action pending.';
+  if (authorized) return 'Release to patient.';
+  if (previewReady) return 'Attest and authorize release.';
+  if (!state.reviewStarted) return 'Start review in Care Plan.';
+  const remaining = (requiredDecisions?.total ?? 0) - (requiredDecisions?.decided ?? 0);
+  if (remaining > 0) return `Decide ${remaining} required ${remaining === 1 ? 'item' : 'items'} in Care Plan.`;
+  return 'Generate release preview.';
+}
+
+function orientationStrip(state, model) {
+  const task = state.selectedTask ?? null;
+  const requiredDecisions = model.carePlan.requiredDecisions;
+  const { step, stepLabel } = releaseProgress(state);
+  const cell = (label, value, extraClass = '') => `<div class="orientation-cell${extraClass ? ` ${extraClass}` : ''}"><span>${esc(label)}</span><strong>${esc(value)}</strong></div>`;
+  return `<section class="orientation-strip" aria-label="Case orientation">
+    ${cell('Stage', stateText(task?.lifecycle_state ?? 'not in queue'))}
+    ${task?.blocker ? cell('Blocker', task.blocker, 'hazard') : ''}
+    ${cell('Review', state.reviewStarted ? 'started' : 'not started')}
+    ${cell('Required decided', `${requiredDecisions?.decided ?? 0} of ${requiredDecisions?.total ?? 0}`)}
+    ${cell('Release step', `${step} of 4 · ${stepLabel}`)}
+    ${task?.last_event_at ? cell('Last event', compactTimestamp(task.last_event_at)) : ''}
+    ${cell('Next', nextPhysicianAction(state, requiredDecisions), 'next')}
+  </section>`;
+}
+
+function citedEvidenceRows(keys, model) {
+  const byKey = new Map(model.patientData.measurements.map((row) => [row.key, row]));
+  const missingByKey = new Map(model.patientData.missing.map((row) => [row.key, row]));
+  return keys.map((key) => {
+    const row = byKey.get(key);
+    if (row) return `<div class="evidence-row"><div><strong>${esc(row.label ?? key)}</strong><small>${esc(row.provenance ?? 'Provenance missing')}</small></div><span class="measure">${esc(displayValue(row.value, row.units, row.state))}</span></div>`;
+    const gap = missingByKey.get(key);
+    return `<div class="evidence-row"><div><strong>${esc(key)}</strong><small>${esc(gap ? `${stateText(gap.state)} · ${gap.reason ?? 'Reason missing'}` : 'Cited by the engine')}</small></div><span class="evidence-gap">No packet measurement</span></div>`;
+  }).join('');
+}
+
+function selectedItemEvidence(selected, model) {
+  const qaly = selected.patient_value_qaly;
+  const citedKeys = Array.isArray(selected.cited_patient_keys) ? selected.cited_patient_keys : Array.isArray(selected.provenance?.patient_keys) ? selected.provenance.patient_keys : [];
+  const facts = [];
+  if (selected.evidence_axis) facts.push(['Evidence axis', stateText(selected.evidence_axis)]);
+  if (selected.value_summary) facts.push(['Value', selected.value_summary]);
+  if (qaly && qaly.value !== undefined && qaly.value !== null) facts.push(['Patient value', displayValue(qaly.value, qaly.units)]);
+  if (selected.trace_status) facts.push(['Trace', stateText(selected.trace_status)]);
+  if (!facts.length && !citedKeys.length) return '';
+  return `<div class="rail-evidence"><span class="section-label">Evidence and provenance</span>
+    ${facts.map(([label, value]) => `<div class="evidence-fact"><span>${esc(label)}</span><strong>${esc(value)}</strong></div>`).join('')}
+    ${citedKeys.length ? `<div class="evidence-cited"><span>Cited patient data</span>${citedEvidenceRows(citedKeys, model)}</div>` : ''}
+  </div>`;
+}
+
+function releaseRail(state, requiredDecisions) {
+  const { previewReady, authorized, released } = releaseProgress(state);
   const reviewReady = state.reviewStarted;
   return `<aside class="release-rail">
     <section class="rail-card">
@@ -191,7 +267,7 @@ function releaseRail(state) {
       <label class="attestation"><input type="checkbox" data-physician-attestation ${previewReady && !released ? '' : 'disabled'}> I attest that I reviewed the case and release preview.</label>
       <button class="secondary" data-release-action="authorize" ${previewReady && !authorized && !released ? '' : 'disabled'}>Authorize release</button>
       <button data-release-action="release-backend" ${authorized && !released ? '' : 'disabled'}>Release to patient</button>
-      <p class="gate-note">${released ? 'Released package is patient visible.' : previewReady ? 'Preview remains patient hidden until backend release succeeds.' : 'Backend preview required before attestation.'}</p>
+      <p class="gate-note">${released ? 'Released package is patient visible.' : previewReady ? `${esc(requiredGateNote(requiredDecisions))}Preview remains patient hidden until backend release succeeds.` : `${esc(requiredGateNote(requiredDecisions))}Backend preview required before attestation.`}</p>
       ${state.workflowStatus ? `<p class="status-line">${esc(state.workflowStatus)}</p>` : ''}
       ${state.workflowError ? `<p class="error-line">${esc(state.workflowError)}</p>` : ''}
     </section>
@@ -202,18 +278,18 @@ function carePlanView(model, state) {
   const taxonomy = getOverrideTaxonomy();
   const items = [...model.carePlan.required.map((item) => ({ ...item, planKind: 'problem' })), ...model.carePlan.actions.map((item) => ({ ...item, planKind: item.kind === 'diagnostic' ? 'order' : 'action' }))];
   const selected = items.find((item) => item.id === state.selectedPlanItemId) ?? null;
-  const selectButton = (item, index, prefix) => `<button type="button" class="plan-item ${selected?.id === item.id ? 'selected' : ''}" data-plan-item="${esc(item.id)}" aria-pressed="${selected?.id === item.id}"><span class="plan-item-number">${prefix}${String(index + 1).padStart(2, '0')}</span><span><strong>${esc(item.title ?? item.label ?? item.id)}</strong><small>${esc(item.reason ?? item.why_it_matters ?? item.why_now ?? 'Clinical rationale not emitted.')}</small><em>${esc(item.source ?? item.provenance?.source_scored_item_id ?? 'Source not emitted')}${item.persisted_override_id ? ` · persisted ${esc(stateText(item.physician_decision))}` : ''}</em></span></button>`;
+  const selectButton = (item, index, prefix) => `<button type="button" class="plan-item ${selected?.id === item.id ? 'selected' : ''}" data-plan-item="${esc(item.id)}" aria-pressed="${selected?.id === item.id}"><span class="plan-item-number">${prefix}${String(index + 1).padStart(2, '0')}</span><span><strong>${esc(item.title ?? item.label ?? item.id)}</strong><small>${esc(item.reason ?? item.why_it_matters ?? item.why_now ?? 'Clinical rationale not emitted.')}</small><em>${esc(item.source ?? item.provenance?.source_scored_item_id ?? 'Source not emitted')}</em><span class="decision-word ${item.persisted_override_id ? 'decided' : 'undecided'}">${item.persisted_override_id ? `Persisted ${esc(stateText(item.physician_decision))}` : 'Undecided'}</span></span></button>`;
   const required = model.carePlan.required.map((item, index) => selectButton({ ...item, planKind: 'problem' }, index, 'P')).join('');
   const actions = model.carePlan.actions.map((item, index) => selectButton({ ...item, planKind: item.kind === 'diagnostic' ? 'order' : 'action' }, index, '')).join('');
   const noteOrders = Array.isArray(model.carePlan.note?.orders) ? model.carePlan.note.orders.map((order) => `<div class="note-order"><strong>${esc(typeof order === 'string' ? order : order.label ?? order.name ?? order.id)}</strong><small>Backend draft order</small></div>`).join('') : '';
   const addReasons = decisionReasonOptionsHTML('add_problem', null, taxonomy);
-  const selectedRail = selected ? `<section class="rail-card selected-item-rail"><span class="section-label">Selected item · ${esc(selected.planKind)}</span><h2>${esc(selected.title ?? selected.label ?? selected.id)}</h2><p>${esc(selected.reason ?? selected.why_it_matters ?? selected.why_now ?? 'Clinical rationale not emitted.')}</p><small>${esc(selected.source ?? selected.provenance?.source_scored_item_id ?? 'Source not emitted')}</small>${state.reviewStarted ? decisionForm(selected, taxonomy, false) : '<div class="truth-empty">Start review to expose structured decision controls.</div>'}</section>` : '<section class="rail-card"><span class="section-label">Contextual action rail</span><div class="truth-empty">Select a problem, order, or action for its basis and disposition.</div></section>';
+  const selectedRail = selected ? `<section class="rail-card selected-item-rail"><span class="section-label">Selected item · ${esc(selected.planKind)}</span><h2>${esc(selected.title ?? selected.label ?? selected.id)}</h2><p>${esc(selected.reason ?? selected.why_it_matters ?? selected.why_now ?? 'Clinical rationale not emitted.')}</p><small>${esc(selected.source ?? selected.provenance?.source_scored_item_id ?? 'Source not emitted')}</small>${selectedItemEvidence(selected, model)}${state.reviewStarted ? decisionForm(selected, taxonomy, false) : '<div class="truth-empty">Start review to expose structured decision controls.</div>'}</section>` : '<section class="rail-card"><span class="section-label">Contextual action rail</span><div class="truth-empty">Select a problem, order, or action for its basis and disposition.</div></section>';
   return `
     <header class="screen-head"><div><h1>Care plan</h1><p>The bounded backend draft that will move through physician review and release.</p></div><button data-review-action="start" ${state.reviewStarted ? 'disabled' : ''}>${state.reviewStarted ? 'Review started' : 'Start review'}</button></header>
     <div class="care-layout"><div>
-      <section class="plan-document"><div class="document-head"><div><span class="section-label">${esc(stateText(model.carePlan.state))}</span><h2>${esc(model.carePlan.title)}</h2></div><span>${esc(model.carePlan.id ?? 'Plan id not emitted')}</span></div><div class="document-inputs">${esc(model.carePlan.overview)}</div><div class="plan-body"><span class="plan-section-label">Assessment &amp; Plan</span><section class="plan-problem-group"><h3>Problems and obligations</h3>${required || '<div class="truth-empty">No problems or required obligations emitted.</div>'}</section><section class="plan-order-group"><h3>Orders in draft note</h3>${noteOrders || '<div class="truth-empty">No draft orders emitted.</div>'}</section><section class="plan-action-group"><h3>Recommended actions</h3>${actions || '<div class="truth-empty">No recommended actions emitted.</div>'}</section></div><footer class="document-signature">${esc(model.carePlan.note?.signature_status ?? 'Unsigned')} · physician decisions remain staged until backend release.</footer></section>
+      <section class="plan-document"><div class="document-head"><div><span class="section-label">${esc(stateText(model.carePlan.state))}</span><h2>${esc(model.carePlan.title)}</h2></div><span>${esc(model.carePlan.id ?? 'Plan id not emitted')}</span></div><div class="document-inputs">${esc(model.carePlan.overview)}</div><div class="plan-body"><span class="plan-section-label">Assessment &amp; Plan</span><section class="plan-problem-group"><h3>Problems and obligations${model.carePlan.requiredDecisions.total ? `<span class="required-progress">${model.carePlan.requiredDecisions.decided} of ${model.carePlan.requiredDecisions.total} required decided</span>` : ''}</h3>${required || '<div class="truth-empty">No problems or required obligations emitted.</div>'}</section><section class="plan-order-group"><h3>Orders in draft note</h3>${noteOrders || '<div class="truth-empty">No draft orders emitted.</div>'}</section><section class="plan-action-group"><h3>Recommended actions</h3>${actions || '<div class="truth-empty">No recommended actions emitted.</div>'}</section></div><footer class="document-signature">${esc(model.carePlan.note?.signature_status ?? 'Unsigned')} · physician decisions remain staged until backend release.</footer></section>
       ${state.releasePackage ? `<section class="preview-document"><span class="section-label">Release preview</span><h2>${esc(state.releasePackage.doctor_message ?? 'Doctor message missing')}</h2><p>${state.releasePackage.patient_visible ? 'Patient visible' : 'Not patient visible'}</p></section>` : ''}
-    </div><aside class="care-rail">${selectedRail}<section class="rail-card physician-add"><span class="section-label">Add physician problem or order</span><form data-add-action><label>Type<select name="action" data-decision-action ${state.reviewStarted ? '' : 'disabled'}><option value="add_problem">Problem</option><option value="add_order">Order intent</option></select></label><label>Item<input name="value" placeholder="Physician-authored item" ${state.reviewStarted ? '' : 'disabled'}></label><label>Reason<select name="reason_code" data-decision-reason ${state.reviewStarted ? '' : 'disabled'}>${addReasons}</select></label><label>Rationale<input name="reason" placeholder="Required for audit" ${state.reviewStarted ? '' : 'disabled'}></label><button type="submit" ${state.reviewStarted ? '' : 'disabled'}>Add to review</button></form>${model.carePlan.additions.map((item) => `<small class="persisted-decision">Persisted ${esc(stateText(item.action))}: ${esc(item.patch?.title ?? item.patch?.label ?? item.patch?.what_to_do ?? item.target?.artifact_id ?? item.target?.id ?? item.override_id)}</small>`).join('')}</section>${releaseRail(state)}</aside></div>`;
+    </div><aside class="care-rail">${selectedRail}<section class="rail-card physician-add"><span class="section-label">Add physician problem or order</span><form data-add-action><label>Type<select name="action" data-decision-action ${state.reviewStarted ? '' : 'disabled'}><option value="add_problem">Problem</option><option value="add_order">Order intent</option></select></label><label>Item<input name="value" placeholder="Physician-authored item" ${state.reviewStarted ? '' : 'disabled'}></label><label>Reason<select name="reason_code" data-decision-reason ${state.reviewStarted ? '' : 'disabled'}>${addReasons}</select></label><label>Rationale<input name="reason" placeholder="Required for audit" ${state.reviewStarted ? '' : 'disabled'}></label><button type="submit" ${state.reviewStarted ? '' : 'disabled'}>Add to review</button></form>${model.carePlan.additions.map((item) => `<small class="persisted-decision">Persisted ${esc(stateText(item.action))}: ${esc(item.patch?.title ?? item.patch?.label ?? item.patch?.what_to_do ?? item.target?.artifact_id ?? item.target?.id ?? item.override_id)}</small>`).join('')}</section>${releaseRail(state, model.carePlan.requiredDecisions)}</aside></div>`;
 }
 
 function journalView(model) {
@@ -246,6 +322,6 @@ export function renderDashboard(app, state, model) {
   const nav = TAB_LABELS.map(([id, label]) => `<button data-tab="${id}" class="nav-item ${state.activeTab === id ? 'on' : ''}" aria-selected="${state.activeTab === id}">${icon(id)}${label}</button>`).join('');
   app.innerHTML = `<main class="dashboard-shell">
     <aside class="sidebar" aria-label="Dashboard sections"><div class="brand">aleron<span>MD</span></div><div class="case-picker"><div class="avatar">${esc(initials)}</div><div><select data-case-selector aria-label="Patient case">${options}</select><small>${esc(model.patient.code)} · ${esc(displayValue(model.patient.age, 'years'))}</small></div></div><div class="rule"></div><nav role="tablist" aria-label="Dashboard sections">${nav}</nav></aside>
-    <section class="main-pane"><div class="runtime-source" aria-label="Runtime source">${state.source === 'fixture' ? 'FIXTURE MODE · synthetic data' : 'STAGING · authenticated'} · ${esc(model.schemaVersion)} <button data-sign-out>${state.source === 'fixture' ? 'Reload' : 'Sign out'}</button></div>${activeView(model, state)}</section>
+    <section class="main-pane"><div class="runtime-source" aria-label="Runtime source">${state.source === 'fixture' ? 'FIXTURE MODE · synthetic data' : 'STAGING · authenticated'} · ${esc(model.schemaVersion)} <button data-sign-out>${state.source === 'fixture' ? 'Reload' : 'Sign out'}</button></div>${orientationStrip(state, model)}${activeView(model, state)}</section>
   </main>`;
 }

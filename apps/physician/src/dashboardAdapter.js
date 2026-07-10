@@ -75,25 +75,30 @@ export function releaseIdentifier(release) {
   return release?.release_id ?? null;
 }
 
+export function addressedRequiredItemIds(caseBundle) {
+  const plan = caseBundle?.clinical_plan ?? {};
+  const overrides = array(caseBundle?.structured_overrides).map(overrideRecord);
+  const requiredIds = new Set(array(plan.required_items).map((item) => String(item.id ?? '')).filter(Boolean));
+  const addressed = [];
+  for (const override of latestOverrides(overrides).values()) {
+    const targetId = String(overrideTargetId(override) ?? '');
+    if (requiredIds.has(targetId) && ['approve', 'defer', 'reject', 'modify'].includes(override.action)) addressed.push(targetId);
+  }
+  return addressed;
+}
+
 export function buildReleasePreviewRequest(caseBundle) {
   const packet = caseBundle?.patient_packet ?? {};
   const run = caseBundle?.engine_run ?? {};
   const actionMap = caseBundle?.action_map_state ?? {};
   const plan = caseBundle?.clinical_plan ?? {};
-  const overrides = array(caseBundle?.structured_overrides).map(overrideRecord);
-  const requiredIds = new Set(array(plan.required_items).map((item) => String(item.id ?? '')).filter(Boolean));
-  const addressedRequiredItemIds = [];
-  for (const override of latestOverrides(overrides).values()) {
-    const targetId = String(overrideTargetId(override) ?? '');
-    if (requiredIds.has(targetId) && ['approve', 'defer', 'reject', 'modify'].includes(override.action)) addressedRequiredItemIds.push(targetId);
-  }
   const payload = {
     packet_id: packet.packet_id,
     packet_hash: packet.packet_hash ?? run.patient_packet_hash ?? actionMap.patient_packet_hash,
     source_engine_run_id: run.run_id ?? plan.source_engine_run_id ?? actionMap.source_engine_run_id ?? actionMap.run_id,
     source_plan_id: plan.plan_id,
     source_action_map_state_id: actionMap.action_map_state_id ?? plan.source_action_map_state,
-    addressed_required_item_ids: addressedRequiredItemIds
+    addressed_required_item_ids: addressedRequiredItemIds(caseBundle)
   };
   const missing = Object.entries(payload).filter(([key, value]) => key !== 'addressed_required_item_ids' && !value).map(([key]) => key);
   if (missing.length) throw new Error(`Release preview requires current backend artifact guards: ${missing.join(', ')}.`);
@@ -199,6 +204,7 @@ export function adaptPhysicianCase(caseBundle) {
   const releasePreview = caseBundle.release_preview ?? caseBundle.release_package ?? null;
   const patientMeasurements = measurements(caseBundle);
   const groupedPatientMeasurements = presentationGroups(patientMeasurements);
+  const addressedRequired = addressedRequiredItemIds(caseBundle);
   return {
     schemaVersion: 'physician_case.v1',
     sourceSchemaVersion: caseBundle.schema_version ?? null,
@@ -227,6 +233,11 @@ export function adaptPhysicianCase(caseBundle) {
       overview: clinicalPlan.clinical_overview ?? clinicalPlan.summary ?? 'Clinical overview missing.',
       required: array(clinicalPlan.required_items).map((item) => applyOverride(item, overridesByTarget.get(item.id))),
       actions: array(clinicalPlan.recommended_next_steps).map((item) => applyOverride(item, overridesByTarget.get(item.id))),
+      requiredDecisions: {
+        total: array(clinicalPlan.required_items).length,
+        decided: addressedRequired.length,
+        addressedIds: addressedRequired
+      },
       additions: overrides.filter((override) => ['add_problem', 'add_order'].includes(override.action)),
       overrides,
       deferred: array(clinicalPlan.deferred_not_selected),
