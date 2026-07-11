@@ -20,6 +20,6 @@
   "schema_version": "aleron.canonical-deployment.v1",
   "source_branch": "milestone/one-e2e-candidate",
   "source_dirty": false,
-  "source_git_tree": "9806aee515e6a2b639beb110929d5e5554f8dd83",
-  "source_sha": "0ca8d130cfcd63b45fad0d148ab8796c00b2d487"
+  "source_git_tree": "c4ad471e2b46adbe1f387999286cecab73fe637d",
+  "source_sha": "c59e9e7d5dbe4e54d8dda55f3d75a6bf0e70d66f"
 }
