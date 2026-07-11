@@ -545,7 +545,9 @@ export function renderDashboard(app, state, model) {
     ? '<div class="boundary-banner signal-hazard" role="status">STAGING · SYNTHETIC REPRESENTATIVE PROFILE · NONCLINICAL TEST OUTPUT · NOT FOR DIAGNOSIS OR TREATMENT</div>'
     : '';
   const runtimeLabel = state.source === 'fixture'
-    ? 'FIXTURE MODE · synthetic data'
+    ? (state.apiBaseUrl?.includes('rbdxzlzkxyprertdmpga')
+      ? 'STAGING · current product · synthetic cases'
+      : 'PRODUCT PREVIEW · synthetic cases')
     : state.apiBaseUrl?.includes('rbdxzlzkxyprertdmpga')
     ? 'STAGING · authenticated · nonclinical'
     : state.apiBaseUrl?.includes('pqbbejplclpvkqvlrsdu')
