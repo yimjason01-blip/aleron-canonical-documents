@@ -1,5 +1,6 @@
-// Public static-pilot configuration. Authentication is never embedded here:
-// physicians provision a short-lived bearer session through the login form.
+// Public static-pilot configuration. Authentication is never embedded here.
+// The staging physician dashboard opens via origin-based access only; there is
+// no bearer token, login form, or client-stored credential.
 const PRODUCTION_API_BASE_URL = 'https://pqbbejplclpvkqvlrsdu.supabase.co/functions/v1/patient-api/';
 const SYNTHETIC_STAGING_API_BASE_URL = 'https://rbdxzlzkxyprertdmpga.supabase.co/functions/v1/patient-api/';
 
@@ -14,6 +15,5 @@ function syntheticStagingRequested() {
 }
 
 export const PHYSICIAN_RUNTIME_CONFIG = Object.freeze({
-  apiBaseUrl: syntheticStagingRequested() ? SYNTHETIC_STAGING_API_BASE_URL : PRODUCTION_API_BASE_URL,
-  bearerStorage: 'sessionStorage'
+  apiBaseUrl: syntheticStagingRequested() ? SYNTHETIC_STAGING_API_BASE_URL : PRODUCTION_API_BASE_URL
 });

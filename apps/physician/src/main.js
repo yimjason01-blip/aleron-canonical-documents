@@ -11,9 +11,8 @@ import {
   requestReleasePreview,
   startPhysicianReview
 } from './apiClient.js';
-import { clearBearerToken, consumeStagingSessionFromURL, requiresLogin, saveBearerToken } from './auth.js';
 import { adaptPhysicianCase, artifactBindsCurrentLineage, buildReleasePreviewRequest, releaseIdentifier } from './dashboardAdapter.js';
-import { decisionReasonOptionsHTML, renderDashboard, renderFatalError, renderLogin } from './dashboardApp.js';
+import { decisionReasonOptionsHTML, renderDashboard, renderEmptyStaging, renderFatalError } from './dashboardApp.js';
 
 const app = document.querySelector('#app');
 const state = {
@@ -304,13 +303,16 @@ function attachListeners() {
   });
 
   document.querySelector('[data-sign-out]')?.addEventListener('click', () => {
-    if (state.source !== 'fixture') clearBearerToken();
     window.location?.reload?.();
   });
 }
 
 function render() {
-  if (!state.activeCase) return;
+  if (!state.activeCase) {
+    renderEmptyStaging(app);
+    document.querySelector('[data-refresh-empty]')?.addEventListener('click', () => window.location?.reload?.());
+    return;
+  }
   try {
     const model = adaptPhysicianCase(state.activeCase);
     state.selectedTask = selectedTask();
@@ -321,19 +323,6 @@ function render() {
   }
 }
 
-function attachLogin() {
-  document.querySelector('form[data-login-form]')?.addEventListener('submit', async (event) => {
-    event.preventDefault();
-    try {
-      saveBearerToken(new FormData(event.target).get('token'));
-      await boot();
-    } catch (error) {
-      renderLogin(app, error.message);
-      attachLogin();
-    }
-  });
-}
-
 function requestedPatientId() {
   if (typeof window === 'undefined') return null;
   const value = new URL(window.location.href).searchParams.get('patient_id')?.trim();
@@ -341,18 +330,6 @@ function requestedPatientId() {
 }
 
 async function boot() {
-  try {
-    consumeStagingSessionFromURL();
-  } catch (error) {
-    renderLogin(app, error.message);
-    attachLogin();
-    return;
-  }
-  if (requiresLogin()) {
-    renderLogin(app);
-    attachLogin();
-    return;
-  }
   try {
     const deepLinkPatientId = requestedPatientId();
     const bundle = await getPhysicianBundle(deepLinkPatientId);
@@ -371,13 +348,12 @@ async function boot() {
     inferReviewStarted();
     render();
   } catch (error) {
-    if (state.source !== 'fixture' && /401|403|invalid session|login required/i.test(error.message)) {
-      clearBearerToken();
-      renderLogin(app, error.message);
-      attachLogin();
-      return;
-    }
-    renderFatalError(app, 'Dashboard unavailable.', error.message);
+    const accessFailure = state.source !== 'fixture' && /401|403|authorization|session/i.test(error.message);
+    renderFatalError(
+      app,
+      accessFailure ? 'Direct staging access unavailable.' : 'Dashboard unavailable.',
+      error.message,
+    );
   }
 }
 

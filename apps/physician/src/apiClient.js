@@ -1,5 +1,4 @@
 import { assertFixtureBundle, loadFixtureBundle } from './fixtureLoader.js';
-import { getBearerToken } from './auth.js';
 import { PHYSICIAN_RUNTIME_CONFIG } from './runtimeConfig.js';
 
 let fixtureCache;
@@ -35,12 +34,9 @@ function backendBaseURL() {
 }
 
 async function getJSON(baseURL, path) {
-  const token = getBearerToken();
-  if (!token) throw new Error('Physician login required. Enter a bearer token to continue.');
   const url = new URL(path, baseURL.endsWith('/') ? baseURL : `${baseURL}/`);
   const response = await fetch(url, {
     headers: {
-      Authorization: `Bearer ${token}`,
       'x-request-id': `physician-app-${Date.now()}`
     }
   });
@@ -54,14 +50,11 @@ async function getJSON(baseURL, path) {
 }
 
 async function postJSON(baseURL, path, payload = {}) {
-  const token = getBearerToken();
-  if (!token) throw new Error('Physician login required. Enter a bearer token to continue.');
   const url = new URL(path, baseURL.endsWith('/') ? baseURL : `${baseURL}/`);
   const response = await fetch(url, {
     method: 'POST',
     headers: {
       'content-type': 'application/json',
-      Authorization: `Bearer ${token}`,
       'x-request-id': `physician-app-${Date.now()}`
     },
     body: JSON.stringify(payload)
@@ -88,7 +81,7 @@ async function loadBackendBundle(baseURL, patientId = null) {
 
   const query = patientId ? `?patient_id=${encodeURIComponent(patientId)}` : '';
   const bundle = await getJSON(baseURL, `physician/cases/active${query}`);
-  if (bundle?.case?.schema_version !== 'physician_case.v1') {
+  if (bundle?.case !== null && bundle?.case?.schema_version !== 'physician_case.v1') {
     throw new Error(`Backend physician case must use physician_case.v1; received ${bundle?.case?.schema_version ?? 'missing schema_version'}.`);
   }
   if (!Array.isArray(bundle.queue)) throw new Error('Backend physician case bundle must include a queue array.');

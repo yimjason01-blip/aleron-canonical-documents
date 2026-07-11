@@ -524,14 +524,8 @@ function activeView(model, state) {
   return patientDataView(model);
 }
 
-export function renderLogin(app, error = null) {
-  const staging = typeof window !== 'undefined'
-    && new URL(window.location.href).searchParams.get('staging') === '1';
-  const envLabel = staging ? 'Staging E2E · physician session' : 'Physician access';
-  const help = staging
-    ? 'Paste the staging physician bearer token for this e2e run. The token stays in this browser tab until sign out. This surface hits the live staging API, not synthetic fixtures.'
-    : 'Enter the one-time bearer token issued by the clinical backend. The token stays in this browser until sign out.';
-  app.innerHTML = `<main class="login-shell"><section class="login-card"><div class="brand">aleron<span>MD</span></div><span class="section-label">${envLabel}</span><h1>Open the clinical instrument.</h1><p>${help}</p><form data-login-form><label>Bearer token<input type="password" name="token" autocomplete="off" placeholder="session.…"></label><button type="submit">Continue</button></form>${error ? `<p class="error-line">${esc(error)}</p>` : ''}</section></main>`;
+export function renderEmptyStaging(app) {
+  app.innerHTML = `<main class="login-shell"><section class="login-card empty-staging-card"><div class="brand">aleron<span>MD</span></div><span class="section-label">STAGING · NONCLINICAL</span><h1>No patient cases yet.</h1><p>Complete mobile onboarding to create the first staging case. It will appear here automatically when its packet and analysis are ready for physician review.</p><button type="button" data-refresh-empty>Refresh cases</button></section></main>`;
 }
 
 export function renderDashboard(app, state, model) {
@@ -564,6 +558,6 @@ export function renderDashboard(app, state, model) {
     : '';
   app.innerHTML = `<main class="dashboard-shell">
     <aside class="sidebar" aria-label="Dashboard sections"><div class="brand">aleron<span>MD</span></div><div class="case-picker"><div class="avatar">${esc(initials)}</div><div><select data-case-selector aria-label="Patient case">${options}</select><small>${model.patient.code ? `${esc(model.patient.code)} · ` : ''}${esc(displayValue(model.patient.age, 'years'))}</small></div></div><div class="rule"></div><nav role="tablist" aria-label="Dashboard sections">${nav}</nav><div class="rule"></div><div class="sidebar-truth" aria-label="Currency of truth"><span class="section-label">Currency of truth</span><p class="sidebar-truth-copy">Case state is operational truth. Canonical docs define meaning.</p><a class="truth-link" href="${esc(model.truth?.dashboardRoute || 'https://yimjason01-blip.github.io/aleron-canonical-documents/#dashboard-ds')}" target="_blank" rel="noopener noreferrer">Open canonical docs shell</a><code class="truth-path">docs/SOURCE_OF_TRUTH.md</code></div></aside>
-    <section class="main-pane"><div class="runtime-source ${runtimeTone}" aria-label="Runtime source">${runtimeLabel} · ${esc(model.schemaVersion)} <button data-sign-out>${state.source === 'fixture' ? 'Reload' : 'Sign out'}</button></div>${boundaryBanner}${caseOrientation(model)}${activeView(model, state)}</section>
+    <section class="main-pane"><div class="runtime-source ${runtimeTone}" aria-label="Runtime source">${runtimeLabel} · ${esc(model.schemaVersion)} <button data-sign-out>${state.source === 'fixture' ? 'Reload' : 'Refresh'}</button></div>${boundaryBanner}${caseOrientation(model)}${activeView(model, state)}</section>
   </main>`;
 }
