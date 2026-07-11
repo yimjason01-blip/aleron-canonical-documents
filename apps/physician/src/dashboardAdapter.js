@@ -684,7 +684,10 @@ function normalizeWorkflow(caseBundle, currentReleasePreview, auditEvents = []) 
     const to = event?.to_state ?? event?.state_after;
     if (!(event?.timestamp ?? event?.timestamp_utc ?? event?.created_at)) auditErrors.push(`Event ${index + 1} timestamp missing`);
     if (!actor) auditErrors.push(`Event ${index + 1} actor missing`);
-    if (!from || !to || from === 'unknown' || to === 'unknown' || from === to) auditErrors.push(`Event ${index + 1} transition invalid`);
+    // A self-transition (from === to) is a legitimate idempotent event, e.g. a
+    // repeated packet submission producing "engine run complete -> engine run
+    // complete". Only missing or unknown endpoints indicate a broken chronology.
+    if (!from || !to || from === 'unknown' || to === 'unknown') auditErrors.push(`Event ${index + 1} transition invalid`);
   });
   return {
     schemaVersion: projection?.schema_version ?? null,
