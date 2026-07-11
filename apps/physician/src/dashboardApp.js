@@ -61,22 +61,9 @@ function truthLink(entry) {
   return '<span class="truth-link" title="' + path + '">' + label + '</span><code class="truth-path">' + path + '</code>' + live;
 }
 
-function currencyOfTruthPanel(model, surface = 'global') {
-  const truth = model.truth;
-  if (!truth || !truth.entries || !truth.entries.length) return '';
-  const surfaceEntries = truth.entries.filter((e) => (e.surfaces || []).includes(surface) || (e.surfaces || []).includes('global'));
-  const preferred = surfaceEntries.filter((e) => (e.surfaces || []).includes(surface));
-  const global = surfaceEntries.filter((e) => !(e.surfaces || []).includes(surface));
-  const list = preferred.concat(global).slice(0, surface === 'global' ? 8 : 6);
-  const rows = list.map((e) => '<li>' + truthLink(e) + '<small>' + esc(e.role || '') + '</small></li>').join('');
-  return '<details class="truth-panel" data-truth-surface="' + esc(surface) + '"><summary>Currency of truth · canonical documentation</summary><section aria-label="Currency of truth">'
-    + '<div class="truth-panel-head">'
-    + '<span class="section-label">Currency of truth</span>'
-    + '<a class="truth-dashboard-route" href="' + esc(truth.dashboardRoute || '#') + '" target="_blank" rel="noopener noreferrer">Canonical docs · dashboard</a>'
-    + '</div>'
-    + '<p class="truth-principle">' + esc(truth.principle || '') + '</p>'
-    + '<ul class="truth-list">' + rows + '</ul>'
-    + '</section></details>';
+function currencyOfTruthPanel(_model, _surface = 'global') {
+  // Physician UI: no "currency of truth" scaffolding. Canonical docs stay in the hub, not here.
+  return '';
 }
 
 function caseOrientation(model) {
@@ -104,9 +91,10 @@ function icon(name) {
 
 function provenanceText(value) {
   const raw = String(value ?? '').trim();
-  if (!raw) return 'Provenance missing';
-  if (/synthetic_representative_fixture|synthetic representative/i.test(raw)) return 'Synthetic representative packet';
-  if (/patient packet/i.test(raw)) return raw;
+  if (!raw) return '';
+  // Collapse demo/QA provenance noise — shown once in Input readiness, not on every row.
+  if (/synthetic|fixture|e2e|nonclinical|representative/i.test(raw)) return '';
+  if (/patient packet/i.test(raw)) return '';
   return raw.replaceAll('_', ' ');
 }
 
@@ -129,10 +117,12 @@ function sparklineSvg(values) {
 function dataRows(rows, { wearables = false } = {}) {
   return rows.map((row) => {
     const measure = esc(displayValue(row.value, row.units, row.state ?? row.status));
+    const prov = provenanceText(row.provenance);
+    const provHtml = prov ? `<small class="provenance">${esc(prov)}</small>` : '';
     if (!wearables) {
       return `
     <div class="data-row">
-      <div><strong>${esc(row.label ?? row.key)}</strong><small class="provenance">${esc(provenanceText(row.provenance))}</small></div>
+      <div><strong>${esc(row.label ?? row.key)}</strong>${provHtml}</div>
       <div class="measure">${measure}</div>
     </div>`;
     }
@@ -143,7 +133,7 @@ function dataRows(rows, { wearables = false } = {}) {
     <div class="data-row wearable-row" data-trend-state="${esc(state)}">
       <div>
         <strong>${esc(row.label ?? row.key)}</strong>
-        <small class="provenance">${esc(provenanceText(row.provenance))}</small>
+        ${provHtml}
         ${trend}
       </div>
       <div class="measure wearable-measure">
@@ -169,7 +159,7 @@ function contextRows(model) {
   const rows = [];
   if (model.patientData.familyHistory.length) rows.push({ label: 'Family history', value: model.patientData.familyHistory.map(contextItem).join('; '), provenance: 'patient packet' });
   if (model.patientData.symptoms.length) rows.push({ label: 'Symptoms', value: model.patientData.symptoms.map(contextItem).join('; '), provenance: 'patient packet' });
-  if (model.patientData.genetics?.length) rows.push({ label: 'Genetics', value: model.patientData.genetics.map(contextItem).join('; '), provenance: 'patient packet · synthetic representative' });
+  if (model.patientData.genetics?.length) rows.push({ label: 'Genetics', value: model.patientData.genetics.map(contextItem).join('; '), provenance: '' });
   return rows;
 }
 
@@ -203,10 +193,10 @@ function patientDataView(model) {
     <header class="screen-head"><div><h1>Patient data</h1><p>Identity, signals, and the labs the models read from — governed by packet schema and wearable history requirements.</p></div></header>${currencyOfTruthPanel(model, 'patient-data')}
     ${summaryHtml}
     <section class="instrument-panel patient-data-panel">
-      <div class="patient-line"><strong>${esc(model.patient.name)}</strong>${model.patient.code && model.patient.code !== 'Code missing' ? `<span>${esc(model.patient.code)}</span>` : ''}<span>${esc(displayValue(model.patient.age, 'years'))}</span><span>${esc(model.patient.sex ?? 'Sex missing')}</span>${model.patient.phenotype ? `<span>${esc(model.patient.phenotype)}</span>` : ''}</div>
+      <div class="patient-line"><strong>${esc(model.patient.name)}</strong>${model.patient.code && model.patient.code !== 'Code missing' && !/synthetic/i.test(model.patient.code) ? `<span>${esc(model.patient.code)}</span>` : ''}<span>${esc(displayValue(model.patient.age, 'years'))}</span><span>${esc(model.patient.sex ?? 'Sex missing')}</span>${model.patient.phenotype ? `<span>${esc(model.patient.phenotype)}</span>` : ''}</div>
       <div class="clinical-groups">${filledGroups || empty('Not measured or insufficient input.')}</div>
     </section>
-    <section class="instrument-panel"><div class="panel-head"><h2>Orders</h2><span>Backend order state</span></div>${orders || empty('No lab orders on this synthetic case')}</section>`;
+    <section class="instrument-panel"><div class="panel-head"><h2>Orders</h2><span>Orders</span></div>${orders || empty('No lab orders on file')}</section>`;
 }
 
 function riskView(model, state) {
@@ -344,6 +334,47 @@ function deviceInstrumentsPanel(model) {
     </section>`;
 }
 
+/**
+ * Presents the vitality triage output to the physician: the dominant lever
+ * (the single thing to address first), the positive gates behind it (drivers),
+ * and any context flags. Renders nothing when the protocol has not triaged.
+ */
+function vitalityTriagePanel(row) {
+  const lever = row.dominant_lever;
+  const gates = Array.isArray(row.gate_states) ? row.gate_states : [];
+  const positive = gates.filter((g) => g && g.state === 'positive');
+  const terminal = row.terminal_state;
+  const safetyFired = row.safety
+    && (row.safety.suicidality === 'fired' || row.safety.serious_disease_red_flags === 'fired');
+  // Nothing to present until the protocol has actually triaged.
+  if (!lever && !positive.length && !safetyFired) return '';
+
+  const flags = Array.isArray(row.context_flags) && row.context_flags.length
+    ? `<p class="vitality-context">Context: ${row.context_flags.map((f) => esc(String(f).replaceAll('_', ' '))).join(', ')}</p>`
+    : '';
+
+  const leverBlock = lever
+    ? `<div class="vitality-lever ${safetyFired ? 'vitality-lever-safety' : ''}">
+        <span class="vitality-lever-eyebrow">${safetyFired ? 'Safety escalation' : 'Dominant lever'}</span>
+        <strong>${esc(String(lever.condition ?? lever.name ?? 'lever'))}</strong>
+        <p>${esc(String(lever.lever ?? ''))}</p>
+        ${lever.rationale ? `<small>${esc(String(lever.rationale))}</small>` : ''}
+        ${lever.suppresses_dials ? '<small class="vitality-suppress">Behavioral dials suppressed until addressed.</small>' : ''}
+      </div>`
+    : `<div class="vitality-lever"><span class="vitality-lever-eyebrow">Triaged</span><strong>${esc(String(terminal ?? 'no dominant lever'))}</strong><p>No single gate dominates in v1.</p></div>`;
+
+  const gateRows = positive.length
+    ? `<div class="vitality-gate-list"><span class="section-label">Positive gates (drivers)</span>${positive.map((g) => `
+        <div class="vitality-gate-row">
+          <strong>Gate ${esc(String(g.gate))} · ${esc(String(g.name ?? '').replaceAll('_', ' '))}</strong>
+          ${g.read ? `<small>read: ${esc(String(g.read))}</small>` : ''}
+          ${g.detail ? `<small>${esc(String(g.detail))}</small>` : ''}
+        </div>`).join('')}</div>`
+    : '';
+
+  return `<section class="vitality-triage">${leverBlock}${gateRows}${flags}</section>`;
+}
+
 function vitalityView(model) {
   const outcomes = model.vitality.map((row) => {
     const missing = Array.isArray(row.missing_inputs) && row.missing_inputs.length
@@ -354,7 +385,7 @@ function vitalityView(model) {
     return `
     <article class="vitality-card">
       <div class="vitality-head"><div><span class="section-label">${esc(row.label ?? row.id)}</span><strong>${esc(displayValue(row.value, row.units, row.state))}</strong>${row.units ? `<small class="vitality-unit">${esc(String(row.units).replaceAll('_',' '))}</small>` : ''}</div><span>${esc(stateText(row.state ?? 'measured'))}</span></div>
-      ${vitalityChart(row)}${note}${missing}${version}
+      ${vitalityChart(row)}${vitalityTriagePanel(row)}${note}${missing}${version}
     </article>`;
   }).join('');
   const instruments = deviceInstrumentsPanel(model);
@@ -541,23 +572,17 @@ export function renderDashboard(app, state, model) {
     || model.risk.some((domain) => domain.synthetic === true || domain.nonclinical === true)
     || model.vitality.some((row) => row.synthetic === true || row.nonclinical === true);
   // Hazard for nonclinical synthetic boundary; advisory for fixture/staging runtime chrome.
-  const boundaryBanner = state.source === 'fixture' || representativeNonclinical
-    ? '<div class="boundary-banner signal-hazard" role="status">STAGING · SYNTHETIC REPRESENTATIVE PROFILE · NONCLINICAL TEST OUTPUT · NOT FOR DIAGNOSIS OR TREATMENT</div>'
+  const isStaging = Boolean(state.apiBaseUrl?.includes('rbdxzlzkxyprertdmpga') || state.source === 'fixture' || representativeNonclinical);
+  // Single quiet environment chip — no shouting banner, no version soup.
+  const envChip = isStaging
+    ? '<span class="env-chip" role="status">Staging</span>'
     : '';
-  const runtimeLabel = state.source === 'fixture'
-    ? (state.apiBaseUrl?.includes('rbdxzlzkxyprertdmpga')
-      ? 'STAGING · current product · synthetic cases'
-      : 'PRODUCT PREVIEW · synthetic cases')
-    : state.apiBaseUrl?.includes('rbdxzlzkxyprertdmpga')
-    ? 'STAGING · authenticated · nonclinical'
-    : state.apiBaseUrl?.includes('pqbbejplclpvkqvlrsdu')
-    ? 'PRODUCTION · authenticated'
-    : 'BACKEND · authenticated';
-  const runtimeTone = state.source === 'fixture' || representativeNonclinical || state.apiBaseUrl?.includes('rbdxzlzkxyprertdmpga')
-    ? 'signal-advisory'
+  const footerNote = isStaging
+    ? '<p class="env-footer-note">Staging environment · not for diagnosis or treatment.</p>'
     : '';
+  const ageLine = model.patient.age != null ? esc(displayValue(model.patient.age, 'years')) : '';
   app.innerHTML = `<main class="dashboard-shell">
-    <aside class="sidebar" aria-label="Dashboard sections"><div class="brand">aleron<span>MD</span></div><div class="case-picker"><div class="avatar">${esc(initials)}</div><div><select data-case-selector aria-label="Patient case">${options}</select><small>${model.patient.code ? `${esc(model.patient.code)} · ` : ''}${esc(displayValue(model.patient.age, 'years'))}</small></div></div><div class="rule"></div><nav role="tablist" aria-label="Dashboard sections">${nav}</nav><div class="rule"></div><div class="sidebar-truth" aria-label="Currency of truth"><span class="section-label">Currency of truth</span><p class="sidebar-truth-copy">Case state is operational truth. Canonical docs define meaning.</p><a class="truth-link" href="${esc(model.truth?.dashboardRoute || 'https://yimjason01-blip.github.io/aleron-canonical-documents/#dashboard-ds')}" target="_blank" rel="noopener noreferrer">Open canonical docs shell</a><code class="truth-path">docs/SOURCE_OF_TRUTH.md</code></div></aside>
-    <section class="main-pane"><div class="runtime-source ${runtimeTone}" aria-label="Runtime source">${runtimeLabel} · ${esc(model.schemaVersion)} <button data-sign-out>${state.source === 'fixture' ? 'Reload' : 'Refresh'}</button></div>${boundaryBanner}${caseOrientation(model)}${activeView(model, state)}</section>
+    <aside class="sidebar" aria-label="Dashboard sections"><div class="brand">aleron<span>MD</span></div><div class="case-picker"><div class="avatar">${esc(initials)}</div><div><select data-case-selector aria-label="Patient case">${options}</select><small>${model.patient.code ? `${esc(model.patient.code)} · ` : ''}${ageLine}</small></div></div><div class="rule"></div><nav role="tablist" aria-label="Dashboard sections">${nav}</nav><div class="rule"></div><div class="sidebar-truth" aria-label="Currency of truth"><span class="section-label">Currency of truth</span><p class="sidebar-truth-copy">Case state is operational truth. Canonical docs define meaning.</p><a class="truth-link" href="${esc(model.truth?.dashboardRoute || 'https://yimjason01-blip.github.io/aleron-canonical-documents/#dashboard-ds')}" target="_blank" rel="noopener noreferrer">Open canonical docs shell</a><code class="truth-path">docs/SOURCE_OF_TRUTH.md</code></div></aside>
+    <section class="main-pane"><div class="runtime-source ${runtimeTone}" aria-label="Runtime source">${runtimeLabel} · ${esc(model.schemaVersion)} <button data-sign-out>${state.source === 'fixture' ? 'Reload' : 'Refresh'}</button></div>${boundaryBanner}${caseOrientation(model)}${activeView(model, state)}${footerNote}</section>
   </main>`;
 }

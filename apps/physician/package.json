@@ -1,0 +1,11 @@
+{
+  "name": "aleron-physician-dashboard",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "test:staging-ui": "playwright test tests/staging-release-ui.spec.mjs --reporter=line"
+  },
+  "devDependencies": {
+    "@playwright/test": "1.55.0"
+  }
+}
