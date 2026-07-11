@@ -525,7 +525,13 @@ function activeView(model, state) {
 }
 
 export function renderLogin(app, error = null) {
-  app.innerHTML = `<main class="login-shell"><section class="login-card"><div class="brand">aleron<span>MD</span></div><span class="section-label">Physician access</span><h1>Open the clinical instrument.</h1><p>Enter the one-time bearer token issued by the clinical backend. The token stays in this browser until sign out.</p><form data-login-form><label>Bearer token<input type="password" name="token" autocomplete="off" placeholder="session.…"></label><button type="submit">Continue</button></form>${error ? `<p class="error-line">${esc(error)}</p>` : ''}</section></main>`;
+  const staging = typeof window !== 'undefined'
+    && new URL(window.location.href).searchParams.get('staging') === '1';
+  const envLabel = staging ? 'Staging E2E · physician session' : 'Physician access';
+  const help = staging
+    ? 'Paste the staging physician bearer token for this e2e run. The token stays in this browser tab until sign out. This surface hits the live staging API, not synthetic fixtures.'
+    : 'Enter the one-time bearer token issued by the clinical backend. The token stays in this browser until sign out.';
+  app.innerHTML = `<main class="login-shell"><section class="login-card"><div class="brand">aleron<span>MD</span></div><span class="section-label">${envLabel}</span><h1>Open the clinical instrument.</h1><p>${help}</p><form data-login-form><label>Bearer token<input type="password" name="token" autocomplete="off" placeholder="session.…"></label><button type="submit">Continue</button></form>${error ? `<p class="error-line">${esc(error)}</p>` : ''}</section></main>`;
 }
 
 export function renderDashboard(app, state, model) {

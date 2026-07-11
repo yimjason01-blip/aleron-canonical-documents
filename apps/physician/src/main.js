@@ -11,7 +11,7 @@ import {
   requestReleasePreview,
   startPhysicianReview
 } from './apiClient.js';
-import { clearBearerToken, requiresLogin, saveBearerToken } from './auth.js';
+import { clearBearerToken, consumeStagingSessionFromURL, requiresLogin, saveBearerToken } from './auth.js';
 import { adaptPhysicianCase, artifactBindsCurrentLineage, buildReleasePreviewRequest, releaseIdentifier } from './dashboardAdapter.js';
 import { decisionReasonOptionsHTML, renderDashboard, renderFatalError, renderLogin } from './dashboardApp.js';
 
@@ -341,6 +341,13 @@ function requestedPatientId() {
 }
 
 async function boot() {
+  try {
+    consumeStagingSessionFromURL();
+  } catch (error) {
+    renderLogin(app, error.message);
+    attachLogin();
+    return;
+  }
   if (requiresLogin()) {
     renderLogin(app);
     attachLogin();

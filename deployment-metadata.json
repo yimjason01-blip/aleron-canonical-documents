@@ -12,15 +12,15 @@
     "apps/physician/src/canonicalSources.js": "09d69c8ae32ceabd29ebe66e134f83648b8b80640661895271a7d0164d101797",
     "apps/physician/src/clinicalTrace.js": "cfdfe1d7fa2cd4daff5200c9787d0d268cdf2726f3247d9c22019cc3f2fc19ec",
     "apps/physician/src/dashboardAdapter.js": "1c0f1f3eefb77d321dd7a0804b0889195e38c660ae24caf815192263c4680508",
-    "apps/physician/src/dashboardApp.js": "5987b575ee77637dec2f93b72ea6985a3f43a967f26dcc4379510022fbf917d5",
+    "apps/physician/src/dashboardApp.js": "8a49c05c79a318c3b0a2558b87c0db4ee5a039f83e0cc2d6c549aa066913d34e",
     "apps/physician/src/fixtureLoader.js": "c8936233143348043f94a6ed8f4dbffbc0da3b5fcd96a7af674713a21c2e5a67",
     "apps/physician/src/journey.css": "69919dc7542e84cf21af7f7bce39978718ccc0d89bcdfb81ac873e8e718f7b65",
-    "apps/physician/src/main.js": "2e6c312c6a2946307963b3c73fa0eae96b322e29f2bec3e1a9f5de166f1a03b5",
+    "apps/physician/src/main.js": "e9043cf9ebf36dc9cbc91bfe9cd93ed78033b88e7125f0fbecbaad8ac61a7b52",
     "apps/physician/src/runtimeConfig.js": "f63fa3beccd19b3cf0e2fa6fba0c0ac7a8b2e458bf4d96349072c7a922147d1a",
     "apps/physician/src/styles.css": "1f84d015ada0a3c578c9e50bd5ed661a3081e49bb7374f39afaa1cf7130004cf",
     "apps/physician/src/wearableSummary.js": "d78d76d146735283a38b578ca595bee7bb6b7c5cd03b3a02cb4b55c4e6777554"
   },
-  "physician_tree_sha256": "b9b4ae1f815c11c76453c031424d3632e5d2e9e47f202d9a96dc49115feb0d3a",
+  "physician_tree_sha256": "c251c40ecbd9347ea0f90f2c2fe41a5d950f2c1a83b2dd91089ae694ec04eafe",
   "preserve_top_level": [
     "brand-deck",
     "canonical-documents",
@@ -33,7 +33,7 @@
   ],
   "schema_version": "aleron.canonical-deployment.v1",
   "source_branch": "milestone/physician-journey-coherence",
-  "source_dirty": true,
-  "source_git_tree": "e20bc600977b3971897566e27fc045fb1accd368",
-  "source_sha": "0e5314ec0e35ff924ebd21d1735e53237c42fcbc"
+  "source_dirty": false,
+  "source_git_tree": "80e9acf0a751a0b79a4a66e08e4633db36bfe750",
+  "source_sha": "aadc64252075aa8477fa9066729bce92f737c849"
 }
