@@ -4,7 +4,7 @@
   "physician_assets": {
     "apps/physician/assets/fonts/PolySans-Median.ttf": "c1a5e1dcf63963a4eeb688ff65e919aaac3ee9f9958b57fee6ca3224df35a74f",
     "apps/physician/assets/fonts/PolySans-Neutral.ttf": "52d272ffe1967e5bfab79353a314044319d5a86b16e90b44e457055a1f119c17",
-    "apps/physician/fixtures/physician_synthetic_case.json": "dcc47cb9906fe5df1664db7397a817cc7757b13646ba3042ea011d37c774bb80",
+    "apps/physician/fixtures/physician_synthetic_case.json": "96c896eea4379805d0f6889679f7e1184840ce0e24bd404a0522e10542afed33",
     "apps/physician/index.html": "a9458b876a1fe87b0f0a72c51b77a5457c60431799d1aa8f4657b82fb4c55fc6",
     "apps/physician/src/apiClient.js": "c82fc519d360a78a01d2c0476b4a92c115f894093f9fa7f70b261844203910cd",
     "apps/physician/src/auth.js": "3526961f600d7626b31a1eb37128008c95676f9363c58d79ce048e18a188bfcf",
@@ -19,10 +19,10 @@
     "apps/physician/src/styles.css": "1f84d015ada0a3c578c9e50bd5ed661a3081e49bb7374f39afaa1cf7130004cf",
     "apps/physician/src/wearableSummary.js": "d78d76d146735283a38b578ca595bee7bb6b7c5cd03b3a02cb4b55c4e6777554"
   },
-  "physician_tree_sha256": "ced2646b335642c5c421b5f25087a6f3d5efbe6c39360fad14005e5a7bce589c",
+  "physician_tree_sha256": "eda1afae5fb7f414c582fbc6f07ea84e88b2bdba520ad367e64562fbdb4ef40f",
   "schema_version": "aleron.canonical-deployment.v1",
   "source_branch": "milestone/physician-journey-coherence",
   "source_dirty": false,
-  "source_git_tree": "718db0484f6cda2163df7edaa24caf9999f25daf",
-  "source_sha": "b257642f9d20cbe3935cbc7d7039cec2111d1aa3"
+  "source_git_tree": "c4d730266993fb3ac5261691b607ef0998b53fc6",
+  "source_sha": "80d749d2bce525fdcdecf088ff00b68e056dd617"
 }

@@ -27,6 +27,32 @@
   "case": {
     "schema_version": "physician_case.v1",
     "patient_id": "ethan-park",
+    "workflow": {
+      "schema_version": "physician_workflow.v1",
+      "state": "physician_review_pending",
+      "lifecycle_state": "physician_review_pending",
+      "release_state": "draft_engine_output",
+      "patient_visible": false,
+      "read_only": false,
+      "review_started": false,
+      "preview_ready": false,
+      "authorized": false,
+      "released_to_patient": false,
+      "why_now": "Canonical analysis is ready for physician review.",
+      "highest_priority_issue": {
+        "label": "Complete colorectal screening",
+        "implication": "Required age-based care gap."
+      },
+      "blockers": [],
+      "next_action": {
+        "label": "Start physician review",
+        "detail": "Review patient inputs, risk, vitality, and required plan items."
+      },
+      "audit_integrity": {
+        "status": "pass",
+        "errors": []
+      }
+    },
     "patient_packet": {
       "schema_version": "patient_packet.v1",
       "patient_id": "ethan-park",
