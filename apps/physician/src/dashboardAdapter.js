@@ -630,6 +630,13 @@ function normalizeWorkflow(caseBundle, currentReleasePreview, auditEvents = []) 
     && patientVisible
     && projection?.read_only !== false;
   const lineageKeys = ['packet_id', 'packet_hash', 'source_engine_run_id', 'source_action_map_state_id', 'source_plan_id'];
+  const boundary = releasePackage?.patient_safe_boundary ?? releasePackage?.clinical_patient_boundary ?? null;
+  const boundaryComplete = Boolean(
+    (boundary?.projection === 'patient_safe_only' && boundary?.raw_internal_artifacts === false)
+    || (boundary?.patient_safe === true
+      && array(boundary.visible_content).includes('doctor_message')
+      && array(boundary.visible_content).includes('visible_actions'))
+  );
   const release = {
     ...nestedRelease,
     preview_ready: nestedRelease.preview_ready ?? projection?.preview_ready ?? Boolean(releasePackage?.preview_hash),
@@ -640,9 +647,7 @@ function normalizeWorkflow(caseBundle, currentReleasePreview, auditEvents = []) 
       ?? (array(releasePackage?.required_item_dispositions).length > 0),
     provenance_complete: nestedRelease.provenance_complete
       ?? Boolean(releasePackage?.provenance && typeof releasePackage.provenance === 'object'),
-    patient_safe_boundary_emitted: nestedRelease.patient_safe_boundary_emitted
-      ?? Boolean(releasePackage?.patient_safe_boundary?.projection === 'patient_safe_only'
-        && releasePackage.patient_safe_boundary.raw_internal_artifacts === false),
+    patient_safe_boundary_emitted: nestedRelease.patient_safe_boundary_emitted ?? boundaryComplete,
     lineage_complete: nestedRelease.lineage_complete
       ?? lineageKeys.every((key) => Boolean(releasePackage?.[key] ?? releasePackage?.source_lineage?.[key]))
   };
