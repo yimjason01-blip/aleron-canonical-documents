@@ -1,13 +1,14 @@
 {
   "dashboard_entry": "apps/physician/index.html",
-  "generated_only": true,
+  "docs_registry": true,
+  "generated_only": false,
   "physician_assets": {
     "apps/physician/assets/fonts/PolySans-Median.ttf": "c1a5e1dcf63963a4eeb688ff65e919aaac3ee9f9958b57fee6ca3224df35a74f",
     "apps/physician/assets/fonts/PolySans-Neutral.ttf": "52d272ffe1967e5bfab79353a314044319d5a86b16e90b44e457055a1f119c17",
     "apps/physician/fixtures/physician_synthetic_case.json": "96c896eea4379805d0f6889679f7e1184840ce0e24bd404a0522e10542afed33",
     "apps/physician/index.html": "a9458b876a1fe87b0f0a72c51b77a5457c60431799d1aa8f4657b82fb4c55fc6",
     "apps/physician/src/apiClient.js": "c82fc519d360a78a01d2c0476b4a92c115f894093f9fa7f70b261844203910cd",
-    "apps/physician/src/auth.js": "3526961f600d7626b31a1eb37128008c95676f9363c58d79ce048e18a188bfcf",
+    "apps/physician/src/auth.js": "948f3346c1af71a444131018653d6ce4c2c8afd9ee90bbea3d83e5093bb9762f",
     "apps/physician/src/canonicalSources.js": "09d69c8ae32ceabd29ebe66e134f83648b8b80640661895271a7d0164d101797",
     "apps/physician/src/clinicalTrace.js": "cfdfe1d7fa2cd4daff5200c9787d0d268cdf2726f3247d9c22019cc3f2fc19ec",
     "apps/physician/src/dashboardAdapter.js": "1c0f1f3eefb77d321dd7a0804b0889195e38c660ae24caf815192263c4680508",
@@ -19,10 +20,20 @@
     "apps/physician/src/styles.css": "1f84d015ada0a3c578c9e50bd5ed661a3081e49bb7374f39afaa1cf7130004cf",
     "apps/physician/src/wearableSummary.js": "d78d76d146735283a38b578ca595bee7bb6b7c5cd03b3a02cb4b55c4e6777554"
   },
-  "physician_tree_sha256": "76abf841c9a656c34e45a4a6d40d7ba817153f10213f9620ae3b25a505738861",
+  "physician_tree_sha256": "b9b4ae1f815c11c76453c031424d3632e5d2e9e47f202d9a96dc49115feb0d3a",
+  "preserve_top_level": [
+    "brand-deck",
+    "canonical-documents",
+    "docs",
+    "models",
+    "patient-app",
+    "product-design-system",
+    "system-design",
+    "workspaces"
+  ],
   "schema_version": "aleron.canonical-deployment.v1",
   "source_branch": "milestone/physician-journey-coherence",
-  "source_dirty": false,
-  "source_git_tree": "3384fa4c72ff04c54a7ab51bfb4d8466355066e1",
-  "source_sha": "aee744e5d4a11c13b22d935e1a31c6346da5d8e9"
+  "source_dirty": true,
+  "source_git_tree": "e20bc600977b3971897566e27fc045fb1accd368",
+  "source_sha": "0e5314ec0e35ff924ebd21d1735e53237c42fcbc"
 }

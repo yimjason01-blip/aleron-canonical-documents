@@ -1,0 +1,2497 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Aleron MD · Visual Identity</title>
+<meta name="description" content="The Aleron MD visual identity. One deck, the source of truth for the brand system.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Hanken+Grotesk:wght@400;500;600;700&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet">
+<style>
+  /* PolySans is bundled for deterministic local rendering. Each source
+     weight is its own font family, mapped here into one CSS family. */
+  
+  
+  
+  
+  
+  
+  :root {
+    --ink: #111111;
+    --gray: #555555;
+    --gray-light: #888888;
+    --line: #DDDDDD;
+    /* type tokens: the single source. PolySans is licensed and bundled locally. */
+    --voice: 'PolySans', 'Hanken Grotesk', -apple-system, sans-serif;
+    --audit: 'Space Mono', ui-monospace, Menlo, monospace;
+    --size-display: clamp(34px, 4.5vw, 56px);
+    --w-display: 650;
+    --track-display: -0.015em;
+    --lh-display: 1.1;
+    --size-lede: 19.5px;
+    --size-text: 16.5px;
+    --lh-text: 1.6;
+    --size-audit: 12px;
+    --track-audit: 0.06em;
+  }
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  body {
+    background: #FFFFFF;
+    color: var(--ink);
+    font-family: var(--voice);
+    font-size: 16px;
+    line-height: 1.6;
+    padding: 64px 0 120px;
+  }
+  .doc { max-width: 1020px; margin: 0 auto; padding: 0 48px; }
+  .doc-header {
+    font-size: 12px;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: var(--gray);
+    padding-bottom: 16px;
+    border-bottom: 1px solid var(--ink);
+    display: flex;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    gap: 8px;
+  }
+
+  section { padding-top: 160px; }
+
+  .section-label {
+    font-size: 12px;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: var(--ink);
+    font-weight: 700;
+    margin-bottom: 32px;
+  }
+
+  h1 {
+    font-size: var(--size-display);
+    font-weight: var(--w-display);
+    line-height: var(--lh-display);
+    letter-spacing: var(--track-display);
+    max-width: 19ch;
+    margin-bottom: 56px;
+  }
+
+  .row { display: block; margin-bottom: 88px; }
+  section > .row:last-child { margin-bottom: 0; }
+  .row-label {
+    font-size: 12px;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: var(--gray);
+    font-weight: 600;
+    margin-bottom: 14px;
+  }
+  .def .row { display: grid; grid-template-columns: 180px 1fr; gap: 24px; align-items: baseline; margin-bottom: 0; }
+  .def .row .row-label { margin-bottom: 0; }
+
+  .abstract { padding-bottom: 0; }
+  .abstract .prose { max-width: 66ch; }
+  .abstract p { margin-bottom: 20px; }
+  .abstract p:first-child { font-size: 19.5px; line-height: 1.55; }
+  .abstract p:last-child { margin-bottom: 0; }
+  .abstract b { font-weight: 700; }
+  .block { padding-bottom: 0; }
+  .block .prose { max-width: 66ch; }
+  .block p { margin-bottom: 18px; font-size: 16.5px; line-height: 1.6; }
+  .block p:last-child { margin-bottom: 0; }
+  .block b { font-weight: 700; }
+
+  .def { border-top: 1px solid var(--ink); }
+  .def .row { padding: 18px 0; border-bottom: 1px solid var(--line); }
+  .def .row:last-child { border-bottom: 1px solid var(--ink); }
+  .def p { font-size: 16.5px; line-height: 1.55; max-width: 72ch; }
+  .def b { font-weight: 700; }
+
+  /* ---------- the stage: map expands, dresses, then zooms to Aleron ---------- */
+  .stage { height: 460vh; position: relative; margin-top: 56px; }
+  .stage-sticky {
+    position: sticky;
+    top: 0;
+    height: 100vh;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    overflow: hidden;
+  }
+  .stage-head {
+    position: relative;
+    height: 28px;
+    width: 100%;
+    max-width: 1020px;
+    padding: 0 48px;
+    margin-bottom: 18px;
+  }
+  .stage-title {
+    position: absolute;
+    left: 48px;
+    right: 48px;
+    font-size: 13px;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: var(--gray);
+    transition: opacity 0.15s linear;
+  }
+  .stage-title b { color: var(--ink); font-weight: 700; }
+  .stage-title.t2, .stage-title.t3 { opacity: 0; }
+
+  /* color study overlay (stage act three) */
+  .study {
+    position: absolute;
+    bottom: 3vh;
+    left: 50%;
+    transform: translateX(-50%);
+    width: min(940px, 94vw);
+    background: #FFFFFF;
+    border: 1px solid var(--ink);
+    padding: 18px 22px 16px;
+    opacity: 0;
+    pointer-events: none;
+  }
+  .study-head { display: flex; justify-content: space-between; gap: 12px; flex-wrap: wrap; font-size: 12px; letter-spacing: 0.08em; text-transform: uppercase; font-weight: 700; margin-bottom: 14px; }
+  .study-head span { color: var(--gray); font-weight: 600; text-transform: none; letter-spacing: 0; }
+  .study-grid { display: grid; grid-template-columns: 1fr 1fr 1.25fr 1.35fr; gap: 20px; }
+  .sg-label { font-size: 11px; letter-spacing: 0.06em; text-transform: uppercase; color: var(--gray); font-weight: 600; margin-bottom: 6px; }
+  .sw-row { display: flex; gap: 6px; }
+  .sw { flex: 1; min-width: 0; }
+  .sw-c { height: 34px; border: 1px solid rgba(0,0,0,0.14); }
+  .sw span { display: block; font-size: 10px; color: var(--gray-light); margin-top: 3px; white-space: nowrap; }
+  .ramp { height: 72px; border: 1px solid rgba(0,0,0,0.14); background: linear-gradient(180deg, #15171C 0%, #222831 45%, #333E48 75%, #46555F 100%); }
+  .study-note { margin-top: 12px; font-size: 12.5px; color: var(--gray); line-height: 1.5; }
+  .map-stage { width: 760px; max-width: 92vw; }
+  .map-stage svg { width: 100%; height: auto; display: block; }
+  .stage-foot {
+    margin-top: 16px;
+    font-size: 12.5px;
+    color: var(--gray-light);
+    max-width: 1020px;
+    padding: 0 48px;
+    text-align: center;
+  }
+  .pos { cursor: pointer; }
+  .uniform-chips { opacity: 0; }
+
+  /* hover card */
+  .hover-card {
+    position: fixed;
+    z-index: 100;
+    width: 340px;
+    background: #FFFFFF;
+    border: 1px solid var(--ink);
+    padding: 16px 18px;
+    font-size: 13.5px;
+    line-height: 1.5;
+    display: none;
+    box-shadow: 4px 4px 0 rgba(17,17,17,0.08);
+  }
+  .hover-card .hc-uniform { font-size: 11px; letter-spacing: 0.08em; text-transform: uppercase; color: var(--gray); font-weight: 600; }
+  .hover-card .hc-name { font-weight: 700; font-size: 16px; margin: 2px 0 8px; }
+  .hover-card .hc-chips { display: flex; gap: 5px; margin-bottom: 10px; }
+  .hover-card .hc-chip { width: 30px; height: 20px; border: 1px solid rgba(0,0,0,0.18); }
+  .hover-card .hc-chip.empty { border: 1px dashed #999999; }
+  .hover-card dl { display: grid; grid-template-columns: 70px 1fr; gap: 3px 10px; }
+  .hover-card dt { color: var(--gray); text-transform: uppercase; font-size: 10.5px; letter-spacing: 0.06em; padding-top: 2px; }
+  .hover-card dd b { font-weight: 700; }
+  .hover-card .hc-src { margin-top: 10px; padding-top: 8px; border-top: 1px solid var(--line); font-size: 11px; color: var(--gray); line-height: 1.55; }
+  .hover-card .hc-src a { color: var(--ink); text-decoration: underline; text-underline-offset: 2px; }
+
+  /* territory */
+  .territory { margin-top: 0; }
+  .territory .prose { max-width: 70ch; }
+  .territory p { margin-bottom: 18px; }
+  .spectrum { margin-top: 28px; max-width: 880px; }
+  .spectrum svg { width: 100%; height: auto; display: block; }
+  .map-note { margin-top: 10px; font-size: 13px; color: var(--gray); max-width: 76ch; }
+
+  /* color at scale */
+  .f-mono { font-family: var(--audit); font-size: 11px; letter-spacing: 0.1em; text-transform: uppercase; }
+  .field { padding: 52px 48px 40px; margin-bottom: 14px; }
+  .field.day { background: #FAF7F2; border: 1px solid var(--line); color: #1D1B18; }
+  .field.night { background: #252B3D; color: #F5F1E8; }
+  .field.day .f-mono { color: #A4452C; }
+  .field.night .f-mono { color: #EACB7F; }
+  .field h3 { font-size: clamp(28px, 3.4vw, 46px); font-weight: 650; letter-spacing: -0.015em; line-height: 1.1; max-width: 22ch; margin: 14px 0 10px; }
+  .field p { max-width: 56ch; font-size: 16px; line-height: 1.6; }
+  .field.day p { color: #4A463F; }
+  .field.night p { color: rgba(245, 241, 232, 0.75); }
+  .f-foot { margin-top: 24px; padding-top: 12px; font-family: var(--audit); font-size: 10.5px; letter-spacing: 0.06em; }
+  .day .f-foot { border-top: 1px solid rgba(29, 27, 24, 0.16); color: #6F6A61; }
+  .night .f-foot { border-top: 1px solid rgba(245, 241, 232, 0.22); color: rgba(245, 241, 232, 0.55); }
+  .ramp-plate { height: 52vh; background: linear-gradient(180deg, #15171C 0%, #222831 45%, #333E48 75%, #46555F 100%); }
+  .ramp-pair { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; }
+  .ramp-steps { height: 52vh; display: flex; flex-direction: column; }
+  .ramp-steps div { flex: 1; }
+  @media (max-width: 880px) { .ramp-pair { grid-template-columns: 1fr; } }
+  .prop-bar { display: flex; height: 64px; border: 1px solid var(--line); }
+  .prop-bar div { height: 100%; }
+  .mockups { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; }
+  .mock { border: 1px solid var(--ink); display: flex; flex-direction: column; }
+  .mock.day-m { background: #FAF7F2; color: #1D1B18; }
+  .mock.night-m { background: #252B3D; color: #F5F1E8; }
+  .mock-nav { display: flex; justify-content: space-between; align-items: baseline; padding: 16px 22px 0; }
+  .mock-nav .wm { font-weight: 700; letter-spacing: -0.02em; font-size: 15px; }
+  .mock-nav .wm sup { font-size: 8px; letter-spacing: 0.05em; }
+  .day-m .wm sup { color: #1D1B18; } .night-m .wm sup { color: #EACB7F; }
+  .mock-body { padding: 26px 22px 22px; flex: 1; }
+  .mock h4 { font-size: clamp(20px, 1.9vw, 27px); font-weight: 650; letter-spacing: -0.015em; line-height: 1.12; margin-bottom: 8px; max-width: 19ch; }
+  .mock .lede2 { font-size: 13px; max-width: 42ch; line-height: 1.55; }
+  .day-m .lede2 { color: #6F6A61; } .night-m .lede2 { color: rgba(245, 241, 232, 0.7); }
+  .mock-cta { display: inline-block; background: #C9A14E; color: #1D1B18; font-weight: 700; font-size: 12.5px; padding: 9px 18px; margin-top: 16px; }
+  .mock-ghost { display: inline-block; font-size: 12.5px; padding: 8px 14px; margin-left: 8px; border: 1px solid currentColor; opacity: 0.65; }
+  .mock-chart { padding: 0 22px; }
+  .mock-chart svg { width: 100%; height: auto; display: block; }
+  .mock-foot { display: flex; gap: 14px; flex-wrap: wrap; padding: 14px 22px 18px; font-family: var(--audit); font-size: 9.5px; letter-spacing: 0.06em; }
+  .day-m .mock-foot { border-top: 1px solid rgba(29, 27, 24, 0.14); color: #6F6A61; }
+  .night-m .mock-foot { border-top: 1px solid rgba(245, 241, 232, 0.2); color: rgba(245, 241, 232, 0.55); }
+  .mock-foot b { font-weight: 700; }
+  .day-m .mock-foot .fw { color: #C9A14E; } .day-m .mock-foot .hz { color: #A4452C; } .day-m .mock-foot .bl { color: #5A6378; }
+  .night-m .mock-foot .fw { color: #EACB7F; } .night-m .mock-foot .hz { color: #D86B4F; } .night-m .mock-foot .bl { color: #8C96AC; }
+  @media (max-width: 880px) { .mockups { grid-template-columns: 1fr; } .field { padding: 36px 22px 30px; } }
+
+  /* color study exercises */
+  .f-cap { margin-top: 8px; font-family: var(--audit); font-size: 10px; letter-spacing: 0.07em; color: var(--gray-light); text-transform: uppercase; }
+  .materials { display: flex; flex-wrap: wrap; gap: 10px; }
+  .mat { width: 104px; }
+  .mat .c { height: 56px; border: 1px solid rgba(0,0,0,0.12); }
+  .mat span { display: block; font-family: var(--audit); font-size: 9.5px; letter-spacing: 0.04em; color: var(--gray); margin-top: 4px; }
+  .scales { display: grid; grid-template-columns: repeat(4, 1fr); gap: 14px; max-width: 760px; }
+  .scale-step { height: 44px; display: flex; align-items: center; padding-left: 10px; font-family: var(--audit); font-size: 9px; letter-spacing: 0.04em; }
+  .igrid { border: 1px solid var(--line); }
+  .igrid-row { display: grid; grid-template-columns: 86px repeat(7, 1fr); }
+  .igrid-row .glabel { display: flex; align-items: center; padding-left: 10px; font-family: var(--audit); font-size: 9.5px; letter-spacing: 0.05em; color: var(--gray); background: #FFFFFF; border-right: 1px solid var(--line); }
+  .icell { height: 72px; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 2px; position: relative; }
+  .icell .aa { font-size: 21px; font-weight: 650; letter-spacing: -0.01em; line-height: 1; }
+  .icell .rt { font-family: var(--audit); font-size: 8.5px; letter-spacing: 0.04em; opacity: 0.55; }
+  .icell .rt.pass { opacity: 0.95; font-weight: 700; }
+  .icell .use { font-family: var(--audit); font-size: 7.5px; letter-spacing: 0.08em; opacity: 0.85; font-weight: 700; }
+  .icell.no .aa { opacity: 0.45; }
+  .icell.no::after { content: ""; position: absolute; inset: 0; pointer-events: none;
+    background: linear-gradient(to top right, transparent calc(50% - 0.75px), var(--xc) calc(50% - 0.75px), var(--xc) calc(50% + 0.75px), transparent calc(50% + 0.75px)); }
+  .icell.no.xd { --xc: rgba(29,27,24,0.5); }
+  .icell.no.xl { --xc: rgba(245,241,232,0.5); }
+  .otiles { display: grid; grid-template-columns: repeat(3, 1fr); gap: 14px; }
+  .otile { position: relative; }
+  .otile img { width: 100%; aspect-ratio: 4 / 3; object-fit: cover; display: block; }
+  .otile .ov { position: absolute; inset: 0; pointer-events: none; }
+  @media (max-width: 880px) { .scales { grid-template-columns: 1fr 1fr; } .igrid-row { grid-template-columns: 64px repeat(7, 1fr); } .otiles { grid-template-columns: 1fr; } }
+
+  /* photography plates */
+  .plates { margin-top: 8px; }
+  .plate { position: relative; margin: 0 0 8px; }
+  .plate img { width: 100%; display: block; height: 74vh; object-fit: cover; }
+  .plate .ov { position: absolute; left: 0; right: 0; top: 0; pointer-events: none; height: 74vh; }
+  .plate .mult { background: #252B3D; opacity: 0.20; mix-blend-mode: multiply; }
+  .plate .mult.strong { opacity: 0.34; }
+  .plate .scr { background: #EACB7F; opacity: 0.12; mix-blend-mode: screen; }
+  .plate.cool img { filter: saturate(0.78) brightness(0.97); }
+  .plate figcaption { font-size: 12.5px; color: var(--gray); padding: 8px 0 28px; }
+  .hero-plate img, .hero-plate .ov { height: 86vh; }
+  .plate-mark { position: absolute; top: 4.5%; left: 5%; color: #FFFFFF; font-size: 20px; font-weight: 600; letter-spacing: -0.02em; }
+  .plate-mark sup { font-size: 9px; font-weight: 700; letter-spacing: 0.04em; vertical-align: super; margin-left: 1px; }
+  .plate-type { position: absolute; left: 5%; bottom: 9%; max-width: 56%; color: #FFFFFF; }
+  .pt-head { font-size: clamp(28px, 3.6vw, 52px); font-weight: 650; line-height: 1.08; letter-spacing: -0.015em; }
+  .plate-pair { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; }
+  .plate-pair .plate img, .plate-pair .plate .ov { height: 54vh; }
+  .figure-caption { margin-top: 10px; font-size: 13px; color: var(--gray); max-width: 76ch; }
+
+  /* typography specimens */
+  .f-disp { font-family: var(--voice); }
+  .f-mono { font-family: var(--audit); }
+  .spec-hero { padding: 28px 0 6px; }
+  .spec-hero .line { font-family: var(--voice); font-weight: 600; font-size: clamp(38px, 5vw, 64px); line-height: 1.06; letter-spacing: -0.02em; max-width: 18ch; }
+  .spec-caption { font-size: 12.5px; color: var(--gray); padding: 10px 0 26px; }
+  .spec-pair { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; }
+  .spec-card { padding: 34px 32px 28px; }
+  .spec-card.day { background: #FAF7F2; color: #1D1B18; border: 1px solid var(--line); }
+  .spec-card.night { background: #252B3D; color: #F5F1E8; }
+  .spec-card .eyebrow { font-family: var(--audit); font-size: 11px; letter-spacing: 0.14em; text-transform: uppercase; margin-bottom: 18px; }
+  .spec-card.day .eyebrow { color: #A4452C; }
+  .spec-card.night .eyebrow { color: #EACB7F; }
+  .spec-card h3 { font-family: var(--voice); font-weight: 600; font-size: clamp(24px, 2.4vw, 34px); letter-spacing: -0.015em; line-height: 1.12; margin-bottom: 12px; }
+  .spec-card p { font-family: var(--voice); font-weight: 400; font-size: 16px; line-height: 1.6; max-width: 44ch; }
+  .spec-card.day p { color: #4A463F; }
+  .spec-card.night p { color: rgba(245, 241, 232, 0.78); }
+  .spec-card .audit { font-family: var(--audit); font-size: 11.5px; letter-spacing: 0.08em; margin-top: 22px; padding-top: 14px; }
+  .spec-card.day .audit { border-top: 1px solid rgba(29, 27, 24, 0.18); color: #6F6A61; }
+  .spec-card.night .audit { border-top: 1px solid rgba(245, 241, 232, 0.22); color: rgba(245, 241, 232, 0.62); }
+  .spec-card .audit b { color: inherit; font-weight: 700; }
+  .spec-card .gold-num { font-family: var(--voice); font-weight: 700; }
+  .spec-card.day .gold-num { color: #A4452C; }
+  .spec-card.night .gold-num { color: #EACB7F; }
+  .spec-wordmark { padding: 44px 0 4px; }
+  .spec-wordmark .wm { font-family: var(--voice); font-weight: 600; font-size: clamp(52px, 7vw, 96px); letter-spacing: -0.025em; line-height: 1; }
+  .spec-wordmark .wm sup { font-family: var(--audit); font-size: 0.22em; font-weight: 700; letter-spacing: 0.06em; vertical-align: super; margin-left: 0.06em; color: #1D1B18; }
+  .lockup { display: inline-flex; align-items: flex-start; font-weight: 400; letter-spacing: -0.0275em; line-height: 1.06; }
+  .lockup .tag { font-family: var(--audit); font-size: 0.444em; font-weight: 400; letter-spacing: 0; line-height: 1; margin: 0.19em 0 0 0.07em; }
+  .lockup .tag.grad { background: linear-gradient(180deg, #C9A14E, #8A6A2F); -webkit-background-clip: text; background-clip: text; color: transparent; }
+  .icon-tile { display: flex; align-items: center; justify-content: center; font-weight: 400; line-height: 1; letter-spacing: 0; }
+  .qol .chart-wrap { width: 100%; position: relative; background: #FAF7F2; border: 1px solid rgba(29,27,24,0.12); padding: 12px 28px 10px 18px; overflow: hidden; }
+  .qol .chart-grid { display: grid; grid-template-columns: minmax(0, 1fr) 250px; gap: 18px; align-items: center; }
+  .qol .chart-scroll { overflow-x: auto; }
+  .qol #chart { display: block; width: 100%; min-width: 0; height: auto; }
+  .qol .legend { display: flex; flex-direction: column; gap: 10px; width: 250px; padding: 4px 0 0 18px; border-left: 1px solid rgba(29,27,24,0.06); }
+  .qol .legend-toggle { display: inline-grid; grid-template-columns: auto 1fr; grid-template-rows: auto auto; column-gap: 10px; row-gap: 2px; align-items: center; width: 100%; background: transparent; border: none; padding: 6px 0; font-size: 14px; color: #1D1B18; font-family: var(--voice); cursor: pointer; user-select: none; line-height: 1.2; text-align: left; }
+  .qol .legend-toggle .track { grid-row: 1 / span 2; align-self: center; position: relative; width: 32px; height: 18px; background: rgba(29,27,24,0.12); border-radius: 999px; transition: background 140ms ease; }
+  .qol .legend-toggle .track::after { content: ''; position: absolute; top: 2px; left: 2px; width: 14px; height: 14px; background: rgba(29,27,24,0.38); border-radius: 50%; transition: transform 140ms ease, background 140ms ease; }
+  .qol .legend-toggle[data-active="true"] .track::after { transform: translateX(14px); background: var(--swatch, #C9A14E); }
+  .qol .legend-toggle[data-active="true"] .track { background: rgba(201,161,78,0.3); }
+  .qol .legend-toggle .label { grid-column: 2; grid-row: 1; font-weight: 600; }
+  .qol .legend-toggle .pct { font-family: var(--audit); grid-column: 2; grid-row: 2; font-variant-numeric: tabular-nums; font-size: 15px; font-weight: 400; color: #1D1B18; }
+  .qol .legend-toggle[data-active="false"] .label, .qol .legend-toggle[data-active="false"] .pct { color: #5A6378; opacity: 0.72; }
+  .qol .legend-refs { display: flex; flex-direction: column; align-items: flex-start; gap: 8px; margin-top: 10px; padding-top: 12px; border-top: 1px solid rgba(29,27,24,0.06); }
+  .qol .legend-ref { display: inline-flex; align-items: center; gap: 10px; padding: 4px 0; font-size: 11px; color: #5A6378; font-family: var(--audit); letter-spacing: 0.02em; }
+  .qol .legend-ref .dash { display: inline-block; width: 32px; height: 0; border-top: 1.5px dashed rgba(29,27,24,0.45); }
+  .qol .legend-ref .swatch { display: inline-block; width: 32px; height: 12px; background: rgba(110,110,115,0.5); }
+  .qol .controls { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 14px; margin-top: 14px; }
+  .qol .ctl { background: #F5F1E8; border: 1px solid rgba(29,27,24,0.06); padding: 14px 18px 12px; }
+  .qol .ctl-name { font-family: var(--voice); font-size: 13px; font-weight: 600; color: #1D1B18; }
+  .qol .ctl-head { display: flex; justify-content: space-between; align-items: baseline; margin-bottom: 10px; }
+  .qol input[type=range] { width: 100%; -webkit-appearance: none; appearance: none; height: 3px; background: rgba(29,27,24,0.14); outline: none; margin: 6px 0 4px; }
+  .qol input[type=range]::-webkit-slider-thumb { -webkit-appearance: none; width: 20px; height: 20px; border-radius: 50%; background: #FAF7F2; cursor: pointer; border: 2.5px solid #1D1B18; box-shadow: 0 1px 4px rgba(29,27,24,0.16); }
+  .qol input[type=range]::-moz-range-thumb { width: 20px; height: 20px; border-radius: 50%; background: #FAF7F2; cursor: pointer; border: 2.5px solid #1D1B18; }
+  .qol .ctl-marks { font-family: var(--audit); display: flex; justify-content: space-between; color: #5A6378; font-size: 11px; letter-spacing: 0.04em; text-transform: uppercase; margin-top: 7px; }
+  .qol .ax-tick { stroke: rgba(29,27,24,0.22); }
+  .qol .ax-label { fill: #5A6378; font-size: 12px; font-family: var(--audit); }
+  .qol .ref-curve { fill: none; stroke: rgba(29,27,24,0.38); stroke-width: 1.4; stroke-dasharray: 6 5; opacity: 0.72; }
+  .qol .patient-curve { fill: none; stroke: #C9A14E; stroke-width: 2.4; stroke-dasharray: 9 5; opacity: 0.95; }
+  .qol .patient-marker { fill: #C9A14E; stroke: #FAF7F2; stroke-width: 2; }
+  .qol .patient-label { fill: #1D1B18; font-size: 13px; font-family: var(--audit); font-weight: 600; }
+  @media (max-width: 880px) { .qol .chart-grid { grid-template-columns: 1fr; } .qol .legend { width: 100%; border-left: none; padding-left: 0; } .qol .controls { grid-template-columns: 1fr; } }
+  .spec-roles .row p { font-size: 16.5px; }
+
+  /* contents rail */
+  .toc {
+    position: fixed;
+    left: 28px;
+    top: 50%;
+    transform: translateY(-50%);
+    width: 178px;
+    z-index: 60;
+    background: rgba(255, 255, 255, 0.95);
+    padding: 14px 16px;
+    font-size: 11.5px;
+    line-height: 1.5;
+  }
+  .toc-head {
+    font-size: 10.5px;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--gray);
+    font-weight: 700;
+    padding-bottom: 8px;
+    margin-bottom: 8px;
+    border-bottom: 1px solid var(--ink);
+  }
+  .toc ol { list-style: none; }
+  .toc li { margin: 6px 0; display: flex; gap: 8px; align-items: baseline; }
+  .toc li .n { font-size: 10px; color: var(--gray-light); min-width: 16px; }
+  .toc li a {
+    color: var(--gray);
+    text-decoration: none;
+    cursor: pointer;
+  }
+  .toc li.active a { color: var(--ink); font-weight: 700; }
+  .toc li.active .n { color: var(--ink); }
+  .toc li.pending a { color: #C4C2BD; cursor: default; }
+  .toc li .tag { font-size: 9.5px; color: var(--gray-light); text-transform: uppercase; letter-spacing: 0.06em; margin-left: 4px; }
+  @media (max-width: 1279px) { .toc { display: none; } }
+
+  @media (max-width: 880px) {
+    body { padding: 40px 0 80px; }
+    .doc { padding: 0 20px; }
+    .row { grid-template-columns: 1fr; gap: 8px; }
+    .stage { height: auto; margin-top: 40px; }
+    .stage-sticky { position: static; height: auto; overflow: visible; }
+    .stage-head { height: auto; margin-bottom: 12px; padding: 0 20px; }
+    .stage-title { position: static; }
+    .stage-title.t1 { display: none; }
+    .stage-title.t2 { opacity: 1; }
+    .map-stage { width: 100% !important; }
+    .uniform-chips { opacity: 1 !important; }
+    .hover-card { width: calc(100vw - 40px); }
+    .study { position: static; transform: none; opacity: 1 !important; pointer-events: auto; margin: 24px 20px 0; width: auto; }
+    .study-grid { grid-template-columns: 1fr 1fr; }
+    .plate-pair { grid-template-columns: 1fr; }
+    .plate img, .plate .ov, .plate-pair .plate img, .plate-pair .plate .ov { height: 46vh; }
+    .hero-plate img, .hero-plate .ov { height: 64vh; }
+    .plate-type { max-width: 86%; }
+  }
+</style>
+</head>
+<body>
+
+<nav class="toc" id="toc" aria-label="Document contents">
+  <div class="toc-head">Contents</div>
+  <ol>
+    <li data-key="01"><span class="n">01</span><a data-go="t01">Thesis, Hero &amp; Position</a></li>
+    <li data-key="02"><span class="n">02</span><a data-go="t02">Visual Landscape</a></li>
+    <li data-key="03"><span class="n">03</span><a data-go="t03">Color<span class="tag">study</span></a></li>
+    <li data-key="04"><span class="n">04</span><a data-go="t04">Photography</a></li>
+    <li data-key="05"><span class="n">05</span><a data-go="t05">Wordmark &amp; Icon</a></li>
+    <li data-key="06"><span class="n">06</span><a data-go="t06">Typography</a></li>
+    <li data-key="07"><span class="n">07</span><a data-go="t07">Graphic Language</a></li>
+    <li data-key="08"><span class="n">08</span><a data-go="t08">Iconography and Illustration</a></li>
+    <li data-key="09"><span class="n">09</span><a data-go="t09">Voice</a></li>
+    <li data-key="10"><span class="n">10</span><a data-go="t10">In Application</a></li>
+    <li class="pending"><span class="n">11</span><a>System &amp; Governance</a></li>
+  </ol>
+</nav>
+
+<div class="doc">
+
+  <div class="doc-header">
+    <span><span style="text-transform: none;">Aleron MD</span> · Visual Identity · V1</span>
+    <span>Working draft · 06/12/2026</span>
+  </div>
+
+  <!-- ============ 01 · THESIS & POSITION ============ -->
+  <section id="thesis-position">
+    <div class="section-label">01 · Thesis, Hero &amp; Position</div>
+
+    <h1>Some of your best days are still ahead of you.</h1>
+
+    <div class="row abstract">
+      <div class="row-label">Thesis</div>
+      <div class="prose">
+        <p>The belief above is why the company exists. The thesis follows from it. <b>Data for the days:</b> intelligence assembled from your complete picture, led by a physician who knows you, in service of the moments you care about, never the reverse.</p>
+      </div>
+    </div>
+
+    <div class="row block">
+      <div class="row-label">The hero</div>
+      <div class="prose">
+        <p>The hero is a high-agency person in midlife, roughly 40s to early 60s, who does not feel finished. They are quietly unwilling to let age, friction, or conventional healthcare define the next chapter. They run something: a company, a team, a practice, a household. They hire specialists, check the work before they trust it, and once they trust it they stop micromanaging. They are comfortable with data, read the footnotes when something matters, and notice when someone is bluffing.</p>
+        <p>They are not chasing vanity or biohacker theater. They want the physical capacity, clarity, and resilience to keep building, parenting, leading, loving, traveling, and becoming more themselves. Age has started to show up around them: parents getting older, a friend with a diagnosis, their own recovery taking longer than it used to. They assume medicine could do more for them than an annual physical does, but they do not know which provider to trust, and they do not have time to become an expert themselves.</p>
+        <p>They worry about losing independence later, and about wasting time and money now: wellness fads, tests that produce anxiety instead of decisions, services that talk down to them or upsell them. Health sits in the same category as their financial planning: important, handled carefully, not a hobby. In photographs they are magnetic, vital people around 45 to 60 who feel aspirational but plausibly you: lean, strong, beautifully aged, calm, and present. The register is quiet contentment, not joy: a held moment with a spouse, child, friend, craft, trail, workshop, ocean, or city view. The promise is not "look young forever." It is that your best work and best years may still be ahead of you.</p>
+      </div>
+    </div>
+
+    <div class="row block">
+      <div class="row-label">Aleron identity</div>
+      <div class="prose">
+        <p><b>Aleron is navigation intelligence for the days ahead:</b> the whole of medicine, read against the whole of you, distilled to one course correction at a time. You choose the destination; Aleron computes the course; <b>your physician is in the pilot seat.</b> The destination is not a figure of speech. A life ahead has a shape: capacity over time, with forks for the events that risk makes likelier and earlier. Seeing that shape, and choosing a better one, is the member's act. Everything behind it is the work of getting there: a multitude of clinical risk models, the patterns that cut across them, action candidates drawn from every relevant published study, scored and ranked down to one thing. <b>One thing this month is a course correction.</b> The work is enormous; the face is calm.</p>
+        <p>Three bodies, in fixed order. The member chooses where to go and stays the protagonist; the brand works one step off-frame, which is why the photography contains almost no doctors and no product. The physician is the one human in the loop: reads the instrument, makes the call, answers for it. Members describe that relationship as <b>a friend who happens to be brilliant;</b> the quote names the physician's voice, not the whole brand. The instrument computes and never steers: guidance, never autopilot. The name keeps the order honest: an aleron is an aileron, the surface on the wing where a decision becomes a change of course, and the hand on the stick is never the instrument's. This names the identity of Aleron itself: the instrument. The brand identity is what the whole document assembles, <b>the interplay between that intelligence and the hero's destinations:</b> the photographs hold the destination, the mono layer holds the course, and the wordmark seats the physician's credential beside the instrument's name.</p>
+      </div>
+    </div>
+
+    <div class="row figure-block">
+      <div class="row-label">The three bodies</div>
+      <div>
+        <div class="field day" style="padding: 28px 36px 14px;">
+          <div class="f-mono">In care</div>
+          <svg viewBox="0 0 900 620" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Patient, physician, Aleron">
+            <line x1="430" y1="150" x2="236" y2="476" stroke="#1D1B18" stroke-width="1.3"/>
+            <line x1="470" y1="150" x2="664" y2="476" stroke="#1D1B18" stroke-width="1.3"/>
+            <line x1="236" y1="500" x2="664" y2="500" stroke="#1D1B18" stroke-width="1.3"/>
+            <text x="450" y="58" text-anchor="middle" font-family="var(--voice)" font-size="22" font-weight="600" fill="#1D1B18">Patient</text>
+            <text x="450" y="82" text-anchor="middle" font-family="var(--voice)" font-size="15" fill="#5A6378">Chooses the destination</text>
+            <circle cx="450" cy="126" r="15" fill="none" stroke="#1D1B18" stroke-width="1.6"/>
+            <circle cx="200" cy="500" r="15" fill="#1D1B18"/>
+            <text x="200" y="548" text-anchor="middle" font-family="var(--voice)" font-size="22" font-weight="600" fill="#1D1B18">Physician</text>
+            <text x="200" y="572" text-anchor="middle" font-family="var(--voice)" font-size="15" fill="#5A6378">Flies the course · owns the call</text>
+            <g transform="translate(700,500)"><rect x="-13" y="-13" width="26" height="26" transform="rotate(45)" fill="none" stroke="#1D1B18" stroke-width="1.6"/><circle cx="0" cy="0" r="3.4" fill="#C9A14E"/></g>
+            <text x="700" y="548" text-anchor="middle" font-family="var(--voice)" font-size="22" font-weight="600" fill="#1D1B18">Aleron</text>
+            <text x="700" y="572" text-anchor="middle" font-family="var(--voice)" font-size="15" fill="#5A6378">Computes the course · never steers</text>
+            <rect x="214" y="296" width="194" height="46" fill="#FAF7F2" stroke="rgba(29,27,24,0.18)"/>
+            <text x="311" y="319" text-anchor="middle" font-family="var(--audit)" font-size="12.5" letter-spacing="0.6" fill="#1D1B18">THE DESTINATION</text>
+            <text x="311" y="335" text-anchor="middle" font-family="var(--voice)" font-size="13" fill="#5A6378">decide where to go</text>
+            <rect x="494" y="296" width="206" height="46" fill="#FAF7F2" stroke="rgba(29,27,24,0.18)"/>
+            <text x="598" y="319" text-anchor="middle" font-family="var(--audit)" font-size="12.5" letter-spacing="0.6" fill="#1D1B18">THE MAP</text>
+            <text x="598" y="335" text-anchor="middle" font-family="var(--voice)" font-size="13" fill="#5A6378">the whole of you, made legible</text>
+            <rect x="352" y="478" width="196" height="46" fill="#FAF7F2" stroke="rgba(29,27,24,0.18)"/>
+            <text x="450" y="501" text-anchor="middle" font-family="var(--audit)" font-size="12.5" letter-spacing="0.6" fill="#1D1B18">THE COURSE</text>
+            <text x="450" y="517" text-anchor="middle" font-family="var(--voice)" font-size="13" fill="#5A6378">plot the shortest path there</text>
+          </svg>
+        </div>
+        <div class="field day" style="padding: 28px 36px 14px;">
+          <div class="f-mono">In the air · the analogy</div>
+          <svg viewBox="0 0 900 620" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Passenger, pilot, flight computer">
+            <line x1="430" y1="150" x2="236" y2="476" stroke="#1D1B18" stroke-width="1.3"/>
+            <line x1="470" y1="150" x2="664" y2="476" stroke="#1D1B18" stroke-width="1.3"/>
+            <line x1="236" y1="500" x2="664" y2="500" stroke="#1D1B18" stroke-width="1.3"/>
+            <text x="450" y="58" text-anchor="middle" font-family="var(--voice)" font-size="22" font-weight="600" fill="#1D1B18">Passenger</text>
+            <text x="450" y="82" text-anchor="middle" font-family="var(--voice)" font-size="15" fill="#5A6378">Names where to go</text>
+            <circle cx="450" cy="126" r="15" fill="none" stroke="#1D1B18" stroke-width="1.6"/>
+            <circle cx="200" cy="500" r="15" fill="#1D1B18"/>
+            <text x="200" y="548" text-anchor="middle" font-family="var(--voice)" font-size="22" font-weight="600" fill="#1D1B18">Pilot</text>
+            <text x="200" y="572" text-anchor="middle" font-family="var(--voice)" font-size="15" fill="#5A6378">Flies the aircraft · owns the call</text>
+            <g transform="translate(700,500)"><rect x="-13" y="-13" width="26" height="26" transform="rotate(45)" fill="none" stroke="#1D1B18" stroke-width="1.6"/><circle cx="0" cy="0" r="3.4" fill="#C9A14E"/></g>
+            <text x="700" y="548" text-anchor="middle" font-family="var(--voice)" font-size="22" font-weight="600" fill="#1D1B18">Flight computer</text>
+            <text x="700" y="572" text-anchor="middle" font-family="var(--voice)" font-size="15" fill="#5A6378">Computes the course · never flies</text>
+            <rect x="214" y="296" width="194" height="46" fill="#FAF7F2" stroke="rgba(29,27,24,0.18)"/>
+            <text x="311" y="319" text-anchor="middle" font-family="var(--audit)" font-size="12.5" letter-spacing="0.6" fill="#1D1B18">THE DESTINATION</text>
+            <text x="311" y="335" text-anchor="middle" font-family="var(--voice)" font-size="13" fill="#5A6378">where we're headed</text>
+            <rect x="494" y="296" width="206" height="46" fill="#FAF7F2" stroke="rgba(29,27,24,0.18)"/>
+            <text x="598" y="319" text-anchor="middle" font-family="var(--audit)" font-size="12.5" letter-spacing="0.6" fill="#1D1B18">THE MAP</text>
+            <text x="598" y="335" text-anchor="middle" font-family="var(--voice)" font-size="13" fill="#5A6378">position &amp; arrival, shown</text>
+            <rect x="352" y="478" width="196" height="46" fill="#FAF7F2" stroke="rgba(29,27,24,0.18)"/>
+            <text x="450" y="501" text-anchor="middle" font-family="var(--audit)" font-size="12.5" letter-spacing="0.6" fill="#1D1B18">THE COURSE</text>
+            <text x="450" y="517" text-anchor="middle" font-family="var(--voice)" font-size="13" fill="#5A6378">the route to fly</text>
+          </svg>
+        </div>
+        <p class="f-cap">Three jobs, three interactions, one shape · the patient chooses the destination, the physician flies the course and owns the call, the instrument computes and never steers · the third edge, the map, is the whole of you made legible · read it as a flight you already trust: passenger, pilot, flight computer</p>
+      </div>
+    </div>
+
+    <div class="row block">
+      <div class="row-label">Position</div>
+      <div class="prose">
+        <p>Every neighbor sells something close to this hero, and none sells this. The longevity clinics sell the future, surveilled: dread converted into control, denominated in biomarkers and scans. The lab apps sell your data, self-served. Executive medicine sells the year, cleared. Concierge primary care comes nearest and sells the present, served: the warmth of being known, with diagnostics as proof that the fee pays. The remaining position is ours: <b>the future, served.</b></p>
+        <p>That phrase is the brief for this entire document. In this market the visual identity signals the position: surveillance wears dark-mode scans and electric accents, and the present wears cream and golden hour. Serving the future demands both registers in one system: warm at the surface, rigorous one layer down. Life, and the data that protects it, made one. The sections that follow build that system.</p>
+      </div>
+    </div>
+
+    <div class="def">
+      <div class="row">
+        <div class="row-label">Thesis</div>
+        <p><b>Data for the days.</b> Intelligence in service of the moments you care about. Never data for its own sake.</p>
+      </div>
+      <div class="row">
+        <div class="row-label">Hero</div>
+        <p>Midlife, 40s to early 60s, high agency, does not feel finished. Wants the capacity, clarity, and resilience for the next chapter. <b>Served, never passive.</b></p>
+      </div>
+      <div class="row">
+        <div class="row-label">Aleron identity</div>
+        <p><b>Navigation intelligence.</b> The whole of medicine, read against the whole of you, one course correction at a time. You choose the destination; the physician is in the pilot seat; the instrument never steers.</p>
+      </div>
+      <div class="row">
+        <div class="row-label">Position</div>
+        <p><b>The future, served.</b> Concierge serves the present. Longevity surveils the future. We serve the future itself.</p>
+      </div>
+      <div class="row">
+        <div class="row-label">Brand behavior</div>
+        <p><b>Show your work.</b> Warm at the surface, rigorous one layer down, calm always.</p>
+      </div>
+      <div class="row">
+        <div class="row-label">Posture</div>
+        <p><b>Disciplined vitality.</b> Restraint in claims, units on every number. Future nostalgia felt, never spoken.</p>
+      </div>
+    </div>
+  </section>
+
+</div>
+
+<!-- ============ THE STAGE: one map, read then dressed ============ -->
+<div class="stage" id="stage">
+  <div class="stage-sticky">
+    <div class="stage-head">
+      <div class="stage-title t1" id="stageT1">01 · Thesis, Hero &amp; Position · <b>The future, served.</b></div>
+      <div class="stage-title t2" id="stageT2">02 · The Visual Landscape</div>
+      <div class="stage-title t3" id="stageT3">Color study · <b>Aviation.</b> The instrument and the day.</div>
+    </div>
+    <div class="map-stage" id="mapStage">
+      <svg id="mapSvg" viewBox="0 40 960 520" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Market positioning map. As it expands, each brand's sampled color palette appears beside its position; it then zooms to the Aleron position where the proposed palette study appears.">
+        <g id="mapWorld">
+        <rect x="480" y="52" width="430" height="248" fill="#111111" opacity="0.04"/>
+
+        <!-- axes -->
+        <line x1="50" y1="300" x2="910" y2="300" stroke="#111111" stroke-width="1.2"/>
+        <line x1="480" y1="50" x2="480" y2="550" stroke="#111111" stroke-width="1.2"/>
+        <path d="M 910 300 l -9 -4.5 v 9 z" fill="#111111"/>
+        <path d="M 50 300 l 9 -4.5 v 9 z" fill="#111111"/>
+        <path d="M 480 50 l -4.5 9 h 9 z" fill="#111111"/>
+        <path d="M 480 550 l -4.5 -9 h 9 z" fill="#111111"/>
+
+        <!-- axis labels -->
+        <text x="60" y="258" font-size="12" letter-spacing="1" fill="#555555" font-weight="600">SELLS INPUTS</text>
+        <text x="60" y="280" font-size="13" fill="#888888">data · scans · biomarkers</text>
+        <text x="900" y="258" text-anchor="end" font-size="12" letter-spacing="1" fill="#555555" font-weight="600">SELLS OUTCOMES</text>
+        <text x="900" y="280" text-anchor="end" font-size="13" fill="#888888">days · capability · life</text>
+        <text x="494" y="68" font-size="12" letter-spacing="1" fill="#555555" font-weight="600">ANTICIPATION + CARE</text>
+        <text x="494" y="542" font-size="12" letter-spacing="1" fill="#555555" font-weight="600">FEAR + CONTROL</text>
+
+        <!-- competitors -->
+        <g class="pos" data-key="hli">
+          <circle cx="205" cy="460" r="6.5" fill="none" stroke="#555555" stroke-width="1.5"/>
+          <text x="205" y="441" text-anchor="middle" font-size="14.5" font-weight="600" fill="#111111">Human Longevity</text>
+          <g class="uniform-chips">
+            <rect x="219" y="453" width="13" height="13" fill="#F4F7F6" stroke="#BBBBBB" stroke-width="0.6"/>
+            <rect x="234" y="453" width="13" height="13" fill="#4A8A96"/>
+          </g>
+        </g>
+
+        <g class="pos" data-key="fountain">
+          <circle cx="320" cy="390" r="6.5" fill="none" stroke="#555555" stroke-width="1.5"/>
+          <text x="320" y="371" text-anchor="middle" font-size="14.5" font-weight="600" fill="#111111">Fountain Life</text>
+          <g class="uniform-chips">
+            <rect x="334" y="383" width="13" height="13" fill="#0E0E10"/>
+            <rect x="349" y="383" width="13" height="13" fill="#041B2D"/>
+            <rect x="364" y="383" width="13" height="13" fill="#009CD4"/>
+            <rect x="379" y="383" width="13" height="13" fill="#00E5E5"/>
+          </g>
+        </g>
+
+        <g class="pos" data-key="superpower">
+          <circle cx="180" cy="350" r="6.5" fill="none" stroke="#555555" stroke-width="1.5"/>
+          <text x="180" y="331" text-anchor="middle" font-size="14.5" font-weight="600" fill="#111111">Superpower</text>
+          <g class="uniform-chips">
+            <rect x="194" y="343" width="13" height="13" fill="#0E0E10"/>
+            <rect x="209" y="343" width="13" height="13" fill="#FF6B00"/>
+          </g>
+        </g>
+
+        <g class="pos" data-key="wild">
+          <circle cx="400" cy="485" r="6.5" fill="none" stroke="#555555" stroke-width="1.5"/>
+          <text x="400" y="466" text-anchor="middle" font-size="14.5" font-weight="600" fill="#111111">Wild Health</text>
+          <g class="uniform-chips">
+            <rect x="414" y="478" width="13" height="13" fill="#03293B"/>
+            <rect x="429" y="478" width="13" height="13" fill="#8FBCA2"/>
+            <rect x="444" y="478" width="13" height="13" fill="#B2D7C7"/>
+          </g>
+        </g>
+        <text x="295" y="522" text-anchor="middle" font-size="13" fill="#888888">the future, surveilled</text>
+
+        <g class="pos" data-key="function">
+          <circle cx="345" cy="195" r="6.5" fill="none" stroke="#555555" stroke-width="1.5"/>
+          <text x="345" y="176" text-anchor="middle" font-size="14.5" font-weight="600" fill="#111111">Function Health</text>
+          <g class="uniform-chips">
+            <rect x="359" y="188" width="13" height="13" fill="#FEF9EF" stroke="#BBBBBB" stroke-width="0.6"/>
+            <rect x="374" y="188" width="13" height="13" fill="#F5EEE1" stroke="#BBBBBB" stroke-width="0.6"/>
+            <rect x="389" y="188" width="13" height="13" fill="#B05A36"/>
+            <rect x="404" y="188" width="13" height="13" fill="#2A2B2F"/>
+          </g>
+        </g>
+        <text x="345" y="217" text-anchor="middle" font-size="13" fill="#888888">your data, self-served</text>
+
+        <g class="pos" data-key="mayo">
+          <circle cx="610" cy="445" r="6.5" fill="none" stroke="#555555" stroke-width="1.5"/>
+          <text x="610" y="426" text-anchor="middle" font-size="14.5" font-weight="600" fill="#111111">Mayo / Cleveland Executive</text>
+          <g class="uniform-chips">
+            <rect x="624" y="438" width="13" height="13" fill="#1B477B"/>
+            <rect x="639" y="438" width="13" height="13" fill="#002F6C"/>
+            <rect x="654" y="438" width="13" height="13" fill="#FFFFFF" stroke="#BBBBBB" stroke-width="0.6"/>
+          </g>
+        </g>
+        <text x="610" y="467" text-anchor="middle" font-size="13" fill="#888888">the year, cleared</text>
+
+        <g class="pos" data-key="mdvip">
+          <circle cx="545" cy="225" r="6.5" fill="none" stroke="#555555" stroke-width="1.5"/>
+          <text x="545" y="206" text-anchor="middle" font-size="14.5" font-weight="600" fill="#111111">MDVIP</text>
+          <g class="uniform-chips">
+            <rect x="559" y="218" width="13" height="13" fill="#F97D2B"/>
+            <rect x="574" y="218" width="13" height="13" fill="#FFDCB5" stroke="#BBBBBB" stroke-width="0.6"/>
+            <rect x="589" y="218" width="13" height="13" fill="#F6F0E1" stroke="#BBBBBB" stroke-width="0.6"/>
+            <rect x="604" y="218" width="13" height="13" fill="#201D1A"/>
+          </g>
+        </g>
+
+        <g class="pos" data-key="sigmd">
+          <circle cx="490" cy="268" r="6.5" fill="none" stroke="#555555" stroke-width="1.5"/>
+          <text x="490" y="249" text-anchor="middle" font-size="14.5" font-weight="600" fill="#111111">SignatureMD</text>
+          <g class="uniform-chips">
+            <rect x="504" y="261" width="13" height="13" fill="#059EC0"/>
+            <rect x="519" y="261" width="13" height="13" fill="#DD484E"/>
+            <rect x="534" y="261" width="13" height="13" fill="#FDCA10"/>
+          </g>
+        </g>
+        <text x="520" y="290" text-anchor="middle" font-size="13" fill="#888888">the present, served</text>
+        </g>
+
+        <!-- Aleron: territory, not yet dressed -->
+        <g class="pos" data-key="aleron">
+          <circle cx="730" cy="150" r="9" fill="#111111"/>
+          <circle cx="730" cy="150" r="16" fill="none" stroke="#111111" stroke-width="1.4" stroke-dasharray="3 4"/>
+          <text x="730" y="120" text-anchor="middle" font-size="16" font-weight="700" fill="#111111">Aleron MD</text>
+          <text x="730" y="182" text-anchor="middle" font-size="13.5" fill="#555555">the future, served</text>
+          <g class="uniform-chips">
+            <rect class="seed" data-fill="#FAF7F2" x="754" y="143" width="13" height="13" fill="none" stroke="#999999" stroke-width="1" stroke-dasharray="3 2"/>
+            <rect class="seed" data-fill="#C9A14E" x="769" y="143" width="13" height="13" fill="none" stroke="#999999" stroke-width="1" stroke-dasharray="3 2"/>
+            <rect class="seed" data-fill="#252B3D" x="784" y="143" width="13" height="13" fill="none" stroke="#999999" stroke-width="1" stroke-dasharray="3 2"/>
+            <rect class="seed" data-fill="#333E48" x="799" y="143" width="13" height="13" fill="none" stroke="#999999" stroke-width="1" stroke-dasharray="3 2"/>
+          </g>
+        </g>
+      </svg>
+    </div>
+    <div class="stage-foot" id="stageFoot">Hover a position for its full uniform; the card holds while you move onto it, and its sources are clickable. Placements and palettes are our internal read, sampled from live sites 06/2026; approximations marked with a tilde.</div>
+
+    <div class="study" id="study">
+      <div class="study-head">Color study · Aviation <span>the instrument and the day · tested and decided in Section 03</span></div>
+      <div class="study-grid">
+        <div>
+          <div class="sg-label">Day · morning paper</div>
+          <div class="sw-row">
+            <div class="sw"><div class="sw-c" style="background:#FAF7F2"></div><span>~#FAF7F2</span></div>
+            <div class="sw"><div class="sw-c" style="background:#1D1B18"></div><span>~#1D1B18</span></div>
+            <div class="sw"><div class="sw-c" style="background:#C9A14E"></div><span>~#C9A14E</span></div>
+          </div>
+        </div>
+        <div>
+          <div class="sg-label">Flight deck · the cold register</div>
+          <div class="sw-row">
+            <div class="sw"><div class="sw-c" style="background:#252B3D"></div><span>~#252B3D</span></div>
+            <div class="sw"><div class="sw-c" style="background:#333E48"></div><span>~#333E48</span></div>
+            <div class="sw"><div class="sw-c" style="background:#EACB7F"></div><span>~#EACB7F</span></div>
+          </div>
+        </div>
+        <div>
+          <div class="sg-label">Signature · the weave</div>
+          <div class="ramp"></div>
+          <span style="display:block; font-size:10px; color:var(--gray-light); margin-top:3px;">gunmetal · vertical · dark above light</span>
+        </div>
+        <div>
+          <div class="sg-label">Data · reserved signals</div>
+          <div class="sw-row">
+            <div class="sw"><div class="sw-c" style="background:#C9A14E"></div><span>forward</span></div>
+            <div class="sw"><div class="sw-c" style="background:#A4452C"></div><span>hazard</span></div>
+            <div class="sw"><div class="sw-c" style="background:#5A6378"></div><span>baseline</span></div>
+            <div class="sw"><div class="sw-c" style="background:#8A877F"></div><span>neutral</span></div>
+          </div>
+        </div>
+      </div>
+      <div class="study-note">Aviation, not dawn: a cold, exact instrument register and a warm human register. Gold is the one signal between them; ember is hazard only. The cold is the computation, the warm is the person — two registers, one system.</div>
+    </div>
+  </div>
+</div>
+
+<div class="hover-card" id="hoverCard"></div>
+
+<div class="doc">
+
+  <!-- ============ 03 · COLOR STUDY ============ -->
+  <section id="color-study">
+    <div class="section-label">03 · Color Study</div>
+
+    <div class="row abstract">
+      <div class="row-label">Aviation</div>
+      <div class="prose">
+        <p>The palette is <b>aviation: the instrument and the day.</b> A cold, exact instrument register — <b>gunmetal</b> is the signature weave, <b>navy</b> the flat grounds it sits on, graphite and steel the weave's two ends, and <b>slate</b> the labels and secondary text — and a warm human register: paper, ink, and a single gold. The cold is the computation; the warm is the person; <b>gold is the one signal between them, and ember is hazard only.</b> Every value below is measured, and the interaction grid is the law.</p>
+      </div>
+    </div>
+
+
+    <div class="row territory" id="color">
+      <div class="row-label">Study</div>
+      <div>
+        <div class="materials">
+          <div class="mat"><div class="c" style="background:#FAF7F2"></div><span>PAPER FAF7F2</span></div>
+          <div class="mat"><div class="c" style="background:#1D1B18"></div><span>INK 1D1B18</span></div>
+          <div class="mat"><div class="c" style="background:#15171C"></div><span>GRAPHITE 15171C</span></div>
+          <div class="mat"><div class="c" style="background:#333E48"></div><span>GUNMETAL 333E48</span></div>
+          <div class="mat"><div class="c" style="background:#46555F"></div><span>STEEL 46555F</span></div>
+          <div class="mat"><div class="c" style="background:#252B3D"></div><span>NAVY 252B3D</span></div>
+          <div class="mat"><div class="c" style="background:#5A6378"></div><span>SLATE 5A6378</span></div>
+          <div class="mat"><div class="c" style="background:#C9A14E"></div><span>GOLD C9A14E</span></div>
+          <div class="mat"><div class="c" style="background:#EACB7F"></div><span>LIT GOLD EACB7F</span></div>
+          <div class="mat"><div class="c" style="background:#8A6A2F"></div><span>TEXT GOLD 8A6A2F</span></div>
+          <div class="mat"><div class="c" style="background:#A4452C"></div><span>EMBER A4452C</span></div>
+        </div>
+      </div>
+    </div>
+
+    <div class="row figure-block">
+      <div class="row-label">Scales</div>
+      <div>
+        <div class="scales">
+          <div>
+            <div class="scale-step" style="background:#A8AAB1; color:#1D1B18;">A8AAB1</div>
+            <div class="scale-step" style="background:#666B77; color:#F5F1E8;">666B77</div>
+            <div class="scale-step" style="background:#252B3D; color:#F5F1E8;">252B3D</div>
+            <div class="scale-step" style="background:#1C202E; color:#F5F1E8;">1C202E</div>
+            <div class="scale-step" style="background:#13161F; color:#F5F1E8;">13161F</div>
+          </div>
+          <div>
+            <div class="scale-step" style="background:#E9D9B8; color:#1D1B18;">E9D9B8</div>
+            <div class="scale-step" style="background:#D9BD83; color:#1D1B18;">D9BD83</div>
+            <div class="scale-step" style="background:#C9A14E; color:#1D1B18;">C9A14E</div>
+            <div class="scale-step" style="background:#97793B; color:#F5F1E8;">97793B</div>
+            <div class="scale-step" style="background:#655127; color:#F5F1E8;">655127</div>
+          </div>
+          <div>
+            <div class="scale-step" style="background:#DBB5AB; color:#1D1B18;">DBB5AB</div>
+            <div class="scale-step" style="background:#BF7D6B; color:#1D1B18;">BF7D6B</div>
+            <div class="scale-step" style="background:#A4452C; color:#F5F1E8;">A4452C</div>
+            <div class="scale-step" style="background:#7B3421; color:#F5F1E8;">7B3421</div>
+            <div class="scale-step" style="background:#522316; color:#F5F1E8;">522316</div>
+          </div>
+          <div>
+            <div class="scale-step" style="background:#BDC1C9; color:#1D1B18;">BDC1C9</div>
+            <div class="scale-step" style="background:#8C92A1; color:#1D1B18;">8C92A1</div>
+            <div class="scale-step" style="background:#5A6378; color:#F5F1E8;">5A6378</div>
+            <div class="scale-step" style="background:#444A5A; color:#F5F1E8;">444A5A</div>
+            <div class="scale-step" style="background:#2D323C; color:#F5F1E8;">2D323C</div>
+          </div>
+        </div>
+        <p class="f-cap">Indigo · Gold · Ember · Slate</p>
+      </div>
+    </div>
+
+    <div class="row figure-block">
+      <div class="row-label">Interaction</div>
+      <div>
+        <div class="igrid">
+          <div class="igrid-row">
+            <div class="glabel">PAPER</div>
+            <div class="icell" style="background:#FAF7F2;"><span class="aa" style="color:#1D1B18;">Aa</span><span class="rt pass" style="color:#1D1B18;">16.1</span></div>
+            <div class="icell no xd" style="background:#FAF7F2;"><span class="aa" style="color:#F5F1E8;">Aa</span><span class="rt" style="color:#1D1B18;">1.1</span></div>
+            <div class="icell" style="background:#FAF7F2;"><span class="aa" style="color:#C9A14E;">Aa</span><span class="rt" style="color:#1D1B18;">2.3</span><span class="use" style="color:#1D1B18;">LINE · FILL</span></div>
+            <div class="icell no xd" style="background:#FAF7F2;"><span class="aa" style="color:#EACB7F;">Aa</span><span class="rt" style="color:#1D1B18;">1.5</span></div>
+            <div class="icell" style="background:#FAF7F2;"><span class="aa" style="color:#8A6A2F;">Aa</span><span class="rt pass" style="color:#1D1B18;">4.7</span><span class="use" style="color:#1D1B18;">TEXT</span></div>
+            <div class="icell" style="background:#FAF7F2;"><span class="aa" style="color:#A4452C;">Aa</span><span class="rt pass" style="color:#1D1B18;">5.7</span><span class="use" style="color:#1D1B18;">HAZARD ONLY</span></div>
+            <div class="icell" style="background:#FAF7F2;"><span class="aa" style="color:#5A6378;">Aa</span><span class="rt pass" style="color:#1D1B18;">5.6</span></div>
+          </div>
+          <div class="igrid-row">
+            <div class="glabel">INDIGO</div>
+            <div class="icell no xl" style="background:#252B3D;"><span class="aa" style="color:#1D1B18;">Aa</span><span class="rt" style="color:#F5F1E8;">1.2</span></div>
+            <div class="icell" style="background:#252B3D;"><span class="aa" style="color:#F5F1E8;">Aa</span><span class="rt pass" style="color:#F5F1E8;">12.5</span></div>
+            <div class="icell" style="background:#252B3D;"><span class="aa" style="color:#C9A14E;">Aa</span><span class="rt pass" style="color:#F5F1E8;">5.8</span></div>
+            <div class="icell" style="background:#252B3D;"><span class="aa" style="color:#EACB7F;">Aa</span><span class="rt pass" style="color:#F5F1E8;">8.9</span></div>
+            <div class="icell no xl" style="background:#252B3D;"><span class="aa" style="color:#8A6A2F;">Aa</span><span class="rt" style="color:#F5F1E8;">2.8</span></div>
+            <div class="icell no xl" style="background:#252B3D;"><span class="aa" style="color:#A4452C;">Aa</span><span class="rt" style="color:#F5F1E8;">2.3</span></div>
+            <div class="icell no xl" style="background:#252B3D;"><span class="aa" style="color:#5A6378;">Aa</span><span class="rt" style="color:#F5F1E8;">2.3</span></div>
+          </div>
+          <div class="igrid-row">
+            <div class="glabel">INK</div>
+            <div class="icell no xl" style="background:#1D1B18;"><span class="aa" style="color:#1D1B18;">Aa</span><span class="rt" style="color:#F5F1E8;">1.0</span></div>
+            <div class="icell" style="background:#1D1B18;"><span class="aa" style="color:#F5F1E8;">Aa</span><span class="rt pass" style="color:#F5F1E8;">15.2</span></div>
+            <div class="icell" style="background:#1D1B18;"><span class="aa" style="color:#C9A14E;">Aa</span><span class="rt pass" style="color:#F5F1E8;">7.1</span></div>
+            <div class="icell" style="background:#1D1B18;"><span class="aa" style="color:#EACB7F;">Aa</span><span class="rt pass" style="color:#F5F1E8;">10.9</span></div>
+            <div class="icell no xl" style="background:#1D1B18;"><span class="aa" style="color:#8A6A2F;">Aa</span><span class="rt" style="color:#F5F1E8;">3.4</span></div>
+            <div class="icell no xl" style="background:#1D1B18;"><span class="aa" style="color:#A4452C;">Aa</span><span class="rt" style="color:#F5F1E8;">2.8</span></div>
+            <div class="icell no xl" style="background:#1D1B18;"><span class="aa" style="color:#5A6378;">Aa</span><span class="rt" style="color:#F5F1E8;">2.9</span></div>
+          </div>
+          <div class="igrid-row">
+            <div class="glabel">GOLD</div>
+            <div class="icell" style="background:#C9A14E;"><span class="aa" style="color:#1D1B18;">Aa</span><span class="rt pass" style="color:#1D1B18;">7.1</span></div>
+            <div class="icell no xd" style="background:#C9A14E;"><span class="aa" style="color:#F5F1E8;">Aa</span><span class="rt" style="color:#1D1B18;">2.1</span></div>
+            <div class="icell no xd" style="background:#C9A14E;"><span class="aa" style="color:#C9A14E;">Aa</span><span class="rt" style="color:#1D1B18;">1.0</span></div>
+            <div class="icell no xd" style="background:#C9A14E;"><span class="aa" style="color:#EACB7F;">Aa</span><span class="rt" style="color:#1D1B18;">1.5</span></div>
+            <div class="icell no xd" style="background:#C9A14E;"><span class="aa" style="color:#8A6A2F;">Aa</span><span class="rt" style="color:#1D1B18;">1.7</span></div>
+            <div class="icell no xd" style="background:#C9A14E;"><span class="aa" style="color:#A4452C;">Aa</span><span class="rt" style="color:#1D1B18;">2.5</span></div>
+            <div class="icell no xd" style="background:#C9A14E;"><span class="aa" style="color:#5A6378;">Aa</span><span class="rt" style="color:#1D1B18;">2.5</span></div>
+          </div>
+        </div>
+        <p class="f-cap">Ink · Cream · Gold · Lit gold · Text gold · Ember · Slate on four grounds · measured · bold passes 4.5 and may run as text · struck pairs are forbidden in any role · gold on light grounds is line, fill, signal, never text · text gold 8A6A2F is gold's text grade, light grounds only, the day counterpart of lit gold · ember is hazard only, and only on light grounds</p>
+      </div>
+    </div>
+
+    <div class="row figure-block">
+      <div class="row-label">The registers</div>
+      <div>
+        <div class="field day">
+          <div class="f-mono">Day register · morning paper #FAF7F2 · the human</div>
+          <h3>Some of your best days are still ahead of you.</h3>
+          <div class="f-foot">INK ON PAPER 16.08:1 · EMBER ON PAPER 5.67:1 · SLATE ON PAPER 5.63:1 · GOLD AS TEXT 2.26:1 · FAILS, FORBIDDEN</div>
+        </div>
+        <div class="field night">
+          <div class="f-mono">Flight deck register · navy #252B3D · the flat deck ground</div>
+          <h3>Warm at the surface, rigorous one layer down.</h3>
+          <div class="f-foot">CREAM ON NAVY 12.49:1 · LIT GOLD ON NAVY 8.95:1 · BOTH PASS AA WITH MARGIN</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="row figure-block">
+      <div class="row-label">The instrument · the weave gradient</div>
+      <div>
+        <div class="ramp-pair">
+          <div class="ramp-plate"></div>
+          <div class="ramp-steps">
+            <div style="background:#15171C"></div>
+            <div style="background:#222831"></div>
+            <div style="background:#333E48"></div>
+            <div style="background:#46555F"></div>
+          </div>
+        </div>
+        <p class="f-cap">The signature, replacing the dawn fade · gunmetal: graphite above, steel below — the airframe and the panel, not a sky · 15171C · 222831 · 333E48 · 46555F · vertical, dark above light · continuous and stepped · the cold register lives here; the photograph beside it stays warm</p>
+      </div>
+    </div>
+
+
+    <div class="row figure-block">
+      <div class="row-label">Proportion</div>
+      <div>
+        <div class="prop-bar">
+          <div style="width: 46%; background: #FAF7F2;"></div>
+          <div style="width: 14%; background: #1D1B18;"></div>
+          <div style="width: 16%; background: #252B3D;"></div>
+          <div style="width: 16%; background: #333E48;"></div>
+          <div style="width: 6%; background: #C9A14E;"></div>
+          <div style="width: 2%; background: #A4452C;"></div>
+        </div>
+        <p class="f-cap">Paper 46 · Ink 14 · Navy 16 · Gunmetal 16 · Gold 6 · Ember 2 — paper grounds the day; navy holds the flat grounds, gunmetal the signature weave; gold a thin signal</p>
+      </div>
+    </div>
+
+    <div class="row figure-block">
+      <div class="row-label">Screens</div>
+      <div>
+        <div class="mockups">
+          <div class="mock day-m">
+            <div class="mock-nav"><span style="display: inline-block; width: 64px; height: 11px; background: currentColor; opacity: 0.85;"></span><span class="f-mono" style="font-size: 9.5px; color: #6F6A61;">Membership · Physicians · Log in</span></div>
+            <div class="mock-body">
+              <h4>The medical team you would build for yourself.</h4>
+              <p class="lede2">Physician-led preventive medicine for capacity, risk, and vitality over time. Cohorts open in waves.</p>
+              <span class="mock-cta">Apply</span><span class="mock-ghost">See the medicine</span>
+            </div>
+            <div class="mock-chart">
+              <svg viewBox="0 0 400 80" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Capability curve in palette colors on paper">
+                <defs><linearGradient id="rampDay" x1="0" y1="0" x2="1" y2="0"><stop offset="0" stop-color="#252B3D"/><stop offset="0.55" stop-color="#8A5A4A"/><stop offset="1" stop-color="#C9A14E"/></linearGradient></defs>
+                <path d="M 8 62 C 90 58, 150 50, 220 34 S 360 12, 392 10" fill="none" stroke="url(#rampDay)" stroke-width="3" stroke-linecap="round"/>
+                <line x1="8" y1="70" x2="392" y2="70" stroke="#1D1B18" stroke-opacity="0.25" stroke-width="1"/>
+              </svg>
+            </div>
+            <div class="mock-foot"><span class="fw"><b>FORWARD · GOLD</b></span><span class="hz"><b>HAZARD · EMBER</b></span><span class="bl"><b>BASELINE · SLATE</b></span></div>
+          </div>
+          <div class="mock night-m">
+            <div class="mock-nav"><span style="display: inline-block; width: 64px; height: 11px; background: currentColor; opacity: 0.85;"></span><span class="f-mono" style="font-size: 9.5px; color: rgba(245,241,232,0.55);">Proof · 02</span></div>
+            <div class="mock-body">
+              <h4>Most first reviews change the plan.</h4>
+              <p class="lede2">Same labs, same body, different level of care. Drivers overlap; the headline figure is the union, not the sum.</p>
+              <div style="font-size: 44px; font-weight: 700; letter-spacing: -0.02em; color: #EACB7F; margin-top: 12px;">63%</div>
+            </div>
+            <div class="mock-chart">
+              <svg viewBox="0 0 400 80" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Capability curve in palette colors on indigo">
+                <defs><linearGradient id="rampNight" x1="0" y1="0" x2="1" y2="0"><stop offset="0" stop-color="#8C96AC"/><stop offset="0.55" stop-color="#D86B4F"/><stop offset="1" stop-color="#EACB7F"/></linearGradient></defs>
+                <path d="M 8 62 C 90 58, 150 50, 220 34 S 360 12, 392 10" fill="none" stroke="url(#rampNight)" stroke-width="3" stroke-linecap="round"/>
+                <line x1="8" y1="70" x2="392" y2="70" stroke="#F5F1E8" stroke-opacity="0.25" stroke-width="1"/>
+              </svg>
+            </div>
+            <div class="mock-foot"><span class="fw"><b>QUEST ELITE · 100+ MARKERS · 2×/YR</b></span></div>
+          </div>
+        </div>
+        <p class="f-cap">Same components, both registers · mark is a placeholder, not yet introduced</p>
+      </div>
+    </div>
+
+  </section>
+
+  <!-- ============ 04 · PHOTOGRAPHY ============ -->
+  <section id="photography">
+    <div class="section-label">04 · Photography</div>
+
+    <div class="row abstract">
+      <div class="row-label">Definition</div>
+      <div class="prose">
+        <p>A photograph works here when it <b>transmits a sensation the viewer's body can feel:</b> effort, cold, rain, weight, height, taste, with its cause visible in the frame. The subject is fully absorbed in their own world, never aware of the frame; <b>emotion is a result, never a requirement.</b> Different people, different pursuits, different continents, the same vivid state: each frame possibly one of the best days of someone's life.</p>
+      </div>
+    </div>
+
+    <div class="plates">
+
+      <figure class="plate">
+        <img src="assets/photo/rain.jpg" alt="A father and daughter laughing in heavy rain in a forest">
+        <figcaption>003 · Rain.</figcaption>
+      </figure>
+
+      <figure class="plate">
+          <img src="assets/photo/globe/g14-pamplona.jpg" alt="A man of 52 in white and red sprinting on cobblestones in the Pamplona morning run, bulls close behind">
+          <figcaption>006 · Pamplona, 8am.</figcaption>
+        </figure>
+
+        <figure class="plate">
+          <img src="assets/photo/globe/g4-market.jpg" alt="A couple in their late 50s tasting fruit at a Oaxaca market stall, the vendor mid-joke">
+          <figcaption>007 · Oaxaca.</figcaption>
+        </figure>
+        <figure class="plate">
+          <img src="assets/photo/globe/g8v2-harbor-40s.jpg" alt="Three athletic women in their early 40s seconds out of a cold harbor swim, gasping and laughing, grabbing each other">
+          <figcaption>008 · Copenhagen, seconds out of the water.</figcaption>
+        </figure>
+
+      <figure class="plate">
+        <img src="assets/photo/globe/g12-topping-out.jpg" alt="An architect of 58 looking up at the pine branch on the highest beam of her topped-out building, visibly moved">
+        <figcaption>009 · Topping-out day.</figcaption>
+      </figure>
+
+      <figure class="plate">
+        <img src="assets/photo/globe/g9-portrait-sailor.jpg" alt="Close portrait of the sailor laughing warmly at a friend out of frame">
+        <figcaption>010 · Portrait.</figcaption>
+      </figure>
+
+        <figure class="plate">
+          <img src="assets/photo/heroes/runner-photo.jpg?v=2" alt="Ola's base layer: the dawn run at the shoreline, sunrise behind">
+          <figcaption>012 · The dawn run · Ola's base layer.</figcaption>
+        </figure>
+        <figure class="plate">
+          <img src="assets/photo/heroes/surfer-photo.jpg" alt="Ola's base layer: a surfer chest-deep in golden water, face to the light">
+          <figcaption>013 · Golden water · Ola's base layer.</figcaption>
+        </figure>
+
+        <figure class="plate">
+          <img src="assets/photo/heroes/father-photo.jpg" alt="Ola's base layer: a father and his laughing baby, forehead to forehead at the beach">
+          <figcaption>014 · Father and son · Ola's base layer.</figcaption>
+        </figure>
+        <figure class="plate">
+          <img src="assets/photo/heroes/canyon-photo.jpg" alt="Ola's base layer: a silver-haired woman in a red slot canyon, gaze up and out">
+          <figcaption>015 · The canyon · Ola's base layer.</figcaption>
+        </figure>
+
+    </div>
+
+  </section>
+
+  <!-- ============ 05 · WORDMARK & ICON ============ -->
+  <section id="wordmark">
+    <div class="section-label">05 · Wordmark &amp; Icon</div>
+
+    <div class="row abstract">
+      <div class="row-label">Source</div>
+      <div class="prose">
+        <p>Ola's lockup, codified from the Figma source so it repeats exactly: <b>aleron</b> in PolySans Neutral 400, tracked −2.75% of em, with a superscript <b>MD</b> in Space Mono 400 at 44.4% of the word; measured, not screenshotted. The icon is the word's first letterform alone: a lowercase <b>a</b> in a square tile, the only form small surfaces can carry. PolySans is not licensed here yet, so every render below carries the exact geometry in the working face; the letterforms become exact when the license or one SVG export from Figma lands.</p>
+      </div>
+    </div>
+
+    <div class="row figure-block">
+      <div class="row-label">The lockup</div>
+      <div>
+        <div class="field" style="background: linear-gradient(180deg, #232426, #3B4662); text-align: left;">
+          <div class="f-mono" style="color: rgba(239,234,224,0.6);">Dark · source slide 8</div>
+      <div class="lockup" style="font-size: clamp(64px, 9vw, 130px); color: #EFEAE0; margin: 28px 0 18px;">aleron<span class="tag grad">MD</span></div>
+      <div class="f-foot" style="color: rgba(239,234,224,0.5);">WORD EFEAE0 · TAG C9A14E → 8A6A2F</div>
+    </div>
+
+    <div class="field" style="background: linear-gradient(180deg, #EFEAE0, #FFFEFB); text-align: left;">
+      <div class="f-mono">Light · source slide 13</div>
+      <div class="lockup" style="font-size: clamp(64px, 9vw, 130px); color: #232325; margin: 28px 0 18px;">aleron<span class="tag grad">MD</span></div>
+      <div class="f-foot">WORD 232325 · TAG C9A14E → 8A6A2F</div>
+        </div>
+        <p class="f-cap">The lockup, codified from source: aleron lowercase, PolySans Neutral 400, tracked −2.75% of em, line height 1.06 · tag MD, Space Mono 400, 44.4% of word size, tracking 0 · tag top 8.5% of word size below the word's top, gap 3% · word EFEAE0 on dark, 232325 on light · tag gradient C9A14E to 8A6A2F, vertical, the study's gold and its text grade · never all caps · minimum word size 16px, below it the name sets in prose · color application per the study, after structure</p>
+      </div>
+    </div>
+
+    <div class="row figure-block">
+      <div class="row-label">Scale</div>
+      <div>
+        <div class="field day">
+          <div style="margin-top: 4px;">
+        <div><span class="lockup" style="font-size: 72px; color: #232325;">aleron<span class="tag grad">MD</span></span></div>
+        <div style="margin-top: 14px;"><span class="lockup" style="font-size: 34px; color: #232325;">aleron<span class="tag grad">MD</span></span></div>
+        <div style="margin-top: 12px;"><span class="lockup" style="font-size: 19px; color: #232325;">aleron<span class="tag grad">MD</span></span></div>
+        <div style="margin-top: 12px; font-size: 15px; color: #232325;">Aleron MD</div>
+      </div>
+          <div class="f-foot">72 · 34 · 19 · BELOW 16PX THE NAME SETS IN PROSE</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="row figure-block">
+      <div class="row-label">The icon</div>
+      <div>
+        <div class="field day">
+          <div style="display: flex; gap: 28px; align-items: flex-end; margin-top: 8px;">
+        <div class="icon-tile" data-icon data-scale="1.15" data-fade="1" style="position: relative; width: 128px; height: 128px; overflow: hidden;"></div>
+        <div class="icon-tile" data-icon data-scale="1.15" data-fade="1" style="position: relative; width: 64px; height: 64px; overflow: hidden;"></div>
+        <div class="icon-tile" data-icon data-scale="1.15" data-fade="1" style="position: relative; width: 32px; height: 32px; overflow: hidden;"></div>
+        <div class="icon-tile" data-icon data-scale="1.15" data-fade="1" style="position: relative; width: 16px; height: 16px; overflow: hidden;"></div>
+      </div>
+          <div class="f-foot">THE FAVICON'S COMPOSITION, REFIT: GROUND = THE FADE, VERTICAL, USED WHOLE · GLYPH CREAM F5F1E8, INK-CENTERED, 1.15X THE TILE · RADIUS 22% ON APP SURFACES, SQUARE AT 16PX AND AS FAVICON · SAME FACE AS THE WORD</div>
+        </div>
+      </div>
+    </div>
+
+  </section>
+
+  <!-- ============ 06 · TYPOGRAPHY ============ -->
+  <section id="typography">
+    <div class="section-label">06 · Typography</div>
+
+    <div class="row abstract">
+      <div class="row-label">The decision</div>
+      <div class="prose">
+        <p><b>Space Mono</b> is locked as the audit face: units, sources, footnotes, the wordmark's tag. The open decision is the voice face, everything a member reads: <b>PolySans,</b> the face the wordmark is codified in, against <b>Hanken Grotesk,</b> free and rendering this document now. Deciding the face decides whether the wordmark renders exactly or by adaptation.</p>
+      </div>
+    </div>
+
+    <div class="row figure-block">
+      <div class="row-label">The tokens</div>
+      <div>
+        <div class="def" id="tokenTable"></div>
+        <p class="f-cap">Read live from the stylesheet; the deck consumes the same variables · body remains system font until the face is decided</p>
+      </div>
+    </div>
+
+    <div class="row figure-block">
+      <div class="row-label">Specimen · the working face</div>
+      <div>
+        <div class="field day" style="text-align: left;">
+          <div class="f-mono" id="workingFaceLabel">Working face</div>
+          <div style="font-family: var(--voice); font-size: var(--size-display); font-weight: var(--w-display); letter-spacing: var(--track-display); line-height: var(--lh-display); max-width: 19ch; margin: 22px 0 18px;">Know what not to chase.</div>
+          <div style="font-family: var(--voice); font-size: var(--size-text); line-height: var(--lh-text); max-width: 56ch; margin-bottom: 22px;">ApoB is down to 78 mg/dL from 96 mg/dL in October. Whatever you changed, keep it. Lp(a) is unchanged at 62 nmol/L; that one is genetic, and we manage around it, not against it.</div>
+          <div style="margin-bottom: 8px;"><span class="lockup" style="font-size: 64px; color: #232325;">aleron<span class="tag grad">MD</span></span></div>
+          <div class="f-foot">QUEST ELITE · 100+ MARKERS · 2×/YR · APOB · LP(A) · HSCRP</div>
+        </div>
+        <p class="f-cap" id="faceStatus"></p>
+      </div>
+    </div>
+
+    <div class="row figure-block">
+      <div class="row-label">The grounds</div>
+      <div>
+        <div class="field day" style="text-align: left;">
+          <div style="font-family: var(--voice); font-size: var(--size-text); line-height: var(--lh-text);">Know what not to chase.</div>
+          <div class="f-foot">PAPER FAF7F2 · INK 16.08:1</div>
+        </div>
+        <div class="field night" style="text-align: left;">
+          <div style="font-family: var(--voice); font-size: var(--size-text); line-height: var(--lh-text); color: #F5F1E8;">Know what not to chase.</div>
+          <div class="f-foot">INDIGO 252B3D · CREAM 12.49:1</div>
+        </div>
+        <div class="field" style="text-align: left; background: linear-gradient(180deg, #15171C 0%, #222831 45%, #333E48 75%, #46555F 100%);">
+          <div style="font-family: var(--voice); font-size: var(--size-text); line-height: var(--lh-text); color: #F5F1E8;">Know what not to chase.</div>
+          <div style="font-family: var(--voice); font-size: var(--size-text); line-height: var(--lh-text); color: #F5F1E8; margin-top: 180px;">Know what not to chase.</div>
+          <div class="f-foot" style="border-top: 1px solid rgba(245,241,232,0.16); color: rgba(245,241,232,0.6);">THE INSTRUMENT WEAVE · CREAM ON GUNMETAL, DARK ABOVE LIGHT, PER THE STUDY</div>
+        </div>
+        <p class="f-cap">Text on the system's grounds follows the interaction grid; struck pairs stay struck</p>
+      </div>
+    </div>
+
+    <div class="row figure-block">
+      <div class="row-label">The decision table</div>
+      <div>
+        <div class="def" id="faceTable"></div>
+        <p class="f-cap">Measured live where measurable · the PolySans column fills when the license lands · the table decides, not prose</p>
+      </div>
+    </div>
+
+  </section>
+
+  <!-- ============ 07 · GRAPHIC LANGUAGE ============ -->
+  <section id="graphic">
+    <div class="section-label">07 · Graphic Language</div>
+
+    <h1>The instrument, visible.</h1>
+
+    <div class="row abstract">
+      <div class="row-label">Goal</div>
+      <div class="prose">
+        <p>The brand identity is the interplay between the navigation intelligence and the hero's destinations, and this section makes the instrument visible without a costume: no dashboard chrome, no character, no decoration. The elements: <b>the velocity weave,</b> where the instrument touches the world; <b>the citation,</b> the work shown in units; and <b>the plot,</b> the live instrument members actually use. The world is never resampled, and structure precedes color everywhere.</p>
+      </div>
+    </div>
+
+    <div class="row figure-block">
+      <div class="row-label">The read · the velocity weave</div>
+      <div>
+        <div class="plate-pair">
+          <figure class="plate">
+            <div id="weaveL" style="position: relative; aspect-ratio: 1713 / 903; overflow: hidden;">
+              <img src="assets/photo/heroes/runner-photo.jpg?v=2" style="position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover;" alt="The weave from the left in paper">
+              <img src="assets/photo/heroes/runner-cutout.png?v=2" style="position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; z-index: 2; pointer-events: none;" alt="">
+            </div>
+            <figcaption>Left · paper · the canon.</figcaption>
+          </figure>
+          <figure class="plate">
+            <div id="weaveR" style="position: relative; aspect-ratio: 1713 / 903; overflow: hidden;">
+              <img src="assets/photo/heroes/runner-photo.jpg?v=2" style="position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover;" alt="The weave from the right in paper">
+              <img src="assets/photo/heroes/runner-cutout.png?v=2" style="position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; z-index: 2; pointer-events: none;" alt="">
+            </div>
+            <figcaption>Right · paper · exact mirror.</figcaption>
+          </figure>
+        </div>
+        <div class="plate-pair">
+          <figure class="plate">
+            <div id="weaveLInd" style="position: relative; aspect-ratio: 1713 / 903; overflow: hidden;">
+              <img src="assets/photo/heroes/runner-photo.jpg?v=2" style="position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover;" alt="The weave from the left in indigo">
+              <img src="assets/photo/heroes/runner-cutout.png?v=2" style="position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; z-index: 2; pointer-events: none;" alt="">
+            </div>
+            <figcaption>Left · indigo 252B3D · the canon.</figcaption>
+          </figure>
+          <figure class="plate">
+            <div id="weaveRInd" style="position: relative; aspect-ratio: 1713 / 903; overflow: hidden;">
+              <img src="assets/photo/heroes/runner-photo.jpg?v=2" style="position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover;" alt="The weave from the right in indigo">
+              <img src="assets/photo/heroes/runner-cutout.png?v=2" style="position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; z-index: 2; pointer-events: none;" alt="">
+            </div>
+            <figcaption>Right · indigo 252B3D · exact mirror.</figcaption>
+          </figure>
+        </div>
+        <div class="plate-pair">
+          <figure class="plate">
+            <div id="weaveLFade" style="position: relative; aspect-ratio: 1713 / 903; overflow: hidden;">
+              <img src="assets/photo/heroes/runner-photo.jpg?v=2" style="position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover;" alt="The weave from the left carrying the gunmetal gradient per row">
+              <img src="assets/photo/heroes/runner-cutout.png?v=2" style="position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; z-index: 2; pointer-events: none;" alt="">
+            </div>
+            <figcaption>Left · gunmetal · the instrument weave · the canon.</figcaption>
+          </figure>
+          <figure class="plate">
+            <div id="weaveRFade" style="position: relative; aspect-ratio: 1713 / 903; overflow: hidden;">
+              <img src="assets/photo/heroes/runner-photo.jpg?v=2" style="position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover;" alt="The weave from the right carrying the gunmetal gradient per row">
+              <img src="assets/photo/heroes/runner-cutout.png?v=2" style="position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; z-index: 2; pointer-events: none;" alt="">
+            </div>
+            <figcaption>Right · gunmetal · the instrument weave · exact mirror.</figcaption>
+          </figure>
+        </div>
+        <p class="f-cap">The velocity weave · one generator, one canon: the source hero's map, cell for cell · lattice 8 columns, rows derived, every cell identical, 10:3 wide; the aspect is the velocity · two elements, photograph and page; page states paper, navy, or the gunmetal instrument weave (the cold register; the photograph beside it stays warm) · one side holds the mass; even rows one cell deeper; depth follows the subject and the message · exchange count for count, never inside the core · the subject sits in front and occludes; the face is never covered · left mirrors right exactly in study; in production the side spares the subject, and the message sits on the mass's solid core · placements from the generator only</p>
+      </div>
+    </div>
+
+    <div class="row figure-block">
+      <div class="row-label">The plot · live</div>
+      <div>
+        <div class="qol">
+          <div class="chart-wrap">
+            <div class="chart-grid">
+              <div class="chart-scroll">
+                <svg id="chart" viewBox="0 0 1080 560" preserveAspectRatio="xMidYMid meet"></svg>
+              </div>
+              <div class="legend" id="legend" aria-label="Trajectory toggles"></div>
+            </div>
+          </div>
+          <div class="controls">
+            <div class="ctl">
+              <div class="ctl-head"><span class="ctl-name">Conditioning</span></div>
+              <input type="range" id="cond" min="0" max="100" step="1" value="33"/>
+              <div class="ctl-marks"><span>Decond</span><span>Avg</span><span>Well</span><span>Elite</span></div>
+            </div>
+            <div class="ctl">
+              <div class="ctl-head"><span class="ctl-name">Lifestyle</span></div>
+              <input type="range" id="life" min="0" max="100" step="1" value="50"/>
+              <div class="ctl-marks"><span>Neglected</span><span>Maintained</span><span>Optimized</span></div>
+            </div>
+            <div class="ctl">
+              <div class="ctl-head"><span class="ctl-name">Underlying Risk</span></div>
+              <input type="range" id="risk" min="0" max="100" step="1" value="50"/>
+              <div class="ctl-marks"><span>Low</span><span>Avg</span><span>High</span></div>
+            </div>
+          </div>
+        </div>
+        <p class="f-cap">The quality of life instrument, live · three inputs, four futures · capacity in VO2max, bands in what a day allows · palette from the system: paper ground, gold forward, slate baseline, ember hazard, indigo for the window the instrument does not model · instrument type, two roles: the voice face for names (bands, outcomes, controls), the audit face for values, units and scale marks; sizes 14/13 names, 15/12 values, 11 marks · the curve's home: a working tool, never decoration</p>
+      </div>
+    </div>
+
+    <div class="row figure-block">
+      <div class="row-label">The citation · the record at volume</div>
+      <div>
+        <div class="field day" style="text-align: left;">
+          <div class="f-mono">Twenty-two of one hundred plus markers · April draw</div>
+          <div style="border: 1px solid rgba(29,27,24,0.35); padding: 14px 18px 12px; max-width: 860px; margin: 18px 0 36px;">
+            <div style="font-family: var(--audit); font-size: 10px; letter-spacing: 0.08em; color: #5A6378; margin-bottom: 10px;">ANNUNCIATOR · FLAGGED, THEN MOVED, THEN NOTES · EMPTY WHEN ALL IS WELL</div>
+            <div style="font-family: var(--audit); font-size: 12px; line-height: 1.9;">
+              <div style="color: #A4452C;">HSCRP 1.9 MG/L · UP FROM 0.8 · RETEST SIX WEEKS</div>
+              <div style="color: #8A6A2F;">APOB 78 MG/DL · DOWN FROM 96</div>
+              <div style="color: #8A6A2F;">LDL-C 98 MG/DL · DOWN FROM 121</div>
+              <div style="color: #8A6A2F;">FASTING INSULIN 4.8 UIU/ML · DOWN FROM 6.1</div>
+              <div style="color: #8A6A2F;">VITAMIN D 42 NG/ML · UP FROM 28</div>
+              <div style="color: #5A6378;">OMEGA-3 INDEX · NOT DRAWN THIS CYCLE · NEXT DRAW</div>
+            </div>
+          </div>
+          <div style="max-width: 860px; margin-top: 6px;">
+            <div style="border-top: 1px solid rgba(29,27,24,0.35); padding-top: 10px; margin-top: 28px; font-family: var(--voice); font-size: 13px; font-weight: 600; color: #1D1B18;">Lipids</div>
+            <div style="display: grid; grid-template-columns: 1fr 120px 150px 1fr; gap: 16px; padding: 6px 0; align-items: baseline;"><span style="font-family: var(--voice); font-size: 14px; color: #1D1B18;">ApoB</span><span style="font-family: var(--audit); font-size: 13px; font-variant-numeric: tabular-nums; text-align: right; color: #1D1B18;">78 <span style="color: #5A6378; font-size: 11px;">mg/dL</span></span><span style="font-family: var(--audit); font-size: 11px; color: #8A6A2F;">down from 96</span><span style="font-family: var(--voice); font-size: 13px; color: #5A6378;">whatever you changed, keep it</span></div>
+            <div style="display: grid; grid-template-columns: 1fr 120px 150px 1fr; gap: 16px; padding: 6px 0; align-items: baseline;"><span style="font-family: var(--voice); font-size: 14px; color: #1D1B18;">LDL-C</span><span style="font-family: var(--audit); font-size: 13px; font-variant-numeric: tabular-nums; text-align: right; color: #1D1B18;">98 <span style="color: #5A6378; font-size: 11px;">mg/dL</span></span><span style="font-family: var(--audit); font-size: 11px; color: #8A6A2F;">down from 121</span><span style="font-family: var(--voice); font-size: 13px; color: #5A6378;"></span></div>
+            <div style="display: grid; grid-template-columns: 1fr 120px 150px 1fr; gap: 16px; padding: 6px 0; align-items: baseline;"><span style="font-family: var(--voice); font-size: 14px; color: #1D1B18;">HDL-C</span><span style="font-family: var(--audit); font-size: 13px; font-variant-numeric: tabular-nums; text-align: right; color: #1D1B18;">61 <span style="color: #5A6378; font-size: 11px;">mg/dL</span></span><span></span><span style="font-family: var(--voice); font-size: 13px; color: #5A6378;"></span></div>
+            <div style="display: grid; grid-template-columns: 1fr 120px 150px 1fr; gap: 16px; padding: 6px 0; align-items: baseline;"><span style="font-family: var(--voice); font-size: 14px; color: #1D1B18;">Triglycerides</span><span style="font-family: var(--audit); font-size: 13px; font-variant-numeric: tabular-nums; text-align: right; color: #1D1B18;">88 <span style="color: #5A6378; font-size: 11px;">mg/dL</span></span><span></span><span style="font-family: var(--voice); font-size: 13px; color: #5A6378;"></span></div>
+            <div style="display: grid; grid-template-columns: 1fr 120px 150px 1fr; gap: 16px; padding: 6px 0; align-items: baseline;"><span style="font-family: var(--voice); font-size: 14px; color: #1D1B18;">Lp(a)</span><span style="font-family: var(--audit); font-size: 13px; font-variant-numeric: tabular-nums; text-align: right; color: #1D1B18;">62 <span style="color: #5A6378; font-size: 11px;">nmol/L</span></span><span></span><span style="font-family: var(--voice); font-size: 13px; color: #5A6378;">genetic; managed around, not against</span></div>
+            <div style="display: grid; grid-template-columns: 1fr 120px 150px 1fr; gap: 16px; padding: 6px 0; align-items: baseline;"><span style="font-family: var(--voice); font-size: 14px; color: #1D1B18;">Total cholesterol</span><span style="font-family: var(--audit); font-size: 13px; font-variant-numeric: tabular-nums; text-align: right; color: #1D1B18;">182 <span style="color: #5A6378; font-size: 11px;">mg/dL</span></span><span></span><span style="font-family: var(--voice); font-size: 13px; color: #5A6378;"></span></div>
+            <div style="border-top: 1px solid rgba(29,27,24,0.35); padding-top: 10px; margin-top: 28px; font-family: var(--voice); font-size: 13px; font-weight: 600; color: #1D1B18;">Inflammation</div>
+            <div style="display: grid; grid-template-columns: 1fr 120px 150px 1fr; gap: 16px; padding: 6px 0; align-items: baseline;"><span style="font-family: var(--voice); font-size: 14px; color: #1D1B18;">hsCRP</span><span style="font-family: var(--audit); font-size: 13px; font-variant-numeric: tabular-nums; text-align: right; color: #1D1B18;">1.9 <span style="color: #5A6378; font-size: 11px;">mg/L</span></span><span style="font-family: var(--audit); font-size: 11px; color: #A4452C;">up from 0.8</span><span style="font-family: var(--voice); font-size: 13px; color: #5A6378;">marathon nine days before the draw; retest in six weeks</span></div>
+            <div style="display: grid; grid-template-columns: 1fr 120px 150px 1fr; gap: 16px; padding: 6px 0; align-items: baseline;"><span style="font-family: var(--voice); font-size: 14px; color: #1D1B18;">IL-6</span><span style="font-family: var(--audit); font-size: 13px; font-variant-numeric: tabular-nums; text-align: right; color: #1D1B18;">1.2 <span style="color: #5A6378; font-size: 11px;">pg/mL</span></span><span></span><span style="font-family: var(--voice); font-size: 13px; color: #5A6378;"></span></div>
+            <div style="display: grid; grid-template-columns: 1fr 120px 150px 1fr; gap: 16px; padding: 6px 0; align-items: baseline;"><span style="font-family: var(--voice); font-size: 14px; color: #1D1B18;">Homocysteine</span><span style="font-family: var(--audit); font-size: 13px; font-variant-numeric: tabular-nums; text-align: right; color: #1D1B18;">9.1 <span style="color: #5A6378; font-size: 11px;">umol/L</span></span><span></span><span style="font-family: var(--voice); font-size: 13px; color: #5A6378;"></span></div>
+            <div style="display: grid; grid-template-columns: 1fr 120px 150px 1fr; gap: 16px; padding: 6px 0; align-items: baseline;"><span style="font-family: var(--voice); font-size: 14px; color: #1D1B18;">Fibrinogen</span><span style="font-family: var(--audit); font-size: 13px; font-variant-numeric: tabular-nums; text-align: right; color: #1D1B18;">310 <span style="color: #5A6378; font-size: 11px;">mg/dL</span></span><span></span><span style="font-family: var(--voice); font-size: 13px; color: #5A6378;"></span></div>
+            <div style="border-top: 1px solid rgba(29,27,24,0.35); padding-top: 10px; margin-top: 28px; font-family: var(--voice); font-size: 13px; font-weight: 600; color: #1D1B18;">Metabolic</div>
+            <div style="display: grid; grid-template-columns: 1fr 120px 150px 1fr; gap: 16px; padding: 6px 0; align-items: baseline;"><span style="font-family: var(--voice); font-size: 14px; color: #1D1B18;">HbA1c</span><span style="font-family: var(--audit); font-size: 13px; font-variant-numeric: tabular-nums; text-align: right; color: #1D1B18;">5.4 <span style="color: #5A6378; font-size: 11px;">%</span></span><span></span><span style="font-family: var(--voice); font-size: 13px; color: #5A6378;"></span></div>
+            <div style="display: grid; grid-template-columns: 1fr 120px 150px 1fr; gap: 16px; padding: 6px 0; align-items: baseline;"><span style="font-family: var(--voice); font-size: 14px; color: #1D1B18;">Fasting glucose</span><span style="font-family: var(--audit); font-size: 13px; font-variant-numeric: tabular-nums; text-align: right; color: #1D1B18;">92 <span style="color: #5A6378; font-size: 11px;">mg/dL</span></span><span></span><span style="font-family: var(--voice); font-size: 13px; color: #5A6378;"></span></div>
+            <div style="display: grid; grid-template-columns: 1fr 120px 150px 1fr; gap: 16px; padding: 6px 0; align-items: baseline;"><span style="font-family: var(--voice); font-size: 14px; color: #1D1B18;">Fasting insulin</span><span style="font-family: var(--audit); font-size: 13px; font-variant-numeric: tabular-nums; text-align: right; color: #1D1B18;">4.8 <span style="color: #5A6378; font-size: 11px;">uIU/mL</span></span><span style="font-family: var(--audit); font-size: 11px; color: #8A6A2F;">down from 6.1</span><span style="font-family: var(--voice); font-size: 13px; color: #5A6378;"></span></div>
+            <div style="display: grid; grid-template-columns: 1fr 120px 150px 1fr; gap: 16px; padding: 6px 0; align-items: baseline;"><span style="font-family: var(--voice); font-size: 14px; color: #1D1B18;">HOMA-IR</span><span style="font-family: var(--audit); font-size: 13px; font-variant-numeric: tabular-nums; text-align: right; color: #1D1B18;">1.1 <span style="color: #5A6378; font-size: 11px;"></span></span><span></span><span style="font-family: var(--voice); font-size: 13px; color: #5A6378;"></span></div>
+            <div style="display: grid; grid-template-columns: 1fr 120px 150px 1fr; gap: 16px; padding: 6px 0; align-items: baseline;"><span style="font-family: var(--voice); font-size: 14px; color: #1D1B18;">ALT</span><span style="font-family: var(--audit); font-size: 13px; font-variant-numeric: tabular-nums; text-align: right; color: #1D1B18;">24 <span style="color: #5A6378; font-size: 11px;">U/L</span></span><span></span><span style="font-family: var(--voice); font-size: 13px; color: #5A6378;"></span></div>
+            <div style="display: grid; grid-template-columns: 1fr 120px 150px 1fr; gap: 16px; padding: 6px 0; align-items: baseline;"><span style="font-family: var(--voice); font-size: 14px; color: #1D1B18;">eGFR</span><span style="font-family: var(--audit); font-size: 13px; font-variant-numeric: tabular-nums; text-align: right; color: #1D1B18;">96 <span style="color: #5A6378; font-size: 11px;">mL/min</span></span><span></span><span style="font-family: var(--voice); font-size: 13px; color: #5A6378;"></span></div>
+            <div style="border-top: 1px solid rgba(29,27,24,0.35); padding-top: 10px; margin-top: 28px; font-family: var(--voice); font-size: 13px; font-weight: 600; color: #1D1B18;">Hormones & micronutrients</div>
+            <div style="display: grid; grid-template-columns: 1fr 120px 150px 1fr; gap: 16px; padding: 6px 0; align-items: baseline;"><span style="font-family: var(--voice); font-size: 14px; color: #1D1B18;">TSH</span><span style="font-family: var(--audit); font-size: 13px; font-variant-numeric: tabular-nums; text-align: right; color: #1D1B18;">1.8 <span style="color: #5A6378; font-size: 11px;">mIU/L</span></span><span></span><span style="font-family: var(--voice); font-size: 13px; color: #5A6378;"></span></div>
+            <div style="display: grid; grid-template-columns: 1fr 120px 150px 1fr; gap: 16px; padding: 6px 0; align-items: baseline;"><span style="font-family: var(--voice); font-size: 14px; color: #1D1B18;">Free T4</span><span style="font-family: var(--audit); font-size: 13px; font-variant-numeric: tabular-nums; text-align: right; color: #1D1B18;">1.3 <span style="color: #5A6378; font-size: 11px;">ng/dL</span></span><span></span><span style="font-family: var(--voice); font-size: 13px; color: #5A6378;"></span></div>
+            <div style="display: grid; grid-template-columns: 1fr 120px 150px 1fr; gap: 16px; padding: 6px 0; align-items: baseline;"><span style="font-family: var(--voice); font-size: 14px; color: #1D1B18;">Vitamin D</span><span style="font-family: var(--audit); font-size: 13px; font-variant-numeric: tabular-nums; text-align: right; color: #1D1B18;">42 <span style="color: #5A6378; font-size: 11px;">ng/mL</span></span><span style="font-family: var(--audit); font-size: 11px; color: #8A6A2F;">up from 28</span><span style="font-family: var(--voice); font-size: 13px; color: #5A6378;"></span></div>
+            <div style="display: grid; grid-template-columns: 1fr 120px 150px 1fr; gap: 16px; padding: 6px 0; align-items: baseline;"><span style="font-family: var(--voice); font-size: 14px; color: #1D1B18;">Ferritin</span><span style="font-family: var(--audit); font-size: 13px; font-variant-numeric: tabular-nums; text-align: right; color: #1D1B18;">88 <span style="color: #5A6378; font-size: 11px;">ng/mL</span></span><span></span><span style="font-family: var(--voice); font-size: 13px; color: #5A6378;"></span></div>
+            <div style="display: grid; grid-template-columns: 1fr 120px 150px 1fr; gap: 16px; padding: 6px 0; align-items: baseline;"><span style="font-family: var(--voice); font-size: 14px; color: #1D1B18;">B12</span><span style="font-family: var(--audit); font-size: 13px; font-variant-numeric: tabular-nums; text-align: right; color: #1D1B18;">540 <span style="color: #5A6378; font-size: 11px;">pg/mL</span></span><span></span><span style="font-family: var(--voice); font-size: 13px; color: #5A6378;"></span></div>
+            <div style="display: grid; grid-template-columns: 1fr 120px 150px 1fr; gap: 16px; padding: 6px 0; align-items: baseline;"><span style="font-family: var(--voice); font-size: 14px; color: #1D1B18;">Testosterone</span><span style="font-family: var(--audit); font-size: 13px; font-variant-numeric: tabular-nums; text-align: right; color: #1D1B18;">610 <span style="color: #5A6378; font-size: 11px;">ng/dL</span></span><span></span><span style="font-family: var(--voice); font-size: 13px; color: #5A6378;"></span></div>
+            <div style="display: grid; grid-template-columns: 1fr 120px 150px 1fr; gap: 16px; padding: 6px 0; align-items: baseline;"><span style="font-family: var(--voice); font-size: 14px; color: #1D1B18;">Omega-3 index</span><span style="font-family: var(--audit); font-size: 13px; text-align: right; color: #5A6378;">NOT DRAWN</span><span></span><span style="font-family: var(--voice); font-size: 13px; color: #5A6378;">declared, never blank; on the next draw</span></div>
+          </div>
+          <div class="f-foot">QUEST ELITE · 2x/YR · DRAWN 04/2026 · READ AGAINST 10/2025 · THE ONE THING LIVES OUTSIDE THIS TABLE</div>
+        </div>
+        <p class="f-cap">Borrowed from the flight deck, each one functional: the dark cockpit, silence is normal, only change speaks · the annunciator, alerts collected in one place, fixed order, flagged then moved then notes, never mixed into the record · reserved color, ember and gold are alert levels and never categories · the flag, missing data declares itself, never blank · fixed scan order, groups never reorder between reports · groups breathe, rows tight, names voice, values audit, decimals aligned · the one thing never sits inside the volume</p>
+      </div>
+    </div>
+
+  </section>
+
+  <!-- ============ 08 · ICONOGRAPHY ============ -->
+  <section id="iconography">
+    <div class="section-label">08 · Iconography and Illustration</div>
+
+    <div class="row abstract">
+      <div class="row-label">Two layers</div>
+      <div class="prose">
+        <p>Two layers, split by job, both decided. <b>The marks</b> are interface-scale: instrument marks, drawn with the chart room's own vocabulary — hairline, square joints, ink only. <b>The illustration</b> is the objects of the service, drawn flat and honest: outline and fill, the recipe codified below. Retired explorations live in the project record.</p>
+      </div>
+    </div>
+
+    <div class="row figure-block">
+      <div class="row-label">The marks · instrument marks</div>
+      <div>
+        <div class="field day" style="text-align: left;">
+          <div style="display: flex; gap: 52px; flex-wrap: wrap; align-items: flex-start; margin-top: 8px;">
+          <div style="text-align: center;"><svg width="56" height="56" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M9.5 3h5 M10.5 3v5 M13.5 3v5 M13.5 8l4 9.2a1 1 0 0 1-.9 1.8H7.4a1 1 0 0 1-.9-1.8L10.5 8" stroke="#1D1B18" stroke-width="1.5" fill="none"/><path d="M8.2 15h7.6" stroke="#1D1B18" stroke-width="1.5" fill="none"/></svg><div style="font-family: var(--audit); font-size: 9px; letter-spacing: 0.06em; color: #5A6378; margin-top: 6px;">LABS</div></div>
+          <div style="text-align: center;"><svg width="56" height="56" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M8.5 2 C 8.5 7, 15.5 9, 15.5 12 C 15.5 15, 8.5 17, 8.5 22" stroke="#1D1B18" stroke-width="1.5" fill="none"/><path d="M15.5 2 C 15.5 7, 8.5 9, 8.5 12 C 8.5 15, 15.5 17, 15.5 22" stroke="#1D1B18" stroke-width="1.5" fill="none"/><path d="M9.4 5.5h5.2 M9 12h6 M9.4 18.5h5.2" stroke="#1D1B18" stroke-width="1.5" fill="none"/></svg><div style="font-family: var(--audit); font-size: 9px; letter-spacing: 0.06em; color: #5A6378; margin-top: 6px;">GENETICS</div></div>
+          <div style="text-align: center;"><svg width="56" height="56" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M2 13h4.5l2-6 3 10 2-4h5" stroke="#1D1B18" stroke-width="1.5" fill="none"/><circle cx="20.5" cy="13" r="1.7" stroke="#1D1B18" stroke-width="1.5" fill="none"/></svg><div style="font-family: var(--audit); font-size: 9px; letter-spacing: 0.06em; color: #5A6378; margin-top: 6px;">PULSE</div></div>
+          <div style="text-align: center;"><svg width="56" height="56" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><rect x="3" y="5.5" width="18" height="13" stroke="#1D1B18" stroke-width="1.5" fill="none"/><path d="M3 6.5l9 6 9-6" stroke="#1D1B18" stroke-width="1.5" fill="none"/></svg><div style="font-family: var(--audit); font-size: 9px; letter-spacing: 0.06em; color: #5A6378; margin-top: 6px;">MESSAGE</div></div>
+          <div style="text-align: center;"><svg width="56" height="56" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><rect x="4" y="5" width="16" height="14" stroke="#1D1B18" stroke-width="1.5" fill="none"/><path d="M8.5 2.5V7 M15.5 2.5V7" stroke="#1D1B18" stroke-width="1.5" fill="none"/><circle cx="14.5" cy="13.5" r="1.4" fill="#1D1B18"/></svg><div style="font-family: var(--audit); font-size: 9px; letter-spacing: 0.06em; color: #5A6378; margin-top: 6px;">REVIEW</div></div>
+          <div style="text-align: center;"><svg width="56" height="56" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><circle cx="6.5" cy="12" r="2.8" stroke="#1D1B18" stroke-width="1.5" fill="none"/><path d="M9.3 12H19 M16.2 9.2L19.5 12l-3.3 2.8" stroke="#1D1B18" stroke-width="1.5" fill="none"/></svg><div style="font-family: var(--audit); font-size: 9px; letter-spacing: 0.06em; color: #5A6378; margin-top: 6px;">ONE THING</div></div>
+          </div>
+        </div>
+        <p class="f-cap">Decided 06/12/2026 · hairline 1.5, square joints, ink only · the vocabulary of the chart: ticks, fixes, courses, sectors · one filled fix permitted per icon · no gold · on dark grounds the set strokes in cream</p>
+      </div>
+    </div>
+
+    <div class="row figure-block">
+      <div class="row-label">The objects · outline and fill</div>
+      <div>
+        <div style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 14px;">
+          <figure class="plate" style="margin: 0;">
+            <img src="assets/brand/isov1-kit.png?v=2" style="height: auto;" alt="The membership kit drawn as an anime mechanical cel: ink edges, panel seams, flat fills, one gold seal">
+            <figcaption>The kit · gold at the seal.</figcaption>
+          </figure>
+          <figure class="plate" style="margin: 0;">
+            <img src="assets/brand/isov1-vials.png?v=2" style="height: auto;" alt="The blood-draw vials in a machined tray, two slate caps and one gold, drawn as a mechanical cel">
+            <figcaption>The draw · gold at the cap that matters.</figcaption>
+          </figure>
+          <figure class="plate" style="margin: 0;">
+            <img src="assets/brand/isov1-watch.png?v=2" style="height: auto;" alt="The fitness watch drawn like cockpit hardware, slate case, indigo strap, gold sensor on the case edge">
+            <figcaption>The watch · gold at the sensor.</figcaption>
+          </figure>
+        </div>
+        <p class="f-cap">Outline and fill, chosen · real objects from the current world, drawn: fine ink on the edges, only the seams the object truly has, each face one flat cel value · strict palette, one gold detail at the instrument's touch · the shadow flat indigo and light, per the recipe · unmistakably drawn, never a render · objects only, never people · floor 64px</p>
+      </div>
+    </div>
+
+    <div class="row figure-block">
+      <div class="row-label">The recipe · codified</div>
+      <div>
+        <div class="field day" style="text-align: left;">
+          <div style="display: grid; grid-template-columns: 88px 1fr; gap: 14px 28px; font-family: var(--audit); font-size: 12.5px; line-height: 1.55; color: #1D1B18; max-width: 860px;">
+            <div style="color: #5A6378; letter-spacing: 0.08em; font-size: 11px; padding-top: 2px;">SUBJECT</div><div>The only variable. The real object named, true to the item as it exists in the world today: which seams to ink, and where the one gold detail sits — always at the instrument's touch.</div>
+            <div style="color: #5A6378; letter-spacing: 0.08em; font-size: 11px; padding-top: 2px;">STYLE</div><div>Flat isometric illustration of a real, contemporary object — immediately recognizable, never a stylized prop. Drawn with the precision of a technical instruction drawing, never a 3D render: no photorealism, no soft shading, no gradients, no blur, no reflections, no texture. Fine uniform ink on the edges; ink only the seams the object truly has — no invented panel lines, large calm faces left clean. Each face exactly one flat cel value.</div>
+            <div style="color: #5A6378; letter-spacing: 0.08em; font-size: 11px; padding-top: 2px;">PALETTE</div><div>Paper FAF7F2 ground · cream F5F1E8 · indigo 252B3D · slate 5A6378 · ink 1D1B18 · exactly one small gold C9A14E detail on the object.</div>
+            <div style="color: #5A6378; letter-spacing: 0.08em; font-size: 11px; padding-top: 2px;">SHADOW</div><div>One hard-edged flat shape cast from the object's base, extending left, solid indigo 252B3D — never gray, never black. Light: a short slim sliver, far smaller than the object. Where indigo meets indigo, paper or the ink line keeps them distinct. Ratified for every depicted surface — a letter, a card, a screen shown as an object; live surfaces cast none.</div>
+            <div style="color: #5A6378; letter-spacing: 0.08em; font-size: 11px; padding-top: 2px;">FRAME</div><div>Isometric, centered, generous margins · no people, no text, no logos, no callout lines, no numbers.</div>
+            <div style="color: #5A6378; letter-spacing: 0.08em; font-size: 11px; padding-top: 2px;">ENGINE</div><div>gpt-image-2 · quality high · 1024 × 1024.</div>
+          </div>
+        </div>
+        <p class="f-cap">Six blocks; five fixed, rendered verbatim every time · subject is the only slot · the blocks live as constants in tools/gen-objects.py; objects render from the generator only</p>
+      </div>
+    </div>
+
+  </section>
+
+
+  <!-- ============ 09 · VOICE ============ -->
+  <section id="voice">
+    <div class="section-label">09 · Voice</div>
+
+    <div class="row abstract">
+      <div class="row-label">North star</div>
+      <div class="prose">
+        <p>"Best part isn't the labs or the engine. It's getting a voice message from my doctor on a Tuesday afternoon explaining what to do next, like a friend who happens to be brilliant." A member said this before the brand could; it names the physician's voice, and the voice's only job is to keep deserving it. The instrument speaks underneath in its own register: the physician in sentences, the instrument in units.</p>
+      </div>
+    </div>
+
+    <div class="row figure-block">
+      <div class="row-label">Specimen · the Tuesday message</div>
+      <div>
+        <div class="field day">
+          <div style="max-width: 58ch; margin-top: 4px; font-size: 16.5px; line-height: 1.65;">
+        <p style="margin-bottom: 14px;">Your April labs are back. Two things worth your attention, one thing to ignore.</p>
+        <p style="margin-bottom: 14px;">ApoB is down to 78 mg/dL from 96 mg/dL in October. Whatever you changed, keep it. Lp(a) is unchanged at 62 nmol/L; that one is genetic, and we manage around it, not against it.</p>
+        <p style="margin-bottom: 14px;">CRP ticked up to 1.9 mg/L, but you ran a marathon nine days before the draw, so we will retest in six weeks instead of reacting now.</p>
+        <p>Nothing needed from you this month. Enjoy the snow with Maya.</p>
+      </div>
+          <div class="f-foot">EXACT · RESTRAINED · WARM WITHOUT PERFORMANCE · FORWARD-LOOKING · EVERY TRAIT CHECKABLE IN THE TEXT</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="row figure-block">
+      <div class="row-label">Specimen · headlines in the voice</div>
+      <div>
+        <div class="field night">
+          <div class="f-disp" style="font-weight: 600; letter-spacing: -0.02em; line-height: 1.18; margin-top: 4px;">
+        <div style="font-size: clamp(26px, 3vw, 40px);">Some of your best days are still ahead of you.</div>
+        <div style="font-size: clamp(26px, 3vw, 40px); margin-top: 18px;">Know what not to chase.</div>
+        <div style="font-size: clamp(26px, 3vw, 40px); margin-top: 18px;">The medical team you would build for yourself.</div>
+      </div>
+          <div class="f-foot">DIRECT · NO EXCLAMATION POINTS · SECOND PERSON · THE FUTURE IS THE SUBJECT</div>
+        </div>
+        <p class="f-cap">The rules: units on every number · says what not to chase · "I don't know yet," said plainly · no exclamation points · no em dashes · never sells · the second question is welcome</p>
+      </div>
+    </div>
+
+  </section>
+
+  <!-- ============ 10 · IN APPLICATION ============ -->
+  <section id="application">
+    <div class="section-label">10 · In Application</div>
+
+    <div class="row abstract">
+      <div class="row-label">The system in use</div>
+      <div class="prose">
+        <p>The system on real surfaces: the landing, the app, the letter, the card. Each is assembled only from parts this document already defines — the weave from its generator, the fade used whole, the two faces under instrument discipline, the gold fix, the record at volume. Nothing is invented at the point of use; a surface that needs something new sends it back through the section that owns it.</p>
+      </div>
+    </div>
+
+    <div class="row figure-block">
+      <div class="row-label">The landing · gunmetal</div>
+      <div>
+        <div style="border: 1px solid var(--line);">
+          <div style="display: flex; align-items: center; gap: 10px; padding: 8px 14px; background: #FAF7F2; border-bottom: 1px solid var(--line);">
+            <div style="display: flex; gap: 5px;"><span style="width: 8px; height: 8px; border-radius: 50%; background: #D8D3C9; display: inline-block;"></span><span style="width: 8px; height: 8px; border-radius: 50%; background: #D8D3C9; display: inline-block;"></span><span style="width: 8px; height: 8px; border-radius: 50%; background: #D8D3C9; display: inline-block;"></span></div>
+            <div style="flex: 1; text-align: center; font-family: var(--audit); font-size: 10px; color: #6F6A61; background: #FFFFFF; border: 1px solid var(--line); padding: 2px 0;">aleronmd.com</div>
+          </div>
+          <div id="appHeroWeave" style="position: relative; aspect-ratio: 1713 / 903; overflow: hidden; background: #252B3D;">
+            <img src="assets/photo/heroes/runner-photo.jpg?v=2" style="position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover;" alt="The landing hero: the dawn run behind the fade weave, mass left">
+            <img src="assets/photo/heroes/runner-cutout.png?v=2" style="position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; z-index: 2; pointer-events: none;" alt="">
+            <div style="position: absolute; z-index: 3; left: 4.2%; top: 5%;"><span class="lockup" style="font-size: 30px; color: #F5F1E8;">aleron<span class="tag grad">MD</span></span></div>
+            <a style="position: absolute; z-index: 3; right: 4.2%; top: 5%; background: #F5F1E8; color: #1D1B18; font-family: var(--voice); font-size: 12.5px; font-weight: 400; padding: 8px 18px; text-decoration: none;">Apply</a>
+            <div style="position: absolute; z-index: 3; left: 4.2%; top: 69%; width: 31%;">
+              <div style="font-family: var(--voice); font-size: clamp(20px, 2.8vw, 33px); font-weight: 400; letter-spacing: -0.02em; line-height: 1.05; color: #F5F1E8; text-wrap: balance;">Your best days are still ahead.</div>
+              <a style="display: inline-block; margin-top: 18px; background: transparent; color: #F5F1E8; border: 1px solid rgba(245,241,232,0.55); font-family: var(--voice); font-size: 13px; font-weight: 400; padding: 9px 22px; text-decoration: none;">See how it works</a>
+            </div>
+          </div>
+        </div>
+        <p class="f-cap">aleronmd.com · the canon weave, mass left, the gunmetal instrument weave, 8 × 14, subject spared, face clear · the cold/masculine register lives in the weave; the photograph stays warm · the message sits on the mass's solid core: rows 9–13, columns 0–3 one unbroken rectangle — the canon's two taps at column 3 filled by echo, no photograph inside the lower left · cream text on the steel core · top-right corner cells withheld: the source's contrast block under apply, not needed — the filled action carries its own ground · headline voice 400, lh 1.05 · apply cream top right, ghost action under the headline · lockup cream on the dark rows</p>
+      </div>
+    </div>
+
+
+    <div class="row figure-block">
+      <div class="row-label">The app · the chart room</div>
+      <div>
+        <div style="border: 1px solid var(--line);">
+          <div style="display: flex; align-items: center; gap: 10px; padding: 8px 14px; background: #FAF7F2; border-bottom: 1px solid var(--line);">
+            <div style="display: flex; gap: 5px;"><span style="width: 8px; height: 8px; border-radius: 50%; background: #D8D3C9; display: inline-block;"></span><span style="width: 8px; height: 8px; border-radius: 50%; background: #D8D3C9; display: inline-block;"></span><span style="width: 8px; height: 8px; border-radius: 50%; background: #D8D3C9; display: inline-block;"></span></div>
+            <div style="flex: 1; text-align: center; font-family: var(--audit); font-size: 10px; color: #6F6A61; background: #FFFFFF; border: 1px solid var(--line); padding: 2px 0;">app.aleronmd.com</div>
+          </div>
+          <div style="display: grid; grid-template-columns: 176px 1fr 248px; background: #252B3D;">
+
+            <div style="background: #20253A; padding: 18px 10px 16px; display: flex; flex-direction: column;">
+              <div style="padding: 0 12px 18px;"><span class="lockup" style="font-size: 19px; color: #F5F1E8;">aleron<span class="tag grad">MD</span></span></div>
+              <div style="display: flex; align-items: center; gap: 10px; padding: 8px 12px; background: rgba(245,241,232,0.07); opacity: 1;"><svg width="17" height="17" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><rect x="4" y="5" width="16" height="14" stroke="#F5F1E8" stroke-width="1.5" fill="none"/><path d="M8.5 2.5V7 M15.5 2.5V7" stroke="#F5F1E8" stroke-width="1.5" fill="none"/><circle cx="14.5" cy="13.5" r="1.4" fill="#F5F1E8"/></svg><span style="font-family: var(--voice); font-size: 13px; font-weight: 500; color: #F5F1E8;">Review</span></div><div style="display: flex; align-items: center; gap: 10px; padding: 8px 12px; opacity: 0.55;"><svg width="17" height="17" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M9.5 3h5 M10.5 3v5 M13.5 3v5 M13.5 8l4 9.2a1 1 0 0 1-.9 1.8H7.4a1 1 0 0 1-.9-1.8L10.5 8 M8.2 15h7.6" stroke="#F5F1E8" stroke-width="1.5" fill="none"/></svg><span style="font-family: var(--voice); font-size: 13px; font-weight: 400; color: #F5F1E8;">Labs</span></div><div style="display: flex; align-items: center; gap: 10px; padding: 8px 12px; opacity: 0.55;"><svg width="17" height="17" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M8.5 2 C 8.5 7, 15.5 9, 15.5 12 C 15.5 15, 8.5 17, 8.5 22" stroke="#F5F1E8" stroke-width="1.5" fill="none"/><path d="M15.5 2 C 15.5 7, 8.5 9, 8.5 12 C 8.5 15, 15.5 17, 15.5 22" stroke="#F5F1E8" stroke-width="1.5" fill="none"/><path d="M9.4 5.5h5.2 M9 12h6 M9.4 18.5h5.2" stroke="#F5F1E8" stroke-width="1.5" fill="none"/></svg><span style="font-family: var(--voice); font-size: 13px; font-weight: 400; color: #F5F1E8;">Genetics</span></div><div style="display: flex; align-items: center; gap: 10px; padding: 8px 12px; opacity: 0.55;"><svg width="17" height="17" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M2 13h4.5l2-6 3 10 2-4h5" stroke="#F5F1E8" stroke-width="1.5" fill="none"/><circle cx="20.5" cy="13" r="1.7" stroke="#F5F1E8" stroke-width="1.5" fill="none"/></svg><span style="font-family: var(--voice); font-size: 13px; font-weight: 400; color: #F5F1E8;">Pulse</span></div><div style="display: flex; align-items: center; gap: 10px; padding: 8px 12px; opacity: 0.55;"><svg width="17" height="17" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><rect x="3" y="5.5" width="18" height="13" stroke="#F5F1E8" stroke-width="1.5" fill="none"/><path d="M3 6.5l9 6 9-6" stroke="#F5F1E8" stroke-width="1.5" fill="none"/></svg><span style="font-family: var(--voice); font-size: 13px; font-weight: 400; color: #F5F1E8;">Messages</span></div>
+              <div style="margin-top: auto; padding: 14px 12px 0; border-top: 1px solid rgba(245,241,232,0.1);">
+                <div style="font-family: var(--audit); font-size: 9px; letter-spacing: 0.08em; color: rgba(245,241,232,0.55);">DAVID PARK</div>
+                <div style="font-family: var(--audit); font-size: 8px; letter-spacing: 0.08em; color: rgba(245,241,232,0.35); margin-top: 3px;">MEMBER 042</div>
+              </div>
+            </div>
+
+            <div style="padding: 22px 26px 20px; min-width: 0;">
+              <div style="display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 16px;">
+                <div>
+                  <div style="font-family: var(--voice); font-size: 19px; font-weight: 600; color: #F5F1E8;">Good morning, David.</div>
+                  <div style="font-family: var(--audit); font-size: 9px; letter-spacing: 0.08em; color: rgba(245,241,232,0.55); margin-top: 5px;">APRIL DRAW · 104 MARKERS · READ AGAINST OCTOBER · REVIEWED 12 JUN</div>
+                </div>
+                <a style="display: inline-block; padding: 8px 16px; background: transparent; color: #F5F1E8; border: 1px solid rgba(245,241,232,0.45); font-family: var(--voice); font-size: 12px; font-weight: 400; text-decoration: none; white-space: nowrap;">Message Dr. Chen</a>
+              </div>
+
+              <div style="background: #333E48; border-left: 2px solid #C9A14E; padding: 14px 16px; margin-bottom: 16px;">
+                <div style="font-family: var(--audit); font-size: 8.5px; letter-spacing: 0.1em; color: #EACB7F; margin-bottom: 6px;">THE ONE THING · THIS QUARTER</div>
+                <div style="display: flex; justify-content: space-between; align-items: baseline; gap: 16px;">
+                  <div style="font-family: var(--voice); font-size: 15.5px; line-height: 1.4; color: #F5F1E8;">Keep the statin where it is. Nothing else changes.</div>
+                  <div style="font-family: var(--voice); font-size: 12px; color: rgba(245,241,232,0.55); white-space: nowrap;">See the why</div>
+                </div>
+              </div>
+
+              <div style="border: 1px solid rgba(245,241,232,0.18); padding: 11px 14px 10px; margin-bottom: 4px;">
+                <div style="font-family: var(--audit); font-size: 8.5px; letter-spacing: 0.1em; color: rgba(245,241,232,0.55); margin-bottom: 8px;">ANNUNCIATOR · EMPTY WHEN ALL IS WELL</div>
+                <div style="display: flex; gap: 10px; flex-wrap: wrap; align-items: center;">
+                  <span style="background: #A4452C; color: #F5F1E8; font-family: var(--audit); font-size: 10px; letter-spacing: 0.06em; padding: 4px 10px;">HSCRP 1.9 · RETEST SIX WEEKS</span>
+                  <span style="font-family: var(--audit); font-size: 10px; letter-spacing: 0.05em; color: #EACB7F;">APOB ↓ · LDL-C ↓ · INSULIN ↓ · VIT D ↑</span>
+                </div>
+              </div>
+
+              <div style="font-family: var(--voice); font-size: 12px; font-weight: 600; color: #F5F1E8; border-top: 1px solid rgba(245,241,232,0.25); padding-top: 8px; margin-top: 18px;">Lipids</div><div style="display: grid; grid-template-columns: 130px 110px 110px 1fr; gap: 12px; padding: 5px 0; align-items: baseline; border-bottom: 1px solid rgba(245,241,232,0.06);"><span style="font-family: var(--voice); font-size: 13px; color: rgba(245,241,232,0.7);">ApoB</span><span style="font-family: var(--audit); font-size: 12.5px; font-variant-numeric: tabular-nums; text-align: right; color: rgba(245,241,232,0.88);">78 <span style="color: rgba(245,241,232,0.55); font-size: 10px;">mg/dL</span></span><span style="font-family: var(--audit); font-size: 10.5px; color: #EACB7F;">DOWN FROM 96</span><span style="font-family: var(--voice); font-size: 12px; color: rgba(245,241,232,0.55);">whatever you changed, keep it</span></div><div style="display: grid; grid-template-columns: 130px 110px 110px 1fr; gap: 12px; padding: 5px 0; align-items: baseline; border-bottom: 1px solid rgba(245,241,232,0.06);"><span style="font-family: var(--voice); font-size: 13px; color: rgba(245,241,232,0.7);">LDL-C</span><span style="font-family: var(--audit); font-size: 12.5px; font-variant-numeric: tabular-nums; text-align: right; color: rgba(245,241,232,0.88);">98 <span style="color: rgba(245,241,232,0.55); font-size: 10px;">mg/dL</span></span><span style="font-family: var(--audit); font-size: 10.5px; color: #EACB7F;">DOWN FROM 121</span><span></span></div><div style="display: grid; grid-template-columns: 130px 110px 110px 1fr; gap: 12px; padding: 5px 0; align-items: baseline; border-bottom: 1px solid rgba(245,241,232,0.06);"><span style="font-family: var(--voice); font-size: 13px; color: rgba(245,241,232,0.7);">HDL-C</span><span style="font-family: var(--audit); font-size: 12.5px; font-variant-numeric: tabular-nums; text-align: right; color: rgba(245,241,232,0.88);">61 <span style="color: rgba(245,241,232,0.55); font-size: 10px;">mg/dL</span></span><span></span><span></span></div><div style="display: grid; grid-template-columns: 130px 110px 110px 1fr; gap: 12px; padding: 5px 0; align-items: baseline; border-bottom: 1px solid rgba(245,241,232,0.06);"><span style="font-family: var(--voice); font-size: 13px; color: rgba(245,241,232,0.7);">Triglycerides</span><span style="font-family: var(--audit); font-size: 12.5px; font-variant-numeric: tabular-nums; text-align: right; color: rgba(245,241,232,0.88);">88 <span style="color: rgba(245,241,232,0.55); font-size: 10px;">mg/dL</span></span><span></span><span></span></div><div style="display: grid; grid-template-columns: 130px 110px 110px 1fr; gap: 12px; padding: 5px 0; align-items: baseline; border-bottom: 1px solid rgba(245,241,232,0.06);"><span style="font-family: var(--voice); font-size: 13px; color: rgba(245,241,232,0.7);">Lp(a)</span><span style="font-family: var(--audit); font-size: 12.5px; font-variant-numeric: tabular-nums; text-align: right; color: rgba(245,241,232,0.88);">62 <span style="color: rgba(245,241,232,0.55); font-size: 10px;">nmol/L</span></span><span></span><span style="font-family: var(--voice); font-size: 12px; color: rgba(245,241,232,0.55);">genetic; managed around, not against</span></div><div style="font-family: var(--voice); font-size: 12px; font-weight: 600; color: #F5F1E8; border-top: 1px solid rgba(245,241,232,0.25); padding-top: 8px; margin-top: 18px;">Inflammation</div><div style="display: grid; grid-template-columns: 130px 110px 110px 1fr; gap: 12px; padding: 5px 0; align-items: baseline; border-bottom: 1px solid rgba(245,241,232,0.06);"><span style="font-family: var(--voice); font-size: 13px; color: rgba(245,241,232,0.7);">hsCRP</span><span style="font-family: var(--audit); font-size: 12.5px; font-variant-numeric: tabular-nums; text-align: right; color: rgba(245,241,232,0.88);">1.9 <span style="color: rgba(245,241,232,0.55); font-size: 10px;">mg/L</span></span><span style="font-family: var(--audit); font-size: 10.5px; color: #EACB7F;">UP FROM 0.8</span><span style="font-family: var(--voice); font-size: 12px; color: rgba(245,241,232,0.55);">marathon nine days before the draw</span></div><div style="display: grid; grid-template-columns: 130px 110px 110px 1fr; gap: 12px; padding: 5px 0; align-items: baseline; border-bottom: 1px solid rgba(245,241,232,0.06);"><span style="font-family: var(--voice); font-size: 13px; color: rgba(245,241,232,0.7);">IL-6</span><span style="font-family: var(--audit); font-size: 12.5px; font-variant-numeric: tabular-nums; text-align: right; color: rgba(245,241,232,0.88);">1.2 <span style="color: rgba(245,241,232,0.55); font-size: 10px;">pg/mL</span></span><span></span><span></span></div><div style="display: grid; grid-template-columns: 130px 110px 110px 1fr; gap: 12px; padding: 5px 0; align-items: baseline; border-bottom: 1px solid rgba(245,241,232,0.06);"><span style="font-family: var(--voice); font-size: 13px; color: rgba(245,241,232,0.7);">Homocysteine</span><span style="font-family: var(--audit); font-size: 12.5px; font-variant-numeric: tabular-nums; text-align: right; color: rgba(245,241,232,0.88);">9.1 <span style="color: rgba(245,241,232,0.55); font-size: 10px;">umol/L</span></span><span></span><span></span></div><div style="display: grid; grid-template-columns: 130px 110px 110px 1fr; gap: 12px; padding: 5px 0; align-items: baseline; border-bottom: 1px solid rgba(245,241,232,0.06);"><span style="font-family: var(--voice); font-size: 13px; color: rgba(245,241,232,0.7);">Omega-3 index</span><span style="font-family: var(--audit); font-size: 12.5px; font-variant-numeric: tabular-nums; text-align: right; color: rgba(245,241,232,0.88);">NOT DRAWN <span style="color: rgba(245,241,232,0.55); font-size: 10px;"></span></span><span></span><span style="font-family: var(--voice); font-size: 12px; color: rgba(245,241,232,0.55);">declared, never blank; on the next draw</span></div>
+              <div style="font-family: var(--audit); font-size: 9px; letter-spacing: 0.07em; color: rgba(245,241,232,0.55); padding-top: 12px;">METABOLIC · HORMONES · KIDNEY · LIVER · 88 MORE, ALL QUIET · FIXED SCAN ORDER · QUEST ELITE · DRAWN APR</div>
+            </div>
+
+            <div style="padding: 22px 18px 20px; border-left: 1px solid rgba(245,241,232,0.1);">
+              <div style="border: 1px solid rgba(245,241,232,0.14); padding: 14px 16px; margin-bottom: 14px;"><div style="font-family: var(--audit); font-size: 8.5px; letter-spacing: 0.1em; color: rgba(245,241,232,0.55);">THE COURSE · VO2MAX AGAINST THE BANDS</div><svg viewBox="0 0 220 84" xmlns="http://www.w3.org/2000/svg" style="display: block; width: 100%; margin-top: 10px;" role="img" aria-label="Capacity curve, night register"><defs><linearGradient id="rampApp" x1="0" y1="0" x2="1" y2="0"><stop offset="0" stop-color="#8C96AC"/><stop offset="0.55" stop-color="#D86B4F"/><stop offset="1" stop-color="#EACB7F"/></linearGradient></defs><path d="M 6 64 C 50 60, 84 52, 122 38 S 196 16, 214 13" fill="none" stroke="url(#rampApp)" stroke-width="2.5" stroke-linecap="round"/><line x1="6" y1="74" x2="214" y2="74" stroke="#F5F1E8" stroke-opacity="0.22" stroke-width="1"/><circle cx="62" cy="56" r="3" fill="#C9A14E"/></svg><div style="font-family: var(--audit); font-size: 9px; color: rgba(245,241,232,0.55); margin-top: 8px;">YOU ARE HERE · 41.2 ML/KG/MIN · WELL</div></div><div style="border: 1px solid rgba(245,241,232,0.14); padding: 14px 16px; margin-bottom: 14px;"><div style="font-family: var(--audit); font-size: 8.5px; letter-spacing: 0.1em; color: rgba(245,241,232,0.55);">NEXT</div><div style="font-family: var(--voice); font-size: 13px; color: rgba(245,241,232,0.7); margin-top: 8px; line-height: 1.7;">Autumn draw<br>Review with Dr. Chen</div>
+          <div style="font-family: var(--audit); font-size: 9.5px; color: rgba(245,241,232,0.55); margin-top: 4px;">OCT 2026 · 14 OCT</div></div><div style="border: 1px solid rgba(245,241,232,0.14); padding: 14px 16px; margin-bottom: 14px;"><div style="font-family: var(--audit); font-size: 8.5px; letter-spacing: 0.1em; color: rgba(245,241,232,0.55);">DR. CHEN · TUESDAY</div><div style="font-family: var(--voice); font-size: 12.5px; color: rgba(245,241,232,0.7); margin-top: 8px; line-height: 1.55;">Nothing needed from you this month. Enjoy the snow with Maya.</div>
+          <div style="font-family: var(--voice); font-size: 12px; color: rgba(245,241,232,0.55); margin-top: 10px;">Open the message</div></div>
+            </div>
+
+          </div>
+        </div>
+        <p class="f-cap">app.aleronmd.com · the chart room, night register · dark cockpit: 104 markers, the quiet ones say nothing · the annunciator's hazard is a lit tile — ember fill, cream text; ember text never sits on dark, per the grid · advisories lit gold · names voice, values audit, decimals aligned · marks: the instrument set, cream · actions per the locked set · the one thing never sits inside the volume</p>
+      </div>
+    </div>
+
+    <div class="row figure-block">
+      <div class="row-label">The letter</div>
+      <div>
+        <div class="field day" style="display: flex; justify-content: center; padding: 64px 48px;">
+          <div style="width: 440px; aspect-ratio: 8.5 / 11; background: #FAF7F2; border: 1px solid #1D1B18; box-shadow: -14px 16px 0 #252B3D; padding: 38px 40px; display: flex; flex-direction: column;">
+            <div style="display: flex; justify-content: space-between; align-items: baseline;">
+              <span class="lockup" style="font-size: 21px; color: #232325;">aleron<span class="tag grad">MD</span></span>
+              <span style="font-family: var(--audit); font-size: 9px; letter-spacing: 0.08em; color: #6F6A61;">12 JUN 2026</span>
+            </div>
+            <div style="border-top: 1px solid #1D1B18; margin: 14px 0 22px;"></div>
+            <div style="font-family: var(--voice); font-size: 12.5px; line-height: 1.65; color: #1D1B18;">
+              <p style="margin-bottom: 12px;">David,</p>
+              <p style="margin-bottom: 12px;">ApoB is down to 78 mg/dL from 96 mg/dL in October. Whatever you changed, keep it. Lp(a) is unchanged at 62 nmol/L; that one is genetic, and we manage around it, not against it.</p>
+              <p style="margin-bottom: 16px;">Everything else on the panel is quiet. We left cortisol for the fall draw, with your travel schedule in mind.</p>
+              <p style="margin-bottom: 0; font-weight: 600;"><span style="display: inline-block; width: 8px; height: 8px; background: #C9A14E; margin-right: 8px;"></span>The one thing: keep the dose where it is.</p>
+            </div>
+            <div style="margin-top: auto;">
+              <p style="font-family: var(--voice); font-size: 12.5px; color: #1D1B18; margin-bottom: 14px;">Sarah Chen, MD</p>
+              <div style="border-top: 1px solid rgba(29,27,24,0.16); padding-top: 8px; font-family: var(--audit); font-size: 7.5px; letter-spacing: 0.07em; color: #6F6A61;">QUEST ELITE · 104 MARKERS · DRAWN APR · REVIEWED 12 JUN · NEXT DRAW OCT</div>
+            </div>
+          </div>
+        </div>
+        <p class="f-cap">US letter · voice for the words, audit for the record · one gold fix per surface · the shadow flat indigo, per the object rule</p>
+      </div>
+    </div>
+
+    <div class="row figure-block">
+      <div class="row-label">The card</div>
+      <div>
+        <div class="field day" style="display: flex; justify-content: center; padding: 64px 48px;">
+          <div style="width: 360px; aspect-ratio: 85.6 / 54; background: #252B3D; border-radius: 12px; padding: 22px 24px; display: flex; flex-direction: column; justify-content: space-between; box-shadow: -6px 7px 0 #FAF7F2, -16px 18px 0 #252B3D;">
+            <div style="display: flex; justify-content: space-between; align-items: flex-start;">
+              <span class="lockup" style="font-size: 23px; color: #F5F1E8;">aleron<span class="tag grad">MD</span></span>
+              <span style="width: 9px; height: 9px; background: #C9A14E; display: inline-block; margin-top: 6px;"></span>
+            </div>
+            <div>
+              <div style="font-family: var(--audit); font-size: 11.5px; letter-spacing: 0.12em; color: #F5F1E8;">DAVID PARK</div>
+              <div style="font-family: var(--audit); font-size: 8.5px; letter-spacing: 0.1em; color: rgba(245,241,232,0.5); margin-top: 4px;">MEMBER 042 · SINCE 2026</div>
+            </div>
+          </div>
+        </div>
+        <p class="f-cap">CR80, 85.6 × 54 · indigo ground, cream lockup, one gold seal · names in audit · the shadow flat indigo, paper between, per the corollary · nothing else</p>
+      </div>
+    </div>
+
+    <div class="row figure-block">
+      <div class="row-label">The actions · locked</div>
+      <div>
+        <div class="field day" style="text-align: left;">
+          <div style="display: flex; gap: 18px; flex-wrap: wrap; align-items: center;">
+            <a style="display: inline-block; min-width: 180px; text-align: center; padding: 14px 0; font-family: var(--voice); font-size: 16px; font-weight: 400; letter-spacing: -0.01em; text-decoration: none; background: #1D1B18; color: #F5F1E8;">Apply</a>
+            <a style="display: inline-block; min-width: 180px; text-align: center; padding: 14px 0; font-family: var(--voice); font-size: 16px; font-weight: 400; letter-spacing: -0.01em; text-decoration: none; background: transparent; color: #1D1B18; border: 1px solid rgba(29,27,24,0.25);">See the medicine</a>
+            <a style="display: inline-block; min-width: 180px; text-align: center; padding: 14px 0; font-family: var(--voice); font-size: 16px; font-weight: 400; letter-spacing: -0.01em; text-decoration: none; background: transparent; color: #5A6378;">Not yet</a>
+          </div>
+          <div style="display: flex; gap: 18px; flex-wrap: wrap; align-items: center; margin-top: 14px;">
+            <a style="display: inline-block; min-width: 180px; text-align: center; padding: 14px 0; font-family: var(--voice); font-size: 16px; font-weight: 400; letter-spacing: -0.01em; text-decoration: none; background: #F1EDE6; color: rgba(29,27,24,0.38);">Apply</a>
+            <a style="display: inline-block; min-width: 180px; text-align: center; padding: 14px 0; font-family: var(--voice); font-size: 16px; font-weight: 400; letter-spacing: -0.01em; text-decoration: none; background: #1D1B18;"><span style="display: inline-flex; gap: 5px; align-items: center;"><span style="width:4px;height:4px;border-radius:50%;background:#F5F1E8;"></span><span style="width:4px;height:4px;border-radius:50%;background:rgba(245,241,232,0.45);"></span><span style="width:4px;height:4px;border-radius:50%;background:rgba(245,241,232,0.2);"></span></span></a>
+          </div>
+          <div class="f-foot">PRIMARY · SECONDARY · TERTIARY · DISABLED · LOADING</div>
+        </div>
+        <div class="field night" style="text-align: left;">
+          <div style="display: flex; gap: 18px; flex-wrap: wrap; align-items: center;">
+            <a style="display: inline-block; min-width: 180px; text-align: center; padding: 14px 0; font-family: var(--voice); font-size: 16px; font-weight: 400; letter-spacing: -0.01em; text-decoration: none; background: #F5F1E8; color: #1D1B18;">Apply</a>
+            <a style="display: inline-block; min-width: 180px; text-align: center; padding: 14px 0; font-family: var(--voice); font-size: 16px; font-weight: 400; letter-spacing: -0.01em; text-decoration: none; background: transparent; color: #F5F1E8; border: 1px solid rgba(245,241,232,0.45);">See the medicine</a>
+            <a style="display: inline-block; min-width: 180px; text-align: center; padding: 14px 0; font-family: var(--voice); font-size: 16px; font-weight: 400; letter-spacing: -0.01em; text-decoration: none; background: transparent; color: rgba(245,241,232,0.7);">Not yet</a>
+          </div>
+          <div class="f-foot">THE SAME THREE, INVERTED TO CREAM ON THE NIGHT REGISTER</div>
+        </div>
+        <p class="f-cap">Three actions, from Ola's button set, measured: primary filled, secondary hairline, tertiary bare · the word in the voice face, 400, 16px, −1% em, sentence case, centered · corners square; weight comes from the fill, never the face · states: disabled loses its ink to 38 percent, loading is three dots · gold is never a button — gold is the signal, never the control · source: Figma, Buttons page, component set 19:4963</p>
+      </div>
+    </div>
+
+  </section>
+
+</div>
+
+<script>
+  // ---------- uniform data for hover cards ----------
+  const UNIFORMS = {
+    function:   { uniform: 'Warm wellness', name: 'Function Health', chips: ['#FEF9EF','#F5EEE1','#B05A36','#2A2B2F'],
+                  type: 'FT Base, editorial grotesque set large.',
+                  imagery: 'Warm member portraits; data UI as supporting proof.',
+                  signal: '"You are known here." Warmth worn over a self-serve data product.',
+                  method: 'Palette and type sampled from the live site CSS, 06/2026',
+                  refs: [{ l: 'functionhealth.com', u: 'https://www.functionhealth.com' }] },
+    superpower: { uniform: 'Dark instrumentation', name: 'Superpower', chips: ['#0E0E10','#FF6B00'],
+                  type: 'NB International and NB International Mono.',
+                  imagery: 'Abstract silhouettes, generative data forms, dark gradients.',
+                  signal: '"We see everything." Rigor as spectacle; precise, cold.',
+                  method: 'Read from the live site and the design case study, 06/2026; orange approximated',
+                  refs: [{ l: 'superpower.com', u: 'https://superpower.com' }, { l: 'daybreak.studio', u: 'https://daybreak.studio' }] },
+    fountain:   { uniform: 'Dark instrumentation', name: 'Fountain Life', chips: ['#0E0E10','#041B2D','#009CD4','#00E5E5'],
+                  type: 'Tech grotesques in wide settings.',
+                  imagery: 'Whole-body scanners, mission-control interfaces.',
+                  signal: '"We see everything." Surveillance dressed as luxury.',
+                  method: 'Palette sampled from the live site CSS, 06/2026',
+                  refs: [{ l: 'fountainlife.com', u: 'https://www.fountainlife.com' }] },
+    hli:        { uniform: 'Clinical calm', name: 'Human Longevity', chips: ['#F4F7F6','#4A8A96'],
+                  type: 'Instrument Serif over geometric sans.',
+                  imagery: 'Soft-daylight clinics, composed portraits, a scrolling wall of named diseases.',
+                  signal: '"Medicine, made pleasant." Calm surface, fear underneath.',
+                  method: 'Palette and type sampled from the live site, 06/2026',
+                  refs: [{ l: 'humanlongevity.com', u: 'https://humanlongevity.com' }] },
+    wild:       { uniform: 'Clinical calm', name: 'Wild Health', chips: ['#03293B','#8FBCA2','#B2D7C7'],
+                  type: 'Poppins and Lato, geometric sans.',
+                  imagery: 'Navy-and-sage clinical lifestyle.',
+                  signal: '"Medicine, made pleasant." Optimization for executives.',
+                  method: 'Palette sampled from the live site stylesheet, 06/2026',
+                  refs: [{ l: 'wildhealth.com', u: 'https://www.wildhealth.com' }] },
+    mayo:       { uniform: 'Institutional authority', name: 'Mayo Clinic · Cleveland Clinic', chips: ['#1B477B','#002F6C','#FFFFFF'],
+                  type: 'Conservative proprietary serif and sans; shield marks.',
+                  imagery: 'Marble atriums, campus architecture, physicians in suits.',
+                  signal: '"Trust the name." A century of authority, once a year.',
+                  method: 'Read from the live program pages, 06/2026; Cleveland navy sampled, Mayo navy approximated',
+                  refs: [{ l: 'mayoclinic.org', u: 'https://www.mayoclinic.org/executive-health' }, { l: 'clevelandclinic.org', u: 'https://my.clevelandclinic.org/departments/executive-health' }] },
+    mdvip:      { uniform: 'Warm wellness', name: 'MDVIP', chips: ['#F97D2B','#FFDCB5','#F6F0E1','#201D1A'],
+                  type: 'Inter Tight and Inter: the same faces currently standing in for Aleron.',
+                  imagery: 'Golden-hour multigenerational families, dusk beaches.',
+                  signal: '"You are known here." Warmth end to end; data depth absent. The present tense.',
+                  method: 'Palette and type sampled from the live site CSS, 06/2026; positioning per CMO interview, MediaPost, 04/2026',
+                  refs: [{ l: 'mdvip.com', u: 'https://www.mdvip.com' }] },
+    sigmd:      { uniform: 'Clinical calm', name: 'SignatureMD', chips: ['#059EC0','#DD484E','#FDCA10'],
+                  type: 'Montserrat throughout.',
+                  imagery: 'Smiling patients, doctor conversations, benefit icons.',
+                  signal: '"You are known here," in mainstream corporate dress.',
+                  method: 'Palette sampled from the live site theme CSS, 06/2026',
+                  refs: [{ l: 'signaturemd.com', u: 'https://signaturemd.com' }] },
+    aleron:     { uniform: 'Open territory', name: 'Aleron MD', chips: [],
+                  type: 'Hanken Grotesk and Space Mono, in study. Decided in Section 06.',
+                  imagery: 'The moment ahead, morning light increasing. Section 04.',
+                  signal: 'One system, two registers: warm at the surface, rigorous one layer down.',
+                  method: 'Derived in this document: Section 01 sets the position, 02 the landscape, 03 the study',
+                  refs: [] },
+  };
+
+  // ---------- stage scroll: act 1 expand, act 2 dress, act 3 zoom to Aleron ----------
+  const stage = document.getElementById('stage');
+  const mapStage = document.getElementById('mapStage');
+  const mapSvg = document.getElementById('mapSvg');
+  const mapWorld = document.getElementById('mapWorld');
+  const chipGroups = [...document.querySelectorAll('.uniform-chips')];
+  const seeds = [...document.querySelectorAll('.seed')];
+  const study = document.getElementById('study');
+  const stageFootEl = document.getElementById('stageFoot');
+  const t1 = document.getElementById('stageT1');
+  const t2 = document.getElementById('stageT2');
+  const t3 = document.getElementById('stageT3');
+  const isMobile = () => window.innerWidth <= 880;
+  const clamp01 = v => Math.min(1, Math.max(0, v));
+  const easeIO = t => t < 0.5 ? 4 * t * t * t : 1 - Math.pow(-2 * t + 2, 3) / 2;
+  const V0 = { x: 0, y: 40, w: 960, h: 520 };
+  const V1 = { x: 560, y: 70, w: 340, h: 184 };
+
+  function onScroll() {
+    if (isMobile()) return;
+    const vh = window.innerHeight;
+    const r = stage.getBoundingClientRect();
+    const total = r.height - vh;
+    const p = clamp01(-r.top / total);
+
+    // act 1: expand (0 to 0.40)
+    const pe = clamp01(p / 0.40);
+    const minW = Math.min(760, window.innerWidth * 0.92);
+    const maxW = Math.max(minW, Math.min(window.innerWidth * 0.94, (vh - 190) * 960 / 520, 1500));
+    mapStage.style.width = (minW + (maxW - minW) * pe) + 'px';
+
+    // act 2: dress (chips fade in across the back half of expansion)
+    const chipOp = clamp01((pe - 0.5) / 0.5);
+    chipGroups.forEach(g => g.style.opacity = chipOp);
+
+    // act 3: zoom to Aleron (0.52 to 0.92)
+    const pz = easeIO(clamp01((p - 0.52) / 0.40));
+    const vx = V0.x + (V1.x - V0.x) * pz;
+    const vy = V0.y + (V1.y - V0.y) * pz;
+    const vw = V0.w + (V1.w - V0.w) * pz;
+    const vhh = V0.h + (V1.h - V0.h) * pz;
+    mapSvg.setAttribute('viewBox', vx + ' ' + vy + ' ' + vw + ' ' + vhh);
+    mapWorld.style.opacity = Math.pow(1 - pz, 1.5);
+    seeds.forEach(s => {
+      s.setAttribute('fill', s.dataset.fill);
+      s.setAttribute('fill-opacity', pz);
+      s.setAttribute('stroke-opacity', 1 - pz);
+    });
+
+    // study panel arrives at the end of the zoom
+    const ps = clamp01((p - 0.78) / 0.16);
+    study.style.opacity = ps;
+    study.style.pointerEvents = ps > 0.5 ? 'auto' : 'none';
+    stageFootEl.style.opacity = 1 - clamp01((p - 0.5) / 0.15);
+
+    // titles: 01 read, 02 worn, color study
+    t1.style.opacity = 1 - clamp01((p - 0.20) / 0.12);
+    t2.style.opacity = clamp01((p - 0.24) / 0.12) * (1 - clamp01((p - 0.58) / 0.12));
+    t3.style.opacity = clamp01((p - 0.62) / 0.12);
+  }
+  document.addEventListener('scroll', onScroll, { passive: true });
+  window.addEventListener('resize', onScroll);
+  onScroll();
+
+  // ---------- contents rail: track and jump ----------
+  const toc = document.getElementById('toc');
+  const tocItems = [...toc.querySelectorAll('li[data-key]')];
+
+  function stageTargets() {
+    const vh = window.innerHeight;
+    const top = stage.offsetTop;
+    const total = stage.offsetHeight - vh;
+    return {
+      t01: document.getElementById('thesis-position').offsetTop - 16,
+      t02: top + total * 0.42,
+      t03: document.getElementById('color').offsetTop - 16,
+      t04: document.getElementById('photography').offsetTop - 16,
+      t05: document.getElementById('wordmark').offsetTop - 16,
+      t06: document.getElementById('typography').offsetTop - 16,
+      t07: document.getElementById('graphic').offsetTop - 16,
+      t08: document.getElementById('iconography').offsetTop - 16,
+      t09: document.getElementById('voice').offsetTop - 16,
+      t10: document.getElementById('application').offsetTop - 16,
+    };
+  }
+
+  toc.querySelectorAll('a[data-go]').forEach(a => {
+    a.addEventListener('click', () => {
+      const t = stageTargets()[a.dataset.go];
+      window.scrollTo({ top: t, behavior: 'smooth' });
+    });
+  });
+
+  const SECTION_KEYS = [
+    ['color', '03'], ['photography', '04'], ['wordmark', '05'], ['typography', '06'],
+    ['graphic', '07'], ['iconography', '08'], ['voice', '09'], ['application', '10'],
+  ];
+
+  function updateToc() {
+    const vh = window.innerHeight;
+    const y = window.scrollY;
+    const top = stage.offsetTop;
+    const total = stage.offsetHeight - vh;
+    let key = '01';
+    if (y >= top - vh * 0.3) {
+      const p = clamp01((y - top) / total);
+      if (y > top + total) key = '02';
+      else if (p < 0.32) key = '01';
+      else if (p < 0.72) key = '02';
+      else key = '03';
+    }
+    SECTION_KEYS
+      .map(([id, k]) => [document.getElementById(id).offsetTop, k])
+      .sort((a, b) => a[0] - b[0])
+      .forEach(([secTop, k]) => { if (y >= secTop - vh * 0.35) key = k; });
+    tocItems.forEach(li => li.classList.toggle('active', li.dataset.key === key));
+  }
+  document.addEventListener('scroll', updateToc, { passive: true });
+  window.addEventListener('resize', updateToc);
+  updateToc();
+
+  // ---------- hover cards ----------
+  const card = document.getElementById('hoverCard');
+  let pinned = false;
+
+  function renderCard(key) {
+    const u = UNIFORMS[key];
+    if (!u) return;
+    const chips = u.chips.length
+      ? u.chips.map(c => '<div class="hc-chip" style="background:' + c + '"></div>').join('')
+      : '<div class="hc-chip empty"></div><div class="hc-chip empty"></div><div class="hc-chip empty"></div><div class="hc-chip empty"></div>';
+    const links = (u.refs || []).map(r => '<a href="' + r.u + '" target="_blank" rel="noopener">' + r.l + '</a>').join(' · ');
+    card.innerHTML =
+      '<div class="hc-uniform">' + u.uniform + '</div>' +
+      '<div class="hc-name">' + u.name + '</div>' +
+      '<div class="hc-chips">' + chips + '</div>' +
+      '<dl><dt>Type</dt><dd>' + u.type + '</dd>' +
+      '<dt>Imagery</dt><dd>' + u.imagery + '</dd>' +
+      '<dt>Signals</dt><dd><b>' + u.signal + '</b></dd></dl>' +
+      '<div class="hc-src">' + u.method + (links ? ' · ' + links : '') + '</div>';
+  }
+
+  function placeNear(g) {
+    const r = g.getBoundingClientRect();
+    const w = card.offsetWidth, h = card.offsetHeight, pad = 10;
+    let x = r.right + pad;
+    let y = r.top + r.height / 2 - h / 2;
+    if (x + w > window.innerWidth - 8) x = r.left - w - pad;
+    if (x < 8) x = Math.max(8, Math.min(window.innerWidth - w - 8, r.left));
+    y = Math.max(8, Math.min(y, window.innerHeight - h - 8));
+    card.style.left = x + 'px';
+    card.style.top = y + 'px';
+  }
+
+  let hideTimer = null;
+  const cancelHide = () => { if (hideTimer) { clearTimeout(hideTimer); hideTimer = null; } };
+  const scheduleHide = () => {
+    if (pinned) return;
+    cancelHide();
+    hideTimer = setTimeout(() => { card.style.display = 'none'; }, 180);
+  };
+  const showFor = (g) => {
+    cancelHide();
+    renderCard(g.dataset.key);
+    card.style.display = 'block';
+    placeNear(g);
+  };
+
+  document.querySelectorAll('.pos').forEach(g => {
+    g.addEventListener('pointerenter', () => { if (!pinned) showFor(g); });
+    g.addEventListener('pointerleave', scheduleHide);
+    g.addEventListener('click', (e) => {
+      pinned = true;
+      showFor(g);
+      e.stopPropagation();
+    });
+  });
+  card.addEventListener('pointerenter', cancelHide);
+  card.addEventListener('pointerleave', scheduleHide);
+  card.addEventListener('click', (e) => e.stopPropagation());
+  document.addEventListener('click', () => { pinned = false; card.style.display = 'none'; });
+</script>
+
+<script>
+(function() {
+// ============================================================================
+// Functional Capacity Teaching Tool — Aleron edition
+// Engine identical to the source tool; palette adjusted for paper background.
+// ============================================================================
+
+const TEMPLATES = {
+  elite: { 30: 56, 40: 53, 50: 50, 60: 47, 65: 45, 70: 42, 75: 38, 80: 34, 85: 30, 90: 26, 100: 18 },
+  average: { 30: 38, 40: 35, 50: 33, 60: 31, 65: 29, 70: 26, 75: 22, 80: 19, 85: 16, 90: 13, 100: 8 },
+  deconditioned: { 30: 26, 40: 23, 50: 20, 60: 18, 65: 16, 70: 14, 75: 12, 80: 10, 85: 8, 90: 7, 100: 5 }
+};
+
+function templateAt(tmpl, age) {
+  const ages = Object.keys(tmpl).map(Number).sort((a,b) => a - b);
+  if (age <= ages[0]) return tmpl[ages[0]];
+  if (age >= ages[ages.length-1]) return tmpl[ages[ages.length-1]];
+  for (let i = 0; i < ages.length - 1; i++) {
+    const a0 = ages[i], a1 = ages[i+1];
+    if (age >= a0 && age <= a1) {
+      const t = (age - a0) / (a1 - a0);
+      return tmpl[a0] * (1 - t) + tmpl[a1] * t;
+    }
+  }
+  return tmpl[ages[ages.length-1]];
+}
+
+function conditioningCurve(condSlider, age) {
+  const dec = templateAt(TEMPLATES.deconditioned, age);
+  const avg = templateAt(TEMPLATES.average, age);
+  const eli = templateAt(TEMPLATES.elite, age);
+  if (condSlider <= 33) { const t = condSlider / 33; return dec * (1 - t) + avg * t; }
+  const t = (condSlider - 33) / 67; return avg * (1 - t) + eli * t;
+}
+
+function baseCapacity(condSlider, lifeSlider, age) {
+  const baseline = conditioningCurve(condSlider, 30);
+  const unmodified = conditioningCurve(condSlider, age);
+  const mult = 1.10 - (lifeSlider / 100) * 0.20;
+  return baseline + mult * (unmodified - baseline);
+}
+
+function effectiveRisk(condSlider, lifeSlider, riskSlider) {
+  const r = riskSlider / 100;
+  const decon = 1 - condSlider / 100;
+  const neg = 1 - lifeSlider / 100;
+  return 0.55 * r + 0.35 * decon + 0.10 * neg;
+}
+
+function interpolateAnchors(R, anchors) {
+  const n = anchors.length;
+  if (R <= anchors[0][0]) return anchors[0][1];
+  if (R >= anchors[n-1][0]) return anchors[n-1][1];
+  for (let i = 0; i < n - 1; i++) {
+    if (R >= anchors[i][0] && R <= anchors[i+1][0]) {
+      const t = (R - anchors[i][0]) / (anchors[i+1][0] - anchors[i][0]);
+      return anchors[i][1] * (1 - t) + anchors[i+1][1] * t;
+    }
+  }
+  return anchors[n-1][1];
+}
+
+// Anchors extended to R_eff ∈ [0.05, 0.95] so corner slider combinations
+// (high-risk + elite fit, low-risk + deconditioned) remain responsive instead
+// of clamping against a [0.30, 0.80] floor/ceiling.
+const FORK_EVENTS = [
+  { id: 'cancer', name: 'Cancer treatment', shortName: 'cancer',
+    pAnchors: [[0.05, 0.18], [0.30, 0.25], [0.55, 0.40], [0.80, 0.55], [0.95, 0.68]],
+    ageAnchors: [[0.05, 73], [0.30, 70], [0.55, 65], [0.80, 58], [0.95, 54]],
+    drop: 0.25, tau: 24, recoveryFrac: 0.20 },
+  { id: 'cv', name: 'CV event', shortName: 'CV',
+    pAnchors: [[0.05, 0.05], [0.30, 0.10], [0.55, 0.30], [0.80, 0.55], [0.95, 0.68]],
+    ageAnchors: [[0.05, 85], [0.30, 82], [0.55, 75], [0.80, 67], [0.95, 63]],
+    drop: 0.25, tau: 6, recoveryFrac: 0.75 }
+];
+
+function activeForks(R) {
+  return FORK_EVENTS.map(ev => ({
+    ...ev,
+    pEvent: interpolateAnchors(R, ev.pAnchors),
+    modalAge: interpolateAnchors(R, ev.ageAnchors)
+  }));
+}
+
+function eventFactorAt(event, age) {
+  if (age < event.modalAge) return 1.0;
+  const yearsSince = age - event.modalAge;
+  const tauYears = event.tau / 12;
+  const residualFrac = event.drop * (1 - event.recoveryFrac);
+  const dropFrac = residualFrac + (event.drop - residualFrac) * Math.exp(-yearsSince / tauYears);
+  return 1 - dropFrac;
+}
+
+function jointOutcomes(forks) {
+  const cancer = forks.find(f => f.id === 'cancer');
+  const cv = forks.find(f => f.id === 'cv');
+  const pc = cancer.pEvent;
+  const pcv = cv.pEvent;
+  return [
+    { id: 'spared',  label: 'spared both', shortLabel: 'spared',     p: (1 - pc) * (1 - pcv), events: [] },
+    { id: 'cancer',  label: 'cancer only', shortLabel: 'cancer only', p: pc * (1 - pcv),       events: [cancer] },
+    { id: 'cv',      label: 'CV only',     shortLabel: 'CV only',     p: (1 - pc) * pcv,       events: [cv] },
+    { id: 'both',    label: 'both events', shortLabel: 'both',        p: pc * pcv,             events: [cancer, cv] }
+  ];
+}
+
+const CAPACITY_FLOOR_VO2 = 3;
+const VIT_DROP_SCALAR = 0.6;
+
+function capacityForOutcome(condSlider, lifeSlider, age, outcomeEvents) {
+  let factor = 1.0;
+  for (const ev of outcomeEvents) factor *= eventFactorAt(ev, age);
+  return Math.max(baseCapacity(condSlider, lifeSlider, age) * factor, CAPACITY_FLOOR_VO2);
+}
+
+function vitalityAt(condSlider, lifeSlider, age, events) {
+  const lifeNorm = lifeSlider / 100;
+  const condNorm = condSlider / 100;
+  const mix = 0.65 * lifeNorm + 0.35 * condNorm;
+  let vit = 0.45 + 0.50 * mix;
+  const vit100 = 0.05 + 0.45 * mix;
+  if (age > 30) {
+    const ageT = (age - 30) / 70;
+    const curveT = ageT * ageT * 0.5 + ageT * 0.5;
+    vit = vit - (vit - vit100) * curveT;
+  }
+  for (const ev of events) {
+    if (age < ev.modalAge) continue;
+    const yearsSince = age - ev.modalAge;
+    const acuteVitDrop = ev.drop * VIT_DROP_SCALAR;
+    const tauYears = ev.tau / 12;
+    const residualVit = acuteVitDrop * (1 - ev.recoveryFrac);
+    const dropAtAge = residualVit + (acuteVitDrop - residualVit) * Math.exp(-yearsSince / tauYears);
+    vit -= dropAtAge;
+  }
+  return Math.max(0, Math.min(1, vit));
+}
+
+// Vitality color ramp — felt-experience should turn before the functional
+// curve collapses. Average American should read as leaving "good" by the
+// 60s, so amber starts earlier and green is reserved for clearly high
+// vitality. Keep the amber→green transition near-discrete to avoid olive muddling
+// against cream paper.
+function vitalityColor(v) {
+  const stops = [
+    { v: 0.00, r: 82,  g: 35,  b: 22  },  // ember shade, lowest felt vitality
+    { v: 0.30, r: 164, g: 69,  b: 44  },  // ember, hazard
+    { v: 0.579, r: 164, g: 69,  b: 44  }, // hold ember once average turns in late 50s
+    { v: 0.58, r: 201, g: 161, b: 78  },  // near-step jump to gold, forward
+    { v: 1.00, r: 234, g: 203, b: 127 },  // lit gold, highest felt vitality
+  ];
+  for (let i = 0; i < stops.length - 1; i++) {
+    const a = stops[i], b = stops[i+1];
+    if (v >= a.v && v <= b.v) {
+      const t = (v - a.v) / (b.v - a.v);
+      const r = Math.round(a.r * (1 - t) + b.r * t);
+      const g = Math.round(a.g * (1 - t) + b.g * t);
+      const bl = Math.round(a.b * (1 - t) + b.b * t);
+      return `rgb(${r},${g},${bl})`;
+    }
+  }
+  return 'rgb(120,120,120)';
+}
+
+function neurodegenOnset(condSlider, lifeSlider, riskSlider) {
+  const R = effectiveRisk(condSlider, lifeSlider, riskSlider);
+  // Onset age slides continuously with R across the full range. No opacity
+  // gate — the cloud always renders at its computed onset age so the
+  // sliders always do visible work, even at low underlying risk.
+  const ageAtFloor = 95, ageAtMax = 73;
+  const t = Math.max(0, Math.min(1, R / 1.00));
+  const onsetAge = ageAtFloor + t * (ageAtMax - ageAtFloor);
+  return { age: onsetAge, opacity: 1 };
+}
+
+const BANDS = [
+  { lo: 55, hi: 65, name: 'Endurance athlete' },
+  { lo: 40, hi: 55, name: 'Hard recreation' },
+  { lo: 30, hi: 40, name: 'Stairs without thinking' },
+  { lo: 22, hi: 30, name: 'Independent daily life' },
+  { lo: 18, hi: 22, name: 'Strained effort' },
+  { lo: 0,  hi: 18, name: 'Needs help' },
+];
+
+const AGE_MIN = 30, AGE_MAX = 100;
+const VO2_MIN = 0, VO2_MAX = 65;
+const PAD = { l: 206, r: 24, t: 44, b: 52 };
+const W = 1080, H = 560;
+const CW = W - PAD.l - PAD.r;
+const CH = H - PAD.t - PAD.b;
+
+function xAge(age) { return PAD.l + ((age - AGE_MIN) / (AGE_MAX - AGE_MIN)) * CW; }
+function yV(v) { return PAD.t + (1 - (v - VO2_MIN) / (VO2_MAX - VO2_MIN)) * CH; }
+
+const svg = document.getElementById('chart');
+
+const params = new URLSearchParams(window.location.search);
+const PATIENT_LINE = (() => {
+  const name = params.get('patient') || params.get('patientName');
+  const age = Number(params.get('age') || params.get('patientAge'));
+  const vo2 = Number(params.get('vo2') || params.get('patientVo2'));
+  const source = params.get('source') || params.get('patientSource') || 'estimated';
+  if (!name || !Number.isFinite(age) || !Number.isFinite(vo2)) return null;
+  if (age < AGE_MIN || age > AGE_MAX || vo2 <= VO2_MIN || vo2 > VO2_MAX) return null;
+  return { name, age, vo2, source };
+})();
+
+function condLabel(c) {
+  if (c <= 8) return 'Deconditioned';
+  if (c <= 28) return 'Below average';
+  if (c <= 38) return 'Average';
+  if (c <= 60) return 'Above average';
+  if (c <= 75) return 'Well-conditioned';
+  if (c <= 92) return 'Highly conditioned';
+  return 'Elite';
+}
+function lifeLabel(l) {
+  if (l <= 15) return 'Neglected';
+  if (l <= 40) return 'Below average';
+  if (l <= 60) return 'Maintained';
+  if (l <= 85) return 'Optimized';
+  return 'Highly optimized';
+}
+function riskLabel(r) {
+  if (r <= 15) return 'Very low';
+  if (r <= 35) return 'Low';
+  if (r < 50) return 'Below average';
+  if (r <= 65) return 'Average';
+  if (r <= 85) return 'High';
+  return 'Very high';
+}
+
+function render() {
+  const cond = +document.getElementById('cond').value;
+  const life = +document.getElementById('life').value;
+  const risk = +document.getElementById('risk').value;
+
+  const R = effectiveRisk(cond, life, risk);
+  const forks = activeForks(R);
+  const outcomes = jointOutcomes(forks);
+  const neuroOnset = neurodegenOnset(cond, life, risk);
+
+  let s = '';
+
+  // Background bands — all-warm ramp on paper. Cool blues read as foreign on
+  // the Aleron palette; warmth ramps from sage→stone→clay→terracotta→rust.
+  const BAND_TINTS = [
+    'rgba(201,161,78,0.12)',   // endurance athlete - gold, capability
+    'rgba(201,161,78,0.07)',
+    'rgba(90,99,120,0.06)',    // slate, baseline life
+    'rgba(90,99,120,0.10)',
+    'rgba(164,69,44,0.12)',    // ember, hazard
+    'rgba(164,69,44,0.20)'
+  ];
+  for (let i = 0; i < BANDS.length; i++) {
+    const b = BANDS[i];
+    const y0 = yV(b.hi), y1 = yV(b.lo);
+    const fill = BAND_TINTS[i] || 'rgba(29,27,24,0.02)';
+    s += `<rect x="${PAD.l}" y="${y0}" width="${CW}" height="${y1 - y0}" fill="${fill}"/>`;
+    if (i > 0) {
+      s += `<line x1="${PAD.l}" y1="${y0}" x2="${PAD.l + CW}" y2="${y0}" stroke="rgba(29,27,24,0.08)" stroke-width="0.5"/>`;
+    }
+    const yMid = (y0 + y1) / 2;
+    s += `<text x="${PAD.l - 44}" y="${yMid + 5}" text-anchor="end" style="fill:#1D1B18;font-size:13px;font-family:var(--voice);font-weight:600">${b.name}</text>`;
+  }
+
+  // Y-axis ticks
+  for (const v of [0, 10, 20, 30, 40, 50, 60]) {
+    const y = yV(v);
+    s += `<line x1="${PAD.l - 4}" y1="${y}" x2="${PAD.l}" y2="${y}" class="ax-tick"/>`;
+    s += `<text x="${PAD.l - 8}" y="${y + 3}" text-anchor="end" class="ax-label">${v}</text>`;
+  }
+  s += `<text x="${PAD.l - 8}" y="${PAD.t - 26}" text-anchor="end" class="ax-label" style="font-size:12px;font-weight:700;fill:#1D1B18">VO₂max</text>`;
+  s += `<text x="${PAD.l - 8}" y="${PAD.t - 7}" text-anchor="end" class="ax-label" style="font-size:11px;fill:#5A6378">mL/kg/min</text>`;
+
+  // X-axis ticks
+  for (const a of [30, 40, 50, 60, 70, 80, 90, 100]) {
+    const x = xAge(a);
+    s += `<line x1="${x}" y1="${PAD.t + CH}" x2="${x}" y2="${PAD.t + CH + 4}" class="ax-tick"/>`;
+    s += `<text x="${x}" y="${PAD.t + CH + 18}" text-anchor="middle" class="ax-label">${a}</text>`;
+  }
+  s += `<text x="${PAD.l + CW / 2}" y="${PAD.t + CH + 45}" text-anchor="middle" class="ax-label" style="letter-spacing:0.08em;font-size:11px;font-weight:400">AGE</text>`;
+
+  // Avg American reference
+  let refPts = [];
+  for (let a = AGE_MIN; a <= AGE_MAX; a += 1) {
+    refPts.push(`${xAge(a)},${yV(templateAt(TEMPLATES.average, a))}`);
+  }
+  s += `<polyline points="${refPts.join(' ')}" class="ref-curve"/>`;
+
+
+  // Patient-specific line (URL params)
+  if (PATIENT_LINE) {
+    const patientPts = [];
+    const avgAtStart = templateAt(TEMPLATES.average, PATIENT_LINE.age);
+    for (let a = PATIENT_LINE.age; a <= AGE_MAX; a += 1) {
+      const shifted = PATIENT_LINE.vo2 + (templateAt(TEMPLATES.average, a) - avgAtStart);
+      patientPts.push(`${xAge(a)},${yV(Math.max(VO2_MIN, Math.min(VO2_MAX, shifted)))}`);
+    }
+    s += `<polyline points="${patientPts.join(' ')}" class="patient-curve"/>`;
+    s += `<circle cx="${xAge(PATIENT_LINE.age)}" cy="${yV(PATIENT_LINE.vo2)}" r="5" class="patient-marker"/>`;
+    const startLabelY = Math.max(PAD.t + 14, yV(PATIENT_LINE.vo2) - 10);
+    s += `<text x="${xAge(PATIENT_LINE.age) + 8}" y="${startLabelY}" class="patient-label">${PATIENT_LINE.name} start · age ${Math.round(PATIENT_LINE.age)} · VO₂max ${PATIENT_LINE.vo2.toFixed(0)} mL/kg/min</text>`;
+    const terminalVo2 = PATIENT_LINE.vo2 + (templateAt(TEMPLATES.average, AGE_MAX) - avgAtStart);
+    s += `<text x="${xAge(95)}" y="${yV(Math.max(VO2_MIN, Math.min(VO2_MAX, terminalVo2))) - 8}" class="patient-label" text-anchor="end">${PATIENT_LINE.name} est.</text>`;
+  }
+
+  // Outcome trajectories
+  const outcomeSamples = outcomes.map(o => {
+    const pts = [];
+    for (let a = AGE_MIN; a <= AGE_MAX; a += 0.5) {
+      pts.push({
+        a, x: xAge(a),
+        y: yV(capacityForOutcome(cond, life, a, o.events)),
+        vit: vitalityAt(cond, life, a, o.events)
+      });
+    }
+    // Enforce monotone non-increasing capacity: once VO2 drops it cannot rise.
+    // Prevents acute-event recovery models from overlaying an upward curve
+    // on top of natural age decline. (y increases downward in screen coords,
+    // so monotone non-increasing capacity = monotone non-decreasing y.)
+    for (let i = 1; i < pts.length; i++) {
+      if (pts[i].y < pts[i - 1].y) pts[i].y = pts[i - 1].y;
+    }
+    return { outcome: o, pts };
+  });
+
+  const probVisible = outcomeSamples.filter(({ outcome }) => outcome.p >= 0.005);
+  const visibleOutcomes = probVisible.filter(({ outcome }) => activeOutcomes[outcome.id] !== false);
+
+  // dashStart tracks neuro onset age directly. The slider moves the window
+  // visibly across the full R range; the cloud always renders solid grey.
+  const dashStart = neuroOnset ? neuroOnset.age : 95;
+
+  for (const { outcome, pts } of visibleOutcomes) {
+    const isMain = outcome.id === 'spared';
+    if (isMain) {
+      // Main timeline: solid, per-segment vitality color, full weight.
+      for (let i = 0; i < pts.length - 1; i++) {
+        const p0 = pts[i], p1 = pts[i + 1];
+        const vitMid = (p0.vit + p1.vit) / 2;
+        const color = vitalityColor(vitMid);
+        const width = 2.4 + vitMid * 1.4;
+        s += `<line x1="${p0.x}" y1="${p0.y}" x2="${p1.x}" y2="${p1.y}" stroke="${color}" stroke-width="${width.toFixed(2)}" stroke-linecap="round"/>`;
+      }
+    } else {
+      // Event timeline: dashed polyline from fork onset. Pattern + weight encode which branch.
+      // cancer = long-dash 1.6px, cv = dotted 1.6px, both = dash-dot 2.2px (compound, heavier).
+      const branchStyle = (
+        outcome.id === 'cancer' ? { dash: '7 4',      width: 1.6 } :
+        outcome.id === 'cv'     ? { dash: '1.5 4',    width: 1.6 } :
+        outcome.id === 'both'   ? { dash: '8 3 1.5 3', width: 2.2 } :
+                                  { dash: '6 4',      width: 1.6 }
+      );
+      // Single-event branches fork from the main line. Compound branches fork
+      // from the already-evented parent path at the second event. The rendered
+      // branch starts on the parent curve, then drops away, so it never appears
+      // as a disconnected curve floating below its source trajectory.
+      const onsetAge = outcome.events.length > 1
+        ? outcome.events.reduce((m, e) => Math.max(m, e.modalAge), -Infinity)
+        : outcome.events[0].modalAge;
+      const parentEvents = outcome.events.filter(e => e.modalAge < onsetAge - 0.01);
+      const forkPt = { a: onsetAge, x: xAge(onsetAge), y: yV(capacityForOutcome(cond, life, onsetAge, parentEvents)) };
+      const eventPt = { a: onsetAge, x: xAge(onsetAge), y: yV(capacityForOutcome(cond, life, onsetAge, outcome.events)) };
+      const tail = pts.filter(p => p.a > onsetAge + 0.25);
+      const drawPts = [eventPt, ...tail];
+      for (let i = 1; i < drawPts.length; i++) {
+        if (drawPts[i].y < drawPts[i - 1].y) drawPts[i].y = drawPts[i - 1].y;
+      }
+      if (drawPts.length > 1) {
+        const vitAvg = drawPts.reduce((acc, p) => acc + p.vit, 0) / drawPts.length;
+        const color = vitalityColor(vitAvg);
+        s += `<line x1="${forkPt.x}" y1="${forkPt.y}" x2="${eventPt.x}" y2="${eventPt.y}" stroke="${color}" stroke-width="${branchStyle.width}" stroke-linecap="round" stroke-dasharray="2 3" opacity="0.9"/>`;
+        const polyPts = drawPts.map(p => `${p.x},${p.y}`).join(' ');
+        s += `<polyline points="${polyPts}" fill="none" stroke="${color}" stroke-width="${branchStyle.width}" stroke-linecap="round" stroke-linejoin="round" stroke-dasharray="${branchStyle.dash}" opacity="0.92"/>`;
+        s += `<circle cx="${forkPt.x}" cy="${forkPt.y}" r="6.4" fill="#FAF7F2" stroke="#FAF7F2" stroke-width="3"/>`;
+        s += `<circle cx="${forkPt.x}" cy="${forkPt.y}" r="5.0" fill="#FAF7F2" stroke="${color}" stroke-width="2.4"/>`;
+      }
+    }
+  }
+
+  // Open rings on active branches carry fork timing; full-height fork guides
+  // removed to avoid reading as extra event trajectories or vertical drops.
+
+  // Right-edge outcome labels removed — legend below the chart carries the
+  // outcome name and percentage instead.
+
+  // Cognitive uncertainty cloud — a soft, 50%-opaque paper-toned wash from
+  // dashStart to the right edge of the plot. Soft left edge via gradient so
+  // it reads as a "cloud" creeping in, not a hard cutoff. Sits on top of the
+  // outcome curves so they visibly muddle inside the window — that muddling
+  // IS the message: this tool does not model the cognitive axis.
+  const cloudLeft = xAge(Math.max(AGE_MIN, dashStart));
+  const cloudRight = PAD.l + CW;
+  const cloudW = Math.max(0, cloudRight - cloudLeft);
+  if (cloudW > 0) {
+    // Solid 50% grey wash — hard left edge so the boundary reads as a real
+    // distinction between "modeled" and "cognitive trajectory dominates,
+    // not modeled by this tool." Cloud + boundary line carry the meaning;
+    // legend/caption name the region.
+    s += `<rect x="${cloudLeft}" y="${PAD.t}" width="${cloudW}" height="${CH}" fill="rgba(37,43,61,0.45)"/>`;
+    s += `<line x1="${cloudLeft}" y1="${PAD.t}" x2="${cloudLeft}" y2="${PAD.t + CH}" stroke="rgba(37,43,61,0.6)" stroke-width="1"/>`;
+  }
+
+  // Chart border
+  s += `<rect x="${PAD.l}" y="${PAD.t}" width="${CW}" height="${CH}" fill="none" stroke="rgba(29,27,24,0.16)" stroke-width="1"/>`;
+
+  svg.innerHTML = s;
+  renderLegend(probVisible);
+}
+
+const activeOutcomes = { spared: true, cancer: false, cv: false, both: false };
+
+const OUTCOME_SWATCH = {
+  spared: '#C9A14E',
+  cancer: '#A4452C',
+  cv: '#5A6378',
+  both: '#1D1B18'
+};
+
+function renderLegend(probVisibleOutcomes) {
+  const el = document.getElementById('legend');
+  if (!el) return;
+  const ORDER = ['spared', 'cancer', 'cv', 'both'];
+  const byId = Object.fromEntries(probVisibleOutcomes.map(o => [o.outcome.id, o]));
+  el.innerHTML = ORDER.map(id => {
+    const entry = byId[id];
+    if (!entry) return '';
+    const { outcome, pts } = entry;
+    const last = pts[pts.length - 1];
+    const swatch = OUTCOME_SWATCH[outcome.id] || vitalityColor(last.vit);
+    const pct = Math.round(outcome.p * 100);
+    const active = activeOutcomes[id] !== false;
+    return `<button class="legend-toggle" data-outcome="${id}" data-active="${active}" type="button" role="switch" aria-checked="${active}" style="--swatch:${swatch}">
+      <span class="track" aria-hidden="true"></span>
+      <span class="label">${outcome.label}</span>
+      <span class="pct">${pct}%</span>
+    </button>`;
+  }).join('') + `<span class="legend-refs"><span class="legend-ref" aria-hidden="true"><span class="dash"></span><span class="ref-label">Average American reference</span></span><span class="legend-ref" aria-hidden="true"><span class="swatch"></span><span class="ref-label">Cognitive impairment window</span></span></span>`;
+}
+
+['cond', 'life', 'risk'].forEach(id => {
+  document.getElementById(id).addEventListener('input', render);
+});
+
+document.getElementById('legend').addEventListener('click', e => {
+  const pill = e.target.closest('.legend-toggle');
+  if (!pill) return;
+  const id = pill.dataset.outcome;
+  const otherActive = Object.entries(activeOutcomes).some(([k, v]) => k !== id && v);
+  if (activeOutcomes[id] !== false && !otherActive) return;
+  activeOutcomes[id] = activeOutcomes[id] === false;
+  render();
+});
+
+render();
+})();
+</script>
+
+<script>
+  // THE WEAVE GENERATOR - the single source of the pattern. Every weave on
+  // every surface is produced by this function; nothing is placed by hand.
+  // Grammar measured from Ola's hero (frame D): full-bleed lattice of
+  // identical wide cells; the page mass holds one side; even rows reach one
+  // cell deeper than odd rows (teeth); detached page dashes at fixed taps in
+  // the world; world holes at fixed taps in the page, count for count; the
+  // subject's cells are never claimed (avoid).
+  function weaveMap(opts) {
+    const { cols = 8, rows = 14, side = 'right', deep = 5, shallow = 6,
+            holes = [], echoes = [], far = [], avoid = [],
+            core = { c0: 6, r0: 3, c1: 7, r1: 10 },
+            face = null } = opts || {};
+    // the core: one unbroken page rectangle anchored to the frame edge.
+    // No hole and no avoidance may breach it; the generator enforces this,
+    // because without a solid core the weave reads as scatter, not an entity.
+    const inCore = (c, r) => c >= core.c0 && c <= core.c1 && r >= core.r0 && r <= core.r1;
+    const within = (list, c, r) => !inCore(c, r) && list.some(([lc, lr]) => lc === c && lr === r);
+    const cells = [];
+    for (let r = 0; r < rows; r++) {
+      const edge = r % 2 === 0 ? deep : shallow;
+      for (let c = edge; c < cols; c++)
+        if (!within(holes, c, r) && !within(avoid, c, r)) cells.push([c, r]);
+    }
+    let out = cells.concat(echoes, far);
+    // the face is inviolable: no cell of any kind may ever touch it. Hair
+    // and clothing edges may be impeded (soft, via avoid); the face never.
+    if (face) out = out.filter(([c, r]) => c < face.c0 || c > face.c1 || r < face.r0 || r > face.r1);
+    // canon mode: the source hero's cell map, measured cell for cell, used
+    // verbatim; authored in mass-left orientation, mirrored for mass-right.
+    // avoid and the face rule still apply: the message zone clears the canon,
+    // exactly as the subject does.
+    if (opts && opts.canon) {
+      out = opts.canon.concat(echoes).filter(([c, r]) => !avoid.some(([ac, ar]) => ac === c && ar === r));
+      if (face) out = out.filter(([c, r]) => c < face.c0 || c > face.c1 || r < face.r0 || r > face.r1);
+    }
+    const massRight = (opts && opts.canon) ? side === 'right' : side === 'left';
+    return massRight ? out.map(([c, r]) => [cols - 1 - c, r]) : out;
+  }
+  (function () {
+    // the instrument gradient from the color study: gunmetal, continuous, used
+    // whole, dark above light; every cell carries its own slice of one gradient
+    const FADE = 'linear-gradient(180deg, #15171C 0%, #222831 45%, #333E48 75%, #46555F 100%)';
+    // gunmetal instrument weave: the cold/masculine register carried by the weave, not the photograph
+    const GUNMETAL = 'linear-gradient(180deg, #15171C 0%, #222831 45%, #333E48 75%, #46555F 100%)';
+    const sliceOf = g => (c, r) =>
+      'transparent;background-image:' + g + ';background-size:100% 1400%;' +
+      'background-position:0 ' + (r / 13 * 100).toFixed(4) + '%';
+    const fadeSlice = sliceOf(FADE);
+    const render = (id, opts, paint) => {
+      const host = document.getElementById(id);
+      if (!host) return;
+      const COLS = 8, ROWS = 14;
+      weaveMap(opts).forEach(([c, r]) => {
+        const d = document.createElement('div');
+        d.style.cssText = 'position:absolute;background:' + paint(c, r) + ';' +
+          'left:' + (c * 100 / COLS) + '%;top:' + (r * 100 / ROWS) + '%;' +
+          'width:' + (100 / COLS + 0.04) + '%;height:' + (100 / ROWS + 0.04) + '%;';
+        host.appendChild(d);
+      });
+    };
+    // the canon: the source hero's cell map (frame D), measured cell for
+    // cell. Mass swells where the message lives, recedes where the subject
+    // breathes; holes cluster at the top of the mass; a counter-mass anchors
+    // the opposite bottom corner; dashes echo across the top.
+    const CANON = [
+      [0,0],[1,0],[2,0],[7,0],  [0,1],[1,1],[7,1],  [0,2],[1,2],
+      [0,3],[7,3],  [0,4],[3,4],  [0,5],[1,5],[2,5],
+      [0,6],[1,6],[2,6],[3,6],  [0,7],[1,7],[2,7],[7,7],
+      [0,8],[1,8],[2,8],[3,8],[6,8],  [0,9],[1,9],[2,9],[3,9],
+      [0,10],[1,10],[2,10],[3,10],  [0,11],[1,11],[2,11],[3,11],[5,11],[6,11],[7,11],
+      [0,12],[1,12],[2,12],[4,12],[6,12],[7,12],  [0,13],[1,13],[2,13],[4,13],[5,13],[7,13]];
+    const RIGHT = { canon: CANON, side: 'right' };
+    const LEFT = { canon: CANON, side: 'left' };
+    const paper = () => '#FAF7F2';
+    const indigo = () => '#252B3D';
+    const fade = fadeSlice;
+    render('weaveR', RIGHT, paper);   render('weaveL', LEFT, paper);
+    render('weaveRInd', RIGHT, indigo); render('weaveLInd', LEFT, indigo);
+    render('weaveRFade', RIGHT, fade);  render('weaveLFade', LEFT, fade);
+    // the corner block under Apply was the source's contrast device; the
+    // filled action carries its own ground, so the corner returns to sky.
+    // The message sits ON the mass's solid core; nothing else is withheld.
+    // the message core squares solid: the canon's two open taps at column 3,
+    // rows 12-13, fill by echo so no photograph shows inside the lower left
+    const HERO = { canon: CANON, side: 'left', avoid: [[7, 0], [7, 1]], echoes: [[3, 12], [3, 13]] };
+    render('appHeroWeave', HERO, sliceOf(GUNMETAL));
+  })();
+</script>
+
+<script>
+  // Typography: one source of truth. The token table and the decision table
+  // render from the stylesheet and from live glyph measurement; nothing here
+  // is typed twice.
+  (function () {
+    const css = getComputedStyle(document.documentElement);
+    const tok = name => css.getPropertyValue(name).trim();
+
+    const tokenRows = [
+      ['Voice', 'var(--voice)', tok('--voice')],
+      ['Audit', 'var(--audit)', tok('--audit')],
+      ['Display', 'var(--size-display)', tok('--size-display') + ' / ' + tok('--w-display') + ' / ' + tok('--track-display') + ' / ' + tok('--lh-display')],
+      ['Lede', 'var(--size-lede)', tok('--size-lede')],
+      ['Text', 'var(--size-text)', tok('--size-text') + ' / ' + tok('--lh-text')],
+      ['Audit size', 'var(--size-audit)', tok('--size-audit') + ' / ' + tok('--track-audit')],
+    ];
+    const tt = document.getElementById('tokenTable');
+    if (tt) tt.innerHTML = tokenRows.map(([l, v, val]) =>
+      '<div class="row"><div class="row-label">' + l + '</div><p style="font-family: var(--audit); font-size: 13px;">' + v + ' · ' + val + '</p></div>').join('');
+
+    // fonts.check() lies in some engines; detect by metric difference instead
+    const polyLoaded = (() => {
+      const cv = document.createElement('canvas');
+      const ctx = cv.getContext('2d');
+      const w = f => { ctx.font = '16px ' + f; return ctx.measureText('the whole of medicine mgWQ').width; };
+      return Math.abs(w('"PolySans", monospace') - w('monospace')) > 0.5;
+    })();
+    const wf = document.getElementById('workingFaceLabel');
+    if (wf) wf.textContent = polyLoaded ? 'PolySans · licensed, rendering' : 'Hanken Grotesk · working, free';
+    const fs = document.getElementById('faceStatus');
+    if (fs) fs.textContent = polyLoaded
+      ? 'POLYSANS DETECTED: THE SPECIMEN AND THE WHOLE DECK ARE RENDERING IN IT, VIA THE SAME TOKEN'
+      : 'POLYSANS NOT LICENSED: THE TOKEN FALLS BACK TO HANKEN GROTESK; THE SPECIMEN UPGRADES ITSELF THE DAY THE LICENSE LANDS';
+
+    function metrics(family) {
+      if (family === 'PolySans' && !polyLoaded) return null;
+      const cv = document.createElement('canvas');
+      const ctx = cv.getContext('2d');
+      ctx.font = '16px ' + family;
+      const x = ctx.measureText('x');
+      const H = ctx.measureText('H');
+      const sample = 'the whole of medicine read against the whole of you';
+      const avg = ctx.measureText(sample).width / sample.length;
+      return {
+        xh: (x.actualBoundingBoxAscent || 0).toFixed(1),
+        cap: (H.actualBoundingBoxAscent || 0).toFixed(1),
+        cpl: Math.round(660 / avg),
+      };
+    }
+    const hk = metrics('Hanken Grotesk');
+    const ps = metrics('PolySans');
+    const cell = (m, k) => m ? m[k] : '—';
+    const faceRows = [
+      ['x-height at 16px', cell(hk, 'xh') + ' px', cell(ps, 'xh') + (ps ? ' px' : '')],
+      ['Cap height at 16px', cell(hk, 'cap') + ' px', cell(ps, 'cap') + (ps ? ' px' : '')],
+      ['Characters per 660px line', cell(hk, 'cpl'), cell(ps, 'cpl')],
+      ['Wordmark', 'adaptation', 'exact, as codified'],
+      ['Neighbor distance', 'clear of Inter Tight', 'clear of Inter Tight'],
+      ['License', 'free, SIL OFL', 'quote pending'],
+    ];
+    const ft = document.getElementById('faceTable');
+    if (ft) {
+      ft.innerHTML = '<div class="row" style="display: grid; grid-template-columns: 220px 1fr 1fr; gap: 24px;"><div class="row-label">Criterion</div><p class="row-label" style="margin:0;">Hanken Grotesk</p><p class="row-label" style="margin:0;">PolySans</p></div>' +
+        faceRows.map(([c, a, b]) =>
+          '<div class="row" style="display: grid; grid-template-columns: 220px 1fr 1fr; gap: 24px;"><div class="row-label">' + c + '</div><p style="font-family: var(--audit); font-size: 13px;">' + a + '</p><p style="font-family: var(--audit); font-size: 13px;">' + b + '</p></div>').join('');
+    }
+  })();
+</script>
+
+<script>
+  // Icon renderer: one generator. The glyph's INK box is measured on canvas
+  // and centered in the tile; em-box centering drifts with side bearings.
+  (function () {
+    const cv = document.createElement('canvas');
+    const ctx = cv.getContext('2d');
+    document.querySelectorAll('[data-icon]').forEach(host => {
+      const t = host.getBoundingClientRect().width || parseFloat(host.style.width);
+      const scale = parseFloat(host.dataset.scale);
+      const dx = parseFloat(host.dataset.dx || 0) * t;
+      const dy = parseFloat(host.dataset.dy || 0) * t;
+      const F = t * scale;
+      const fam = getComputedStyle(document.documentElement).getPropertyValue('--voice');
+      ctx.font = F + 'px ' + fam;
+      const m = ctx.measureText('a');
+      const inkW = m.actualBoundingBoxLeft + m.actualBoundingBoxRight;
+      const inkH = m.actualBoundingBoxAscent + m.actualBoundingBoxDescent;
+      const span = document.createElement('span');
+      span.textContent = 'a';
+      span.style.cssText = 'position:absolute; left:0; top:0; font-size:' + F + 'px; line-height:0; font-weight:400;';
+      host.appendChild(span);
+      // place the alignment point so the ink box centers, then apply the
+      // composition's deliberate offset
+      const originX = (t - inkW) / 2 + m.actualBoundingBoxLeft;
+      const originY = (t - inkH) / 2 + m.actualBoundingBoxAscent;
+      // inline model: with line-height 0 the baseline sits (ascent-descent)/2
+      // below the span's top; subtract it so originY is the true baseline
+      const blShift = ((m.fontBoundingBoxAscent || F * 0.78) - (m.fontBoundingBoxDescent || F * 0.22)) / 2;
+      span.style.left = (originX + dx) + 'px';
+      span.style.top = (originY + dy - blShift) + 'px';
+      host.style.borderRadius = t > 16 ? (t * 0.22) + 'px' : '0';
+      if (host.dataset.fade) {
+        host.style.background = 'linear-gradient(180deg, #15171C 0%, #222831 45%, #333E48 75%, #46555F 100%)';
+        host.style.color = '#F5F1E8';
+      }
+      if (host.dataset.gold) {
+        const cell = document.createElement('span');
+        const g = Math.max(2, Math.round(t / 8));
+        cell.style.cssText = 'position:absolute; right:' + Math.round(t/9) + 'px; bottom:' + Math.round(t/9) + 'px; width:' + g + 'px; height:' + g + 'px; background:#C9A14E;';
+        host.appendChild(cell);
+      }
+    });
+  })();
+</script>
+
+</body>
+</html>
