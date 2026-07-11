@@ -12,14 +12,14 @@
     "apps/physician/src/dashboardApp.js": "588de444ad75c8186b13499d62191d54b089ae6faf40c84e029f4601287dad9b",
     "apps/physician/src/fixtureLoader.js": "c8936233143348043f94a6ed8f4dbffbc0da3b5fcd96a7af674713a21c2e5a67",
     "apps/physician/src/main.js": "e2d420bc04ba27a59e0ff358ad45d4902c7119d54b1d9eeca56b10f763f66171",
-    "apps/physician/src/runtimeConfig.js": "d6343855195c32223acdc8c6e242e5ac84a39688381b8eec3cdcf70648ece57f",
+    "apps/physician/src/runtimeConfig.js": "f63fa3beccd19b3cf0e2fa6fba0c0ac7a8b2e458bf4d96349072c7a922147d1a",
     "apps/physician/src/styles.css": "d67b689d5cbc8df6177fe414631cd1d0cd6e20056afe57743fedef53bd93a904",
     "apps/physician/src/wearableSummary.js": "d78d76d146735283a38b578ca595bee7bb6b7c5cd03b3a02cb4b55c4e6777554"
   },
-  "physician_tree_sha256": "bdb0a62af8816aba4fc383d4de8d9db3fc1d9b1316d113db1c02624b134e1f24",
+  "physician_tree_sha256": "b3bf6868c4305d4c349807888fb0f36232ec5f6d87b9811bb79954802bf1db3a",
   "schema_version": "aleron.canonical-deployment.v1",
   "source_branch": "milestone/one-e2e-candidate",
   "source_dirty": false,
-  "source_git_tree": "c4ad471e2b46adbe1f387999286cecab73fe637d",
-  "source_sha": "c59e9e7d5dbe4e54d8dda55f3d75a6bf0e70d66f"
+  "source_git_tree": "f3fd4be96ae8d167064176d6fc57ccbce68e2312",
+  "source_sha": "c1ac7beb6aad393b8681e1b5bb20022c48f01c60"
 }
