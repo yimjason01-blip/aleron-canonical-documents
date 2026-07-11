@@ -541,7 +541,7 @@ export function renderDashboard(app, state, model) {
     || model.risk.some((domain) => domain.synthetic === true || domain.nonclinical === true)
     || model.vitality.some((row) => row.synthetic === true || row.nonclinical === true);
   // Hazard for nonclinical synthetic boundary; advisory for fixture/staging runtime chrome.
-  const boundaryBanner = representativeNonclinical
+  const boundaryBanner = state.source === 'fixture' || representativeNonclinical
     ? '<div class="boundary-banner signal-hazard" role="status">STAGING · SYNTHETIC REPRESENTATIVE PROFILE · NONCLINICAL TEST OUTPUT · NOT FOR DIAGNOSIS OR TREATMENT</div>'
     : '';
   const runtimeLabel = state.source === 'fixture'
