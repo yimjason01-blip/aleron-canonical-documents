@@ -72,8 +72,10 @@
     <li>Models run: sufficient inputs compute; insufficient inputs return explicit
         <code>missing_required_inputs</code> with named blockers. No representative anchors.</li>
     <li>Action library emits provenance-linked candidates.</li>
-    <li>A real LLM drafts the care-plan notes, recording model version, prompt version, inputs,
-        output, citations, and safety checks.</li>
+    <li>A real LLM (Claude subagent, orchestrator-triggered for M1) drafts the care-plan notes from
+        the assembled payload, recording model version, prompt version, inputs, output, citations,
+        and safety checks, written back to the real case in staging. Unattended backend-invoked
+        synthesis is deferred to M2.</li>
     <li>The case appears in the deployed tokenless staging dashboard (no login form, no bearer token).</li>
     <li>Physician reviews, signs, and releases.</li>
     <li>The same mobile account renders the released plan.</li>
@@ -103,7 +105,7 @@
   <table>
     <thead><tr><th>Decision</th><th>Status</th></tr></thead>
     <tbody>
-      <tr><td>AI drafting bar</td><td>Real LLM call with full provenance. Not templates.</td></tr>
+      <tr><td>AI drafting bar</td><td>Real LLM via Claude subagent, orchestrator-triggered, full provenance, written back to the real case. Not templates. Unattended backend API synthesis deferred to M2.</td></tr>
       <tr><td>Dashboard access</td><td>Tokenless, origin-gated, staging only. No login form.</td></tr>
       <tr><td>Case source</td><td>Real mobile onboarding only. No fixture or representative packet.</td></tr>
       <tr><td>Synthetic data</td><td>Labs and genetics only. Never vitals, wearables, or onboarding.</td></tr>
