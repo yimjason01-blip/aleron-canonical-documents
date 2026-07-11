@@ -1,5 +1,5 @@
 /*
-Design brief: This screen is for physicians scanning backend-owned case artifacts and moving a reviewed care plan through disposition and release. The one thing it must answer first is what requires physician action before this patient can advance. Shape carries artifact type and control affordance, color carries hazard or workflow focus, weight carries clinical hierarchy, and position carries the review sequence from chart to release.
+Design brief: This screen is for a physician determining whether canonical analysis is complete enough to begin case review and release. The one thing it must answer first is whether the case is review-ready and, if not, exactly which blocker prevents action. Shape carries one bounded status group, color carries only semantic status emphasis, weight carries status before detail, and position places the gate directly above Care Plan controls.
 */
 import {
   createStructuredEdit,
@@ -12,7 +12,7 @@ import {
   startPhysicianReview
 } from './apiClient.js';
 import { clearBearerToken, requiresLogin, saveBearerToken } from './auth.js';
-import { adaptPhysicianCase, buildReleasePreviewRequest, releaseIdentifier } from './dashboardAdapter.js';
+import { adaptPhysicianCase, artifactBindsCurrentLineage, buildReleasePreviewRequest, releaseIdentifier } from './dashboardAdapter.js';
 import { decisionReasonOptionsHTML, renderDashboard, renderFatalError, renderLogin } from './dashboardApp.js';
 
 const app = document.querySelector('#app');
@@ -34,15 +34,52 @@ function selectedTask() {
   return state.queue.find((task) => task.patient_id === state.activePatientId) ?? null;
 }
 
+function analysisReady() {
+  return state.activeCase?.analysis_status?.status === 'completed'
+    && state.activeCase?.readiness?.ready_for_review === true;
+}
+
+function requireAnalysisReady() {
+  if (!analysisReady()) throw new Error('Canonical analysis must be review-ready before physician review or release actions.');
+}
+
+function requireReviewStarted() {
+  if (!state.reviewStarted) throw new Error('Start the current physician review before release actions.');
+}
+
+function currentReleaseLinkage(caseBundle) {
+  return {
+    patient_id: caseBundle?.patient_packet?.patient_id ?? caseBundle?.patient_id,
+    source_plan_id: caseBundle?.clinical_plan?.plan_id,
+    source_engine_run_id: caseBundle?.engine_run?.run_id,
+    source_action_map_state_id: caseBundle?.action_map_state?.action_map_state_id
+  };
+}
+
+function releasePackageIsCurrent(caseBundle, releasePackage) {
+  if (!releasePackage || typeof releasePackage !== 'object') return false;
+  const patientId = caseBundle?.patient_packet?.patient_id ?? caseBundle?.patient_id;
+  return releasePackage.patient_id === patientId && artifactBindsCurrentLineage(caseBundle, releasePackage);
+}
+
 function inferReviewStarted() {
-  const lifecycle = selectedTask()?.lifecycle_state;
-  const persistedReview = state.activeCase?.review_history?.some((review) => review.status === 'started' || review.status === 'released');
-  state.reviewStarted = Boolean(persistedReview || ['physician_review_started', 'physician_reviewing', 'plan_editing', 'plan_authorized', 'released_to_patient'].includes(lifecycle));
+  const packetId = state.activeCase?.patient_packet?.packet_id;
+  const runId = state.activeCase?.engine_run?.run_id;
+  const task = selectedTask();
+  const currentTask = Boolean(packetId && runId && task?.packet_id === packetId && task?.source_engine_run_id === runId);
+  const lifecycleActive = ['physician_review_started', 'physician_reviewing', 'plan_editing', 'plan_authorized', 'released_to_patient'].includes(task?.lifecycle_state);
+  const persistedReview = state.activeCase?.review_history?.some((review) => (
+    review.packet_id === packetId
+    && review.source_engine_run_id === runId
+    && ['started', 'released'].includes(review.status)
+  ));
+  state.reviewStarted = Boolean(analysisReady() && (persistedReview || (currentTask && lifecycleActive)));
 }
 
 function adoptCase(caseBundle) {
   state.activeCase = caseBundle;
-  state.releasePackage = caseBundle?.release_preview ?? caseBundle?.release_package ?? state.releasePackage;
+  const releasePackage = caseBundle?.release_preview ?? caseBundle?.release_package ?? null;
+  state.releasePackage = releasePackageIsCurrent(caseBundle, releasePackage) ? releasePackage : null;
   const patientId = caseBundle?.patient_packet?.patient_id ?? caseBundle?.patient_id;
   if (patientId) state.activePatientId = patientId;
   inferReviewStarted();
@@ -74,6 +111,7 @@ function fail(error, fallback) {
 }
 
 async function saveDecision(form, actionOverride = null) {
+  requireAnalysisReady();
   if (!state.reviewStarted) throw new Error('Start review before recording a physician decision.');
   const data = new FormData(form);
   const action = actionOverride ?? data.get('action') ?? 'approve';
@@ -141,6 +179,7 @@ function attachListeners() {
 
   document.querySelector('[data-review-action="start"]')?.addEventListener('click', async () => {
     try {
+      requireAnalysisReady();
       setBusyStatus('Starting physician review…');
       const result = await startPhysicianReview(state.activePatientId, { source: 'physician_dashboard_explicit_start' });
       state.reviewStarted = true;
@@ -175,12 +214,17 @@ function attachListeners() {
 
   document.querySelector('[data-release-action="request-preview"]')?.addEventListener('click', async () => {
     try {
-      if (!state.reviewStarted) throw new Error('Start review before generating a release preview.');
+      requireAnalysisReady();
+      requireReviewStarted();
       setBusyStatus('Generating backend release preview…');
       const preview = await requestReleasePreview(state.activePatientId, buildReleasePreviewRequest(state.activeCase));
+      if (preview && !releasePackageIsCurrent(state.activeCase, preview)) {
+        throw new Error('Backend release preview does not match the current case artifacts.');
+      }
       state.releasePackage = preview ?? {
         schema_version: 'release_package.v1',
         release_id: `fixture-preview-${state.activePatientId}`,
+        ...currentReleaseLinkage(state.activeCase),
         release_state: 'release_package_draft',
         patient_visible: false
       };
@@ -193,6 +237,8 @@ function attachListeners() {
 
   document.querySelector('[data-release-action="authorize"]')?.addEventListener('click', async () => {
     try {
+      requireAnalysisReady();
+      requireReviewStarted();
       const attestation = document.querySelector('[data-physician-attestation]');
       if (!attestation?.checked) throw new Error('Physician attestation is required before authorization.');
       const releaseId = releaseIdentifier(state.releasePackage);
@@ -205,6 +251,9 @@ function attachListeners() {
         reason: 'Physician reviewed the case and release preview and authorized backend release.',
         signing_mode: 'physician_attestation_authorization'
       });
+      if (authorized && !releasePackageIsCurrent(state.activeCase, authorized)) {
+        throw new Error('Backend authorization does not match the current case artifacts.');
+      }
       state.releasePackage = authorized ?? { ...state.releasePackage, release_state: 'authorized_not_released', signature_or_authorization_id: authorizationId };
       if (authorized) await refreshFromBackend();
       state.workflowStatus = authorized ? 'Staging physician attestation and authorization recorded by backend.' : 'Fixture attestation recorded for this test session.';
@@ -216,6 +265,8 @@ function attachListeners() {
 
   document.querySelector('[data-release-action="release-backend"]')?.addEventListener('click', async () => {
     try {
+      requireAnalysisReady();
+      requireReviewStarted();
       if (state.releasePackage?.release_state !== 'authorized_not_released') throw new Error('Backend authorization is required before release.');
       setBusyStatus('Requesting final backend release…');
       const released = await requestFinalRelease(state.activePatientId, {
@@ -225,7 +276,8 @@ function attachListeners() {
       const validReleasedPackage = released?.schema_version === 'release_package.v1'
         && released?.release_state === 'released_to_patient'
         && released?.patient_visible === true
-        && Boolean(releaseIdentifier(released));
+        && Boolean(releaseIdentifier(released))
+        && releasePackageIsCurrent(state.activeCase, released);
       if (released && !validReleasedPackage) throw new Error('Backend final release did not return a valid released package.');
       state.releasePackage = released ?? { ...state.releasePackage, release_state: 'released_to_patient', patient_visible: true };
       if (released) {
@@ -273,6 +325,12 @@ function attachLogin() {
   });
 }
 
+function requestedPatientId() {
+  if (typeof window === 'undefined') return null;
+  const value = new URL(window.location.href).searchParams.get('patient_id')?.trim();
+  return value || null;
+}
+
 async function boot() {
   if (requiresLogin()) {
     renderLogin(app);
@@ -280,11 +338,20 @@ async function boot() {
     return;
   }
   try {
-    const bundle = await getPhysicianBundle();
+    const deepLinkPatientId = requestedPatientId();
+    const bundle = await getPhysicianBundle(deepLinkPatientId);
     state.queue = bundle.queue ?? [];
     state.source = bundle.source ?? 'backend';
+    state.apiBaseUrl = (await import('./runtimeConfig.js')).PHYSICIAN_RUNTIME_CONFIG.apiBaseUrl;
     adoptCase(bundle.case);
-    state.activePatientId = bundle.case?.patient_packet?.patient_id ?? bundle.case?.patient_id ?? state.queue[0]?.patient_id ?? null;
+    state.activePatientId = deepLinkPatientId
+      ?? bundle.case?.patient_packet?.patient_id
+      ?? bundle.case?.patient_id
+      ?? state.queue[0]?.patient_id
+      ?? null;
+    if (deepLinkPatientId && state.activePatientId !== deepLinkPatientId) {
+      await loadCase(deepLinkPatientId);
+    }
     inferReviewStarted();
     render();
   } catch (error) {

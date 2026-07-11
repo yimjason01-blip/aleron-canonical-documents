@@ -3,106 +3,13 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Aleron MD Canonical Documents</title>
+<title>Aleron MD Canonical Documents - Physician Dashboard</title>
 <style>
-:root{--bg:#fff;--fg:#111;--line:#222;--faint:#8a8f98;}
-@media (prefers-color-scheme:dark){:root{--bg:#15171c;--fg:#e8eaef;--line:#c4c9d2;--faint:#6f757f;}}
-*{box-sizing:border-box;}
-html,body{height:100%;}
-body{margin:0;background:var(--bg);color:var(--fg);font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Helvetica,Arial,sans-serif;display:flex;flex-direction:column;}
-.canonical-header{display:flex;justify-content:space-between;align-items:center;gap:18px;border-bottom:1.5px solid var(--line);padding:14px 16px;background:var(--bg);flex:0 0 auto;}
-.canonical-title{font-size:15px;font-weight:700;letter-spacing:.02em;}
-.canonical-nav{display:flex;align-items:center;gap:8px;}
-.canonical-nav label{font-size:10.5px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:var(--faint);}
-.canonical-nav select{appearance:auto;border:1px solid var(--line);background:var(--bg);color:var(--fg);font:inherit;font-size:13px;min-width:260px;padding:8px 10px;}
-.canonical-frame{width:100%;height:100%;border:0;display:block;flex:1 1 auto;background:var(--bg);}
-@media(max-width:860px){
-  .canonical-header{align-items:flex-start;flex-direction:column;}
-  .canonical-nav{width:100%;align-items:flex-start;flex-direction:column;}
-  .canonical-nav select{width:100%;min-width:0;}
-}
+:root{color-scheme:light dark;--bg:#fff;--fg:#111;--line:#222;--muted:#707680}*{box-sizing:border-box}html,body{height:100%}body{margin:0;background:var(--bg);color:var(--fg);font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;display:flex;flex-direction:column}.canonical-header{display:flex;justify-content:space-between;align-items:center;gap:16px;border-bottom:1px solid var(--line);padding:10px 16px;flex:0 0 auto}.canonical-title{font-size:14px;font-weight:700}.canonical-meta{font:11px ui-monospace,SFMono-Regular,monospace;color:var(--muted)}.canonical-frame{width:100%;height:100%;border:0;display:block;flex:1 1 auto}@media(prefers-color-scheme:dark){:root{--bg:#15171c;--fg:#e8eaef;--line:#c4c9d2;--muted:#a4a9b2}}
 </style>
 </head>
 <body>
-<header class="canonical-header" aria-label="Canonical document navigation">
-  <div class="canonical-title">Aleron MD Canonical Documents</div>
-  <div class="canonical-nav">
-    <label for="canonicalDocSelect">Open document</label>
-    <select id="canonicalDocSelect"></select>
-  </div>
-</header>
-<iframe class="canonical-frame" id="canonicalFrame" title="Canonical document"></iframe>
-<script>
-const canonicalDocs = [
-  { id: "coordination", label: "Project Coordination Board", src: "docs/PROJECT_COORDINATION_BOARD.html" },
-  { id: "risk-models", label: "Risk Models", src: "system-design/diagrams/aleron-risk-models.html" },
-  { id: "dashboard-ds", label: "Physician Dashboard", src: "apps/physician/index.html" },
-  { id: "system", label: "System Design", src: "system-design/diagrams/aleron-system-detail-v3-dossier.html" },
-  { id: "identity", label: "Visual Identity", src: "brand-deck/index.html" },
-  { id: "design-system", label: "Product Design System", src: "product-design-system/index.html#surfaces" },
-  { id: "onboarding", label: "Patient Mobile App", src: "patient-app/onboarding.v2.html" },
-  { id: "member", label: "Patient Web App", src: "workspaces/landing-staging/member.html" }
-];
-
-const select = document.getElementById("canonicalDocSelect");
-const frame = document.getElementById("canonicalFrame");
-
-select.innerHTML = canonicalDocs.map(doc => `<option value="${doc.id}">${doc.label}</option>`).join("");
-
-function activeDoc(){
-  const id = window.location.hash.replace(/^#/, "");
-  return canonicalDocs.find(doc => doc.id === id) || canonicalDocs[0];
-}
-
-function shouldUseRawSrcdoc(){
-  return window.location.hostname === "htmlpreview.github.io";
-}
-
-function splitSrc(src){
-  const [pathAndQuery, hash = ""] = src.split("#");
-  return { pathAndQuery, hash };
-}
-
-async function render(){
-  const doc = activeDoc();
-  select.value = doc.id;
-  document.title = "Aleron MD Canonical Documents - " + doc.label;
-
-  if (!shouldUseRawSrcdoc()) {
-    frame.removeAttribute("srcdoc");
-    frame.src = doc.src;
-    return;
-  }
-
-  const normalizedSrc = doc.src.replace(/^\.\.\//, "");
-  const { pathAndQuery, hash } = splitSrc(normalizedSrc);
-  const rawBase = "https://raw.githubusercontent.com/yimjason01-blip/aleron-canonical-documents/gh-pages/";
-  const rawUrl = rawBase + pathAndQuery;
-  const assetBase = rawBase + pathAndQuery.replace(/[^/]*$/, "");
-  try {
-    const response = await fetch(rawUrl, { cache: "no-store" });
-    if (!response.ok) throw new Error("HTTP " + response.status);
-    let html = await response.text();
-    html = html.replace(/<head([^>]*)>/i, `<head$1><base href="${assetBase}">`);
-    frame.removeAttribute("src");
-    frame.srcdoc = html;
-    if (hash) {
-      frame.addEventListener("load", () => {
-        try { frame.contentWindow.location.hash = hash; } catch (error) {}
-      }, { once: true });
-    }
-  } catch (error) {
-    frame.removeAttribute("srcdoc");
-    frame.src = rawUrl + (hash ? "#" + hash : "");
-  }
-}
-
-select.addEventListener("change", () => {
-  window.location.hash = select.value;
-});
-
-window.addEventListener("hashchange", render);
-render();
-</script>
+<header class="canonical-header"><div class="canonical-title">Aleron MD Canonical Documents · Physician Dashboard</div><a class="canonical-meta" href="deployment-metadata.json">deployment metadata</a></header>
+<iframe class="canonical-frame" id="canonicalFrame" title="Aleron MD Physician Dashboard" src="apps/physician/index.html"></iframe>
 </body>
 </html>
