@@ -125,7 +125,7 @@ export const CANONICAL_REGISTRY = {
   action_library: {
     id: 'action_library',
     label: 'Vitality action library',
-    role: 'Deterministic care-plan actions (not freeform LLM)',
+    role: 'Deterministic care-plan actions from the governed library',
     repoPath: 'system-design/vitality-action-library.json',
     surfaces: ['care-plan']
   },

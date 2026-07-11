@@ -610,6 +610,97 @@ function vitalityRecord(value) {
   };
 }
 
+const TRUST_CRITICAL_RELEASE_FIELDS = [
+  ['required_item_dispositions_complete', 'required-item dispositions'],
+  ['provenance_complete', 'provenance'],
+  ['patient_safe_boundary_emitted', 'patient-safe boundary'],
+  ['lineage_complete', 'lineage']
+];
+
+function normalizeWorkflow(caseBundle, currentReleasePreview, auditEvents = []) {
+  // `workflow` is the deployed patient-api field. The aliases keep older contract
+  // fixtures readable without allowing review history to become lifecycle truth.
+  const projection = caseBundle.workflow ?? caseBundle.workflow_projection ?? caseBundle.physician_workflow ?? null;
+  const releasePackage = currentReleasePreview ?? projection?.release_package ?? null;
+  const nestedRelease = projection?.release ?? {};
+  const patientVisible = projection?.patient_visible === true
+    || projection?.patient_visibility === 'visible'
+    || nestedRelease.patient_visible === true;
+  const explicitReleased = projection?.release_state === 'released_to_patient'
+    && patientVisible
+    && projection?.read_only !== false;
+  const lineageKeys = ['packet_id', 'packet_hash', 'source_engine_run_id', 'source_action_map_state_id', 'source_plan_id'];
+  const release = {
+    ...nestedRelease,
+    preview_ready: nestedRelease.preview_ready ?? projection?.preview_ready ?? Boolean(releasePackage?.preview_hash),
+    authorization_ready: nestedRelease.authorization_ready ?? projection?.authorized ?? false,
+    patient_visible: patientVisible,
+    released_at: nestedRelease.released_at ?? releasePackage?.released_at ?? null,
+    required_item_dispositions_complete: nestedRelease.required_item_dispositions_complete
+      ?? (array(releasePackage?.required_item_dispositions).length > 0),
+    provenance_complete: nestedRelease.provenance_complete
+      ?? Boolean(releasePackage?.provenance && typeof releasePackage.provenance === 'object'),
+    patient_safe_boundary_emitted: nestedRelease.patient_safe_boundary_emitted
+      ?? Boolean(releasePackage?.patient_safe_boundary?.projection === 'patient_safe_only'
+        && releasePackage.patient_safe_boundary.raw_internal_artifacts === false),
+    lineage_complete: nestedRelease.lineage_complete
+      ?? lineageKeys.every((key) => Boolean(releasePackage?.[key] ?? releasePackage?.source_lineage?.[key]))
+  };
+  const trustBlockers = TRUST_CRITICAL_RELEASE_FIELDS
+    .filter(([field]) => release[field] !== true)
+    .map(([, label]) => label);
+  const lifecycleState = projection?.lifecycle_state ?? projection?.state ?? 'workflow_projection_missing';
+  const operationalCopy = explicitReleased
+    ? { whyNow: 'The patient-facing plan has been released and requires handoff verification.', next: { label: 'Verify patient receipt', detail: 'Confirm patient visibility and review the immutable audit trail.' } }
+    : projection?.release_state === 'authorized_not_released'
+      ? { whyNow: 'The exact preview is authorized but has not been released to the patient.', next: { label: 'Release to patient', detail: 'Complete the final backend release after confirming authorization.' } }
+      : release.preview_ready
+        ? { whyNow: 'The server-generated patient-facing preview is ready for physician attestation.', next: { label: 'Review and attest to the exact preview', detail: 'Confirm dispositions, provenance, boundary, and lineage before authorization.' } }
+        : projection?.review_started
+          ? { whyNow: 'Physician review is in progress and release evidence is not yet complete.', next: { label: 'Resolve obligations and generate preview', detail: 'Address required items before requesting the exact release preview.' } }
+          : { whyNow: 'Canonical analysis is ready for physician review.', next: { label: 'Start physician review', detail: 'Review patient inputs, risk, vitality, and required plan items.' } };
+  const packet = caseBundle.patient_packet ?? {};
+  const missing = array(packet.missing_data);
+  const snapshot = packet.snapshot_date ?? packet.collected_at ?? packet.updated_at ?? null;
+  const source = packet.provenance?.source ?? packet.provenance?.kind ?? packet.source ?? 'Backend patient packet';
+  const required = array(caseBundle.clinical_plan?.required_items);
+  const priority = required[0] ?? null;
+  const auditErrors = [];
+  auditEvents.forEach((event, index) => {
+    const actor = event?.actor_id ?? event?.actor?.actor_id;
+    const from = event?.from_state ?? event?.state_before;
+    const to = event?.to_state ?? event?.state_after;
+    if (!(event?.timestamp ?? event?.timestamp_utc ?? event?.created_at)) auditErrors.push(`Event ${index + 1} timestamp missing`);
+    if (!actor) auditErrors.push(`Event ${index + 1} actor missing`);
+    if (!from || !to || from === 'unknown' || to === 'unknown' || from === to) auditErrors.push(`Event ${index + 1} transition invalid`);
+  });
+  return {
+    schemaVersion: projection?.schema_version ?? null,
+    emitted: Boolean(projection),
+    lifecycleState,
+    releaseState: explicitReleased ? 'released_to_patient' : (projection?.release_state ?? 'release_state_missing'),
+    patientVisibility: patientVisible ? 'visible' : (projection?.patient_visibility ?? 'hidden'),
+    whyNow: projection?.why_now ?? operationalCopy.whyNow,
+    highestPriorityIssue: projection?.highest_priority_issue ?? (priority ? {
+      label: priority.title ?? priority.label ?? priority.id,
+      implication: priority.reason ?? priority.why_it_matters ?? 'Required plan obligation'
+    } : null),
+    blockers: array(projection?.blockers).length ? array(projection.blockers) : array(caseBundle.readiness?.blockers),
+    nextAction: projection?.next_action ?? operationalCopy.next,
+    inputSummary: projection?.input_summary ?? {
+      completeness: missing.length ? `${missing.length} reported missing input${missing.length === 1 ? '' : 's'}` : 'No missing packet inputs reported',
+      recency: snapshot ? `Snapshot ${snapshot}` : 'Snapshot date not emitted',
+      provenance: typeof source === 'string' ? source : 'Backend patient packet',
+      missingness: missing.length ? missing.map((item) => item.label ?? item.id ?? String(item)).join(' · ') : 'None reported'
+    },
+    riskSummary: projection?.risk_summary ?? null,
+    vitalitySummary: projection?.vitality_summary ?? null,
+    release: { ...release, authorizationBlocked: !explicitReleased && trustBlockers.length > 0, trustBlockers, package: releasePackage },
+    auditIntegrity: projection?.audit_integrity ?? { status: auditErrors.length ? 'error' : 'pass', errors: auditErrors },
+    released: explicitReleased
+  };
+}
+
 export function adaptPhysicianCase(caseBundle) {
   if (!caseBundle || typeof caseBundle !== 'object') throw new Error('Physician case bundle is missing.');
   if (caseBundle.schema_version !== 'physician_case.v1') {
@@ -662,6 +753,7 @@ export function adaptPhysicianCase(caseBundle) {
   const overridesByTarget = latestOverrides(overrides);
   const releasePreview = caseBundle.release_preview ?? caseBundle.release_package ?? null;
   const currentReleasePreview = artifactBindsCurrentLineage(caseBundle, releasePreview) ? releasePreview : null;
+  const normalizedWorkflow = normalizeWorkflow(caseBundle, currentReleasePreview, audit);
   const analysisStatus = caseBundle.analysis_status ?? {};
   const analysisState = typeof analysisStatus.status === 'string' && analysisStatus.status ? analysisStatus.status : 'missing';
   const analysisCompleted = analysisState === 'completed';
@@ -696,6 +788,7 @@ export function adaptPhysicianCase(caseBundle) {
       blockerCodes
     },
     patientData: {
+      summary: normalizedWorkflow.inputSummary,
       measurements: patientMeasurements,
       groups: groupedPatientMeasurements.groups,
       uncategorized: groupedPatientMeasurements.uncategorized,
@@ -741,7 +834,8 @@ export function adaptPhysicianCase(caseBundle) {
       candidates: array(actionMap.ai_candidates ?? actionMap.ai_candidate_funnel)
     },
     workflow: {
-      releasePackage: currentReleasePreview,
+      ...normalizedWorkflow,
+      releasePackage: normalizedWorkflow.release.package,
       canvasHandoff: caseBundle.canvas_handoff ?? null,
       runAudit: caseBundle.run_audit ?? null,
       monitoringAlerts: array(caseBundle.monitoring_alerts)

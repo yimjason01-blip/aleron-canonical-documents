@@ -281,6 +281,15 @@ function attachListeners() {
       if (released && !validReleasedPackage) throw new Error('Backend final release did not return a valid released package.');
       state.releasePackage = released ?? { ...state.releasePackage, release_state: 'released_to_patient', patient_visible: true };
       if (released) {
+        state.activeCase.workflow_projection = {
+          ...(state.activeCase.workflow_projection ?? {}),
+          schema_version: state.activeCase.workflow_projection?.schema_version ?? 'physician_workflow.v1',
+          lifecycle_state: 'closed',
+          release_state: 'released_to_patient',
+          patient_visibility: 'visible',
+          next_action: { label: 'No further action', target: 'journal' },
+          release: { ...(state.activeCase.workflow_projection?.release ?? {}), patient_visible: true, released_at: released.released_at ?? null }
+        };
         try {
           await refreshFromBackend();
         } catch (refreshError) {
