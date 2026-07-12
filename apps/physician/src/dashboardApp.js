@@ -524,13 +524,39 @@ function activeView(model, state) {
   return patientDataView(model);
 }
 
+export function queueOptionLabel(task) {
+  const name = String(task?.display_name ?? '').trim();
+  const patientId = String(task?.patient_id ?? '').trim();
+  const shortId = patientId ? patientId.replace(/^member_/, '').slice(0, 8) : '';
+  const lifecycle = String(task?.lifecycle_state ?? '').trim().replaceAll('_', ' ');
+  const when = String(task?.last_event_at ?? '').trim();
+  const day = when ? when.slice(0, 10) : '';
+  const base = name || patientId || 'Unknown patient';
+  // Email-only display names collide when the same address has multiple member rows.
+  const parts = [base];
+  if (shortId) parts.push(shortId);
+  if (lifecycle) parts.push(lifecycle);
+  if (day) parts.push(day);
+  return parts.join(' · ');
+}
+
+function patientInitials(name) {
+  const raw = String(name ?? '').trim();
+  if (!raw) return '--';
+  if (raw.includes('@')) {
+    const local = raw.split('@')[0] || raw;
+    return local.slice(0, 2).toUpperCase();
+  }
+  return raw.split(/\s+/).filter(Boolean).map((part) => part[0]).join('').slice(0, 2).toUpperCase() || '--';
+}
+
 export function renderEmptyStaging(app) {
   app.innerHTML = `<main class="login-shell"><section class="login-card empty-staging-card"><div class="brand">aleron<span>MD</span></div><span class="section-label">STAGING · NONCLINICAL</span><h1>No patient cases yet.</h1><p>Complete mobile onboarding to create the first staging case. It will appear here automatically when its packet and analysis are ready for physician review.</p><button type="button" data-refresh-empty>Refresh cases</button></section></main>`;
 }
 
 export function renderDashboard(app, state, model) {
-  const initials = model.patient.name.split(/\s+/).filter(Boolean).map((part) => part[0]).join('').slice(0, 2).toUpperCase() || '--';
-  const options = state.queue.map((task) => `<option value="${esc(task.patient_id)}" ${task.patient_id === state.activePatientId ? 'selected' : ''}>${esc(task.display_name ?? task.patient_id)}</option>`).join('');
+  const initials = patientInitials(model.patient.name);
+  const options = state.queue.map((task) => `<option value="${esc(task.patient_id)}" ${task.patient_id === state.activePatientId ? 'selected' : ''}>${esc(queueOptionLabel(task))}</option>`).join('');
   const nav = TAB_LABELS.map(([id, label]) => `<button data-tab="${id}" class="nav-item ${state.activeTab === id ? 'on' : ''}" aria-selected="${state.activeTab === id}">${icon(id)}${label}</button>`).join('');
   const patientId = String(model.patient.id ?? '');
   const packetBoundary = model.raw?.patient_packet?.provenance?.nonclinical === true
