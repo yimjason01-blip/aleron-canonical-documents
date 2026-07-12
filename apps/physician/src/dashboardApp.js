@@ -42,54 +42,6 @@ function empty(message) {
   return `<div class="empty-state">${esc(message)}</div>`;
 }
 
-function truthLink(entry) {
-  if (!entry) return '';
-  const path = esc(entry.repoPath || '');
-  const label = esc(entry.label || entry.id || 'Source');
-  const href = entry.href ? esc(entry.href) : '';
-  let live = '';
-  if (entry.live && entry.live.model_version) {
-    live = ' · <span class="truth-live">' + esc(entry.live.model_version) + '</span>';
-  } else if (entry.live && entry.live.state) {
-    live = ' · <span class="truth-live">' + esc(String(entry.live.state)) + '</span>';
-  } else if (entry.live && entry.live.schema) {
-    live = ' · <span class="truth-live">' + esc(entry.live.schema) + '</span>';
-  }
-  if (href) {
-    return '<a class="truth-link" href="' + href + '" target="_blank" rel="noopener noreferrer" title="' + path + '">' + label + '</a><code class="truth-path">' + path + '</code>' + live;
-  }
-  return '<span class="truth-link" title="' + path + '">' + label + '</span><code class="truth-path">' + path + '</code>' + live;
-}
-
-function currencyOfTruthPanel(model, surface = 'global') {
-  const truth = model.truth;
-  if (!truth || !truth.entries || !truth.entries.length) return '';
-  const surfaceEntries = truth.entries.filter((e) => (e.surfaces || []).includes(surface) || (e.surfaces || []).includes('global'));
-  const preferred = surfaceEntries.filter((e) => (e.surfaces || []).includes(surface));
-  const global = surfaceEntries.filter((e) => !(e.surfaces || []).includes(surface));
-  const list = preferred.concat(global).slice(0, surface === 'global' ? 8 : 6);
-  const rows = list.map((e) => '<li>' + truthLink(e) + '<small>' + esc(e.role || '') + '</small></li>').join('');
-  return '<details class="truth-panel" data-truth-surface="' + esc(surface) + '"><summary>Currency of truth · canonical documentation</summary><section aria-label="Currency of truth">'
-    + '<div class="truth-panel-head">'
-    + '<span class="section-label">Currency of truth</span>'
-    + '<a class="truth-dashboard-route" href="' + esc(truth.dashboardRoute || '#') + '" target="_blank" rel="noopener noreferrer">Canonical docs · dashboard</a>'
-    + '</div>'
-    + '<p class="truth-principle">' + esc(truth.principle || '') + '</p>'
-    + '<ul class="truth-list">' + rows + '</ul>'
-    + '</section></details>';
-}
-
-function caseOrientation(model) {
-  const workflow = model.workflow;
-  const issue = workflow.highestPriorityIssue;
-  const blockers = workflow.blockers.length ? workflow.blockers.map(stateText).join(' · ') : 'None emitted';
-  return `<section class="case-orientation" data-workflow-state="${esc(workflow.lifecycleState)}">
-    <div><span class="section-label">${workflow.released ? 'Case closed' : 'Case needs review'}</span><h1>${esc(model.patient.name)}</h1><p><strong>Why now</strong> ${esc(workflow.whyNow)}</p></div>
-    <div class="orientation-grid"><div><span>Current state</span><strong>${esc(workflow.released ? 'Released to patient' : stateText(workflow.lifecycleState))}</strong></div><div><span>Highest-priority issue</span><strong>${esc(issue?.label ?? 'Not emitted')}</strong><small>${esc(issue?.implication ?? '')}</small></div><div><span>Blockers</span><strong>${esc(blockers)}</strong></div></div>
-    <div class="primary-next"><span>Primary next action</span><strong>${esc(workflow.nextAction?.label ?? 'Next action not emitted by the backend')}</strong><small>${workflow.released ? 'Patient visible · read only' : esc(workflow.nextAction?.detail ?? '')}</small></div>
-  </section>`;
-}
-
 function icon(name) {
   const paths = {
     'patient-data': '<circle cx="12" cy="8" r="4"/><path d="M4 21c0-4 4-7 8-7s8 3 8 7"/>',
@@ -200,7 +152,7 @@ function patientDataView(model) {
   const summary = model.patientData.summary;
   const summaryHtml = summary ? `<section class="input-summary"><span class="section-label">Input readiness</span><div class="summary-grid"><div><span>Completeness</span><strong>${esc(summary.completeness ?? 'Not emitted')}</strong></div><div><span>Recency</span><strong>${esc(summary.recency ?? 'Not emitted')}</strong></div><div><span>Provenance</span><strong>${esc(summary.provenance ?? 'Not emitted')}</strong></div><div><span>Missingness</span><strong>${esc(summary.missingness ?? 'None emitted')}</strong></div></div>${Array.isArray(summary.abnormal_findings) && summary.abnormal_findings.length ? `<p><strong>Abnormal findings</strong> ${esc(summary.abnormal_findings.join(' · '))}</p>` : ''}</section>` : `<section class="input-summary integrity-error"><strong>Input readiness summary not emitted by backend.</strong></section>`;
   return `
-    <header class="screen-head"><div><h1>Patient data</h1><p>Identity, signals, and the labs the models read from — governed by packet schema and wearable history requirements.</p></div></header>${currencyOfTruthPanel(model, 'patient-data')}
+    <header class="screen-head"><div><h1>Patient data</h1><p>Identity, signals, and the labs the models read from — governed by packet schema and wearable history requirements.</p></div></header>
     ${summaryHtml}
     <section class="instrument-panel patient-data-panel">
       <div class="patient-line"><strong>${esc(model.patient.name)}</strong>${model.patient.code && model.patient.code !== 'Code missing' ? `<span>${esc(model.patient.code)}</span>` : ''}<span>${esc(displayValue(model.patient.age, 'years'))}</span><span>${esc(model.patient.sex ?? 'Sex missing')}</span>${model.patient.phenotype ? `<span>${esc(model.patient.phenotype)}</span>` : ''}</div>
@@ -210,7 +162,7 @@ function patientDataView(model) {
 }
 
 function riskView(model, state) {
-  if (!model.risk.length) return `<header class="screen-head"><div><h1>Risk</h1><p>Model interpretation by disease domain.</p></div></header>${currencyOfTruthPanel(model, 'risk')}${empty('Risk outputs unavailable. Insufficient input or model run pending.')}`;
+  if (!model.risk.length) return `<header class="screen-head"><div><h1>Risk</h1><p>Model interpretation by disease domain.</p></div></header>${empty('Risk outputs unavailable. Insufficient input or model run pending.')}`;
   const selectedId = state.selectedRiskId && model.risk.some((row) => row.id === state.selectedRiskId) ? state.selectedRiskId : model.risk[0].id;
   const row = model.risk.find((candidate) => candidate.id === selectedId);
   const domainShort = {
@@ -358,7 +310,7 @@ function vitalityView(model) {
     </article>`;
   }).join('');
   const instruments = deviceInstrumentsPanel(model);
-  return `<header class="screen-head"><div><h1>Vitality</h1><p>Within-person protocol state, not a composite score. Safety and dominant gates triage only with required subjective inputs.</p></div></header>${currencyOfTruthPanel(model, 'vitality')}<section class="vitality-grid">${outcomes || empty('Vitality not measured or insufficient input.')}</section>${instruments}`;
+  return `<header class="screen-head"><div><h1>Vitality</h1><p>Within-person protocol state, not a composite score. Safety and dominant gates triage only with required subjective inputs.</p></div></header><section class="vitality-grid">${outcomes || empty('Vitality not measured or insufficient input.')}</section>${instruments}`;
 }
 
 export function decisionReasonsForAction(action, taxonomy = getOverrideTaxonomy()) {
@@ -471,7 +423,7 @@ function carePlanView(model, state) {
   const reviewActive = model.analysis.readyForReview && state.reviewStarted && !caseReleased;
   const selectedRail = selected ? `<section class="rail-card selected-item-rail"><span class="section-label">Selected item · ${esc(selected.planKind)}</span><h2>${esc(selected.title ?? selected.label ?? selected.id)}</h2><p>${esc(selected.reason ?? selected.why_it_matters ?? selected.why_now ?? 'Clinical rationale not emitted.')}</p><small>${esc(carePlanSource(selected))}</small>${reviewActive ? decisionForm(selected, taxonomy, false) : '<div class="truth-empty">Start review to expose structured decision controls.</div>'}</section>${recommendationTraceHTML(model, selected)}` : recommendationTraceHTML(model, null);
   return `
-    <header class="screen-head"><div><h1>Care plan</h1><p>Library-derived obligations from the deterministic engine — not freeform generative clinical text.</p></div></header>${currencyOfTruthPanel(model, 'care-plan')}
+    <header class="screen-head"><div><h1>Care plan</h1><p>Library-derived obligations from the deterministic engine — not freeform generative clinical text.</p></div></header>
     ${analysisGate(model, state)}
     <div class="care-layout"><div>
       <section class="plan-document"><div class="document-head"><div><span class="section-label">${esc(caseReleased ? 'released · read only' : stateText(model.carePlan.state))}</span><h2>${esc(model.carePlan.title)}</h2></div><span>${esc(model.carePlan.id ?? 'Plan id not emitted')}</span></div><div class="document-inputs">${esc(model.carePlan.overview)}</div><div class="plan-body"><span class="plan-section-label">Assessment &amp; Plan</span><section class="plan-problem-group"><h3>Problems and obligations</h3>${required || '<div class="truth-empty">No problems or required obligations emitted.</div>'}</section><section class="plan-order-group"><h3>Orders in draft note</h3>${noteOrders || '<div class="truth-empty">No draft orders emitted.</div>'}</section><section class="plan-action-group"><h3>Recommended actions</h3>${actions || '<div class="truth-empty">No recommended actions emitted.</div>'}</section></div><footer class="document-signature">${caseReleased ? 'Released to patient · patient visible · read only' : `${esc(model.carePlan.note?.signature_status ?? 'Unsigned')} · physician decisions remain staged until backend release.`}</footer></section>
@@ -558,32 +510,8 @@ export function renderDashboard(app, state, model) {
   const initials = patientInitials(model.patient.name);
   const options = state.queue.map((task) => `<option value="${esc(task.patient_id)}" ${task.patient_id === state.activePatientId ? 'selected' : ''}>${esc(queueOptionLabel(task))}</option>`).join('');
   const nav = TAB_LABELS.map(([id, label]) => `<button data-tab="${id}" class="nav-item ${state.activeTab === id ? 'on' : ''}" aria-selected="${state.activeTab === id}">${icon(id)}${label}</button>`).join('');
-  const patientId = String(model.patient.id ?? '');
-  const packetBoundary = model.raw?.patient_packet?.provenance?.nonclinical === true
-    || model.raw?.patient_packet?.facts?.synthetic_fixture === true
-    || patientId.startsWith('e2e_');
-  const representativeNonclinical = packetBoundary
-    || model.analysis.warnings.some((warning) => /synthetic|nonclinical|prohibited/i.test(String(warning)))
-    || model.risk.some((domain) => domain.synthetic === true || domain.nonclinical === true)
-    || model.vitality.some((row) => row.synthetic === true || row.nonclinical === true);
-  // Hazard for nonclinical synthetic boundary; advisory for fixture/staging runtime chrome.
-  const boundaryBanner = state.source === 'fixture' || representativeNonclinical
-    ? '<div class="boundary-banner signal-hazard" role="status">STAGING · SYNTHETIC REPRESENTATIVE PROFILE · NONCLINICAL TEST OUTPUT · NOT FOR DIAGNOSIS OR TREATMENT</div>'
-    : '';
-  const runtimeLabel = state.source === 'fixture'
-    ? (state.apiBaseUrl?.includes('rbdxzlzkxyprertdmpga')
-      ? 'STAGING · current product · synthetic cases'
-      : 'PRODUCT PREVIEW · synthetic cases')
-    : state.apiBaseUrl?.includes('rbdxzlzkxyprertdmpga')
-    ? 'STAGING · authenticated · nonclinical'
-    : state.apiBaseUrl?.includes('pqbbejplclpvkqvlrsdu')
-    ? 'PRODUCTION · authenticated'
-    : 'BACKEND · authenticated';
-  const runtimeTone = state.source === 'fixture' || representativeNonclinical || state.apiBaseUrl?.includes('rbdxzlzkxyprertdmpga')
-    ? 'signal-advisory'
-    : '';
   app.innerHTML = `<main class="dashboard-shell">
-    <aside class="sidebar" aria-label="Dashboard sections"><div class="brand">aleron<span>MD</span></div><div class="case-picker"><div class="avatar">${esc(initials)}</div><div><select data-case-selector aria-label="Patient case">${options}</select><small>${model.patient.code ? `${esc(model.patient.code)} · ` : ''}${esc(displayValue(model.patient.age, 'years'))}</small></div></div><div class="rule"></div><nav role="tablist" aria-label="Dashboard sections">${nav}</nav><div class="rule"></div><div class="sidebar-truth" aria-label="Currency of truth"><span class="section-label">Currency of truth</span><p class="sidebar-truth-copy">Case state is operational truth. Canonical docs define meaning.</p><a class="truth-link" href="${esc(model.truth?.dashboardRoute || 'https://yimjason01-blip.github.io/aleron-canonical-documents/#dashboard-ds')}" target="_blank" rel="noopener noreferrer">Open canonical docs shell</a><code class="truth-path">docs/SOURCE_OF_TRUTH.md</code></div></aside>
-    <section class="main-pane"><div class="runtime-source ${runtimeTone}" aria-label="Runtime source">${runtimeLabel} · ${esc(model.schemaVersion)} <button data-sign-out>${state.source === 'fixture' ? 'Reload' : 'Refresh'}</button></div>${boundaryBanner}${caseOrientation(model)}${activeView(model, state)}</section>
+    <aside class="sidebar" aria-label="Dashboard sections"><div class="brand">aleron<span>MD</span></div><div class="case-picker"><div class="avatar">${esc(initials)}</div><div><select data-case-selector aria-label="Patient case">${options}</select><small>${model.patient.code ? `${esc(model.patient.code)} · ` : ''}${esc(displayValue(model.patient.age, 'years'))}</small></div></div><div class="rule"></div><nav role="tablist" aria-label="Dashboard sections">${nav}</nav></aside>
+    <section class="main-pane">${activeView(model, state)}</section>
   </main>`;
 }
