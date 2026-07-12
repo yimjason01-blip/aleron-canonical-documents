@@ -1,0 +1,435 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Aleron MD · Product Register v1 · The Cabin, Tiered</title>
+<meta name="description" content="The ratified member product register: the Cabin base with a three-tier grammar of emphasis. Reading is the luxury.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Hanken+Grotesk:wght@400;500;600;700&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet">
+<style>
+
+
+
+
+:root {
+  /* Locked materials, brand deck section 03 · inset per PDS day tokens */
+  --paper: #FAF7F2;
+  --ink: #1D1B18;
+  --cream: #F5F1E8;
+  --inset: #F1EDE6;
+  --navy: #252B3D;
+  --slate: #5A6378;
+  --gold: #C9A14E;
+  --lit-gold: #EACB7F;
+  --text-gold: #8A6A2F;
+  --ember: #A4452C;
+  --voice: 'PolySans', 'Hanken Grotesk', -apple-system, sans-serif;
+  --audit: 'Space Mono', ui-monospace, Menlo, monospace;
+}
+
+* { margin: 0; padding: 0; box-sizing: border-box; }
+body {
+  background: #FFFFFF;
+  color: #111111;
+  font-family: var(--voice);
+  font-size: 16px;
+  line-height: 1.6;
+  padding: 64px 0 120px;
+}
+.doc { max-width: 1320px; margin: 0 auto; padding: 0 48px; }
+.doc-header {
+  font-family: var(--audit);
+  font-size: 12px;
+  letter-spacing: 0.08em;
+  color: #6E6A63;
+  border-bottom: 1px solid #DDDDDD;
+  padding-bottom: 14px;
+  margin-bottom: 26px;
+  text-transform: uppercase;
+}
+h1 { font-size: clamp(28px, 3.5vw, 40px); font-weight: 500; letter-spacing: -0.015em; line-height: 1.15; margin-bottom: 16px; }
+.intro { font-size: 16.5px; max-width: 66ch; color: #333; margin-bottom: 8px; }
+.intro b { font-weight: 600; }
+
+.sec { margin-top: 64px; }
+.sec-label {
+  font-family: var(--audit);
+  font-size: 11px;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: #6E6A63;
+  margin-bottom: 10px;
+}
+.sec h2 { font-size: 22px; font-weight: 600; letter-spacing: -0.01em; margin-bottom: 14px; }
+
+.laws { list-style: none; max-width: 84ch; }
+.laws li {
+  display: flex; gap: 14px;
+  padding: 13px 0;
+  border-bottom: 1px solid #EEEAE2;
+  font-size: 15.5px; color: #333;
+}
+.laws li:last-child { border-bottom: none; }
+.laws .num { font-family: var(--audit); font-size: 11px; color: var(--text-gold); flex: 0 0 24px; padding-top: 4px; }
+.laws b { font-weight: 600; color: #111; }
+
+.spec-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: 14px; max-width: 1000px; }
+.spec-card { border: 1px solid #EEEAE2; padding: 14px 16px; border-radius: 0; }
+.spec-card h3 { font-size: 13px; font-weight: 600; margin-bottom: 8px; }
+.spec-card dl { font-size: 13px; color: #444; }
+.spec-card dt { font-weight: 500; color: #111; margin-top: 7px; }
+.spec-card dd { font-family: var(--audit); font-size: 11.5px; color: #666; margin: 1px 0 0; }
+
+/* ================================================================ */
+/*  THE REGISTER — ratified reference surface (Version C · Tiers)    */
+/* ================================================================ */
+.panel { max-width: 1224px; overflow: hidden; background: var(--paper); border: 1px solid rgba(29,27,24,0.07); border-radius: 18px; }
+.shell { display: grid; grid-template-columns: 188px 1fr; }
+
+.rail { display: flex; flex-direction: column; padding: 26px 16px 20px; }
+.r-lockup { font-family: var(--voice); font-weight: 400; letter-spacing: -0.0275em; font-size: 18px; color: var(--ink); padding: 0 10px; margin-bottom: 22px; }
+.r-lockup .tag {
+  font-family: var(--audit);
+  font-size: 0.444em;
+  vertical-align: super;
+  margin-left: 3%;
+  background: linear-gradient(180deg, var(--gold), var(--text-gold));
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+.r-id { display: flex; gap: 10px; align-items: center; padding: 0 10px; margin-bottom: 18px; }
+.r-avatar {
+  width: 32px; height: 32px; border-radius: 50%;
+  display: grid; place-items: center;
+  font-size: 11px; font-weight: 500; flex: 0 0 auto;
+  background: var(--inset); color: var(--ink);
+}
+.r-name { font-size: 13px; font-weight: 500; line-height: 1.25; color: var(--ink); }
+.r-code { font-size: 11px; margin-top: 1px; color: var(--slate); }
+.r-rule { height: 1px; background: rgba(29,27,24,0.08); margin: 0 10px 18px; }
+.r-nav { display: grid; gap: 3px; }
+.r-item {
+  font-family: var(--voice);
+  display: flex; align-items: center; gap: 10px;
+  width: 100%; text-align: left;
+  background: transparent; border: none; cursor: pointer;
+  line-height: 1.2; white-space: nowrap;
+  color: var(--slate); font-size: 13.5px; padding: 9px 12px;
+  border-radius: 10px;
+}
+.r-item.active { color: var(--ink); font-weight: 500; background: var(--inset); }
+.r-item svg { width: 16px; height: 16px; flex: 0 0 auto; }
+.r-dot { display: inline-block; width: 6px; height: 6px; margin-left: 6px; background: var(--gold); border-radius: 50%; }
+.r-foot { margin-top: auto; padding: 14px 10px 0; }
+.r-foot-txt { font-size: 11px; color: var(--slate); }
+
+.main { min-width: 0; padding: 28px 32px 32px; }
+.p-head { display: flex; justify-content: space-between; align-items: flex-start; gap: 16px; }
+.p-h { font-size: 25px; font-weight: 500; color: var(--ink); letter-spacing: -0.015em; }
+.p-meta { font-size: 13px; color: var(--slate); margin-top: 4px; }
+.p-btn {
+  font-family: var(--voice); cursor: pointer; white-space: nowrap;
+  background: var(--ink); color: var(--cream); border: none;
+  border-radius: 10px; padding: 10px 18px; font-size: 13px; font-weight: 500;
+}
+.cols { display: grid; grid-template-columns: 1fr 300px; gap: 20px; align-items: start; margin-top: 8px; }
+.colmain, .colside { min-width: 0; }
+
+/* Tier 1 — the one elevated card. Exactly one per surface. */
+.one {
+  background: #FFFFFF; border-radius: 16px; padding: 22px 24px; margin-top: 20px;
+  box-shadow: 0 12px 36px rgba(29,27,24,0.09);
+}
+.one-label { font-size: 12.5px; font-weight: 500; color: var(--text-gold); margin-bottom: 8px; display: flex; align-items: center; gap: 8px; }
+.one-label::before { content: ''; width: 18px; height: 3px; border-radius: 2px; background: var(--gold); }
+.one-text { font-size: 21px; font-weight: 500; color: var(--ink); letter-spacing: -0.005em; line-height: 1.35; }
+.one-link { display: inline-block; cursor: pointer; font-size: 13px; color: var(--ink); font-weight: 500; margin-top: 9px; }
+
+/* Tier 2 — flat inset fields for data groups. Enclosure without spotlight. */
+.tier2 { background: var(--inset); border-radius: 12px; padding: 4px 20px 16px; margin-top: 16px; }
+.tier2 .g-head { padding-top: 18px; }
+.colside .tier2 { padding: 16px 18px; margin-top: 0; }
+
+/* Tier 3 — naked on the paper, grouped by proximity. */
+.colside > * + * { margin-top: 24px; }
+.colside { padding-top: 24px; }
+
+.g-head { font-size: 14.5px; font-weight: 500; color: var(--ink); padding: 26px 0 6px; }
+.g-row {
+  display: grid;
+  grid-template-columns: 1fr 108px 112px 1.55fr;
+  gap: 12px;
+  align-items: baseline;
+  padding: 9px 0;
+  border-bottom: 1px solid rgba(29,27,24,0.07);
+}
+.g-row:last-of-type { border-bottom: none; }
+.g-name { font-size: 14.5px; color: var(--ink); }
+.g-val { font-family: var(--voice); font-weight: 500; font-variant-numeric: tabular-nums; text-align: right; white-space: nowrap; font-size: 14.5px; color: var(--ink); }
+.g-val em { font-style: normal; font-weight: 400; font-size: 10.5px; color: var(--slate); }
+.g-trend { font-size: 12px; }
+.g-trend.adv { color: var(--text-gold); }
+.tier2 .g-trend.adv, .tier2 .proto-status.adv { color: #655127; } /* gold-800, brand scale: text gold measures 4.3 on inset, 655127 measures 6.6 */
+.g-trend.haz { color: var(--ember); }
+.g-note { font-size: 13px; color: var(--slate); }
+.g-quiet { font-size: 12.5px; color: var(--slate); padding: 12px 0 0; margin-top: 6px; border-top: 1px solid rgba(29,27,24,0.07); }
+
+.proto-row { display: grid; grid-template-columns: 1fr auto auto; gap: 14px; align-items: baseline; padding: 9px 0; border-bottom: 1px solid rgba(29,27,24,0.07); }
+.proto-row:last-child { border-bottom: none; }
+.proto-name { font-size: 14.5px; color: var(--ink); }
+.proto-spec { font-family: var(--voice); white-space: nowrap; font-size: 12px; color: var(--slate); font-variant-numeric: tabular-nums; }
+.proto-status { font-size: 12px; color: var(--slate); }
+.proto-status.adv { color: var(--text-gold); }
+
+.c-label { font-size: 12.5px; color: var(--slate); margin-bottom: 8px; }
+.c-valrow { display: flex; align-items: baseline; gap: 7px; }
+.c-val { font-family: var(--voice); font-weight: 500; font-variant-numeric: tabular-nums; font-size: 24px; color: var(--ink); }
+.c-unit { font-family: var(--voice); font-size: 10.5px; color: var(--slate); }
+.c-status { font-size: 12px; color: var(--slate); margin-left: auto; }
+.plot { display: block; width: 100%; height: auto; margin-top: 10px; }
+.plot .grid-l { stroke: rgba(29,27,24,0.06); stroke-width: 1; }
+.plot .line { fill: none; stroke: rgba(29,27,24,0.85); stroke-width: 1.6; }
+.plot .proj { fill: none; stroke: var(--gold); stroke-width: 1.6; stroke-dasharray: 3 4; }
+.plot .dot { fill: var(--gold); }
+.c-meta { font-size: 12px; color: var(--slate); margin-top: 8px; }
+
+.s-label { font-size: 12.5px; color: var(--slate); margin-bottom: 6px; }
+.s-body { font-size: 14px; color: var(--ink); line-height: 1.45; }
+.s-meta { font-size: 12px; color: var(--slate); margin-top: 5px; }
+.s-link { display: inline-block; font-size: 12.5px; color: var(--ink); font-weight: 500; margin-top: 6px; cursor: pointer; }
+.ask { display: flex; align-items: center; gap: 9px; cursor: pointer; color: var(--ink); font-weight: 500; font-size: 13px; }
+.ask-spark { font-size: 13px; line-height: 1; color: var(--gold); }
+
+.foot {
+  margin-top: 90px; padding-top: 16px; border-top: 1px solid #DDDDDD;
+  font-family: var(--audit); font-size: 11px; letter-spacing: 0.06em; color: #6E6A63;
+}
+
+@media (max-width: 1120px) {
+  .cols { grid-template-columns: 1fr; }
+  .g-row { grid-template-columns: 1fr 96px 110px 1fr; }
+}
+@media (max-width: 760px) {
+  .shell { grid-template-columns: 1fr; }
+  .rail { flex-direction: row; flex-wrap: wrap; align-items: center; gap: 12px; }
+  .r-nav { display: flex; flex-wrap: wrap; width: 100%; }
+  .r-rule, .r-foot { display: none; }
+  .g-row { grid-template-columns: 1fr 96px; }
+  .g-trend { grid-column: 2; text-align: right; }
+  .g-note { grid-column: 1 / -1; }
+}
+</style>
+</head>
+<body>
+<div class="doc">
+
+  <div class="doc-header">Aleron MD · Product Register v1 · Ratified 01 Jul 2026</div>
+  <h1>The Cabin, tiered.</h1>
+  <p class="intro">The member product register, decided from the register studies (five directions, then three spends of emphasis; Version C ratified). The premise it stands on: <b>reading is the luxury.</b> In a digital instrument, anything that slows the read is the opposite of premium. The environment should feel good, but ease of consuming the information comes first, and every law below serves it. Materials, wordmark, interaction grid, and the gold and hazard laws are inherited from the brand deck and the design system unchanged.</p>
+
+  <!-- ============ THE LAWS ============ -->
+  <section class="sec">
+    <div class="sec-label">01 · The laws</div>
+    <h2>Ten laws, all in service of the read.</h2>
+    <ol class="laws">
+      <li><span class="num">01</span><span><b>Reading is the luxury.</b> Parse speed decides every contest between beauty and clarity. A member deciding about their body never pays a reading tax for a mood.</span></li>
+      <li><span class="num">02</span><span><b>One primary read per surface.</b> Exactly one Tier 1 object answers "what do I look at first." On the plan, it is the physician's one thing.</span></li>
+      <li><span class="num">03</span><span><b>Emphasis is currency.</b> Three tiers, each earned. Tier 1: the one elevated white card, one per surface. Tier 2: flat inset fields for data groups, enclosure without spotlight. Tier 3: naked on the paper, grouped by proximity alone. If everything is highlighted, nothing is.</span></li>
+      <li><span class="num">04</span><span><b>Proximity agrees with meaning.</b> Space between groups is at least twice the space within them. Grouping is felt before it is read.</span></li>
+      <li><span class="num">05</span><span><b>Sentence case for everything anyone reads.</b> Tracked caps are retired from product surfaces entirely, member and physician alike. The flight deck is dark, not harder to read.</span></li>
+      <li><span class="num">06</span><span><b>The value spine.</b> Values sit right-aligned with units attached, forming one scannable column: the voice face, tabular figures, weight 500 against 400 prose. The audit face is retired from product surfaces; Space Mono remains the wordmark's tag alone. The instrument is the alignment, not the font.</span></li>
+      <li><span class="num">07</span><span><b>Hairlines separate rows, never groups.</b> Rules live inside a Tier 2 field between rows. Groups are separated by tiers and space, not lines.</span></li>
+      <li><span class="num">08</span><span><b>Fillets, not bubbles, and the 10/12 line.</b> Radius scale: 18 panel, 16 Tier 1, 12 Tier 2, 10 controls and nav, 4 signal tiles, circles only for avatars and dots. Radius declares role: at 10 and below it acts, at 12 and above it holds, and nothing crosses the line. Ink fills and strong outlines belong to controls alone; interactive text is ink at weight 500, annotations slate at 400. Containers nest concentric (18 holds 16 holds 12); a control keeps its radius wherever it sits. One shadow exists in the register: 0 12px 36px at 9% ink, reserved for Tier 1. Controls never float.</span></li>
+      <li><span class="num">09</span><span><b>Signals are inherited law.</b> Gold is never a control and never a trim along a card edge; the gold fix is the bar in the label, never larger. Advisory is text gold on light grounds. Ember is hazard only, text on light grounds, a filled tile with cream text on dark. The interaction grid decides every pairing.</span></li>
+      <li><span class="num">10</span><span><b>Photography is a moment, not chrome.</b> The destination layer opens arrivals, onboarding, the quarterly reveal, and never sits behind data.</span></li>
+    </ol>
+  </section>
+
+  <!-- ============ THE NUMBERS ============ -->
+  <section class="sec">
+    <div class="sec-label">02 · The numbers</div>
+    <h2>Measured, not described.</h2>
+    <div class="spec-grid">
+      <div class="spec-card">
+        <h3>Grounds and tiers</h3>
+        <dl>
+          <dt>Ground</dt><dd>paper FAF7F2</dd>
+          <dt>Tier 1</dt><dd>FFFFFF · r16 · shadow 0 12px 36px rgba(29,27,24,0.09)</dd>
+          <dt>Tier 2</dt><dd>inset F1EDE6 · r12 · no shadow, no border</dd>
+          <dt>Tier 3</dt><dd>none · proximity only</dd>
+        </dl>
+      </div>
+      <div class="spec-card">
+        <h3>Type · voice face</h3>
+        <dl>
+          <dt>Greeting</dt><dd>25 / 500 / -0.015em</dd>
+          <dt>The one thing</dt><dd>21 / 500 / lh 1.35</dd>
+          <dt>Group head</dt><dd>14.5 / 500</dd>
+          <dt>Row / body</dt><dd>14.5 / 400 · notes 13 slate</dd>
+          <dt>Labels / meta</dt><dd>12.5 / 400 slate · sentence case</dd>
+        </dl>
+      </div>
+      <div class="spec-card">
+        <h3>Type · the value spine</h3>
+        <dl>
+          <dt>Row value</dt><dd>14.5 / 500 · voice, tabular · right-aligned</dd>
+          <dt>Course value</dt><dd>24 / 500 · voice, tabular</dd>
+          <dt>Unit</dt><dd>10.5 / 400 slate · attached to value</dd>
+          <dt>Audit face</dt><dd>retired from product · wordmark tag only</dd>
+        </dl>
+      </div>
+      <div class="spec-card">
+        <h3>Space and rhythm</h3>
+        <dl>
+          <dt>Within group</dt><dd>row padding 9 · hairline rgba(ink,0.07)</dd>
+          <dt>Between groups</dt><dd>&ge; 2× within · head padding-top 18-26</dd>
+          <dt>Rail</dt><dd>188px · item 13.5 / pad 9 12 · active inset r10</dd>
+          <dt>Columns</dt><dd>plan 1fr · context 300px · gap 20</dd>
+        </dl>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ THE REFERENCE SURFACE ============ -->
+  <section class="sec">
+    <div class="sec-label">03 · The reference surface</div>
+    <h2>The plan, as ratified.</h2>
+    <div class="panel">
+      <div class="shell">
+        <aside class="rail">
+          <div class="r-lockup">aleron<span class="tag">MD</span></div>
+          <div class="r-id">
+            <div class="r-avatar">DP</div>
+            <div>
+              <div class="r-name">David Park</div>
+              <div class="r-code">Member 042</div>
+            </div>
+          </div>
+          <div class="r-rule"></div>
+          <nav class="r-nav">
+            <button class="r-item active"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M4 5h16M4 12h16M4 19h10"/></svg>Plan</button>
+            <button class="r-item"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M3 18l6-6 4 4 8-8"/><path d="M17 8h4v4"/></svg>Quality of Life</button>
+            <button class="r-item"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><circle cx="12" cy="8" r="4"/><path d="M4 21c0-4 4-7 8-7s8 3 8 7"/></svg>Your Data</button>
+            <button class="r-item"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M12 3.5l7 3v5.3c0 4.1-2.8 7.8-7 8.7-4.2-.9-7-4.6-7-8.7V6.5l7-3Z"/><path d="M8.5 13.2l2.2-2.2 2.1 2.1 2.8-3.8"/></svg>Risk</button>
+            <button class="r-item"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M5 6.5h14a2 2 0 0 1 2 2v6.2a2 2 0 0 1-2 2H10.5L6 20v-3.3H5a2 2 0 0 1-2-2V8.5a2 2 0 0 1 2-2Z"/><path d="M7.5 10.2h9M7.5 13.2h6.2"/></svg>Chat</button>
+            <button class="r-item"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><rect x="4" y="5.5" width="16" height="15" rx="2"/><path d="M8 3.5v4M16 3.5v4M4 10h16"/><path d="M8 14h3M13.5 14H16M8 17h3"/></svg>Appointments<span class="r-dot"></span></button>
+          </nav>
+          <div class="r-foot"><div class="r-foot-txt">Dr. Chen · Cardiology</div></div>
+        </aside>
+        <div class="main">
+          <div class="p-head">
+            <div>
+              <div class="p-h">Good morning, David.</div>
+              <div class="p-meta">April draw · 104 markers · reviewed 12 June</div>
+            </div>
+            <button class="p-btn">Message Dr. Chen</button>
+          </div>
+          <div class="one">
+            <div class="one-label">The one thing this quarter</div>
+            <div class="one-text">Keep the statin where it is. Nothing else changes.</div>
+            <a class="one-link">See the why</a>
+          </div>
+          <div class="cols">
+            <div class="colmain">
+              <div class="tier2">
+                <div class="g-head">Lipids</div>
+                <div class="g-row">
+                  <span class="g-name">ApoB</span>
+                  <span class="g-val">78 <em>mg/dL</em></span>
+                  <span class="g-trend adv">down from 96</span>
+                  <span class="g-note">whatever you changed, keep it</span>
+                </div>
+                <div class="g-row">
+                  <span class="g-name">Lp(a)</span>
+                  <span class="g-val">62 <em>nmol/L</em></span>
+                  <span class="g-trend"></span>
+                  <span class="g-note">genetic; managed around, not against</span>
+                </div>
+                <div class="g-head">Inflammation</div>
+                <div class="g-row">
+                  <span class="g-name">hsCRP</span>
+                  <span class="g-val">1.9 <em>mg/L</em></span>
+                  <span class="g-trend haz">up from 0.8</span>
+                  <span class="g-note">marathon nine days before; retest six weeks</span>
+                </div>
+                <div class="g-head">Metabolic</div>
+                <div class="g-row">
+                  <span class="g-name">HbA1c</span>
+                  <span class="g-val">5.4 <em>%</em></span>
+                  <span class="g-trend"></span>
+                  <span class="g-note">three years in range</span>
+                </div>
+                <div class="g-quiet">Hormones, kidney, liver and 86 more are all quiet.</div>
+              </div>
+              <div class="tier2">
+                <div class="g-head">The protocol</div>
+                <div class="proto-row">
+                  <span class="proto-name">Rosuvastatin</span>
+                  <span class="proto-spec">10 mg · nightly</span>
+                  <span class="proto-status">Continue</span>
+                </div>
+                <div class="proto-row">
+                  <span class="proto-name">Zone 2 base</span>
+                  <span class="proto-spec">4 × 45 min · weekly</span>
+                  <span class="proto-status">On track</span>
+                </div>
+                <div class="proto-row">
+                  <span class="proto-name">Sauna</span>
+                  <span class="proto-spec">4 × 20 min · weekly</span>
+                  <span class="proto-status adv">New this quarter</span>
+                </div>
+              </div>
+            </div>
+            <div class="colside">
+              <div class="tier2">
+                <div class="c-label">The course · VO2max</div>
+                <div class="c-valrow"><span class="c-val">41.2</span><span class="c-unit">ml/kg/min</span><span class="c-status">Well</span></div>
+                <svg class="plot" viewBox="0 0 280 104" aria-label="VO2max trajectory">
+                  <line class="grid-l" x1="6" y1="22" x2="274" y2="22"/>
+                  <line class="grid-l" x1="6" y1="52" x2="274" y2="52"/>
+                  <line class="grid-l" x1="6" y1="82" x2="274" y2="82"/>
+                  <polyline class="line" points="8,84 60,77 112,70 164,58 212,50"/>
+                  <polyline class="proj" points="212,50 272,42"/>
+                  <circle class="dot" cx="212" cy="50" r="3.2"/>
+                </svg>
+                <div class="c-meta">Projected 42.5 by spring, a two-year climb.</div>
+              </div>
+              <div>
+                <div class="s-label">Next</div>
+                <div class="s-body">Autumn draw, with Dr. Chen.</div>
+                <div class="s-meta">14 October 2026</div>
+              </div>
+              <div>
+                <div class="s-label">Dr. Chen · Tuesday</div>
+                <div class="s-body">Nothing needed from you this month. Enjoy the snow with Maya.</div>
+                <a class="s-link">Open the message</a>
+              </div>
+              <div class="ask"><span class="ask-spark">✦</span>Ask Aleron about this draw</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ SCOPE ============ -->
+  <section class="sec">
+    <div class="sec-label">04 · Scope and rollout</div>
+    <h2>Where this register applies.</h2>
+    <ol class="laws">
+      <li><span class="num">01</span><span><b>This is the member day register.</b> Every member-facing product surface adopts it: plan, your data, quality of life, risk, chat, appointments, onboarding.</span></li>
+      <li><span class="num">02</span><span><b>Dusk is the member evening companion.</b> Warm graphite, indirect gold light, opt-in. It follows the same tier grammar when it is cut; it has not been cut yet.</span></li>
+      <li><span class="num">03</span><span><b>Symmetry remains the physician register.</b> The flight deck keeps its dark layered grammar; instrument caps survive there and only there.</span></li>
+      <li><span class="num">04</span><span><b>First application: Your Data at full density.</b> 104 markers is the stress test of laws 04, 06 and 07. Then the plan ships, then the rest.</span></li>
+      <li><span class="num">05</span><span><b>Lineage.</b> Direction studies (five directions) to cabin studies (three spends of emphasis) to this register. The studies stay on disk as the record of the decision.</span></li>
+    </ol>
+  </section>
+
+  <div class="foot">PRODUCT REGISTER V1 · RATIFIED 01 JUL 2026 · THE CABIN, TIERED · READING IS THE LUXURY · MATERIALS PER BRAND DECK SECTION 03 · WORDMARK PER SECTION 05 · GRID IS THE LAW · MONO PER ITS CHARTER · GOLD NEVER A CONTROL</div>
+
+</div>
+</body>
+</html>

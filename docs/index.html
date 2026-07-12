@@ -34,14 +34,15 @@ body{margin:0;background:var(--bg);color:var(--fg);font-family:-apple-system,Bli
 <iframe class="canonical-frame" id="canonicalFrame" title="Canonical document"></iframe>
 <script>
 const canonicalDocs = [
-  { id: "coordination", label: "Project Coordination Board", src: "docs/PROJECT_COORDINATION_BOARD.html" },
-  { id: "risk-models", label: "Risk Models", src: "system-design/diagrams/aleron-risk-models.html" },
-  { id: "dashboard-ds", label: "Physician Dashboard", src: "apps/physician/index.html" },
-  { id: "system", label: "System Design", src: "system-design/diagrams/aleron-system-detail-v3-dossier.html" },
-  { id: "identity", label: "Visual Identity", src: "brand-deck/index.html" },
-  { id: "design-system", label: "Product Design System", src: "product-design-system/index.html#surfaces" },
-  { id: "onboarding", label: "Patient Mobile App", src: "patient-app/onboarding.v2.html" },
-  { id: "member", label: "Patient Web App", src: "workspaces/landing-staging/member.html" }
+  { id: "status", label: "Canonical Status · current state", src: "docs/CANONICAL_DOCUMENT_STATUS.html" },
+  { id: "coordination", label: "Project Coordination Board · current state", src: "docs/PROJECT_COORDINATION_BOARD.html" },
+  { id: "risk-models", label: "Risk Models · reference and prototype", src: "system-design/diagrams/aleron-risk-models.html" },
+  { id: "dashboard-ds", label: "Physician Chart · design reference", src: "system-design/diagrams/aleron-actionmap-al47m-ds.html" },
+  { id: "system", label: "System Design · conceptual target", src: "system-design/diagrams/aleron-system-detail-v3-dossier.html" },
+  { id: "identity", label: "Visual Identity · governing reference", src: "brand-deck/index.html" },
+  { id: "design-system", label: "Product Design System v0.3 · governing reference", src: "product-design-system/index.html#surfaces" },
+  { id: "onboarding", label: "Patient Mobile App v3 · interaction prototype", src: "patient-app/onboarding.v3.html" },
+  { id: "member", label: "Patient Web App · prototype", src: "workspaces/landing-staging/member.html" }
 ];
 
 const select = document.getElementById("canonicalDocSelect");

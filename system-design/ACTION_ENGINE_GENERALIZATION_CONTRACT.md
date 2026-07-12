@@ -1,6 +1,6 @@
 # Aleron Action Engine Generalization Contract
 
-**Status:** operational contract for turning the current action-map prototype into a reusable engine that an independent agent can test without knowing the expected answer.
+**Status:** target implementation contract and prototype graduation specification. The production canonical Action Engine runner is currently unavailable. This document defines the boundary to reach before the prototype can become an operational engine.
 
 **Purpose:** remove patient-specific judgment from the dashboard and force the result to emerge from typed inputs, reusable libraries, deterministic scoring, scored AI-generated candidates, and a final reducer that only consumes the assembled action-map state.
 

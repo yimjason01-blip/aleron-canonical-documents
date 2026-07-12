@@ -21,6 +21,8 @@ nav button.on{background:var(--fg);color:var(--bg);font-weight:700;}
 nav button .base{display:block;font-size:9.5px;font-weight:400;letter-spacing:.04em;color:var(--faint);margin-top:2px;}
 nav button.on .base{color:var(--bg);opacity:.7;}
 .hint{margin-left:auto;font-size:10.5px;color:var(--faint);white-space:nowrap;}
+.truth{flex:none;border-bottom:1px solid var(--line);padding:8px 16px;background:var(--shade);font-size:11.5px;line-height:1.45;color:var(--muted);}
+.truth strong{color:var(--fg);}
 main{flex:1;position:relative;min-height:0;}
 iframe{position:absolute;inset:0;width:100%;height:100%;border:0;background:var(--bg);}
 iframe[hidden]{display:none;}
@@ -32,6 +34,7 @@ iframe[hidden]{display:none;}
   <nav id="tabs"></nav>
   <div class="hint">← → to flip · each model keeps its own state</div>
 </header>
+<div class="truth"><strong>Interactive model prototypes, not the production analytical runtime.</strong> These pages demonstrate published equations, manually supplied anchors, specification arithmetic, and illustrative data. Current canonical Risk and Vitality runners are unavailable. Missing output must not be interpreted as low risk.</div>
 <main id="stage"></main>
 <script>
 const MODELS=[
@@ -39,7 +42,7 @@ const MODELS=[
   {id:'metabolic', label:'Metabolic',      base:'QDiabetes',   file:'aleron-metabolic.html'},
   {id:'ckd',       label:'Kidney',         base:'CKD-PC / KFRE',file:'aleron-ckd.html'},
   {id:'neuro',     label:'Neurodegenerative',base:'CogDrisk-ML',file:'aleron-neuro.html'},
-  {id:'cancer',    label:'Cancer',         base:'Sporadic burden',file:'aleron-cancer.html'},
+  {id:'cancer',    label:'Cancer',         base:'Illustrative sensitivity sketch',file:'aleron-cancer.html'},
   {id:'vitality',  label:'Vitality',       base:'Outcomes + context',file:'aleron-vitality-physician-outcomes.html', title:'Vitality model'},
 ];
 const tabs=document.getElementById('tabs');

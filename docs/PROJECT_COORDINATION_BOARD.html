@@ -3,119 +3,467 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>Aleron MD — Milestone M1</title>
+  <title>Aleron MD Project Coordination Board</title>
   <style>
     :root {
-      --bg: #ffffff;
-      --fg: #1a1a1a;
-      --muted: #666666;
-      --line: #cccccc;
-      --th-bg: #f5f5f5;
-      --code-bg: #f0f0f0;
+      --paper: #f7f2ea;
+      --paper-2: #efe7da;
+      --ink: #241f1a;
+      --muted: #6f675e;
+      --line: #d8cdbd;
+      --card: #fffaf2;
+      --accent: #76614a;
+      --good: #2f6f4e;
+      --warn: #9a6b1f;
+      --risk: #9b3f35;
+      --blue: #3f5f7c;
+      --shadow: 0 18px 45px rgba(36, 31, 26, 0.08);
     }
-    @media (prefers-color-scheme: dark) {
-      :root {
-        --bg: #15171c;
-        --fg: #e8eaef;
-        --muted: #9aa0ab;
-        --line: #3a3f48;
-        --th-bg: #22262e;
-        --code-bg: #2a2f38;
-      }
+
+    * { box-sizing: border-box; }
+
+    body {
+      margin: 0;
+      background: radial-gradient(circle at top left, #fffaf2 0, var(--paper) 42%, #ede3d4 100%);
+      color: var(--ink);
+      font-family: Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      line-height: 1.45;
     }
-    html, body { background: var(--bg); }
-    body { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, Arial, sans-serif; max-width: 820px; margin: 0 auto; padding: 32px 20px 64px; line-height: 1.5; color: var(--fg); }
-    h1 { font-size: 26px; }
-    h2 { font-size: 19px; margin-top: 32px; border-bottom: 1px solid var(--line); padding-bottom: 4px; }
-    h3 { font-size: 15px; margin-top: 22px; }
-    code { background: var(--code-bg); padding: 1px 5px; border-radius: 4px; font-size: 0.92em; }
-    table { border-collapse: collapse; width: 100%; margin-top: 8px; }
-    th, td { border: 1px solid var(--line); padding: 8px 10px; text-align: left; vertical-align: top; font-size: 14px; }
-    th { background: var(--th-bg); }
-    ol, ul { padding-left: 22px; }
-    li { margin: 4px 0; }
-    .meta { color: var(--muted); font-size: 13px; }
+
+    main {
+      width: min(1180px, calc(100% - 32px));
+      margin: 0 auto;
+      padding: 40px 0 56px;
+    }
+
+    header {
+      display: grid;
+      gap: 18px;
+      margin-bottom: 28px;
+    }
+
+    h1, h2, h3, p { margin: 0; }
+
+    h1 {
+      max-width: 860px;
+      font-family: Georgia, "Times New Roman", serif;
+      font-size: clamp(34px, 5vw, 64px);
+      letter-spacing: -0.045em;
+      line-height: 0.95;
+    }
+
+    .lede {
+      max-width: 850px;
+      color: var(--muted);
+      font-size: 18px;
+    }
+
+    .meta-row {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+      margin-top: 4px;
+    }
+
+    .chip {
+      border: 1px solid var(--line);
+      background: rgba(255, 250, 242, 0.72);
+      border-radius: 12px;
+      color: var(--muted);
+      padding: 7px 10px;
+      font-size: 13px;
+    }
+
+    .chip strong { color: var(--ink); }
+
+    .grid {
+      display: grid;
+      grid-template-columns: repeat(12, 1fr);
+      gap: 16px;
+    }
+
+    .panel {
+      background: rgba(255, 250, 242, 0.86);
+      border: 1px solid var(--line);
+      border-radius: 24px;
+      box-shadow: var(--shadow);
+      padding: 20px;
+    }
+
+    .span-12 { grid-column: span 12; }
+    .span-8 { grid-column: span 8; }
+    .span-6 { grid-column: span 6; }
+    .span-4 { grid-column: span 4; }
+
+    .section-title {
+      display: flex;
+      align-items: baseline;
+      justify-content: space-between;
+      gap: 12px;
+      margin-bottom: 14px;
+    }
+
+    h2 {
+      font-family: Georgia, "Times New Roman", serif;
+      font-size: 26px;
+      letter-spacing: -0.025em;
+    }
+
+    .small {
+      color: var(--muted);
+      font-size: 13px;
+    }
+
+    .north-star {
+      display: grid;
+      grid-template-columns: 1fr;
+      gap: 12px;
+    }
+
+    .spine {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+      align-items: center;
+      margin-top: 4px;
+    }
+
+    .node {
+      background: var(--ink);
+      color: #fffaf2;
+      border-radius: 14px;
+      padding: 9px 11px;
+      font-size: 13px;
+      white-space: nowrap;
+    }
+
+    .arrow { color: var(--muted); }
+
+    .board {
+      display: grid;
+      grid-template-columns: repeat(4, minmax(0, 1fr));
+      gap: 14px;
+    }
+
+    .lane {
+      background: rgba(239, 231, 218, 0.55);
+      border: 1px solid var(--line);
+      border-radius: 18px;
+      padding: 12px;
+      min-height: 240px;
+    }
+
+    .lane h3 {
+      font-size: 14px;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      color: var(--muted);
+      margin-bottom: 10px;
+    }
+
+    .card {
+      background: var(--card);
+      border: 1px solid var(--line);
+      border-radius: 16px;
+      padding: 13px;
+      margin-bottom: 10px;
+    }
+
+    .card strong {
+      display: block;
+      font-size: 15px;
+      margin-bottom: 6px;
+    }
+
+    .card p {
+      color: var(--muted);
+      font-size: 13px;
+    }
+
+    .tag-row {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 6px;
+      margin-top: 10px;
+    }
+
+    .tag {
+      border-radius: 999px;
+      border: 1px solid var(--line);
+      padding: 4px 7px;
+      font-size: 11px;
+      color: var(--muted);
+      background: rgba(255, 255, 255, 0.42);
+    }
+
+    .status-good { border-left: 4px solid var(--good); }
+    .status-warn { border-left: 4px solid var(--warn); }
+    .status-risk { border-left: 4px solid var(--risk); }
+    .status-blue { border-left: 4px solid var(--blue); }
+
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      overflow: hidden;
+      border-radius: 18px;
+      border: 1px solid var(--line);
+    }
+
+    th, td {
+      text-align: left;
+      vertical-align: top;
+      padding: 12px;
+      border-bottom: 1px solid var(--line);
+      font-size: 14px;
+    }
+
+    th {
+      background: var(--paper-2);
+      color: var(--muted);
+      font-size: 12px;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+    }
+
+    tr:last-child td { border-bottom: 0; }
+
+    a { color: var(--accent); text-decoration-thickness: 1px; text-underline-offset: 3px; }
+
+    ul, ol { margin: 0; padding-left: 20px; color: var(--muted); }
+    li + li { margin-top: 6px; }
+
+    code {
+      background: #efe4d3;
+      border: 1px solid #d8cdbd;
+      border-radius: 7px;
+      padding: 1px 5px;
+      font-size: 0.93em;
+    }
+
+    .checklist {
+      display: grid;
+      gap: 10px;
+    }
+
+    .check {
+      display: grid;
+      grid-template-columns: 18px 1fr;
+      gap: 10px;
+      color: var(--muted);
+      font-size: 14px;
+    }
+
+    .box {
+      width: 16px;
+      height: 16px;
+      border: 1px solid var(--line);
+      border-radius: 4px;
+      margin-top: 2px;
+      background: var(--card);
+    }
+
+    .done .box {
+      background: var(--good);
+      border-color: var(--good);
+      box-shadow: inset 0 0 0 3px var(--card);
+    }
+
+    .footer-note {
+      color: var(--muted);
+      font-size: 13px;
+      margin-top: 18px;
+    }
+
+    @media (max-width: 920px) {
+      .span-8, .span-6, .span-4 { grid-column: span 12; }
+      .board { grid-template-columns: 1fr; }
+      main { width: min(100% - 22px, 1180px); padding-top: 28px; }
+    }
   </style>
 </head>
 <body>
-  <h1>Aleron MD — Milestone M1</h1>
-  <p class="meta">Updated: 2026-07-10 · Scope: staging only (<code>rbdxzlzkxyprertdmpga</code>) · NONCLINICAL</p>
+  <main>
+    <header>
+      <div class="meta-row">
+        <span class="chip"><strong>Canonical coordination page</strong></span>
+        <span class="chip">Updated: 2026-07-10</span>
+        <span class="chip">Scope: patient app, backend, physician workflow</span>
+      </div>
+      <h1>Aleron MD project coordination board</h1>
+      <p class="lede">A simple shared board for agents and humans to keep the production patient to physician workflow aligned. Update this file when priorities, owners, or acceptance criteria change.</p>
+    </header>
 
-  <p>This page defines M1 and nothing else. Prior board content (north star, lanes, decision log)
-  is retired. M1 is "done" only when the acceptance test below passes end to end, observed from
-  deployed staging.</p>
+    <section class="grid">
+      <article class="panel span-12 north-star">
+        <div class="section-title">
+          <h2>North star</h2>
+          <span class="small">Use this to reject prototype-only work.</span>
+        </div>
+        <p>A patient creates an account, completes onboarding, submits a validated packet, a physician reviews and releases a patient-safe package, and the patient app renders only released content.</p>
+        <div class="spine" aria-label="Production workflow spine">
+          <span class="node">Account</span><span class="arrow">→</span>
+          <span class="node">Onboarding</span><span class="arrow">→</span>
+          <span class="node">patient_packet.v1</span><span class="arrow">→</span>
+          <span class="node">Backend workflow</span><span class="arrow">→</span>
+          <span class="node">Physician review</span><span class="arrow">→</span>
+          <span class="node">Release package</span><span class="arrow">→</span>
+          <span class="node">Patient Home</span>
+        </div>
+      </article>
 
-  <h2>Goal</h2>
-  <p>A Jason Yim account <strong>created by a human in the staging mobile app</strong> produces one
-  continuous, ID-linked case:</p>
-  <p><code>mobile onboarding → backend ingest → synthetic lab/genetic enrichment → model runs →
-  action candidates → real AI-drafted care-plan notes → physician review/release → mobile
-  readback</code></p>
-  <p>Verified as a single lineage. No fixtures, no bearer token, no fabricated inputs.</p>
+      <article class="panel span-8">
+        <div class="section-title">
+          <h2>Current board</h2>
+          <span class="small">Move cards only when verified.</span>
+        </div>
+        <div class="board">
+          <div class="lane">
+            <h3>Implemented</h3>
+            <div class="card status-good">
+              <strong>Production strategy doc</strong>
+              <p>Agent alignment strategy exists and defines the staging spine.</p>
+              <div class="tag-row"><span class="tag">docs</span><span class="tag">alignment</span></div>
+            </div>
+            <div class="card status-good">
+              <strong>No silent fixture fallback guard</strong>
+              <p>Staging and production app modes block when backend config is missing.</p>
+              <div class="tag-row"><span class="tag">iOS</span><span class="tag">verified build</span></div>
+            </div>
+            <div class="card status-good">
+              <strong>Backend workflow groundwork</strong>
+              <p>Local backend tests cover durable tables, opaque sessions, packet submission, idempotent work item creation, and release visibility boundaries.</p>
+              <div class="tag-row"><span class="tag">backend</span><span class="tag">local contract tests</span></div>
+            </div>
+            <div class="card status-good">
+              <strong>Session restoration and route resume</strong>
+              <p>App stores the bearer session in Keychain, calls <code>/me</code> on launch, fetches backend onboarding state, and selects the next route. Saved onboarding answers are not yet rehydrated into the in-memory draft, so this is not a lossless onboarding resume.</p>
+              <div class="tag-row"><span class="tag">iOS</span><span class="tag">implemented</span><span class="tag">rehydration gap</span></div>
+            </div>
+            <div class="card status-good">
+              <strong>Packet submission state machine</strong>
+              <p>Final onboarding step now exposes not-started, submitting, submitted, and failed states. Failed submission stays on the send screen with retry copy.</p>
+              <div class="tag-row"><span class="tag">workflow</span><span class="tag">mobile</span><span class="tag">local tests</span></div>
+            </div>
+            <div class="card status-good">
+              <strong>Backend-derived waiting and Home</strong>
+              <p>Completed onboarding routes to Waiting until release. Waiting and Home now render packet receipt, review status, logistics, message count, action count, and release availability from backend-safe projections.</p>
+              <div class="tag-row"><span class="tag">patient Home</span><span class="tag">backend truth</span><span class="tag">local tests</span></div>
+            </div>
+            <div class="card status-good">
+              <strong>Postgres migration parity guard</strong>
+              <p>Postgres workflow migration now declares every table used by the durable local backend, including invites and artifacts, with a regression test.</p>
+              <div class="tag-row"><span class="tag">infra</span><span class="tag">migration</span><span class="tag">regression test</span></div>
+            </div>
+            <div class="card status-good">
+              <strong>Supabase migration scaffold</strong>
+              <p>Supabase project is linked, the Postgres workflow migration is applied, all 16 workflow tables are visible through REST, and the staging API now runs as the <code>patient-api</code> Supabase Edge Function.</p>
+              <div class="tag-row"><span class="tag">Supabase</span><span class="tag">migration applied</span><span class="tag">edge function live</span></div>
+            </div>
+          </div>
 
-  <h2>Data contract (immutable for M1)</h2>
-  <table>
-    <thead><tr><th>Source</th><th>Provides</th></tr></thead>
-    <tbody>
-      <tr><td>Mobile onboarding</td><td>Identity, demographics, history, symptoms, family history, consents, preferences</td></tr>
-      <tr><td>HealthKit</td><td>Actual device data when connected</td></tr>
-      <tr><td>Backend synthetic enrichment</td><td><strong>Labs and genetics only</strong></td></tr>
-      <tr><td>Nothing</td><td>No synthetic vitals or wearables. Missing stays missing. No representative fixture packet.</td></tr>
-    </tbody>
-  </table>
+          <div class="lane">
+            <h3>Verified staging</h3>
+            <div class="card status-good">
+              <strong>Synthetic staging vertical slice verified</strong>
+              <p>The unmerged <code>agent/full-e2e-supabase</code> branch passed mobile client account creation, Swift <code>patient_packet.v1</code> production with synthetic labs and genetics, canonical analysis, physician review and release, patient-safe retrieval, native iOS rendering, lineage checks, and patient-scoped cleanup.</p>
+              <p><code>source_ref: agent/full-e2e-supabase@de470947+dirty</code><br><code>environment: synthetic_e2e_staging/rbdxzlzkxyprertdmpga</code><br><code>verified_at: 2026-07-10T15:41:13Z</code><br><code>evidence: artifacts/e2e/20260710T154043Z-mobile-account-staging/report.json</code></p>
+              <div class="tag-row"><span class="tag">staging only</span><span class="tag">synthetic nonclinical</span><span class="tag">unmerged</span><span class="tag">not a TestFlight traversal</span></div>
+            </div>
+          </div>
 
-  <h2>Acceptance test — the only definition of done</h2>
-  <ol>
-    <li>A human creates a Jason Yim account in the staging mobile app (Apple sign-in).</li>
-    <li>That account submits onboarding plus available HealthKit data.</li>
-    <li>Backend attaches synthetic labs and genetics keyed to that exact patient ID.</li>
-    <li>Models run: sufficient inputs compute; insufficient inputs return explicit
-        <code>missing_required_inputs</code> with named blockers. No representative anchors.</li>
-    <li>Action library emits provenance-linked candidates.</li>
-    <li>A real LLM (Claude subagent, orchestrator-triggered for M1) drafts the care-plan notes from
-        the assembled payload, recording model version, prompt version, inputs, output, citations,
-        and safety checks, written back to the real case in staging. Unattended backend-invoked
-        synthesis is deferred to M2.</li>
-    <li>The case appears in the deployed tokenless staging dashboard (no login form, no bearer token).</li>
-    <li>Physician reviews, signs, and releases.</li>
-    <li>The same mobile account renders the released plan.</li>
-    <li>One audit query shows an unbroken chain of IDs and packet hashes across all prior stages.</li>
-  </ol>
+          <div class="lane">
+            <h3>Planned</h3>
+            <div class="card status-warn">
+              <strong>Close staging security blockers</strong>
+              <p>Add authenticated synthetic bootstrap proof, transactional account creation, finite synthetic session lifetime, prior-session revocation, exact deployment binding, pre-write packet admission, physician release guards, recursive patient projection, and complete identity cleanup.</p>
+              <div class="tag-row"><span class="tag">security</span><span class="tag">fail closed</span><span class="tag">required before enablement</span></div>
+            </div>
+          </div>
 
-  <h2>Backlog — why M1 is not yet done</h2>
-  <ol>
-    <li><strong>Backend synthetic-enrichment seam.</strong> Attach synthetic labs and genetics to the
-        real mobile packet by patient ID. Does not exist as a product path today.</li>
-    <li><strong>Real AI synthesis step.</strong> Care-plan notes are currently hard-coded templates in
-        TypeScript. Replace with a real LLM call plus recorded provenance.</li>
-    <li><strong>Publish and verify the tokenless dashboard</strong> against the deployed backend.
-        Backend is deployed; the revised frontend is not yet published.</li>
-  </ol>
+          <div class="lane">
+            <h3>Blocked or risk</h3>
+            <div class="card status-risk">
+              <strong>Integration is not merged</strong>
+              <p>The verified vertical slice exists in an isolated worktree with uncommitted changes. It must not be described as the current <code>main</code> implementation until review, regression verification, commit, and explicit merge approval.</p>
+              <div class="tag-row"><span class="tag">branch state</span><span class="tag">review required</span></div>
+            </div>
+            <div class="card status-risk">
+              <strong>Production acceptance path has not passed</strong>
+              <p>The successful run used synthetic identities and data in the dedicated staging project. Real Apple or email enrollment, TestFlight distribution, production legal signature evidence, validated clinical models, and production operations remain unverified.</p>
+              <div class="tag-row"><span class="tag">not production-ready</span><span class="tag">clinical validation absent</span></div>
+            </div>
+          </div>
+        </div>
+      </article>
 
-  <h2>Out of scope for M1</h2>
-  <ul>
-    <li>Production project. Staging only.</li>
-    <li>Multi-patient or queue-at-scale behavior.</li>
-    <li>Real (non-synthetic) labs or genetics.</li>
-    <li>Clinical validity of any model output. Everything remains NONCLINICAL.</li>
-    <li>Payments, logistics, and messaging beyond what the release package already carries.</li>
-  </ul>
+      <aside class="panel span-4">
+        <div class="section-title">
+          <h2>Decision log</h2>
+          <span class="small">Do not reopen silently.</span>
+        </div>
+        <table>
+          <thead><tr><th>Decision</th><th>Status</th></tr></thead>
+          <tbody>
+            <tr><td>Google SSO</td><td>Eliminated. Do not reintroduce.</td></tr>
+            <tr><td>Auth paths</td><td>Apple Sign In and email for members. A separate synthetic route is permitted only for explicit nonclinical E2E testing in the exact staging project and is currently disabled pending security hardening.</td></tr>
+            <tr><td>Staging fixture fallback</td><td>Forbidden.</td></tr>
+            <tr><td>Token storage</td><td>Backend stores hashes only. Client stores bearer session in Keychain.</td></tr>
+            <tr><td>Release boundary</td><td>Patient sees only released clinical package and safe status projections.</td></tr>
+            <tr><td>Staging backend</td><td>Supabase Edge Function <code>patient-api</code>; no Render, Railway, or Fly service for now.</td></tr>
+          </tbody>
+        </table>
+      </aside>
 
-  <h2>Locked decisions</h2>
-  <table>
-    <thead><tr><th>Decision</th><th>Status</th></tr></thead>
-    <tbody>
-      <tr><td>AI drafting bar</td><td>Real LLM via Claude subagent, orchestrator-triggered, full provenance, written back to the real case. Not templates. Unattended backend API synthesis deferred to M2.</td></tr>
-      <tr><td>Dashboard access</td><td>Tokenless, origin-gated, staging only. No login form.</td></tr>
-      <tr><td>Case source</td><td>Real mobile onboarding only. No fixture or representative packet.</td></tr>
-      <tr><td>Synthetic data</td><td>Labs and genetics only. Never vitals, wearables, or onboarding.</td></tr>
-      <tr><td>Auth paths</td><td>Apple Sign In and email only. Google SSO eliminated.</td></tr>
-      <tr><td>Readiness claim</td><td>"Ready" is asserted only after the 10-step acceptance test passes from deployed staging.</td></tr>
-    </tbody>
-  </table>
+      <article class="panel span-6">
+        <div class="section-title">
+          <h2>Agent checklist</h2>
+          <span class="small">Use before editing.</span>
+        </div>
+        <div class="checklist">
+          <div class="check done"><span class="box"></span><span>Read <code>docs/PRODUCTION_PATIENT_PHYSICIAN_STRATEGY.md</code> before changing patient, backend, or physician workflow.</span></div>
+          <div class="check"><span class="box"></span><span>Keep diffs narrow. Do not refactor unrelated surfaces.</span></div>
+          <div class="check"><span class="box"></span><span>Use real backend state for staging and production behavior. Fixtures belong only in demo or explicitly configured local mode.</span></div>
+          <div class="check"><span class="box"></span><span>Add or update tests when touching auth, packet submission, idempotency, persistence, or release visibility.</span></div>
+          <div class="check"><span class="box"></span><span>Report verification with actual command output, not intent.</span></div>
+        </div>
+      </article>
 
-  <p class="meta" style="margin-top:40px;">Maintenance rule: this page is the M1 source of truth.
-  Do not claim M1 complete without command-level evidence that all ten acceptance steps passed
-  against deployed staging.</p>
+      <article class="panel span-6">
+        <div class="section-title">
+          <h2>Canonical references</h2>
+          <span class="small">Start here.</span>
+        </div>
+        <ul>
+          <li><a href="./PRODUCTION_PATIENT_PHYSICIAN_STRATEGY.md">Production patient to physician strategy</a></li>
+          <li><a href="./engineering/API_CONTRACT_V1.md">API contract v1</a></li>
+          <li><a href="./product/STATE_MACHINE_V1.md">State machine v1</a></li>
+          <li><a href="./product/ROLE_AND_RELEASE_MATRIX_V1.md">Role and release matrix v1</a></li>
+          <li><a href="../patient-app/onboarding.v3.html">Canonical patient onboarding prototype</a></li>
+          <li><a href="../product-design-system/index.html">Product design system</a></li>
+        </ul>
+      </article>
+
+      <article class="panel span-12">
+        <div class="section-title">
+          <h2>Production acceptance path</h2>
+          <span class="small">Production readiness remains red until this exact path passes.</span>
+        </div>
+        <ol>
+          <li>Install TestFlight staging build with real API base.</li>
+          <li>Create account with Apple or email.</li>
+          <li>Backend creates account, auth identity, session, and patient.</li>
+          <li>Complete onboarding with HealthKit allowed or denied.</li>
+          <li>Backend stores onboarding steps and validates <code>patient_packet.v1</code>.</li>
+          <li>Packet submission creates an idempotent physician work item.</li>
+          <li>Physician sees queue item, starts review, creates preview, signs, and releases.</li>
+          <li>Patient app polls backend and renders only <code>release_package.v1</code>.</li>
+          <li>Backend restart does not lose state.</li>
+          <li>Audit log reconstructs account, packet, review, release, and patient visibility events.</li>
+        </ol>
+      </article>
+    </section>
+
+    <p class="footer-note">Maintenance rule: if this page disagrees with the production strategy, update both in the same change or state which one is authoritative. Do not treat this board as proof of production readiness without passing the acceptance path.</p>
+  </main>
 </body>
 </html>

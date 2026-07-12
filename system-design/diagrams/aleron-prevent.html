@@ -111,6 +111,7 @@ svg{display:block;width:100%;height:auto;}
 <div class="lede">
   <h1>The Aleron CVD risk model</h1>
   <div class="h">PREVENT base &middot; five phenotype modifiers &middot; 10- &amp; 30-year risk</div>
+  <p><b>Executable browser prototype.</b> The PREVENT base is recomputed locally from published coefficients. This page is not connected to <code>patient_packet.v1</code> or the canonical analysis service. The Aleron modifier overlay is exploratory and unvalidated, and must not be used as a production risk estimate.</p>
   <p><b>Two layers, kept distinct.</b> <b>Layer 1</b> is AHA PREVENT (2023), a validated equation for 10- and 30-year <b>total CVD</b> (atherosclerotic events plus heart failure) and <b>ASCVD</b> from age, sex, cholesterol, blood pressure, diabetes, smoking, BMI, kidney function (eGFR), and treatment. It dropped the race term of the old Pooled Cohort Equations, and every number here is computed live from its published coefficients (validated against the AHA calculator). <b>Layer 2</b> adds the five Aleron phenotype modifiers PREVENT does not capture: lipoprotein(a), ApoB/LDL-C discordance, hs-CRP, HOMA-IR, and cardiorespiratory fitness, applied as a transparent multiplicative overlay on the base. The 10-year total-CVD number is the calibrated anchor; the 30-year is directional. Build a patient under Layer 1, then layer the modifiers on top. Illustrative use; not medical advice.</p>
 </div>
 
