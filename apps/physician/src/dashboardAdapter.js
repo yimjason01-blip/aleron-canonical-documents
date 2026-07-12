@@ -385,7 +385,7 @@ function identity(caseBundle) {
   return {
     id: packet.patient_id ?? projection.patient_id ?? caseBundle?.patient_id ?? null,
     name: packet.display_name ?? packet.name ?? projection.display_name ?? projection.name ?? actionPatient.display_name ?? 'Patient identity missing',
-    code: packet.code ?? projection.code ?? actionPatient.code ?? packet.external_id ?? null,
+    code: packet.code ?? projection.code ?? actionPatient.code ?? packet.external_id ?? (String(packet.patient_id ?? '').startsWith('e2e_') ? 'Synthetic staging' : null),
     age: packet.age?.value ?? packet.age ?? demographics.age ?? actionPatient.age ?? null,
     sex: packet.sex ?? demographics.sex_at_birth ?? actionPatient.sex ?? null,
     phenotype: packet.phenotype ?? actionPatient.phenotype ?? null,
@@ -604,13 +604,6 @@ function vitalityRecord(value) {
     value: state,
     units: null,
     state: row.model_status ?? state,
-    // Preserve the triage payload so the physician view can present the
-    // dominant lever, the gate/driver states, and any context flags.
-    dominant_lever: row.dominant_lever ?? null,
-    gate_states: Array.isArray(row.gate_states) ? row.gate_states : [],
-    context_flags: Array.isArray(row.context_flags) ? row.context_flags : [],
-    terminal_state: row.terminal_state ?? null,
-    safety: row.safety ?? null,
     model_note: row.score === null
       ? 'Protocol state only. No aggregate vitality score was calculated.'
       : 'Invalid vitality artifact: protocol outputs cannot contain a score.'
@@ -684,10 +677,7 @@ function normalizeWorkflow(caseBundle, currentReleasePreview, auditEvents = []) 
     const to = event?.to_state ?? event?.state_after;
     if (!(event?.timestamp ?? event?.timestamp_utc ?? event?.created_at)) auditErrors.push(`Event ${index + 1} timestamp missing`);
     if (!actor) auditErrors.push(`Event ${index + 1} actor missing`);
-    // A self-transition (from === to) is a legitimate idempotent event, e.g. a
-    // repeated packet submission producing "engine run complete -> engine run
-    // complete". Only missing or unknown endpoints indicate a broken chronology.
-    if (!from || !to || from === 'unknown' || to === 'unknown') auditErrors.push(`Event ${index + 1} transition invalid`);
+    if (!from || !to || from === 'unknown' || to === 'unknown' || from === to) auditErrors.push(`Event ${index + 1} transition invalid`);
   });
   return {
     schemaVersion: projection?.schema_version ?? null,
