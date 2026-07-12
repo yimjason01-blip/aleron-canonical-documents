@@ -3,7 +3,6 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
-<meta name="color-scheme" content="light">
 <title>Aleron MD · Onboarding</title>
 <meta name="description" content="Aleron MD patient onboarding. Day register. Spec v1.0.">
 <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -23,7 +22,6 @@
 /*  TOKENS · inherited from product-design-system/index.html v0.3     */
 /* ================================================================ */
 :root {
-  color-scheme: light;
   --paper: #FAF7F2;
   --ink: #1D1B18;
   --cream: #F5F1E8;
@@ -1609,7 +1607,7 @@ button { font-family: var(--voice); }
   margin-top: 20px;
   padding: 18px 20px;
   border: 1px solid var(--hairline, rgba(0,0,0,0.08));
-  border-radius: 0;
+  border-radius: 12px;
   background: var(--surface-quiet, rgba(0,0,0,0.02));
 }
 .sync-card.show { display: block; }
@@ -1660,9 +1658,9 @@ button { font-family: var(--voice); }
   transition: background 0.15s, border-color 0.15s, color 0.15s;
 }
 .scale-dot.selected {
-  background: var(--ink);
-  border-color: var(--ink);
-  color: var(--cream);
+  background: var(--text-gold);
+  border-color: var(--text-gold);
+  color: #fff;
 }
 .scale-ends {
   display: flex; justify-content: space-between;
@@ -1769,7 +1767,7 @@ button { font-family: var(--voice); }
   margin-bottom: 8px;
   background: var(--paper, #FAF7F2);
   border: 1px solid rgba(29,27,24,0.18);
-  border-radius: var(--radius-tier2);
+  border-radius: 0;
   cursor: pointer;
   font: inherit;
   color: inherit;
@@ -1793,7 +1791,7 @@ button { font-family: var(--voice); }
 
 .vitality-tile {
   border: 1px solid rgba(29,27,24,0.18);
-  border-radius: var(--radius-tier2);
+  border-radius: 0;
   padding: 16px;
   margin-top: 18px;
 }
@@ -2295,15 +2293,6 @@ select.fld-input {
 @media (prefers-reduced-motion: reduce) {
   * { transition: none !important; animation: none !important; }
 }
-.crisis-callout {
-  margin-top: 12px;
-  padding: 12px;
-  border: 1px solid var(--signal-hazard);
-  color: var(--signal-hazard);
-  font-family: var(--voice);
-  font-size: 13.5px;
-  line-height: 1.5;
-}
 </style>
 </head>
 <body class="mode-prototype">
@@ -2365,23 +2354,29 @@ select.fld-input {
         <div class="claim-lockup">
           <div class="app-icon-tile" data-icon data-scale="1.15" data-fade="1" style="width:56px;height:56px;margin:0 0 14px" role="img" aria-label="Aleron MD app"></div>
           <h1 class="h-screen">Create your account.</h1>
-          <p class="claim-note">Enter your email to begin. Your physician builds your record from here.</p>
+          <p class="claim-note">Sign in to begin. Your physician builds your record from here.</p>
         </div>
         <div class="auth-stack">
-          <div id="emailAuthForm">
+          <button class="sso-btn sso-apple" onclick="ssoAuth('apple')">
+            <svg class="sso-glyph" viewBox="0 0 16 16" aria-hidden="true"><path fill="currentColor" d="M11.05 8.5c-.02-1.6 1.3-2.37 1.36-2.4-.74-1.08-1.9-1.23-2.31-1.25-.98-.1-1.92.58-2.42.58-.5 0-1.27-.57-2.09-.55-1.07.02-2.06.62-2.61 1.58-1.11 1.93-.28 4.78.8 6.34.53.76 1.16 1.62 1.98 1.59.8-.03 1.1-.51 2.06-.51.96 0 1.23.51 2.07.5.86-.02 1.4-.78 1.92-1.55.61-.89.86-1.75.87-1.8-.02-.01-1.67-.64-1.7-2.56zM9.5 3.85c.44-.53.73-1.27.65-2.01-.63.03-1.39.42-1.84.95-.4.47-.76 1.22-.66 1.94.7.05 1.42-.36 1.85-.88z"/></svg>
+            <span>Continue with Apple</span>
+          </button>
+          <button class="sso-btn sso-google" onclick="ssoAuth('google')">
+            <svg class="sso-glyph" viewBox="0 0 18 18" aria-hidden="true"><path fill="#4285F4" d="M17.6 9.2c0-.64-.06-1.25-.16-1.84H9v3.48h4.84a4.14 4.14 0 0 1-1.8 2.72v2.26h2.92c1.7-1.57 2.68-3.88 2.68-6.62z"/><path fill="#34A853" d="M9 18c2.43 0 4.47-.8 5.96-2.18l-2.92-2.26c-.8.54-1.84.86-3.04.86-2.34 0-4.32-1.58-5.03-3.7H.94v2.33A9 9 0 0 0 9 18z"/><path fill="#FBBC05" d="M3.97 10.72a5.4 5.4 0 0 1 0-3.44V4.95H.94a9 9 0 0 0 0 8.1l3.03-2.33z"/><path fill="#EA4335" d="M9 3.58c1.32 0 2.5.45 3.44 1.35l2.58-2.58A9 9 0 0 0 .94 4.95l3.03 2.33C4.68 5.16 6.66 3.58 9 3.58z"/></svg>
+            <span>Continue with Google</span>
+          </button>
+          <div class="auth-divider"><span>or</span></div>
+          <div id="emailAuthCollapsed">
+            <button class="sso-btn sso-email" onclick="revealEmailAuth()">
+              <span>Continue with email</span>
+            </button>
+          </div>
+          <div id="emailAuthForm" style="display:none">
             <div class="fld">
               <label class="fld-label" for="authEmail">Email</label>
               <input class="fld-input" id="authEmail" type="email" autocomplete="email" placeholder="you@example.com" oninput="checkEmailAuthReady()">
             </div>
-            <button class="btn btn--primary" id="emailAuthCta" disabled onclick="requestEmailCode()">Send verification code</button>
-            <div id="otpAuthForm" style="display:none">
-              <div class="fld" style="margin-top:12px">
-                <label class="fld-label" for="authOtp">Verification code</label>
-                <input class="fld-input" id="authOtp" type="text" inputmode="numeric" autocomplete="one-time-code" maxlength="6" placeholder="6-digit code" oninput="checkOtpReady()">
-              </div>
-              <p class="claim-note" id="authMessage">Check your email for a 6-digit code.</p>
-              <button class="btn btn--primary" id="otpAuthCta" disabled onclick="verifyEmailCode()">Create account</button>
-            </div>
+            <button class="btn btn--primary" id="emailAuthCta" disabled onclick="ssoAuth('email')">Continue</button>
           </div>
         </div>
       </div>
@@ -2626,9 +2621,9 @@ select.fld-input {
             <span class="wave-bar" style="animation-delay:0ms"></span><span class="wave-bar" style="animation-delay:120ms"></span><span class="wave-bar" style="animation-delay:240ms"></span><span class="wave-bar" style="animation-delay:60ms"></span><span class="wave-bar" style="animation-delay:300ms"></span><span class="wave-bar" style="animation-delay:180ms"></span><span class="wave-bar" style="animation-delay:90ms"></span>
           </div>
           <div class="mic-timer" id="micTimer">00:00</div>
-          <div class="mic-state-label" id="micLabel">Tap to speak</div>
-          <div class="recorder-note" id="recorderNote">Speak your answer, or type it instead.</div>
-          <button class="btn btn--tertiary" id="typeInstead" onclick="typeInstead()" style="width:auto">I'd rather type</button>
+          <div class="mic-state-label" id="micLabel">Record and transcribe</div>
+          <div class="recorder-note" id="recorderNote">Your voice becomes an editable transcript for physician review.</div>
+          <button class="btn btn--tertiary" id="typeInstead" onclick="typeInstead()" style="width:auto">I would rather type</button>
         </div>
 
         <textarea class="type-area" id="typeArea" placeholder="Take your time. Anything you have noticed counts." rows="4" oninput="syncTypedTranscript()"></textarea>
@@ -2681,8 +2676,13 @@ select.fld-input {
           <div class="accuracy-note">Capillary samples are slightly less precise than a venous draw for some markers. Your physician will note this when reviewing your results.</div>
           <div class="path-detail" id="tassoDetail">
             <div class="address-box">
-              <div class="address-name">Ships to</div>
+              <div class="address-name">Shipping address for kit</div>
+              <p class="framing" style="margin:8px 0 0">A kit cannot be mailed without a complete address. Matches the shipping TestFlight app.</p>
               <div class="fld" style="margin-top:10px">
+                <label class="fld-label" for="shipName">Full name</label>
+                <input class="fld-input" id="shipName" type="text" autocomplete="name" placeholder="Full name" oninput="syncShip()" onclick="event.stopPropagation()">
+              </div>
+              <div class="fld">
                 <label class="fld-label" for="shipStreet">Street address</label>
                 <input class="fld-input" id="shipStreet" type="text" autocomplete="street-address" placeholder="Street, apt or unit" oninput="syncShip()" onclick="event.stopPropagation()">
               </div>
@@ -2714,22 +2714,24 @@ select.fld-input {
           <p class="path-body">A standard venous draw at a Quest location near you. Venous is the clinical standard.</p>
           <div class="path-timing">Results ≈ 5 to 7 days from draw</div>
           <div class="path-detail" id="questDetail">
-            <div class="psc-zip-row" style="margin-top:6px">
-              <div class="fld">
-                <label class="fld-label" for="pscZip">Your ZIP code</label>
-                <input class="fld-input" id="pscZip" type="text" inputmode="numeric" autocomplete="postal-code" maxlength="10" placeholder="ZIP" oninput="onPscZip()" onclick="event.stopPropagation()">
+            <div class="address-box" style="margin-top:6px">
+              <div class="address-name">Quest draw preference</div>
+              <p class="framing" style="margin:8px 0 0">Current release captures draw preference for fulfillment. Live Quest booking is not active yet.</p>
+              <div class="fld" style="margin-top:10px">
+                <label class="fld-label" for="questCityZip">City or ZIP</label>
+                <input class="fld-input" id="questCityZip" type="text" autocomplete="postal-code" placeholder="City or ZIP" oninput="syncQuestPref()" onclick="event.stopPropagation()">
               </div>
-              <button class="btn psc-find" id="pscFindBtn" disabled onclick="findPscLocations(event)">Find locations</button>
-            </div>
-            <div id="pscLocations"></div>
-            <div id="pscSlots"></div>
-            <div class="booked-box" id="pscBooked">
-              <div class="booked-title">Appointment booked</div>
-              <div class="booked-meta" id="pscBookedMeta"></div>
-              <div class="booked-note">A confirmation will be sent to your email. Bring a photo ID.</div>
-              <div class="psc-appt-actions">
-                <button class="psc-link" onclick="reschedulePsc(event)">Reschedule</button>
-                <button class="psc-link" onclick="cancelPsc(event)">Cancel</button>
+              <div class="fld">
+                <label class="fld-label" for="questLocationName">Preferred Quest location name</label>
+                <input class="fld-input" id="questLocationName" type="text" placeholder="Preferred location" oninput="syncQuestPref()" onclick="event.stopPropagation()">
+              </div>
+              <div class="fld">
+                <label class="fld-label" for="questWindow">Preferred window</label>
+                <select class="fld-input" id="questWindow" onchange="syncQuestPref()" onclick="event.stopPropagation()">
+                  <option value="first_available">First available</option>
+                  <option value="morning">Morning</option>
+                  <option value="afternoon">Afternoon</option>
+                </select>
               </div>
             </div>
           </div>
@@ -2747,17 +2749,16 @@ select.fld-input {
       <div class="scroll">
         <h1 class="h-screen">Connect a wearable.</h1>
         <p class="lede">If you wear an Apple Watch or fitness tracker, connecting it gives your physician a much richer picture than labs alone. This step is optional. You can connect a device later from settings.</p>
-        <div class="conn-state show" id="connState"><span class="conn-dot"></span>Apple Health · not connected</div>
-        <p class="framing" id="wearableError" role="alert" style="display:none;color:var(--signal-hazard);margin-top:12px"></p>
+        <div class="conn-state" id="connState"><span class="conn-dot"></span>Choose how you want to handle Apple Health</div>
         <div class="sync-card" id="syncCard">
-          <div class="sync-headline" id="syncHeadline"></div>
+          <div class="sync-headline" id="syncHeadline"><strong>Apple Health is connected.</strong> Readings appear as your phone syncs them, usually within an hour.</div>
           <div class="sync-meta" id="syncMeta"></div>
           <div class="sync-rows" id="syncRows"></div>
         </div>
         <p class="framing" style="margin-top:22px">Have an Oura, Garmin, or Whoop? You can connect those from settings after setup.</p>
       </div>
       <div class="cta-bar">
-        <button class="btn btn--primary" id="healthKitBtn" onclick="openPermSheet()">Connect Apple Health</button>
+        <button class="btn btn--primary" id="healthKitBtn" onclick="openPermSheet()">Connect and sync Apple Health</button>
         <button class="btn btn--tertiary" id="wearableSkip" onclick="skipWearable()">Skip for now</button>
       </div>
     </section>
@@ -2883,9 +2884,10 @@ select.fld-input {
         <li>Heart rate variability <span class="unit-tag">ms</span></li>
         <li>Sleep analysis <span class="unit-tag">Stages</span></li>
         <li>Activity and steps <span class="unit-tag">Count · VO2 max est</span></li>
+        <li>Blood oxygen <span class="unit-tag">If available</span></li>
       </ul>
       <button class="perm-allow" onclick="allowHealthKit()">Allow</button>
-      <button class="perm-deny" onclick="denyHealthKit()">Don't allow</button>
+      <button class="perm-deny" onclick="closePermSheet()">Don't allow</button>
     </div>
   </div>
 
@@ -2920,7 +2922,7 @@ select.fld-input {
 /* ================================================================ */
 var state = {
   screen: window.ALERON_RENDER_MODE === 'runtime' ? 1 : -1,
-  auth: null,            // verified email OTP authentication result
+  auth: null,            // authentication result (apple|google|email)
   identity: null,        // account_signup.v1 (set on createAccount)
   consents: {},          // key -> { version, stamp }
   genetics: { pref: 'A', acks: {}, version: 'V1.0', decision: null, stamp: null, order: null },
@@ -2931,12 +2933,10 @@ var state = {
   symptoms: { transcript: null, probes: 0, done: false },
   labPath: null,         // 'tasso' | 'quest'
   labOrder: null,        // lab_order.v1 — blood panel, placed on lab-path confirm
-  ship: { street: '', city: '', state: '', zip: '' },
-  quest: { zip: '', locationIdx: null, location: null, date: null, dateLabel: null, slot: null, status: null, stamp: null },
-  wearable: 'not_selected', // not_selected | connect_apple_health | skip_for_now
-  wearableSync: null,    // saved Apple Health snapshot; values and series persist on cold restore
-  wearableOutcome: null,
-  wearableError: null,
+  ship: { name: '', street: '', city: '', state: '', zip: '' },
+  quest: { cityOrZip: '', locationName: '', preferredWindow: 'first_available', status: null, stamp: null },
+  wearable: null,        // 'connected' | 'skipped'
+  wearableSync: null,    // { source, rows_synced, by_metric, synced_at, latest } — Junction-normalized sync
   call: null             // slot string | 'skipped'
 };
 
@@ -3012,7 +3012,7 @@ function freshState() {
     intake: {},   /* A2 structured-intake sections; each: { started, done, declined, data } */
     labPath: null, labOrder: null, ship: { street: '', city: '', state: '', zip: '' },
     quest: { zip: '', locationIdx: null, location: null, date: null, dateLabel: null, slot: null, status: null, stamp: null },
-    wearable: 'not_selected', wearableSync: null, wearableOutcome: null, wearableError: null, call: null
+    wearable: null, wearableSync: null, call: null
   };
 }
 
@@ -3084,13 +3084,10 @@ function renderAccounts() {
 /* Return every screen's DOM to its blank first-visit condition. */
 function resetSurfaces() {
   /* Auth + details */
-  document.getElementById('emailAuthForm').style.display = 'block';
-  document.getElementById('otpAuthForm').style.display = 'none';
+  document.getElementById('emailAuthForm').style.display = 'none';
+  document.getElementById('emailAuthCollapsed').style.display = '';
   document.getElementById('authEmail').value = '';
-  document.getElementById('authOtp').value = '';
   document.getElementById('emailAuthCta').disabled = true;
-  document.getElementById('emailAuthCta').textContent = 'Send verification code';
-  document.getElementById('otpAuthCta').disabled = true;
   var strip = document.getElementById('authConfirm');
   strip.innerHTML = '';
   strip.classList.remove('show');
@@ -3118,26 +3115,24 @@ function resetSurfaces() {
   document.getElementById('pathQuest').classList.remove('selected');
   document.getElementById('tassoDetail').classList.remove('show');
   document.getElementById('questDetail').classList.remove('show');
-  ['shipStreet', 'shipCity', 'shipZip'].forEach(function (id) { document.getElementById(id).value = ''; });
+  ['shipName', 'shipStreet', 'shipCity', 'shipZip', 'questCityZip', 'questLocationName'].forEach(function (id) {
+    var el = document.getElementById(id);
+    if (el) el.value = '';
+  });
   document.getElementById('shipState').selectedIndex = 0;
-  document.getElementById('pscZip').value = '';
-  document.getElementById('pscFindBtn').disabled = true;
-  document.getElementById('pscLocations').innerHTML = '';
-  document.getElementById('pscSlots').innerHTML = '';
-  document.getElementById('pscBooked').classList.remove('show');
+  var questWindow = document.getElementById('questWindow');
+  if (questWindow) questWindow.value = 'first_available';
   var labCta = document.getElementById('labCta');
   labCta.disabled = true;
   labCta.textContent = 'Confirm home kit';
   /* Wearable */
   var conn = document.getElementById('connState');
-  conn.innerHTML = '<span class="conn-dot"></span>Apple Health · not connected';
-  conn.classList.add('show');
+  conn.innerHTML = '<span class="conn-dot"></span>Choose how you want to handle Apple Health';
+  conn.classList.remove('show');
   var syncMeta = document.getElementById('syncMeta');
   if (syncMeta) syncMeta.textContent = '';
-  var wearableError = document.getElementById('wearableError');
-  if (wearableError) { wearableError.textContent = ''; wearableError.style.display = 'none'; }
   var hk = document.getElementById('healthKitBtn');
-  hk.textContent = 'Connect Apple Health';
+  hk.textContent = 'Connect and sync Apple Health';
   hk.onclick = openPermSheet;
   document.getElementById('wearableSkip').style.display = '';
   /* Intro call */
@@ -3159,8 +3154,10 @@ function rehydrate() {
     });
   }
   if (state.auth) {
+    var label = { apple: 'Apple', google: 'Google', email: 'email' }[state.auth.method];
     var strip = document.getElementById('authConfirm');
-    strip.innerHTML = 'Email verified · ' + escapeHtml(state.auth.email);
+    strip.innerHTML = 'Signed in with <b>' + label + '</b> · ' + escapeHtml(state.auth.email) +
+      (state.auth.email_verified ? ' · verified' : '');
     strip.classList.add('show');
   }
   /* Consents */
@@ -3205,7 +3202,17 @@ function rehydrate() {
   renderShip();
   if (state.labPath) selectPath(state.labPath);
   /* Wearable */
-  renderWearableState();
+  if (state.wearable === 'connected') {
+    var conn = document.getElementById('connState');
+    conn.innerHTML = '<span class="conn-dot" style="background:var(--text-gold)"></span>Apple Health · connected';
+    conn.classList.add('show');
+    if (!state.wearableSync) state.wearableSync = simulateWearableSync();
+    paintWearableSync();
+    var hk = document.getElementById('healthKitBtn');
+    hk.textContent = 'Continue';
+    hk.onclick = goNext;
+    document.getElementById('wearableSkip').style.display = 'none';
+  }
   /* Intro call */
   if (state.call && state.call !== 'skipped') {
     document.querySelectorAll('.slot').forEach(function (s) {
@@ -3285,47 +3292,61 @@ function checkSignupReady() {
   return ok;
 }
 
-/* ---- Authentication (email OTP claim) --------------------------- */
-function validEmail(value) {
-  return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(cleanText(value));
+/* ---- Authentication (simulated SSO / email) --------------------- */
+var SSO_SAMPLE = {
+  apple:  { email: 'user@privaterelay.appleid.com', first: 'Alex', last: 'Rivera' },
+  google: { email: 'user@gmail.com', first: 'Alex', last: 'Rivera' }
+};
+
+function revealEmailAuth() {
+  document.getElementById('emailAuthCollapsed').style.display = 'none';
+  document.getElementById('emailAuthForm').style.display = 'block';
+  document.getElementById('authEmail').focus();
 }
+
 function checkEmailAuthReady() {
   var v = cleanText(document.getElementById('authEmail').value);
-  document.getElementById('emailAuthCta').disabled = !validEmail(v);
+  document.getElementById('emailAuthCta').disabled = !(v && v.indexOf('@') !== -1);
 }
-function requestEmailCode() {
-  var email = cleanText(document.getElementById('authEmail').value);
-  if (!validEmail(email)) return;
-  document.getElementById('otpAuthForm').style.display = 'block';
-  document.getElementById('emailAuthCta').textContent = 'Resend code';
-  document.getElementById('authMessage').textContent = 'Check your email for a 6-digit code.';
-  document.getElementById('authOtp').focus();
-}
-function checkOtpReady() {
-  var otp = cleanText(document.getElementById('authOtp').value).replace(/\D/g, '').slice(0, 6);
-  document.getElementById('authOtp').value = otp;
-  document.getElementById('otpAuthCta').disabled = otp.length !== 6;
-}
-function verifyEmailCode() {
-  var email = cleanText(document.getElementById('authEmail').value);
-  var otp = cleanText(document.getElementById('authOtp').value);
-  if (!validEmail(email) || !/^\d{6}$/.test(otp)) return;
+
+function ssoAuth(method) {
+  var email, first = '', last = '', verified, prefilled = [];
+  if (method === 'email') {
+    email = cleanText(document.getElementById('authEmail').value);
+    if (!email || email.indexOf('@') === -1) return;
+    verified = false;              // email link would verify later
+    prefilled = ['email'];
+  } else {
+    var sample = SSO_SAMPLE[method];
+    email = sample.email; first = sample.first; last = sample.last;
+    verified = true;               // IdP returns a verified email
+    prefilled = ['email', 'first_name', 'last_name'];
+  }
   state.auth = {
-    method: 'email_otp',
-    provider_subject: 'email|' + email.toLowerCase(),
+    method: method,
+    provider_subject: method + '|' + Math.random().toString(36).slice(2, 12),
     email: email,
-    email_verified: true,
-    prefilled: ['email'],
+    email_verified: verified,
+    prefilled: prefilled,
     authed_at: new Date().toISOString().replace(/\.\d{3}Z$/, 'Z')
   };
   applyAuthPrefill();
   goNext();
 }
+
+/* Prefill the confirm-details screen from what the IdP supplied. */
 function applyAuthPrefill() {
   if (!state.auth) return;
+  var a = state.auth;
+  if (a.prefilled.indexOf('first_name') !== -1 && SSO_SAMPLE[a.method]) {
+    document.getElementById('suFirst').value = SSO_SAMPLE[a.method].first;
+    document.getElementById('suLast').value = SSO_SAMPLE[a.method].last;
+  }
+  var label = { apple: 'Apple', google: 'Google', email: 'email' }[a.method];
   var strip = document.getElementById('authConfirm');
   if (strip) {
-    strip.innerHTML = 'Email verified · ' + escapeHtml(state.auth.email);
+    strip.innerHTML = 'Signed in with <b>' + label + '</b> \u00b7 ' + escapeHtml(a.email) +
+      (a.email_verified ? ' \u00b7 verified' : '');
     strip.classList.add('show');
   }
   checkSignupReady();
@@ -4313,8 +4334,8 @@ function resetRecorder() {
   labelResults = [];
   document.getElementById('micStage').style.display = 'flex';
   document.getElementById('micBtn').classList.remove('recording', 'processing', 'error');
-  document.getElementById('micLabel').textContent = 'Tap to speak';
-  document.getElementById('recorderNote').textContent = 'Speak your answer, or type it instead.';
+  document.getElementById('micLabel').textContent = 'Record and transcribe';
+  document.getElementById('recorderNote').textContent = 'Your voice becomes an editable transcript for physician review.';
   document.getElementById('micWave').classList.remove('show');
   document.getElementById('micTimer').classList.remove('show');
   document.getElementById('typeInstead').style.display = 'block';
@@ -4483,27 +4504,33 @@ function prettyStamp(iso) {
 /*  SCREEN 6 · LAB PATH                                              */
 /* ================================================================ */
 function shipState() {
-  if (!state.ship) state.ship = { street: '', city: '', state: '', zip: '' };
+  if (!state.ship) state.ship = { name: '', street: '', city: '', state: '', zip: '' };
+  if (state.ship.name === undefined) state.ship.name = '';
   return state.ship;
 }
 
 function shipReady() {
   var s = shipState();
-  return !!(cleanText(s.street) && cleanText(s.city) && s.state && /^\d{5}(-\d{4})?$/.test(cleanText(s.zip)));
+  return !!(cleanText(s.name) && cleanText(s.street) && cleanText(s.city) && s.state && /^\d{5}(-\d{4})?$/.test(cleanText(s.zip)));
 }
 
 /* Write state.ship into the fields; prefill state from signup once. */
 function renderShip() {
   var s = shipState();
   if (!s.state && state.identity && state.identity.state) s.state = state.identity.state;
-  document.getElementById('shipStreet').value = s.street;
-  document.getElementById('shipCity').value = s.city;
-  document.getElementById('shipState').value = s.state;
-  document.getElementById('shipZip').value = s.zip;
+  if (!s.name && state.identity && state.identity.display_name) s.name = state.identity.display_name;
+  var nameEl = document.getElementById('shipName');
+  if (nameEl) nameEl.value = s.name || '';
+  document.getElementById('shipStreet').value = s.street || '';
+  document.getElementById('shipCity').value = s.city || '';
+  document.getElementById('shipState').value = s.state || '';
+  document.getElementById('shipZip').value = s.zip || '';
 }
 
 function syncShip() {
   var s = shipState();
+  var nameEl = document.getElementById('shipName');
+  if (nameEl) s.name = nameEl.value;
   s.street = document.getElementById('shipStreet').value;
   s.city = document.getElementById('shipCity').value;
   s.state = document.getElementById('shipState').value;
@@ -4527,30 +4554,26 @@ function selectPath(which) {
   persistAccount();
 }
 
-/* Lab CTA branches by path. Tasso confirms and advances once the address
-   is valid. Quest books first (enabled once a slot is chosen), then the
-   same button becomes Continue. */
+/* Lab CTA matches the shipping TestFlight app: Tasso requires a complete
+   shipping address; Quest requires draw-preference capture (not live booking). */
 function refreshLabCta() {
   var cta = document.getElementById('labCta');
   if (state.labPath === 'tasso') {
     cta.textContent = 'Confirm home kit';
     cta.disabled = !shipReady();
   } else if (state.labPath === 'quest') {
-    var q = questState();
-    if (q.status === 'scheduled') {
-      cta.textContent = 'Continue';
-      cta.disabled = false;
-    } else {
-      cta.textContent = 'Book a Quest appointment';
-      cta.disabled = !q.slot;
-    }
+    cta.textContent = 'Confirm Quest preference';
+    cta.disabled = !questReady();
   }
 }
 
 function labPrimary() {
-  if (state.labPath === 'quest' && questState().status !== 'scheduled') {
-    bookPsc();
-    return;
+  if (state.labPath === 'tasso' && !shipReady()) return;
+  if (state.labPath === 'quest') {
+    if (!questReady()) return;
+    var q = questState();
+    q.status = 'preference_captured';
+    q.stamp = new Date().toISOString().replace(/\.\d{3}Z$/, 'Z');
   }
   /* Confirming the lab path places the blood-panel order (separate from
      any genetics order). Idempotent so re-entering the screen from Home
@@ -4562,216 +4585,54 @@ function labPrimary() {
   goNext();
 }
 
-/* ---- Quest / Junction PSC scheduling ---------------------------------
-   Mirrors the Junction PSC API shape: availability by zip + radius returns
-   nearby patient service centers, each with 14 days of slots; booking
-   confirms an appointment that can be rescheduled or cancelled. Data here
-   is simulated; endpoints map 1:1 for the iOS build. */
 function questState() {
-  if (!state.quest) state.quest = { zip: '', locationIdx: null, location: null, date: null, dateLabel: null, slot: null, status: null, stamp: null };
+  if (!state.quest) state.quest = { cityOrZip: '', locationName: '', preferredWindow: 'first_available', status: null, stamp: null };
+  if (state.quest.cityOrZip === undefined) state.quest.cityOrZip = state.quest.zip || '';
+  if (state.quest.locationName === undefined) state.quest.locationName = '';
+  if (state.quest.preferredWindow === undefined) state.quest.preferredWindow = 'first_available';
   return state.quest;
 }
 
-/* Deterministic PSC list so a given zip always returns the same centers
-   (keeps reschedule stable). Stand-in for the availability API response. */
-var QUEST_CENTERS = [
-  { name: 'Quest Diagnostics · Laurel Village', addr: '3838 California St, Suite 110', dist: '1.4 mi' },
-  { name: 'Quest Diagnostics · Financial District', addr: '490 Post St, Suite 542', dist: '2.9 mi' },
-  { name: 'Quest Diagnostics · Daly City', addr: '901 Campus Dr, Suite 106', dist: '8.2 mi' }
-];
-var PSC_TIME_POOL = ['7:15 AM', '8:00 AM', '8:45 AM', '9:30 AM', '10:15 AM', '11:00 AM', '1:30 PM', '2:15 PM', '3:00 PM', '3:45 PM'];
-
-function onPscZip() {
-  var v = cleanText(document.getElementById('pscZip').value);
-  questState().zip = v;
-  document.getElementById('pscFindBtn').disabled = !/^\d{5}(-\d{4})?$/.test(v);
+function questReady() {
+  var q = questState();
+  return !!(cleanText(q.cityOrZip) && cleanText(q.locationName) && cleanText(q.preferredWindow));
 }
 
-function findPscLocations(ev) {
-  if (ev) ev.stopPropagation();
+function syncQuestPref() {
   var q = questState();
-  if (!/^\d{5}(-\d{4})?$/.test(cleanText(q.zip))) return;
-  renderPscLocations();
+  var cityEl = document.getElementById('questCityZip');
+  var locEl = document.getElementById('questLocationName');
+  var winEl = document.getElementById('questWindow');
+  if (cityEl) q.cityOrZip = cityEl.value;
+  if (locEl) q.locationName = locEl.value;
+  if (winEl) q.preferredWindow = winEl.value;
+  if (state.labPath === 'quest') document.getElementById('labCta').disabled = !questReady();
   persistAccount();
 }
 
-function renderPscLocations() {
-  var wrap = document.getElementById('pscLocations');
-  var q = questState();
-  wrap.innerHTML = '<div class="psc-section-label">Patient service centers near ' + escapeHtml(q.zip) + '</div>' +
-    QUEST_CENTERS.map(function (c, i) {
-      return '<div class="quest-loc' + (q.locationIdx === i ? ' selected' : '') + '" onclick="selectPscLocation(event,' + i + ')">' +
-        '<div class="quest-loc-body"><div class="quest-loc-name">' + c.name + '</div>' +
-        '<div class="quest-loc-addr">' + c.addr + '</div></div>' +
-        '<div class="quest-loc-dist">' + c.dist + '</div></div>';
-    }).join('');
-}
-
-function selectPscLocation(ev, idx) {
-  if (ev) ev.stopPropagation();
-  var q = questState();
-  q.locationIdx = idx;
-  q.location = QUEST_CENTERS[idx];
-  if (q.status === 'scheduled') { q.status = null; q.stamp = null; }
-  renderPscLocations();
-  renderPscSlots();
-  refreshLabCta();
-  persistAccount();
-}
-
-/* 14 days of availability from today, Sundays closed (PSC pattern). */
-function pscAvailability() {
-  var days = [];
-  var d = new Date();
-  d.setHours(0, 0, 0, 0);
-  while (days.length < 14) {
-    if (d.getDay() !== 0) {
-      days.push({
-        iso: d.getFullYear() + '-' + String(d.getMonth() + 1).padStart(2, '0') + '-' + String(d.getDate()).padStart(2, '0'),
-        dow: ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'][d.getDay()],
-        dnum: d.getDate(),
-        label: ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'][d.getDay()] + ' ' +
-               ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'][d.getMonth()] + ' ' + d.getDate()
-      });
-    }
-    d.setDate(d.getDate() + 1);
-  }
-  return days;
-}
-
-/* Deterministic per-day slot subset (Saturdays are shorter). */
-function pscSlotsForDay(iso, index) {
-  if (iso.slice(-2) && new Date(iso + 'T00:00:00').getDay() === 6) return PSC_TIME_POOL.slice(0, 4);
-  var start = index % 3;
-  return PSC_TIME_POOL.filter(function (_, i) { return (i + start) % 4 !== 0; });
-}
-
-function renderPscSlots() {
-  var wrap = document.getElementById('pscSlots');
-  var q = questState();
-  if (q.locationIdx === null) { wrap.innerHTML = ''; return; }
-  var days = pscAvailability();
-  if (!q.date || !days.some(function (d) { return d.iso === q.date; })) {
-    q.date = days[0].iso;
-    q.dateLabel = days[0].label;
-  }
-  var dateStrip = '<div class="psc-section-label">Choose a date</div><div class="psc-dates">' +
-    days.map(function (d, i) {
-      return '<button class="psc-date' + (q.date === d.iso ? ' selected' : '') + '" onclick="selectPscDate(event,\'' + d.iso + '\',\'' + d.label + '\',' + i + ')">' +
-        '<div class="psc-dow">' + d.dow + '</div><div class="psc-dnum">' + d.dnum + '</div></button>';
-    }).join('') + '</div>';
-  var dayIndex = days.map(function (d) { return d.iso; }).indexOf(q.date);
-  var times = pscSlotsForDay(q.date, dayIndex < 0 ? 0 : dayIndex);
-  var timeGrid = '<div class="psc-section-label">Available times</div><div class="slot-grid">' +
-    times.map(function (t) {
-      return '<button class="slot' + (q.slot === t ? ' selected' : '') + '" onclick="selectPscSlot(event,\'' + t + '\')">' + t + '</button>';
-    }).join('') + '</div>';
-  wrap.innerHTML = dateStrip + timeGrid;
-}
-
-function selectPscDate(ev, iso, label, idx) {
-  if (ev) ev.stopPropagation();
-  var q = questState();
-  q.date = iso;
-  q.dateLabel = label;
-  q.slot = null;
-  renderPscSlots();
-  refreshLabCta();
-  persistAccount();
-}
-
-function selectPscSlot(ev, time) {
-  if (ev) ev.stopPropagation();
-  questState().slot = time;
-  document.querySelectorAll('#pscSlots .slot').forEach(function (el) {
-    el.classList.toggle('selected', el.textContent === time);
-  });
-  refreshLabCta();
-  persistAccount();
-}
-
-function bookPsc() {
-  var q = questState();
-  if (!q.location || !q.date || !q.slot) return;
-  q.status = 'scheduled';
-  q.stamp = new Date().toISOString().replace(/\.\d{3}Z$/, 'Z');
-  renderQuest();
-  refreshLabCta();
-  persistAccount();
-}
-
-function reschedulePsc(ev) {
-  if (ev) ev.stopPropagation();
-  var q = questState();
-  q.status = null;
-  q.stamp = null;
-  q.slot = null;
-  renderQuest();
-  refreshLabCta();
-  persistAccount();
-}
-
-function cancelPsc(ev) {
-  if (ev) ev.stopPropagation();
-  var q = questState();
-  q.status = null;
-  q.stamp = null;
-  q.slot = null;
-  q.date = null;
-  q.dateLabel = null;
-  renderQuest();
-  refreshLabCta();
-  persistAccount();
-}
-
-/* Render the Quest sub-surface to match current state (used on entry and
-   after booking / reschedule / cancel). */
+/* Render Quest preference fields to match current shipping app release. */
 function renderQuest() {
   var q = questState();
-  if (!q.zip && state.ship && state.ship.zip) q.zip = state.ship.zip;
-  else if (!q.zip && state.identity && state.identity.zip) q.zip = state.identity.zip;
-  document.getElementById('pscZip').value = q.zip || '';
-  document.getElementById('pscFindBtn').disabled = !/^\d{5}(-\d{4})?$/.test(cleanText(q.zip || ''));
-  var booked = q.status === 'scheduled';
-  document.getElementById('pscBooked').classList.toggle('show', booked);
-  if (booked) {
-    document.getElementById('pscBookedMeta').innerHTML =
-      escapeHtml(q.location.name) + '<br>' + q.dateLabel + ' · ' + q.slot;
-    document.getElementById('pscLocations').innerHTML = '';
-    document.getElementById('pscSlots').innerHTML = '';
-  } else {
-    if (q.locationIdx !== null) { renderPscLocations(); renderPscSlots(); }
-    else { document.getElementById('pscLocations').innerHTML = ''; document.getElementById('pscSlots').innerHTML = ''; }
-  }
+  if (!q.cityOrZip && state.ship && state.ship.zip) q.cityOrZip = state.ship.zip;
+  else if (!q.cityOrZip && state.identity && state.identity.zip) q.cityOrZip = state.identity.zip;
+  var cityEl = document.getElementById('questCityZip');
+  var locEl = document.getElementById('questLocationName');
+  var winEl = document.getElementById('questWindow');
+  if (cityEl) cityEl.value = q.cityOrZip || '';
+  if (locEl) locEl.value = q.locationName || '';
+  if (winEl) winEl.value = q.preferredWindow || 'first_available';
 }
 
 /* ================================================================ */
-/*  SCREEN 8 · WEARABLE                                             */
+/*  SCREEN 7 · WEARABLE                                              */
 /* ================================================================ */
-function openPermSheet() {
-  state.wearable = 'connect_apple_health';
-  state.wearableSync = null;
-  state.wearableOutcome = 'pending';
-  state.wearableError = null;
-  persistAccount();
-  renderWearableState('Opening Apple Health...');
-  document.getElementById('permOverlay').classList.add('show');
-}
+function openPermSheet() { document.getElementById('permOverlay').classList.add('show'); }
+
 function closePermSheet() { document.getElementById('permOverlay').classList.remove('show'); }
-function denyHealthKit() {
-  closePermSheet();
-  state.wearable = 'connect_apple_health';
-  state.wearableSync = null;
-  state.wearableOutcome = 'denied';
-  state.wearableError = 'Apple Health access was not granted. You can try again or continue without it.';
-  persistAccount();
-  renderWearableState();
+
+function wearableSyncedAt(sync) {
+  return sync && (sync.synced_at || sync.stamp || sync.connected_at);
 }
-function wearableHasValues(sync) {
-  if (!sync || !sync.latest) return false;
-  return Object.keys(sync.latest).some(function (key) { return sync.latest[key] != null; });
-}
-function wearableSyncedAt(sync) { return sync && sync.synced_at; }
 function formatSyncRecency(iso) {
   if (!iso) return 'Waiting for first sync';
   var then = new Date(iso).getTime();
@@ -4781,37 +4642,42 @@ function formatSyncRecency(iso) {
   if (mins < 60) return mins + ' min ago';
   var hrs = Math.round(mins / 60);
   if (hrs < 24) return hrs + 'h ago';
-  return Math.round(hrs / 24) + 'd ago';
+  var days = Math.round(hrs / 24);
+  return days + 'd ago';
 }
-function prototypeAppleHealthSnapshot() {
+
+/* Simulated Junction sync: POST /wearables/connections/apple/sync -> rows_synced.
+   The per-metric breakdown maps to the permission-sheet categories the member
+   just authorized. Numbers are illustrative 30-day pulls; the real integration
+   (Junction API) swaps this stub for the live connections/sync call. */
+function simulateWearableSync() {
+  var byMetric = [
+    { label: 'Heart rate',             rows: 41210 },
+    { label: 'Heart rate variability', rows: 612 },
+    { label: 'Sleep analysis',         rows: 214 },
+    { label: 'Activity and steps',     rows: 8930 },
+    { label: 'Blood oxygen',           rows: 388 }
+  ];
+  var total = byMetric.reduce(function (n, m) { return n + m.rows; }, 0);
   var syncedAt = new Date().toISOString().replace(/\.\d{3}Z$/, 'Z');
   return {
-    source: 'apple_health_prototype_fixture', synthetic: true,
-    synced_at: syncedAt, has_values: true, history_days: 30,
+    source: 'apple_health',
+    rows_synced: total,
+    by_metric: byMetric,
+    /* Representative latest readings surfaced as live Home tiles. Carried
+       in the packet under measurements.wearables.sync.latest so the engine
+       sees the same glanceable values the member does. Units explicit. */
     latest: {
-      heart_rate_bpm: 72, resting_heart_rate_bpm: 58, sleep_hours: 7.2,
-      steps: 6432, hrv_ms: 48, vo2max_ml_kg_min: 42.1
+      resting_hr: { value: 58, unit: 'bpm' },
+      sleep_last_night: { value: '7:12', unit: 'h:mm' },
+      steps_today: { value: 6432, unit: 'count' }
     },
-    series: {
-      resting_hr: [{ local_date: syncedAt.slice(0, 10), value: 58 }],
-      sleep_duration: [{ local_date: syncedAt.slice(0, 10), value: 7.2 }],
-      steps: [{ local_date: syncedAt.slice(0, 10), value: 6432 }],
-      hrv_sdnn: [{ local_date: syncedAt.slice(0, 10), value: 48 }],
-      vo2max: [{ local_date: syncedAt.slice(0, 10), value: 42.1 }]
-    }
+    synced_at: syncedAt,
+    stamp: syncedAt
   };
 }
-function wearableMetricRows(sync) {
-  var latest = (sync && sync.latest) || {};
-  return [
-    ['Resting heart rate', latest.resting_heart_rate_bpm, 'bpm'],
-    ['Heart rate', latest.heart_rate_bpm, 'bpm'],
-    ['Sleep duration', latest.sleep_hours, 'h'],
-    ['Steps', latest.steps, 'count'],
-    ['HRV (SDNN)', latest.hrv_ms, 'ms'],
-    ['VO2 max', latest.vo2max_ml_kg_min, 'mL/kg/min']
-  ].filter(function (row) { return row[1] != null; });
-}
+
+/* Paint the sync-result card from state.wearableSync (idempotent; also used on resume). */
 function paintWearableSync() {
   var sync = state.wearableSync;
   var card = document.getElementById('syncCard');
@@ -4819,68 +4685,45 @@ function paintWearableSync() {
   var headline = document.getElementById('syncHeadline');
   var meta = document.getElementById('syncMeta');
   if (!card || !rows) return;
-  if (!wearableHasValues(sync)) {
-    card.classList.remove('show'); rows.innerHTML = ''; if (meta) meta.textContent = ''; return;
+  if (!sync) {
+    card.classList.remove('show');
+    rows.innerHTML = '';
+    if (meta) meta.textContent = '';
+    return;
   }
-  headline.innerHTML = '<strong>Apple Health synced.</strong> Values show recency, not complete wearable coverage.';
-  meta.textContent = 'Last sync · ' + formatSyncRecency(sync.synced_at);
-  rows.innerHTML = wearableMetricRows(sync).map(function (m) {
-    return '<div class="sync-row"><span class="sync-metric"><span class="conn-dot"></span>' + escapeHtml(m[0]) +
-      '</span><span class="sync-count">' + escapeHtml(String(m[1])) + ' ' + escapeHtml(m[2]) + '</span></div>';
+  var syncedAt = wearableSyncedAt(sync);
+  if (headline) {
+    headline.innerHTML = '<strong>Apple Health is connected.</strong> Readings appear as your phone syncs them, usually within an hour.';
+  }
+  if (meta) {
+    meta.textContent = syncedAt ? ('Last sync · ' + formatSyncRecency(syncedAt)) : 'Waiting for first sync · Open Health › Sharing to confirm what you are sharing';
+  }
+  rows.innerHTML = sync.by_metric.map(function (m) {
+    return '<div class="sync-row">' +
+             '<span class="sync-metric"><span class="conn-dot"></span>' + escapeHtml(m.label) + '</span>' +
+             '<span class="sync-count">' + m.rows.toLocaleString() + ' readings</span>' +
+           '</div>';
   }).join('');
   card.classList.add('show');
 }
-function renderWearableState(overrideMessage) {
-  var conn = document.getElementById('connState');
-  var error = document.getElementById('wearableError');
-  var btn = document.getElementById('healthKitBtn');
-  var skip = document.getElementById('wearableSkip');
-  var hasValues = wearableHasValues(state.wearableSync);
-  conn.classList.add('show');
-  error.style.display = state.wearableError ? 'block' : 'none';
-  error.textContent = state.wearableError || '';
-  if (state.wearable === 'skip_for_now') {
-    conn.innerHTML = '<span class="conn-dot"></span>Apple Health · skipped for now';
-    btn.textContent = 'Connect Apple Health'; btn.onclick = openPermSheet; skip.style.display = 'none';
-  } else if (state.wearable === 'connect_apple_health' && hasValues) {
-    conn.innerHTML = '<span class="conn-dot" style="background:var(--text-gold)"></span>Apple Health · readings received';
-    btn.textContent = 'Save and continue'; btn.onclick = goNext; skip.style.display = 'none';
-  } else if (state.wearable === 'connect_apple_health') {
-    var unresolvedLabel = state.wearableOutcome === 'denied'
-      ? 'Apple Health · setup not completed'
-      : state.wearableOutcome === 'no_data'
-        ? 'Apple Health · no readable data'
-        : 'Apple Health · waiting for permission';
-    conn.innerHTML = '<span class="conn-dot"></span>' + escapeHtml(overrideMessage || unresolvedLabel);
-    btn.textContent = state.wearableError ? 'Try Apple Health again' : 'Connect Apple Health';
-    btn.onclick = openPermSheet; skip.style.display = '';
-  } else {
-    conn.innerHTML = '<span class="conn-dot"></span>Apple Health · not connected';
-    btn.textContent = 'Connect Apple Health'; btn.onclick = openPermSheet; skip.style.display = '';
-  }
-  paintWearableSync();
-}
+
 function allowHealthKit() {
   closePermSheet();
-  state.wearable = 'connect_apple_health';
-  if (window.ALERON_HEALTHKIT_EMPTY === true) {
-    state.wearableSync = null;
-    state.wearableOutcome = 'no_data';
-    state.wearableError = 'No Apple Health readings were returned. Check Health access for Aleron and try again.';
-  } else {
-    state.wearableSync = prototypeAppleHealthSnapshot();
-    state.wearableOutcome = 'values';
-    state.wearableError = null;
-  }
+  state.wearable = 'connected';
+  state.wearableSync = simulateWearableSync();
+  var conn = document.getElementById('connState');
+  conn.innerHTML = '<span class="conn-dot" style="background:var(--text-gold)"></span>Apple Health · connected';
+  conn.classList.add('show');
+  paintWearableSync();
+  var btn = document.getElementById('healthKitBtn');
+  btn.textContent = 'Continue';
+  btn.onclick = goNext;
+  document.getElementById('wearableSkip').style.display = 'none';
   persistAccount();
-  renderWearableState();
 }
 function skipWearable() {
-  state.wearable = 'skip_for_now';
+  state.wearable = 'skipped';
   state.wearableSync = null;
-  state.wearableOutcome = 'skipped';
-  state.wearableError = null;
-  persistAccount();
   goNext();
 }
 
@@ -4923,24 +4766,10 @@ function skipCall() {
 /*    multi   · any number of choices                                 */
 /*    scale   · 0-N frequency/intensity (validated instrument scoring)*/
 /*    number  · free numeric with unit                                */
-/*  Clinical instruments: PHQ-2/9, GAD-2/7, AUDIT-C, STOP-BANG,     */
-/*  PEG-3, independent red flags, and CogDrisk-aligned factors.       */
+/*  Clinical instruments: PHQ-2 + GAD-2 (mood), a STOP-Bang-derived   */
+/*  OSA screen (sleep), CogDrisk-aligned factors (neuro). Section     */
 /*  keys match assembleIntakeStatus() exactly.                        */
 /* ================================================================ */
-var FREQUENCY_OPTIONS = [
-  { v: '0', label: 'Not at all' }, { v: '1', label: 'Several days' },
-  { v: '2', label: 'More than half the days' }, { v: '3', label: 'Nearly every day' }
-];
-var YES_NO_OPTIONS = [{ v: 'no', label: 'No' }, { v: 'yes', label: 'Yes' }];
-var AUDIT_FREQUENCY_OPTIONS = [
-  { v: '0', label: 'Never' }, { v: '1', label: 'Monthly or less' },
-  { v: '2', label: '2 to 4 times a month' }, { v: '3', label: '2 to 3 times a week' },
-  { v: '4', label: '4 or more times a week' }
-];
-var AUDIT_QUANTITY_OPTIONS = [
-  { v: '0', label: '1 or 2' }, { v: '1', label: '3 or 4' }, { v: '2', label: '5 or 6' },
-  { v: '3', label: '7 to 9' }, { v: '4', label: '10 or more' }
-];
 var INTAKE_SECTIONS = [
   {
     key: 'demographics_ext',
@@ -4980,15 +4809,14 @@ var INTAKE_SECTIONS = [
   },
   {
     key: 'lived_state',
-    title: 'How you feel now.',
-    intro: 'These answers are a baseline, not a score or diagnosis.',
-    required_for: 'vitality', required_answers: true,
+    title: 'Day-to-day function.',
+    intro: 'You shared the story in your own words. These simple scales make part of that story usable for your physician and vitality model.',
+    required_for: 'vitality',
     questions: [
-      { id: 'energy', type: 'scale', prompt: 'Energy', min: 0, max: 10, lowLabel: 'None', highLabel: 'Excellent' },
-      { id: 'mood_baseline', type: 'scale', prompt: 'Mood', min: 0, max: 10, lowLabel: 'Very low', highLabel: 'Excellent' },
-      { id: 'body_baseline', type: 'scale', prompt: 'Body comfort and capability', min: 0, max: 10, lowLabel: 'Very limited', highLabel: 'Excellent' },
-      { id: 'mind_baseline', type: 'scale', prompt: 'Mental clarity', min: 0, max: 10, lowLabel: 'Very poor', highLabel: 'Excellent' },
-      { id: 'meaning_baseline', type: 'scale', prompt: 'Meaning and purpose', min: 0, max: 10, lowLabel: 'None', highLabel: 'Very strong' }
+      { id: 'energy',    type: 'scale', prompt: 'Physical energy through the day', min: 0, max: 4, lowLabel: 'Depleted', highLabel: 'Abundant' },
+      { id: 'comfort',   type: 'scale', prompt: 'Physical comfort, free of aches or pain', min: 0, max: 4, lowLabel: 'Constant discomfort', highLabel: 'Fully at ease' },
+      { id: 'sharpness', type: 'scale', prompt: 'Mental sharpness and focus', min: 0, max: 4, lowLabel: 'Foggy', highLabel: 'Clear' },
+      { id: 'drive',     type: 'scale', prompt: 'Motivation and drive', min: 0, max: 4, lowLabel: 'Flat', highLabel: 'Motivated' }
     ]
   },
   {
@@ -5015,78 +4843,31 @@ var INTAKE_SECTIONS = [
   },
   {
     key: 'mood',
-    title: 'Mood and anxiety.',
-    intro: 'Over the last two weeks, how often have you been bothered by the following? Aleron calculates the screening totals for your physician.',
-    required_for: 'vitality', required_answers: true,
+    title: 'Mood and wellbeing.',
+    intro: 'Over the last two weeks, how often have you been bothered by the following? This is a brief physician screen. Scores are for physician review, not patient-facing labels.',
+    required_for: 'vitality',
     questions: [
-      { id: 'phq_1', type: 'single', prompt: 'Little interest or pleasure in doing things', options: FREQUENCY_OPTIONS },
-      { id: 'phq_2', type: 'single', prompt: 'Feeling down, depressed, or hopeless', options: FREQUENCY_OPTIONS },
-      { id: 'phq_3', type: 'single', prompt: 'Trouble falling or staying asleep, or sleeping too much', options: FREQUENCY_OPTIONS, show_when: { sum: ['phq_1','phq_2'], gte: 2 } },
-      { id: 'phq_4', type: 'single', prompt: 'Feeling tired or having little energy', options: FREQUENCY_OPTIONS, show_when: { sum: ['phq_1','phq_2'], gte: 2 } },
-      { id: 'phq_5', type: 'single', prompt: 'Poor appetite or overeating', options: FREQUENCY_OPTIONS, show_when: { sum: ['phq_1','phq_2'], gte: 2 } },
-      { id: 'phq_6', type: 'single', prompt: 'Feeling bad about yourself, or that you are a failure or have let yourself or your family down', options: FREQUENCY_OPTIONS, show_when: { sum: ['phq_1','phq_2'], gte: 2 } },
-      { id: 'phq_7', type: 'single', prompt: 'Trouble concentrating on things, such as reading or watching television', options: FREQUENCY_OPTIONS, show_when: { sum: ['phq_1','phq_2'], gte: 2 } },
-      { id: 'phq_8', type: 'single', prompt: 'Moving or speaking unusually slowly, or being unusually fidgety or restless', options: FREQUENCY_OPTIONS, show_when: { sum: ['phq_1','phq_2'], gte: 2 } },
-      { id: 'phq_9', type: 'single', prompt: 'Thoughts that you would be better off dead, or thoughts of hurting yourself in some way', options: FREQUENCY_OPTIONS, crisis_if_positive: true },
-      { id: 'gad_1', type: 'single', prompt: 'Feeling nervous, anxious, or on edge', options: FREQUENCY_OPTIONS },
-      { id: 'gad_2', type: 'single', prompt: 'Not being able to stop or control worrying', options: FREQUENCY_OPTIONS },
-      { id: 'gad_3', type: 'single', prompt: 'Worrying too much about different things', options: FREQUENCY_OPTIONS, show_when: { sum: ['gad_1','gad_2'], gte: 2 } },
-      { id: 'gad_4', type: 'single', prompt: 'Trouble relaxing', options: FREQUENCY_OPTIONS, show_when: { sum: ['gad_1','gad_2'], gte: 2 } },
-      { id: 'gad_5', type: 'single', prompt: 'Being so restless that it is hard to sit still', options: FREQUENCY_OPTIONS, show_when: { sum: ['gad_1','gad_2'], gte: 2 } },
-      { id: 'gad_6', type: 'single', prompt: 'Becoming easily annoyed or irritable', options: FREQUENCY_OPTIONS, show_when: { sum: ['gad_1','gad_2'], gte: 2 } },
-      { id: 'gad_7', type: 'single', prompt: 'Feeling afraid as if something awful might happen', options: FREQUENCY_OPTIONS, show_when: { sum: ['gad_1','gad_2'], gte: 2 } }
+      /* PHQ-2 */
+      { id: 'phq_interest', type: 'scale', prompt: 'Little interest or pleasure in doing things', min: 0, max: 3, lowLabel: 'Not at all', highLabel: 'Nearly every day' },
+      { id: 'phq_down',     type: 'scale', prompt: 'Feeling down, depressed, or hopeless', min: 0, max: 3, lowLabel: 'Not at all', highLabel: 'Nearly every day' },
+      /* GAD-2 */
+      { id: 'gad_nervous',  type: 'scale', prompt: 'Feeling nervous, anxious, or on edge', min: 0, max: 3, lowLabel: 'Not at all', highLabel: 'Nearly every day' },
+      { id: 'gad_worry',    type: 'scale', prompt: 'Not being able to stop or control worrying', min: 0, max: 3, lowLabel: 'Not at all', highLabel: 'Nearly every day' }
     ]
   },
   {
-    key: 'alcohol_use', title: 'Alcohol use.',
-    intro: 'Choose the answer that best describes the past year.',
-    required_for: 'vitality', required_answers: true,
+    key: 'sleep_osa',
+    title: 'Sleep context.',
+    intro: 'Sleep shapes almost everything else. These questions help your physician screen for common, treatable issues without labeling you from the app.',
+    required_for: 'vitality',
     questions: [
-      { id: 'audit_1', type: 'single', prompt: 'How often do you have a drink containing alcohol?', options: AUDIT_FREQUENCY_OPTIONS },
-      { id: 'audit_2', type: 'single', prompt: 'How many standard drinks do you have on a typical day when you are drinking?', options: AUDIT_QUANTITY_OPTIONS },
-      { id: 'audit_3', type: 'single', prompt: 'How often do you have six or more drinks on one occasion?', options: AUDIT_FREQUENCY_OPTIONS }
-    ]
-  },
-  {
-    key: 'sleep_osa', title: 'Sleep apnea risk.',
-    intro: 'Answer each question. Your physician will interpret the result with your clinical data.',
-    required_for: 'vitality', required_answers: true,
-    questions: [
-      { id: 'stop_bang_1', type: 'single', prompt: 'Do you snore loudly?', options: YES_NO_OPTIONS },
-      { id: 'stop_bang_2', type: 'single', prompt: 'Do you often feel tired, fatigued, or sleepy during the daytime?', options: YES_NO_OPTIONS },
-      { id: 'stop_bang_3', type: 'single', prompt: 'Has anyone observed you stop breathing during sleep?', options: YES_NO_OPTIONS },
-      { id: 'stop_bang_4', type: 'single', prompt: 'Do you have, or are you being treated for, high blood pressure?', options: YES_NO_OPTIONS },
-      { id: 'stop_bang_5', type: 'single', prompt: 'Is your body mass index above 35 kg/m²?', options: YES_NO_OPTIONS },
-      { id: 'stop_bang_6', type: 'single', prompt: 'Are you older than 50?', options: YES_NO_OPTIONS },
-      { id: 'stop_bang_7', type: 'single', prompt: 'Is your neck circumference greater than 40 cm (15.75 in)?', options: YES_NO_OPTIONS },
-      { id: 'stop_bang_8', type: 'single', prompt: 'Was your sex assigned male at birth?', options: YES_NO_OPTIONS }
-    ]
-  },
-  {
-    key: 'pain_impact', title: 'Pain impact.',
-    intro: 'During the past week, choose a number from 0 to 10 for each question.',
-    required_for: 'vitality', required_answers: true,
-    questions: [
-      { id: 'peg_1', type: 'scale', prompt: 'Pain on average', min: 0, max: 10, lowLabel: 'No pain', highLabel: 'Pain as bad as you can imagine' },
-      { id: 'peg_2', type: 'scale', prompt: 'Pain interference with enjoyment of life', min: 0, max: 10, lowLabel: 'None', highLabel: 'Complete interference' },
-      { id: 'peg_3', type: 'scale', prompt: 'Pain interference with general activity', min: 0, max: 10, lowLabel: 'None', highLabel: 'Complete interference' }
-    ]
-  },
-  {
-    key: 'safety_context', title: 'Safety and context.',
-    intro: 'Please answer each symptom separately so your care team knows exactly what you reported.',
-    required_for: 'vitality', required_answers: true,
-    questions: [
-      { id: 'red_flag_1', type: 'single', prompt: 'Unintentional weight loss?', options: YES_NO_OPTIONS },
-      { id: 'red_flag_2', type: 'single', prompt: 'Fever or night sweats?', options: YES_NO_OPTIONS },
-      { id: 'red_flag_3', type: 'single', prompt: 'Swollen lymph nodes?', options: YES_NO_OPTIONS },
-      { id: 'red_flag_4', type: 'single', prompt: 'New severe or progressively worsening fatigue?', options: YES_NO_OPTIONS },
-      { id: 'red_flag_5', type: 'single', prompt: 'Chest symptoms or shortness of breath with exertion?', options: YES_NO_OPTIONS },
-      { id: 'red_flag_6', type: 'single', prompt: 'A recent viral illness followed by persistent symptoms?', options: YES_NO_OPTIONS },
-      { id: 'red_flag_7', type: 'single', prompt: 'Possible adrenal-insufficiency symptoms, such as faintness, vomiting, or severe weakness?', options: YES_NO_OPTIONS },
-      { id: 'hypogonadism', type: 'single', prompt: 'Symptoms of low sex hormones?', options: YES_NO_OPTIONS },
-      { id: 'sedating_medication', type: 'single', prompt: 'Taking a medication that causes sleepiness?', options: YES_NO_OPTIONS },
-      { id: 'perimenopause', type: 'single', prompt: 'Perimenopause may be relevant?', options: YES_NO_OPTIONS }
+      { id: 'hours', type: 'number', prompt: 'On a typical night, how many hours do you sleep?', unit: 'hours', min: 0, max: 14, step: 0.5 },
+      { id: 'snore', type: 'single', prompt: 'Have you been told you snore loudly?',
+        options: [ { v: 'yes', label: 'Yes' }, { v: 'no', label: 'No' }, { v: 'unsure', label: 'Not sure' } ] },
+      { id: 'tired', type: 'single', prompt: 'Do you often feel tired or sleepy during the day?',
+        options: [ { v: 'yes', label: 'Yes, often' }, { v: 'sometimes', label: 'Sometimes' }, { v: 'no', label: 'Rarely' } ] },
+      { id: 'apnea', type: 'single', prompt: 'Has anyone noticed you stop breathing during sleep?',
+        options: [ { v: 'yes', label: 'Yes' }, { v: 'no', label: 'No' }, { v: 'unsure', label: 'Not sure' } ] }
     ]
   },
   {
@@ -5225,34 +5006,17 @@ function paintIntakeSection() {
   document.getElementById('intakeIntro').textContent = sec.intro;
 
   var body = document.getElementById('intakeBody');
-  var visible = intakeVisibleQuestions(sec, slot.data);
-  body.innerHTML = visible.map(function (q) {
+  body.innerHTML = sec.questions.map(function (q) {
     return renderIntakeQuestion(sec.key, q, slot.data[q.id]);
   }).join('');
 
   /* CTA label: last section says "Finish", else "Continue" */
   var nextBtn = document.getElementById('intakeNextBtn');
   nextBtn.textContent = (intakeIdx === secs.length - 1) ? 'Finish' : 'Continue';
-  nextBtn.disabled = !!sec.required_answers && !intakeSectionComplete(sec, slot);
-  document.getElementById('intakeSkipBtn').style.display = sec.required_answers ? 'none' : '';
 
   document.getElementById('intakeScroll').scrollTop = 0;
 }
 
-function intakeVisibleQuestions(sec, data) {
-  return sec.questions.filter(function (q) {
-    if (!q.show_when) return true;
-    var values = q.show_when.sum.map(function (id) { return data[id]; });
-    if (values.some(function (v) { return v == null; })) return false;
-    return values.reduce(function (sum, v) { return sum + Number(v); }, 0) >= q.show_when.gte;
-  });
-}
-function intakeSectionComplete(sec, slot) {
-  return intakeVisibleQuestions(sec, slot.data).every(function (q) {
-    var v = slot.data[q.id];
-    return v != null && !(Array.isArray(v) && v.length === 0);
-  });
-}
 function renderIntakeQuestion(secKey, q, val) {
   var head = '<div class="consent-surface"><div class="consent-title">' + escapeHtml(q.prompt) + '</div>';
   if (q.type === 'single' || q.type === 'multi') {
@@ -5263,20 +5027,10 @@ function renderIntakeQuestion(secKey, q, val) {
       return '<div class="ack-row' + (on ? ' confirmed' : '') + '" onclick="intakePick(\'' + secKey + '\',\'' + q.id + '\',\'' + o.v + '\',\'' + q.type + '\')">' +
                '<div class="ack-sq">\u2713</div><div class="ack-label">' + escapeHtml(o.label) + '</div></div>';
     }).join('');
-    var crisis = q.crisis_if_positive && Number(val) > 0
-      ? '<div class="crisis-callout">If you may act on thoughts of self-harm, call or text 988 now, or call 911 for immediate danger.</div>' : '';
-    return head + rows + crisis + '</div>';
+    return head + rows + '</div>';
   }
   if (q.type === 'scale') {
     var n = q.max - q.min + 1;
-    if (n > 7) {
-      var opts = '<option value="">Select</option>';
-      for (var optionValue = q.min; optionValue <= q.max; optionValue++) {
-        opts += '<option value="' + optionValue + '"' + (val === optionValue ? ' selected' : '') + '>' + optionValue + '</option>';
-      }
-      return head + '<select class="fld-input" aria-label="' + escapeHtml(q.prompt) + '" onchange="intakeScale(\'' + secKey + '\',\'' + q.id + '\',this.value === \'\' ? null : Number(this.value))">' + opts + '</select>' +
-        '<div class="scale-ends"><span>' + escapeHtml(q.lowLabel) + '</span><span>' + escapeHtml(q.highLabel) + '</span></div></div>';
-    }
     var dots = '';
     for (var v = q.min; v <= q.max; v++) {
       var sel = (val === v) ? ' selected' : '';
@@ -5327,10 +5081,6 @@ function intakePick(secKey, qid, value, type) {
   } else {
     slot.data[qid] = (slot.data[qid] === value) ? null : value;
   }
-  if (secKey === 'mood') {
-    var moodSection = INTAKE_SECTIONS.filter(function (x) { return x.key === 'mood'; })[0];
-    moodSection.questions.forEach(function (q) { if (!intakeVisibleQuestions(moodSection, slot.data).some(function (v) { return v.id === q.id; })) delete slot.data[q.id]; });
-  }
   persistAccount();
   paintIntakeSection();
 }
@@ -5355,7 +5105,6 @@ function intakeAdvance() {
   var secs = intakeApplicableSections();
   var sec = secs[intakeIdx];
   var slot = intakeSlot(sec.key);
-  if (sec.required_answers && !intakeSectionComplete(sec, slot)) return;
   /* done if any answer was given; otherwise treat empty continue as declined */
   var answered = Object.keys(slot.data).some(function (k) {
     var v = slot.data[k];
@@ -5478,13 +5227,10 @@ function assembleIntakeStatus() {
     { key: 'symptoms',        label: 'In your own words',     status: symptomsStatus(),  required_for: [] },
     { key: 'demographics_ext',label: 'Ethnicity & background',status: a2Status('demographics_ext'), required_for: ['risk'] },
     { key: 'body_measures',   label: 'Blood pressure & waist',  status: a2Status('body_measures'),     required_for: ['risk','vitality'] },
-    { key: 'lived_state',     label: 'How you feel (0-10)',    status: a2Status('lived_state'),       required_for: ['vitality'] },
+    { key: 'lived_state',     label: 'How you feel (0-4)',    status: a2Status('lived_state'),       required_for: ['vitality'] },
     { key: 'strength',        label: 'Strength & capability',  status: a2Status('strength'),          required_for: ['vitality'] },
-    { key: 'mood',            label: 'Mood & anxiety',        status: a2Status('mood'),              required_for: ['vitality'] },
-    { key: 'alcohol_use',      label: 'Alcohol use',            status: a2Status('alcohol_use'),       required_for: ['vitality'] },
-    { key: 'sleep_osa',        label: 'Sleep apnea risk',        status: a2Status('sleep_osa'),         required_for: ['vitality'] },
-    { key: 'pain_impact',      label: 'Pain impact',             status: a2Status('pain_impact'),       required_for: ['vitality'] },
-    { key: 'safety_context',   label: 'Safety & context',        status: a2Status('safety_context'),    required_for: ['vitality'] },
+    { key: 'mood',            label: 'Mood & wellbeing',      status: a2Status('mood'),              required_for: ['vitality'] },
+    { key: 'sleep_osa',       label: 'Sleep screen',          status: a2Status('sleep_osa'),         required_for: ['vitality'] },
     { key: 'female_hormonal', label: 'Hormonal & life stage', status: a2Status('female_hormonal'),   required_for: ['vitality'] },
     { key: 'male_hormonal',   label: 'Hormonal context',      status: a2Status('male_hormonal'),     required_for: ['vitality'] },
     { key: 'neuro_factors',   label: 'Brain health factors',  status: a2Status('neuro_factors'),     required_for: ['risk'] }
@@ -5531,22 +5277,14 @@ function intakeNote(intakeStatus) {
     'Vitality pending remaining items.';
 }
 
-/* Serialize raw answers and derive physician-facing instrument totals. */
-function numberAnswer(data, key) {
-  return data[key] == null ? null : Number(data[key]);
-}
-function sumAnswers(data, keys) {
-  var values = keys.map(function (key) { return numberAnswer(data, key); });
-  return values.some(function (v) { return v == null || isNaN(v); }) ? null
-    : values.reduce(function (sum, v) { return sum + v; }, 0);
-}
-function yesCount(data, keys) {
-  return keys.every(function (key) { return data[key] != null; })
-    ? keys.filter(function (key) { return data[key] === 'yes'; }).length : null;
-}
+/* Serialize intake answers + compute validated-instrument scores for the
+   physician packet. Raw answers travel under structured_intake.sections;
+   derived scores (PHQ-2, GAD-2, OSA risk) travel under .scores so the
+   engine and physician note can consume them without re-deriving. */
 function assembleIntake() {
   var intake = state.intake || {};
   var out = { schema: 'structured_intake.v1', sections: {}, scores: {} };
+
   intakeApplicableSections().forEach(function (sec) {
     var blk = intake[sec.key];
     if (!blk) { out.sections[sec.key] = { status: 'pending' }; return; }
@@ -5555,96 +5293,34 @@ function assembleIntake() {
       data: blk.data || {}
     };
   });
+
+  /* PHQ-2 (0-6): interest + down. >=3 is a positive depression screen. */
   var mood = (intake.mood && intake.mood.data) || {};
-  var phq2 = sumAnswers(mood, ['phq_1','phq_2']);
-  var gad2 = sumAnswers(mood, ['gad_1','gad_2']);
-  if (phq2 != null) out.scores.phq2 = { value: phq2, max: 6, positive: phq2 >= 3, instrument: 'PHQ-2' };
-  if (mood.phq_9 != null) out.scores.phq9_item9 = { value: Number(mood.phq_9), max: 3, safety: true, instrument: 'PHQ-9 item 9' };
-  if (phq2 != null && phq2 >= 2) {
-    var phq9 = sumAnswers(mood, ['phq_1','phq_2','phq_3','phq_4','phq_5','phq_6','phq_7','phq_8','phq_9']);
-    if (phq9 != null) out.scores.phq9 = { value: phq9, max: 27, instrument: 'PHQ-9' };
+  if (mood.phq_interest != null && mood.phq_down != null) {
+    var phq2 = mood.phq_interest + mood.phq_down;
+    out.scores.phq2 = { value: phq2, max: 6, positive: phq2 >= 3, instrument: 'PHQ-2' };
   }
-  if (gad2 != null) out.scores.gad2 = { value: gad2, max: 6, positive: gad2 >= 3, instrument: 'GAD-2' };
-  if (gad2 != null && gad2 >= 2) {
-    var gad7 = sumAnswers(mood, ['gad_1','gad_2','gad_3','gad_4','gad_5','gad_6','gad_7']);
-    if (gad7 != null) out.scores.gad7 = { value: gad7, max: 21, instrument: 'GAD-7' };
+  /* GAD-2 (0-6): nervous + worry. >=3 is a positive anxiety screen. */
+  if (mood.gad_nervous != null && mood.gad_worry != null) {
+    var gad2 = mood.gad_nervous + mood.gad_worry;
+    out.scores.gad2 = { value: gad2, max: 6, positive: gad2 >= 3, instrument: 'GAD-2' };
   }
-  var alcohol = (intake.alcohol_use && intake.alcohol_use.data) || {};
-  var audit = sumAnswers(alcohol, ['audit_1','audit_2','audit_3']);
-  if (audit != null) out.scores.audit_c = { value: audit, max: 12, instrument: 'AUDIT-C' };
+  /* OSA screen: count positive risk signals (snore/tired/apnea + short sleep). */
   var sleep = (intake.sleep_osa && intake.sleep_osa.data) || {};
-  var stop = yesCount(sleep, ['stop_bang_1','stop_bang_2','stop_bang_3','stop_bang_4','stop_bang_5','stop_bang_6','stop_bang_7','stop_bang_8']);
-  if (stop != null) out.scores.stop_bang = { value: stop, max: 8, instrument: 'STOP-BANG' };
-  var pain = (intake.pain_impact && intake.pain_impact.data) || {};
-  var pegSum = sumAnswers(pain, ['peg_1','peg_2','peg_3']);
-  if (pegSum != null) out.scores.peg3 = { value: Math.round(pegSum / 3), max: 10, instrument: 'PEG-3' };
-  return out;
-}
-function assembleVitality(structured) {
-  var intake = state.intake || {};
-  var lived = (intake.lived_state && intake.lived_state.data) || {};
-  var mood = (intake.mood && intake.mood.data) || {};
-  var safety = (intake.safety_context && intake.safety_context.data) || {};
-  var scores = structured.scores || {};
-  var redKeys = ['red_flag_1','red_flag_2','red_flag_3','red_flag_4','red_flag_5','red_flag_6','red_flag_7'];
-  var required = {
-    daily_energy_baseline: lived.energy, daily_mood_baseline: lived.mood_baseline,
-    body_baseline: lived.body_baseline, mind_baseline: lived.mind_baseline,
-    meaning_baseline: lived.meaning_baseline,
-    phq2_total: scores.phq2 && scores.phq2.value, phq9_item9: mood.phq_9,
-    gad2_total: scores.gad2 && scores.gad2.value, audit_c_total: scores.audit_c && scores.audit_c.value,
-    stop_bang_total: scores.stop_bang && scores.stop_bang.value, peg3_total: scores.peg3 && scores.peg3.value,
-    hypogonadism_symptoms: safety.hypogonadism,
-    sedating_medication_present: safety.sedating_medication,
-    perimenopause_context: safety.perimenopause
-  };
-  var missing = Object.keys(required).filter(function (key) { return required[key] == null; });
-  if (!redKeys.every(function (key) { return safety[key] != null; })) missing.push('red_flag_screen');
-  if (scores.phq2 && scores.phq2.value >= 2 && !scores.phq9) missing.push('phq9_total');
-  if (scores.gad2 && scores.gad2.value >= 2 && !scores.gad7) missing.push('gad7_total');
-  if (missing.length) return { output_kind: 'protocol_state_not_score', score: null, state: 'baseline_collection_required', missing_inputs: missing };
-  return {
-    output_kind: 'protocol_state_not_score', score: null,
-    daily_energy_baseline: Number(lived.energy), daily_mood_baseline: Number(lived.mood_baseline),
-    body_baseline: Number(lived.body_baseline), mind_baseline: Number(lived.mind_baseline),
-    meaning_baseline: Number(lived.meaning_baseline), phq2_total: scores.phq2.value,
-    phq9_total: scores.phq2.value >= 2 ? scores.phq9.value : null,
-    phq9_item9: Number(mood.phq_9), gad2_total: scores.gad2.value,
-    gad7_total: scores.gad2.value >= 2 ? scores.gad7.value : null,
-    audit_c_total: scores.audit_c.value, stop_bang_total: scores.stop_bang.value,
-    peg3_total: scores.peg3.value,
-    red_flag_screen: {
-      unintentional_weight_loss: safety.red_flag_1 === 'yes',
-      fever_or_night_sweats: safety.red_flag_2 === 'yes',
-      lymphadenopathy: safety.red_flag_3 === 'yes',
-      new_severe_or_progressive_fatigue: safety.red_flag_4 === 'yes',
-      exertional_dyspnea_or_chest_symptoms: safety.red_flag_5 === 'yes',
-      post_viral_picture: safety.red_flag_6 === 'yes',
-      adrenal_insufficiency_cluster: safety.red_flag_7 === 'yes'
-    },
-    hypogonadism_symptoms: safety.hypogonadism === 'yes'
-  };
-}
-function wearableClinicalValue(value, unit, sync) {
-  return { value: value, unit: unit, measured_at: sync.synced_at, source: sync.source, status: 'measured', synthetic: sync.synthetic === true };
-}
-function wearableMeasurements() {
-  var sync = state.wearableSync;
-  if (!wearableHasValues(sync)) return { vitals: {}, wearables: {} };
-  var latest = sync.latest || {}, vitals = {}, wearables = {
-    sync: { source: sync.source, synced_at: sync.synced_at, has_values: true, history_days: sync.history_days, synthetic: sync.synthetic === true }
-  };
-  if (latest.resting_heart_rate_bpm != null) {
-    vitals.resting_hr = wearableClinicalValue(latest.resting_heart_rate_bpm, 'bpm', sync);
-    wearables.resting_hr = wearableClinicalValue(latest.resting_heart_rate_bpm, 'bpm', sync);
+  if (sleep.snore != null || sleep.tired != null || sleep.apnea != null || sleep.hours != null) {
+    var flags = 0;
+    if (sleep.snore === 'yes') flags++;
+    if (sleep.tired === 'yes') flags++;
+    if (sleep.apnea === 'yes') flags++;
+    if (sleep.hours != null && sleep.hours < 6) flags++;
+    out.scores.osa_screen = {
+      flags: flags,
+      risk: flags >= 2 ? 'elevated' : flags === 1 ? 'moderate' : 'low',
+      routing: flags >= 2 ? 'consider_HSAT_or_PSG' : 'monitor',
+      sleep_hours: sleep.hours != null ? sleep.hours : null
+    };
   }
-  if (latest.heart_rate_bpm != null) wearables.heart_rate = wearableClinicalValue(latest.heart_rate_bpm, 'bpm', sync);
-  if (latest.sleep_hours != null) wearables.sleep_duration = wearableClinicalValue(latest.sleep_hours, 'h', sync);
-  if (latest.steps != null) wearables.steps = wearableClinicalValue(latest.steps, 'count', sync);
-  if (latest.hrv_ms != null) wearables.hrv_sdnn = wearableClinicalValue(latest.hrv_ms, 'ms', sync);
-  if (latest.vo2max_ml_kg_min != null) wearables.vo2max = wearableClinicalValue(latest.vo2max_ml_kg_min, 'mL/kg/min', sync);
-  if (sync.series) wearables.series = sync.series;
-  return { vitals: vitals, wearables: wearables };
+  return out;
 }
 
 function assemblePacket() {
@@ -5652,9 +5328,6 @@ function assemblePacket() {
   var h = state.health || {};
   var now = new Date();
   var snapshot = now.toISOString().slice(0, 10);
-  var structuredIntake = assembleIntake();
-  var vitality = assembleVitality(structuredIntake);
-  var wearableData = wearableMeasurements();
 
   /* demographics */
   var heightCm = ftInToCm(h.heightFt, h.heightIn);
@@ -5713,9 +5386,6 @@ function assemblePacket() {
     facts.bmi = bmi; validKeys.push('bmi');
   }
   /* valid_keys must be non-empty per schema; patient_id always present */
-  var safety = (state.intake && state.intake.safety_context && state.intake.safety_context.data) || {};
-  if (safety.sedating_medication != null) { facts.sedating_medication_present = safety.sedating_medication === 'yes'; validKeys.push('sedating_medication_present'); }
-  if (safety.perimenopause != null) { facts.perimenopause_context = safety.perimenopause === 'yes'; validKeys.push('perimenopause_context'); }
   if (!validKeys.length) validKeys.push('patient_id');
 
   /* missing_data: values that arrive AFTER onboarding. The engine uses
@@ -5741,8 +5411,8 @@ function assemblePacket() {
   var intakeStatus = assembleIntakeStatus();
   var missing = ['labs'];
   /* vitals are pending only if the patient captured none at intake */
-  if (!Object.keys(Object.assign({}, vitals, wearableData.vitals)).length) missing.push('vitals');
-  if (!wearableHasValues(state.wearableSync)) missing.push('wearables');
+  if (!Object.keys(vitals).length) missing.push('vitals');
+  if (state.wearable !== 'connected') missing.push('wearables');
   if (state.genetics.decision !== 'consented') missing.push('genetics_panel');
   if (!intakeStatus.all_complete) missing.push('structured_intake');
 
@@ -5777,7 +5447,7 @@ function assemblePacket() {
       total: intakeStatus.total,
       resume_section: intakeStatus.resume_section
     },
-    wearables: wearableHasValues(state.wearableSync) ? 'connected' : state.wearable === 'skip_for_now' ? 'skipped' : 'not_connected',
+    wearables: state.wearable === 'connected' ? 'connected' : 'not_connected',
     genetics: state.genetics.decision === 'consented' ? 'consented'
       : state.genetics.decision === 'declined' ? 'declined' : 'undecided'
   };
@@ -5797,7 +5467,7 @@ function assemblePacket() {
 
   /* provenance */
   var provenance = {
-    source: 'patient_onboarding.v3',
+    source: 'patient_onboarding.v2',
     assembled_at: now.toISOString().replace(/\.\d{3}Z$/, 'Z'),
     consents: Object.keys(state.consents).map(function (k) {
       var rec = state.consents[k];
@@ -5814,7 +5484,7 @@ function assemblePacket() {
     snapshot_date: snapshot,
     demographics: demographics,
     clinical_context: clinicalContext,
-    measurements: { labs: {}, vitals: Object.assign({}, vitals, wearableData.vitals), wearables: wearableData.wearables },
+    measurements: { labs: {}, vitals: vitals, wearables: state.wearableSync ? { sync: state.wearableSync } : {} },
     facts: facts,
     findings: [],
     model_outputs: { risk_domains: [], vitality: { outcomes: [] } },
@@ -5822,8 +5492,7 @@ function assemblePacket() {
     symptom_narrative_ref: state.symptoms && state.symptoms.done ? 'symptom_capture.v1' : null,
     intake_status: intakeStatus,
     intake_note: intakeNote(intakeStatus),
-    structured_intake: structuredIntake,
-    vitality: vitality,
+    structured_intake: assembleIntake(),
     coverage: coverage,
     missing_data: missing,
     valid_keys: validKeys,
@@ -5856,10 +5525,7 @@ function homeChapters() {
     var blk = state.intake && state.intake[sec.key];
     return blk && (blk.done || blk.declined);
   }).length;
-  var structuredTraversalComplete = secs.length > 0 && secDone === secs.length;
-  var vitalityState = assembleVitality(assembleIntake());
-  var vitalityReady = vitalityState.state !== 'baseline_collection_required';
-  var structuredComplete = structuredTraversalComplete && vitalityReady;
+  var structuredComplete = secs.length > 0 && secDone === secs.length;
 
   var chapters = [
     {
@@ -5944,7 +5610,7 @@ function renderHome() {
 
   /* Contextual disclosures. */
   var expW = document.getElementById('expWearable');
-  if (expW) expW.style.display = state.wearable === 'skip_for_now' ? 'block' : 'none';
+  if (expW) expW.style.display = state.wearable === 'skipped' ? 'block' : 'none';
   var exp2 = document.getElementById('exp2');
   if (exp2) exp2.style.display = state.genetics.decision === 'declined' ? 'none' : 'block';
 
@@ -5984,11 +5650,7 @@ function renderVitalityTile(chapters) {
   var el = document.getElementById('vitalityTile');
   if (!el) return;
   var feeders = chapters.filter(function (c) { return c.feedsVitality; });
-  var vitalityState = assembleVitality(assembleIntake());
-  var vitalityReady = vitalityState.state !== 'baseline_collection_required';
-  var doneCount = feeders.filter(function (c) {
-    return c.key === 'structured' ? vitalityReady && c.done : c.done;
-  }).length;
+  var doneCount = feeders.filter(function (c) { return c.done; }).length;
   var unlocked = doneCount === feeders.length && feeders.length > 0;
   el.innerHTML =
     '<div class="vitality-tile' + (unlocked ? ' unlocked' : ' locked') + '">' +
