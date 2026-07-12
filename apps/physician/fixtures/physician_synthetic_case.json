@@ -1,0 +1,3317 @@
+{
+  "schema_version": "physician_fixture_bundle.v1",
+  "queue": [
+    {
+      "task_id": "review-al47m-001",
+      "patient_id": "ethan-park",
+      "display_name": "Ethan Park",
+      "code": "AL-47M",
+      "lifecycle_state": "physician_review_pending",
+      "release_state": "draft_engine_output",
+      "blocker": null,
+      "assigned_to": "dr-mizani",
+      "last_event_at": "2026-07-04T16:42:00Z"
+    },
+    {
+      "task_id": "review-mc52f-001",
+      "patient_id": "mara-chen",
+      "display_name": "Mara Chen",
+      "code": "MC-52F",
+      "lifecycle_state": "physician_hold",
+      "release_state": "genetics_counseling_hold",
+      "blocker": "Genetics counseling hold",
+      "assigned_to": "dr-mizani",
+      "last_event_at": "2026-07-04T15:20:00Z"
+    }
+  ],
+  "case": {
+    "schema_version": "physician_case.v1",
+    "patient_id": "ethan-park",
+    "workflow": {
+      "schema_version": "physician_workflow.v1",
+      "state": "physician_review_pending",
+      "lifecycle_state": "physician_review_pending",
+      "release_state": "draft_engine_output",
+      "patient_visible": false,
+      "read_only": false,
+      "review_started": false,
+      "preview_ready": false,
+      "authorized": false,
+      "released_to_patient": false,
+      "why_now": "Canonical analysis is ready for physician review.",
+      "highest_priority_issue": {
+        "label": "Complete colorectal screening",
+        "implication": "Required age-based care gap."
+      },
+      "blockers": [],
+      "next_action": {
+        "label": "Start physician review",
+        "detail": "Review patient inputs, risk, vitality, and required plan items."
+      },
+      "audit_integrity": {
+        "status": "pass",
+        "errors": []
+      }
+    },
+    "patient_packet": {
+      "schema_version": "patient_packet.v1",
+      "patient_id": "ethan-park",
+      "display_name": "Ethan Park",
+      "code": "AL-47M",
+      "age": {
+        "value": 47,
+        "units": "years",
+        "provenance": "enrollment_record"
+      },
+      "sex": "male",
+      "phenotype": "metabolic-risk phenotype",
+      "valid_keys": [
+        "age",
+        "sex",
+        "bmi",
+        "waist_cm",
+        "blood_pressure",
+        "hba1c",
+        "fasting_glucose",
+        "homa_ir",
+        "vo2max",
+        "overnight_spo2_nadir",
+        "family_history_diabetes",
+        "fatigue",
+        "colorectal_screening_status"
+      ],
+      "measurements": {
+        "vitals": {
+          "bmi": {
+            "key": "bmi",
+            "label": "BMI",
+            "value": 29.4,
+            "units": "kg/m2",
+            "provenance": "clinic intake"
+          },
+          "waist_cm": {
+            "key": "waist_cm",
+            "label": "Waist",
+            "value": 105,
+            "units": "cm",
+            "provenance": "clinic intake"
+          },
+          "blood_pressure": {
+            "key": "blood_pressure",
+            "label": "Office blood pressure",
+            "value": "142/90",
+            "units": "mmHg",
+            "provenance": "clinic vitals"
+          }
+        },
+        "labs": {
+          "hba1c": {
+            "key": "hba1c",
+            "label": "HbA1c",
+            "value": 6,
+            "units": "%",
+            "provenance": "Quest synthetic result"
+          },
+          "fasting_glucose": {
+            "key": "fasting_glucose",
+            "label": "Fasting glucose",
+            "value": 110,
+            "units": "mg/dL",
+            "provenance": "Quest synthetic result"
+          },
+          "homa_ir": {
+            "key": "homa_ir",
+            "label": "HOMA-IR",
+            "value": 4.3,
+            "units": "index",
+            "provenance": "derived from synthetic labs"
+          }
+        },
+        "wearables": {
+          "resting_hr": {
+            "key": "resting_hr",
+            "label": "Resting heart rate",
+            "value": 68,
+            "units": "bpm",
+            "provenance": "wearable synthetic result"
+          },
+          "sleep_duration": {
+            "key": "sleep_duration",
+            "label": "Sleep duration",
+            "value": 6.4,
+            "units": "h",
+            "provenance": "wearable synthetic result"
+          },
+          "sleep_efficiency": {
+            "key": "sleep_efficiency",
+            "label": "Sleep efficiency",
+            "value": 84,
+            "units": "%",
+            "provenance": "wearable synthetic result"
+          },
+          "overnight_spo2_nadir": {
+            "key": "overnight_spo2_nadir",
+            "label": "Overnight SpO2 nadir",
+            "value": 89,
+            "units": "%",
+            "provenance": "wearable synthetic result"
+          },
+          "overnight_spo2_mean": {
+            "key": "overnight_spo2_mean",
+            "label": "Overnight SpO2 mean",
+            "value": 94,
+            "units": "%",
+            "provenance": "wearable synthetic result"
+          },
+          "overnight_odi": {
+            "key": "overnight_odi",
+            "label": "Oxygen desaturation index",
+            "value": 8.2,
+            "units": "events/hr",
+            "provenance": "wearable synthetic result"
+          },
+          "hrv_rmssd": {
+            "key": "hrv_rmssd",
+            "label": "HRV (rMSSD)",
+            "value": 28,
+            "units": "ms",
+            "provenance": "wearable synthetic result"
+          },
+          "steps": {
+            "key": "steps",
+            "label": "Steps",
+            "value": 5400,
+            "units": "count",
+            "provenance": "wearable synthetic result"
+          },
+          "active_minutes": {
+            "key": "active_minutes",
+            "label": "Active minutes",
+            "value": 22,
+            "units": "min/day",
+            "provenance": "wearable synthetic result"
+          },
+          "vo2max": {
+            "key": "vo2max",
+            "label": "VO2 max",
+            "value": 28,
+            "units": "mL/kg/min",
+            "provenance": "wearable synthetic result"
+          },
+          "crf_percentile": {
+            "key": "crf_percentile",
+            "label": "Cardiorespiratory fitness percentile",
+            "value": 25,
+            "units": "percentile",
+            "provenance": "wearable synthetic result"
+          },
+          "series": {
+            "resting_hr": [
+              {
+                "local_date": "2026-06-11",
+                "value": 50.7
+              },
+              {
+                "local_date": "2026-06-12",
+                "value": 52.6
+              },
+              {
+                "local_date": "2026-06-13",
+                "value": 51.7
+              },
+              {
+                "local_date": "2026-06-14",
+                "value": 50.8
+              },
+              {
+                "local_date": "2026-06-15",
+                "value": 53
+              },
+              {
+                "local_date": "2026-06-16",
+                "value": 53.8
+              },
+              {
+                "local_date": "2026-06-17",
+                "value": 50.9
+              },
+              {
+                "local_date": "2026-06-18",
+                "value": 49.6
+              },
+              {
+                "local_date": "2026-06-19",
+                "value": 51.7
+              },
+              {
+                "local_date": "2026-06-20",
+                "value": 52.3
+              },
+              {
+                "local_date": "2026-06-21",
+                "value": 50.8
+              },
+              {
+                "local_date": "2026-06-22",
+                "value": 51.6
+              },
+              {
+                "local_date": "2026-06-23",
+                "value": 53.4
+              },
+              {
+                "local_date": "2026-06-24",
+                "value": 51.5
+              },
+              {
+                "local_date": "2026-06-25",
+                "value": 49
+              },
+              {
+                "local_date": "2026-06-26",
+                "value": 50.5
+              },
+              {
+                "local_date": "2026-06-27",
+                "value": 52.4
+              },
+              {
+                "local_date": "2026-06-28",
+                "value": 51.2
+              },
+              {
+                "local_date": "2026-06-29",
+                "value": 50.6
+              },
+              {
+                "local_date": "2026-06-30",
+                "value": 52.4
+              },
+              {
+                "local_date": "2026-07-01",
+                "value": 52
+              },
+              {
+                "local_date": "2026-07-02",
+                "value": 49
+              },
+              {
+                "local_date": "2026-07-03",
+                "value": 49.2
+              },
+              {
+                "local_date": "2026-07-04",
+                "value": 51.9
+              },
+              {
+                "local_date": "2026-07-05",
+                "value": 51.8
+              },
+              {
+                "local_date": "2026-07-06",
+                "value": 50.1
+              },
+              {
+                "local_date": "2026-07-07",
+                "value": 51.1
+              },
+              {
+                "local_date": "2026-07-08",
+                "value": 51.9
+              },
+              {
+                "local_date": "2026-07-09",
+                "value": 49.5
+              },
+              {
+                "local_date": "2026-07-10",
+                "value": 48.2
+              }
+            ],
+            "hrv_rmssd": [
+              {
+                "local_date": "2026-06-11",
+                "value": 49.7
+              },
+              {
+                "local_date": "2026-06-12",
+                "value": 47.7
+              },
+              {
+                "local_date": "2026-06-13",
+                "value": 45.6
+              },
+              {
+                "local_date": "2026-06-14",
+                "value": 51.6
+              },
+              {
+                "local_date": "2026-06-15",
+                "value": 54
+              },
+              {
+                "local_date": "2026-06-16",
+                "value": 46.6
+              },
+              {
+                "local_date": "2026-06-17",
+                "value": 43.4
+              },
+              {
+                "local_date": "2026-06-18",
+                "value": 49.3
+              },
+              {
+                "local_date": "2026-06-19",
+                "value": 51.1
+              },
+              {
+                "local_date": "2026-06-20",
+                "value": 47.3
+              },
+              {
+                "local_date": "2026-06-21",
+                "value": 49.9
+              },
+              {
+                "local_date": "2026-06-22",
+                "value": 54.9
+              },
+              {
+                "local_date": "2026-06-23",
+                "value": 50.1
+              },
+              {
+                "local_date": "2026-06-24",
+                "value": 43.7
+              },
+              {
+                "local_date": "2026-06-25",
+                "value": 47.9
+              },
+              {
+                "local_date": "2026-06-26",
+                "value": 53.3
+              },
+              {
+                "local_date": "2026-06-27",
+                "value": 50.4
+              },
+              {
+                "local_date": "2026-06-28",
+                "value": 49.1
+              },
+              {
+                "local_date": "2026-06-29",
+                "value": 54.2
+              },
+              {
+                "local_date": "2026-06-30",
+                "value": 53.3
+              },
+              {
+                "local_date": "2026-07-01",
+                "value": 45.7
+              },
+              {
+                "local_date": "2026-07-02",
+                "value": 46.4
+              },
+              {
+                "local_date": "2026-07-03",
+                "value": 53.9
+              },
+              {
+                "local_date": "2026-07-04",
+                "value": 54
+              },
+              {
+                "local_date": "2026-07-05",
+                "value": 49.8
+              },
+              {
+                "local_date": "2026-07-06",
+                "value": 52.6
+              },
+              {
+                "local_date": "2026-07-07",
+                "value": 55.1
+              },
+              {
+                "local_date": "2026-07-08",
+                "value": 49
+              },
+              {
+                "local_date": "2026-07-09",
+                "value": 45.8
+              },
+              {
+                "local_date": "2026-07-10",
+                "value": 53
+              }
+            ],
+            "sleep_duration": [
+              {
+                "local_date": "2026-06-11",
+                "value": 7.1
+              },
+              {
+                "local_date": "2026-06-12",
+                "value": 7.7
+              },
+              {
+                "local_date": "2026-06-13",
+                "value": 7.5
+              },
+              {
+                "local_date": "2026-06-14",
+                "value": 6.9
+              },
+              {
+                "local_date": "2026-06-15",
+                "value": 6.9
+              },
+              {
+                "local_date": "2026-06-16",
+                "value": 7.3
+              },
+              {
+                "local_date": "2026-06-17",
+                "value": 7.2
+              },
+              {
+                "local_date": "2026-06-18",
+                "value": 7
+              },
+              {
+                "local_date": "2026-06-19",
+                "value": 7.5
+              },
+              {
+                "local_date": "2026-06-20",
+                "value": 7.7
+              },
+              {
+                "local_date": "2026-06-21",
+                "value": 7
+              },
+              {
+                "local_date": "2026-06-22",
+                "value": 6.7
+              },
+              {
+                "local_date": "2026-06-23",
+                "value": 7.2
+              },
+              {
+                "local_date": "2026-06-24",
+                "value": 7.4
+              },
+              {
+                "local_date": "2026-06-25",
+                "value": 7
+              },
+              {
+                "local_date": "2026-06-26",
+                "value": 7.2
+              },
+              {
+                "local_date": "2026-06-27",
+                "value": 7.7
+              },
+              {
+                "local_date": "2026-06-28",
+                "value": 7.2
+              },
+              {
+                "local_date": "2026-06-29",
+                "value": 6.7
+              },
+              {
+                "local_date": "2026-06-30",
+                "value": 7
+              },
+              {
+                "local_date": "2026-07-01",
+                "value": 7.5
+              },
+              {
+                "local_date": "2026-07-02",
+                "value": 7.2
+              },
+              {
+                "local_date": "2026-07-03",
+                "value": 7.1
+              },
+              {
+                "local_date": "2026-07-04",
+                "value": 7.5
+              },
+              {
+                "local_date": "2026-07-05",
+                "value": 7.4
+              },
+              {
+                "local_date": "2026-07-06",
+                "value": 6.8
+              },
+              {
+                "local_date": "2026-07-07",
+                "value": 6.8
+              },
+              {
+                "local_date": "2026-07-08",
+                "value": 7.5
+              },
+              {
+                "local_date": "2026-07-09",
+                "value": 7.5
+              },
+              {
+                "local_date": "2026-07-10",
+                "value": 7.1
+              }
+            ],
+            "steps": [
+              {
+                "local_date": "2026-06-11",
+                "value": 10424
+              },
+              {
+                "local_date": "2026-06-12",
+                "value": 8732
+              },
+              {
+                "local_date": "2026-06-13",
+                "value": 7979
+              },
+              {
+                "local_date": "2026-06-14",
+                "value": 9282
+              },
+              {
+                "local_date": "2026-06-15",
+                "value": 9645
+              },
+              {
+                "local_date": "2026-06-16",
+                "value": 8766
+              },
+              {
+                "local_date": "2026-06-17",
+                "value": 9326
+              },
+              {
+                "local_date": "2026-06-18",
+                "value": 10410
+              },
+              {
+                "local_date": "2026-06-19",
+                "value": 9307
+              },
+              {
+                "local_date": "2026-06-20",
+                "value": 7832
+              },
+              {
+                "local_date": "2026-06-21",
+                "value": 8737
+              },
+              {
+                "local_date": "2026-06-22",
+                "value": 9938
+              },
+              {
+                "local_date": "2026-06-23",
+                "value": 9249
+              },
+              {
+                "local_date": "2026-06-24",
+                "value": 8921
+              },
+              {
+                "local_date": "2026-06-25",
+                "value": 10033
+              },
+              {
+                "local_date": "2026-06-26",
+                "value": 9800
+              },
+              {
+                "local_date": "2026-06-27",
+                "value": 8069
+              },
+              {
+                "local_date": "2026-06-28",
+                "value": 8177
+              },
+              {
+                "local_date": "2026-06-29",
+                "value": 9851
+              },
+              {
+                "local_date": "2026-06-30",
+                "value": 9844
+              },
+              {
+                "local_date": "2026-07-01",
+                "value": 8865
+              },
+              {
+                "local_date": "2026-07-02",
+                "value": 9452
+              },
+              {
+                "local_date": "2026-07-03",
+                "value": 9995
+              },
+              {
+                "local_date": "2026-07-04",
+                "value": 8586
+              },
+              {
+                "local_date": "2026-07-05",
+                "value": 7843
+              },
+              {
+                "local_date": "2026-07-06",
+                "value": 9426
+              },
+              {
+                "local_date": "2026-07-07",
+                "value": 10302
+              },
+              {
+                "local_date": "2026-07-08",
+                "value": 9184
+              },
+              {
+                "local_date": "2026-07-09",
+                "value": 8913
+              },
+              {
+                "local_date": "2026-07-10",
+                "value": 9805
+              }
+            ],
+            "active_minutes": [
+              {
+                "local_date": "2026-06-11",
+                "value": 45
+              },
+              {
+                "local_date": "2026-06-12",
+                "value": 56
+              },
+              {
+                "local_date": "2026-06-13",
+                "value": 54
+              },
+              {
+                "local_date": "2026-06-14",
+                "value": 42
+              },
+              {
+                "local_date": "2026-06-15",
+                "value": 43
+              },
+              {
+                "local_date": "2026-06-16",
+                "value": 51
+              },
+              {
+                "local_date": "2026-06-17",
+                "value": 47
+              },
+              {
+                "local_date": "2026-06-18",
+                "value": 44
+              },
+              {
+                "local_date": "2026-06-19",
+                "value": 53
+              },
+              {
+                "local_date": "2026-06-20",
+                "value": 56
+              },
+              {
+                "local_date": "2026-06-21",
+                "value": 45
+              },
+              {
+                "local_date": "2026-06-22",
+                "value": 40
+              },
+              {
+                "local_date": "2026-06-23",
+                "value": 49
+              },
+              {
+                "local_date": "2026-06-24",
+                "value": 51
+              },
+              {
+                "local_date": "2026-06-25",
+                "value": 45
+              },
+              {
+                "local_date": "2026-06-26",
+                "value": 49
+              },
+              {
+                "local_date": "2026-06-27",
+                "value": 56
+              },
+              {
+                "local_date": "2026-06-28",
+                "value": 49
+              },
+              {
+                "local_date": "2026-06-29",
+                "value": 39
+              },
+              {
+                "local_date": "2026-06-30",
+                "value": 45
+              },
+              {
+                "local_date": "2026-07-01",
+                "value": 53
+              },
+              {
+                "local_date": "2026-07-02",
+                "value": 48
+              },
+              {
+                "local_date": "2026-07-03",
+                "value": 46
+              },
+              {
+                "local_date": "2026-07-04",
+                "value": 54
+              },
+              {
+                "local_date": "2026-07-05",
+                "value": 52
+              },
+              {
+                "local_date": "2026-07-06",
+                "value": 40
+              },
+              {
+                "local_date": "2026-07-07",
+                "value": 41
+              },
+              {
+                "local_date": "2026-07-08",
+                "value": 52
+              },
+              {
+                "local_date": "2026-07-09",
+                "value": 52
+              },
+              {
+                "local_date": "2026-07-10",
+                "value": 46
+              }
+            ],
+            "vo2max": [
+              {
+                "local_date": "2026-06-11",
+                "value": 54.1
+              },
+              {
+                "local_date": "2026-06-12",
+                "value": 54.2
+              },
+              {
+                "local_date": "2026-06-13",
+                "value": 53.9
+              },
+              {
+                "local_date": "2026-06-14",
+                "value": 53.8
+              },
+              {
+                "local_date": "2026-06-15",
+                "value": 54
+              },
+              {
+                "local_date": "2026-06-16",
+                "value": 54.1
+              },
+              {
+                "local_date": "2026-06-17",
+                "value": 53.9
+              },
+              {
+                "local_date": "2026-06-18",
+                "value": 54
+              },
+              {
+                "local_date": "2026-06-19",
+                "value": 54.2
+              },
+              {
+                "local_date": "2026-06-20",
+                "value": 54
+              },
+              {
+                "local_date": "2026-06-21",
+                "value": 53.8
+              },
+              {
+                "local_date": "2026-06-22",
+                "value": 53.9
+              },
+              {
+                "local_date": "2026-06-23",
+                "value": 54.1
+              },
+              {
+                "local_date": "2026-06-24",
+                "value": 54
+              },
+              {
+                "local_date": "2026-06-25",
+                "value": 54
+              },
+              {
+                "local_date": "2026-06-26",
+                "value": 54.1
+              },
+              {
+                "local_date": "2026-06-27",
+                "value": 54.1
+              },
+              {
+                "local_date": "2026-06-28",
+                "value": 53.8
+              },
+              {
+                "local_date": "2026-06-29",
+                "value": 53.8
+              },
+              {
+                "local_date": "2026-06-30",
+                "value": 54.1
+              },
+              {
+                "local_date": "2026-07-01",
+                "value": 54.1
+              },
+              {
+                "local_date": "2026-07-02",
+                "value": 53.9
+              },
+              {
+                "local_date": "2026-07-03",
+                "value": 54
+              },
+              {
+                "local_date": "2026-07-04",
+                "value": 54.1
+              },
+              {
+                "local_date": "2026-07-05",
+                "value": 53.9
+              },
+              {
+                "local_date": "2026-07-06",
+                "value": 53.8
+              },
+              {
+                "local_date": "2026-07-07",
+                "value": 54
+              },
+              {
+                "local_date": "2026-07-08",
+                "value": 54.2
+              },
+              {
+                "local_date": "2026-07-09",
+                "value": 54
+              },
+              {
+                "local_date": "2026-07-10",
+                "value": 54
+              }
+            ]
+          },
+          "summary": {
+            "schema_version": "wearable_summary.v1",
+            "as_of": "2026-07-10",
+            "source": "unknown",
+            "device_lineage": null,
+            "windows": {
+              "resting_hr": {
+                "7d": {
+                  "window": "7d",
+                  "as_of_date": "2026-07-10",
+                  "n_days_present": 7,
+                  "n_days_required": 5,
+                  "density_met": true,
+                  "stat": "mean",
+                  "value": 50.6,
+                  "baseline_value": 51.3,
+                  "delta_abs": -0.7,
+                  "delta_pct": -1.3,
+                  "direction": "flat",
+                  "series_tail": [
+                    {
+                      "local_date": "2026-06-11",
+                      "value": 50.7
+                    },
+                    {
+                      "local_date": "2026-06-12",
+                      "value": 52.6
+                    },
+                    {
+                      "local_date": "2026-06-13",
+                      "value": 51.7
+                    },
+                    {
+                      "local_date": "2026-06-14",
+                      "value": 50.8
+                    },
+                    {
+                      "local_date": "2026-06-15",
+                      "value": 53
+                    },
+                    {
+                      "local_date": "2026-06-16",
+                      "value": 53.8
+                    },
+                    {
+                      "local_date": "2026-06-17",
+                      "value": 50.9
+                    },
+                    {
+                      "local_date": "2026-06-18",
+                      "value": 49.6
+                    },
+                    {
+                      "local_date": "2026-06-19",
+                      "value": 51.7
+                    },
+                    {
+                      "local_date": "2026-06-20",
+                      "value": 52.3
+                    },
+                    {
+                      "local_date": "2026-06-21",
+                      "value": 50.8
+                    },
+                    {
+                      "local_date": "2026-06-22",
+                      "value": 51.6
+                    },
+                    {
+                      "local_date": "2026-06-23",
+                      "value": 53.4
+                    },
+                    {
+                      "local_date": "2026-06-24",
+                      "value": 51.5
+                    },
+                    {
+                      "local_date": "2026-06-25",
+                      "value": 49
+                    },
+                    {
+                      "local_date": "2026-06-26",
+                      "value": 50.5
+                    },
+                    {
+                      "local_date": "2026-06-27",
+                      "value": 52.4
+                    },
+                    {
+                      "local_date": "2026-06-28",
+                      "value": 51.2
+                    },
+                    {
+                      "local_date": "2026-06-29",
+                      "value": 50.6
+                    },
+                    {
+                      "local_date": "2026-06-30",
+                      "value": 52.4
+                    },
+                    {
+                      "local_date": "2026-07-01",
+                      "value": 52
+                    },
+                    {
+                      "local_date": "2026-07-02",
+                      "value": 49
+                    },
+                    {
+                      "local_date": "2026-07-03",
+                      "value": 49.2
+                    },
+                    {
+                      "local_date": "2026-07-04",
+                      "value": 51.9
+                    },
+                    {
+                      "local_date": "2026-07-05",
+                      "value": 51.8
+                    },
+                    {
+                      "local_date": "2026-07-06",
+                      "value": 50.1
+                    },
+                    {
+                      "local_date": "2026-07-07",
+                      "value": 51.1
+                    },
+                    {
+                      "local_date": "2026-07-08",
+                      "value": 51.9
+                    },
+                    {
+                      "local_date": "2026-07-09",
+                      "value": 49.5
+                    },
+                    {
+                      "local_date": "2026-07-10",
+                      "value": 48.2
+                    }
+                  ]
+                },
+                "30d": {
+                  "window": "30d",
+                  "as_of_date": "2026-07-10",
+                  "n_days_present": 30,
+                  "n_days_required": 14,
+                  "density_met": true,
+                  "stat": "mean",
+                  "value": 51.2,
+                  "baseline_value": null,
+                  "delta_abs": null,
+                  "delta_pct": null,
+                  "direction": "unknown",
+                  "series_tail": [
+                    {
+                      "local_date": "2026-06-11",
+                      "value": 50.7
+                    },
+                    {
+                      "local_date": "2026-06-12",
+                      "value": 52.6
+                    },
+                    {
+                      "local_date": "2026-06-13",
+                      "value": 51.7
+                    },
+                    {
+                      "local_date": "2026-06-14",
+                      "value": 50.8
+                    },
+                    {
+                      "local_date": "2026-06-15",
+                      "value": 53
+                    },
+                    {
+                      "local_date": "2026-06-16",
+                      "value": 53.8
+                    },
+                    {
+                      "local_date": "2026-06-17",
+                      "value": 50.9
+                    },
+                    {
+                      "local_date": "2026-06-18",
+                      "value": 49.6
+                    },
+                    {
+                      "local_date": "2026-06-19",
+                      "value": 51.7
+                    },
+                    {
+                      "local_date": "2026-06-20",
+                      "value": 52.3
+                    },
+                    {
+                      "local_date": "2026-06-21",
+                      "value": 50.8
+                    },
+                    {
+                      "local_date": "2026-06-22",
+                      "value": 51.6
+                    },
+                    {
+                      "local_date": "2026-06-23",
+                      "value": 53.4
+                    },
+                    {
+                      "local_date": "2026-06-24",
+                      "value": 51.5
+                    },
+                    {
+                      "local_date": "2026-06-25",
+                      "value": 49
+                    },
+                    {
+                      "local_date": "2026-06-26",
+                      "value": 50.5
+                    },
+                    {
+                      "local_date": "2026-06-27",
+                      "value": 52.4
+                    },
+                    {
+                      "local_date": "2026-06-28",
+                      "value": 51.2
+                    },
+                    {
+                      "local_date": "2026-06-29",
+                      "value": 50.6
+                    },
+                    {
+                      "local_date": "2026-06-30",
+                      "value": 52.4
+                    },
+                    {
+                      "local_date": "2026-07-01",
+                      "value": 52
+                    },
+                    {
+                      "local_date": "2026-07-02",
+                      "value": 49
+                    },
+                    {
+                      "local_date": "2026-07-03",
+                      "value": 49.2
+                    },
+                    {
+                      "local_date": "2026-07-04",
+                      "value": 51.9
+                    },
+                    {
+                      "local_date": "2026-07-05",
+                      "value": 51.8
+                    },
+                    {
+                      "local_date": "2026-07-06",
+                      "value": 50.1
+                    },
+                    {
+                      "local_date": "2026-07-07",
+                      "value": 51.1
+                    },
+                    {
+                      "local_date": "2026-07-08",
+                      "value": 51.9
+                    },
+                    {
+                      "local_date": "2026-07-09",
+                      "value": 49.5
+                    },
+                    {
+                      "local_date": "2026-07-10",
+                      "value": 48.2
+                    }
+                  ]
+                },
+                "density_met": true
+              },
+              "hrv_rmssd": {
+                "7d": {
+                  "window": "7d",
+                  "as_of_date": "2026-07-10",
+                  "n_days_present": 7,
+                  "n_days_required": 5,
+                  "density_met": true,
+                  "stat": "mean",
+                  "value": 51.3,
+                  "baseline_value": 49.5,
+                  "delta_abs": 1.8,
+                  "delta_pct": 3.6,
+                  "direction": "up",
+                  "series_tail": [
+                    {
+                      "local_date": "2026-06-11",
+                      "value": 49.7
+                    },
+                    {
+                      "local_date": "2026-06-12",
+                      "value": 47.7
+                    },
+                    {
+                      "local_date": "2026-06-13",
+                      "value": 45.6
+                    },
+                    {
+                      "local_date": "2026-06-14",
+                      "value": 51.6
+                    },
+                    {
+                      "local_date": "2026-06-15",
+                      "value": 54
+                    },
+                    {
+                      "local_date": "2026-06-16",
+                      "value": 46.6
+                    },
+                    {
+                      "local_date": "2026-06-17",
+                      "value": 43.4
+                    },
+                    {
+                      "local_date": "2026-06-18",
+                      "value": 49.3
+                    },
+                    {
+                      "local_date": "2026-06-19",
+                      "value": 51.1
+                    },
+                    {
+                      "local_date": "2026-06-20",
+                      "value": 47.3
+                    },
+                    {
+                      "local_date": "2026-06-21",
+                      "value": 49.9
+                    },
+                    {
+                      "local_date": "2026-06-22",
+                      "value": 54.9
+                    },
+                    {
+                      "local_date": "2026-06-23",
+                      "value": 50.1
+                    },
+                    {
+                      "local_date": "2026-06-24",
+                      "value": 43.7
+                    },
+                    {
+                      "local_date": "2026-06-25",
+                      "value": 47.9
+                    },
+                    {
+                      "local_date": "2026-06-26",
+                      "value": 53.3
+                    },
+                    {
+                      "local_date": "2026-06-27",
+                      "value": 50.4
+                    },
+                    {
+                      "local_date": "2026-06-28",
+                      "value": 49.1
+                    },
+                    {
+                      "local_date": "2026-06-29",
+                      "value": 54.2
+                    },
+                    {
+                      "local_date": "2026-06-30",
+                      "value": 53.3
+                    },
+                    {
+                      "local_date": "2026-07-01",
+                      "value": 45.7
+                    },
+                    {
+                      "local_date": "2026-07-02",
+                      "value": 46.4
+                    },
+                    {
+                      "local_date": "2026-07-03",
+                      "value": 53.9
+                    },
+                    {
+                      "local_date": "2026-07-04",
+                      "value": 54
+                    },
+                    {
+                      "local_date": "2026-07-05",
+                      "value": 49.8
+                    },
+                    {
+                      "local_date": "2026-07-06",
+                      "value": 52.6
+                    },
+                    {
+                      "local_date": "2026-07-07",
+                      "value": 55.1
+                    },
+                    {
+                      "local_date": "2026-07-08",
+                      "value": 49
+                    },
+                    {
+                      "local_date": "2026-07-09",
+                      "value": 45.8
+                    },
+                    {
+                      "local_date": "2026-07-10",
+                      "value": 53
+                    }
+                  ]
+                },
+                "30d": {
+                  "window": "30d",
+                  "as_of_date": "2026-07-10",
+                  "n_days_present": 30,
+                  "n_days_required": 14,
+                  "density_met": true,
+                  "stat": "mean",
+                  "value": 49.9,
+                  "baseline_value": null,
+                  "delta_abs": null,
+                  "delta_pct": null,
+                  "direction": "unknown",
+                  "series_tail": [
+                    {
+                      "local_date": "2026-06-11",
+                      "value": 49.7
+                    },
+                    {
+                      "local_date": "2026-06-12",
+                      "value": 47.7
+                    },
+                    {
+                      "local_date": "2026-06-13",
+                      "value": 45.6
+                    },
+                    {
+                      "local_date": "2026-06-14",
+                      "value": 51.6
+                    },
+                    {
+                      "local_date": "2026-06-15",
+                      "value": 54
+                    },
+                    {
+                      "local_date": "2026-06-16",
+                      "value": 46.6
+                    },
+                    {
+                      "local_date": "2026-06-17",
+                      "value": 43.4
+                    },
+                    {
+                      "local_date": "2026-06-18",
+                      "value": 49.3
+                    },
+                    {
+                      "local_date": "2026-06-19",
+                      "value": 51.1
+                    },
+                    {
+                      "local_date": "2026-06-20",
+                      "value": 47.3
+                    },
+                    {
+                      "local_date": "2026-06-21",
+                      "value": 49.9
+                    },
+                    {
+                      "local_date": "2026-06-22",
+                      "value": 54.9
+                    },
+                    {
+                      "local_date": "2026-06-23",
+                      "value": 50.1
+                    },
+                    {
+                      "local_date": "2026-06-24",
+                      "value": 43.7
+                    },
+                    {
+                      "local_date": "2026-06-25",
+                      "value": 47.9
+                    },
+                    {
+                      "local_date": "2026-06-26",
+                      "value": 53.3
+                    },
+                    {
+                      "local_date": "2026-06-27",
+                      "value": 50.4
+                    },
+                    {
+                      "local_date": "2026-06-28",
+                      "value": 49.1
+                    },
+                    {
+                      "local_date": "2026-06-29",
+                      "value": 54.2
+                    },
+                    {
+                      "local_date": "2026-06-30",
+                      "value": 53.3
+                    },
+                    {
+                      "local_date": "2026-07-01",
+                      "value": 45.7
+                    },
+                    {
+                      "local_date": "2026-07-02",
+                      "value": 46.4
+                    },
+                    {
+                      "local_date": "2026-07-03",
+                      "value": 53.9
+                    },
+                    {
+                      "local_date": "2026-07-04",
+                      "value": 54
+                    },
+                    {
+                      "local_date": "2026-07-05",
+                      "value": 49.8
+                    },
+                    {
+                      "local_date": "2026-07-06",
+                      "value": 52.6
+                    },
+                    {
+                      "local_date": "2026-07-07",
+                      "value": 55.1
+                    },
+                    {
+                      "local_date": "2026-07-08",
+                      "value": 49
+                    },
+                    {
+                      "local_date": "2026-07-09",
+                      "value": 45.8
+                    },
+                    {
+                      "local_date": "2026-07-10",
+                      "value": 53
+                    }
+                  ]
+                },
+                "density_met": true
+              },
+              "sleep_duration": {
+                "7d": {
+                  "window": "7d",
+                  "as_of_date": "2026-07-10",
+                  "n_days_present": 7,
+                  "n_days_required": 5,
+                  "density_met": true,
+                  "stat": "mean",
+                  "value": 7.2,
+                  "baseline_value": 7.2,
+                  "delta_abs": 0,
+                  "delta_pct": 0.3,
+                  "direction": "flat",
+                  "series_tail": [
+                    {
+                      "local_date": "2026-06-11",
+                      "value": 7.1
+                    },
+                    {
+                      "local_date": "2026-06-12",
+                      "value": 7.7
+                    },
+                    {
+                      "local_date": "2026-06-13",
+                      "value": 7.5
+                    },
+                    {
+                      "local_date": "2026-06-14",
+                      "value": 6.9
+                    },
+                    {
+                      "local_date": "2026-06-15",
+                      "value": 6.9
+                    },
+                    {
+                      "local_date": "2026-06-16",
+                      "value": 7.3
+                    },
+                    {
+                      "local_date": "2026-06-17",
+                      "value": 7.2
+                    },
+                    {
+                      "local_date": "2026-06-18",
+                      "value": 7
+                    },
+                    {
+                      "local_date": "2026-06-19",
+                      "value": 7.5
+                    },
+                    {
+                      "local_date": "2026-06-20",
+                      "value": 7.7
+                    },
+                    {
+                      "local_date": "2026-06-21",
+                      "value": 7
+                    },
+                    {
+                      "local_date": "2026-06-22",
+                      "value": 6.7
+                    },
+                    {
+                      "local_date": "2026-06-23",
+                      "value": 7.2
+                    },
+                    {
+                      "local_date": "2026-06-24",
+                      "value": 7.4
+                    },
+                    {
+                      "local_date": "2026-06-25",
+                      "value": 7
+                    },
+                    {
+                      "local_date": "2026-06-26",
+                      "value": 7.2
+                    },
+                    {
+                      "local_date": "2026-06-27",
+                      "value": 7.7
+                    },
+                    {
+                      "local_date": "2026-06-28",
+                      "value": 7.2
+                    },
+                    {
+                      "local_date": "2026-06-29",
+                      "value": 6.7
+                    },
+                    {
+                      "local_date": "2026-06-30",
+                      "value": 7
+                    },
+                    {
+                      "local_date": "2026-07-01",
+                      "value": 7.5
+                    },
+                    {
+                      "local_date": "2026-07-02",
+                      "value": 7.2
+                    },
+                    {
+                      "local_date": "2026-07-03",
+                      "value": 7.1
+                    },
+                    {
+                      "local_date": "2026-07-04",
+                      "value": 7.5
+                    },
+                    {
+                      "local_date": "2026-07-05",
+                      "value": 7.4
+                    },
+                    {
+                      "local_date": "2026-07-06",
+                      "value": 6.8
+                    },
+                    {
+                      "local_date": "2026-07-07",
+                      "value": 6.8
+                    },
+                    {
+                      "local_date": "2026-07-08",
+                      "value": 7.5
+                    },
+                    {
+                      "local_date": "2026-07-09",
+                      "value": 7.5
+                    },
+                    {
+                      "local_date": "2026-07-10",
+                      "value": 7.1
+                    }
+                  ]
+                },
+                "30d": {
+                  "window": "30d",
+                  "as_of_date": "2026-07-10",
+                  "n_days_present": 30,
+                  "n_days_required": 14,
+                  "density_met": true,
+                  "stat": "mean",
+                  "value": 7.2,
+                  "baseline_value": null,
+                  "delta_abs": null,
+                  "delta_pct": null,
+                  "direction": "unknown",
+                  "series_tail": [
+                    {
+                      "local_date": "2026-06-11",
+                      "value": 7.1
+                    },
+                    {
+                      "local_date": "2026-06-12",
+                      "value": 7.7
+                    },
+                    {
+                      "local_date": "2026-06-13",
+                      "value": 7.5
+                    },
+                    {
+                      "local_date": "2026-06-14",
+                      "value": 6.9
+                    },
+                    {
+                      "local_date": "2026-06-15",
+                      "value": 6.9
+                    },
+                    {
+                      "local_date": "2026-06-16",
+                      "value": 7.3
+                    },
+                    {
+                      "local_date": "2026-06-17",
+                      "value": 7.2
+                    },
+                    {
+                      "local_date": "2026-06-18",
+                      "value": 7
+                    },
+                    {
+                      "local_date": "2026-06-19",
+                      "value": 7.5
+                    },
+                    {
+                      "local_date": "2026-06-20",
+                      "value": 7.7
+                    },
+                    {
+                      "local_date": "2026-06-21",
+                      "value": 7
+                    },
+                    {
+                      "local_date": "2026-06-22",
+                      "value": 6.7
+                    },
+                    {
+                      "local_date": "2026-06-23",
+                      "value": 7.2
+                    },
+                    {
+                      "local_date": "2026-06-24",
+                      "value": 7.4
+                    },
+                    {
+                      "local_date": "2026-06-25",
+                      "value": 7
+                    },
+                    {
+                      "local_date": "2026-06-26",
+                      "value": 7.2
+                    },
+                    {
+                      "local_date": "2026-06-27",
+                      "value": 7.7
+                    },
+                    {
+                      "local_date": "2026-06-28",
+                      "value": 7.2
+                    },
+                    {
+                      "local_date": "2026-06-29",
+                      "value": 6.7
+                    },
+                    {
+                      "local_date": "2026-06-30",
+                      "value": 7
+                    },
+                    {
+                      "local_date": "2026-07-01",
+                      "value": 7.5
+                    },
+                    {
+                      "local_date": "2026-07-02",
+                      "value": 7.2
+                    },
+                    {
+                      "local_date": "2026-07-03",
+                      "value": 7.1
+                    },
+                    {
+                      "local_date": "2026-07-04",
+                      "value": 7.5
+                    },
+                    {
+                      "local_date": "2026-07-05",
+                      "value": 7.4
+                    },
+                    {
+                      "local_date": "2026-07-06",
+                      "value": 6.8
+                    },
+                    {
+                      "local_date": "2026-07-07",
+                      "value": 6.8
+                    },
+                    {
+                      "local_date": "2026-07-08",
+                      "value": 7.5
+                    },
+                    {
+                      "local_date": "2026-07-09",
+                      "value": 7.5
+                    },
+                    {
+                      "local_date": "2026-07-10",
+                      "value": 7.1
+                    }
+                  ]
+                },
+                "density_met": true
+              },
+              "steps": {
+                "7d": {
+                  "window": "7d",
+                  "as_of_date": "2026-07-10",
+                  "n_days_present": 7,
+                  "n_days_required": 5,
+                  "density_met": true,
+                  "stat": "mean",
+                  "value": 9151,
+                  "baseline_value": 9245,
+                  "delta_abs": -94,
+                  "delta_pct": -1,
+                  "direction": "flat",
+                  "series_tail": [
+                    {
+                      "local_date": "2026-06-11",
+                      "value": 10424
+                    },
+                    {
+                      "local_date": "2026-06-12",
+                      "value": 8732
+                    },
+                    {
+                      "local_date": "2026-06-13",
+                      "value": 7979
+                    },
+                    {
+                      "local_date": "2026-06-14",
+                      "value": 9282
+                    },
+                    {
+                      "local_date": "2026-06-15",
+                      "value": 9645
+                    },
+                    {
+                      "local_date": "2026-06-16",
+                      "value": 8766
+                    },
+                    {
+                      "local_date": "2026-06-17",
+                      "value": 9326
+                    },
+                    {
+                      "local_date": "2026-06-18",
+                      "value": 10410
+                    },
+                    {
+                      "local_date": "2026-06-19",
+                      "value": 9307
+                    },
+                    {
+                      "local_date": "2026-06-20",
+                      "value": 7832
+                    },
+                    {
+                      "local_date": "2026-06-21",
+                      "value": 8737
+                    },
+                    {
+                      "local_date": "2026-06-22",
+                      "value": 9938
+                    },
+                    {
+                      "local_date": "2026-06-23",
+                      "value": 9249
+                    },
+                    {
+                      "local_date": "2026-06-24",
+                      "value": 8921
+                    },
+                    {
+                      "local_date": "2026-06-25",
+                      "value": 10033
+                    },
+                    {
+                      "local_date": "2026-06-26",
+                      "value": 9800
+                    },
+                    {
+                      "local_date": "2026-06-27",
+                      "value": 8069
+                    },
+                    {
+                      "local_date": "2026-06-28",
+                      "value": 8177
+                    },
+                    {
+                      "local_date": "2026-06-29",
+                      "value": 9851
+                    },
+                    {
+                      "local_date": "2026-06-30",
+                      "value": 9844
+                    },
+                    {
+                      "local_date": "2026-07-01",
+                      "value": 8865
+                    },
+                    {
+                      "local_date": "2026-07-02",
+                      "value": 9452
+                    },
+                    {
+                      "local_date": "2026-07-03",
+                      "value": 9995
+                    },
+                    {
+                      "local_date": "2026-07-04",
+                      "value": 8586
+                    },
+                    {
+                      "local_date": "2026-07-05",
+                      "value": 7843
+                    },
+                    {
+                      "local_date": "2026-07-06",
+                      "value": 9426
+                    },
+                    {
+                      "local_date": "2026-07-07",
+                      "value": 10302
+                    },
+                    {
+                      "local_date": "2026-07-08",
+                      "value": 9184
+                    },
+                    {
+                      "local_date": "2026-07-09",
+                      "value": 8913
+                    },
+                    {
+                      "local_date": "2026-07-10",
+                      "value": 9805
+                    }
+                  ]
+                },
+                "30d": {
+                  "window": "30d",
+                  "as_of_date": "2026-07-10",
+                  "n_days_present": 30,
+                  "n_days_required": 14,
+                  "density_met": true,
+                  "stat": "mean",
+                  "value": 9223,
+                  "baseline_value": null,
+                  "delta_abs": null,
+                  "delta_pct": null,
+                  "direction": "unknown",
+                  "series_tail": [
+                    {
+                      "local_date": "2026-06-11",
+                      "value": 10424
+                    },
+                    {
+                      "local_date": "2026-06-12",
+                      "value": 8732
+                    },
+                    {
+                      "local_date": "2026-06-13",
+                      "value": 7979
+                    },
+                    {
+                      "local_date": "2026-06-14",
+                      "value": 9282
+                    },
+                    {
+                      "local_date": "2026-06-15",
+                      "value": 9645
+                    },
+                    {
+                      "local_date": "2026-06-16",
+                      "value": 8766
+                    },
+                    {
+                      "local_date": "2026-06-17",
+                      "value": 9326
+                    },
+                    {
+                      "local_date": "2026-06-18",
+                      "value": 10410
+                    },
+                    {
+                      "local_date": "2026-06-19",
+                      "value": 9307
+                    },
+                    {
+                      "local_date": "2026-06-20",
+                      "value": 7832
+                    },
+                    {
+                      "local_date": "2026-06-21",
+                      "value": 8737
+                    },
+                    {
+                      "local_date": "2026-06-22",
+                      "value": 9938
+                    },
+                    {
+                      "local_date": "2026-06-23",
+                      "value": 9249
+                    },
+                    {
+                      "local_date": "2026-06-24",
+                      "value": 8921
+                    },
+                    {
+                      "local_date": "2026-06-25",
+                      "value": 10033
+                    },
+                    {
+                      "local_date": "2026-06-26",
+                      "value": 9800
+                    },
+                    {
+                      "local_date": "2026-06-27",
+                      "value": 8069
+                    },
+                    {
+                      "local_date": "2026-06-28",
+                      "value": 8177
+                    },
+                    {
+                      "local_date": "2026-06-29",
+                      "value": 9851
+                    },
+                    {
+                      "local_date": "2026-06-30",
+                      "value": 9844
+                    },
+                    {
+                      "local_date": "2026-07-01",
+                      "value": 8865
+                    },
+                    {
+                      "local_date": "2026-07-02",
+                      "value": 9452
+                    },
+                    {
+                      "local_date": "2026-07-03",
+                      "value": 9995
+                    },
+                    {
+                      "local_date": "2026-07-04",
+                      "value": 8586
+                    },
+                    {
+                      "local_date": "2026-07-05",
+                      "value": 7843
+                    },
+                    {
+                      "local_date": "2026-07-06",
+                      "value": 9426
+                    },
+                    {
+                      "local_date": "2026-07-07",
+                      "value": 10302
+                    },
+                    {
+                      "local_date": "2026-07-08",
+                      "value": 9184
+                    },
+                    {
+                      "local_date": "2026-07-09",
+                      "value": 8913
+                    },
+                    {
+                      "local_date": "2026-07-10",
+                      "value": 9805
+                    }
+                  ]
+                },
+                "density_met": true
+              },
+              "active_minutes": {
+                "7d": {
+                  "window": "7d",
+                  "as_of_date": "2026-07-10",
+                  "n_days_present": 7,
+                  "n_days_required": 5,
+                  "density_met": true,
+                  "stat": "mean",
+                  "value": 48.1,
+                  "baseline_value": 48.1,
+                  "delta_abs": 0.1,
+                  "delta_pct": 0.1,
+                  "direction": "flat",
+                  "series_tail": [
+                    {
+                      "local_date": "2026-06-11",
+                      "value": 45
+                    },
+                    {
+                      "local_date": "2026-06-12",
+                      "value": 56
+                    },
+                    {
+                      "local_date": "2026-06-13",
+                      "value": 54
+                    },
+                    {
+                      "local_date": "2026-06-14",
+                      "value": 42
+                    },
+                    {
+                      "local_date": "2026-06-15",
+                      "value": 43
+                    },
+                    {
+                      "local_date": "2026-06-16",
+                      "value": 51
+                    },
+                    {
+                      "local_date": "2026-06-17",
+                      "value": 47
+                    },
+                    {
+                      "local_date": "2026-06-18",
+                      "value": 44
+                    },
+                    {
+                      "local_date": "2026-06-19",
+                      "value": 53
+                    },
+                    {
+                      "local_date": "2026-06-20",
+                      "value": 56
+                    },
+                    {
+                      "local_date": "2026-06-21",
+                      "value": 45
+                    },
+                    {
+                      "local_date": "2026-06-22",
+                      "value": 40
+                    },
+                    {
+                      "local_date": "2026-06-23",
+                      "value": 49
+                    },
+                    {
+                      "local_date": "2026-06-24",
+                      "value": 51
+                    },
+                    {
+                      "local_date": "2026-06-25",
+                      "value": 45
+                    },
+                    {
+                      "local_date": "2026-06-26",
+                      "value": 49
+                    },
+                    {
+                      "local_date": "2026-06-27",
+                      "value": 56
+                    },
+                    {
+                      "local_date": "2026-06-28",
+                      "value": 49
+                    },
+                    {
+                      "local_date": "2026-06-29",
+                      "value": 39
+                    },
+                    {
+                      "local_date": "2026-06-30",
+                      "value": 45
+                    },
+                    {
+                      "local_date": "2026-07-01",
+                      "value": 53
+                    },
+                    {
+                      "local_date": "2026-07-02",
+                      "value": 48
+                    },
+                    {
+                      "local_date": "2026-07-03",
+                      "value": 46
+                    },
+                    {
+                      "local_date": "2026-07-04",
+                      "value": 54
+                    },
+                    {
+                      "local_date": "2026-07-05",
+                      "value": 52
+                    },
+                    {
+                      "local_date": "2026-07-06",
+                      "value": 40
+                    },
+                    {
+                      "local_date": "2026-07-07",
+                      "value": 41
+                    },
+                    {
+                      "local_date": "2026-07-08",
+                      "value": 52
+                    },
+                    {
+                      "local_date": "2026-07-09",
+                      "value": 52
+                    },
+                    {
+                      "local_date": "2026-07-10",
+                      "value": 46
+                    }
+                  ]
+                },
+                "30d": {
+                  "window": "30d",
+                  "as_of_date": "2026-07-10",
+                  "n_days_present": 30,
+                  "n_days_required": 14,
+                  "density_met": true,
+                  "stat": "mean",
+                  "value": 48.1,
+                  "baseline_value": null,
+                  "delta_abs": null,
+                  "delta_pct": null,
+                  "direction": "unknown",
+                  "series_tail": [
+                    {
+                      "local_date": "2026-06-11",
+                      "value": 45
+                    },
+                    {
+                      "local_date": "2026-06-12",
+                      "value": 56
+                    },
+                    {
+                      "local_date": "2026-06-13",
+                      "value": 54
+                    },
+                    {
+                      "local_date": "2026-06-14",
+                      "value": 42
+                    },
+                    {
+                      "local_date": "2026-06-15",
+                      "value": 43
+                    },
+                    {
+                      "local_date": "2026-06-16",
+                      "value": 51
+                    },
+                    {
+                      "local_date": "2026-06-17",
+                      "value": 47
+                    },
+                    {
+                      "local_date": "2026-06-18",
+                      "value": 44
+                    },
+                    {
+                      "local_date": "2026-06-19",
+                      "value": 53
+                    },
+                    {
+                      "local_date": "2026-06-20",
+                      "value": 56
+                    },
+                    {
+                      "local_date": "2026-06-21",
+                      "value": 45
+                    },
+                    {
+                      "local_date": "2026-06-22",
+                      "value": 40
+                    },
+                    {
+                      "local_date": "2026-06-23",
+                      "value": 49
+                    },
+                    {
+                      "local_date": "2026-06-24",
+                      "value": 51
+                    },
+                    {
+                      "local_date": "2026-06-25",
+                      "value": 45
+                    },
+                    {
+                      "local_date": "2026-06-26",
+                      "value": 49
+                    },
+                    {
+                      "local_date": "2026-06-27",
+                      "value": 56
+                    },
+                    {
+                      "local_date": "2026-06-28",
+                      "value": 49
+                    },
+                    {
+                      "local_date": "2026-06-29",
+                      "value": 39
+                    },
+                    {
+                      "local_date": "2026-06-30",
+                      "value": 45
+                    },
+                    {
+                      "local_date": "2026-07-01",
+                      "value": 53
+                    },
+                    {
+                      "local_date": "2026-07-02",
+                      "value": 48
+                    },
+                    {
+                      "local_date": "2026-07-03",
+                      "value": 46
+                    },
+                    {
+                      "local_date": "2026-07-04",
+                      "value": 54
+                    },
+                    {
+                      "local_date": "2026-07-05",
+                      "value": 52
+                    },
+                    {
+                      "local_date": "2026-07-06",
+                      "value": 40
+                    },
+                    {
+                      "local_date": "2026-07-07",
+                      "value": 41
+                    },
+                    {
+                      "local_date": "2026-07-08",
+                      "value": 52
+                    },
+                    {
+                      "local_date": "2026-07-09",
+                      "value": 52
+                    },
+                    {
+                      "local_date": "2026-07-10",
+                      "value": 46
+                    }
+                  ]
+                },
+                "density_met": true
+              },
+              "vo2max": {
+                "7d": {
+                  "window": "7d",
+                  "as_of_date": "2026-07-10",
+                  "n_days_present": 7,
+                  "n_days_required": 1,
+                  "density_met": true,
+                  "stat": "mean",
+                  "value": 54,
+                  "baseline_value": 54,
+                  "delta_abs": 0,
+                  "delta_pct": 0,
+                  "direction": "flat",
+                  "series_tail": [
+                    {
+                      "local_date": "2026-06-11",
+                      "value": 54.1
+                    },
+                    {
+                      "local_date": "2026-06-12",
+                      "value": 54.2
+                    },
+                    {
+                      "local_date": "2026-06-13",
+                      "value": 53.9
+                    },
+                    {
+                      "local_date": "2026-06-14",
+                      "value": 53.8
+                    },
+                    {
+                      "local_date": "2026-06-15",
+                      "value": 54
+                    },
+                    {
+                      "local_date": "2026-06-16",
+                      "value": 54.1
+                    },
+                    {
+                      "local_date": "2026-06-17",
+                      "value": 53.9
+                    },
+                    {
+                      "local_date": "2026-06-18",
+                      "value": 54
+                    },
+                    {
+                      "local_date": "2026-06-19",
+                      "value": 54.2
+                    },
+                    {
+                      "local_date": "2026-06-20",
+                      "value": 54
+                    },
+                    {
+                      "local_date": "2026-06-21",
+                      "value": 53.8
+                    },
+                    {
+                      "local_date": "2026-06-22",
+                      "value": 53.9
+                    },
+                    {
+                      "local_date": "2026-06-23",
+                      "value": 54.1
+                    },
+                    {
+                      "local_date": "2026-06-24",
+                      "value": 54
+                    },
+                    {
+                      "local_date": "2026-06-25",
+                      "value": 54
+                    },
+                    {
+                      "local_date": "2026-06-26",
+                      "value": 54.1
+                    },
+                    {
+                      "local_date": "2026-06-27",
+                      "value": 54.1
+                    },
+                    {
+                      "local_date": "2026-06-28",
+                      "value": 53.8
+                    },
+                    {
+                      "local_date": "2026-06-29",
+                      "value": 53.8
+                    },
+                    {
+                      "local_date": "2026-06-30",
+                      "value": 54.1
+                    },
+                    {
+                      "local_date": "2026-07-01",
+                      "value": 54.1
+                    },
+                    {
+                      "local_date": "2026-07-02",
+                      "value": 53.9
+                    },
+                    {
+                      "local_date": "2026-07-03",
+                      "value": 54
+                    },
+                    {
+                      "local_date": "2026-07-04",
+                      "value": 54.1
+                    },
+                    {
+                      "local_date": "2026-07-05",
+                      "value": 53.9
+                    },
+                    {
+                      "local_date": "2026-07-06",
+                      "value": 53.8
+                    },
+                    {
+                      "local_date": "2026-07-07",
+                      "value": 54
+                    },
+                    {
+                      "local_date": "2026-07-08",
+                      "value": 54.2
+                    },
+                    {
+                      "local_date": "2026-07-09",
+                      "value": 54
+                    },
+                    {
+                      "local_date": "2026-07-10",
+                      "value": 54
+                    }
+                  ]
+                },
+                "30d": {
+                  "window": "30d",
+                  "as_of_date": "2026-07-10",
+                  "n_days_present": 30,
+                  "n_days_required": 1,
+                  "density_met": true,
+                  "stat": "mean",
+                  "value": 54,
+                  "baseline_value": null,
+                  "delta_abs": null,
+                  "delta_pct": null,
+                  "direction": "unknown",
+                  "series_tail": [
+                    {
+                      "local_date": "2026-06-11",
+                      "value": 54.1
+                    },
+                    {
+                      "local_date": "2026-06-12",
+                      "value": 54.2
+                    },
+                    {
+                      "local_date": "2026-06-13",
+                      "value": 53.9
+                    },
+                    {
+                      "local_date": "2026-06-14",
+                      "value": 53.8
+                    },
+                    {
+                      "local_date": "2026-06-15",
+                      "value": 54
+                    },
+                    {
+                      "local_date": "2026-06-16",
+                      "value": 54.1
+                    },
+                    {
+                      "local_date": "2026-06-17",
+                      "value": 53.9
+                    },
+                    {
+                      "local_date": "2026-06-18",
+                      "value": 54
+                    },
+                    {
+                      "local_date": "2026-06-19",
+                      "value": 54.2
+                    },
+                    {
+                      "local_date": "2026-06-20",
+                      "value": 54
+                    },
+                    {
+                      "local_date": "2026-06-21",
+                      "value": 53.8
+                    },
+                    {
+                      "local_date": "2026-06-22",
+                      "value": 53.9
+                    },
+                    {
+                      "local_date": "2026-06-23",
+                      "value": 54.1
+                    },
+                    {
+                      "local_date": "2026-06-24",
+                      "value": 54
+                    },
+                    {
+                      "local_date": "2026-06-25",
+                      "value": 54
+                    },
+                    {
+                      "local_date": "2026-06-26",
+                      "value": 54.1
+                    },
+                    {
+                      "local_date": "2026-06-27",
+                      "value": 54.1
+                    },
+                    {
+                      "local_date": "2026-06-28",
+                      "value": 53.8
+                    },
+                    {
+                      "local_date": "2026-06-29",
+                      "value": 53.8
+                    },
+                    {
+                      "local_date": "2026-06-30",
+                      "value": 54.1
+                    },
+                    {
+                      "local_date": "2026-07-01",
+                      "value": 54.1
+                    },
+                    {
+                      "local_date": "2026-07-02",
+                      "value": 53.9
+                    },
+                    {
+                      "local_date": "2026-07-03",
+                      "value": 54
+                    },
+                    {
+                      "local_date": "2026-07-04",
+                      "value": 54.1
+                    },
+                    {
+                      "local_date": "2026-07-05",
+                      "value": 53.9
+                    },
+                    {
+                      "local_date": "2026-07-06",
+                      "value": 53.8
+                    },
+                    {
+                      "local_date": "2026-07-07",
+                      "value": 54
+                    },
+                    {
+                      "local_date": "2026-07-08",
+                      "value": 54.2
+                    },
+                    {
+                      "local_date": "2026-07-09",
+                      "value": 54
+                    },
+                    {
+                      "local_date": "2026-07-10",
+                      "value": 54
+                    }
+                  ]
+                },
+                "density_met": true
+              }
+            },
+            "coverage": {
+              "nights_28d": 30,
+              "days_steps_28d": 30,
+              "last_sync_at": null
+            }
+          }
+        }
+      },
+      "family_history": [
+        "Diabetes in first-degree relative"
+      ],
+      "symptoms": [
+        "Fatigue",
+        "Sleep risk symptoms"
+      ],
+      "orders": [
+        {
+          "schema_version": "order_state.v1",
+          "order_id": "quest-synth-001",
+          "patient_id": "ethan-park",
+          "order_type": "venous_lab",
+          "vendor": "Quest",
+          "panel": "launch_baseline",
+          "path": "venous",
+          "status": "results_available",
+          "state": "results_available",
+          "created_at": "2026-07-04T15:00:00Z",
+          "updated_at": "2026-07-04T16:12:00Z",
+          "status_history": [
+            {
+              "status": "created",
+              "timestamp_utc": "2026-07-04T15:00:00Z",
+              "source": "local_diagnostics_fake"
+            },
+            {
+              "status": "results_available",
+              "timestamp_utc": "2026-07-04T16:12:00Z",
+              "source": "local_diagnostics_fake"
+            }
+          ],
+          "external_handles": [
+            {
+              "system": "local_diagnostics_fake",
+              "handle": "quest-local-001"
+            }
+          ],
+          "result_refs": [
+            "result-quest-synth-001:normalized_diagnostic_result"
+          ],
+          "metadata": {
+            "local_only": true
+          }
+        },
+        {
+          "schema_version": "order_state.v1",
+          "order_id": "tasso-synth-001",
+          "patient_id": "ethan-park",
+          "order_type": "home_lab_kit",
+          "vendor": "Tasso",
+          "panel": "home_followup",
+          "path": "home",
+          "status": "sample_in_transit",
+          "state": "sample_in_transit",
+          "created_at": "2026-07-04T15:05:00Z",
+          "updated_at": "2026-07-04T16:20:00Z",
+          "status_history": [
+            {
+              "status": "kit_shipped",
+              "timestamp_utc": "2026-07-04T15:05:00Z",
+              "source": "local_diagnostics_fake"
+            },
+            {
+              "status": "sample_in_transit",
+              "timestamp_utc": "2026-07-04T16:20:00Z",
+              "source": "local_diagnostics_fake"
+            }
+          ],
+          "external_handles": [
+            {
+              "system": "local_diagnostics_fake",
+              "handle": "tasso-local-001"
+            }
+          ],
+          "result_refs": [],
+          "metadata": {
+            "local_only": true
+          }
+        }
+      ],
+      "diagnostic_results": [
+        {
+          "schema_version": "normalized_diagnostic_result.local.v1",
+          "result_id": "result-quest-synth-001",
+          "patient_id": "ethan-park",
+          "order_id": "quest-synth-001",
+          "vendor": "Quest",
+          "panel": "launch_baseline",
+          "received_at": "2026-07-04T16:12:00Z",
+          "observations": [
+            {
+              "code": "hba1c",
+              "name": "HbA1c",
+              "value": 6,
+              "unit": "%",
+              "collected_at": "2026-07-04T15:35:00Z",
+              "source_result_id": "result-quest-synth-001",
+              "provenance": {
+                "source": "local_diagnostics_fake",
+                "order_id": "quest-synth-001",
+                "vendor": "Quest"
+              }
+            },
+            {
+              "code": "fasting_glucose",
+              "name": "Fasting glucose",
+              "value": 110,
+              "unit": "mg/dL",
+              "collected_at": "2026-07-04T15:35:00Z",
+              "source_result_id": "result-quest-synth-001",
+              "provenance": {
+                "source": "local_diagnostics_fake",
+                "order_id": "quest-synth-001",
+                "vendor": "Quest"
+              }
+            }
+          ],
+          "metadata": {
+            "local_only": true,
+            "raw_payload_retained": false,
+            "interpretation_redacted": true
+          }
+        }
+      ]
+    },
+    "action_map_state": {
+      "schema_version": "action_map_state.v1",
+      "run_id": "run-synth-al47m-001",
+      "patient_packet_hash": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+      "library_versions": {
+        "action_library_v2": "2.0-prototype",
+        "genetic_mustdo_library": "genetic_mustdo.v1"
+      },
+      "patient": {
+        "patient_id": "ethan-park",
+        "display_name": "Ethan Park",
+        "code": "AL-47M",
+        "age": 47,
+        "sex": "male",
+        "phenotype": "metabolic-risk phenotype"
+      },
+      "risk_outputs": [
+        {
+          "id": "cvd",
+          "label": "Cardiovascular",
+          "display": "16%",
+          "horizon": "30-yr ASCVD",
+          "source": "AHA PREVENT"
+        },
+        {
+          "id": "metabolic",
+          "label": "Metabolic",
+          "display": "34%",
+          "horizon": "10-yr incident T2D",
+          "source": "pending live model wiring"
+        }
+      ],
+      "vitality_outputs": [
+        {
+          "id": "energy",
+          "label": "Energy / aliveness",
+          "value": 4,
+          "units": "0-10 score"
+        },
+        {
+          "id": "clarity",
+          "label": "Cognitive clarity",
+          "value": 5,
+          "units": "0-10 score"
+        }
+      ],
+      "model_outputs": {
+        "risk_domains": [
+          {
+            "id": "cvd",
+            "label": "Cardiovascular",
+            "display": "16%",
+            "horizon": "30-yr ASCVD",
+            "source": "AHA PREVENT"
+          },
+          {
+            "id": "metabolic",
+            "label": "Metabolic",
+            "display": "34%",
+            "horizon": "10-yr incident T2D",
+            "source": "pending live model wiring"
+          }
+        ],
+        "vitality": {
+          "outcomes": [
+            {
+              "id": "energy",
+              "label": "Energy / aliveness",
+              "value": 4,
+              "units": "0-10 score"
+            },
+            {
+              "id": "clarity",
+              "label": "Cognitive clarity",
+              "value": 5,
+              "units": "0-10 score"
+            }
+          ]
+        }
+      },
+      "required_items": [
+        {
+          "id": "req-colorectal-screening",
+          "label": "Colorectal screening is not current",
+          "source": "care_gap_library",
+          "reason": "Age 47 with no completed screening."
+        }
+      ],
+      "scored_items": [
+        {
+          "id": "act-metabolic-program",
+          "type": "action",
+          "label": "Metabolic risk and body composition program",
+          "patient_value": {
+            "display_qaly": 0.42,
+            "unit": "QALY"
+          },
+          "provenance": {
+            "library_id": "action_library_v2",
+            "patient_keys": [
+              "bmi",
+              "hba1c",
+              "homa_ir"
+            ]
+          },
+          "evidence_axis": "hard_outcome",
+          "recommendation_eligible": true
+        },
+        {
+          "id": "act-zone2-strength",
+          "type": "action",
+          "label": "Zone 2 plus progressive strength prescription",
+          "patient_value": {
+            "display_qaly": 0.24,
+            "unit": "QALY"
+          },
+          "provenance": {
+            "library_id": "action_library_v2",
+            "patient_keys": [
+              "vo2max",
+              "fatigue"
+            ]
+          },
+          "evidence_axis": "vitality_and_prevention",
+          "recommendation_eligible": true
+        },
+        {
+          "id": "dx-home-bp",
+          "type": "diagnostic",
+          "label": "Home blood pressure confirmation",
+          "patient_value": {
+            "display_qaly": 0.18,
+            "unit": "QALY if reclassified"
+          },
+          "provenance": {
+            "library_id": "action_library_v2",
+            "patient_keys": [
+              "blood_pressure"
+            ]
+          },
+          "p_reclass": {
+            "value": 0.31,
+            "units": "probability"
+          },
+          "qaly_if_reclassified": {
+            "value": 0.18,
+            "units": "QALY"
+          },
+          "evidence_axis": "diagnostic_value",
+          "recommendation_eligible": true
+        }
+      ],
+      "optional_actions": [
+        {
+          "id": "act-metabolic-program",
+          "label": "Metabolic risk and body composition program",
+          "kind": "action",
+          "source": "action_library_v2",
+          "evidence_axis": "hard_outcome",
+          "patient_value_qaly": {
+            "value": 0.42,
+            "units": "QALY"
+          },
+          "matched_findings": [
+            "bmi",
+            "hba1c",
+            "homa_ir"
+          ],
+          "recommendation_eligible": true,
+          "trace_status": "engine_emitted"
+        },
+        {
+          "id": "act-zone2-strength",
+          "label": "Zone 2 plus progressive strength prescription",
+          "kind": "action",
+          "source": "action_library_v2",
+          "evidence_axis": "vitality_and_prevention",
+          "patient_value_qaly": {
+            "value": 0.24,
+            "units": "QALY"
+          },
+          "matched_findings": [
+            "vo2max",
+            "fatigue"
+          ],
+          "recommendation_eligible": true,
+          "trace_status": "engine_emitted"
+        }
+      ],
+      "diagnostics": [
+        {
+          "id": "dx-home-bp",
+          "label": "Home blood pressure confirmation",
+          "kind": "diagnostic",
+          "source": "action_library_v2",
+          "p_reclass": {
+            "value": 0.31,
+            "units": "probability"
+          },
+          "qaly_if_reclassified": {
+            "value": 0.18,
+            "units": "QALY"
+          },
+          "matched_triggers": [
+            "blood_pressure"
+          ],
+          "recommendation_eligible": true,
+          "trace_status": "engine_emitted"
+        }
+      ],
+      "ai_candidates": [
+        {
+          "id": "ai-sleep-risk-001",
+          "title": "Sleep risk from fatigue and overnight desaturation",
+          "candidate_kind": "diagnostic",
+          "state": "scored_candidate",
+          "cited_keys_valid": true,
+          "mapped_scored_item": "dx-sleep-apnea"
+        }
+      ],
+      "ai_candidate_funnel": [
+        {
+          "id": "ai-sleep-risk-001",
+          "title": "Sleep risk from fatigue and overnight desaturation",
+          "candidate_kind": "diagnostic",
+          "state": "scored_candidate",
+          "cited_keys_valid": true,
+          "mapped_scored_item": "dx-sleep-apnea"
+        }
+      ],
+      "excluded_items": [
+        {
+          "id": "act-not-eligible",
+          "label": "Example excluded action",
+          "reason": "Required findings absent",
+          "required_findings": [
+            "example_missing_key"
+          ]
+        }
+      ],
+      "warnings": []
+    },
+    "run_audit": {
+      "schema_version": "run_audit.v1",
+      "run_id": "run-synth-al47m-001",
+      "audit_pass": true,
+      "checks": [
+        {
+          "check_id": "no_patient_specific_ui_branching",
+          "id": "no_patient_specific_ui_branching",
+          "status": "pass",
+          "pass": true
+        },
+        {
+          "check_id": "all_visible_values_have_units",
+          "id": "all_visible_values_have_units",
+          "status": "pass",
+          "pass": true
+        },
+        {
+          "check_id": "recommendations_have_provenance",
+          "id": "recommendations_have_provenance",
+          "status": "pass",
+          "pass": true
+        }
+      ]
+    },
+    "clinical_plan": {
+      "schema_version": "clinical_plan.v1",
+      "plan_id": "plan-synth-al47m-001",
+      "source_action_map_state": "run-synth-al47m-001",
+      "source_engine_run_id": "run-synth-al47m-001",
+      "patient_id": "ethan-park",
+      "title": "Physician review draft",
+      "summary": "Engine-emitted draft for physician review. Not patient-visible.",
+      "clinical_overview": "Metabolic risk, low fitness reserve, and incomplete colorectal screening drive this draft plan.",
+      "required_items": [
+        {
+          "id": "req-colorectal-screening",
+          "label": "Complete colorectal screening",
+          "source": "care_gap_library",
+          "reason": "Required age-based care gap."
+        }
+      ],
+      "recommended_next_steps": [
+        {
+          "id": "act-metabolic-program",
+          "title": "Metabolic risk and body composition program",
+          "label": "Metabolic risk and body composition program",
+          "kind": "action",
+          "source": "action_library_v2",
+          "evidence_axis": "hard_outcome",
+          "why_it_matters": "HbA1c 6.0 %, waist 105 cm, and HOMA-IR 4.3 index support intervention.",
+          "why_now": "HbA1c 6.0 %, waist 105 cm, and HOMA-IR 4.3 index support intervention.",
+          "what_to_do": "Discuss medication options and coaching plan.",
+          "action_phrase": "Discuss medication options and coaching plan.",
+          "value_summary": "Estimated net value 0.42 QALY.",
+          "patient_value_qaly": {
+            "value": 0.42,
+            "units": "QALY"
+          },
+          "cited_patient_keys": [
+            "hba1c",
+            "waist_cm",
+            "homa_ir"
+          ],
+          "provenance": {
+            "source_scored_item_id": "act-metabolic-program",
+            "patient_keys": [
+              "hba1c",
+              "waist_cm",
+              "homa_ir"
+            ]
+          },
+          "trace_status": "engine_emitted"
+        },
+        {
+          "id": "dx-home-bp",
+          "title": "Home blood pressure confirmation",
+          "label": "Home blood pressure confirmation",
+          "kind": "diagnostic",
+          "source": "action_library_v2",
+          "evidence_axis": "diagnostic_value",
+          "why_it_matters": "Office blood pressure 142/90 mmHg requires confirmation before treatment intensity decisions.",
+          "why_now": "Office blood pressure 142/90 mmHg requires confirmation before treatment intensity decisions.",
+          "what_to_do": "Order validated home blood pressure protocol.",
+          "action_phrase": "Order validated home blood pressure protocol.",
+          "value_summary": "p_reclass 0.31 probability, QALY if reclassified 0.18 QALY.",
+          "patient_value_qaly": {
+            "value": 0.18,
+            "units": "QALY if reclassified"
+          },
+          "cited_patient_keys": [
+            "blood_pressure"
+          ],
+          "provenance": {
+            "source_scored_item_id": "dx-home-bp",
+            "patient_keys": [
+              "blood_pressure"
+            ]
+          },
+          "trace_status": "engine_emitted"
+        },
+        {
+          "id": "act-zone2-strength",
+          "title": "Zone 2 plus progressive strength prescription",
+          "label": "Zone 2 plus progressive strength prescription",
+          "kind": "action",
+          "source": "action_library_v2",
+          "evidence_axis": "vitality_and_prevention",
+          "why_it_matters": "VO2 max 28 mL/kg/min and fatigue create a modifiable fitness target.",
+          "why_now": "VO2 max 28 mL/kg/min and fatigue create a modifiable fitness target.",
+          "what_to_do": "Prescribe progressive aerobic and strength plan.",
+          "action_phrase": "Prescribe progressive aerobic and strength plan.",
+          "value_summary": "Estimated net value 0.24 QALY.",
+          "patient_value_qaly": {
+            "value": 0.24,
+            "units": "QALY"
+          },
+          "cited_patient_keys": [
+            "vo2max",
+            "fatigue"
+          ],
+          "provenance": {
+            "source_scored_item_id": "act-zone2-strength",
+            "patient_keys": [
+              "vo2max",
+              "fatigue"
+            ]
+          },
+          "trace_status": "engine_emitted"
+        }
+      ],
+      "deferred_not_selected": [
+        {
+          "id": "dx-sleep-apnea",
+          "label": "Sleep apnea testing",
+          "kind": "diagnostic",
+          "source": "ai_candidate_packet",
+          "reason": "Deferred pending physician judgment on symptom severity and testing burden.",
+          "patient_value_qaly": {
+            "value": 0.12,
+            "units": "QALY if reclassified"
+          }
+        }
+      ],
+      "clinical_note_draft": {
+        "assessment": "Draft assessment for physician review only.",
+        "plan": "Review required screening item, confirm blood pressure pathway, and edit patient-safe copy before release.",
+        "orders": [
+          "Home blood pressure protocol",
+          "Colorectal screening referral"
+        ],
+        "referrals": [
+          "Nutrition and exercise coaching"
+        ],
+        "patient_message": "I reviewed your results and want to start with the items that most change near-term decisions.",
+        "signature_status": "unsigned"
+      },
+      "synthesis_checks": [
+        {
+          "check_id": "no_patient_visible_draft",
+          "id": "no_patient_visible_draft",
+          "status": "pass",
+          "pass": true
+        },
+        {
+          "check_id": "all_visible_values_have_units",
+          "id": "all_visible_values_have_units",
+          "status": "pass",
+          "pass": true
+        },
+        {
+          "check_id": "recommendations_have_provenance",
+          "id": "recommendations_have_provenance",
+          "status": "pass",
+          "pass": true
+        }
+      ]
+    },
+    "release_package": null,
+    "audit_log": [
+      {
+        "event_id": "evt-001",
+        "event_name": "patient_packet_validated",
+        "actor": "service-worker",
+        "role": "service_worker",
+        "timestamp": "2026-07-04T16:30:00Z",
+        "previous_state": "results_received",
+        "next_state": "patient_packet_ready",
+        "artifact_ids": [
+          "patient_packet.ethan-park"
+        ]
+      },
+      {
+        "event_id": "evt-002",
+        "event_name": "engine_run_completed",
+        "actor": "engine-service",
+        "role": "service_worker",
+        "timestamp": "2026-07-04T16:40:00Z",
+        "previous_state": "engine_run_queued",
+        "next_state": "engine_run_complete",
+        "artifact_ids": [
+          "run-synth-al47m-001"
+        ]
+      },
+      {
+        "event_id": "evt-003",
+        "event_name": "physician_review_pending",
+        "actor": "backend",
+        "role": "service_worker",
+        "timestamp": "2026-07-04T16:42:00Z",
+        "previous_state": "engine_run_complete",
+        "next_state": "physician_review_pending",
+        "artifact_ids": [
+          "clinical_plan.ethan-park"
+        ]
+      }
+    ],
+    "diagnostic_orders": [
+      {
+        "schema_version": "order_state.v1",
+        "order_id": "quest-synth-001",
+        "patient_id": "ethan-park",
+        "order_type": "venous_lab",
+        "vendor": "Quest",
+        "panel": "launch_baseline",
+        "path": "venous",
+        "status": "results_available",
+        "state": "results_available",
+        "created_at": "2026-07-04T15:00:00Z",
+        "updated_at": "2026-07-04T16:12:00Z",
+        "status_history": [
+          {
+            "status": "created",
+            "timestamp_utc": "2026-07-04T15:00:00Z",
+            "source": "local_diagnostics_fake"
+          },
+          {
+            "status": "results_available",
+            "timestamp_utc": "2026-07-04T16:12:00Z",
+            "source": "local_diagnostics_fake"
+          }
+        ],
+        "external_handles": [
+          {
+            "system": "local_diagnostics_fake",
+            "handle": "quest-local-001"
+          }
+        ],
+        "result_refs": [
+          "result-quest-synth-001:normalized_diagnostic_result"
+        ],
+        "metadata": {
+          "local_only": true
+        }
+      },
+      {
+        "schema_version": "order_state.v1",
+        "order_id": "tasso-synth-001",
+        "patient_id": "ethan-park",
+        "order_type": "home_lab_kit",
+        "vendor": "Tasso",
+        "panel": "home_followup",
+        "path": "home",
+        "status": "sample_in_transit",
+        "state": "sample_in_transit",
+        "created_at": "2026-07-04T15:05:00Z",
+        "updated_at": "2026-07-04T16:20:00Z",
+        "status_history": [
+          {
+            "status": "kit_shipped",
+            "timestamp_utc": "2026-07-04T15:05:00Z",
+            "source": "local_diagnostics_fake"
+          },
+          {
+            "status": "sample_in_transit",
+            "timestamp_utc": "2026-07-04T16:20:00Z",
+            "source": "local_diagnostics_fake"
+          }
+        ],
+        "external_handles": [
+          {
+            "system": "local_diagnostics_fake",
+            "handle": "tasso-local-001"
+          }
+        ],
+        "result_refs": [],
+        "metadata": {
+          "local_only": true
+        }
+      }
+    ],
+    "diagnostic_results": [
+      {
+        "schema_version": "normalized_diagnostic_result.local.v1",
+        "result_id": "result-quest-synth-001",
+        "patient_id": "ethan-park",
+        "order_id": "quest-synth-001",
+        "vendor": "Quest",
+        "panel": "launch_baseline",
+        "received_at": "2026-07-04T16:12:00Z",
+        "observations": [
+          {
+            "code": "hba1c",
+            "name": "HbA1c",
+            "value": 6,
+            "unit": "%",
+            "collected_at": "2026-07-04T15:35:00Z",
+            "source_result_id": "result-quest-synth-001",
+            "provenance": {
+              "source": "local_diagnostics_fake",
+              "order_id": "quest-synth-001",
+              "vendor": "Quest"
+            }
+          },
+          {
+            "code": "fasting_glucose",
+            "name": "Fasting glucose",
+            "value": 110,
+            "unit": "mg/dL",
+            "collected_at": "2026-07-04T15:35:00Z",
+            "source_result_id": "result-quest-synth-001",
+            "provenance": {
+              "source": "local_diagnostics_fake",
+              "order_id": "quest-synth-001",
+              "vendor": "Quest"
+            }
+          }
+        ],
+        "metadata": {
+          "local_only": true,
+          "raw_payload_retained": false,
+          "interpretation_redacted": true
+        }
+      }
+    ],
+    "monitoring_alerts": [
+      {
+        "alert_id": "monalert-synth-001",
+        "patient_id": "ethan-park",
+        "source": "patient_action_update",
+        "source_action_id": "act-zone2-strength",
+        "severity": "review_required",
+        "title": "Resting heart rate trend after action start",
+        "description": "Patient reported sustained resting heart rate increase after starting the first training block.",
+        "review_status": "pending_physician_review",
+        "patient_visible": false,
+        "release_package_mutation": "none",
+        "metadata": {
+          "release_state_unchanged": "released_to_patient"
+        },
+        "created_at": "2026-07-04T17:20:00Z"
+      }
+    ]
+  }
+}
