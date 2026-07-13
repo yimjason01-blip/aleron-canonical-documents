@@ -1,5 +1,5 @@
-import { displayValue } from './dashboardAdapter.js';
-import { formatTrendLine } from './wearableSummary.js';
+import { displayValue } from './dashboardAdapter.js?v=physician-action-space-v2';
+import { formatTrendLine } from './wearableSummary.js?v=physician-action-space-v2';
 import { getOverrideTaxonomy } from './apiClient.js';
 import { recommendationTraceHTML, releasePreviewHTML } from './clinicalTrace.js';
 
