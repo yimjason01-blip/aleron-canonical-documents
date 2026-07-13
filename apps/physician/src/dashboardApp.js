@@ -247,6 +247,45 @@ function auditQalyValue(value) {
   return Number.isFinite(value) ? `${Number(value.toFixed(6))} QALY` : 'Missing';
 }
 
+function actionSpaceEvidenceLabel(item) {
+  const key = item.evidenceCategory === 'missing' ? 'unverified' : item.evidenceCategory;
+  return ACTION_SPACE_EVIDENCE.find(([id]) => id === key)?.[1] ?? 'Unverified';
+}
+
+function actionSpaceRecordText(value) {
+  if (Array.isArray(value)) {
+    const items = value.map(actionSpaceRecordText).filter((item) => item && item !== 'Not emitted');
+    return items.length ? items.join(' · ') : 'Not emitted';
+  }
+  if (value && typeof value === 'object') {
+    const named = value.label ?? value.title ?? value.name ?? value.id;
+    const detail = value.value ?? value.result ?? value.state ?? value.status;
+    if (named !== undefined && detail !== undefined) return `${named}: ${detail}${value.units ? ` ${value.units}` : ''}`;
+    if (named !== undefined) return String(named);
+    const primitiveFields = Object.entries(value)
+      .filter(([, entry]) => ['string', 'number', 'boolean'].includes(typeof entry))
+      .slice(0, 5)
+      .map(([key, entry]) => `${stateText(key)}: ${entry}`);
+    return primitiveFields.length ? primitiveFields.join(' · ') : 'Structured record emitted';
+  }
+  const text = String(value ?? '').trim();
+  return text || 'Not emitted';
+}
+
+function actionSpaceValueBasis(item) {
+  if (item.kind !== 'diagnostic') return 'Expected net patient value';
+  const factor = (value) => {
+    const raw = value && typeof value === 'object' ? value.value : value;
+    return typeof raw === 'number' && Number.isFinite(raw) ? raw : null;
+  };
+  const probability = factor(item.diagnosticFactors?.reclassificationProbability);
+  const qaly = factor(item.diagnosticFactors?.qalyIfReclassified);
+  const parts = [];
+  if (probability !== null && probability >= 0 && probability <= 1) parts.push(`${Number((probability * 100).toFixed(1))}% reclassification`);
+  if (qaly !== null) parts.push(`${actionSpaceValue(qaly)} if reclassified`);
+  return parts.length ? parts.join(' · ') : 'Diagnostic factors not emitted';
+}
+
 function actionSpaceView(model, state) {
   const records = model.actionMap.items ?? [];
   const plottable = records.filter((item) => item.plottable);
@@ -258,7 +297,10 @@ function actionSpaceView(model, state) {
   const filters = [{ id: 'all', label: 'All' }, ...groups.sort((left, right) => (left.id === 'diagnostics' ? -1 : right.id === 'diagnostics' ? 1 : 0))];
   const activeFilter = filters.some((filter) => filter.id === state.actionSpaceFilter) ? state.actionSpaceFilter : 'all';
   const visible = plottable.filter((item) => activeFilter === 'all' || actionSpaceCategory(item)?.id === activeFilter);
-  const selectedId = visible.some((item) => item.id === state.selectedActionSpaceItemId) ? state.selectedActionSpaceItemId : null;
+  const selectedId = visible.some((item) => item.id === state.selectedActionSpaceItemId)
+    ? state.selectedActionSpaceItemId
+    : visible[0]?.id ?? null;
+  const selectedItem = visible.find((item) => item.id === selectedId) ?? null;
   const evidenceIndex = (item) => item.evidenceCategory === 'missing' ? 0 : Math.max(0, ACTION_SPACE_EVIDENCE.slice(0, 4).findIndex(([id]) => id === item.evidenceCategory));
   const values = visible.map((item) => item.expectedValueQaly);
   const min = Math.min(0, ...values);
@@ -293,11 +335,15 @@ function actionSpaceView(model, state) {
   const axisValues = (hasRange ? [max, midpoint, 0, min] : [0])
     .filter((value, index, values) => values.findIndex((candidate) => Math.abs(candidate - value) < 1e-9) === index)
     .sort((left, right) => right - left);
+  let previousTickLabelY = -Infinity;
   const axisTicks = axisValues.map((value) => {
     const y = yForValue(value);
     const zero = Math.abs(value) < 1e-9;
-    return `<line class="action-space-grid${zero ? ' zero' : ''}" x1="76" y1="${y}" x2="690" y2="${y}"/><text data-qaly-tick="${value}" x="70" y="${y + 4}" text-anchor="end">${esc(axisQalyValue(value))}</text>`;
+    const labelY = Math.max(y + 4, previousTickLabelY + 16);
+    previousTickLabelY = labelY;
+    return `<line class="action-space-grid${zero ? ' zero' : ''}" x1="76" y1="${y}" x2="690" y2="${y}"/><text data-qaly-tick="${value}" x="70" y="${labelY}" text-anchor="end">${esc(axisQalyValue(value))}</text>`;
   }).join('');
+  const evidenceGuides = [190, 350, 510].map((x) => `<line class="action-space-guide" x1="${x}" y1="60" x2="${x}" y2="300"/>`).join('');
   const marks = visible.map((item) => {
     const x = xFor(item);
     const y = yFor(item);
@@ -305,10 +351,38 @@ function actionSpaceView(model, state) {
     const shape = item.kind === 'diagnostic'
       ? `<rect x="${x - 7}" y="${y - 7}" width="14" height="14" rx="1"/>`
       : `<circle cx="${x}" cy="${y}" r="7"/>`;
-    return `<g data-action-space-mark="${esc(item.id)}" role="button" tabindex="0" aria-label="${esc(`${item.label ?? item.id}, ${actionSpaceValue(item.expectedValueQaly)}`)}" aria-pressed="${selected}" data-mark-kind="${esc(item.kind)}" class="action-space-mark ${selected ? 'selected ' : ''}${esc(item.disposition ?? 'staged')}" transform="translate(0 0)">${shape}${selected ? `<circle class="selection-ring" cx="${x}" cy="${y}" r="13"/>` : ''}<title>${esc(item.label ?? item.id)} · ${esc(actionSpaceValue(item.expectedValueQaly))}</title></g>`;
+    const fullLabel = item.label ?? item.id;
+    const shortLabel = fullLabel.length > 44 ? `${fullLabel.slice(0, 41)}...` : fullLabel;
+    const labelX = x > 520 ? x - 14 : x + 14;
+    const labelAnchor = x > 520 ? 'end' : 'start';
+    const labelY = Math.max(38, y - 11);
+    const selectedLabel = selected
+      ? `<text data-action-space-selected-label="${esc(item.id)}" class="action-space-selected-label" x="${labelX}" y="${labelY}" text-anchor="${labelAnchor}"><tspan x="${labelX}" dy="0">${esc(shortLabel)}</tspan><tspan x="${labelX}" dy="14">${esc(actionSpaceValue(item.expectedValueQaly))}</tspan></text>`
+      : '';
+    return `<g data-action-space-mark="${esc(item.id)}" role="button" tabindex="0" aria-label="${esc(`${fullLabel}, ${actionSpaceValue(item.expectedValueQaly)}`)}" aria-pressed="${selected}" data-mark-kind="${esc(item.kind)}" class="action-space-mark ${selected ? 'selected ' : ''}${esc(item.disposition ?? 'staged')}" transform="translate(0 0)">${shape}${selected ? `<circle class="selection-ring" cx="${x}" cy="${y}" r="13"/>` : ''}<title>${esc(fullLabel)} · ${esc(actionSpaceValue(item.expectedValueQaly))}</title></g>${selectedLabel}`;
   }).join('');
   const labels = ACTION_SPACE_EVIDENCE.slice(0, 4).map(([, label], index) => `<text x="${110 + index * 160}" y="334" text-anchor="middle">${esc(label)}</text>`).join('');
-  const ledger = visible.map((item) => `<button type="button" data-action-space-item="${esc(item.id)}" aria-pressed="${item.id === selectedId}" class="action-space-ledger-row ${item.id === selectedId ? 'selected' : ''}"><span class="mark-key ${esc(item.kind)}" aria-hidden="true"></span><span><strong>${esc(item.label ?? item.id)}</strong><small>${esc(item.source ?? 'Source not emitted')} · ${esc(item.decisionLogic ?? 'Decision logic not emitted')}</small></span><span><strong>${esc(actionSpaceValue(item.expectedValueQaly))}</strong><small>${esc(item.evidenceCategory === 'see_library' ? 'library pending' : item.evidenceCategory)}</small></span></button>`).join('');
+  const ledger = visible.map((item) => {
+    const status = item.disposition ? stateText(item.disposition) : 'Not emitted';
+    return `<button type="button" data-action-space-item="${esc(item.id)}" aria-pressed="${item.id === selectedId}" class="action-space-ledger-row ${item.id === selectedId ? 'selected' : ''}">
+      <span class="action-space-ledger-item"><span class="mark-key ${esc(item.kind)}" aria-hidden="true"></span><span><strong>${esc(item.label ?? item.id)}</strong><small>${esc(item.source ?? 'Source not emitted')}</small></span></span>
+      <span class="action-space-ledger-value"><strong>${esc(actionSpaceValue(item.expectedValueQaly))}</strong><small>${esc(actionSpaceValueBasis(item))}</small></span>
+      <span class="action-space-ledger-status"><strong>${esc(status)}</strong><small>${esc(actionSpaceEvidenceLabel(item))}</small></span>
+      <span class="action-space-ledger-logic">${esc(item.decisionLogic ?? 'Decision logic not emitted')}</span>
+    </button>`;
+  }).join('');
+  const detailField = (label, value) => `<div><span>${esc(label)}</span><p>${esc(actionSpaceRecordText(value))}</p></div>`;
+  const selectedDetail = selectedItem ? `<section class="action-space-detail" data-action-space-detail="${esc(selectedItem.id)}">
+    <div class="panel-head"><h2>Selected item provenance</h2><span>${esc(stateText(selectedItem.kind))} · ${esc(actionSpaceEvidenceLabel(selectedItem))}</span></div>
+    <div class="action-space-detail-grid">
+      ${detailField('Patient signals', selectedItem.patientSignals)}
+      ${detailField('Model references', selectedItem.modelOutputRefs)}
+      ${detailField('Evidence basis', selectedItem.evidenceBasis)}
+      ${detailField('Eligibility', selectedItem.eligibility)}
+      ${detailField('Selection rationale', selectedItem.whySelected ?? selectedItem.whyNotSelected)}
+      ${detailField('Source and decision logic', [selectedItem.source, selectedItem.decisionLogic].filter(Boolean))}
+    </div>
+  </section>` : '';
   const adjacent = (title, items, kind, collapsible = false) => {
     const rows = items.map((item) => {
       const id = item.id ?? item.candidate_id ?? item.library_item_id ?? item.label ?? 'unidentified';
@@ -338,8 +412,11 @@ function actionSpaceView(model, state) {
     });
   return `<header class="screen-head"><div><h1>Action Space</h1><p>Expected patient value by categorical evidence state. Actions plot expected net value; diagnostics plot probability of reclassification multiplied by QALY if reclassified.</p></div></header>
     <div class="action-space-boundary">Technically rendered does not mean clinically promoted. Values remain staged pending clinical promotion.</div>
-    <nav class="action-space-filters" aria-label="Action Space categories">${filters.map((filter) => `<button type="button" data-action-space-filter="${esc(filter.id)}" aria-pressed="${filter.id === activeFilter}" class="${filter.id === activeFilter ? 'on' : ''}">${esc(filter.label)} <span>${filter.id === 'all' ? plottable.length : plottable.filter((item) => actionSpaceCategory(item)?.id === filter.id).length}</span></button>`).join('')}</nav>
-    <section class="action-space-layout"><div class="action-space-map"><div class="panel-head"><h2>Categorical action map</h2><span>Expected QALY</span></div><svg viewBox="0 0 720 360" role="img" aria-label="Expected QALY by categorical evidence"><line class="action-space-axis" x1="76" y1="60" x2="76" y2="300"/>${axisTicks}<text x="20" y="28">Expected QALY ↑</text>${labels}${marks}${visible.length ? '' : '<text x="360" y="180" text-anchor="middle">No plotted items for this filter</text>'}</svg></div><div class="action-space-ledger"><div class="panel-head"><h2>Evidence ledger</h2><span>${visible.length} plotted</span></div>${ledger || empty('No plotted items for this filter.')}</div></section>
+    <section class="action-space-layout" data-action-space-layout="reference-stack">
+      <div class="action-space-map"><div class="panel-head"><h2>Action map</h2><span>Every scored action and diagnostic on one patient-QALY scale</span></div><div class="action-space-plot" role="region" aria-label="Action map plot" tabindex="0"><svg viewBox="0 0 720 360" role="img" aria-label="Expected QALY by categorical evidence"><line class="action-space-axis" x1="76" y1="60" x2="76" y2="300"/>${evidenceGuides}${axisTicks}<text x="20" y="28">Expected QALY ↑</text>${labels}${marks}${visible.length ? '' : '<text x="360" y="180" text-anchor="middle">No plotted items for this filter</text>'}</svg></div><div class="action-space-legend" data-action-space-legend><span><i class="mark-key action" aria-hidden="true"></i>Action</span><span><i class="mark-key diagnostic" aria-hidden="true"></i>Diagnostic</span><span><i class="mark-key selected-key" aria-hidden="true"></i>Selected</span><span><i class="mark-key deferred-key" aria-hidden="true"></i>Deferred</span></div></div>
+      <div class="action-space-ledger"><div class="panel-head"><h2>Evidence ledger</h2><span>Every plotted mark, its value, status, and decision logic · ${visible.length} plotted</span></div><nav class="action-space-filters" aria-label="Action Space categories">${filters.map((filter) => `<button type="button" data-action-space-filter="${esc(filter.id)}" aria-pressed="${filter.id === activeFilter}" class="${filter.id === activeFilter ? 'on' : ''}">${esc(filter.label)} <span>${filter.id === 'all' ? plottable.length : plottable.filter((item) => actionSpaceCategory(item)?.id === filter.id).length}</span></button>`).join('')}</nav><div class="action-space-ledger-head" data-action-space-ledger-head aria-hidden="true"><span>Item</span><span>Patient value</span><span>Status</span><span>Decision logic</span></div>${ledger || empty('No plotted items for this filter.')}</div>
+      ${selectedDetail}
+    </section>
     <section class="action-space-audit"><h2>Adjacent audit</h2>${mismatchAudit}${adjacent('Non-plottable records', nonPlottable, 'nonplottable')}${adjacent('Required obligations', model.actionMap.required ?? [], 'required')}${adjacent('Excluded items', excluded, 'excluded', true)}</section>`;
 }
 
