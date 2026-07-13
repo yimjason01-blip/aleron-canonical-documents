@@ -1,0 +1,271 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Aleron MD Repository Architecture</title>
+<style>
+  :root {
+    --paper: #ffffff;
+    --ink: #111111;
+    --muted: #595959;
+    --line: #111111;
+    --soft-line: #9a9a9a;
+    --soft-fill: #f5f5f5;
+  }
+  * { box-sizing: border-box; }
+  html { background: var(--paper); }
+  body {
+    margin: 0;
+    background: var(--paper);
+    color: var(--ink);
+    font-family: Arial, Helvetica, sans-serif;
+    line-height: 1.4;
+  }
+  main {
+    width: min(1180px, calc(100% - 40px));
+    margin: 0 auto;
+    padding: 44px 0 56px;
+  }
+  header {
+    padding-bottom: 22px;
+    border-bottom: 2px solid var(--line);
+  }
+  h1 {
+    margin: 0 0 8px;
+    font-size: clamp(28px, 4vw, 42px);
+    line-height: 1.08;
+    letter-spacing: -0.025em;
+  }
+  header p {
+    max-width: 760px;
+    margin: 0;
+    color: var(--muted);
+    font-size: 15px;
+  }
+  .section {
+    margin-top: 28px;
+  }
+  .section-title {
+    display: flex;
+    justify-content: space-between;
+    gap: 20px;
+    align-items: baseline;
+    margin-bottom: 10px;
+  }
+  h2 {
+    margin: 0;
+    font-size: 17px;
+  }
+  .section-title p {
+    margin: 0;
+    color: var(--muted);
+    font-size: 13px;
+    text-align: right;
+  }
+  .flow {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) 42px minmax(0, 1fr) 42px minmax(0, 1fr) 42px minmax(0, 1fr);
+    align-items: stretch;
+  }
+  .box {
+    min-width: 0;
+    padding: 16px;
+    border: 1.5px solid var(--line);
+    background: var(--paper);
+  }
+  .box h3 {
+    margin: 0 0 5px;
+    font-size: 16px;
+  }
+  .box code {
+    display: block;
+    margin-bottom: 9px;
+    color: var(--muted);
+    font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+    font-size: 12px;
+    overflow-wrap: anywhere;
+  }
+  .box p {
+    margin: 0;
+    color: var(--muted);
+    font-size: 13px;
+  }
+  .arrow {
+    display: grid;
+    place-items: center;
+    color: var(--ink);
+    font-size: 23px;
+  }
+  .contract {
+    margin-top: 14px;
+    padding: 13px 16px;
+    border: 1.5px solid var(--line);
+    background: var(--soft-fill);
+    text-align: center;
+  }
+  .contract strong {
+    font-size: 14px;
+  }
+  .contract code {
+    margin-left: 8px;
+    color: var(--muted);
+    font-size: 12px;
+  }
+  .side-module {
+    padding: 18px;
+    border: 1.5px dashed var(--line);
+  }
+  .side-module .flow {
+    grid-template-columns: minmax(0, 1fr) 42px minmax(0, 1fr) 42px minmax(0, 1fr);
+  }
+  .side-module-note {
+    margin: 0 0 14px;
+    color: var(--muted);
+    font-size: 13px;
+  }
+  .support-grid {
+    display: grid;
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+    gap: 12px;
+  }
+  .support-grid .box {
+    min-height: 132px;
+  }
+  .archive {
+    margin-top: 12px;
+    padding: 14px 16px;
+    border: 1px solid var(--soft-line);
+    color: var(--muted);
+    font-size: 13px;
+  }
+  footer {
+    margin-top: 30px;
+    padding-top: 14px;
+    border-top: 1px solid var(--soft-line);
+    color: var(--muted);
+    font-size: 12px;
+  }
+  @media (max-width: 860px) {
+    main { width: min(100% - 24px, 660px); padding-top: 28px; }
+    .section-title { display: block; }
+    .section-title p { margin-top: 3px; text-align: left; }
+    .flow, .side-module .flow {
+      grid-template-columns: 1fr;
+    }
+    .arrow {
+      min-height: 38px;
+      transform: rotate(90deg);
+    }
+    .support-grid { grid-template-columns: 1fr 1fr; }
+  }
+  @media (max-width: 520px) {
+    .support-grid { grid-template-columns: 1fr; }
+    .contract code { display: block; margin: 4px 0 0; }
+  }
+</style>
+</head>
+<body>
+<main>
+  <header>
+    <h1>Aleron MD repository architecture</h1>
+    <p>A simple map of the product monorepo. The top row is the live staging request path. The dashed row is the Python and Action Engine path used for local pilots and intended future cutover.</p>
+  </header>
+
+  <section class="section" aria-labelledby="live-path-title">
+    <div class="section-title">
+      <h2 id="live-path-title">Live staging path</h2>
+      <p>What the patient and physician applications call today</p>
+    </div>
+    <div class="flow">
+      <article class="box">
+        <h3>Product applications</h3>
+        <code>apps/patient-ios/<br>apps/physician/</code>
+        <p>Patient onboarding and released plan experience. Physician review, decisions, authorization, and release.</p>
+      </article>
+      <div class="arrow" aria-hidden="true">→</div>
+      <article class="box">
+        <h3>Patient API</h3>
+        <code>supabase/functions/patient-api/</code>
+        <p>Live Edge request orchestrator for auth, packets, work queues, review state, and release.</p>
+      </article>
+      <div class="arrow" aria-hidden="true">→</div>
+      <article class="box">
+        <h3>Canonical analysis</h3>
+        <code>supabase/functions/canonical-analysis/</code>
+        <p>Staging builders for risk, vitality protocol state, action-map projections, and clinical-plan artifacts.</p>
+      </article>
+      <div class="arrow" aria-hidden="true">→</div>
+      <article class="box">
+        <h3>Supabase data</h3>
+        <code>Postgres + stored artifacts</code>
+        <p>Patients, sessions, packets, work items, reviews, structured overrides, releases, and audit records.</p>
+      </article>
+    </div>
+    <div class="contract">
+      <strong>Contract spine</strong><code>schemas/</code>
+      <span>Shared JSON contracts bind producers, stored artifacts, and application projections.</span>
+    </div>
+  </section>
+
+  <section class="section side-module" aria-labelledby="side-path-title">
+    <div class="section-title">
+      <h2 id="side-path-title">Clinical side modules and intended cutover path</h2>
+      <p>First-class product modules, not the live staging request path today</p>
+    </div>
+    <p class="side-module-note">These modules provide the deterministic clinical architecture to harden and connect behind an explicit service-boundary cutover.</p>
+    <div class="flow">
+      <article class="box">
+        <h3>Scientific sources</h3>
+        <code>models/risk-models/<br>models/vitality-models/</code>
+        <p>Model specifications, scientific lineage, assumptions, and validation artifacts.</p>
+      </article>
+      <div class="arrow" aria-hidden="true">→</div>
+      <article class="box">
+        <h3>Python backend spine</h3>
+        <code>backend/app/</code>
+        <p>Local pilot service, persistence, contract tests, release controls, and future service host.</p>
+      </article>
+      <div class="arrow" aria-hidden="true">→</div>
+      <article class="box">
+        <h3>Action Engine and libraries</h3>
+        <code>system-design/design-loop/</code>
+        <p>Deterministic eligibility, ranking, action library, provenance, and engine audit path.</p>
+      </article>
+    </div>
+  </section>
+
+  <section class="section" aria-labelledby="support-title">
+    <div class="section-title">
+      <h2 id="support-title">Shared foundations</h2>
+      <p>Controls and references used across the repository</p>
+    </div>
+    <div class="support-grid">
+      <article class="box">
+        <h3>Quality gates</h3>
+        <code>tools/qa/</code>
+        <p>Local loops, staging E2E, privacy guards, schema checks, and acceptance harnesses.</p>
+      </article>
+      <article class="box">
+        <h3>Engineering documentation</h3>
+        <code>docs/engineering/</code>
+        <p>Architecture, ownership, API contracts, runbooks, boundaries, and implementation backlog.</p>
+      </article>
+      <article class="box">
+        <h3>Design system</h3>
+        <code>product-design-system/</code>
+        <p>UI law and component reference. It informs applications but is not itself a deployable runtime.</p>
+      </article>
+      <article class="box">
+        <h3>Canonical documents</h3>
+        <code>canonical-documents/</code>
+        <p>Public review registry for staging applications, diagrams, product references, and model documentation.</p>
+      </article>
+    </div>
+    <div class="archive"><strong>Historical and reference material:</strong> <code>archive/</code> plus retained legacy snapshots such as <code>landing/</code>, <code>patient-app/</code>, and <code>physician/</code>. These are not the primary runtime contribution path.</div>
+  </section>
+
+  <footer>Primary engineering reference: <code>docs/engineering/ARCHITECTURE.md</code></footer>
+</main>
+</body>
+</html>

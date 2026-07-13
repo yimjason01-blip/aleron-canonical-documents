@@ -35,6 +35,9 @@
   "schema_version": "aleron.canonical-deployment.v1",
   "source_branch": "main",
   "source_dirty": false,
-  "source_git_tree": "9cfdd5f726b6b6a6f442a0a19f797991124d367c",
-  "source_sha": "a28ed65e4a2d66a9df7b9b198b9fd3716b94e934"
+  "source_documents": {
+    "system-design/diagrams/aleron-repo-architecture.html": "df7f049b2f0b635a9031bedb95ec6aea5e57aa4895bd8a4211c7fdf79346b149"
+  },
+  "source_git_tree": "3860069b8cb7a47beefd56566e7edad599cd9767",
+  "source_sha": "c2ce24afa505808bf2fc19451ad725390345855c"
 }
