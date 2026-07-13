@@ -36,7 +36,7 @@ body{margin:0;background:var(--bg);color:var(--fg);font-family:-apple-system,Bli
 const canonicalDocs = [
   { id: "coordination", label: "Project Coordination Board", src: "docs/PROJECT_COORDINATION_BOARD.html" },
   { id: "risk-models", label: "Risk Models", src: "system-design/diagrams/aleron-risk-models.html" },
-  { id: "dashboard-ds", label: "Staging Physician Dashboard", src: "apps/physician/index.html?staging=1&v=physician-dechrome-v1" },
+  { id: "staging-physician-dashboard", label: "Staging Physician Dashboard", src: "apps/physician/index.html?staging=1&v=physician-dechrome-v1" },
   { id: "system", label: "System Design", src: "system-design/diagrams/aleron-system-detail-v3-dossier.html" },
   { id: "identity", label: "Visual Identity", src: "brand-deck/index.html" },
   { id: "design-system", label: "Product Design System", src: "product-design-system/index.html#surfaces" },
@@ -46,11 +46,14 @@ const canonicalDocs = [
 
 const select = document.getElementById("canonicalDocSelect");
 const frame = document.getElementById("canonicalFrame");
+const canonicalDocAliases = { "dashboard-ds": "staging-physician-dashboard" };
 
 select.innerHTML = canonicalDocs.map(doc => `<option value="${doc.id}">${doc.label}</option>`).join("");
 
 function activeDoc(){
-  const id = window.location.hash.replace(/^#/, "");
+  const requestedId = window.location.hash.replace(/^#/, "");
+  const id = canonicalDocAliases[requestedId] || requestedId;
+  if (id !== requestedId) window.history.replaceState(null, "", "#" + id);
   return canonicalDocs.find(doc => doc.id === id) || canonicalDocs[0];
 }
 
