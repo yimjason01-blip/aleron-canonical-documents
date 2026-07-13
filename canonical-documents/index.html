@@ -41,14 +41,13 @@ const canonicalDocs = [
   { id: "system", label: "System Design", src: "system-design/diagrams/aleron-system-detail-v3-dossier.html" },
   { id: "identity", label: "Visual Identity", src: "brand-deck/index.html" },
   { id: "design-system", label: "Product Design System", src: "product-design-system/index.html#surfaces" },
-  { id: "onboarding", label: "Patient Mobile App · TestFlight 0.1.0 (46)", src: "patient-app/onboarding.v3.html?mode=release" },
-  { id: "onboarding-mirror", label: "Patient Mobile App · Build 46 literal mirror (review)", src: "patient-app/onboarding.build46-mirror.html?route=account_claim" },
+  { id: "onboarding", label: "Patient Mobile App · TestFlight 0.1.0 (46)", src: "patient-app/onboarding.build46-mirror.html?route=account_claim" },
   { id: "member", label: "Patient Web App", src: "workspaces/landing-staging/member.html" }
 ];
 
 const select = document.getElementById("canonicalDocSelect");
 const frame = document.getElementById("canonicalFrame");
-const canonicalDocAliases = { "dashboard-ds": "staging-physician-dashboard" };
+const canonicalDocAliases = { "dashboard-ds": "staging-physician-dashboard", "onboarding-mirror": "onboarding" };
 
 select.innerHTML = canonicalDocs.map(doc => `<option value="${doc.id}">${doc.label}</option>`).join("");
 
