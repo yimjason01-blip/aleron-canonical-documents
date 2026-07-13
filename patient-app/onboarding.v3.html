@@ -196,6 +196,9 @@ button { font-family: var(--voice); }
 .screen-jump-toggle { display: none; }
 .mode-runtime .screen-jump-nav,
 .mode-runtime .screen-jump-toggle { display: none; }
+.mode-release .screen-jump-nav,
+.mode-release .screen-jump-toggle,
+.mode-release .mode-switch { display: none; }
 @media (max-width: 900px) {
   .screen-jump-toggle {
     position: fixed;
@@ -2265,7 +2268,7 @@ select.fld-input {
   padding: 0;
   background: var(--ground);
 }
-.mode-runtime .mode-switch { top: calc(env(safe-area-inset-top) + 10px); }
+.mode-runtime .mode-switch { display: none; }
 .mode-runtime .device-frame {
   width: 100vw;
   height: 100dvh;
@@ -2309,10 +2312,12 @@ select.fld-input {
 <body class="mode-prototype">
 <script>
 (function () {
-  var mode = new URLSearchParams(location.search).get('mode') === 'runtime' ? 'runtime' : 'prototype';
+  var requested = new URLSearchParams(location.search).get('mode');
+  var mode = requested === 'runtime' || requested === 'release' ? requested : 'prototype';
   window.ALERON_RENDER_MODE = mode;
   document.body.classList.toggle('mode-runtime', mode === 'runtime');
-  document.body.classList.toggle('mode-prototype', mode !== 'runtime');
+  document.body.classList.toggle('mode-release', mode === 'release');
+  document.body.classList.toggle('mode-prototype', mode === 'prototype');
 })();
 </script>
 <nav class="mode-switch" aria-label="Prototype render mode">
@@ -2437,6 +2442,7 @@ select.fld-input {
     <!-- ============================================================ -->
     <section class="screen" data-screen="1">
       <div class="scroll letter-scroll">
+        <h1 class="h-screen">Welcome to Aleron MD</h1>
         <div class="letter-body">
           <p>Dear <span data-identity-first>there</span>,</p>
           <p>Welcome. I'm Dr. Mizani, and I'll be your physician here. I mean that plainly. I read your labs myself, I study your history myself, and when something deserves a conversation, you will have it with me.</p>
@@ -2508,13 +2514,25 @@ select.fld-input {
         <p class="framing">Then choose how you'd like results shared. You can change this later with your physician.</p>
 
         <div class="consent-surface">
-          <div class="ack-row" id="ackFamily" onclick="toggleAck('ackFamily')">
-            <div class="ack-sq">✓</div>
-            <div class="ack-label">I understand genetic results may have implications for my biological family members.</div>
-          </div>
           <div class="ack-row" id="ackVoluntary" onclick="toggleAck('ackVoluntary')">
             <div class="ack-sq">✓</div>
-            <div class="ack-label">I understand participation is voluntary, my genetic information is never shared or sold, and my employer never sees my results or benefits change either way.</div>
+            <div class="ack-label"><strong>Genetic testing is voluntary</strong><br>Your benefits, premiums, and employment are not affected by whether you participate.</div>
+          </div>
+          <div class="ack-row" id="ackEmployerPrivacy" onclick="toggleAck('ackEmployerPrivacy')">
+            <div class="ack-sq">✓</div>
+            <div class="ack-label"><strong>Employer privacy</strong><br>Your employer will never see your genetic results or information derived from them.</div>
+          </div>
+          <div class="ack-row" id="ackFamily" onclick="toggleAck('ackFamily')">
+            <div class="ack-sq">✓</div>
+            <div class="ack-label"><strong>Family implications</strong><br>Genetic results may have implications for biological family members.</div>
+          </div>
+          <div class="ack-row" id="ackDeletion" onclick="toggleAck('ackDeletion')">
+            <div class="ack-sq">✓</div>
+            <div class="ack-label"><strong>Retention and deletion rights</strong><br>You may request deletion of genetic data and biological samples where applicable.</div>
+          </div>
+          <div class="ack-row" id="ackPhysicianHold" onclick="toggleAck('ackPhysicianHold')">
+            <div class="ack-sq">✓</div>
+            <div class="ack-label"><strong>Physician hold for serious findings</strong><br>Anything serious, ambiguous, or context-dependent is held for physician review regardless of preference.</div>
           </div>
 
           <div class="consent-title" style="margin-top:16px">How would you like results disclosed</div>
@@ -2556,62 +2574,25 @@ select.fld-input {
     <!-- SCREEN 5 · PERSONAL HEALTH (body metrics + med history)      -->
     <!-- ============================================================ -->
     <section class="screen" data-screen="5">
-      <div class="scroll" id="healthScroll">
-        <h1 class="h-screen">A little about your health today.</h1>
-        <p class="framing">These help your physician read your results in context. Answer what you know, skip what you don't.</p>
-
+      <div class="scroll">
+        <h1 class="h-screen">Send your intake packet.</h1>
+        <p class="framing">Your answers are ready for physician review. Sending the packet moves you to Home while diagnostics and review continue.</p>
         <div class="consent-surface">
-          <div class="consent-title">Height and weight</div>
-          <div class="hw-grid">
-            <div class="hw-field">
-              <label class="fld-label" for="hFt">Height</label>
-              <div class="hw-inline">
-                <input class="fld-input hw-num" id="hFt" type="number" inputmode="numeric" min="3" max="8" placeholder="ft" oninput="onHealthInput()">
-                <input class="fld-input hw-num" id="hIn" type="number" inputmode="numeric" min="0" max="11" placeholder="in" oninput="onHealthInput()">
-              </div>
-            </div>
-            <div class="hw-field">
-              <label class="fld-label" for="wLb">Weight</label>
-              <div class="hw-inline">
-                <input class="fld-input hw-num" id="wLb" type="number" inputmode="numeric" min="50" max="600" placeholder="lb" oninput="onHealthInput()">
-              </div>
-            </div>
-          </div>
+          <div class="consent-title">Included for physician review</div>
+          <div class="ack-row confirmed"><div class="ack-sq">✓</div><div class="ack-label">Account details and consent records</div></div>
+          <div class="ack-row confirmed"><div class="ack-sq">✓</div><div class="ack-label">Genetics decision and family history</div></div>
+          <div class="ack-row confirmed"><div class="ack-sq">✓</div><div class="ack-label">Symptom narrative and Vitality baseline</div></div>
+          <div class="ack-row confirmed"><div class="ack-sq">✓</div><div class="ack-label">Lab logistics and Apple Health choice</div></div>
         </div>
-
-        <div class="consent-surface">
-          <div class="consent-title">Any conditions you're managing</div>
-          <p class="consent-body">Tap any that apply. If none, tap the last one.</p>
-          <div id="condRows"></div>
-        </div>
-
-        <div class="consent-surface">
-          <div class="consent-title">Medications you take regularly</div>
-          <p class="consent-body">Include prescriptions, and any supplements you'd want your physician to know about. One per line.</p>
-          <textarea class="fld-input health-area" id="medsText" rows="3" placeholder="e.g. Metformin 500mg&#10;Vitamin D" oninput="onHealthInput()"></textarea>
-          <div class="ack-row" id="medsNone" onclick="toggleNone('meds')">
-            <div class="ack-sq">✓</div>
-            <div class="ack-label">I don't take any regular medications.</div>
-          </div>
-        </div>
-
-        <div class="consent-surface">
-          <div class="consent-title">Allergies</div>
-          <p class="consent-body">Medications, foods, or anything else. One per line.</p>
-          <textarea class="fld-input health-area" id="allergyText" rows="2" placeholder="e.g. Penicillin" oninput="onHealthInput()"></textarea>
-          <div class="ack-row" id="allergyNone" onclick="toggleNone('allergy')">
-            <div class="ack-sq">✓</div>
-            <div class="ack-label">No known allergies.</div>
-          </div>
-        </div>
+        <div class="note-card"><strong>What happens next</strong><br>Your physician reviews the packet and incoming diagnostics. Clinical findings remain locked until physician release.</div>
       </div>
       <div class="cta-bar">
-        <button class="btn btn--primary" onclick="submitHealth()">Continue</button>
+        <button class="btn btn--primary" id="packetSubmitBtn" onclick="submitPacket()">Send packet and go to Home</button>
       </div>
     </section>
 
     <!-- ============================================================ -->
-    <!-- SCREEN 6 · SYMPTOMATOLOGY                                    -->
+    <!-- SCREEN 6 · IN YOUR OWN WORDS                                  -->
     <!-- ============================================================ -->
     <section class="screen" data-screen="6">
       <div class="scroll">
@@ -2626,9 +2607,9 @@ select.fld-input {
             <span class="wave-bar" style="animation-delay:0ms"></span><span class="wave-bar" style="animation-delay:120ms"></span><span class="wave-bar" style="animation-delay:240ms"></span><span class="wave-bar" style="animation-delay:60ms"></span><span class="wave-bar" style="animation-delay:300ms"></span><span class="wave-bar" style="animation-delay:180ms"></span><span class="wave-bar" style="animation-delay:90ms"></span>
           </div>
           <div class="mic-timer" id="micTimer">00:00</div>
-          <div class="mic-state-label" id="micLabel">Tap to speak</div>
-          <div class="recorder-note" id="recorderNote">Speak your answer, or type it instead.</div>
-          <button class="btn btn--tertiary" id="typeInstead" onclick="typeInstead()" style="width:auto">I'd rather type</button>
+          <div class="mic-state-label" id="micLabel">Record and transcribe</div>
+          <div class="recorder-note" id="recorderNote">Your voice becomes an editable transcript for physician review.</div>
+          <button class="btn btn--tertiary" id="typeInstead" onclick="typeInstead()" style="width:auto">I would rather type</button>
         </div>
 
         <textarea class="type-area" id="typeArea" placeholder="Take your time. Anything you have noticed counts." rows="4" oninput="syncTypedTranscript()"></textarea>
@@ -2681,10 +2662,19 @@ select.fld-input {
           <div class="accuracy-note">Capillary samples are slightly less precise than a venous draw for some markers. Your physician will note this when reviewing your results.</div>
           <div class="path-detail" id="tassoDetail">
             <div class="address-box">
-              <div class="address-name">Ships to</div>
+              <div class="address-name">Shipping address for kit</div>
+              <p class="framing" style="margin:8px 0 0">A kit cannot be mailed without a complete address.</p>
               <div class="fld" style="margin-top:10px">
+                <label class="fld-label" for="shipName">Full name</label>
+                <input class="fld-input" id="shipName" type="text" autocomplete="name" placeholder="Full name" oninput="syncShip()" onclick="event.stopPropagation()">
+              </div>
+              <div class="fld">
                 <label class="fld-label" for="shipStreet">Street address</label>
                 <input class="fld-input" id="shipStreet" type="text" autocomplete="street-address" placeholder="Street, apt or unit" oninput="syncShip()" onclick="event.stopPropagation()">
+              </div>
+              <div class="fld">
+                <label class="fld-label" for="shipLine2">Apt, suite (optional)</label>
+                <input class="fld-input" id="shipLine2" type="text" autocomplete="address-line2" placeholder="Apt or suite" oninput="syncShip()" onclick="event.stopPropagation()">
               </div>
               <div class="fld">
                 <label class="fld-label" for="shipCity">City</label>
@@ -2714,22 +2704,24 @@ select.fld-input {
           <p class="path-body">A standard venous draw at a Quest location near you. Venous is the clinical standard.</p>
           <div class="path-timing">Results ≈ 5 to 7 days from draw</div>
           <div class="path-detail" id="questDetail">
-            <div class="psc-zip-row" style="margin-top:6px">
-              <div class="fld">
-                <label class="fld-label" for="pscZip">Your ZIP code</label>
-                <input class="fld-input" id="pscZip" type="text" inputmode="numeric" autocomplete="postal-code" maxlength="10" placeholder="ZIP" oninput="onPscZip()" onclick="event.stopPropagation()">
+            <div class="address-box" style="margin-top:6px">
+              <div class="address-name">Quest draw preference</div>
+              <p class="framing" style="margin:8px 0 0">Capture where and when you want the venous draw. Live Quest booking can use this preference.</p>
+              <div class="fld" style="margin-top:10px">
+                <label class="fld-label" for="questCityZip">City or ZIP</label>
+                <input class="fld-input" id="questCityZip" type="text" autocomplete="postal-code" placeholder="City or ZIP" oninput="syncQuestPref()" onclick="event.stopPropagation()">
               </div>
-              <button class="btn psc-find" id="pscFindBtn" disabled onclick="findPscLocations(event)">Find locations</button>
-            </div>
-            <div id="pscLocations"></div>
-            <div id="pscSlots"></div>
-            <div class="booked-box" id="pscBooked">
-              <div class="booked-title">Appointment booked</div>
-              <div class="booked-meta" id="pscBookedMeta"></div>
-              <div class="booked-note">A confirmation will be sent to your email. Bring a photo ID.</div>
-              <div class="psc-appt-actions">
-                <button class="psc-link" onclick="reschedulePsc(event)">Reschedule</button>
-                <button class="psc-link" onclick="cancelPsc(event)">Cancel</button>
+              <div class="fld">
+                <label class="fld-label" for="questLocationName">Preferred Quest location name</label>
+                <input class="fld-input" id="questLocationName" type="text" placeholder="Preferred location" oninput="syncQuestPref()" onclick="event.stopPropagation()">
+              </div>
+              <div class="fld">
+                <label class="fld-label" for="questWindow">Preferred window</label>
+                <select class="fld-input" id="questWindow" onchange="syncQuestPref()" onclick="event.stopPropagation()">
+                  <option value="first_available">First available</option>
+                  <option value="morning">Morning</option>
+                  <option value="afternoon">Afternoon</option>
+                </select>
               </div>
             </div>
           </div>
@@ -2747,7 +2739,7 @@ select.fld-input {
       <div class="scroll">
         <h1 class="h-screen">Connect a wearable.</h1>
         <p class="lede">If you wear an Apple Watch or fitness tracker, connecting it gives your physician a much richer picture than labs alone. This step is optional. You can connect a device later from settings.</p>
-        <div class="conn-state show" id="connState"><span class="conn-dot"></span>Apple Health · not connected</div>
+        <div class="conn-state show" id="connState"><span class="conn-dot"></span>Choose how you want to handle Apple Health.</div>
         <p class="framing" id="wearableError" role="alert" style="display:none;color:var(--signal-hazard);margin-top:12px"></p>
         <div class="sync-card" id="syncCard">
           <div class="sync-headline" id="syncHeadline"></div>
@@ -2757,7 +2749,7 @@ select.fld-input {
         <p class="framing" style="margin-top:22px">Have an Oura, Garmin, or Whoop? You can connect those from settings after setup.</p>
       </div>
       <div class="cta-bar">
-        <button class="btn btn--primary" id="healthKitBtn" onclick="openPermSheet()">Connect Apple Health</button>
+        <button class="btn btn--primary" id="healthKitBtn" onclick="openPermSheet()">Connect and sync Apple Health</button>
         <button class="btn btn--tertiary" id="wearableSkip" onclick="skipWearable()">Skip for now</button>
       </div>
     </section>
@@ -2802,15 +2794,15 @@ select.fld-input {
     </section>
 
     <!-- ============================================================ -->
-    <!-- SCREEN 10 · STRUCTURED INTAKE (multi-section engine)          -->
-    <!-- Least motivating step, placed last before the waiting state.  -->
-    <!-- One screen hosts all six sections via an internal step index. -->
+    <!-- SCREEN 10 · VITALITY BASELINE (build 46 instrument set)          -->
+    <!-- Item-level capture: lived state, PHQ/GAD, AUDIT-C, STOP-BANG,    -->
+    <!-- PEG-3, red flags, and context. All required before continuing.   -->
     <!-- ============================================================ -->
     <section class="screen" data-screen="10">
       <div class="scroll" id="intakeScroll">
         <div class="intake-progress" id="intakeProgress"></div>
-        <h1 class="h-screen" id="intakeTitle">A few specifics your physician uses.</h1>
-        <p class="framing" id="intakeIntro">You already told us the story in your own words. These short questions turn part of that story into structured signals your physician and risk models can use.</p>
+        <h1 class="h-screen" id="intakeTitle">Your vitality baseline.</h1>
+        <p class="framing" id="intakeIntro">Brief health screeners establish a reported baseline for physician review. They are not a diagnosis or a composite score.</p>
         <div id="intakeBody"></div>
       </div>
       <div class="cta-bar">
@@ -2829,7 +2821,7 @@ select.fld-input {
     <!-- ============================================================ -->
     <section class="screen" data-screen="11">
       <div class="scroll">
-        <h1 class="h-screen">While you wait, <span data-identity-first>there</span>.</h1>
+        <h1 class="h-screen">Welcome, <span data-identity-first>there</span>.</h1>
         <p class="framing" id="homeIntro">Your blood draw and genetic testing are ordered. Results take about a week to come back. In the meantime, a few short chapters help your physician read them in the fullest context.</p>
 
         <div id="kitTracking"></div>
@@ -2838,7 +2830,7 @@ select.fld-input {
 
         <div id="liveVitals"></div>
 
-        <div class="section-label">Prepare for results day</div>
+        <div class="section-label">Intake sent to your physician</div>
         <div id="chapterCards"></div>
 
         <div id="vitalityTile"></div>
@@ -2919,7 +2911,7 @@ select.fld-input {
 /*  STATE                                                            */
 /* ================================================================ */
 var state = {
-  screen: window.ALERON_RENDER_MODE === 'runtime' ? 1 : -1,
+  screen: -1,
   auth: null,            // verified email OTP authentication result
   identity: null,        // account_signup.v1 (set on createAccount)
   consents: {},          // key -> { version, stamp }
@@ -2931,30 +2923,28 @@ var state = {
   symptoms: { transcript: null, probes: 0, done: false },
   labPath: null,         // 'tasso' | 'quest'
   labOrder: null,        // lab_order.v1 — blood panel, placed on lab-path confirm
-  ship: { street: '', city: '', state: '', zip: '' },
-  quest: { zip: '', locationIdx: null, location: null, date: null, dateLabel: null, slot: null, status: null, stamp: null },
+  ship: { name: '', street: '', line2: '', city: '', state: '', zip: '' },
+  quest: { cityOrZip: '', locationName: '', preferredWindow: 'first_available', status: null, stamp: null },
   wearable: 'not_selected', // not_selected | connect_apple_health | skip_for_now
   wearableSync: null,    // saved Apple Health snapshot; values and series persist on cold restore
   wearableOutcome: null,
   wearableError: null,
-  call: null             // slot string | 'skipped'
+  call: null,            // slot string | 'skipped'
+  packetSubmitted: false,
+  packetSubmittedAt: null
 };
 
-var STEP_LABELS = ['Welcome','Consents','Genetics','Family','Health today','In your words','Labs','Wearable','Intro call','Structured signals','Home'];
-/* v3: activation-flow screens read as "Getting set up"; chapters and
-   Home read differently. renderChrome picks the right prefix. */
+var STEP_LABELS = ['Welcome','Consents','Genetics','Family history','Send packet','In your own words','Lab path','Wearable','Intro call','Vitality baseline','Home'];
+var SCREEN_LABELS = {
+  1: 'Welcome', 2: 'Consents', 3: 'Genetics', 4: 'Family history',
+  6: 'In your own words', 10: 'Vitality baseline', 7: 'Lab path',
+  8: 'Wearable', 9: 'Intro call', 5: 'Send packet', 11: 'Home'
+};
 var CHAPTER_LABELS = {
-  1: 'Getting set up',
-  2: 'Getting set up',
-  3: 'Getting set up',
-  4: 'Your health',
-  5: 'Your health',
-  6: 'Your health',
-  7: 'Getting set up',
-  8: 'Getting set up',
-  9: 'Your physician',
-  10: 'Your health',
-  11: 'Home'
+  1: 'Getting set up', 2: 'Getting set up', 3: 'Getting set up',
+  4: 'Your health', 6: 'Your health', 10: 'Your health',
+  7: 'Getting set up', 8: 'Getting set up', 9: 'Your physician',
+  5: 'Finish setup', 11: 'Home'
 };
 var PRE_LABELS = { '-1': 'Create account', '0': 'Your details' };
 var SCREEN_JUMP_ITEMS = [
@@ -2964,14 +2954,14 @@ var SCREEN_JUMP_ITEMS = [
   { screen: 1, code: '1', label: 'Welcome' },
   { screen: 2, code: '2', label: 'Consents' },
   { screen: 3, code: '3', label: 'Genetics' },
-  { screen: 7, code: '4', label: 'Lab path' },
-  { screen: 8, code: '5', label: 'Wearable' },
-  { screen: 11, code: 'H', label: 'Home' },
-  { screen: 4, code: 'c', label: 'Chapter · Family history' },
-  { screen: 5, code: 'c', label: 'Chapter · Health today' },
-  { screen: 6, code: 'c', label: 'Chapter · In your words' },
-  { screen: 10, code: 'c', label: 'Chapter · Structured signals' },
-  { screen: 9, code: 'c', label: 'Chapter · Intro call' }
+  { screen: 4, code: '4', label: 'Family history' },
+  { screen: 6, code: '5', label: 'In your own words' },
+  { screen: 10, code: '6', label: 'Vitality baseline' },
+  { screen: 7, code: '7', label: 'Lab path' },
+  { screen: 8, code: '8', label: 'Wearable' },
+  { screen: 9, code: '9', label: 'Intro call' },
+  { screen: 5, code: '10', label: 'Send packet' },
+  { screen: 11, code: 'H', label: 'Home' }
 ];
 
 /* ================================================================ */
@@ -3010,9 +3000,10 @@ function freshState() {
     health: { heightFt: null, heightIn: null, weightLb: null, conditions: {}, meds: null, medsNone: false, allergies: null, allergyNone: false, done: false },
     symptoms: { transcript: null, probes: 0, done: false },
     intake: {},   /* A2 structured-intake sections; each: { started, done, declined, data } */
-    labPath: null, labOrder: null, ship: { street: '', city: '', state: '', zip: '' },
-    quest: { zip: '', locationIdx: null, location: null, date: null, dateLabel: null, slot: null, status: null, stamp: null },
-    wearable: 'not_selected', wearableSync: null, wearableOutcome: null, wearableError: null, call: null
+    labPath: null, labOrder: null, ship: { name: '', street: '', line2: '', city: '', state: '', zip: '' },
+    quest: { cityOrZip: '', locationName: '', preferredWindow: 'first_available', status: null, stamp: null },
+    wearable: 'not_selected', wearableSync: null, wearableOutcome: null, wearableError: null, call: null,
+    packetSubmitted: false, packetSubmittedAt: null
   };
 }
 
@@ -3104,7 +3095,7 @@ function resetSurfaces() {
   /* Genetics — default disclosure pref (A) selected, decide view */
   document.getElementById('prefA').classList.add('selected');
   document.getElementById('prefB').classList.remove('selected');
-  ['ackFamily', 'ackVoluntary'].forEach(function (id) {
+  ['ackVoluntary', 'ackEmployerPrivacy', 'ackFamily', 'ackDeletion', 'ackPhysicianHold'].forEach(function (id) {
     var el = document.getElementById(id);
     if (el) el.classList.remove('confirmed');
   });
@@ -3118,26 +3109,26 @@ function resetSurfaces() {
   document.getElementById('pathQuest').classList.remove('selected');
   document.getElementById('tassoDetail').classList.remove('show');
   document.getElementById('questDetail').classList.remove('show');
-  ['shipStreet', 'shipCity', 'shipZip'].forEach(function (id) { document.getElementById(id).value = ''; });
+  ['shipName', 'shipStreet', 'shipLine2', 'shipCity', 'shipZip', 'questCityZip', 'questLocationName'].forEach(function (id) {
+    var el = document.getElementById(id);
+    if (el) el.value = '';
+  });
   document.getElementById('shipState').selectedIndex = 0;
-  document.getElementById('pscZip').value = '';
-  document.getElementById('pscFindBtn').disabled = true;
-  document.getElementById('pscLocations').innerHTML = '';
-  document.getElementById('pscSlots').innerHTML = '';
-  document.getElementById('pscBooked').classList.remove('show');
+  var questWindow = document.getElementById('questWindow');
+  if (questWindow) questWindow.value = 'first_available';
   var labCta = document.getElementById('labCta');
   labCta.disabled = true;
   labCta.textContent = 'Confirm home kit';
   /* Wearable */
   var conn = document.getElementById('connState');
-  conn.innerHTML = '<span class="conn-dot"></span>Apple Health · not connected';
+  conn.innerHTML = '<span class="conn-dot"></span>Choose how you want to handle Apple Health.';
   conn.classList.add('show');
   var syncMeta = document.getElementById('syncMeta');
   if (syncMeta) syncMeta.textContent = '';
   var wearableError = document.getElementById('wearableError');
   if (wearableError) { wearableError.textContent = ''; wearableError.style.display = 'none'; }
   var hk = document.getElementById('healthKitBtn');
-  hk.textContent = 'Connect Apple Health';
+  hk.textContent = 'Connect and sync Apple Health';
   hk.onclick = openPermSheet;
   document.getElementById('wearableSkip').style.display = '';
   /* Intro call */
@@ -3222,7 +3213,7 @@ function rehydrate() {
 
 /* On load: resume the active account where it left off. */
 function restoreActiveAccount() {
-  if (window.ALERON_RENDER_MODE === 'runtime') return;
+  if (window.ALERON_RENDER_MODE !== 'prototype') return;
   var active = null;
   try { active = localStorage.getItem(ACCT_ACTIVE_KEY); } catch (err) {}
   if (!active) { renderAccounts(); return; }
@@ -3239,7 +3230,6 @@ function restoreActiveAccount() {
 /*  SPLASH · app first paint                                        */
 /* ================================================================ */
 function bootSplash() {
-  if (window.ALERON_RENDER_MODE === 'runtime') return;
   var splash = document.getElementById('splashOverlay');
   if (!splash) return;
   splash.classList.add('show');
@@ -3424,7 +3414,7 @@ function renderChrome() {
     stepper.appendChild(node);
   });
   document.getElementById('stepCaption').textContent =
-    (CHAPTER_LABELS[n] || 'Getting set up') + ' · ' + (STEP_LABELS[n - 1] || '');
+    (CHAPTER_LABELS[n] || 'Getting set up') + ' · ' + (SCREEN_LABELS[n] || '');
   /* Back within activation is allowed after the welcome letter. */
   back.classList.toggle('show', pos > 0);
   renderJumpNavState();
@@ -3462,7 +3452,7 @@ function toggleJumpNav(force) {
 function prepareScreen(n) {
   if (n === 3) resetGenView();
   if (n === 4) renderFamily();
-  if (n === 5) renderHealth();
+  if (n === 5) renderPacketReview();
   if (n === 10) renderIntake();
   if (n === HOME_SCREEN) renderHome();
 }
@@ -3492,44 +3482,18 @@ function showScreen(n, dir) {
 }
 
 /* ================================================================ */
-/*  V3 NAVIGATION MODEL · activation flow + Home hub + chapters      */
-/*  ------------------------------------------------------------    */
-/*  v3 splits activation from intake. The Day-0 first sitting is a   */
-/*  short linear flow that ends at the persistent Home hub (screen   */
-/*  11). Everything that used to be a linear onboarding step and can */
-/*  wait for the results window is now a resumable CHAPTER launched  */
-/*  from Home; finishing (or backing out of) a chapter returns to    */
-/*  Home rather than marching to the next screen.                    */
-/*                                                                    */
-/*  DECISION (Jason, this session):                                   */
-/*   - Genetics stays in the Day-0 activation set BESIDE labs. Both   */
-/*     are commitment/reward kickoffs, ordered in the first sitting.  */
-/*   - The mood screen (PHQ-2 / GAD-2 in the structured-signals       */
-/*     chapter) stays UNIVERSAL. It is never adaptively gated on      */
-/*     narrative signal.                                              */
-/*   - The voice/text narrative is symptomatology ONLY. It is not a   */
-/*     general parse-the-whole-story extraction layer; the structured */
-/*     fields remain explicit asks.                                   */
+/*  BUILD 46 RELEASE NAVIGATION                                      */
+/*  Signed/TestFlight sequence: account, details, welcome, consents,  */
+/*  genetics, family history, symptom narrative, Vitality baseline,   */
+/*  lab path, wearable, intro call, packet submission, Home.          */
 /* ================================================================ */
 var HOME_SCREEN = 11;
-/* Screens in the Day-0 first sitting, in order. Genetics (3) and lab */
-/* path (7) both live here so labs + genetics are ordered same-day.   */
-var ACTIVATION_FLOW = [-1, 0, 1, 2, 3, 7, 8, HOME_SCREEN];
-/* Screens launched from Home as resumable chapters during the wait.  */
-var CHAPTERS = [4, 5, 6, 10, 9];
-
-function isChapter(n) { return CHAPTERS.indexOf(n) !== -1; }
+var ACTIVATION_FLOW = [-1, 0, 1, 2, 3, 4, 6, 10, 7, 8, 9, 5, HOME_SCREEN];
+var CHAPTERS = [];
+function isChapter() { return false; }
 
 function goNext() {
-  var here = state.screen;
-  /* A chapter completing returns to Home (and records completion). */
-  if (isChapter(here)) {
-    markChapterDone(here);
-    openHome('fwd');
-    return;
-  }
-  /* Activation flow: advance to the next activation screen. */
-  var idx = ACTIVATION_FLOW.indexOf(here);
+  var idx = ACTIVATION_FLOW.indexOf(state.screen);
   if (idx !== -1 && idx < ACTIVATION_FLOW.length - 1) {
     var next = ACTIVATION_FLOW[idx + 1];
     if (next === HOME_SCREEN) { openHome('fwd'); return; }
@@ -3537,40 +3501,33 @@ function goNext() {
     showScreen(next, 'fwd');
   }
 }
-
 function goBack() {
-  var here = state.screen;
-  /* Backing out of a chapter returns to Home without discarding work. */
-  if (isChapter(here)) { openHome('back'); return; }
-  var idx = ACTIVATION_FLOW.indexOf(here);
+  var idx = ACTIVATION_FLOW.indexOf(state.screen);
   if (idx > 0) {
     var prev = ACTIVATION_FLOW[idx - 1];
     prepareScreen(prev);
     showScreen(prev, 'back');
   }
 }
-
-/* Open the persistent Home hub. */
 function openHome(dir) {
   prepareScreen(HOME_SCREEN);
   showScreen(HOME_SCREEN, dir || 'fwd');
 }
-
-/* Launch a chapter card from Home. Reuses the existing per-screen
-   prepare hooks (renderFamily/renderHealth/renderIntake) so a chapter
-   resumes exactly where the member left off. */
 function openChapter(n) {
   prepareScreen(n);
   showScreen(n, 'fwd');
 }
-
-/* Record that a chapter was completed on this return to Home. Most
-   chapters derive their own status from state (health.done,
-   symptoms.done, intake slots, call), but family history has no
-   natural completion flag, so we stamp one here. */
-function markChapterDone(n) {
-  if (!state.chapters) state.chapters = {};
-  if (n === 4) state.chapters.family = true;
+function markChapterDone() {}
+function renderPacketReview() {
+  var btn = document.getElementById('packetSubmitBtn');
+  if (btn) btn.disabled = false;
+}
+function submitPacket() {
+  state.patient_packet = assemblePacket();
+  state.packetSubmitted = true;
+  state.packetSubmittedAt = new Date().toISOString().replace(/\.\d{3}Z$/, 'Z');
+  persistAccount();
+  goNext();
 }
 
 /* ================================================================ */
@@ -3737,10 +3694,12 @@ function toggleAck(id) {
   checkGeneticsReady();
   persistAccount();
 }
-/* Disclosure preference defaults to the recommended option, so only
-   the two acknowledgments gate confirmation. */
+/* Disclosure preference defaults to the recommended option. Every
+   build-46 acknowledgement is individually required. */
 function checkGeneticsReady() {
-  var ready = state.genetics.acks.ackFamily && state.genetics.acks.ackVoluntary;
+  var ready = ['ackVoluntary', 'ackEmployerPrivacy', 'ackFamily', 'ackDeletion', 'ackPhysicianHold'].every(function (id) {
+    return !!state.genetics.acks[id];
+  });
   document.getElementById('geneticsCta').disabled = !ready;
 }
 /* Simulated Junction order: orderable-tests -> preview -> orders.
@@ -4313,8 +4272,8 @@ function resetRecorder() {
   labelResults = [];
   document.getElementById('micStage').style.display = 'flex';
   document.getElementById('micBtn').classList.remove('recording', 'processing', 'error');
-  document.getElementById('micLabel').textContent = 'Tap to speak';
-  document.getElementById('recorderNote').textContent = 'Speak your answer, or type it instead.';
+  document.getElementById('micLabel').textContent = 'Record and transcribe';
+  document.getElementById('recorderNote').textContent = 'Your voice becomes an editable transcript for physician review.';
   document.getElementById('micWave').classList.remove('show');
   document.getElementById('micTimer').classList.remove('show');
   document.getElementById('typeInstead').style.display = 'block';
@@ -4483,28 +4442,37 @@ function prettyStamp(iso) {
 /*  SCREEN 6 · LAB PATH                                              */
 /* ================================================================ */
 function shipState() {
-  if (!state.ship) state.ship = { street: '', city: '', state: '', zip: '' };
+  if (!state.ship) state.ship = { name: '', street: '', line2: '', city: '', state: '', zip: '' };
+  if (state.ship.line2 === undefined) state.ship.line2 = '';
+  if (state.ship.name === undefined) state.ship.name = '';
   return state.ship;
 }
 
 function shipReady() {
   var s = shipState();
-  return !!(cleanText(s.street) && cleanText(s.city) && s.state && /^\d{5}(-\d{4})?$/.test(cleanText(s.zip)));
+  return !!(cleanText(s.name) && cleanText(s.street) && cleanText(s.city) && s.state && /^\d{5}(-\d{4})?$/.test(cleanText(s.zip)));
 }
 
 /* Write state.ship into the fields; prefill state from signup once. */
 function renderShip() {
   var s = shipState();
   if (!s.state && state.identity && state.identity.state) s.state = state.identity.state;
-  document.getElementById('shipStreet').value = s.street;
-  document.getElementById('shipCity').value = s.city;
-  document.getElementById('shipState').value = s.state;
-  document.getElementById('shipZip').value = s.zip;
+  if (!s.name && state.identity && state.identity.display_name) s.name = state.identity.display_name;
+  var nameEl = document.getElementById('shipName');
+  if (nameEl) nameEl.value = s.name || '';
+  document.getElementById('shipStreet').value = s.street || '';
+  document.getElementById('shipLine2').value = s.line2 || '';
+  document.getElementById('shipCity').value = s.city || '';
+  document.getElementById('shipState').value = s.state || '';
+  document.getElementById('shipZip').value = s.zip || '';
 }
 
 function syncShip() {
   var s = shipState();
+  var nameEl = document.getElementById('shipName');
+  if (nameEl) s.name = nameEl.value;
   s.street = document.getElementById('shipStreet').value;
+  s.line2 = document.getElementById('shipLine2').value;
   s.city = document.getElementById('shipCity').value;
   s.state = document.getElementById('shipState').value;
   s.zip = document.getElementById('shipZip').value;
@@ -4527,30 +4495,26 @@ function selectPath(which) {
   persistAccount();
 }
 
-/* Lab CTA branches by path. Tasso confirms and advances once the address
-   is valid. Quest books first (enabled once a slot is chosen), then the
-   same button becomes Continue. */
+/* Lab CTA matches the shipping TestFlight app: Tasso requires a complete
+   shipping address; Quest requires draw-preference capture (not live booking). */
 function refreshLabCta() {
   var cta = document.getElementById('labCta');
   if (state.labPath === 'tasso') {
     cta.textContent = 'Confirm home kit';
     cta.disabled = !shipReady();
   } else if (state.labPath === 'quest') {
-    var q = questState();
-    if (q.status === 'scheduled') {
-      cta.textContent = 'Continue';
-      cta.disabled = false;
-    } else {
-      cta.textContent = 'Book a Quest appointment';
-      cta.disabled = !q.slot;
-    }
+    cta.textContent = 'Confirm Quest preference';
+    cta.disabled = !questReady();
   }
 }
 
 function labPrimary() {
-  if (state.labPath === 'quest' && questState().status !== 'scheduled') {
-    bookPsc();
-    return;
+  if (state.labPath === 'tasso' && !shipReady()) return;
+  if (state.labPath === 'quest') {
+    if (!questReady()) return;
+    var q = questState();
+    q.status = 'preference_captured';
+    q.stamp = new Date().toISOString().replace(/\.\d{3}Z$/, 'Z');
   }
   /* Confirming the lab path places the blood-panel order (separate from
      any genetics order). Idempotent so re-entering the screen from Home
@@ -4562,187 +4526,42 @@ function labPrimary() {
   goNext();
 }
 
-/* ---- Quest / Junction PSC scheduling ---------------------------------
-   Mirrors the Junction PSC API shape: availability by zip + radius returns
-   nearby patient service centers, each with 14 days of slots; booking
-   confirms an appointment that can be rescheduled or cancelled. Data here
-   is simulated; endpoints map 1:1 for the iOS build. */
 function questState() {
-  if (!state.quest) state.quest = { zip: '', locationIdx: null, location: null, date: null, dateLabel: null, slot: null, status: null, stamp: null };
+  if (!state.quest) state.quest = { cityOrZip: '', locationName: '', preferredWindow: 'first_available', status: null, stamp: null };
+  if (state.quest.cityOrZip === undefined) state.quest.cityOrZip = state.quest.zip || '';
+  if (state.quest.locationName === undefined) state.quest.locationName = '';
+  if (state.quest.preferredWindow === undefined) state.quest.preferredWindow = 'first_available';
   return state.quest;
 }
 
-/* Deterministic PSC list so a given zip always returns the same centers
-   (keeps reschedule stable). Stand-in for the availability API response. */
-var QUEST_CENTERS = [
-  { name: 'Quest Diagnostics · Laurel Village', addr: '3838 California St, Suite 110', dist: '1.4 mi' },
-  { name: 'Quest Diagnostics · Financial District', addr: '490 Post St, Suite 542', dist: '2.9 mi' },
-  { name: 'Quest Diagnostics · Daly City', addr: '901 Campus Dr, Suite 106', dist: '8.2 mi' }
-];
-var PSC_TIME_POOL = ['7:15 AM', '8:00 AM', '8:45 AM', '9:30 AM', '10:15 AM', '11:00 AM', '1:30 PM', '2:15 PM', '3:00 PM', '3:45 PM'];
-
-function onPscZip() {
-  var v = cleanText(document.getElementById('pscZip').value);
-  questState().zip = v;
-  document.getElementById('pscFindBtn').disabled = !/^\d{5}(-\d{4})?$/.test(v);
+function questReady() {
+  var q = questState();
+  return !!(cleanText(q.cityOrZip) && cleanText(q.locationName) && cleanText(q.preferredWindow));
 }
 
-function findPscLocations(ev) {
-  if (ev) ev.stopPropagation();
+function syncQuestPref() {
   var q = questState();
-  if (!/^\d{5}(-\d{4})?$/.test(cleanText(q.zip))) return;
-  renderPscLocations();
+  var cityEl = document.getElementById('questCityZip');
+  var locEl = document.getElementById('questLocationName');
+  var winEl = document.getElementById('questWindow');
+  if (cityEl) q.cityOrZip = cityEl.value;
+  if (locEl) q.locationName = locEl.value;
+  if (winEl) q.preferredWindow = winEl.value;
+  if (state.labPath === 'quest') document.getElementById('labCta').disabled = !questReady();
   persistAccount();
 }
 
-function renderPscLocations() {
-  var wrap = document.getElementById('pscLocations');
-  var q = questState();
-  wrap.innerHTML = '<div class="psc-section-label">Patient service centers near ' + escapeHtml(q.zip) + '</div>' +
-    QUEST_CENTERS.map(function (c, i) {
-      return '<div class="quest-loc' + (q.locationIdx === i ? ' selected' : '') + '" onclick="selectPscLocation(event,' + i + ')">' +
-        '<div class="quest-loc-body"><div class="quest-loc-name">' + c.name + '</div>' +
-        '<div class="quest-loc-addr">' + c.addr + '</div></div>' +
-        '<div class="quest-loc-dist">' + c.dist + '</div></div>';
-    }).join('');
-}
-
-function selectPscLocation(ev, idx) {
-  if (ev) ev.stopPropagation();
-  var q = questState();
-  q.locationIdx = idx;
-  q.location = QUEST_CENTERS[idx];
-  if (q.status === 'scheduled') { q.status = null; q.stamp = null; }
-  renderPscLocations();
-  renderPscSlots();
-  refreshLabCta();
-  persistAccount();
-}
-
-/* 14 days of availability from today, Sundays closed (PSC pattern). */
-function pscAvailability() {
-  var days = [];
-  var d = new Date();
-  d.setHours(0, 0, 0, 0);
-  while (days.length < 14) {
-    if (d.getDay() !== 0) {
-      days.push({
-        iso: d.getFullYear() + '-' + String(d.getMonth() + 1).padStart(2, '0') + '-' + String(d.getDate()).padStart(2, '0'),
-        dow: ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'][d.getDay()],
-        dnum: d.getDate(),
-        label: ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'][d.getDay()] + ' ' +
-               ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'][d.getMonth()] + ' ' + d.getDate()
-      });
-    }
-    d.setDate(d.getDate() + 1);
-  }
-  return days;
-}
-
-/* Deterministic per-day slot subset (Saturdays are shorter). */
-function pscSlotsForDay(iso, index) {
-  if (iso.slice(-2) && new Date(iso + 'T00:00:00').getDay() === 6) return PSC_TIME_POOL.slice(0, 4);
-  var start = index % 3;
-  return PSC_TIME_POOL.filter(function (_, i) { return (i + start) % 4 !== 0; });
-}
-
-function renderPscSlots() {
-  var wrap = document.getElementById('pscSlots');
-  var q = questState();
-  if (q.locationIdx === null) { wrap.innerHTML = ''; return; }
-  var days = pscAvailability();
-  if (!q.date || !days.some(function (d) { return d.iso === q.date; })) {
-    q.date = days[0].iso;
-    q.dateLabel = days[0].label;
-  }
-  var dateStrip = '<div class="psc-section-label">Choose a date</div><div class="psc-dates">' +
-    days.map(function (d, i) {
-      return '<button class="psc-date' + (q.date === d.iso ? ' selected' : '') + '" onclick="selectPscDate(event,\'' + d.iso + '\',\'' + d.label + '\',' + i + ')">' +
-        '<div class="psc-dow">' + d.dow + '</div><div class="psc-dnum">' + d.dnum + '</div></button>';
-    }).join('') + '</div>';
-  var dayIndex = days.map(function (d) { return d.iso; }).indexOf(q.date);
-  var times = pscSlotsForDay(q.date, dayIndex < 0 ? 0 : dayIndex);
-  var timeGrid = '<div class="psc-section-label">Available times</div><div class="slot-grid">' +
-    times.map(function (t) {
-      return '<button class="slot' + (q.slot === t ? ' selected' : '') + '" onclick="selectPscSlot(event,\'' + t + '\')">' + t + '</button>';
-    }).join('') + '</div>';
-  wrap.innerHTML = dateStrip + timeGrid;
-}
-
-function selectPscDate(ev, iso, label, idx) {
-  if (ev) ev.stopPropagation();
-  var q = questState();
-  q.date = iso;
-  q.dateLabel = label;
-  q.slot = null;
-  renderPscSlots();
-  refreshLabCta();
-  persistAccount();
-}
-
-function selectPscSlot(ev, time) {
-  if (ev) ev.stopPropagation();
-  questState().slot = time;
-  document.querySelectorAll('#pscSlots .slot').forEach(function (el) {
-    el.classList.toggle('selected', el.textContent === time);
-  });
-  refreshLabCta();
-  persistAccount();
-}
-
-function bookPsc() {
-  var q = questState();
-  if (!q.location || !q.date || !q.slot) return;
-  q.status = 'scheduled';
-  q.stamp = new Date().toISOString().replace(/\.\d{3}Z$/, 'Z');
-  renderQuest();
-  refreshLabCta();
-  persistAccount();
-}
-
-function reschedulePsc(ev) {
-  if (ev) ev.stopPropagation();
-  var q = questState();
-  q.status = null;
-  q.stamp = null;
-  q.slot = null;
-  renderQuest();
-  refreshLabCta();
-  persistAccount();
-}
-
-function cancelPsc(ev) {
-  if (ev) ev.stopPropagation();
-  var q = questState();
-  q.status = null;
-  q.stamp = null;
-  q.slot = null;
-  q.date = null;
-  q.dateLabel = null;
-  renderQuest();
-  refreshLabCta();
-  persistAccount();
-}
-
-/* Render the Quest sub-surface to match current state (used on entry and
-   after booking / reschedule / cancel). */
+/* Render Quest preference fields to match current shipping app release. */
 function renderQuest() {
   var q = questState();
-  if (!q.zip && state.ship && state.ship.zip) q.zip = state.ship.zip;
-  else if (!q.zip && state.identity && state.identity.zip) q.zip = state.identity.zip;
-  document.getElementById('pscZip').value = q.zip || '';
-  document.getElementById('pscFindBtn').disabled = !/^\d{5}(-\d{4})?$/.test(cleanText(q.zip || ''));
-  var booked = q.status === 'scheduled';
-  document.getElementById('pscBooked').classList.toggle('show', booked);
-  if (booked) {
-    document.getElementById('pscBookedMeta').innerHTML =
-      escapeHtml(q.location.name) + '<br>' + q.dateLabel + ' · ' + q.slot;
-    document.getElementById('pscLocations').innerHTML = '';
-    document.getElementById('pscSlots').innerHTML = '';
-  } else {
-    if (q.locationIdx !== null) { renderPscLocations(); renderPscSlots(); }
-    else { document.getElementById('pscLocations').innerHTML = ''; document.getElementById('pscSlots').innerHTML = ''; }
-  }
+  if (!q.cityOrZip && state.ship && state.ship.zip) q.cityOrZip = state.ship.zip;
+  else if (!q.cityOrZip && state.identity && state.identity.zip) q.cityOrZip = state.identity.zip;
+  var cityEl = document.getElementById('questCityZip');
+  var locEl = document.getElementById('questLocationName');
+  var winEl = document.getElementById('questWindow');
+  if (cityEl) cityEl.value = q.cityOrZip || '';
+  if (locEl) locEl.value = q.locationName || '';
+  if (winEl) winEl.value = q.preferredWindow || 'first_available';
 }
 
 /* ================================================================ */
@@ -4841,7 +4660,7 @@ function renderWearableState(overrideMessage) {
   error.textContent = state.wearableError || '';
   if (state.wearable === 'skip_for_now') {
     conn.innerHTML = '<span class="conn-dot"></span>Apple Health · skipped for now';
-    btn.textContent = 'Connect Apple Health'; btn.onclick = openPermSheet; skip.style.display = 'none';
+    btn.textContent = 'Connect and sync Apple Health'; btn.onclick = openPermSheet; skip.style.display = 'none';
   } else if (state.wearable === 'connect_apple_health' && hasValues) {
     conn.innerHTML = '<span class="conn-dot" style="background:var(--text-gold)"></span>Apple Health · readings received';
     btn.textContent = 'Save and continue'; btn.onclick = goNext; skip.style.display = 'none';
@@ -4852,11 +4671,11 @@ function renderWearableState(overrideMessage) {
         ? 'Apple Health · no readable data'
         : 'Apple Health · waiting for permission';
     conn.innerHTML = '<span class="conn-dot"></span>' + escapeHtml(overrideMessage || unresolvedLabel);
-    btn.textContent = state.wearableError ? 'Try Apple Health again' : 'Connect Apple Health';
+    btn.textContent = state.wearableError ? 'Try Apple Health again' : 'Connect and sync Apple Health';
     btn.onclick = openPermSheet; skip.style.display = '';
   } else {
-    conn.innerHTML = '<span class="conn-dot"></span>Apple Health · not connected';
-    btn.textContent = 'Connect Apple Health'; btn.onclick = openPermSheet; skip.style.display = '';
+    conn.innerHTML = '<span class="conn-dot"></span>Choose how you want to handle Apple Health.';
+    btn.textContent = 'Connect and sync Apple Health'; btn.onclick = openPermSheet; skip.style.display = '';
   }
   paintWearableSync();
 }
@@ -5178,16 +4997,15 @@ var INTAKE_SECTIONS = [
   }
 ];
 
-/* Active-section index within the intake screen. */
+var BUILD46_INTAKE_KEYS = ['lived_state','mood','alcohol_use','sleep_osa','pain_impact','safety_context'];
+
+/* Active-section index within the Vitality baseline screen. */
 var intakeIdx = 0;
 
 /* Sections applicable to this member (female-only filtered out for male). */
 function intakeApplicableSections() {
-  var sexAtBirth = state.identity && state.identity.sex_at_birth;
   return INTAKE_SECTIONS.filter(function (sec) {
-    if (sec.female_only && sexAtBirth === 'male') return false;
-    if (sec.male_only && sexAtBirth === 'female') return false;
-    return true;
+    return BUILD46_INTAKE_KEYS.indexOf(sec.key) !== -1;
   });
 }
 
@@ -5219,7 +5037,7 @@ function paintIntakeSection() {
 
   /* progress strip */
   var prog = document.getElementById('intakeProgress');
-  prog.innerHTML = 'Your health · structured signals · ' + (intakeIdx + 1) + ' of ' + secs.length;
+  prog.innerHTML = 'Your vitality baseline · ' + (intakeIdx + 1) + ' of ' + secs.length;
 
   document.getElementById('intakeTitle').textContent = sec.title;
   document.getElementById('intakeIntro').textContent = sec.intro;
@@ -5232,7 +5050,7 @@ function paintIntakeSection() {
 
   /* CTA label: last section says "Finish", else "Continue" */
   var nextBtn = document.getElementById('intakeNextBtn');
-  nextBtn.textContent = (intakeIdx === secs.length - 1) ? 'Finish' : 'Continue';
+  nextBtn.textContent = (intakeIdx === secs.length - 1) ? 'Save and continue' : 'Continue';
   nextBtn.disabled = !!sec.required_answers && !intakeSectionComplete(sec, slot);
   document.getElementById('intakeSkipBtn').style.display = sec.required_answers ? 'none' : '';
 
@@ -5838,8 +5656,8 @@ function assemblePacket() {
 /*  HOME · persistent wait-state hub renderer                        */
 /*  Replaces the old one-shot buildSummary. Still assembles the      */
 /*  engine-facing packet (the seam is unchanged), but the surface is */
-/*  now durable: a set of resumable chapter cards plus the vitality  */
-/*  lock. Called on every entry to Home (prepareScreen(11)).         */
+/*  now release-accurate: submitted intake summary plus diagnostics   */
+/*  logistics. Called on every entry to Home (prepareScreen(11)).    */
 /* ================================================================ */
 
 /* The five chapters worked during the results wait, in the order the
@@ -5848,68 +5666,14 @@ function assemblePacket() {
    `feedsVitality` marks chapters whose completion unlocks the vitality
    panel on results day (the completion hook). */
 function homeChapters() {
-  var sab = state.identity && state.identity.sex_at_birth;
-
-  /* Structured signals: count applicable sections done/declined. */
-  var secs = intakeApplicableSections();
-  var secDone = secs.filter(function (sec) {
-    var blk = state.intake && state.intake[sec.key];
-    return blk && (blk.done || blk.declined);
-  }).length;
-  var structuredTraversalComplete = secs.length > 0 && secDone === secs.length;
-  var vitalityState = assembleVitality(assembleIntake());
-  var vitalityReady = vitalityState.state !== 'baseline_collection_required';
-  var structuredComplete = structuredTraversalComplete && vitalityReady;
-
-  var chapters = [
-    {
-      screen: 4, key: 'family', title: 'Family history',
-      blurb: 'The conditions your biological family carries. About 5 questions.',
-      done: !!(state.chapters && state.chapters.family),
-      feedsVitality: false,
-      metaDone: (function () {
-        var sibN = Array.isArray(state.family.siblings) ? state.family.siblings.length : 0;
-        return 'Mother · Father · ' + (sibN === 1 ? '1 sibling' : sibN + ' siblings');
-      })()
-    },
-    {
-      screen: 5, key: 'health', title: 'Your health today',
-      blurb: 'Height, weight, conditions, medications, allergies. A couple of minutes.',
-      done: !!(state.health && state.health.done),
-      feedsVitality: true,
-      metaDone: (function () {
-        var hh = state.health || {};
-        var condN = Object.keys(hh.conditions || {}).filter(function (k) { return k !== 'none'; }).length;
-        return (hh.heightFt != null || hh.weightLb != null ? 'Height and weight · ' : '') +
-          (condN ? (condN === 1 ? '1 condition' : condN + ' conditions') : 'No conditions');
-      })()
-    },
-    {
-      screen: 6, key: 'symptoms', title: 'In your own words',
-      blurb: 'How your body has changed. Speak it or type it, however you like.',
-      done: !!(state.symptoms && state.symptoms.done),
-      feedsVitality: false,
-      metaDone: state.symptoms && state.symptoms.probes
-        ? 'Shared · ' + state.symptoms.probes + (state.symptoms.probes === 1 ? ' follow-up' : ' follow-ups')
-        : 'Shared in your own words'
-    },
-    {
-      screen: 10, key: 'structured', title: 'Structured health signals',
-      blurb: 'Short specifics your physician and the risk models use. Includes a brief, standard mood and sleep screen everyone completes.',
-      done: structuredComplete,
-      feedsVitality: true,
-      metaDone: secDone + ' of ' + secs.length + ' sections'
-    },
-    {
-      screen: 9, key: 'call', title: 'Say hello to Dr. Mizani',
-      blurb: 'An optional 15 minute intro call before your results. Entirely up to you.',
-      done: !!(state.call && state.call !== 'skipped'),
-      feedsVitality: false,
-      optional: true,
-      metaDone: state.call && state.call !== 'skipped' ? (state.call + ' · 15 min') : 'No call booked'
-    }
+  return [
+    { key: 'family', title: 'Family history', done: true, metaDone: 'Saved for physician review' },
+    { key: 'health', title: 'Your health today', done: false, available: false, metaDone: 'Not available in build 46' },
+    { key: 'symptoms', title: 'In your own words', done: true, metaDone: 'Narrative saved for physician review' },
+    { key: 'vitality', title: 'Vitality baseline', done: true, metaDone: 'Screeners and context captured' },
+    { key: 'structured', title: 'Structured clinical signals', done: false, available: false, metaDone: 'Not available in build 46' },
+    { key: 'call', title: 'Intro call', done: true, metaDone: state.call && state.call !== 'skipped' ? state.call : 'No call booked' }
   ];
-  return chapters;
 }
 
 function renderHome() {
@@ -5926,17 +5690,13 @@ function renderHome() {
   var wrap = document.getElementById('chapterCards');
   if (wrap) {
     wrap.innerHTML = chapters.map(function (c) {
-      var stateLabel = c.done ? 'Done' : (chapterTouched(c) ? 'Resume' : 'Start');
-      var meta = c.done ? c.metaDone : (c.optional ? 'Optional' : c.blurb);
-      return '<button class="hub-chapter' + (c.done ? ' done' : '') + '" type="button" onclick="openChapter(' + c.screen + ')">' +
-        '<div class="hub-check' + (c.done ? '' : ' skipped') + '">' + (c.done ? '✓' : '·') + '</div>' +
-        '<div class="hub-task-body">' +
-          '<div class="hub-task-title">' + c.title + '</div>' +
-          '<div class="hub-task-meta">' + meta + '</div>' +
-          (c.feedsVitality && !c.done ? '<div class="hub-task-meta hub-vitality-hint">Unlocks your vitality reading</div>' : '') +
-        '</div>' +
-        '<div class="hub-chapter-cta">' + stateLabel + '</div>' +
-      '</button>';
+      var available = c.available !== false;
+      var meta = c.metaDone;
+      return '<div class="hub-chapter' + (available ? ' done' : '') + '">' +
+        '<div class="hub-check' + (available ? '' : ' skipped') + '">' + (available ? '✓' : '·') + '</div>' +
+        '<div class="hub-task-body"><div class="hub-task-title">' + c.title + '</div>' +
+        '<div class="hub-task-meta">' + meta + '</div></div>' +
+        '<div class="hub-chapter-cta">' + (available ? 'Saved' : 'Unavailable') + '</div></div>';
     }).join('');
   }
 
@@ -5951,9 +5711,9 @@ function renderHome() {
   /* Home intro reflects whether genetics was ordered alongside labs. */
   var intro = document.getElementById('homeIntro');
   if (intro) {
-    intro.textContent = (state.genetics.decision === 'consented')
-      ? 'Your blood draw and genetic testing are both ordered. Results take about a week to come back. In the meantime, a few short chapters help your physician read them in the fullest context.'
-      : 'Your blood draw is ordered. Results take about a week to come back. In the meantime, a few short chapters help your physician read them in the fullest context.';
+    intro.textContent = state.packetSubmitted
+      ? 'Your packet is received. Home reflects diagnostics logistics and physician review. Clinical content stays locked until your physician releases it.'
+      : 'Complete setup to send your intake packet for physician review.';
   }
 
   renderKitTracking();
@@ -5980,28 +5740,13 @@ function chapterTouched(c) {
    skip a vitality-feeding chapter and the panel returns
    insufficient_input. On Home we surface that as a locked tile that
    fills in as those chapters complete. Finishing them is the reward. */
-function renderVitalityTile(chapters) {
+function renderVitalityTile() {
   var el = document.getElementById('vitalityTile');
   if (!el) return;
-  var feeders = chapters.filter(function (c) { return c.feedsVitality; });
-  var vitalityState = assembleVitality(assembleIntake());
-  var vitalityReady = vitalityState.state !== 'baseline_collection_required';
-  var doneCount = feeders.filter(function (c) {
-    return c.key === 'structured' ? vitalityReady && c.done : c.done;
-  }).length;
-  var unlocked = doneCount === feeders.length && feeders.length > 0;
-  el.innerHTML =
-    '<div class="vitality-tile' + (unlocked ? ' unlocked' : ' locked') + '">' +
-      '<div class="vitality-tile-head">' +
-        '<div class="vitality-tile-title">Your vitality reading</div>' +
-        '<div class="vitality-tile-badge">' + (unlocked ? 'Ready for results day' : doneCount + ' of ' + feeders.length) + '</div>' +
-      '</div>' +
-      '<p class="vitality-tile-body">' +
-        (unlocked
-          ? 'You have completed everything your vitality reading needs. It will be ready alongside your results.'
-          : 'Your vitality reading needs a complete picture. Finish the chapters marked above to unlock it on results day.') +
-      '</p>' +
-    '</div>';
+  el.innerHTML = '<div class="vitality-tile unlocked">' +
+    '<div class="vitality-tile-head"><div class="vitality-tile-title">Your vitality baseline</div>' +
+    '<div class="vitality-tile-badge">SENT</div></div>' +
+    '<p class="vitality-tile-body">Your reported baseline is included in the physician packet. No composite score is shown before physician review.</p></div>';
 }
 
 /* ================================================================ */
@@ -6033,7 +5778,7 @@ var KIT_STAGES = [
    picks Quest AND declines genetics a real spine on Home instead of an
    empty wait. Maps to Junction PSC appointment + resulting order statuses. */
 var APPT_STAGES = [
-  { key: 'booked', label: 'Appointment booked', note: 'Your draw is scheduled. Bring a photo ID.' },
+  { key: 'booked', label: 'Draw preference received', note: 'The requested location and window are saved for fulfillment.' },
   { key: 'drawn', label: 'Sample collected', note: 'Your blood was drawn and is being prepared for the lab.' },
   { key: 'transit_lab', label: 'On the way to the lab', note: 'Your sample is heading to the lab.' },
   { key: 'received_lab', label: 'Received at lab', note: null }
@@ -6066,7 +5811,7 @@ function activeKits() {
       name: 'Blood panel draw',
       vendor: 'quest',
       tracking: null,
-      appointment: q.dateLabel || (q.location && q.location.name) || null,
+      appointment: q.locationName || q.cityOrZip || null,
       done: 'The lab has your sample. Results in 7 to 10 days.'
     });
   }
@@ -6090,7 +5835,7 @@ function renderKitTracking() {
   var kits = activeKits();
   if (!kits.length) { wrap.innerHTML = ''; return; }
   if (!state.kits) state.kits = {};
-  var showProto = window.ALERON_RENDER_MODE !== 'runtime';
+  var showProto = window.ALERON_RENDER_MODE === 'prototype';
   wrap.innerHTML = '<div class="section-label">Tracking your kit' + (kits.length > 1 ? 's' : '') + '</div>' +
     kits.map(function (k) {
       var stages = k.kind === 'appointment' ? APPT_STAGES : KIT_STAGES;
