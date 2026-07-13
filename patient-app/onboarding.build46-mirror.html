@@ -4,6 +4,9 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>Aleron MD Patient Build 46 Mirror</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Space+Mono:wght@400;700&display=swap" rel="stylesheet">
   <style>
     @font-face {
       font-family: "PolySans";
@@ -40,15 +43,15 @@
       --color-cream: #f5f1e8;
       --color-card: #ffffff;
       --color-inset: #f1ede6;
-      --color-slate: #3f4b61;
+      --color-slate: #5a6378;
       --color-gold: #c9a14e;
-      --color-text-gold: #5f4618;
-      --color-hazard: #6b2a1a;
-      --color-text-tertiary: #4e4a43;
+      --color-text-gold: #8a6a2f;
+      --color-hazard: #a4452c;
+      --color-text-tertiary: #6e6a63;
       --border-soft: rgba(29, 27, 24, 0.1);
       --border-medium: rgba(29, 27, 24, 0.18);
       --border-strong: rgba(29, 27, 24, 0.34);
-      --shadow-soft: 0 24px 60px rgba(29, 27, 24, 0.08);
+      --shadow-soft: 0 12px 36px rgba(29, 27, 24, 0.09);
       --air-1: 4px;
       --air-2: 8px;
       --air-3: 12px;
@@ -57,10 +60,13 @@
       --air-6: 24px;
       --air-7: 32px;
       --air-8: 40px;
-      --radius-sm: 6px;
-      --radius-md: 8px;
-      --radius-lg: 12px;
+      --radius-tile: 4px;
+      --radius-control: 10px;
+      --radius-tier2: 12px;
+      --radius-tier1: 16px;
+      --radius-panel: 18px;
       --route-width: 393px;
+      --font-audit: "Space Mono", ui-monospace, Menlo, monospace;
       color-scheme: light;
     }
 
@@ -191,7 +197,7 @@
       min-width: 40px;
       height: 32px;
       border: 1px solid var(--border-medium);
-      border-radius: 16px;
+      border-radius: var(--radius-control);
       background: rgba(255, 255, 255, 0.62);
       color: var(--color-ink);
       font-size: 12px;
@@ -299,7 +305,7 @@
     .stage-row,
     .dialog-card {
       border: 1px solid var(--border-soft);
-      border-radius: var(--radius-md);
+      border-radius: var(--radius-tier2);
       background: var(--color-card);
     }
 
@@ -346,7 +352,7 @@
 
     .detail-panel {
       border: 1px solid var(--border-medium);
-      border-radius: var(--radius-lg);
+      border-radius: var(--radius-tier1);
       background: var(--color-card);
       padding: 2px var(--air-5);
       margin-bottom: var(--air-6);
@@ -377,7 +383,7 @@
     .field-textarea {
       width: 100%;
       border: 1px solid var(--border-medium);
-      border-radius: var(--radius-md);
+      border-radius: var(--radius-control);
       background: var(--color-card);
       color: var(--color-ink);
       outline: none;
@@ -406,7 +412,7 @@
       width: 100%;
       min-height: 50px;
       border: 1px solid transparent;
-      border-radius: var(--radius-md);
+      border-radius: var(--radius-control);
       padding: 0 var(--air-4);
       display: inline-flex;
       align-items: center;
@@ -503,15 +509,16 @@
     .status-badge {
       flex: 0 0 auto;
       border: 1px solid var(--border-soft);
-      border-radius: 999px;
+      border-radius: var(--radius-tile);
       padding: 4px 8px;
       color: var(--color-text-gold);
       background: rgba(201, 161, 78, 0.13);
+      font-family: var(--font-audit);
       font-size: 11px;
       line-height: 1;
       font-weight: 600;
       text-transform: uppercase;
-      letter-spacing: 0;
+      letter-spacing: 0.04em;
     }
 
     .status-badge.neutral {
@@ -534,7 +541,7 @@
     .score-button {
       min-height: 42px;
       border: 1px solid var(--border-medium);
-      border-radius: var(--radius-md);
+      border-radius: var(--radius-control);
       background: var(--color-card);
       color: var(--color-ink);
       padding: 0 var(--air-3);
@@ -606,7 +613,7 @@
     .frequency-button {
       min-height: 40px;
       border: 1px solid var(--border-medium);
-      border-radius: var(--radius-md);
+      border-radius: var(--radius-control);
       background: var(--color-card);
       color: var(--color-ink);
       text-align: left;
@@ -631,6 +638,7 @@
 
     .metric-value {
       margin: var(--air-1) 0 0;
+      font-family: var(--font-audit);
       font-size: 20px;
       line-height: 1;
       font-weight: 600;
@@ -643,9 +651,9 @@
     }
 
     .hazard-card {
-      border: 1px solid rgba(107, 42, 26, 0.28);
-      border-radius: var(--radius-md);
-      background: rgba(107, 42, 26, 0.08);
+      border: 1px solid rgba(164, 69, 44, 0.28);
+      border-radius: var(--radius-tier2);
+      background: rgba(164, 69, 44, 0.08);
       color: var(--color-hazard);
       padding: var(--air-4);
       font-size: 14px;
