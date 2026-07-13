@@ -947,14 +947,8 @@ export function renderDashboard(app, state, model) {
   const initials = patientInitials(model.patient.name);
   const options = state.queue.map((task) => `<option value="${esc(task.patient_id)}" ${task.patient_id === state.activePatientId ? 'selected' : ''}>${esc(queueOptionLabel(task))}</option>`).join('');
   const nav = TAB_LABELS.map(([id, label]) => `<button data-tab="${id}" class="nav-item ${state.activeTab === id ? 'on' : ''}" aria-selected="${state.activeTab === id}">${icon(id)}${label}</button>`).join('');
-  const synthetic = state.source === 'fixture'
-    || model.vitality?.some((row) => row.synthetic === true)
-    || model.patientData?.groups?.some((group) => group.measurements?.some((row) => /synthetic/i.test(String(row.provenance ?? ''))));
-  const stagingBoundary = synthetic
-    ? '<section class="boundary-banner" data-staging-boundary><strong>Staging · synthetic · nonclinical · Not for diagnosis or patient care.</strong></section>'
-    : '';
   app.innerHTML = `<main class="dashboard-shell">
     <aside class="sidebar" aria-label="Dashboard sections"><div class="brand">aleron<span>MD</span></div><div class="case-picker"><div class="avatar">${esc(initials)}</div><div><select data-case-selector aria-label="Patient case">${options}</select><small>${model.patient.code ? `${esc(model.patient.code)} · ` : ''}${esc(displayValue(model.patient.age, 'years'))}</small></div></div><div class="rule"></div><nav role="tablist" aria-label="Dashboard sections">${nav}</nav></aside>
-    <section class="main-pane">${stagingBoundary}${activeView(model, state)}</section>
+    <section class="main-pane">${activeView(model, state)}</section>
   </main>`;
 }
