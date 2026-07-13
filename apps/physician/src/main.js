@@ -12,7 +12,7 @@ import {
   startPhysicianReview
 } from './apiClient.js';
 import { adaptPhysicianCase, artifactBindsCurrentLineage, buildReleasePreviewRequest, releaseIdentifier } from './dashboardAdapter.js?v=physician-care-vitality-v1';
-import { decisionReasonOptionsHTML, renderDashboard, renderEmptyStaging, renderFatalError } from './dashboardApp.js?v=physician-action-map-reference-v1';
+import { decisionReasonOptionsHTML, renderDashboard, renderEmptyStaging, renderFatalError } from './dashboardApp.js?v=physician-vitality-reference-v1';
 
 const app = document.querySelector('#app');
 const state = {
@@ -23,6 +23,7 @@ const state = {
   selectedModelPane: 'models',
   actionSpaceFilter: 'all',
   selectedActionSpaceItemId: null,
+  selectedVitalityInstrumentId: null,
   selectedPlanItemId: null,
   queue: [],
   source: 'backend',
@@ -196,6 +197,12 @@ function attachListeners() {
     render();
   }));
 
+  document.querySelectorAll('[data-vitality-instrument]').forEach((button) => button.addEventListener('click', () => {
+    state.selectedVitalityInstrumentId = button.dataset.vitalityInstrument;
+    render();
+    document.querySelector(`[data-vitality-instrument="${state.selectedVitalityInstrumentId}"]`)?.focus();
+  }));
+
   document.querySelectorAll('[data-plan-item]').forEach((button) => button.addEventListener('click', () => {
     state.selectedPlanItemId = button.dataset.planItem;
     render();
@@ -214,6 +221,7 @@ function attachListeners() {
       state.selectedModelPane = 'models';
       state.actionSpaceFilter = 'all';
       state.selectedActionSpaceItemId = null;
+      state.selectedVitalityInstrumentId = null;
       state.selectedPlanItemId = null;
       render();
     } catch (error) {

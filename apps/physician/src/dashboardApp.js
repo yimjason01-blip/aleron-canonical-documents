@@ -465,13 +465,44 @@ const DEVICE_INSTRUMENT_ORDER = [
   ['vo2max', 'VO₂ max', 'mL/kg/min'],
 ];
 
-/**
- * Subordinate corroborator panel for Vitality tab when wearables density is met.
- * Not a score. Device instruments cannot determine or complete protocol state.
- */
-function deviceInstrumentsPanel(model, note = 'Device instruments corroborate recovery and sleep; they do not replace patient-reported outcomes or determine protocol state.') {
+const DEVICE_CONTEXT_ROLE = {
+  resting_hr: 'Corroborator only. Illness and stress context; not a Vitality endpoint.',
+  hrv_rmssd: 'Corroborator only. Read as a 7-day or longer within-person trend; felt report wins on conflict.',
+  hrv_sdnn: 'Corroborator only. Read as a 7-day or longer within-person trend; felt report wins on conflict.',
+  sleep_duration: 'Dial read. Sleep-duration context; not a separate Vitality score.',
+  steps: 'Movement context only. Not a patient-reported outcome or causal attribution.',
+  active_minutes: 'Movement context only. Not a patient-reported outcome or causal attribution.',
+  vo2max: 'Fitness context only. Not a Vitality endpoint or composite input.'
+};
+
+const FELT_OUTCOME_FIELDS = [
+  ['energy', 'Energy', 'Arousal'],
+  ['mood', 'Mood', 'Valence'],
+  ['body', 'Body', 'Somatic comfort'],
+  ['mind', 'Mind', 'Cognitive clarity'],
+  ['meaning', 'Meaning', 'Eudaimonic wellbeing; slower-moving']
+];
+
+function feltOutcomeChart(label, value) {
+  const y = 84 - (Number(value) / 10) * 60;
+  return `<div class="vitality-single-figure" data-vitality-outcome-chart data-vitality-single-point>
+    <svg viewBox="0 0 320 116" role="img" aria-label="${esc(label)} ${esc(value)} of 10, one emitted timepoint">
+      <line class="chart-grid" x1="36" y1="24" x2="304" y2="24"/>
+      <line class="chart-grid" x1="36" y1="54" x2="304" y2="54"/>
+      <line class="chart-grid" x1="36" y1="84" x2="304" y2="84"/>
+      <text class="chart-label" x="8" y="28">10</text><text class="chart-label" x="14" y="58">5</text><text class="chart-label" x="14" y="88">0</text>
+      <line class="vitality-intake-guide" x1="222" y1="18" x2="222" y2="90"/>
+      <circle class="chart-dot" cx="222" cy="${y}" r="5"/>
+      <text class="chart-value" x="232" y="${Math.max(18, y - 8)}">${esc(displayValue(value, '0-10 self-report'))}</text>
+      <text class="chart-label" x="222" y="108" text-anchor="middle">Emitted</text>
+    </svg>
+    <small>One emitted timepoint · No prior observations emitted</small>
+  </div>`;
+}
+
+function deviceInstrumentLines(model) {
   const summary = model.patientData?.wearableSummary;
-  if (!summary?.windows) return '';
+  if (!summary?.windows) return [];
   const lines = [];
   for (const [metric, label, unit] of DEVICE_INSTRUMENT_ORDER) {
     const entry = summary.windows[metric];
@@ -482,41 +513,103 @@ function deviceInstrumentsPanel(model, note = 'Device instruments corroborate re
     if (!densityMet) continue;
     const window = entry['7d']?.density_met ? entry['7d'] : (entry['30d'] || entry['7d']);
     const formatted = formatTrendLine(window, unit);
-    lines.push({ metric, label, text: formatted.text, state: formatted.state });
+    lines.push({ metric, label, unit, text: formatted.text, state: formatted.state, window, summary });
   }
+  return lines;
+}
+
+function instrumentTemporalChart(line) {
+  const points = (Array.isArray(line.window?.series_tail) ? line.window.series_tail : [])
+    .map((point) => ({ date: String(point?.local_date ?? ''), value: Number(point?.value) }))
+    .filter((point) => /^\d{4}-\d{2}-\d{2}$/.test(point.date) && Number.isFinite(point.value))
+    .sort((a, b) => a.date.localeCompare(b.date));
+  if (points.length < 2) return '<div class="vitality-series-missing">Repeated observations were not emitted.</div>';
+  const baseline = line.window?.baseline_value == null ? Number.NaN : Number(line.window.baseline_value);
+  const values = points.map((point) => point.value);
+  if (Number.isFinite(baseline)) values.push(baseline);
+  let min = Math.min(...values);
+  let max = Math.max(...values);
+  const pad = max === min ? Math.max(Math.abs(max) * 0.05, 1) : (max - min) * 0.12;
+  min -= pad;
+  max += pad;
+  const xFor = (index) => 48 + (index / Math.max(1, points.length - 1)) * 376;
+  const yFor = (input) => 112 - ((input - min) / (max - min)) * 88;
+  const path = points.map((point, index) => `${index ? 'L' : 'M'} ${xFor(index).toFixed(1)} ${yFor(point.value).toFixed(1)}`).join(' ');
+  const latest = points.at(-1);
+  const baselineLine = Number.isFinite(baseline)
+    ? `<line class="vitality-series-baseline" x1="48" y1="${yFor(baseline)}" x2="424" y2="${yFor(baseline)}"/><text class="chart-label" x="56" y="${yFor(baseline) - 7}">Personal baseline ${esc(displayValue(baseline, line.unit))}</text>`
+    : '';
+  const midpoint = (min + max) / 2;
+  return `<svg class="vitality-series-chart" data-vitality-instrument-chart viewBox="0 0 460 154" role="img" aria-label="${esc(line.label)} emitted series from ${esc(points[0].date)} to ${esc(latest.date)}">
+    <line class="chart-grid" x1="48" y1="24" x2="424" y2="24"/><line class="chart-grid" x1="48" y1="68" x2="424" y2="68"/><line class="chart-grid" x1="48" y1="112" x2="424" y2="112"/>
+    <text class="chart-label" x="4" y="28">${esc(displayValue(max, line.unit))}</text><text class="chart-label" x="4" y="72">${esc(displayValue(midpoint, line.unit))}</text><text class="chart-label" x="4" y="116">${esc(displayValue(min, line.unit))}</text>
+    ${baselineLine}<path class="vitality-series-line" d="${path}"/><circle class="vitality-series-latest" cx="${xFor(points.length - 1)}" cy="${yFor(latest.value)}" r="5"/>
+    <text class="chart-label" x="48" y="144">${esc(points[0].date)}</text><text class="chart-label chart-label-end" x="424" y="144">${esc(latest.date)}</text>
+  </svg>`;
+}
+
+/** Subordinate device context. It never determines or completes protocol state. */
+function deviceInstrumentsPanel(model, state, note = 'Device instruments corroborate recovery and sleep; they do not replace patient-reported outcomes or determine protocol state.') {
+  const lines = deviceInstrumentLines(model);
   if (!lines.length) return '';
-  const rows = lines.map((line) => `
-    <div class="device-instrument-row" data-metric="${esc(line.metric)}" data-trend-state="${esc(line.state)}">
-      <strong>${esc(line.label)}</strong>
-      <span class="trend-line trend-${esc(line.state)}">${esc(line.text)}</span>
-    </div>`).join('');
+  const preferred = lines.find((line) => line.metric === 'hrv_rmssd')
+    ?? lines.find((line) => line.metric === 'hrv_sdnn')
+    ?? lines[0];
+  const selected = lines.find((line) => line.metric === state.selectedVitalityInstrumentId) ?? preferred;
+  const hrv = lines.find((line) => line.metric === 'hrv_rmssd') ?? lines.find((line) => line.metric === 'hrv_sdnn');
+  const recoveryContext = hrv ? `<section class="vitality-recovery-context" data-vitality-recovery-context>
+    <div><span class="section-label">Recovery context</span><h3>${esc(hrv.label)}</h3></div>
+    <div><strong>${esc(hrv.text)}</strong><small>Within-person context only · not a score</small></div>
+  </section>` : '';
+  const selectors = lines.map((line) => `<button type="button" class="vitality-instrument-choice ${selected.metric === line.metric ? 'selected' : ''}" data-vitality-instrument="${esc(line.metric)}" aria-pressed="${selected.metric === line.metric}">
+    <span>${esc(line.label)}</span><strong>${esc(displayValue(line.window?.value, line.unit))}</strong><small>${esc(line.window?.window ?? 'Window not emitted')} mean</small>
+  </button>`).join('');
+  const coverage = `${esc(selected.window?.n_days_present ?? 'Not emitted')} days present · ${esc(selected.window?.n_days_required ?? 'Not emitted')} required`;
+  const source = selected.summary?.source ? String(selected.summary.source) : 'Not emitted';
+  const lineage = selected.summary?.device_lineage ? String(selected.summary.device_lineage) : 'Not emitted';
+  const baseline = selected.window?.baseline_value != null && Number.isFinite(Number(selected.window.baseline_value))
+    ? displayValue(selected.window.baseline_value, selected.unit)
+    : 'Not emitted';
   return `
     <section class="instrument-panel device-instruments-panel" data-device-instruments>
       <div class="panel-head">
-        <h2>Device instruments (corroborators)</h2>
-        <span>7d / 30d trends · not a score</span>
+        <div><span class="section-label">Objective context</span><h2>Device instruments and dial reads</h2></div>
+        <span>Emitted 7d / 30d windows · not a score</span>
       </div>
       <div class="device-instruments-body">
         <p class="wearable-instrument-note">${esc(note)}</p>
-        <div class="device-instrument-list">${rows}</div>
+        ${recoveryContext}
+        <div class="vitality-instrument-grid" aria-label="Device context instruments">${selectors}</div>
+        <article class="vitality-instrument-detail" data-vitality-instrument-detail="${esc(selected.metric)}">
+          <header><div><span class="section-label">Selected instrument</span><h3>${esc(selected.label)}</h3></div><strong>${esc(selected.text)}</strong></header>
+          <p class="vitality-instrument-role">${esc(DEVICE_CONTEXT_ROLE[selected.metric] ?? 'Device context only. Not a Vitality endpoint.')}</p>
+          ${instrumentTemporalChart(selected)}
+          <dl class="vitality-instrument-provenance">
+            <div><dt>Window coverage</dt><dd>${coverage}</dd></div>
+            <div><dt>Personal baseline</dt><dd>${esc(baseline)}</dd></div>
+            <div><dt>As of</dt><dd>${esc(selected.window?.as_of_date ?? selected.summary?.as_of ?? 'Not emitted')}</dd></div>
+            <div><dt>Source</dt><dd>${esc(source)}</dd></div>
+            <div><dt>Device lineage</dt><dd>${esc(lineage)}</dd></div>
+          </dl>
+        </article>
       </div>
     </section>`;
 }
 
-function vitalityView(model) {
+function vitalityView(model, state) {
   const records = Array.isArray(model.vitality) ? model.vitality : [];
   if (!records.length) {
     return `<header class="screen-head"><div><h1>Vitality</h1><p>Within-person protocol state and patient-reported outcomes. No composite score.</p></div></header>${empty('Vitality output was not emitted.')}`;
   }
   const protocolRows = records.filter((row) => row.output_kind === 'protocol_state_not_score');
   const measuredRows = records.filter((row) => row.output_kind !== 'protocol_state_not_score');
-  const feltFields = [
-    ['energy', 'Energy'], ['mood', 'Mood'], ['body', 'Body'], ['mind', 'Mind'], ['meaning', 'Meaning']
-  ];
-  const feltOutcomes = protocolRows.flatMap((row) => feltFields.flatMap(([key, label]) => {
+  const feltOutcomes = protocolRows.flatMap((row) => FELT_OUTCOME_FIELDS.flatMap(([key, label, definition]) => {
     const value = row.felt_state?.[key];
     if (typeof value !== 'number' || !Number.isFinite(value)) return [];
-    return [`<article class="vitality-card" data-vitality-felt-outcome="${esc(key)}"><div class="vitality-head"><div><span class="section-label">${label}</span><strong>${esc(displayValue(value, '0-10 self-report'))}</strong><small class="vitality-unit">0-10 self-report</small></div></div></article>`];
+    const chart = value >= 0 && value <= 10
+      ? feltOutcomeChart(label, value)
+      : `<p class="vitality-missing"><strong>Out-of-contract value:</strong> ${esc(value)} 0-10 self-report. Expected 0-10 self-report; not plotted.</p>`;
+    return [`<article class="vitality-card vitality-outcome-card" data-vitality-felt-outcome="${esc(key)}"><div class="vitality-head"><div><span class="section-label">${label}</span><small>${esc(definition)}</small></div><div><strong>${esc(displayValue(value, '0-10 self-report'))}</strong><small class="vitality-unit">0-10 self-report</small></div></div>${chart}</article>`];
   })).join('');
   const protocol = protocolRows.map((row) => {
     const missing = Array.isArray(row.missing_inputs) ? row.missing_inputs : [];
@@ -562,8 +655,8 @@ function vitalityView(model) {
   const instrumentNote = blockedBaseline
     ? 'Patient-reported inputs remain required. Device instruments corroborate recovery and sleep; they do not complete the Vitality protocol.'
     : 'Device instruments corroborate recovery and sleep; they do not replace patient-reported outcomes or determine protocol state.';
-  const instruments = deviceInstrumentsPanel(model, instrumentNote);
-  return `<header class="screen-head"><div><h1>Vitality</h1><p>Within-person protocol state and patient-reported outcomes. No composite score.</p></div></header>${protocol}${outcomesSection}${instruments}`;
+  const instruments = deviceInstrumentsPanel(model, state, instrumentNote);
+  return `<header class="screen-head"><div><h1>Vitality</h1><p>Felt outcomes are the ground truth. Protocol state and device context remain separate. No composite score.</p></div></header><div data-vitality-reference-stack>${protocol}${outcomesSection}${instruments}</div>`;
 }
 
 export function decisionReasonsForAction(action, taxonomy = getOverrideTaxonomy()) {
@@ -797,7 +890,7 @@ function aiView(model) {
 
 function activeView(model, state) {
   if (state.activeTab === 'risk') return modelsView(model, state);
-  if (state.activeTab === 'vitality') return vitalityView(model);
+  if (state.activeTab === 'vitality') return vitalityView(model, state);
   if (state.activeTab === 'care-plan') return carePlanView(model, state);
   if (state.activeTab === 'journal') return journalView(model);
   if (state.activeTab === 'aleron-ai') return aiView(model);

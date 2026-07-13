@@ -38,7 +38,7 @@ h1,h2,h3,p{margin-top:0}h1{font-size:18px;font-weight:500;line-height:1.2;letter
 .vitality-protocol{margin:0 0 var(--air-section);padding:var(--air-group);background:var(--surface-card);border:1px solid var(--border-base);border-radius:var(--radius-panel)}.vitality-protocol-head{display:flex;justify-content:space-between;align-items:flex-start;gap:var(--air-tier);padding-bottom:var(--air-tier);border-bottom:1px solid var(--border-subtle)}.vitality-protocol-head h2{margin:0}.vitality-protocol-head>div:last-child{text-align:right}.vitality-protocol-head>div:last-child strong,.vitality-protocol-head>div:last-child small{display:block}.vitality-protocol-head>div:last-child strong{font-size:1.05rem;font-weight:500}.vitality-protocol>p{max-width:52rem;margin:var(--air-tier) 0}.vitality-protocol>small{display:block;margin-top:var(--air-tier);color:var(--text-tertiary)}.vitality-protocol-boundary{padding:var(--air-tier);background:var(--surface-inset);border-left:3px solid var(--signal-forward)}.vitality-protocol-meta{display:grid;gap:.5rem;margin:var(--air-tier) 0 0}.vitality-protocol-meta>div{display:grid;grid-template-columns:minmax(8rem,.25fr) minmax(0,1fr);gap:var(--air-tier)}.vitality-protocol-meta dt{color:var(--text-tertiary)}.vitality-protocol-meta dd{margin:0}.vitality-requirements{display:grid;grid-template-columns:minmax(10rem,.35fr) minmax(0,1fr);gap:var(--air-tier);padding-top:var(--air-tier);border-top:1px solid var(--border-subtle)}.vitality-requirements h3{margin:0;font-size:.875rem}.vitality-requirements ul{margin:0;padding-left:1.15rem}.vitality-outcomes>h2{margin-bottom:var(--air-tier);font-size:.9rem}.care-plan-note{display:grid;gap:var(--air-group);margin-bottom:var(--air-section);padding:var(--air-group);background:var(--surface-inset);border:1px solid var(--border-subtle);border-radius:var(--radius-card)}.care-plan-note h3{margin:0 0 .4rem;font-size:.875rem}.care-plan-note p,.care-plan-note ul{margin:0}.care-plan-note p{white-space:pre-line}.care-plan-note ul{padding-left:1.15rem}.care-plan-note li span,.care-plan-note li small{display:block}.care-plan-note li small{color:var(--text-tertiary)}.plan-disclosure{border-top:1px solid var(--border-subtle)}.plan-disclosure summary{display:flex;justify-content:space-between;gap:var(--air-tier);align-items:baseline;padding:.875rem 0;cursor:pointer}.plan-disclosure summary span{font-weight:500}.plan-disclosure summary small{color:var(--text-tertiary)}.plan-disclosure>p{padding:0 0 var(--air-tier)}.plan-audit{margin-top:var(--air-tier)}.plan-audit-row{display:grid;grid-template-columns:minmax(0,1fr) minmax(9rem,.4fr);gap:var(--air-tier);padding:.7rem 0;border-top:1px solid var(--hairline)}.plan-audit-row strong,.plan-audit-row small{display:block}.plan-audit-row>div:last-child{text-align:right}.plan-space-bridge{display:flex;justify-content:space-between;align-items:center;gap:var(--air-tier);margin-top:var(--air-group);padding:var(--air-group) 0 0;border-top:1px solid var(--border-base)}.plan-space-bridge h3,.plan-space-bridge p{margin:0}.plan-space-bridge p{color:var(--text-secondary);font-size:.875rem}.plan-space-bridge button{flex:0 0 auto}.vitality-protocol h2,.vitality-protocol p,.vitality-protocol dd,.vitality-protocol small,.care-plan-note p,.care-plan-note li,.plan-audit-row strong,.plan-audit-row small,.plan-audit-row span{overflow-wrap:anywhere}
 
 @media(max-width:980px){.care-layout{grid-template-columns:1fr}.release-rail{position:static}.add-action form{grid-template-columns:1fr 1fr}.decision-form{grid-template-columns:1fr}.care-rail{grid-template-columns:repeat(2,minmax(0,1fr))}.care-rail>.release-rail{grid-column:1/-1}}
-@media(max-width:860px){.dashboard-shell{display:block}.sidebar{position:static;height:auto;border-right:0;border-bottom:1px solid var(--border-base);padding:16px}.brand{margin-bottom:14px}.sidebar nav{grid-template-columns:repeat(3,minmax(0,1fr))}.main-pane{padding:16px 14px 48px}.risk-grid,.vitality-grid{grid-template-columns:1fr}.screen-head{flex-direction:column}.add-action form{grid-template-columns:1fr}.decision-form{margin-left:0}.risk-hero{padding:24px}.risk-meaning-grid>section{padding:19px}}
+@media(max-width:860px){.dashboard-shell{display:block}.sidebar{position:static;height:auto;border-right:0;border-bottom:1px solid var(--border-base);padding:16px}.brand{margin-bottom:14px}.sidebar nav{grid-template-columns:repeat(3,minmax(0,1fr))}.nav-item{min-height:44px}.main-pane{padding:16px 14px 48px}.risk-grid,.vitality-grid{grid-template-columns:1fr}.screen-head{flex-direction:column}.add-action form{grid-template-columns:1fr}.decision-form{margin-left:0}.risk-hero{padding:24px}.risk-meaning-grid>section{padding:19px}}
 @media(max-width:760px){.patient-data-panel{padding:18px 16px}.data-row,.ledger-row{grid-template-columns:1fr;gap:6px}.measure{text-align:left}.clinical-groups{gap:22px}.risk-meaning-grid{grid-template-columns:1fr}.risk-meaning-grid>section+section{border-left:0;border-top:1px solid var(--border-subtle)}.risk-next,.risk-variables,.risk-audit{padding-left:20px;padding-right:20px}.risk-variable{grid-template-columns:1fr;gap:10px}.care-rail{grid-template-columns:1fr}.care-rail>.release-rail{grid-column:auto}}
 @media(max-width:520px){.sidebar nav{grid-template-columns:repeat(2,minmax(0,1fr))}.risk-domain-nav{grid-template-columns:1fr 1fr}.risk-domain-nav button{min-height:68px;padding:12px;display:block}.risk-domain-nav span{margin-top:6px;text-align:left}.risk-hero{grid-template-columns:1fr;gap:20px;padding:22px 20px}.risk-scorecard{padding:18px 0 0;border-left:0;border-top:1px solid var(--border-base)}.risk-hero h2{font-size:19px}.risk-section-head{display:block}.risk-section-head>span{display:block;margin-top:4px;text-align:left}.plan-document .document-head{display:block;padding:18px}.document-head>span{display:block;max-width:none;margin-top:10px;text-align:left}.document-inputs,.plan-body{padding-left:18px;padding-right:18px}.plan-item{grid-template-columns:34px minmax(0,1fr)}.note-order{grid-template-columns:1fr;gap:4px}.note-order small{text-align:left}.document-signature{padding-left:18px;padding-right:18px}.vitality-protocol-head,.plan-space-bridge{display:block}.vitality-protocol-head>div:last-child{margin-top:var(--air-tier);text-align:left}.vitality-requirements,.vitality-protocol-meta>div,.plan-audit-row{grid-template-columns:1fr}.plan-audit-row>div:last-child{text-align:left}.plan-space-bridge button{width:100%;margin-top:var(--air-tier)}}
 
@@ -79,17 +79,49 @@ html,body{font-size:14px}
 .wearable-spark{color:var(--text-primary);opacity:.72;flex:0 0 auto}
 @media(max-width:760px){.wearable-measure{justify-content:flex-start}}
 
-/* Vitality ↔ wearables bridge: subordinate corroborator panel (not a score) */
+/* Vitality reference configuration: outcomes first, emitted device series second. */
+.vitality-outcome-card{padding:var(--air-tier)}
+.vitality-outcome-card .vitality-head{align-items:flex-start}
+.vitality-outcome-card .vitality-head>div:last-child{text-align:right}
+.vitality-outcome-card .vitality-head small{display:block;margin-top:4px}
+.vitality-single-figure{margin-top:var(--air-tier);border-top:1px solid var(--hairline);padding-top:var(--air-row)}
+.vitality-single-figure svg{display:block;width:100%;height:auto}
+.vitality-single-figure>small{display:block;margin-top:4px}
+.vitality-intake-guide{stroke:var(--border-strong);stroke-width:1;stroke-dasharray:3 4}
+.vitality-protocol-boundary{border-left-color:var(--border-strong)}
 .device-instruments-panel{margin-top:0;margin-bottom:var(--air-section)}
-.device-instruments-body{padding:16px 18px 18px}
-.device-instrument-list{display:grid;gap:0}
-.device-instrument-row{display:grid;grid-template-columns:minmax(160px,220px) minmax(0,1fr);gap:12px;align-items:baseline;padding:8px 0;border-top:1px solid var(--hairline)}
-.device-instrument-row:first-child{border-top:0}
-.device-instrument-row strong{font-weight:500;font-size:13px}
-.device-instrument-row .trend-line{font-size:12px;color:var(--text-secondary);line-height:1.35}
-.device-instrument-row .trend-line.trend-trend_ready{color:var(--text-secondary)}
-.device-instrument-row .trend-line.trend-building_baseline{color:var(--signal-advisory)}
-@media(max-width:760px){.device-instrument-row{grid-template-columns:1fr;gap:4px}}
+.device-instruments-panel .panel-head{align-items:flex-start}
+.device-instruments-panel .panel-head .section-label{margin-bottom:4px}
+.device-instruments-body{padding:var(--air-tier)}
+.vitality-recovery-context{display:grid;grid-template-columns:minmax(180px,.7fr) minmax(0,1.3fr);gap:var(--air-tier);align-items:center;margin:var(--air-tier) 0 var(--air-group);padding:var(--air-tier);background:var(--surface-inset);border-radius:var(--radius-field)}
+.vitality-recovery-context h3{margin:0}
+.vitality-recovery-context>div:last-child{text-align:right}
+.vitality-recovery-context strong,.vitality-recovery-context small{display:block}
+.vitality-recovery-context strong{font-variant-numeric:tabular-nums;font-weight:500}
+.vitality-instrument-grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:var(--air-row);margin:0 0 var(--air-group)}
+.vitality-instrument-choice{min-width:0;min-height:84px;padding:12px 14px;display:grid;gap:4px;align-content:center;text-align:left;background:var(--surface-card);color:var(--text-primary);border:1px solid var(--border-base);border-radius:var(--radius-control);box-shadow:inset 3px 0 0 transparent}
+.vitality-instrument-choice:hover{background:var(--surface-inset);color:var(--text-primary)}
+.vitality-instrument-choice.selected,.vitality-instrument-choice[aria-pressed="true"]{background:var(--surface-inset);color:var(--text-primary);box-shadow:inset 3px 0 0 var(--signal-forward)}
+.vitality-instrument-choice span,.vitality-instrument-choice strong,.vitality-instrument-choice small{display:block;min-width:0}
+.vitality-instrument-choice span{font-size:12.5px}
+.vitality-instrument-choice strong{font-size:17px;font-variant-numeric:tabular-nums;font-weight:500;overflow-wrap:anywhere}
+.vitality-instrument-choice small{font-weight:400}
+.vitality-instrument-detail{padding:var(--air-tier);background:var(--surface-card);border:1px solid var(--border-base);border-radius:var(--radius-card)}
+.vitality-instrument-detail>header{display:flex;justify-content:space-between;gap:var(--air-tier);align-items:flex-start;padding-bottom:var(--air-tier);border-bottom:1px solid var(--hairline)}
+.vitality-instrument-detail h3{margin:0}
+.vitality-instrument-detail>header>strong{max-width:48ch;text-align:right;font-variant-numeric:tabular-nums;font-weight:500}
+.vitality-instrument-role{max-width:62ch;margin:var(--air-tier) 0 var(--air-row)}
+.vitality-series-chart{display:block;width:100%;height:auto;margin:0 0 var(--air-tier)}
+.vitality-series-line{fill:none;stroke:var(--text-primary);stroke-width:2}
+.vitality-series-baseline{stroke:var(--border-strong);stroke-width:1;stroke-dasharray:4 4}
+.vitality-series-latest{fill:var(--text-primary);stroke:var(--surface-card);stroke-width:2}
+.vitality-series-missing{margin:var(--air-tier) 0;color:var(--text-tertiary);font-size:12px}
+.vitality-instrument-provenance{display:grid;grid-template-columns:repeat(5,minmax(0,1fr));gap:var(--air-tier);margin:var(--air-tier) 0 0;padding-top:var(--air-tier);border-top:1px solid var(--hairline)}
+.vitality-instrument-provenance div{min-width:0}
+.vitality-instrument-provenance dt{color:var(--text-tertiary);font-size:12px}
+.vitality-instrument-provenance dd{margin:4px 0 0;font-size:12px;font-variant-numeric:tabular-nums;overflow-wrap:anywhere}
+@media(max-width:860px){.vitality-instrument-grid{grid-template-columns:repeat(2,minmax(0,1fr))}.vitality-instrument-provenance{grid-template-columns:repeat(2,minmax(0,1fr))}}
+@media(max-width:520px){.vitality-recovery-context,.vitality-instrument-detail>header{display:block}.vitality-recovery-context>div:last-child,.vitality-instrument-detail>header>strong{margin-top:var(--air-row);text-align:left}.vitality-instrument-grid,.vitality-instrument-provenance{grid-template-columns:1fr}.vitality-instrument-choice{min-height:72px}}
 
 /* Models | Action Space: categorical evidence map synchronized with its ledger. */
 .model-pane-nav{display:flex;gap:4px;margin:0 auto var(--air-tier);border-bottom:1px solid var(--border-base)}
