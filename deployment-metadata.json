@@ -18,10 +18,10 @@
     "apps/physician/src/journey.css": "69919dc7542e84cf21af7f7bce39978718ccc0d89bcdfb81ac873e8e718f7b65",
     "apps/physician/src/main.js": "66c5a2b3a5d80aac461d3f086332876e4ffc2d382475f5b054a7b623d658da57",
     "apps/physician/src/runtimeConfig.js": "b81e387a01c7b00a2380e2d61baaf136b377dd441e6011aaf58bc2897455ad82",
-    "apps/physician/src/styles.css": "a983c216964a910b518c32197cec7b36fcf005b1ae6596e1cf78732d75c3ab81",
+    "apps/physician/src/styles.css": "dec685d7459b7a94abca47c1cbe5095fb079a91d853005bdd25309eaba288a17",
     "apps/physician/src/wearableSummary.js": "5515f23ce060c2cfa4c409576b16b93be5907f1c81af5fef3160865cfa3850b9"
   },
-  "physician_tree_sha256": "d41c9147aead4dbd4e026be115ee52b4c43dab4725a6a644883fe9176dddb567",
+  "physician_tree_sha256": "ffe561a6a227dc464f306aa4b297ad5fcb647cf3f8407b4d79a439f2a1503dab",
   "preserve_top_level": [
     "brand-deck",
     "canonical-documents",
@@ -38,6 +38,6 @@
   "source_documents": {
     "system-design/diagrams/aleron-repo-architecture.html": "df7f049b2f0b635a9031bedb95ec6aea5e57aa4895bd8a4211c7fdf79346b149"
   },
-  "source_git_tree": "9f4549ba71ed0af466b1860d778a69cf7d7c1a12",
-  "source_sha": "470f899579999ba2f03c707de5b54dbae5004df1"
+  "source_git_tree": "92adf22c83d610f2f6adfe0f0bcad9f1802c2e53",
+  "source_sha": "f402c3d557e70dd9944e77911e5b9ca397da2705"
 }
