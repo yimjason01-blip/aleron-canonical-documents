@@ -11,8 +11,8 @@ import {
   requestReleasePreview,
   startPhysicianReview
 } from './apiClient.js';
-import { adaptPhysicianCase, artifactBindsCurrentLineage, buildReleasePreviewRequest, releaseIdentifier } from './dashboardAdapter.js?v=physician-action-space-v2';
-import { decisionReasonOptionsHTML, renderDashboard, renderEmptyStaging, renderFatalError } from './dashboardApp.js?v=physician-action-space-v2';
+import { adaptPhysicianCase, artifactBindsCurrentLineage, buildReleasePreviewRequest, releaseIdentifier } from './dashboardAdapter.js?v=physician-action-space-v3';
+import { decisionReasonOptionsHTML, renderDashboard, renderEmptyStaging, renderFatalError } from './dashboardApp.js?v=physician-action-space-v3';
 
 const app = document.querySelector('#app');
 const state = {
@@ -165,9 +165,13 @@ function attachListeners() {
   }));
 
   const selectActionSpaceItem = (element) => {
+    const isMark = element.hasAttribute('data-action-space-mark');
     const id = element.dataset.actionSpaceItem ?? element.dataset.actionSpaceMark;
     state.selectedActionSpaceItemId = state.selectedActionSpaceItemId === id ? null : id;
     render();
+    const replacement = [...document.querySelectorAll(isMark ? '[data-action-space-mark]' : '[data-action-space-item]')]
+      .find((candidate) => (candidate.dataset.actionSpaceItem ?? candidate.dataset.actionSpaceMark) === id);
+    replacement?.focus();
   };
   document.querySelectorAll('[data-action-space-item],[data-action-space-mark]').forEach((element) => {
     element.addEventListener('click', () => selectActionSpaceItem(element));

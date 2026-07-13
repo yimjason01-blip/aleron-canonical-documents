@@ -32,9 +32,6 @@ function traceStatus(record) {
 }
 
 export function diagnosticExpectedValue(record) {
-  const emitted = finiteValue(ranking(record).patient_value_qaly);
-  if (emitted !== null) return emitted;
-
   const probability = diagnosticProbability(record);
   const qalyIfReclassified = finiteValue(record?.qaly_if_reclassified);
   return probability !== null && qalyIfReclassified !== null
@@ -79,12 +76,9 @@ function stableId(record) {
 }
 
 function sourceItems(actionMap) {
-  let items = [];
-  if (Array.isArray(actionMap?.action_map_state?.scored_items)) {
-    items = actionMap.action_map_state.scored_items;
-  } else if (Array.isArray(actionMap?.scored_items)) {
-    items = actionMap.scored_items;
-  }
+  const items = Array.isArray(actionMap?.action_map_state?.scored_items)
+    ? actionMap.action_map_state.scored_items
+    : [];
   return items.filter((record) => record && typeof record === 'object' && !Array.isArray(record) && stableId(record));
 }
 
@@ -109,7 +103,9 @@ export function normalizeActionSpace(actionMap) {
       kind,
       disposition: record.disposition ?? null,
       expectedValueQaly,
-      plottable: (kind === 'action' || kind === 'diagnostic') && expectedValueQaly !== null,
+      plottable: record.disposition !== 'excluded'
+        && (kind === 'action' || kind === 'diagnostic')
+        && expectedValueQaly !== null,
       evidenceCategory: evidenceCategory(record),
       valueConsistency: valueConsistency(record),
       patientSignals: record.patient_signals_used ?? record.patientSignals ?? [],

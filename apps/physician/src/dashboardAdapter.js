@@ -1,7 +1,7 @@
-import { buildWearableSummaryFromPacket, formatTrendLine } from './wearableSummary.js?v=physician-action-space-v2';
+import { buildWearableSummaryFromPacket, formatTrendLine } from './wearableSummary.js?v=physician-action-space-v3';
 import { buildCurrencyOfTruth, resolveRiskSource, pagesUrl } from './canonicalSources.js';
-import { formatClinicalNumber } from './clinicalValueFormat.js?v=physician-action-space-v2';
-import { normalizeActionSpace } from './actionSpaceModel.js?v=physician-action-space-v2';
+import { formatClinicalNumber } from './clinicalValueFormat.js?v=physician-action-space-v3';
+import { normalizeActionSpace } from './actionSpaceModel.js?v=physician-action-space-v3';
 
 function array(value) {
   return Array.isArray(value) ? value : [];
@@ -307,11 +307,12 @@ export function displayValue(value, units, state, context = {}) {
     return notApplicableLabel(value, context.modelNote);
   }
   if (value === null || value === undefined || value === '') return 'Missing';
+  const formattedValue = formatClinicalNumber(value, units);
+  if (formattedValue === 'Missing') return 'Missing';
   // Protocol states / categorical values should not append unit ranges (e.g. "0-10 score").
   if (typeof value === 'string' && /[a-z_]/i.test(value) && !/^[-+]?\d/.test(value.trim())) {
     return String(value).replaceAll('_', ' ');
   }
-  const formattedValue = formatClinicalNumber(value, units);
   if (units == null || units === '') return String(formattedValue);
   const unitText = String(units);
   // Range-like units belong on a secondary line, not glued to the primary value.

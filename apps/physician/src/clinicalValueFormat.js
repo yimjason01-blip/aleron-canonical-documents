@@ -17,11 +17,21 @@ const ONE_DECIMAL_UNITS = new Set([
   'ml/kg/min',
 ]);
 
+const NUMERIC_PATTERN = /^[-+]?(?:\d+\.?\d*|\.\d+)(?:e[-+]?\d+)?$/i;
+
+function isNonFiniteNumericInput(value) {
+  if (typeof value === 'number') return !Number.isFinite(value);
+  if (typeof value !== 'string') return false;
+  const text = value.trim();
+  if (/^[-+]?(?:infinity|nan)$/i.test(text)) return true;
+  return NUMERIC_PATTERN.test(text) && !Number.isFinite(Number(text));
+}
+
 function numericValue(value) {
   if (typeof value === 'number') return Number.isFinite(value) ? value : null;
   if (typeof value !== 'string') return null;
   const text = value.trim();
-  if (!/^[-+]?(?:\d+\.?\d*|\.\d+)(?:e[-+]?\d+)?$/i.test(text)) return null;
+  if (!NUMERIC_PATTERN.test(text)) return null;
   const parsed = Number(text);
   return Number.isFinite(parsed) ? parsed : null;
 }
@@ -40,6 +50,7 @@ function maximumFractionDigits(units) {
  */
 export function formatClinicalNumber(value, units = '') {
   if (value === null || value === undefined || value === '') return value;
+  if (isNonFiniteNumericInput(value)) return 'Missing';
   const numeric = numericValue(value);
   if (numeric === null) return String(value);
   const formatter = new Intl.NumberFormat('en-US', {
