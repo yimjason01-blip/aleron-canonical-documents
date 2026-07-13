@@ -1,5 +1,7 @@
 import { buildWearableSummaryFromPacket, formatTrendLine } from './wearableSummary.js';
 import { buildCurrencyOfTruth, resolveRiskSource, pagesUrl } from './canonicalSources.js';
+import { formatClinicalNumber } from './clinicalValueFormat.js';
+import { normalizeActionSpace } from './actionSpaceModel.js';
 
 function array(value) {
   return Array.isArray(value) ? value : [];
@@ -309,14 +311,15 @@ export function displayValue(value, units, state, context = {}) {
   if (typeof value === 'string' && /[a-z_]/i.test(value) && !/^[-+]?\d/.test(value.trim())) {
     return String(value).replaceAll('_', ' ');
   }
-  if (units == null || units === '') return String(value);
+  const formattedValue = formatClinicalNumber(value, units);
+  if (units == null || units === '') return String(formattedValue);
   const unitText = String(units);
   // Range-like units belong on a secondary line, not glued to the primary value.
   if (/^\s*\d+\s*[-–to]+\s*\d+/i.test(unitText) || /\b0\s*[-–]\s*10\b/i.test(unitText)) {
-    return String(value);
+    return String(formattedValue);
   }
-  if (unitText === '%' || unitText === '％') return `${value}%`;
-  return `${value} ${unitText}`;
+  if (unitText === '%' || unitText === '％') return `${formattedValue}%`;
+  return `${formattedValue} ${unitText}`;
 }
 
 /** Honest blocked-calculator label; qualify with eGFR when the model note says so. */
@@ -812,7 +815,7 @@ export function adaptPhysicianCase(caseBundle) {
     risk,
     vitality,
     actionMap: {
-      items: array(actionMap.scored_items),
+      items: normalizeActionSpace({ action_map_state: actionMap }),
       required: array(actionMap.required_items),
       excluded: array(actionMap.excluded_items),
       warnings: array(actionMap.warnings),

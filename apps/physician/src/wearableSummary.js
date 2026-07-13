@@ -6,6 +6,8 @@
  * No composite recovery score. Within-person only.
  */
 
+import { formatClinicalNumber } from './clinicalValueFormat.js';
+
 const MS_DAY = 24 * 60 * 60 * 1000;
 
 /** Metrics that participate in trend UI (admitted instruments + movement). */
@@ -214,17 +216,21 @@ export function formatTrendLine(windowSummary, unit = '') {
     };
   }
   const unitSuffix = unit ? ` ${unit}` : '';
-  const level = windowSummary.value != null ? `${windowSummary.value}${unitSuffix}` : '—';
+  const level = windowSummary.value != null
+    ? `${formatClinicalNumber(windowSummary.value, unit)}${unitSuffix}`
+    : '—';
   if (windowSummary.baseline_value == null || windowSummary.delta_pct == null) {
     return {
       state: 'trend_ready',
       text: `${windowSummary.window} mean ${level} · baseline still forming`
     };
   }
-  const sign = windowSummary.delta_pct > 0 ? '+' : '';
+  const baseline = formatClinicalNumber(windowSummary.baseline_value, unit);
+  const deltaPercent = formatClinicalNumber(windowSummary.delta_pct, '%');
+  const sign = windowSummary.delta_pct > 0 && deltaPercent !== '0' ? '+' : '';
   return {
     state: 'trend_ready',
-    text: `${windowSummary.window} mean ${level} · vs your baseline ${windowSummary.baseline_value}${unitSuffix} (${sign}${windowSummary.delta_pct}%)`
+    text: `${windowSummary.window} mean ${level} · vs your baseline ${baseline}${unitSuffix} (${sign}${deltaPercent}%)`
   };
 }
 

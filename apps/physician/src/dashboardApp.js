@@ -5,7 +5,7 @@ import { recommendationTraceHTML, releasePreviewHTML } from './clinicalTrace.js'
 
 const TAB_LABELS = [
   ['patient-data', 'Patient Data'],
-  ['risk', 'Risk'],
+  ['risk', 'Models'],
   ['vitality', 'Vitality'],
   ['care-plan', 'Care Plan'],
   ['journal', 'Journal'],
@@ -216,6 +216,77 @@ function riskView(model, state) {
       ${variables.length ? `<section class="risk-variables"><div class="risk-section-head"><h3>Variables</h3></div>${variableRows}</section>` : ''}
       <section class="risk-audit"><div class="risk-section-head"><h3>Model audit trail</h3></div><div class="risk-audit-grid">${auditRows}</div></section>
     </section>`;
+}
+
+const ACTION_SPACE_EVIDENCE = [
+  ['unverified', 'Unverified'],
+  ['see_library', 'Library pending'],
+  ['moderate', 'Moderate'],
+  ['strong', 'Strong'],
+  ['missing', 'Unverified'],
+];
+
+function actionSpaceCategory(item) {
+  if (item.kind === 'diagnostic') return { id: 'diagnostics', label: 'Diagnostics' };
+  if (item.kind !== 'action') return null;
+  const explicit = String(item.category ?? '').trim();
+  return explicit ? { id: `category:${explicit.toLowerCase().replace(/[^a-z0-9]+/g, '-')}`, label: explicit } : { id: 'actions', label: 'Actions' };
+}
+
+function actionSpaceValue(value) {
+  if (!Number.isFinite(value)) return 'Not plottable';
+  return `${Number(value.toFixed(4))} QALY`;
+}
+
+function actionSpaceView(model, state) {
+  const records = model.actionMap.items ?? [];
+  const plottable = records.filter((item) => item.plottable);
+  const groups = [];
+  for (const item of plottable) {
+    const group = actionSpaceCategory(item);
+    if (group && !groups.some((entry) => entry.id === group.id)) groups.push(group);
+  }
+  const filters = [{ id: 'all', label: 'All' }, ...groups.sort((left, right) => (left.id === 'diagnostics' ? -1 : right.id === 'diagnostics' ? 1 : 0))];
+  const activeFilter = filters.some((filter) => filter.id === state.actionSpaceFilter) ? state.actionSpaceFilter : 'all';
+  const visible = plottable.filter((item) => activeFilter === 'all' || actionSpaceCategory(item)?.id === activeFilter);
+  const selectedId = visible.some((item) => item.id === state.selectedActionSpaceItemId) ? state.selectedActionSpaceItemId : null;
+  const evidenceIndex = (item) => item.evidenceCategory === 'missing' ? 0 : Math.max(0, ACTION_SPACE_EVIDENCE.slice(0, 4).findIndex(([id]) => id === item.evidenceCategory));
+  const values = visible.map((item) => item.expectedValueQaly);
+  const min = Math.min(0, ...values);
+  const max = Math.max(0.01, ...values);
+  const span = max - min || 1;
+  const laneCounts = new Map();
+  const xFor = (item) => {
+    const lane = evidenceIndex(item);
+    const order = laneCounts.get(lane) ?? 0;
+    laneCounts.set(lane, order + 1);
+    const spread = order === 0 ? 0 : Math.ceil(order / 2) * 14 * (order % 2 ? 1 : -1);
+    return 90 + lane * 170 + spread;
+  };
+  const yFor = (item) => 300 - ((item.expectedValueQaly - min) / span) * 240;
+  const marks = visible.map((item) => {
+    const x = xFor(item);
+    const y = yFor(item);
+    const selected = item.id === selectedId;
+    const shape = item.kind === 'diagnostic'
+      ? `<rect x="${x - 7}" y="${y - 7}" width="14" height="14" rx="1"/>`
+      : `<circle cx="${x}" cy="${y}" r="7"/>`;
+    return `<g data-action-space-mark="${esc(item.id)}" role="button" tabindex="0" aria-label="${esc(`${item.label ?? item.id}, ${actionSpaceValue(item.expectedValueQaly)}`)}" aria-pressed="${selected}" data-mark-kind="${esc(item.kind)}" class="action-space-mark ${selected ? 'selected ' : ''}${esc(item.disposition ?? 'staged')}" transform="translate(0 0)">${shape}${selected ? `<circle class="selection-ring" cx="${x}" cy="${y}" r="13"/>` : ''}<title>${esc(item.label ?? item.id)} · ${esc(actionSpaceValue(item.expectedValueQaly))}</title></g>`;
+  }).join('');
+  const labels = ACTION_SPACE_EVIDENCE.slice(0, 4).map(([, label], index) => `<text x="${90 + index * 170}" y="334" text-anchor="middle">${esc(label)}</text>`).join('');
+  const ledger = visible.map((item) => `<button type="button" data-action-space-item="${esc(item.id)}" aria-pressed="${item.id === selectedId}" class="action-space-ledger-row ${item.id === selectedId ? 'selected' : ''}"><span class="mark-key ${esc(item.kind)}" aria-hidden="true"></span><span><strong>${esc(item.label ?? item.id)}</strong><small>${esc(item.source ?? 'Source not emitted')} · ${esc(item.decisionLogic ?? 'Decision logic not emitted')}</small></span><span><strong>${esc(actionSpaceValue(item.expectedValueQaly))}</strong><small>${esc(item.evidenceCategory === 'see_library' ? 'library pending' : item.evidenceCategory)}</small></span></button>`).join('');
+  const adjacent = (title, items, kind) => `<section class="action-space-adjacent" data-action-space-${kind}><h3>${title}</h3>${items.length ? items.map((item) => `<div data-adjacent-item="${esc(item.id)}"><strong>${esc(item.label ?? item.id)}</strong><small>${esc(item.reason ?? item.source ?? item.id)}</small></div>`).join('') : empty(`No ${title.toLowerCase()} emitted.`)}</section>`;
+  const nonPlottable = records.filter((item) => !item.plottable);
+  return `<header class="screen-head"><div><h1>Action Space</h1><p>Expected patient value by categorical evidence state. Actions plot expected net value; diagnostics plot probability of reclassification multiplied by QALY if reclassified.</p></div></header>
+    <div class="action-space-boundary">Technically rendered does not mean clinically promoted. Values remain staged pending clinical promotion.</div>
+    <nav class="action-space-filters" aria-label="Action Space categories">${filters.map((filter) => `<button type="button" data-action-space-filter="${esc(filter.id)}" aria-pressed="${filter.id === activeFilter}" class="${filter.id === activeFilter ? 'on' : ''}">${esc(filter.label)} <span>${filter.id === 'all' ? plottable.length : plottable.filter((item) => actionSpaceCategory(item)?.id === filter.id).length}</span></button>`).join('')}</nav>
+    <section class="action-space-layout"><div class="action-space-map"><div class="panel-head"><h2>Categorical action map</h2><span>Expected QALY</span></div><svg viewBox="0 0 720 360" role="img" aria-label="Expected QALY by categorical evidence"><line x1="58" y1="300" x2="690" y2="300"/><text x="20" y="28">Expected QALY ↑</text>${labels}${marks}${visible.length ? '' : '<text x="360" y="180" text-anchor="middle">No plotted items for this filter</text>'}</svg></div><div class="action-space-ledger"><div class="panel-head"><h2>Evidence ledger</h2><span>${visible.length} plotted</span></div>${ledger || empty('No plotted items for this filter.')}</div></section>
+    <section class="action-space-audit"><h2>Adjacent audit</h2>${adjacent('Non-plottable records', nonPlottable, 'nonplottable')}${adjacent('Required obligations', model.actionMap.required ?? [], 'required')}${adjacent('Excluded items', model.actionMap.excluded ?? [], 'excluded')}</section>`;
+}
+
+function modelsView(model, state) {
+  const pane = state.selectedModelPane === 'action-space' ? 'action-space' : 'models';
+  return `<nav class="model-pane-nav" role="tablist" aria-label="Models views"><button type="button" data-model-pane="models" role="tab" aria-selected="${pane === 'models'}" class="${pane === 'models' ? 'on' : ''}">Models</button><button type="button" data-model-pane="action-space" role="tab" aria-selected="${pane === 'action-space'}" class="${pane === 'action-space' ? 'on' : ''}">Action Space</button></nav>${pane === 'action-space' ? actionSpaceView(model, state) : riskView(model, state)}`;
 }
 
 function vitalityRange(row) {
@@ -468,7 +539,7 @@ function aiView(model) {
 }
 
 function activeView(model, state) {
-  if (state.activeTab === 'risk') return riskView(model, state);
+  if (state.activeTab === 'risk') return modelsView(model, state);
   if (state.activeTab === 'vitality') return vitalityView(model);
   if (state.activeTab === 'care-plan') return carePlanView(model, state);
   if (state.activeTab === 'journal') return journalView(model);

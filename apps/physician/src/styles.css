@@ -88,6 +88,27 @@ html,body{font-size:14px}
 .device-instrument-row .trend-line.trend-building_baseline{color:var(--signal-advisory)}
 @media(max-width:760px){.device-instrument-row{grid-template-columns:1fr;gap:4px}}
 
+/* Models | Action Space: categorical evidence map synchronized with its ledger. */
+.model-pane-nav{display:flex;gap:4px;margin:0 auto var(--air-tier);border-bottom:1px solid var(--border-base)}
+.model-pane-nav button{min-height:36px;padding:0 12px;border:0;border-radius:0;background:transparent;color:var(--text-secondary);box-shadow:inset 0 -2px 0 transparent}
+.model-pane-nav button.on,.model-pane-nav button[aria-selected="true"]{color:var(--text-primary);background:transparent;box-shadow:inset 0 -2px 0 var(--signal-forward)}
+.action-space-boundary{margin-bottom:var(--air-tier);padding:11px 14px;background:var(--surface-inset);border-left:3px solid var(--signal-forward);color:var(--text-secondary);font-size:12px}
+.action-space-filters{display:flex;gap:7px;flex-wrap:wrap;margin-bottom:var(--air-tier)}
+.action-space-filters button{min-height:34px;background:var(--surface-card);color:var(--text-secondary);border-color:var(--border-base);padding:0 11px}
+.action-space-filters button.on{background:var(--surface-inset);color:var(--text-primary);border-color:var(--border-strong)}
+.action-space-filters span{font-variant-numeric:tabular-nums;color:var(--text-tertiary)}
+.action-space-layout{display:grid;grid-template-columns:minmax(0,1.25fr) minmax(300px,.75fr);gap:var(--air-tier);align-items:start;margin-bottom:var(--air-section)}
+.action-space-map,.action-space-ledger,.action-space-audit{background:var(--surface-card);border:1px solid var(--border-base);border-radius:var(--radius-panel);overflow:hidden}
+.action-space-map svg{display:block;width:100%;height:auto;min-height:330px;padding:12px}
+.action-space-map svg line{stroke:var(--border-base);stroke-width:1}.action-space-map svg text{fill:var(--text-tertiary);font:400 11px var(--voice)}
+.action-space-mark{fill:var(--text-primary);stroke:var(--text-primary);stroke-width:1.5;cursor:pointer}.action-space-mark.deferred{fill:var(--surface-card)}.action-space-mark.excluded{fill:var(--surface-card);stroke-dasharray:3 2}.action-space-mark .selection-ring{fill:none;stroke:var(--signal-forward);stroke-width:2}
+.action-space-ledger-row{width:100%;min-height:0;display:grid;grid-template-columns:18px minmax(0,1fr) auto;gap:9px;align-items:start;padding:12px 14px;border:0;border-bottom:1px solid var(--hairline);border-radius:0;background:var(--surface-card);color:var(--text-primary);text-align:left}
+.action-space-ledger-row:hover{background:var(--surface-inset);color:var(--text-primary)}.action-space-ledger-row.selected{background:var(--goldwash);box-shadow:inset 3px 0 0 var(--signal-forward)}.action-space-ledger-row strong,.action-space-ledger-row small{display:block}.action-space-ledger-row small{margin-top:3px;max-width:32rem}.action-space-ledger-row>span:last-child{text-align:right;white-space:nowrap}
+.mark-key{width:10px;height:10px;margin-top:4px;border:1.5px solid var(--text-primary);background:var(--text-primary);border-radius:50%}.mark-key.diagnostic{border-radius:1px}
+.action-space-audit{padding:18px}.action-space-audit>h2{margin-bottom:var(--air-tier)}.action-space-adjacent{padding:12px 0;border-top:1px solid var(--border-subtle)}.action-space-adjacent h3{margin-bottom:8px}.action-space-adjacent>div{display:grid;grid-template-columns:minmax(0,1fr) minmax(150px,.6fr);gap:12px;padding:5px 0}.action-space-adjacent strong,.action-space-adjacent small{display:block}
+@media(max-width:900px){.action-space-layout{grid-template-columns:1fr}.action-space-map svg{min-height:0}}
+@media(max-width:600px){.action-space-ledger-row{grid-template-columns:18px minmax(0,1fr)}.action-space-ledger-row>span:last-child{grid-column:2;text-align:left}.action-space-adjacent>div{grid-template-columns:1fr}}
+
 
 .truth-link{color:var(--text-primary);font-weight:500;text-decoration:none;border-bottom:1px solid var(--border-strong)}
 .truth-link:hover{color:var(--text-gold);border-bottom-color:var(--text-gold)}

@@ -12,7 +12,7 @@ import {
   startPhysicianReview
 } from './apiClient.js';
 import { adaptPhysicianCase, artifactBindsCurrentLineage, buildReleasePreviewRequest, releaseIdentifier } from './dashboardAdapter.js';
-import { decisionReasonOptionsHTML, renderDashboard, renderEmptyStaging, renderFatalError } from './dashboardApp.js?v=physician-dechrome-v1';
+import { decisionReasonOptionsHTML, renderDashboard, renderEmptyStaging, renderFatalError } from './dashboardApp.js?v=physician-action-space-v1';
 
 const app = document.querySelector('#app');
 const state = {
@@ -20,6 +20,9 @@ const state = {
   activeCase: null,
   activeTab: 'patient-data',
   selectedRiskId: null,
+  selectedModelPane: 'models',
+  actionSpaceFilter: 'all',
+  selectedActionSpaceItemId: null,
   selectedPlanItemId: null,
   queue: [],
   source: 'backend',
@@ -149,6 +152,33 @@ function attachListeners() {
     render();
   }));
 
+  document.querySelectorAll('[data-model-pane]').forEach((button) => button.addEventListener('click', () => {
+    state.selectedModelPane = button.dataset.modelPane;
+    state.selectedActionSpaceItemId = null;
+    render();
+  }));
+
+  document.querySelectorAll('[data-action-space-filter]').forEach((button) => button.addEventListener('click', () => {
+    state.actionSpaceFilter = button.dataset.actionSpaceFilter;
+    state.selectedActionSpaceItemId = null;
+    render();
+  }));
+
+  const selectActionSpaceItem = (element) => {
+    const id = element.dataset.actionSpaceItem ?? element.dataset.actionSpaceMark;
+    state.selectedActionSpaceItemId = state.selectedActionSpaceItemId === id ? null : id;
+    render();
+  };
+  document.querySelectorAll('[data-action-space-item],[data-action-space-mark]').forEach((element) => {
+    element.addEventListener('click', () => selectActionSpaceItem(element));
+    element.addEventListener('keydown', (event) => {
+      if (event.key === 'Enter' || event.key === ' ') {
+        event.preventDefault();
+        selectActionSpaceItem(element);
+      }
+    });
+  });
+
   document.querySelectorAll('[data-risk-domain]').forEach((button) => button.addEventListener('click', () => {
     state.selectedRiskId = button.dataset.riskDomain;
     render();
@@ -169,6 +199,9 @@ function attachListeners() {
       state.workflowStatus = 'Chart opened. Backend workflow state was not changed.';
       state.activeTab = 'patient-data';
       state.selectedRiskId = null;
+      state.selectedModelPane = 'models';
+      state.actionSpaceFilter = 'all';
+      state.selectedActionSpaceItemId = null;
       state.selectedPlanItemId = null;
       render();
     } catch (error) {
