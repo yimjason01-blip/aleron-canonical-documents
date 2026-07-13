@@ -15,10 +15,20 @@
 /*  Loaded from the sibling product-design-system so the prototype    */
 /*  renders in the true face; Hanken Grotesk is the graceful fallback.*/
 /* ================================================================ */
-
-
-
-
+@font-face {
+  font-family: 'PolySans';
+  src: url('../product-design-system/fonts/PolySans-Neutral.ttf') format('truetype');
+  font-style: normal;
+  font-weight: 400;
+  font-display: swap;
+}
+@font-face {
+  font-family: 'PolySans';
+  src: url('../product-design-system/fonts/PolySans-Median.ttf') format('truetype');
+  font-style: normal;
+  font-weight: 500 700;
+  font-display: swap;
+}
 /* ================================================================ */
 /*  TOKENS · inherited from product-design-system/index.html v0.3     */
 /* ================================================================ */
@@ -2295,6 +2305,210 @@ select.fld-input {
   padding-top: env(safe-area-inset-top);
 }
 .mode-runtime .shell.external-entry { padding-top: 0; }
+
+/* ================================================================ */
+/*  BUILD 46 NATIVE RELEASE REFERENCE                                */
+/*  Mirrors PatientShellView + AleronTheme rather than the editorial */
+/*  prototype harness. Prototype mode intentionally remains intact.   */
+/* ================================================================ */
+.mode-release {
+  min-height: 100dvh;
+  padding: 14px 0;
+  align-items: flex-start;
+  background: #E7E1D8;
+}
+.mode-release .device-frame {
+  width: min(393px, calc(100vw - 28px));
+  aspect-ratio: 393 / 852;
+  padding: 0;
+  background: transparent;
+  border-radius: 28px;
+  box-shadow: 0 18px 48px -22px rgba(29,27,24,0.42);
+}
+.mode-release .device-screen,
+.mode-release .shell {
+  border-radius: 28px;
+  background: var(--paper);
+}
+.mode-release .device-island,
+.mode-release .chrome,
+.mode-release .step-caption { display: none; }
+.mode-release .shell.external-entry .statusbar { display: flex; }
+.mode-release .stage { background: var(--paper); }
+.mode-release .screen {
+  display: block;
+  overflow-y: auto;
+}
+.mode-release .scroll {
+  display: block;
+  flex: none;
+  overflow: visible;
+  padding: 84px 24px 36px;
+}
+.mode-release .h-screen {
+  max-width: none;
+  margin: 0 0 10px;
+  font-family: var(--voice);
+  font-size: 30px;
+  font-weight: 500;
+  line-height: 1.06;
+  letter-spacing: -1.1px;
+  color: var(--ink);
+}
+.mode-release .framing,
+.mode-release .lede,
+.mode-release .claim-note {
+  color: var(--slate);
+}
+.mode-release .card {
+  background: var(--surface-card);
+  border-color: var(--border-base);
+  box-shadow: none;
+}
+.mode-release .cta-bar {
+  padding: 8px 24px 80px;
+  border-top: 0;
+  background: var(--paper);
+}
+.mode-release .btn {
+  min-height: 52px;
+  padding: 16px 0;
+  border-radius: 10px;
+  font-size: 15px;
+  font-weight: 500;
+}
+.mode-release .claim-lockup {
+  padding-top: 0;
+  margin-bottom: 35px;
+}
+.mode-release [data-screen="0"] .scroll { padding-bottom: 0; }
+.mode-release [data-screen="0"] .cta-bar { padding-top: 44px; }
+.mode-release [data-screen="0"] .claim-note,
+.mode-release [data-screen="0"] .auth-confirm { display: none !important; }
+.mode-release [data-screen="0"] .signup-card {
+  margin: 0;
+  padding: 18px 20px;
+  border: 1px solid var(--border-base);
+  border-radius: 0;
+  background: var(--surface-card);
+}
+.mode-release [data-screen="0"] .fld {
+  margin: 0 0 14px;
+}
+.mode-release [data-screen="0"] .fld:last-child { margin-bottom: 0; }
+.mode-release [data-screen="0"] .fld-label {
+  display: block;
+  margin: 0 0 6px;
+  font-size: 12px;
+  line-height: 1.3;
+  color: var(--slate);
+}
+.mode-release [data-screen="0"] .fld-input {
+  min-height: 39px;
+  padding: 10px 0;
+  border: 0;
+  border-bottom: 1px solid var(--border-base);
+  border-radius: 0;
+  background: transparent;
+  background-image: none;
+  font-size: 15.5px;
+  line-height: 1.2;
+  color: var(--ink);
+}
+.mode-release [data-screen="0"] .fld-input:focus {
+  outline: 0;
+  border-bottom-color: var(--ink);
+}
+.mode-release .detail-choice-row {
+  display: inline-flex;
+  gap: 0;
+  border: 1px solid var(--border-base);
+  background: var(--surface-card);
+}
+.mode-release .detail-choice-row button {
+  min-height: 35px;
+  padding: 9px 10px;
+  border: 0;
+  border-right: 1px solid var(--border-base);
+  border-radius: 0;
+  background: transparent;
+  color: var(--ink);
+  font-family: var(--voice);
+  font-size: 13.5px;
+  font-weight: 500;
+}
+.mode-release .detail-choice-row button:last-child { border-right: 0; }
+.mode-release .detail-choice-row button.selected { background: var(--surface-inset); }
+.release-settings {
+  display: none;
+  position: absolute;
+  z-index: 38;
+  top: 60px;
+  right: 24px;
+  min-width: 86px;
+  min-height: 44px;
+  padding: 0 18px;
+  border: 0;
+  border-radius: 24px;
+  background: rgba(255,255,255,0.96);
+  box-shadow: 0 16px 34px -22px rgba(29,27,24,0.48);
+  color: var(--ink);
+  font-family: var(--voice);
+  font-size: 13.5px;
+  font-weight: 500;
+}
+.mode-release.release-settings-visible .release-settings { display: block; }
+.release-settings-sheet {
+  display: none;
+  position: absolute;
+  inset: 0;
+  z-index: 70;
+  padding: 84px 24px 38px;
+  overflow-y: auto;
+  background: var(--paper);
+}
+.release-settings-sheet.show { display: block; }
+.release-settings-head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 44px;
+}
+.release-settings-head h2 {
+  font-size: 30px;
+  font-weight: 500;
+  letter-spacing: -1.1px;
+}
+.release-settings-close {
+  border: 0;
+  background: transparent;
+  color: var(--slate);
+  font: 500 14px var(--voice);
+}
+.release-settings-card {
+  padding: 18px 20px;
+  border: 1px solid var(--border-base);
+  background: white;
+}
+.release-settings-card div {
+  padding: 12px 0;
+  border-bottom: 1px solid var(--border-base);
+}
+.release-settings-card div:last-child { border-bottom: 0; }
+.release-settings-card span { display: block; font-size: 12px; color: var(--slate); }
+.release-settings-card strong { font-size: 15px; font-weight: 400; }
+@media (max-width: 520px) {
+  .mode-release { padding: 0; background: var(--paper); }
+  .mode-release .device-frame {
+    width: 100vw;
+    height: 100dvh;
+    aspect-ratio: auto;
+    border-radius: 0;
+    box-shadow: none;
+  }
+  .mode-release .device-screen,
+  .mode-release .shell { border-radius: 0; }
+}
 @media (prefers-reduced-motion: reduce) {
   * { transition: none !important; animation: none !important; }
 }
@@ -2349,6 +2563,8 @@ select.fld-input {
     </div>
   </div>
 
+  <button class="release-settings" type="button" onclick="openReleaseSettings()">Settings</button>
+
   <!-- CHROME -->
   <div class="chrome">
     <button class="back-btn" id="backBtn" aria-label="Back" onclick="goBack()">
@@ -2398,7 +2614,7 @@ select.fld-input {
     <section class="screen" data-screen="0">
       <div class="scroll claim-screen">
         <div class="claim-lockup">
-          <h1 class="h-screen">Confirm your details.</h1>
+          <h1 class="h-screen">Confirm your details</h1>
           <p class="claim-note">These start your clinical record. Only you and your care team see them.</p>
         </div>
         <div class="card signup-card">
@@ -2413,16 +2629,16 @@ select.fld-input {
           </div>
           <div class="fld">
             <label class="fld-label" for="suDob">Date of birth</label>
-            <input class="fld-input" id="suDob" type="date" oninput="checkSignupReady()">
+            <input class="fld-input" id="suDob" type="text" inputmode="numeric" autocomplete="bday" placeholder="YYYY-MM-DD" oninput="checkSignupReady()">
           </div>
           <div class="fld">
-            <label class="fld-label" for="suSex">Sex at birth</label>
-            <select class="fld-input" id="suSex" onchange="checkSignupReady()">
-              <option value="" disabled selected>Select</option>
-              <option value="female">Female</option>
-              <option value="male">Male</option>
-              <option value="intersex">Intersex</option>
-            </select>
+            <label class="fld-label" id="suSexLabel">Sex at birth</label>
+            <input id="suSex" type="hidden" value="">
+            <div class="detail-choice-row" role="group" aria-labelledby="suSexLabel">
+              <button type="button" data-signup-sex="female" onclick="selectSignupSex('female')">Female</button>
+              <button type="button" data-signup-sex="male" onclick="selectSignupSex('male')">Male</button>
+              <button type="button" data-signup-sex="intersex" onclick="selectSignupSex('intersex')">Intersex</button>
+            </div>
           </div>
           <div class="fld">
             <label class="fld-label" for="suState">State of residence</label>
@@ -2895,6 +3111,18 @@ select.fld-input {
     </div>
   </div>
 
+  <div class="release-settings-sheet" id="releaseSettingsSheet" role="dialog" aria-modal="true" aria-labelledby="releaseSettingsTitle">
+    <div class="release-settings-head">
+      <h2 id="releaseSettingsTitle">Settings</h2>
+      <button class="release-settings-close" type="button" onclick="closeReleaseSettings()">Done</button>
+    </div>
+    <div class="release-settings-card">
+      <div><span>Account</span><strong data-identity-full>Account setup in progress</strong></div>
+      <div><span>Patient ID</span><strong id="releaseSettingsPatientId">Assigned after account creation</strong></div>
+      <div><span>Build represented</span><strong>TestFlight 0.1.0 (46)</strong></div>
+    </div>
+  </div>
+
   <!-- SPLASH OVERLAY · app first open -->
   <div class="splash-overlay" id="splashOverlay">
     <div class="splash-lockup">aleron<span class="md">MD</span></div>
@@ -3020,6 +3248,7 @@ function fillSignupForm(p) {
   document.getElementById('suLast').value = p.last;
   document.getElementById('suDob').value = p.dob;
   document.getElementById('suSex').value = p.sex;
+  renderSignupSex();
   document.getElementById('suState').value = p.state;
   checkSignupReady();
 }
@@ -3086,7 +3315,8 @@ function resetSurfaces() {
   strip.innerHTML = '';
   strip.classList.remove('show');
   ['suFirst', 'suLast', 'suDob'].forEach(function (id) { document.getElementById(id).value = ''; });
-  document.getElementById('suSex').selectedIndex = 0;
+  document.getElementById('suSex').value = '';
+  renderSignupSex();
   document.getElementById('suState').selectedIndex = 0;
   document.getElementById('signupCta').disabled = true;
   /* Consents */
@@ -3265,6 +3495,21 @@ function fillStates() {
   });
 }
 
+function selectSignupSex(value) {
+  document.getElementById('suSex').value = value;
+  renderSignupSex();
+  checkSignupReady();
+}
+
+function renderSignupSex() {
+  var value = document.getElementById('suSex').value;
+  document.querySelectorAll('[data-signup-sex]').forEach(function (button) {
+    var selected = button.dataset.signupSex === value;
+    button.classList.toggle('selected', selected);
+    button.setAttribute('aria-pressed', selected ? 'true' : 'false');
+  });
+}
+
 function checkSignupReady() {
   var ok = ['suFirst','suLast','suDob','suSex','suState'].every(function (id) {
     var el = document.getElementById(id);
@@ -3370,12 +3615,30 @@ function applyIdentity() {
 /* ================================================================ */
 /*  NAVIGATION                                                       */
 /* ================================================================ */
+function openReleaseSettings() {
+  var sheet = document.getElementById('releaseSettingsSheet');
+  if (!sheet) return;
+  var patientId = document.getElementById('releaseSettingsPatientId');
+  if (patientId) patientId.textContent = state.identity && state.identity.patient_id
+    ? state.identity.patient_id
+    : 'Assigned after account creation';
+  sheet.classList.add('show');
+}
+
+function closeReleaseSettings() {
+  var sheet = document.getElementById('releaseSettingsSheet');
+  if (sheet) sheet.classList.remove('show');
+}
+
 function renderChrome() {
   var stepper = document.getElementById('stepper');
   stepper.innerHTML = '';
   var back = document.getElementById('backBtn');
   var n = state.screen;
-  document.querySelector('.shell').classList.toggle('external-entry', n <= 0);
+  var releaseMode = window.ALERON_RENDER_MODE === 'release';
+  document.querySelector('.shell').classList.toggle('external-entry', releaseMode ? false : n <= 0);
+  document.body.classList.toggle('release-settings-visible', releaseMode && n >= 0);
+  closeReleaseSettings();
 
   /* Account + details: no stepper, no back. */
   if (n < 1) {
