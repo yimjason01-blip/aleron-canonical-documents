@@ -6,22 +6,22 @@
     "apps/physician/assets/fonts/PolySans-Median.ttf": "c1a5e1dcf63963a4eeb688ff65e919aaac3ee9f9958b57fee6ca3224df35a74f",
     "apps/physician/assets/fonts/PolySans-Neutral.ttf": "52d272ffe1967e5bfab79353a314044319d5a86b16e90b44e457055a1f119c17",
     "apps/physician/fixtures/physician_synthetic_case.json": "96c896eea4379805d0f6889679f7e1184840ce0e24bd404a0522e10542afed33",
-    "apps/physician/index.html": "4cc5eb7e0261e8e95a3504d8b1323888136ed70ce0b90df9fc7ff441680b95e0",
+    "apps/physician/index.html": "a5a2c09e52a74ff035616af463d44c358336ce31553a0bdea95450236534c286",
     "apps/physician/src/actionSpaceModel.js": "6dca473baf7b216e0446daeba46dfc98028f16118d0fe4c6cbc390a3a8c1897d",
     "apps/physician/src/apiClient.js": "7c7abb9f27b71a0db8077501745a91944f2a6ba02a53e26b3c72a0787b923707",
     "apps/physician/src/canonicalSources.js": "09d69c8ae32ceabd29ebe66e134f83648b8b80640661895271a7d0164d101797",
-    "apps/physician/src/clinicalTrace.js": "b25ceb635aa70823f5cdd7d6672298a912a388960de3415a237eed406dc16ba7",
+    "apps/physician/src/clinicalTrace.js": "a27aa44481f719a79aca0bce17b7da86d3516ea2cd4e47c4942a74a348bc8f76",
     "apps/physician/src/clinicalValueFormat.js": "ea48ae4de285b74f2f9f8c52c0e578a857f62d61d57e21d334b59151f75adadc",
-    "apps/physician/src/dashboardAdapter.js": "9d046be600610079630e2d8c516860abd6d8bb83f0b4d608fc6f3c228e7afea5",
-    "apps/physician/src/dashboardApp.js": "641feccb0c5daefce2dde15d7e0a4c7f25b74bf3bcb7d0f5a17a9657550f493d",
+    "apps/physician/src/dashboardAdapter.js": "b38ea92edc01f8a7746f22e346eaec855b0919a80db81744ea66a378b2194a16",
+    "apps/physician/src/dashboardApp.js": "bbc473aa03487b85bc9d9d6ad6bd2579dc7281b0012a382ac1dcaa558ca8d027",
     "apps/physician/src/fixtureLoader.js": "c8936233143348043f94a6ed8f4dbffbc0da3b5fcd96a7af674713a21c2e5a67",
     "apps/physician/src/journey.css": "69919dc7542e84cf21af7f7bce39978718ccc0d89bcdfb81ac873e8e718f7b65",
-    "apps/physician/src/main.js": "8dd0a29ac8dc42dfaaf694052122c41e30306caf18d1d045d521a06dfdef7d73",
+    "apps/physician/src/main.js": "2b7cf7ba48612063e3e7495f78de60b094d0f0f14f7e7512751f6f6db86b6e5e",
     "apps/physician/src/runtimeConfig.js": "b81e387a01c7b00a2380e2d61baaf136b377dd441e6011aaf58bc2897455ad82",
-    "apps/physician/src/styles.css": "9d62eafc6c25ce6caea40179f86a7388b79bb04f530a59f6d71341add3ee4612",
-    "apps/physician/src/wearableSummary.js": "ee71ba97980bf352c634a49d90c691f03e4d6d1ac96436cfcf8353d4d71f9414"
+    "apps/physician/src/styles.css": "3dd179a76f235f737daef29bab58a909f4e8594a5ff8248f4634e8f09d046fab",
+    "apps/physician/src/wearableSummary.js": "397bb0989765b34bba437b5dfa1193ad6627085f85dcbf654f43de3b5ebe6ac4"
   },
-  "physician_tree_sha256": "7a19ddbd9946b3f7945599e148fe6fc24c49d01e34491ec313060841125587b2",
+  "physician_tree_sha256": "784c293cf7c7264fd72058c9f57a5d53dcdf51574717e37a7006513e88e49869",
   "preserve_top_level": [
     "brand-deck",
     "canonical-documents",
@@ -34,7 +34,7 @@
   ],
   "schema_version": "aleron.canonical-deployment.v1",
   "source_branch": "main",
-  "source_dirty": true,
-  "source_git_tree": "dce4a6fccd51d498c339a6b7fbfda3edd8c937db",
-  "source_sha": "ebe32871e223d42cfe22485708d56b1c1397a5ab"
+  "source_dirty": false,
+  "source_git_tree": "9cfdd5f726b6b6a6f442a0a19f797991124d367c",
+  "source_sha": "a28ed65e4a2d66a9df7b9b198b9fd3716b94e934"
 }

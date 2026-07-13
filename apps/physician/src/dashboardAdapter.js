@@ -1,7 +1,7 @@
-import { buildWearableSummaryFromPacket, formatTrendLine } from './wearableSummary.js?v=physician-action-space-v3';
+import { buildWearableSummaryFromPacket, formatTrendLine } from './wearableSummary.js?v=physician-care-vitality-v1';
 import { buildCurrencyOfTruth, resolveRiskSource, pagesUrl } from './canonicalSources.js';
-import { formatClinicalNumber } from './clinicalValueFormat.js?v=physician-action-space-v3';
-import { normalizeActionSpace } from './actionSpaceModel.js?v=physician-action-space-v3';
+import { formatClinicalNumber } from './clinicalValueFormat.js?v=physician-care-vitality-v1';
+import { normalizeActionSpace } from './actionSpaceModel.js?v=physician-care-vitality-v1';
 
 function array(value) {
   return Array.isArray(value) ? value : [];
@@ -608,9 +608,9 @@ function vitalityRecord(value) {
     value: state,
     units: null,
     state: row.model_status ?? state,
-    model_note: row.score === null
+    model_note: row.model_note ?? (row.score === null
       ? 'Protocol state only. No aggregate vitality score was calculated.'
-      : 'Invalid vitality artifact: protocol outputs cannot contain a score.'
+      : 'Invalid vitality artifact: protocol outputs cannot contain a score.')
   };
 }
 

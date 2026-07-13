@@ -1,7 +1,7 @@
-import { displayValue } from './dashboardAdapter.js?v=physician-action-space-v3';
-import { formatTrendLine } from './wearableSummary.js?v=physician-action-space-v3';
+import { displayValue } from './dashboardAdapter.js?v=physician-care-vitality-v1';
+import { formatTrendLine } from './wearableSummary.js?v=physician-care-vitality-v1';
 import { getOverrideTaxonomy } from './apiClient.js';
-import { recommendationTraceHTML, releasePreviewHTML } from './clinicalTrace.js?v=physician-action-space-v3';
+import { recommendationTraceHTML, releasePreviewHTML } from './clinicalTrace.js?v=physician-care-vitality-v1';
 
 const TAB_LABELS = [
   ['patient-data', 'Patient Data'],
@@ -390,9 +390,9 @@ const DEVICE_INSTRUMENT_ORDER = [
 
 /**
  * Subordinate corroborator panel for Vitality tab when wearables density is met.
- * Not a score — felt baseline still required to unblock vitality protocol scoring.
+ * Not a score. Device instruments cannot determine or complete protocol state.
  */
-function deviceInstrumentsPanel(model) {
+function deviceInstrumentsPanel(model, note = 'Device instruments corroborate recovery and sleep; they do not replace patient-reported outcomes or determine protocol state.') {
   const summary = model.patientData?.wearableSummary;
   if (!summary?.windows) return '';
   const lines = [];
@@ -420,27 +420,73 @@ function deviceInstrumentsPanel(model) {
         <span>7d / 30d trends · not a score</span>
       </div>
       <div class="device-instruments-body">
-        <p class="wearable-instrument-note">Felt baseline still required. Device instruments corroborate recovery and sleep; they do not unblock the vitality score.</p>
+        <p class="wearable-instrument-note">${esc(note)}</p>
         <div class="device-instrument-list">${rows}</div>
       </div>
     </section>`;
 }
 
 function vitalityView(model) {
-  const outcomes = model.vitality.map((row) => {
+  const records = Array.isArray(model.vitality) ? model.vitality : [];
+  if (!records.length) {
+    return `<header class="screen-head"><div><h1>Vitality</h1><p>Within-person protocol state and patient-reported outcomes. No composite score.</p></div></header>${empty('Vitality output was not emitted.')}`;
+  }
+  const protocolRows = records.filter((row) => row.output_kind === 'protocol_state_not_score');
+  const measuredRows = records.filter((row) => row.output_kind !== 'protocol_state_not_score');
+  const feltFields = [
+    ['energy', 'Energy'], ['mood', 'Mood'], ['body', 'Body'], ['mind', 'Mind'], ['meaning', 'Meaning']
+  ];
+  const feltOutcomes = protocolRows.flatMap((row) => feltFields.flatMap(([key, label]) => {
+    const value = row.felt_state?.[key];
+    if (typeof value !== 'number' || !Number.isFinite(value)) return [];
+    return [`<article class="vitality-card" data-vitality-felt-outcome="${esc(key)}"><div class="vitality-head"><div><span class="section-label">${label}</span><strong>${esc(displayValue(value, '0-10 self-report'))}</strong><small class="vitality-unit">0-10 self-report</small></div></div></article>`];
+  })).join('');
+  const protocol = protocolRows.map((row) => {
+    const missing = Array.isArray(row.missing_inputs) ? row.missing_inputs : [];
+    const state = row.value ?? row.state;
+    const modelStatus = row.model_status && stateText(row.model_status) !== stateText(state)
+      ? `<small>Model status: ${esc(stateText(row.model_status))}</small>`
+      : '';
+    const calls = [
+      row.terminal_state ? `<div><dt>Terminal state</dt><dd>${esc(stateText(row.terminal_state))}</dd></div>` : '',
+      row.dominant_lever ? `<div><dt>Dominant lever</dt><dd>${esc(stateText(row.dominant_lever))}</dd></div>` : ''
+    ].filter(Boolean).join('');
+    const provenance = [
+      row.model_version ? `Model ${row.model_version}` : '',
+      row.source ? `Source ${row.source}` : ''
+    ].filter(Boolean).join(' · ');
+    const boundaries = [
+      row.clinical_use ? `Clinical use ${stateText(row.clinical_use)}` : '',
+      row.nonclinical === true ? 'Nonclinical' : '',
+      row.synthetic === true ? 'Synthetic' : ''
+    ].filter(Boolean).join(' · ');
+    return `<section class="vitality-protocol" data-vitality-protocol>
+      <div class="vitality-protocol-head"><div><span class="section-label">Protocol state</span><h2>${esc(row.label ?? row.id)}</h2></div><div><strong>${esc(stateText(state))}</strong>${modelStatus}</div></div>
+      <p class="vitality-protocol-boundary">Protocol state, not a composite score.${boundaries ? ` ${esc(boundaries)}.` : ''}</p>
+      ${row.model_note ? `<p>${esc(row.model_note)}</p>` : ''}
+      ${missing.length ? `<div class="vitality-requirements"><h3>Inputs still required</h3><ul>${missing.map((item) => `<li>${esc(stateText(item))}</li>`).join('')}</ul></div>` : ''}
+      ${calls ? `<dl class="vitality-protocol-meta">${calls}</dl>` : ''}
+      ${provenance ? `<small>${esc(provenance)}</small>` : ''}
+    </section>`;
+  }).join('');
+  const genericOutcomes = measuredRows.map((row) => {
     const missing = Array.isArray(row.missing_inputs) && row.missing_inputs.length
-      ? `<p class="vitality-missing"><strong>Inputs still required:</strong> ${row.missing_inputs.map((item) => esc(String(item).replaceAll('_', ' '))).join(', ')}</p>`
+      ? `<p class="vitality-missing"><strong>Inputs still required:</strong> ${row.missing_inputs.map((item) => esc(stateText(item))).join(', ')}</p>`
       : '';
     const note = row.model_note ? `<p class="vitality-note">${esc(row.model_note)}</p>` : '';
     const version = row.model_version ? `<small>Model ${esc(row.model_version)}</small>` : '';
-    return `
-    <article class="vitality-card">
-      <div class="vitality-head"><div><span class="section-label">${esc(row.label ?? row.id)}</span><strong>${esc(displayValue(row.value, row.units, row.state))}</strong>${row.units ? `<small class="vitality-unit">${esc(String(row.units).replaceAll('_',' '))}</small>` : ''}</div><span>${esc(stateText(row.state ?? 'measured'))}</span></div>
-      ${vitalityChart(row)}${note}${missing}${version}
-    </article>`;
+    return `<article class="vitality-card"><div class="vitality-head"><div><span class="section-label">${esc(row.label ?? row.id)}</span><strong>${esc(displayValue(row.value, row.units, row.state))}</strong>${row.units ? `<small class="vitality-unit">${esc(String(row.units).replaceAll('_',' '))}</small>` : ''}</div><span>${esc(stateText(row.state ?? 'measured'))}</span></div>${vitalityChart(row)}${note}${missing}${version}</article>`;
   }).join('');
-  const instruments = deviceInstrumentsPanel(model);
-  return `<header class="screen-head"><div><h1>Vitality</h1><p>Within-person protocol state, not a composite score. Safety and dominant gates triage only with required subjective inputs.</p></div></header><section class="vitality-grid">${outcomes || empty('Vitality not measured or insufficient input.')}</section>${instruments}`;
+  const outcomes = `${feltOutcomes}${genericOutcomes}`;
+  const outcomesSection = outcomes
+    ? `<section class="vitality-outcomes" data-vitality-outcomes><h2>Patient-reported outcomes</h2><div class="vitality-grid">${outcomes}</div></section>`
+    : '';
+  const blockedBaseline = protocolRows.some((row) => (Array.isArray(row.missing_inputs) && row.missing_inputs.length) || !row.felt_state);
+  const instrumentNote = blockedBaseline
+    ? 'Patient-reported inputs remain required. Device instruments corroborate recovery and sleep; they do not complete the Vitality protocol.'
+    : 'Device instruments corroborate recovery and sleep; they do not replace patient-reported outcomes or determine protocol state.';
+  const instruments = deviceInstrumentsPanel(model, instrumentNote);
+  return `<header class="screen-head"><div><h1>Vitality</h1><p>Within-person protocol state and patient-reported outcomes. No composite score.</p></div></header>${protocol}${outcomesSection}${instruments}`;
 }
 
 export function decisionReasonsForAction(action, taxonomy = getOverrideTaxonomy()) {
@@ -540,6 +586,64 @@ function carePlanSource(item) {
   return typeof source === 'string' ? source : String(source.source ?? source);
 }
 
+function carePlanNoteValue(value) {
+  if (typeof value === 'string' || typeof value === 'number') return String(value);
+  if (!value || typeof value !== 'object') return '';
+  return String(value.label ?? value.title ?? value.name ?? value.text ?? value.id ?? '');
+}
+
+function carePlanNoteEntryHTML(value) {
+  const label = carePlanNoteValue(value);
+  if (!label) return '';
+  if (!value || typeof value !== 'object' || Array.isArray(value)) return `<li>${esc(label)}</li>`;
+  const metadata = [value.type, value.status].filter(Boolean).map(stateText).join(' · ');
+  return `<li><span>${esc(label)}</span>${metadata ? `<small>${esc(metadata)}</small>` : ''}</li>`;
+}
+
+function carePlanNoteHTML(note) {
+  const draft = note && typeof note === 'object' ? note : {};
+  const assessment = carePlanNoteValue(draft.assessment);
+  const plan = carePlanNoteValue(draft.plan);
+  const orders = (Array.isArray(draft.orders) ? draft.orders : []).filter((value) => carePlanNoteValue(value));
+  const referrals = (Array.isArray(draft.referrals) ? draft.referrals : []).filter((value) => carePlanNoteValue(value));
+  const patientMessage = carePlanNoteValue(draft.patient_message);
+  return `<section class="care-plan-note" data-care-plan-note>
+    <div><h3>Assessment</h3>${assessment ? `<p>${esc(assessment)}</p>` : '<p class="truth-empty">Assessment not emitted</p>'}</div>
+    <div><h3>Plan</h3>${plan ? `<p>${esc(plan)}</p>` : '<p class="truth-empty">Plan not emitted</p>'}</div>
+    ${orders.length ? `<div><h3>Draft orders</h3><ul>${orders.map(carePlanNoteEntryHTML).join('')}</ul></div>` : ''}
+    ${referrals.length ? `<div><h3>Draft referrals</h3><ul>${referrals.map(carePlanNoteEntryHTML).join('')}</ul></div>` : ''}
+    ${patientMessage ? `<details class="plan-disclosure" data-draft-patient-message><summary><span>Draft patient message</span><small>Draft for physician review. Not a release preview.</small></summary><p>${esc(patientMessage)}</p></details>` : ''}
+  </section>`;
+}
+
+function carePlanDeferredHTML(items) {
+  if (!items.length) return '';
+  const rows = items.map((item) => {
+    const rawSummary = item.value_summary;
+    const valueSummary = rawSummary && typeof rawSummary === 'object'
+      ? (rawSummary.display ?? (rawSummary.value !== undefined ? displayValue(rawSummary.value, rawSummary.units) : carePlanNoteValue(rawSummary)))
+      : carePlanNoteValue(rawSummary);
+    const source = item.source && typeof item.source === 'object'
+      ? carePlanNoteValue(item.source.source ?? item.source)
+      : carePlanNoteValue(item.source);
+    const kind = carePlanNoteValue(item.kind);
+    const reason = carePlanNoteValue(item.reason);
+    const secondary = [kind, reason].filter(Boolean);
+    const audit = [valueSummary, source].filter(Boolean);
+    return `<div class="plan-audit-row"><div><strong>${esc(item.label ?? item.title ?? item.id)}</strong>${secondary.map((value) => `<small>${esc(stateText(value))}</small>`).join('')}</div>${audit.length ? `<div>${valueSummary ? `<span>${esc(valueSummary)}</span>` : ''}${source ? `<small>${esc(source)}</small>` : ''}</div>` : ''}</div>`;
+  }).join('');
+  return `<details class="plan-disclosure plan-audit" data-care-plan-deferred><summary><span>Deferred, not selected</span><small>${items.length} item${items.length === 1 ? '' : 's'}</small></summary>${rows}</details>`;
+}
+
+function carePlanChecksHTML(checks) {
+  if (!checks.length) return '';
+  const rows = checks.map((check) => {
+    const status = check.status ?? (check.pass === true ? 'pass' : check.pass === false ? 'fail' : 'not emitted');
+    return `<div class="plan-audit-row" data-check-status="${esc(status)}"><strong>${esc(stateText(check.label ?? check.check_id ?? check.id))}</strong><span>${esc(stateText(status))}</span></div>`;
+  }).join('');
+  return `<details class="plan-disclosure plan-audit" data-care-plan-checks><summary><span>Synthesis checks</span><small>${checks.length} checks</small></summary>${rows}</details>`;
+}
+
 function carePlanView(model, state) {
   const taxonomy = getOverrideTaxonomy();
   const items = [...model.carePlan.required.map((item) => ({ ...item, planKind: 'problem' })), ...model.carePlan.actions.map((item) => ({ ...item, planKind: item.kind === 'diagnostic' ? 'order' : 'action' }))];
@@ -547,16 +651,33 @@ function carePlanView(model, state) {
   const selectButton = (item, index, prefix) => `<button type="button" class="plan-item ${selected?.id === item.id ? 'selected' : ''}" data-plan-item="${esc(item.id)}" aria-pressed="${selected?.id === item.id}"><span class="plan-item-number">${prefix}${String(index + 1).padStart(2, '0')}</span><span><strong>${esc(item.title ?? item.label ?? item.id)}</strong><small>${esc(item.reason ?? item.why_it_matters ?? item.why_now ?? 'Clinical rationale not emitted.')}</small><em>${esc(carePlanSource(item))}${item.persisted_override_id ? ` · persisted ${esc(stateText(item.physician_decision))}` : ''}</em></span></button>`;
   const required = model.carePlan.required.map((item, index) => selectButton({ ...item, planKind: 'problem' }, index, 'P')).join('');
   const actions = model.carePlan.actions.map((item, index) => selectButton({ ...item, planKind: item.kind === 'diagnostic' ? 'order' : 'action' }, index, '')).join('');
-  const noteOrders = Array.isArray(model.carePlan.note?.orders) ? model.carePlan.note.orders.map((order) => `<div class="note-order"><strong>${esc(typeof order === 'string' ? order : order.label ?? order.name ?? order.id)}</strong><small>Backend draft order</small></div>`).join('') : '';
+  const noteHTML = carePlanNoteHTML(model.carePlan.note);
+  const deferredHTML = carePlanDeferredHTML(model.carePlan.deferred);
+  const checksHTML = carePlanChecksHTML(model.carePlan.checks);
+  const actionSpaceCount = model.actionMap.items.length;
+  const comparisonCount = model.actionMap.items.filter((item) => item.plottable).length;
+  const auditCount = actionSpaceCount - comparisonCount;
+  const actionSpaceSummary = [
+    `${comparisonCount} comparison item${comparisonCount === 1 ? '' : 's'}`,
+    auditCount ? `${auditCount} adjacent audit record${auditCount === 1 ? '' : 's'}` : ''
+  ].filter(Boolean).join(' · ');
+  const bridgeKeys = selected ? [selected.id, selected.candidate_id, selected.library_item_id, selected.action_library_item_id].filter(Boolean) : [];
+  const bridgeItem = bridgeKeys.length
+    ? model.actionMap.items.find((item) => [item.id, item.libraryItemId].filter(Boolean).some((key) => bridgeKeys.includes(key)))
+    : null;
+  const bridgeSelection = bridgeItem?.id ?? '';
+  const actionSpaceBridge = actionSpaceCount ? `<section class="plan-space-bridge"><div><h3>Action Space</h3><p>${esc(actionSpaceSummary)}.</p></div><button type="button" class="secondary" data-open-action-space="${esc(bridgeSelection)}">Open Action Space</button></section>` : '';
   const addReasons = decisionReasonOptionsHTML('add_problem', null, taxonomy);
   const caseReleased = isCaseReleased(model, state);
   const reviewActive = model.analysis.readyForReview && state.reviewStarted && !caseReleased;
-  const selectedRail = selected ? `<section class="rail-card selected-item-rail"><span class="section-label">Selected item · ${esc(selected.planKind)}</span><h2>${esc(selected.title ?? selected.label ?? selected.id)}</h2><p>${esc(selected.reason ?? selected.why_it_matters ?? selected.why_now ?? 'Clinical rationale not emitted.')}</p><small>${esc(carePlanSource(selected))}</small>${reviewActive ? decisionForm(selected, taxonomy, false) : '<div class="truth-empty">Start review to expose structured decision controls.</div>'}</section>${recommendationTraceHTML(model, selected)}` : recommendationTraceHTML(model, null);
+  const trace = recommendationTraceHTML(model, selected);
+  const traceDisclosure = trace ? `<details class="care-trace-disclosure" data-care-plan-trace><summary>Reasoning traceback</summary>${trace}</details>` : '';
+  const selectedRail = selected ? `<section class="rail-card selected-item-rail"><span class="section-label">Selected item · ${esc(selected.planKind)}</span><h2>${esc(selected.title ?? selected.label ?? selected.id)}</h2><p>${esc(selected.reason ?? selected.why_it_matters ?? selected.why_now ?? 'Clinical rationale not emitted.')}</p><small>${esc(carePlanSource(selected))}</small>${reviewActive ? decisionForm(selected, taxonomy, false) : '<div class="truth-empty">Start review to expose structured decision controls.</div>'}</section>${traceDisclosure}` : traceDisclosure;
   return `
-    <header class="screen-head"><div><h1>Care plan</h1><p>Library-derived obligations from the deterministic engine — not freeform generative clinical text.</p></div></header>
+    <header class="screen-head"><div><h1>Care plan</h1><p>Library-derived obligations from the deterministic engine, not freeform generative clinical text.</p></div></header>
     ${analysisGate(model, state)}
     <div class="care-layout"><div>
-      <section class="plan-document"><div class="document-head"><div><span class="section-label">${esc(caseReleased ? 'released · read only' : stateText(model.carePlan.state))}</span><h2>${esc(model.carePlan.title)}</h2></div><span>${esc(model.carePlan.id ?? 'Plan id not emitted')}</span></div><div class="document-inputs">${esc(model.carePlan.overview)}</div><div class="plan-body"><span class="plan-section-label">Assessment &amp; Plan</span><section class="plan-problem-group"><h3>Problems and obligations</h3>${required || '<div class="truth-empty">No problems or required obligations emitted.</div>'}</section><section class="plan-order-group"><h3>Orders in draft note</h3>${noteOrders || '<div class="truth-empty">No draft orders emitted.</div>'}</section><section class="plan-action-group"><h3>Recommended actions</h3>${actions || '<div class="truth-empty">No recommended actions emitted.</div>'}</section></div><footer class="document-signature">${caseReleased ? 'Released to patient · patient visible · read only' : `${esc(model.carePlan.note?.signature_status ?? 'Unsigned')} · physician decisions remain staged until backend release.`}</footer></section>
+      <section class="plan-document"><div class="document-head"><div><span class="section-label">${esc(caseReleased ? 'released · read only' : stateText(model.carePlan.state))}</span><h2>${esc(model.carePlan.title)}</h2></div><span>${esc(model.carePlan.id ?? 'Plan id not emitted')}</span></div><div class="document-inputs">${esc(model.carePlan.overview)}</div><div class="plan-body"><span class="plan-section-label">Assessment &amp; Plan</span>${noteHTML}<section class="plan-problem-group"><h3>Problems and obligations</h3>${required || '<div class="truth-empty">No problems or required obligations emitted.</div>'}</section><section class="plan-action-group"><h3>Recommended actions</h3>${actions || '<div class="truth-empty">No recommended actions emitted.</div>'}</section>${deferredHTML}${checksHTML}${actionSpaceBridge}</div><footer class="document-signature">${caseReleased ? 'Released to patient · patient visible · read only' : `${esc(model.carePlan.note?.signature_status ?? 'Unsigned')} · physician decisions remain staged until backend release.`}</footer></section>
     </div><aside class="care-rail">${selectedRail}<section class="rail-card physician-add"><span class="section-label">Add physician problem or order</span><form data-add-action><label>Type<select name="action" data-decision-action ${reviewActive ? '' : 'disabled'}><option value="add_problem">Problem</option><option value="add_order">Order intent</option></select></label><label>Item<input name="value" placeholder="Physician-authored item" ${reviewActive ? '' : 'disabled'}></label><label>Reason<select name="reason_code" data-decision-reason ${reviewActive ? '' : 'disabled'}>${addReasons}</select></label><label>Rationale<input name="reason" placeholder="Required for audit" ${reviewActive ? '' : 'disabled'}></label><button type="submit" ${reviewActive ? '' : 'disabled'}>Add to review</button></form>${model.carePlan.additions.map((item) => `<small class="persisted-decision">Persisted ${esc(stateText(item.action))}: ${esc(item.patch?.title ?? item.patch?.label ?? item.patch?.what_to_do ?? item.target?.artifact_id ?? item.target?.id ?? item.override_id)}</small>`).join('')}</section>${releaseRail(model, state)}</aside></div>`;
 }
 

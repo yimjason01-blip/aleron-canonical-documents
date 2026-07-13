@@ -11,8 +11,8 @@ import {
   requestReleasePreview,
   startPhysicianReview
 } from './apiClient.js';
-import { adaptPhysicianCase, artifactBindsCurrentLineage, buildReleasePreviewRequest, releaseIdentifier } from './dashboardAdapter.js?v=physician-action-space-v3';
-import { decisionReasonOptionsHTML, renderDashboard, renderEmptyStaging, renderFatalError } from './dashboardApp.js?v=physician-action-space-v3';
+import { adaptPhysicianCase, artifactBindsCurrentLineage, buildReleasePreviewRequest, releaseIdentifier } from './dashboardAdapter.js?v=physician-care-vitality-v1';
+import { decisionReasonOptionsHTML, renderDashboard, renderEmptyStaging, renderFatalError } from './dashboardApp.js?v=physician-care-vitality-v1';
 
 const app = document.querySelector('#app');
 const state = {
@@ -157,6 +157,14 @@ function attachListeners() {
     state.selectedActionSpaceItemId = null;
     render();
   }));
+
+  document.querySelector('[data-open-action-space]')?.addEventListener('click', (event) => {
+    state.activeTab = 'risk';
+    state.selectedModelPane = 'action-space';
+    state.actionSpaceFilter = 'all';
+    state.selectedActionSpaceItemId = (event.currentTarget ?? event.target)?.dataset.openActionSpace || null;
+    render();
+  });
 
   document.querySelectorAll('[data-action-space-filter]').forEach((button) => button.addEventListener('click', () => {
     state.actionSpaceFilter = button.dataset.actionSpaceFilter;
