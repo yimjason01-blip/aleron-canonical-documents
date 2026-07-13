@@ -132,7 +132,7 @@ function patientDataView(model) {
     : '';
   const coverage = model.patientData.wearableSummary?.coverage;
   const coverageLine = coverage
-    ? `<p class="wearable-coverage">Coverage · nights ${esc(coverage.nights_28d ?? '—')} · step days ${esc(coverage.days_steps_28d ?? '—')}${coverage.last_sync_at ? ` · last sync ${esc(String(coverage.last_sync_at).slice(0, 16))}` : ''}</p>`
+    ? `<p class="wearable-coverage">Coverage · nights ${esc(coverage.nights_28d ?? 'Not emitted')} · step days ${esc(coverage.days_steps_28d ?? 'Not emitted')}${coverage.last_sync_at ? ` · last sync ${esc(String(coverage.last_sync_at).slice(0, 16))}` : ''}</p>`
     : '';
   const groups = model.patientData.groups.map((group) => {
     const rows = group.id === 'context' ? [...group.measurements, ...contextRows(model)] : group.measurements;
@@ -152,7 +152,7 @@ function patientDataView(model) {
   const summary = model.patientData.summary;
   const summaryHtml = summary ? `<section class="input-summary"><span class="section-label">Input readiness</span><div class="summary-grid"><div><span>Completeness</span><strong>${esc(summary.completeness ?? 'Not emitted')}</strong></div><div><span>Recency</span><strong>${esc(summary.recency ?? 'Not emitted')}</strong></div><div><span>Provenance</span><strong>${esc(summary.provenance ?? 'Not emitted')}</strong></div><div><span>Missingness</span><strong>${esc(summary.missingness ?? 'None emitted')}</strong></div></div>${Array.isArray(summary.abnormal_findings) && summary.abnormal_findings.length ? `<p><strong>Abnormal findings</strong> ${esc(summary.abnormal_findings.join(' · '))}</p>` : ''}</section>` : `<section class="input-summary integrity-error"><strong>Input readiness summary not emitted by backend.</strong></section>`;
   return `
-    <header class="screen-head"><div><h1>Patient data</h1><p>Identity, signals, and the labs the models read from — governed by packet schema and wearable history requirements.</p></div></header>
+    <header class="screen-head"><div><h1>Patient data</h1><p>Identity, signals, and the labs the models read from, governed by packet schema and wearable history requirements.</p></div></header>
     ${summaryHtml}
     <section class="instrument-panel patient-data-panel">
       <div class="patient-line"><strong>${esc(model.patient.name)}</strong>${model.patient.code && model.patient.code !== 'Code missing' ? `<span>${esc(model.patient.code)}</span>` : ''}<span>${esc(displayValue(model.patient.age, 'years'))}</span><span>${esc(model.patient.sex ?? 'Sex missing')}</span>${model.patient.phenotype ? `<span>${esc(model.patient.phenotype)}</span>` : ''}</div>
@@ -696,7 +696,7 @@ function releaseRail(model, state) {
   return `<aside class="release-rail"><section class="rail-card">
     <span class="section-label">Preview · attest · release</span>
     <h2>${trustBlocked ? 'Authorization blocked' : 'Release evidence'}</h2>
-    ${blockerText ? `<p class="integrity-error">${esc(blockerText)}</p>` : ''}
+    ${blockerText ? `<p class="boundary-banner signal-hazard release-blocker">${esc(blockerText)}</p>` : ''}
     ${releasePreviewHTML(preview)}
     <ol class="release-steps"><li class="${reviewReady ? 'complete' : 'current'}"><b>1</b><span>Review</span><small>${reviewReady ? 'started' : 'required'}</small></li><li class="${previewReady ? 'complete' : ''}"><b>2</b><span>Exact preview</span><small>${previewReady ? 'ready' : 'not ready'}</small></li><li class="${authorized ? 'complete' : ''}"><b>3</b><span>Attest</span><small>${authorized ? 'authorized' : 'pending'}</small></li><li><b>4</b><span>Release</span><small>pending</small></li></ol>
     <button data-release-action="request-preview" ${reviewReady ? '' : 'disabled'}>Generate release preview</button>
@@ -713,7 +713,7 @@ function modelVersionSummary(model) {
   const vitality = Object.entries(versions.vitality ?? {}).map(([id, version]) => `${id}: ${version}`);
   const lines = [...risk, ...vitality];
   if (!lines.length) return '<small class="model-version-line">Model versions not emitted</small>';
-  return `<small class="model-version-line" data-model-versions>${esc(lines.join(' · '))}</small>`;
+  return `<details class="model-version-line" data-model-versions><summary>Model lineage</summary><p>${esc(lines.join(' · '))}</p></details>`;
 }
 
 function isCaseReleased(model) {
@@ -847,7 +847,7 @@ function carePlanView(model, state) {
     <header class="screen-head"><div><h1>Care plan</h1><p>Library-derived obligations from the deterministic engine, not freeform generative clinical text.</p></div></header>
     ${analysisGate(model, state)}
     <div class="care-layout"><div>
-      <section class="plan-document"><div class="document-head"><div><span class="section-label">${esc(caseReleased ? 'released · read only' : stateText(model.carePlan.state))}</span><h2>${esc(model.carePlan.title)}</h2></div><span>${esc(model.carePlan.id ?? 'Plan id not emitted')}</span></div><div class="document-inputs">${esc(model.carePlan.overview)}</div><div class="plan-body"><span class="plan-section-label">Assessment &amp; Plan</span>${noteHTML}<section class="plan-problem-group"><h3>Problems and obligations</h3>${required || '<div class="truth-empty">No problems or required obligations emitted.</div>'}</section><section class="plan-action-group"><h3>Recommended actions</h3>${actions || '<div class="truth-empty">No recommended actions emitted.</div>'}</section>${deferredHTML}${checksHTML}${actionSpaceBridge}</div><footer class="document-signature">${caseReleased ? 'Released to patient · patient visible · read only' : `${esc(model.carePlan.note?.signature_status ?? 'Unsigned')} · physician decisions remain staged until backend release.`}</footer></section>
+      <section class="plan-document"><div class="document-head"><div><span class="section-label">${esc(caseReleased ? 'released · read only' : stateText(model.carePlan.state))}</span><h2>${esc(model.carePlan.title)}</h2></div><span title="${esc(model.carePlan.id ?? 'Plan id not emitted')}">${esc(model.carePlan.id ?? 'Plan id not emitted')}</span></div><div class="document-inputs">${esc(model.carePlan.overview)}</div><div class="plan-body"><span class="plan-section-label">Assessment &amp; Plan</span>${noteHTML}<section class="plan-problem-group"><h3>Problems and obligations</h3>${required || '<div class="truth-empty">No problems or required obligations emitted.</div>'}</section><section class="plan-action-group"><h3>Recommended actions</h3>${actions || '<div class="truth-empty">No recommended actions emitted.</div>'}</section>${deferredHTML}${checksHTML}${actionSpaceBridge}</div><footer class="document-signature">${caseReleased ? 'Released to patient · patient visible · read only' : `${esc(model.carePlan.note?.signature_status ?? 'Unsigned')} · physician decisions remain staged until backend release.`}</footer></section>
     </div><aside class="care-rail">${selectedRail}<section class="rail-card physician-add"><span class="section-label">Add physician problem or order</span><form data-add-action><label>Type<select name="action" data-decision-action ${reviewActive ? '' : 'disabled'}><option value="add_problem">Problem</option><option value="add_order">Order intent</option></select></label><label>Item<input name="value" placeholder="Physician-authored item" ${reviewActive ? '' : 'disabled'}></label><label>Reason<select name="reason_code" data-decision-reason ${reviewActive ? '' : 'disabled'}>${addReasons}</select></label><label>Rationale<input name="reason" placeholder="Required for audit" ${reviewActive ? '' : 'disabled'}></label><button type="submit" ${reviewActive ? '' : 'disabled'}>Add to review</button></form>${model.carePlan.additions.map((item) => `<small class="persisted-decision">Persisted ${esc(stateText(item.action))}: ${esc(item.patch?.title ?? item.patch?.label ?? item.patch?.what_to_do ?? item.target?.artifact_id ?? item.target?.id ?? item.override_id)}</small>`).join('')}</section>${releaseRail(model, state)}</aside></div>`;
 }
 
@@ -870,17 +870,30 @@ function journalRole(event) {
 function journalView(model) {
   const integrity = model.workflow.auditIntegrity;
   const integrityErrors = Array.isArray(integrity?.errors) ? integrity.errors : [];
-  const rows = model.journal.map((event) => {
+  const renderedRows = model.journal.map((event) => {
     const timestamp = event.timestamp ?? event.timestamp_utc ?? event.created_at;
     const before = event.previous_state ?? event.state_before;
     const after = event.next_state ?? event.state_after;
     const eventId = event.event_id ?? event.id;
     const valid = timestamp && before && after && eventId && before !== 'unknown' && after !== 'unknown';
-    if (!valid) return `<article class="journal-entry integrity-error"><div class="timeline-node"></div><div><span>Audit integrity error</span><h2>${esc(humanizeEventName(event.event_name ?? event.event_type ?? event.event))}</h2><p>Required chronology fields are missing.</p><small>${esc(eventId ?? 'Event ID missing')}</small></div></article>`;
+    if (!valid) return `<article class="journal-entry journal-entry-error"><div class="timeline-node"></div><div><span class="journal-hazard-tile">Audit integrity error</span><h2>${esc(humanizeEventName(event.event_name ?? event.event_type ?? event.event))}</h2><p>Required chronology fields are missing.</p><small>${esc(eventId ?? 'Event ID missing')}</small></div></article>`;
     return `<article class="journal-entry"><div class="timeline-node"></div><div><span>${esc(timestamp)}</span><h2>${esc(humanizeEventName(event.event_name ?? event.event_type ?? event.event))}</h2><p>${esc(stateText(before))} → ${esc(stateText(after))}</p><small>${esc(journalActor(event))} · ${esc(journalRole(event))} · ${esc(eventId)}</small></div></article>`;
-  }).join('');
-  const banner = integrity?.status === 'pass' ? '' : `<section class="audit-integrity integrity-error"><h2>Audit integrity error</h2><p>${esc(integrityErrors.join(' · ') || 'Backend audit integrity status was not emitted.')}</p></section>`;
-  return `<header class="screen-head"><div><h1>Journal</h1><p>Backend audit events and workflow transitions.</p></div></header>${banner}<section class="journal-list">${rows || empty('No journal events recorded.')}</section>`;
+  });
+  const recentLimit = 18;
+  const recentRows = renderedRows.slice(-recentLimit).reverse().join('');
+  const olderRows = renderedRows.slice(0, -recentLimit).reverse().join('');
+  const olderCount = Math.max(0, renderedRows.length - recentLimit);
+  const olderDisclosure = olderCount
+    ? `<details class="journal-archive"><summary><span>Earlier events</span><small>${olderCount} events</small></summary><section class="journal-list">${olderRows}</section></details>`
+    : '';
+  const errorSummary = integrityErrors.length
+    ? `${integrityErrors.length} validation failures require review.`
+    : 'Audit integrity failed without emitted validation details.';
+  const errorDisclosure = integrityErrors.length
+    ? `<details><summary>Review validation details</summary><ul>${integrityErrors.map((error) => `<li>${esc(error)}</li>`).join('')}</ul></details>`
+    : '';
+  const banner = integrity?.status === 'pass' ? '' : `<section class="audit-integrity boundary-banner signal-hazard"><h2>Audit integrity error</h2><p>${esc(errorSummary)}</p>${errorDisclosure}</section>`;
+  return `<header class="screen-head"><div><h1>Journal</h1><p>Backend audit events and workflow transitions. Most recent first.</p></div></header>${banner}<section class="journal-list">${recentRows || empty('No journal events recorded.')}</section>${olderDisclosure}`;
 }
 
 function aiView(model) {

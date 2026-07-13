@@ -168,3 +168,35 @@ html,body{font-size:14px}
 .model-trace-card>div{display:flex;justify-content:space-between;gap:8px}.model-trace-card small{display:block}.candidate-ranking{padding-left:20px}.candidate-ranking li{padding:6px 0}.candidate-ranking span,.candidate-ranking small{display:block}.library-identity{overflow-wrap:anywhere}
 .complete-preview{display:grid;gap:12px}.complete-preview section{border-top:1px solid var(--border-subtle);padding-top:10px}.complete-preview ul{margin:0;padding-left:20px}.complete-preview li small{display:block}.lineage-labels{display:grid;grid-template-columns:90px minmax(0,1fr);gap:6px;margin:0}.lineage-labels dt{color:var(--text-secondary)}.lineage-labels dd{margin:0;overflow-wrap:anywhere;font-variant-numeric:tabular-nums}
 
+/* Physician PDS finish pass: one gold, voice-only type, square specimens, and load-bearing air. */
+.patient-data-panel{border-radius:0}
+.model-pane-nav button.on,.model-pane-nav button[aria-selected="true"]{box-shadow:inset 0 -2px 0 var(--border-strong)}
+.action-space-boundary{border-left-color:var(--border-strong)}
+.mark-key.selected-key{box-shadow:0 0 0 2px var(--surface-card),0 0 0 3px var(--text-primary)}
+.action-space-ledger-row.selected{background:var(--surface-inset);box-shadow:inset 3px 0 0 var(--border-strong)}
+.truth-link:hover{color:var(--text-primary);border-bottom-color:var(--border-strong)}
+.truth-inline{color:var(--text-primary);text-decoration:underline;text-decoration-color:var(--border-strong);text-underline-offset:2px}
+.truth-path{font-family:var(--voice);font-variant-numeric:tabular-nums;letter-spacing:0}
+.risk-hero p,.wearable-instrument-note,.main-pane .status-line,.main-pane .journal-entry p,.action-space-boundary{font-size:14px;line-height:1.5}
+[data-analysis-gate] button{justify-self:end;min-width:calc(var(--air-section) * 4)}
+.model-version-line{margin-top:var(--air-row)}
+.model-version-line summary{color:var(--text-secondary);font-size:12px;font-weight:500;cursor:pointer}
+.model-version-line p{max-width:75ch;margin:var(--air-row) 0 0;color:var(--text-tertiary);font-size:12px;line-height:1.5;overflow-wrap:anywhere}
+.plan-document .document-head>span{white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.release-blocker{font-size:12px!important}
+.audit-integrity.boundary-banner{background:var(--signal-hazard);border:0!important;color:var(--cream)}
+.audit-integrity.boundary-banner h2,.audit-integrity.boundary-banner p,.audit-integrity.boundary-banner summary{color:var(--cream)}
+.audit-integrity.boundary-banner h2{margin-bottom:var(--air-row)}
+.audit-integrity.boundary-banner p{margin:0;font-size:14px;line-height:1.5}
+.audit-integrity.boundary-banner details{margin-top:var(--air-tier)}
+.audit-integrity.boundary-banner summary{cursor:pointer;font-weight:500}
+.audit-integrity.boundary-banner ul{margin:var(--air-row) 0 0;padding-left:var(--air-tier);font-size:12px;line-height:1.5}
+.journal-hazard-tile{display:inline-block;padding:2px 7px;border-radius:var(--radius-tile);background:var(--signal-hazard);color:var(--cream)!important;font-size:10.5px!important;font-weight:500}
+.journal-entry-error .timeline-node{border-color:var(--signal-hazard)}
+.journal-entry h2{margin-top:4px}
+.journal-archive{margin-top:var(--air-tier);padding:var(--air-tier);background:var(--surface-inset);border-radius:var(--radius-field)}
+.journal-archive>summary{display:flex;justify-content:space-between;gap:var(--air-tier);cursor:pointer;color:var(--text-primary);font-weight:500}
+.journal-archive>summary small{font-weight:400}
+.journal-archive>.journal-list{margin-top:var(--air-group)}
+@media(max-width:520px){[data-analysis-gate] button{justify-self:stretch;width:100%}.plan-document .document-head>span{white-space:normal;overflow:visible;text-overflow:clip;overflow-wrap:anywhere}}
+
