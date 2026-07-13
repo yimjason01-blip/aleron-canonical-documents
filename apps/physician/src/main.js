@@ -197,11 +197,26 @@ function attachListeners() {
     render();
   }));
 
-  document.querySelectorAll('[data-vitality-instrument]').forEach((button) => button.addEventListener('click', () => {
+  const vitalityInstrumentButtons = [...document.querySelectorAll('[data-vitality-instrument]')];
+  const selectVitalityInstrument = (button) => {
     state.selectedVitalityInstrumentId = button.dataset.vitalityInstrument;
     render();
     document.querySelector(`[data-vitality-instrument="${state.selectedVitalityInstrumentId}"]`)?.focus();
-  }));
+  };
+  vitalityInstrumentButtons.forEach((button, index) => {
+    button.addEventListener('click', () => selectVitalityInstrument(button));
+    button.addEventListener('keydown', (event) => {
+      const last = vitalityInstrumentButtons.length - 1;
+      const nextIndex = event.key === 'Home' ? 0
+        : event.key === 'End' ? last
+          : ['ArrowRight', 'ArrowDown'].includes(event.key) ? (index + 1) % vitalityInstrumentButtons.length
+            : ['ArrowLeft', 'ArrowUp'].includes(event.key) ? (index - 1 + vitalityInstrumentButtons.length) % vitalityInstrumentButtons.length
+              : null;
+      if (nextIndex == null) return;
+      event.preventDefault();
+      selectVitalityInstrument(vitalityInstrumentButtons[nextIndex]);
+    });
+  });
 
   document.querySelectorAll('[data-plan-item]').forEach((button) => button.addEventListener('click', () => {
     state.selectedPlanItemId = button.dataset.planItem;

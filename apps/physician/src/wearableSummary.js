@@ -17,8 +17,7 @@ export const TREND_METRICS = [
   'hrv_sdnn',
   'sleep_duration',
   'steps',
-  'active_minutes',
-  'vo2max'
+  'active_minutes'
 ];
 
 const WINDOW_DAYS = { '7d': 7, '30d': 30, '90d': 90 };
@@ -30,12 +29,11 @@ const DENSITY_REQUIRED = {
   hrv_sdnn: { '7d': 5, '30d': 14, '90d': 40 },
   sleep_duration: { '7d': 5, '30d': 14, '90d': 40 },
   steps: { '7d': 5, '30d': 14, '90d': 40 },
-  active_minutes: { '7d': 5, '30d': 14, '90d': 40 },
-  vo2max: { '7d': 1, '30d': 1, '90d': 2 }
+  active_minutes: { '7d': 5, '30d': 14, '90d': 40 }
 };
 
 /** Prefer lower HR / higher HRV as "better" for direction copy only. */
-const HIGHER_IS_BETTER = new Set(['hrv_rmssd', 'hrv_sdnn', 'sleep_duration', 'steps', 'active_minutes', 'vo2max']);
+const HIGHER_IS_BETTER = new Set(['hrv_rmssd', 'hrv_sdnn', 'sleep_duration', 'steps', 'active_minutes']);
 
 function parseDate(value) {
   if (!value) return null;
@@ -208,7 +206,7 @@ export function buildWearableSummaryFromPacket(wearables, asOfDate) {
  * Human-readable trend line for a metric window.
  */
 export function formatTrendLine(windowSummary, unit = '') {
-  if (!windowSummary) return { state: 'snapshot_only', text: 'Single snapshot — no trend yet' };
+  if (!windowSummary) return { state: 'snapshot_only', text: 'Single snapshot. No trend yet.' };
   if (!windowSummary.density_met) {
     return {
       state: 'building_baseline',
@@ -218,7 +216,7 @@ export function formatTrendLine(windowSummary, unit = '') {
   const unitSuffix = unit ? ` ${unit}` : '';
   const level = windowSummary.value != null
     ? `${formatClinicalNumber(windowSummary.value, unit)}${unitSuffix}`
-    : '—';
+    : 'Not emitted';
   if (windowSummary.baseline_value == null || windowSummary.delta_pct == null) {
     return {
       state: 'trend_ready',

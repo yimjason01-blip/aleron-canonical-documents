@@ -12,16 +12,16 @@
     "apps/physician/src/canonicalSources.js": "09d69c8ae32ceabd29ebe66e134f83648b8b80640661895271a7d0164d101797",
     "apps/physician/src/clinicalTrace.js": "a27aa44481f719a79aca0bce17b7da86d3516ea2cd4e47c4942a74a348bc8f76",
     "apps/physician/src/clinicalValueFormat.js": "ea48ae4de285b74f2f9f8c52c0e578a857f62d61d57e21d334b59151f75adadc",
-    "apps/physician/src/dashboardAdapter.js": "b38ea92edc01f8a7746f22e346eaec855b0919a80db81744ea66a378b2194a16",
-    "apps/physician/src/dashboardApp.js": "56c91ec0f5058c7cf7193b452edaab81025b15f7ae1fcadc05a167e321b05033",
+    "apps/physician/src/dashboardAdapter.js": "0f7f5959ee79b6b13531e519142fcd49160a417faa177cca84b0d64f862717b4",
+    "apps/physician/src/dashboardApp.js": "1b8c565e81d898e0159faa807338d4bbcbc652bb4efe0a2d60eb22bf634b9766",
     "apps/physician/src/fixtureLoader.js": "c8936233143348043f94a6ed8f4dbffbc0da3b5fcd96a7af674713a21c2e5a67",
     "apps/physician/src/journey.css": "69919dc7542e84cf21af7f7bce39978718ccc0d89bcdfb81ac873e8e718f7b65",
-    "apps/physician/src/main.js": "094527c5dce81e89609ee3abe3fbcbf052f9a4be3949bd70884e211a67c934f4",
+    "apps/physician/src/main.js": "66c5a2b3a5d80aac461d3f086332876e4ffc2d382475f5b054a7b623d658da57",
     "apps/physician/src/runtimeConfig.js": "b81e387a01c7b00a2380e2d61baaf136b377dd441e6011aaf58bc2897455ad82",
     "apps/physician/src/styles.css": "a983c216964a910b518c32197cec7b36fcf005b1ae6596e1cf78732d75c3ab81",
-    "apps/physician/src/wearableSummary.js": "397bb0989765b34bba437b5dfa1193ad6627085f85dcbf654f43de3b5ebe6ac4"
+    "apps/physician/src/wearableSummary.js": "5515f23ce060c2cfa4c409576b16b93be5907f1c81af5fef3160865cfa3850b9"
   },
-  "physician_tree_sha256": "e3b0b8e709c1e336174c16008842c35013ea0da73b6d10996e2346ece010f4bf",
+  "physician_tree_sha256": "d41c9147aead4dbd4e026be115ee52b4c43dab4725a6a644883fe9176dddb567",
   "preserve_top_level": [
     "brand-deck",
     "canonical-documents",
@@ -38,6 +38,6 @@
   "source_documents": {
     "system-design/diagrams/aleron-repo-architecture.html": "df7f049b2f0b635a9031bedb95ec6aea5e57aa4895bd8a4211c7fdf79346b149"
   },
-  "source_git_tree": "cc15c00a88b48646f37ce498a1768d71f3b2083a",
-  "source_sha": "c6ab8c1b666bc7aa9aae0137ff039253a38d0365"
+  "source_git_tree": "9f4549ba71ed0af466b1860d778a69cf7d7c1a12",
+  "source_sha": "470f899579999ba2f03c707de5b54dbae5004df1"
 }

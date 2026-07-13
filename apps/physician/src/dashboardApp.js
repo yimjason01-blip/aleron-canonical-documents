@@ -461,8 +461,7 @@ const DEVICE_INSTRUMENT_ORDER = [
   ['hrv_sdnn', 'HRV (SDNN)', 'ms'],
   ['sleep_duration', 'Sleep duration', 'h'],
   ['steps', 'Steps', 'count'],
-  ['active_minutes', 'Active minutes', 'min'],
-  ['vo2max', 'VO₂ max', 'mL/kg/min'],
+  ['active_minutes', 'Active minutes', 'min']
 ];
 
 const DEVICE_CONTEXT_ROLE = {
@@ -476,11 +475,11 @@ const DEVICE_CONTEXT_ROLE = {
 };
 
 const FELT_OUTCOME_FIELDS = [
-  ['energy', 'Energy', 'Arousal'],
-  ['mood', 'Mood', 'Valence'],
-  ['body', 'Body', 'Somatic comfort'],
-  ['mind', 'Mind', 'Cognitive clarity'],
-  ['meaning', 'Meaning', 'Eudaimonic wellbeing; slower-moving']
+  ['energy', 'Energy'],
+  ['mood', 'Mood'],
+  ['body', 'Body'],
+  ['mind', 'Mind'],
+  ['meaning', 'Meaning']
 ];
 
 function feltOutcomeChart(label, value) {
@@ -520,7 +519,11 @@ function deviceInstrumentLines(model) {
 
 function instrumentTemporalChart(line) {
   const points = (Array.isArray(line.window?.series_tail) ? line.window.series_tail : [])
-    .map((point) => ({ date: String(point?.local_date ?? ''), value: Number(point?.value) }))
+    .flatMap((point) => {
+      const rawValue = point?.value;
+      if (rawValue == null || (typeof rawValue === 'string' && !rawValue.trim())) return [];
+      return [{ date: String(point?.local_date ?? ''), value: Number(rawValue) }];
+    })
     .filter((point) => /^\d{4}-\d{2}-\d{2}$/.test(point.date) && Number.isFinite(point.value))
     .sort((a, b) => a.date.localeCompare(b.date));
   if (points.length < 2) return '<div class="vitality-series-missing">Repeated observations were not emitted.</div>';
@@ -561,7 +564,7 @@ function deviceInstrumentsPanel(model, state, note = 'Device instruments corrobo
     <div><span class="section-label">Recovery context</span><h3>${esc(hrv.label)}</h3></div>
     <div><strong>${esc(hrv.text)}</strong><small>Within-person context only · not a score</small></div>
   </section>` : '';
-  const selectors = lines.map((line) => `<button type="button" class="vitality-instrument-choice ${selected.metric === line.metric ? 'selected' : ''}" data-vitality-instrument="${esc(line.metric)}" aria-pressed="${selected.metric === line.metric}">
+  const selectors = lines.map((line) => `<button type="button" class="vitality-instrument-choice ${selected.metric === line.metric ? 'selected' : ''}" data-vitality-instrument="${esc(line.metric)}" id="vitality-instrument-${esc(line.metric)}" role="radio" aria-checked="${selected.metric === line.metric}" aria-controls="vitality-instrument-detail">
     <span>${esc(line.label)}</span><strong>${esc(displayValue(line.window?.value, line.unit))}</strong><small>${esc(line.window?.window ?? 'Window not emitted')} mean</small>
   </button>`).join('');
   const coverage = `${esc(selected.window?.n_days_present ?? 'Not emitted')} days present · ${esc(selected.window?.n_days_required ?? 'Not emitted')} required`;
@@ -579,8 +582,8 @@ function deviceInstrumentsPanel(model, state, note = 'Device instruments corrobo
       <div class="device-instruments-body">
         <p class="wearable-instrument-note">${esc(note)}</p>
         ${recoveryContext}
-        <div class="vitality-instrument-grid" aria-label="Device context instruments">${selectors}</div>
-        <article class="vitality-instrument-detail" data-vitality-instrument-detail="${esc(selected.metric)}">
+        <div class="vitality-instrument-grid" role="radiogroup" aria-label="Device context instruments">${selectors}</div>
+        <article class="vitality-instrument-detail" id="vitality-instrument-detail" role="region" aria-live="polite" aria-labelledby="vitality-instrument-${esc(selected.metric)}" data-vitality-instrument-detail="${esc(selected.metric)}">
           <header><div><span class="section-label">Selected instrument</span><h3>${esc(selected.label)}</h3></div><strong>${esc(selected.text)}</strong></header>
           <p class="vitality-instrument-role">${esc(DEVICE_CONTEXT_ROLE[selected.metric] ?? 'Device context only. Not a Vitality endpoint.')}</p>
           ${instrumentTemporalChart(selected)}
@@ -603,13 +606,13 @@ function vitalityView(model, state) {
   }
   const protocolRows = records.filter((row) => row.output_kind === 'protocol_state_not_score');
   const measuredRows = records.filter((row) => row.output_kind !== 'protocol_state_not_score');
-  const feltOutcomes = protocolRows.flatMap((row) => FELT_OUTCOME_FIELDS.flatMap(([key, label, definition]) => {
+  const feltOutcomes = protocolRows.flatMap((row) => FELT_OUTCOME_FIELDS.flatMap(([key, label]) => {
     const value = row.felt_state?.[key];
     if (typeof value !== 'number' || !Number.isFinite(value)) return [];
     const chart = value >= 0 && value <= 10
       ? feltOutcomeChart(label, value)
       : `<p class="vitality-missing"><strong>Out-of-contract value:</strong> ${esc(value)} 0-10 self-report. Expected 0-10 self-report; not plotted.</p>`;
-    return [`<article class="vitality-card vitality-outcome-card" data-vitality-felt-outcome="${esc(key)}"><div class="vitality-head"><div><span class="section-label">${label}</span><small>${esc(definition)}</small></div><div><strong>${esc(displayValue(value, '0-10 self-report'))}</strong><small class="vitality-unit">0-10 self-report</small></div></div>${chart}</article>`];
+    return [`<article class="vitality-card vitality-outcome-card" data-vitality-felt-outcome="${esc(key)}"><div class="vitality-head"><div><span class="section-label">${label}</span></div><div><strong>${esc(displayValue(value, '0-10 self-report'))}</strong><small class="vitality-unit">0-10 self-report</small></div></div>${chart}</article>`];
   })).join('');
   const protocol = protocolRows.map((row) => {
     const missing = Array.isArray(row.missing_inputs) ? row.missing_inputs : [];
@@ -944,8 +947,14 @@ export function renderDashboard(app, state, model) {
   const initials = patientInitials(model.patient.name);
   const options = state.queue.map((task) => `<option value="${esc(task.patient_id)}" ${task.patient_id === state.activePatientId ? 'selected' : ''}>${esc(queueOptionLabel(task))}</option>`).join('');
   const nav = TAB_LABELS.map(([id, label]) => `<button data-tab="${id}" class="nav-item ${state.activeTab === id ? 'on' : ''}" aria-selected="${state.activeTab === id}">${icon(id)}${label}</button>`).join('');
+  const synthetic = state.source === 'fixture'
+    || model.vitality?.some((row) => row.synthetic === true)
+    || model.patientData?.groups?.some((group) => group.measurements?.some((row) => /synthetic/i.test(String(row.provenance ?? ''))));
+  const stagingBoundary = synthetic
+    ? '<section class="boundary-banner" data-staging-boundary><strong>Staging · synthetic · nonclinical · Not for diagnosis or patient care.</strong></section>'
+    : '';
   app.innerHTML = `<main class="dashboard-shell">
     <aside class="sidebar" aria-label="Dashboard sections"><div class="brand">aleron<span>MD</span></div><div class="case-picker"><div class="avatar">${esc(initials)}</div><div><select data-case-selector aria-label="Patient case">${options}</select><small>${model.patient.code ? `${esc(model.patient.code)} · ` : ''}${esc(displayValue(model.patient.age, 'years'))}</small></div></div><div class="rule"></div><nav role="tablist" aria-label="Dashboard sections">${nav}</nav></aside>
-    <section class="main-pane">${activeView(model, state)}</section>
+    <section class="main-pane">${stagingBoundary}${activeView(model, state)}</section>
   </main>`;
 }

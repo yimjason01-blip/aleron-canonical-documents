@@ -565,7 +565,7 @@ function attachWearableTrends(rows, packet) {
       return {
         ...row,
         trend_state: 'snapshot_only',
-        trend_line: 'Single snapshot — no multi-day series yet',
+        trend_line: 'Single snapshot. No multi-day series yet.',
         sparkline: null
       };
     });
@@ -573,12 +573,20 @@ function attachWearableTrends(rows, packet) {
 
   return rows.map((row) => {
     const metric = summaryMetricForKey(row.key);
+    if (metric === 'vo2max') {
+      return {
+        ...row,
+        trend_state: 'snapshot_only',
+        trend_line: 'Latest sample only. Prior sample comparison was not emitted.',
+        sparkline: null
+      };
+    }
     if (!metric || !summary.windows[metric]) {
       if (row.lane === 'wearables') {
         return {
           ...row,
           trend_state: 'snapshot_only',
-          trend_line: 'Single snapshot — no multi-day series yet',
+          trend_line: 'Single snapshot. No multi-day series yet.',
           sparkline: null
         };
       }
