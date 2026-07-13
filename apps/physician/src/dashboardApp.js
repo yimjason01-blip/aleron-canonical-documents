@@ -5,7 +5,7 @@ import { recommendationTraceHTML, releasePreviewHTML } from './clinicalTrace.js?
 
 const TAB_LABELS = [
   ['patient-data', 'Patient Data'],
-  ['risk', 'Models'],
+  ['risk', 'Risk'],
   ['vitality', 'Vitality'],
   ['care-plan', 'Care Plan'],
   ['journal', 'Journal'],
@@ -198,7 +198,7 @@ function riskView(model, state) {
   }).join('') : '<div class="truth-empty">Variable detail not emitted by the backend.</div>';
   const auditRows = audit.length ? listOrUnavailable(audit, '') : `<div class="risk-audit-cell"><span>Model source</span><strong>${esc(row.source ?? 'Not emitted')}</strong><small>${esc(row.horizon ?? 'Horizon not emitted')}</small></div>`;
   return `
-    <header class="screen-head"><div><h1>Models</h1><p>Model interpretation by disease domain. Missing fields stay visible.</p></div></header>
+    <header class="screen-head"><div><h1>Risk</h1><p>Model interpretation by disease domain. Missing fields stay visible.</p></div></header>
     <nav class="risk-domain-nav" role="tablist" aria-label="Risk domains">${model.risk.map((domain) => {
       const modelFamily = String(domain.model_version ?? domain.label ?? '').match(/PREVENT|FINDRISC|KFRE|CAIDE|cancer/i)?.[0] ?? '';
       return `<button type="button" data-risk-domain="${esc(domain.id)}" role="tab" aria-selected="${domain.id === selectedId}" class="${domain.id === selectedId ? 'on' : ''}"><span class="risk-domain-copy"><strong>${esc(domainTitle(domain))}</strong>${modelFamily ? `<small>${esc(modelFamily)}</small>` : ''}</span><span>${esc(riskDisplayFor(domain))}</span></button>`;
@@ -345,7 +345,7 @@ function actionSpaceView(model, state) {
 
 function modelsView(model, state) {
   const pane = state.selectedModelPane === 'action-space' ? 'action-space' : 'models';
-  return `<nav class="model-pane-nav" aria-label="Models views"><button type="button" data-model-pane="models" aria-pressed="${pane === 'models'}" class="${pane === 'models' ? 'on' : ''}">Models</button><button type="button" data-model-pane="action-space" aria-pressed="${pane === 'action-space'}" class="${pane === 'action-space' ? 'on' : ''}">Action Space</button></nav>${pane === 'action-space' ? actionSpaceView(model, state) : riskView(model, state)}`;
+  return `<nav class="model-pane-nav" aria-label="Risk views"><button type="button" data-model-pane="models" aria-pressed="${pane === 'models'}" class="${pane === 'models' ? 'on' : ''}">Risk</button><button type="button" data-model-pane="action-space" aria-pressed="${pane === 'action-space'}" class="${pane === 'action-space' ? 'on' : ''}">Action Space</button></nav>${pane === 'action-space' ? actionSpaceView(model, state) : riskView(model, state)}`;
 }
 
 function vitalityRange(row) {
