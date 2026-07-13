@@ -1,0 +1,2162 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Aleron MD Patient Build 46 Mirror</title>
+  <style>
+    @font-face {
+      font-family: "PolySans";
+      src: url("../product-design-system/fonts/PolySans-Neutral.ttf") format("truetype");
+      font-weight: 400;
+      font-style: normal;
+      font-display: swap;
+    }
+    @font-face {
+      font-family: "PolySans";
+      src: url("../product-design-system/fonts/PolySans-Median.ttf") format("truetype");
+      font-weight: 600;
+      font-style: normal;
+      font-display: swap;
+    }
+    @font-face {
+      font-family: "PolySans";
+      src: url("../product-design-system/fonts/PolySans-Slim.ttf") format("truetype");
+      font-weight: 300;
+      font-style: normal;
+      font-display: swap;
+    }
+    @font-face {
+      font-family: "PolySans";
+      src: url("../product-design-system/fonts/PolySans-Bulky.ttf") format("truetype");
+      font-weight: 700;
+      font-style: normal;
+      font-display: swap;
+    }
+
+    :root {
+      --color-paper: #faf7f2;
+      --color-ink: #1d1b18;
+      --color-cream: #f5f1e8;
+      --color-card: #ffffff;
+      --color-inset: #f1ede6;
+      --color-slate: #3f4b61;
+      --color-gold: #c9a14e;
+      --color-text-gold: #5f4618;
+      --color-hazard: #6b2a1a;
+      --color-text-tertiary: #4e4a43;
+      --border-soft: rgba(29, 27, 24, 0.1);
+      --border-medium: rgba(29, 27, 24, 0.18);
+      --border-strong: rgba(29, 27, 24, 0.34);
+      --shadow-soft: 0 24px 60px rgba(29, 27, 24, 0.08);
+      --air-1: 4px;
+      --air-2: 8px;
+      --air-3: 12px;
+      --air-4: 16px;
+      --air-5: 20px;
+      --air-6: 24px;
+      --air-7: 32px;
+      --air-8: 40px;
+      --radius-sm: 6px;
+      --radius-md: 8px;
+      --radius-lg: 12px;
+      --route-width: 393px;
+      color-scheme: light;
+    }
+
+    * {
+      box-sizing: border-box;
+    }
+
+    html {
+      min-height: 100%;
+      background: var(--color-paper);
+    }
+
+    body {
+      min-height: 100%;
+      margin: 0;
+      background: var(--color-paper);
+      color: var(--color-ink);
+      font-family: "PolySans", ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      letter-spacing: 0;
+    }
+
+    button,
+    input,
+    textarea,
+    select {
+      font: inherit;
+    }
+
+    button {
+      -webkit-tap-highlight-color: transparent;
+    }
+
+    .mirror-stage {
+      position: relative;
+      width: min(100vw, var(--route-width));
+      min-height: 852px;
+      margin: 0 auto;
+      background: var(--color-paper);
+      box-shadow: var(--shadow-soft);
+      overflow: hidden;
+    }
+
+    .native-status {
+      position: relative;
+      height: 54px;
+      padding: 12px 23px 0;
+      display: flex;
+      align-items: flex-start;
+      justify-content: space-between;
+      font-size: 14px;
+      line-height: 1;
+      font-weight: 600;
+      color: var(--color-ink);
+      user-select: none;
+    }
+
+    .dynamic-island {
+      position: absolute;
+      top: 11px;
+      left: 50%;
+      width: 124px;
+      height: 36px;
+      border-radius: 22px;
+      background: var(--color-ink);
+      transform: translateX(-50%);
+    }
+
+    .status-icons {
+      display: flex;
+      gap: var(--air-1);
+      align-items: center;
+    }
+
+    .status-signal,
+    .status-wifi,
+    .status-battery {
+      display: block;
+      background: var(--color-ink);
+    }
+
+    .status-signal {
+      width: 17px;
+      height: 10px;
+      clip-path: polygon(0 100%, 0 70%, 18% 70%, 18% 100%, 27% 100%, 27% 48%, 45% 48%, 45% 100%, 54% 100%, 54% 24%, 72% 24%, 72% 100%, 81% 100%, 81% 0, 100% 0, 100% 100%);
+    }
+
+    .status-wifi {
+      width: 15px;
+      height: 10px;
+      clip-path: polygon(0 35%, 50% 0, 100% 35%, 86% 54%, 50% 30%, 14% 54%);
+    }
+
+    .status-battery {
+      position: relative;
+      width: 24px;
+      height: 12px;
+      border: 1px solid var(--color-ink);
+      border-radius: 3px;
+      background: transparent;
+    }
+
+    .status-battery::before {
+      content: "";
+      position: absolute;
+      top: 2px;
+      left: 2px;
+      width: 17px;
+      height: 6px;
+      border-radius: 2px;
+      background: var(--color-ink);
+    }
+
+    .status-battery::after {
+      content: "";
+      position: absolute;
+      top: 3px;
+      right: -4px;
+      width: 2px;
+      height: 5px;
+      border-radius: 1px;
+      background: var(--color-ink);
+    }
+
+    .settings-action {
+      position: absolute;
+      top: 56px;
+      right: 18px;
+      min-width: 40px;
+      height: 32px;
+      border: 1px solid var(--border-medium);
+      border-radius: 16px;
+      background: rgba(255, 255, 255, 0.62);
+      color: var(--color-ink);
+      font-size: 12px;
+      line-height: 1;
+      z-index: 2;
+    }
+
+    .route-scroll {
+      min-height: calc(852px - 54px);
+      padding: var(--air-6) var(--air-6) var(--air-8);
+    }
+
+    .account-route {
+      padding-top: 34px;
+    }
+
+    .app-tile {
+      width: 56px;
+      height: 56px;
+      border-radius: 15px;
+      display: grid;
+      place-items: center;
+      background: var(--color-ink);
+      color: var(--color-cream);
+      font-size: 25px;
+      font-weight: 600;
+      margin-bottom: var(--air-7);
+    }
+
+    .route-header {
+      margin-bottom: var(--air-6);
+    }
+
+    .route-kicker {
+      margin: 0 0 var(--air-3);
+      color: var(--color-text-gold);
+      font-size: 14px;
+      line-height: 1.2;
+      font-weight: 600;
+      text-transform: none;
+      letter-spacing: 0;
+    }
+
+    .route-title {
+      margin: 0;
+      color: var(--color-ink);
+      font-size: 28px;
+      line-height: 1.1;
+      font-weight: 600;
+      letter-spacing: -0.01em;
+    }
+
+    .account-route .route-title {
+      font-size: 30px;
+    }
+
+    .home-greeting {
+      margin: 0;
+      color: var(--color-ink);
+      font-size: 44px;
+      line-height: 1.03;
+      font-weight: 700;
+      letter-spacing: -0.02em;
+    }
+
+    .home-header-row {
+      display: flex;
+      align-items: baseline;
+      justify-content: space-between;
+      gap: var(--air-4);
+    }
+
+    .home-settings-link {
+      border: 0;
+      background: transparent;
+      color: var(--color-slate);
+      font-size: 17px;
+      font-weight: 600;
+      padding: 0;
+      cursor: pointer;
+      white-space: nowrap;
+    }
+
+    .route-subtitle,
+    .body-copy,
+    .micro-copy {
+      color: var(--color-text-tertiary);
+      font-size: 15px;
+      line-height: 1.45;
+      margin: var(--air-3) 0 0;
+    }
+
+    .micro-copy {
+      font-size: 13px;
+      line-height: 1.35;
+    }
+
+    .route-card,
+    .inset-card,
+    .choice-card,
+    .consent-row,
+    .status-card,
+    .chapter-row,
+    .metric-card,
+    .stage-row,
+    .dialog-card {
+      border: 1px solid var(--border-soft);
+      border-radius: var(--radius-md);
+      background: var(--color-card);
+    }
+
+    .route-card {
+      padding: var(--air-5);
+    }
+
+    .route-card + .primary-block,
+    .primary-block {
+      margin-top: var(--air-6);
+    }
+
+    .inset-card,
+    .status-card {
+      background: var(--color-inset);
+      padding: var(--air-4);
+    }
+
+    .section-stack {
+      display: grid;
+      gap: var(--air-5);
+    }
+
+    .tight-stack {
+      display: grid;
+      gap: var(--air-3);
+    }
+
+    .field-stack {
+      display: grid;
+      gap: var(--air-4);
+    }
+
+    .field-label {
+      display: block;
+      margin-bottom: var(--air-2);
+      color: var(--color-text-gold);
+      font-size: 14px;
+      line-height: 1.2;
+      font-weight: 600;
+      text-transform: none;
+      letter-spacing: 0;
+    }
+
+    .detail-panel {
+      border: 1px solid var(--border-medium);
+      border-radius: var(--radius-lg);
+      background: var(--color-card);
+      padding: 2px var(--air-5);
+      margin-bottom: var(--air-6);
+    }
+
+    .panel-row {
+      padding: var(--air-4) 0;
+      border-bottom: 1px solid var(--border-soft);
+    }
+
+    .panel-row-last,
+    .panel-row:last-child {
+      border-bottom: 0;
+    }
+
+    .panel-input {
+      width: 100%;
+      border: 0;
+      background: transparent;
+      color: var(--color-ink);
+      font-size: 17px;
+      font-weight: 400;
+      padding: 0;
+      outline: none;
+    }
+
+    .field-input,
+    .field-textarea {
+      width: 100%;
+      border: 1px solid var(--border-medium);
+      border-radius: var(--radius-md);
+      background: var(--color-card);
+      color: var(--color-ink);
+      outline: none;
+      appearance: none;
+    }
+
+    .field-input {
+      height: 50px;
+      padding: 0 var(--air-4);
+    }
+
+    .field-textarea {
+      min-height: 150px;
+      padding: var(--air-4);
+      line-height: 1.45;
+      resize: vertical;
+    }
+
+    .field-input:focus,
+    .field-textarea:focus {
+      border-color: var(--color-slate);
+      box-shadow: 0 0 0 3px rgba(63, 75, 97, 0.1);
+    }
+
+    .button {
+      width: 100%;
+      min-height: 50px;
+      border: 1px solid transparent;
+      border-radius: var(--radius-md);
+      padding: 0 var(--air-4);
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      text-align: center;
+      color: var(--color-ink);
+      cursor: pointer;
+      transition: opacity 120ms ease, background 120ms ease, border-color 120ms ease;
+    }
+
+    .button-primary {
+      background: var(--color-ink);
+      color: var(--color-cream);
+      font-weight: 600;
+    }
+
+    .button-secondary {
+      background: transparent;
+      border-color: var(--border-medium);
+      color: var(--color-ink);
+    }
+
+    .button-plain {
+      min-height: auto;
+      padding: 0;
+      border: 0;
+      background: transparent;
+      color: var(--color-slate);
+      justify-content: flex-start;
+    }
+
+    .button:disabled {
+      opacity: 0.38;
+      cursor: not-allowed;
+    }
+
+    .choice-list,
+    .option-list,
+    .row-list,
+    .metric-grid,
+    .score-grid,
+    .stage-list,
+    .chapter-list {
+      display: grid;
+      gap: var(--air-3);
+    }
+
+    .choice-card,
+    .consent-row,
+    .chapter-row,
+    .stage-row {
+      width: 100%;
+      padding: var(--air-4);
+      text-align: left;
+      color: var(--color-ink);
+    }
+
+    button.choice-card,
+    button.consent-row,
+    button.chapter-row,
+    button.stage-row {
+      cursor: pointer;
+    }
+
+    .choice-card.is-selected,
+    .consent-row.is-selected,
+    .stage-row.is-selected {
+      background: var(--color-inset);
+      border-color: var(--border-strong);
+    }
+
+    .row-topline {
+      display: flex;
+      gap: var(--air-3);
+      align-items: flex-start;
+      justify-content: space-between;
+    }
+
+    .row-title {
+      margin: 0;
+      color: var(--color-ink);
+      font-size: 16px;
+      line-height: 1.25;
+      font-weight: 600;
+    }
+
+    .row-detail {
+      margin: var(--air-2) 0 0;
+      color: var(--color-text-tertiary);
+      font-size: 13px;
+      line-height: 1.35;
+    }
+
+    .status-badge {
+      flex: 0 0 auto;
+      border: 1px solid var(--border-soft);
+      border-radius: 999px;
+      padding: 4px 8px;
+      color: var(--color-text-gold);
+      background: rgba(201, 161, 78, 0.13);
+      font-size: 11px;
+      line-height: 1;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 0;
+    }
+
+    .status-badge.neutral {
+      color: var(--color-text-tertiary);
+      background: rgba(29, 27, 24, 0.05);
+    }
+
+    .segmented {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: var(--air-2);
+    }
+
+    .segmented.two {
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+
+    .segment-button,
+    .pill-button,
+    .score-button {
+      min-height: 42px;
+      border: 1px solid var(--border-medium);
+      border-radius: var(--radius-md);
+      background: var(--color-card);
+      color: var(--color-ink);
+      padding: 0 var(--air-3);
+      cursor: pointer;
+    }
+
+    .segment-button.is-selected,
+    .pill-button.is-selected,
+    .score-button.is-selected {
+      background: var(--color-ink);
+      color: var(--color-cream);
+      border-color: var(--color-ink);
+    }
+
+    .baseline-item {
+      margin-top: var(--air-5);
+    }
+
+    .baseline-label {
+      margin: 0 0 var(--air-2);
+      color: var(--color-ink);
+      font-size: 16px;
+      line-height: 1.3;
+      font-weight: 600;
+    }
+
+    .menu-picker {
+      position: relative;
+      display: inline-flex;
+      align-items: center;
+    }
+
+    .menu-picker-select {
+      appearance: none;
+      -webkit-appearance: none;
+      border: 0;
+      background: transparent;
+      color: var(--color-ink);
+      font-size: 17px;
+      font-weight: 400;
+      padding: 2px 22px 2px 0;
+      cursor: pointer;
+    }
+
+    .menu-picker-chevron {
+      position: absolute;
+      right: 2px;
+      width: 11px;
+      height: 14px;
+      pointer-events: none;
+      background: var(--color-ink);
+      clip-path: polygon(50% 0, 100% 30%, 82% 44%, 50% 22%, 18% 44%, 0 30%, 50% 78%, 100% 52%, 82% 66%, 50% 100%, 18% 66%, 0 52%);
+    }
+
+    .score-grid {
+      grid-template-columns: repeat(6, minmax(0, 1fr));
+    }
+
+    .score-button {
+      min-width: 0;
+      padding: 0;
+    }
+
+    .frequency-grid {
+      display: grid;
+      gap: var(--air-2);
+    }
+
+    .frequency-button {
+      min-height: 40px;
+      border: 1px solid var(--border-medium);
+      border-radius: var(--radius-md);
+      background: var(--color-card);
+      color: var(--color-ink);
+      text-align: left;
+      padding: 0 var(--air-3);
+      cursor: pointer;
+    }
+
+    .frequency-button.is-selected {
+      background: var(--color-ink);
+      color: var(--color-cream);
+      border-color: var(--color-ink);
+    }
+
+    .metric-grid {
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+
+    .metric-card {
+      padding: var(--air-3);
+      min-height: 76px;
+    }
+
+    .metric-value {
+      margin: var(--air-1) 0 0;
+      font-size: 20px;
+      line-height: 1;
+      font-weight: 600;
+    }
+
+    .divider {
+      height: 1px;
+      background: var(--border-soft);
+      margin: var(--air-5) 0;
+    }
+
+    .hazard-card {
+      border: 1px solid rgba(107, 42, 26, 0.28);
+      border-radius: var(--radius-md);
+      background: rgba(107, 42, 26, 0.08);
+      color: var(--color-hazard);
+      padding: var(--air-4);
+      font-size: 14px;
+      line-height: 1.35;
+      font-weight: 600;
+    }
+
+    .settings-row {
+      display: flex;
+      align-items: flex-start;
+      justify-content: space-between;
+      gap: var(--air-4);
+      padding: var(--air-4) 0;
+      border-bottom: 1px solid var(--border-soft);
+    }
+
+    .settings-row:last-child {
+      border-bottom: 0;
+    }
+
+    .settings-value {
+      color: var(--color-ink);
+      text-align: right;
+      font-weight: 600;
+    }
+
+    .dialog-scrim {
+      position: fixed;
+      inset: 0;
+      display: grid;
+      place-items: center;
+      padding: var(--air-6);
+      background: rgba(29, 27, 24, 0.22);
+      z-index: 10;
+    }
+
+    .dialog-card {
+      width: min(100%, 340px);
+      padding: var(--air-5);
+      box-shadow: var(--shadow-soft);
+    }
+
+    .dialog-actions {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: var(--air-3);
+      margin-top: var(--air-5);
+    }
+
+    .sr-only {
+      position: absolute;
+      width: 1px;
+      height: 1px;
+      padding: 0;
+      margin: -1px;
+      overflow: hidden;
+      clip: rect(0, 0, 0, 0);
+      white-space: nowrap;
+      border: 0;
+    }
+
+    @media (max-width: 430px) {
+      .mirror-stage {
+        width: 100vw;
+        min-height: 100vh;
+        box-shadow: none;
+      }
+
+      .route-scroll {
+        min-height: calc(100vh - 54px);
+      }
+    }
+  </style>
+</head>
+<body>
+  <main class="mirror-stage" id="app" aria-live="polite"></main>
+
+  <script>
+    const ROUTE_ORDER = [
+      "account_claim",
+      "confirm_details",
+      "welcome",
+      "consents",
+      "genetics_consent",
+      "family_history",
+      "symptomatology",
+      "vitality_baseline",
+      "lab_path_selection",
+      "wearable_connection",
+      "intro_call",
+      "confirmation_waiting",
+      "home"
+    ];
+
+    const ALL_ROUTES = [...ROUTE_ORDER, "settings"];
+
+    const COPY = {
+      welcome: {
+        title: "Welcome to Aleron MD",
+        body: "Your physician will use the next few minutes to understand your history, your current symptoms, and the best path for labs.",
+        cta: "Save and continue"
+      },
+      consents: {
+        title: "Review your consents",
+        cta: "Save and continue"
+      },
+      genetics_consent: {
+        title: "Genetics consent",
+        cta: "I consent to genetic testing"
+      },
+      family_history: {
+        title: "Family history",
+        cta: "Save and continue"
+      },
+      symptomatology: {
+        title: "Symptom narrative",
+        cta: "I'm done"
+      },
+      vitality_baseline: {
+        title: "Your vitality baseline",
+        cta: "Save and continue"
+      },
+      lab_path_selection: {
+        title: "Choose your lab path",
+        cta: "Save and continue"
+      },
+      wearable_connection: {
+        title: "Connect wearable data",
+        cta: "Save and continue"
+      },
+      intro_call: {
+        title: "Schedule your intro call",
+        cta: "Save and continue"
+      },
+      confirmation_waiting: {
+        title: "Confirm and wait for review",
+        cta: "Send packet and go to Home"
+      }
+    };
+
+    const CONSENTS = [
+      {
+        key: "membership_agreement",
+        title: "Membership agreement",
+        detail: "Plain-language membership terms with a link to the full document.",
+        version: "membership_agreement-v1"
+      },
+      {
+        key: "hipaa",
+        title: "HIPAA authorization",
+        detail: "Authorization to use protected health information for your Aleron MD care.",
+        version: "hipaa-v1"
+      },
+      {
+        key: "telehealth",
+        title: "Telehealth consent",
+        detail: "Your consults are virtual unless your physician directs otherwise.",
+        version: "telehealth-v1"
+      },
+      {
+        key: "billing",
+        title: "Billing acknowledgement",
+        detail: "Labs and genetics are billed by the providers who perform them and may not be covered by insurance.",
+        version: "billing_acknowledgement-v1"
+      }
+    ];
+
+    const GENETICS_ACKS = [
+      {
+        key: "voluntary",
+        title: "Genetic testing is voluntary",
+        detail: "Your benefits, premiums, and employment are not affected by whether you participate."
+      },
+      {
+        key: "employer_privacy",
+        title: "Employer privacy",
+        detail: "Your employer will never see your genetic results or information derived from them."
+      },
+      {
+        key: "family_implications",
+        title: "Family implications",
+        detail: "Genetic results may have implications for biological family members."
+      },
+      {
+        key: "deletion_rights",
+        title: "Retention and deletion rights",
+        detail: "You may request deletion of genetic data and biological samples where applicable."
+      },
+      {
+        key: "physician_hold",
+        title: "Physician hold for serious findings",
+        detail: "Anything serious, ambiguous, or context-dependent is held for physician review regardless of preference."
+      }
+    ];
+
+    const RELATIVES = ["Biological mother", "Biological father", "Biological siblings"];
+    const FAMILY_CONDITIONS = [
+      "Heart attack or coronary artery disease",
+      "Stroke",
+      "Cancer",
+      "Type 2 diabetes",
+      "Early death before 60 years"
+    ];
+
+    const BASELINES = [
+      "Energy (0 = none, 10 = excellent)",
+      "Mood (0 = very low, 10 = excellent)",
+      "Body comfort and capability (0 = very limited, 10 = excellent)",
+      "Mental clarity (0 = very poor, 10 = excellent)",
+      "Meaning and purpose (0 = none, 10 = very strong)"
+    ];
+
+    const FREQ = [
+      ["Not at all", 0],
+      ["Several days", 1],
+      ["More than half the days", 2],
+      ["Nearly every day", 3]
+    ];
+
+    const PHQ = [
+      "Little interest or pleasure in doing things",
+      "Feeling down, depressed, or hopeless",
+      "Trouble falling or staying asleep, or sleeping too much",
+      "Feeling tired or having little energy",
+      "Poor appetite or overeating",
+      "Feeling bad about yourself, or that you are a failure or have let yourself or your family down",
+      "Trouble concentrating on things, such as reading or watching television",
+      "Moving or speaking so slowly that other people could have noticed, or the opposite: being so fidgety or restless that you have been moving around more than usual",
+      "Thoughts that you would be better off dead, or thoughts of hurting yourself in some way"
+    ];
+
+    const GAD = [
+      "Feeling nervous, anxious, or on edge",
+      "Not being able to stop or control worrying",
+      "Worrying too much about different things",
+      "Trouble relaxing",
+      "Being so restless that it is hard to sit still",
+      "Becoming easily annoyed or irritable",
+      "Feeling afraid as if something awful might happen"
+    ];
+
+    const AUDIT = [
+      {
+        question: "How often do you have a drink containing alcohol?",
+        options: ["Never", "Monthly or less", "2 to 4 times a month", "2 to 3 times a week", "4 or more times a week"]
+      },
+      {
+        question: "How many standard drinks do you have on a typical day when you are drinking?",
+        options: ["1 or 2", "3 or 4", "5 or 6", "7 to 9", "10 or more"]
+      },
+      {
+        question: "How often do you have six or more drinks on one occasion?",
+        options: ["Never", "Monthly or less", "2 to 4 times a month", "2 to 3 times a week", "4 or more times a week"]
+      }
+    ];
+
+    const STOP_BANG = [
+      "Do you snore loudly?",
+      "Do you often feel tired, fatigued, or sleepy during the daytime?",
+      "Has anyone observed you stop breathing during sleep?",
+      "Do you have, or are you being treated for, high blood pressure?",
+      "Is your body mass index above 35 kg/m2?",
+      "Are you older than 50?",
+      "Is your neck circumference greater than 40 cm (15.75 in)?",
+      "Was your sex assigned male at birth?"
+    ];
+
+    const PEG = [
+      "Pain on average (0 = no pain, 10 = pain as bad as you can imagine)",
+      "Pain interference with enjoyment of life (0 = none, 10 = complete interference)",
+      "Pain interference with general activity (0 = none, 10 = complete interference)"
+    ];
+
+    const RED_FLAGS = [
+      "Unintentional weight loss?",
+      "Fever or night sweats?",
+      "Swollen lymph nodes?",
+      "New severe or progressively worsening fatigue?",
+      "Chest symptoms or shortness of breath with exertion?",
+      "A recent viral illness followed by persistent symptoms?",
+      "Possible adrenal-insufficiency symptoms, such as faintness, vomiting, or severe weakness?"
+    ];
+
+    const CONTEXT_FLAGS = [
+      ["hypogonadism", "Symptoms of low sex hormones?"],
+      ["sedating", "Taking a medication that causes sleepiness?"],
+      ["perimenopause", "Perimenopause may be relevant?"]
+    ];
+
+    const app = document.getElementById("app");
+    let timers = [];
+    let route = routeFromQuery();
+    let previousRoute = route === "settings" ? "confirm_details" : route;
+    let state = freshState();
+
+    function freshState() {
+      return {
+        account: {
+          email: "",
+          code: "",
+          codeSent: false,
+          claimed: false,
+          working: false
+        },
+        patient: {
+          patientId: "ALR-B46-0046",
+          accountName: "Synthetic Member"
+        },
+        details: {
+          firstName: "Synthetic",
+          lastName: "Member",
+          dateOfBirth: "1979-03-22",
+          sexAtBirth: "female",
+          state: "CA"
+        },
+        consents: CONSENTS.reduce((acc, item) => ({ ...acc, [item.key]: false }), {}),
+        genetics: {
+          preference: "physician_first",
+          acknowledgements: GENETICS_ACKS.reduce((acc, item) => ({ ...acc, [item.key]: false }), {})
+        },
+        family: {
+          answers: {},
+          note: ""
+        },
+        symptom: {
+          narrative: "",
+          typed: false,
+          recordingState: "idle"
+        },
+        vitality: {
+          baselines: Array(BASELINES.length).fill(null),
+          phq: Array(PHQ.length).fill(null),
+          gad: Array(GAD.length).fill(null),
+          audit: Array(AUDIT.length).fill(null),
+          stopBang: Array(STOP_BANG.length).fill(null),
+          peg: Array(PEG.length).fill(null),
+          redFlags: Array(RED_FLAGS.length).fill(null),
+          hypogonadism: null,
+          sedating: null,
+          perimenopause: null
+        },
+        lab: {
+          path: "quest_venous_draw",
+          tasso: {
+            fullName: "",
+            street: "",
+            apartment: "",
+            city: "",
+            state: "",
+            zip: ""
+          },
+          quest: {
+            cityOrZip: "",
+            locationName: "",
+            preferredWindow: "first_available"
+          }
+        },
+        wearable: {
+          choice: "not_selected",
+          message: "Choose how you want to handle Apple Health.",
+          syncing: false,
+          snapshot: null
+        },
+        intro: {
+          window: "first_available"
+        },
+        packet: {
+          state: "not_started"
+        },
+        release: {
+          released: false
+        },
+        settings: {
+          confirmSignOut: false
+        }
+      };
+    }
+
+    function routeFromQuery() {
+      const params = new URLSearchParams(window.location.search);
+      const raw = params.get("route");
+      return ALL_ROUTES.includes(raw) ? raw : "account_claim";
+    }
+
+    function replaceRouteQuery(nextRoute) {
+      const url = new URL(window.location.href);
+      url.searchParams.set("route", nextRoute);
+      window.history.replaceState({}, "", url);
+    }
+
+    function clearTimers() {
+      timers.forEach(window.clearTimeout);
+      timers = [];
+    }
+
+    function setTimer(fn, delay) {
+      const id = window.setTimeout(fn, delay);
+      timers.push(id);
+      return id;
+    }
+
+    function esc(value) {
+      return String(value ?? "")
+        .replace(/&/g, "&amp;")
+        .replace(/</g, "&lt;")
+        .replace(/>/g, "&gt;")
+        .replace(/"/g, "&quot;")
+        .replace(/'/g, "&#39;");
+    }
+
+    function getPath(path) {
+      return path.split(".").reduce((acc, key) => (acc == null ? acc : acc[key]), state);
+    }
+
+    function setPath(path, value) {
+      const parts = path.split(".");
+      let node = state;
+      parts.slice(0, -1).forEach((part) => {
+        node = node[part];
+      });
+      node[parts[parts.length - 1]] = value;
+    }
+
+    function routeIndex(current) {
+      return ROUTE_ORDER.indexOf(current);
+    }
+
+    function nextRoute(current) {
+      const index = routeIndex(current);
+      return ROUTE_ORDER[Math.min(index + 1, ROUTE_ORDER.length - 1)];
+    }
+
+    function go(next, options = {}) {
+      if (!ALL_ROUTES.includes(next)) next = "account_claim";
+      if (next !== "settings") previousRoute = route === "settings" ? previousRoute : route;
+      route = next;
+      if (options.fromSettings && previousRoute === "settings") previousRoute = "confirm_details";
+      replaceRouteQuery(route);
+      render();
+      window.scrollTo({ top: 0, behavior: "auto" });
+    }
+
+    function headerBlock(title, subtitle, kicker = "Onboarding") {
+      return `
+        <header class="route-header">
+          <p class="route-kicker">${esc(kicker)}</p>
+          <h1 class="route-title">${esc(title)}</h1>
+          ${subtitle ? `<p class="route-subtitle">${esc(subtitle)}</p>` : ""}
+        </header>
+      `;
+    }
+
+    function standardHeader(title) {
+      return headerBlock(title, "Complete the intake your physician needs before plan review.");
+    }
+
+    function card(content, className = "") {
+      return `<section class="route-card ${className}">${content}</section>`;
+    }
+
+    function inset(content, className = "") {
+      return `<div class="inset-card ${className}">${content}</div>`;
+    }
+
+    function primaryBlock(label, disabled = false, action = "primary-continue") {
+      return `
+        <div class="primary-block">
+          <button class="button button-primary" data-action="${esc(action)}" ${disabled ? "disabled" : ""}>${esc(label)}</button>
+        </div>
+      `;
+    }
+
+    function secondaryButton(label, action, attrs = "") {
+      return `<button class="button button-secondary" data-action="${esc(action)}" ${attrs}>${esc(label)}</button>`;
+    }
+
+    function inputField(label, path, placeholder = "", inputType = "text") {
+      const value = getPath(path);
+      return `
+        <label>
+          <span class="field-label">${esc(label)}</span>
+          <input class="field-input" type="${esc(inputType)}" value="${esc(value)}" placeholder="${esc(placeholder)}" data-field="${esc(path)}">
+        </label>
+      `;
+    }
+
+    function textAreaField(label, path, placeholder = "") {
+      const value = getPath(path);
+      return `
+        <label>
+          <span class="field-label">${esc(label)}</span>
+          <textarea class="field-textarea" placeholder="${esc(placeholder)}" data-field="${esc(path)}">${esc(value)}</textarea>
+        </label>
+      `;
+    }
+
+    function segmentControl(path, options, columns = 3) {
+      const current = getPath(path);
+      return `
+        <div class="segmented ${columns === 2 ? "two" : ""}">
+          ${options.map(([label, value]) => `
+            <button class="segment-button ${current === value ? "is-selected" : ""}" data-action="set-path" data-path="${esc(path)}" data-value="${esc(value)}" type="button">${esc(label)}</button>
+          `).join("")}
+        </div>
+      `;
+    }
+
+    function booleanButtons(path, value) {
+      return `
+        <div class="segmented three">
+          ${[
+            ["Yes", "true"],
+            ["No", "false"],
+            ["Do not know", "unknown"]
+          ].map(([label, raw]) => `
+            <button type="button" class="segment-button ${String(value) === raw ? "is-selected" : ""}" data-action="set-boolean-ish" data-path="${esc(path)}" data-value="${esc(raw)}">${esc(label)}</button>
+          `).join("")}
+        </div>
+      `;
+    }
+
+    function accountClaimRoute() {
+      const canSend = state.account.email.trim().includes("@") && !state.account.working;
+      const canCreate = state.account.code.trim().length >= 6 && !state.account.working;
+      const claimed = state.account.claimed;
+      return `
+        <div class="account-route">
+          <div class="app-tile" aria-hidden="true">A</div>
+          ${headerBlock("Create your account.", "", "")}
+          <div class="field-stack">
+            ${inputField("Email", "account.email", "you@example.com", "email")}
+            ${state.account.codeSent ? inputField("Verification code", "account.code", "6-digit code", "text") : ""}
+            ${!state.account.codeSent ? `<button class="button button-primary" data-action="send-code" ${canSend ? "" : "disabled"}>${state.account.working ? "Continuing..." : "Send verification code"}</button>` : ""}
+            ${state.account.codeSent && !claimed ? `
+              <button class="button button-secondary" data-action="send-code" ${canSend ? "" : "disabled"}>Resend code</button>
+              <button class="button button-primary" data-action="create-account" ${canCreate ? "" : "disabled"}>${state.account.working ? "Continuing..." : "Create account"}</button>
+            ` : ""}
+          </div>
+          ${claimed ? `
+            ${card(`
+              <div class="tight-stack">
+                <p class="row-title">Account created</p>
+                <p class="row-detail">Signed in as ${esc(state.account.email)}.</p>
+              </div>
+            `)}
+            ${primaryBlock("Continue setup", false, "continue-setup")}
+          ` : ""}
+        </div>
+      `;
+    }
+
+    function confirmDetailsRoute() {
+      const disabled = !canContinue("confirm_details");
+      return `
+        ${headerBlock("Confirm your details", "", "")}
+        <section class="detail-panel">
+          ${panelField("Legal first name", "details.firstName")}
+          ${panelField("Legal last name", "details.lastName")}
+          ${panelField("Date of birth", "details.dateOfBirth", "YYYY-MM-DD")}
+          <div class="panel-row">
+            <span class="field-label">Sex at birth</span>
+            ${segmentControl("details.sexAtBirth", [["Female", "female"], ["Male", "male"], ["Intersex", "intersex"]])}
+          </div>
+          ${panelField("State of residence", "details.state", "CA", true)}
+        </section>
+        ${primaryBlock("Create account", disabled)}
+      `;
+    }
+
+    function panelField(label, path, placeholder = "", last = false) {
+      const value = getPath(path);
+      return `
+        <div class="panel-row ${last ? "panel-row-last" : ""}">
+          <span class="field-label">${esc(label)}</span>
+          <input class="panel-input" type="text" value="${esc(value)}" placeholder="${esc(placeholder)}" data-field="${esc(path)}">
+        </div>
+      `;
+    }
+
+    function welcomeRoute() {
+      return `
+        ${standardHeader(COPY.welcome.title)}
+        ${card(`<p class="body-copy" style="margin-top:0">${esc(COPY.welcome.body)}</p>`)}
+        ${primaryBlock(COPY.welcome.cta, false)}
+      `;
+    }
+
+    function consentRoute() {
+      return `
+        ${standardHeader(COPY.consents.title)}
+        ${card(`
+          <div class="section-stack">
+            ${inset(`
+              <p class="route-kicker">Structured consent</p>
+              <p class="row-title">Review each item separately.</p>
+              <p class="row-detail">Each row is accepted on its own with a versioned record. This is not a single checkbox.</p>
+            `)}
+            <div class="row-list">
+              ${CONSENTS.map((item) => {
+                const accepted = state.consents[item.key];
+                return `
+                  <button class="consent-row ${accepted ? "is-selected" : ""}" type="button" data-action="toggle-consent" data-key="${esc(item.key)}">
+                    <div class="row-topline">
+                      <div>
+                        <p class="row-title">${esc(item.title)}</p>
+                        <p class="row-detail">${esc(item.detail)}</p>
+                        <p class="row-detail">${esc(item.version)}</p>
+                      </div>
+                      <span class="status-badge ${accepted ? "" : "neutral"}">${accepted ? "Accepted" : "Not accepted"}</span>
+                    </div>
+                  </button>
+                `;
+              }).join("")}
+            </div>
+          </div>
+        `)}
+        ${primaryBlock(COPY.consents.cta, !canContinue("consents"))}
+      `;
+    }
+
+    function geneticsRoute() {
+      return `
+        ${standardHeader(COPY.genetics_consent.title)}
+        ${card(`
+          <div class="section-stack">
+            ${inset(`
+              <p class="route-kicker">Genetics disclosure</p>
+              <p class="row-title">Choose how you want routine results disclosed.</p>
+            `)}
+            <div class="choice-list">
+              ${choiceCard("genetic-preference", "physician_first", state.genetics.preference, "Physician first", "I would like my physician to walk me through all results before I see them in the app.")}
+              ${choiceCard("genetic-preference", "routine_results_in_app", state.genetics.preference, "Routine results in app", "Routine and reassuring results can appear in my care plan when ready. I prefer my physician for anything serious.")}
+            </div>
+            <div class="row-list">
+              ${GENETICS_ACKS.map((item) => {
+                const accepted = state.genetics.acknowledgements[item.key];
+                return `
+                  <button class="consent-row ${accepted ? "is-selected" : ""}" type="button" data-action="toggle-genetics-ack" data-key="${esc(item.key)}">
+                    <div class="row-topline">
+                      <div>
+                        <p class="row-title">${esc(item.title)}</p>
+                        <p class="row-detail">${esc(item.detail)}</p>
+                      </div>
+                      <span class="status-badge ${accepted ? "" : "neutral"}">${accepted ? "Accepted" : "Not accepted"}</span>
+                    </div>
+                  </button>
+                `;
+              }).join("")}
+            </div>
+            <p class="micro-copy">genetics-consent-v1</p>
+          </div>
+        `)}
+        ${primaryBlock(COPY.genetics_consent.cta, !canContinue("genetics_consent"))}
+      `;
+    }
+
+    function choiceCard(action, value, current, title, detail) {
+      return `
+        <button class="choice-card ${current === value ? "is-selected" : ""}" type="button" data-action="${esc(action)}" data-value="${esc(value)}">
+          <p class="row-title">${esc(title)}</p>
+          <p class="row-detail">${esc(detail)}</p>
+        </button>
+      `;
+    }
+
+    function familyRoute() {
+      return `
+        ${standardHeader(COPY.family_history.title)}
+        ${card(`
+          <div class="section-stack">
+            ${inset(`
+              <p class="row-title">Family history</p>
+              <p class="row-detail">First-degree relatives only for now.</p>
+            `)}
+            ${RELATIVES.map((relative) => `
+              <section class="tight-stack">
+                <p class="row-title">${esc(relative)}</p>
+                ${FAMILY_CONDITIONS.map((condition) => {
+                  const key = familyKey(relative, condition);
+                  return inset(`
+                    <p class="row-detail" style="margin-top:0">${esc(condition)}</p>
+                    ${booleanButtons(`family.answers.${key}`, state.family.answers[key])}
+                  `);
+                }).join("")}
+              </section>
+            `).join("")}
+            ${textAreaField("Optional note", "family.note", "Optional note, such as age of onset if known")}
+          </div>
+        `)}
+        ${primaryBlock(COPY.family_history.cta, false)}
+      `;
+    }
+
+    function familyKey(relative, condition) {
+      return `${relative}|${condition}`;
+    }
+
+    function symptomRoute() {
+      const recording = state.symptom.recordingState;
+      const voiceLabel =
+        recording === "requesting" ? "Requesting access" :
+        recording === "recording" ? "Stop recording" :
+        recording === "transcribing" ? "Transcribing" :
+        "Record and transcribe";
+      const voiceDetail =
+        recording === "recording" ? "Speak naturally. Tap again when you are finished. You can edit the transcript before it goes to your physician." :
+        state.symptom.narrative.trim() ? "Transcript is editable below." :
+        "Your voice becomes an editable transcript for physician review.";
+      return `
+        ${standardHeader(COPY.symptomatology.title)}
+        ${card(`
+          <div class="section-stack">
+            ${inset(`
+              <p class="route-kicker">Symptom narrative</p>
+              <p class="row-title">In your own words, how is your body different now than it was five years ago?</p>
+              <p class="row-detail">This helps your physician understand where you are now and how your body has been changing over time.</p>
+            `)}
+            <div class="tight-stack">
+              <button class="button button-secondary" data-action="voice-record" ${recording === "requesting" || recording === "transcribing" ? "disabled" : ""}>${esc(voiceLabel)}</button>
+              <button class="button button-plain" data-action="type-instead">I would rather type</button>
+              <p class="micro-copy">${esc(recording === "recording" ? "Listening" : voiceDetail)}</p>
+            </div>
+            ${textAreaField("Transcript", "symptom.narrative", "Write what has changed.")}
+          </div>
+        `)}
+        ${primaryBlock(COPY.symptomatology.cta, !canContinue("symptomatology"))}
+      `;
+    }
+
+    function vitalityRoute() {
+      const phq2 = scorePrefix(state.vitality.phq, 2);
+      const gad2 = scorePrefix(state.vitality.gad, 2);
+      const showPhqExpanded = phq2.ready && phq2.total >= 2;
+      const showGadExpanded = gad2.ready && gad2.total >= 2;
+      return `
+        ${standardHeader(COPY.vitality_baseline.title)}
+        ${card(`
+          <div class="section-stack">
+            ${inset(`<p class="body-copy" style="margin-top:0">Answer based on how you feel now. These answers are a baseline, not a score or diagnosis.</p>`)}
+            <section class="section-stack">
+              ${BASELINES.map((label, index) => scoreQuestion(label, `vitality.baselines.${index}`, state.vitality.baselines[index])).join("")}
+            </section>
+            <div class="divider"></div>
+            <section class="section-stack">
+              <div>
+                <p class="row-title">Brief health screeners</p>
+                <p class="row-detail">Answer the questions below. Aleron calculates the screening totals for your physician.</p>
+              </div>
+              ${screenerSection("Mood", "Over the last 2 weeks, how often have you been bothered by the following?", PHQ, state.vitality.phq, "phq", showPhqExpanded, true)}
+              ${state.vitality.phq[8] > 0 ? `<div class="hazard-card">If you may act on thoughts of self-harm, call or text 988 now, or call 911 for immediate danger.</div>` : ""}
+              ${screenerSection("Anxiety", "Over the last 2 weeks, how often have you been bothered by the following?", GAD, state.vitality.gad, "gad", showGadExpanded, false)}
+              ${auditSection()}
+              ${booleanSection("Sleep apnea risk", "Answer each question. Your physician will interpret the result with your clinical data.", STOP_BANG, "stopBang", state.vitality.stopBang)}
+              <section class="section-stack">
+                <div>
+                  <p class="row-title">Pain impact</p>
+                  <p class="row-detail">During the past week, choose a number from 0 to 10 for each question.</p>
+                </div>
+                ${PEG.map((label, index) => scoreQuestion(label, `vitality.peg.${index}`, state.vitality.peg[index])).join("")}
+              </section>
+              ${booleanSection("Safety and context", "Please answer each symptom separately so your care team knows exactly what you reported.", RED_FLAGS, "redFlags", state.vitality.redFlags)}
+              <section class="section-stack">
+                ${CONTEXT_FLAGS.map(([key, label]) => inset(`
+                  <p class="row-detail" style="margin-top:0">${esc(label)}</p>
+                  ${booleanButtons(`vitality.${key}`, state.vitality[key])}
+                `)).join("")}
+              </section>
+            </section>
+          </div>
+        `)}
+        ${primaryBlock(COPY.vitality_baseline.cta, !canContinue("vitality_baseline"))}
+      `;
+    }
+
+    function scorePrefix(values, count) {
+      const slice = values.slice(0, count);
+      const ready = slice.every((value) => value !== null);
+      return { ready, total: ready ? slice.reduce((sum, value) => sum + value, 0) : 0 };
+    }
+
+    function scoreQuestion(label, path, value) {
+      return `
+        <div class="baseline-item">
+          <p class="baseline-label">${esc(label)}</p>
+          <div class="menu-picker">
+            <select class="menu-picker-select" data-field="${esc(path)}" data-number aria-label="${esc(label)}">
+              <option value="" ${value === null ? "selected" : ""}>Select</option>
+              ${Array.from({ length: 11 }, (_, valueOption) => `
+                <option value="${valueOption}" ${value === valueOption ? "selected" : ""}>${valueOption}</option>
+              `).join("")}
+            </select>
+            <span class="menu-picker-chevron" aria-hidden="true"></span>
+          </div>
+        </div>
+      `;
+    }
+
+    function screenerSection(title, context, questions, values, key, expanded, includesItemNine) {
+      const visibleIndexes = [];
+      visibleIndexes.push(0, 1);
+      if (expanded) {
+        const end = includesItemNine ? questions.length - 1 : questions.length;
+        for (let index = 2; index < end; index += 1) visibleIndexes.push(index);
+      }
+      if (includesItemNine) visibleIndexes.push(8);
+      return `
+        <section class="section-stack">
+          <div>
+            <p class="row-title">${esc(title)}</p>
+            <p class="row-detail">${esc(context)}</p>
+          </div>
+          ${visibleIndexes.map((questionIndex) => frequencyQuestion(questions[questionIndex], `vitality.${key}.${questionIndex}`, values[questionIndex])).join("")}
+        </section>
+      `;
+    }
+
+    function frequencyQuestion(label, path, value) {
+      return inset(`
+        <p class="row-detail" style="margin-top:0">${esc(label)}</p>
+        <div class="frequency-grid">
+          ${FREQ.map(([text, score]) => `
+            <button type="button" class="frequency-button ${value === score ? "is-selected" : ""}" data-action="set-number" data-path="${esc(path)}" data-value="${score}">${esc(text)}</button>
+          `).join("")}
+        </div>
+      `);
+    }
+
+    function auditSection() {
+      return `
+        <section class="section-stack">
+          <div>
+            <p class="row-title">Alcohol use</p>
+            <p class="row-detail">Choose the answer that best describes the past year.</p>
+          </div>
+          ${AUDIT.map((item, questionIndex) => inset(`
+            <p class="row-detail" style="margin-top:0">${esc(item.question)}</p>
+            <div class="frequency-grid">
+              ${item.options.map((text, score) => `
+                <button type="button" class="frequency-button ${state.vitality.audit[questionIndex] === score ? "is-selected" : ""}" data-action="set-number" data-path="vitality.audit.${questionIndex}" data-value="${score}">${esc(text)}</button>
+              `).join("")}
+            </div>
+          `)).join("")}
+        </section>
+      `;
+    }
+
+    function booleanSection(title, context, questions, key, values) {
+      return `
+        <section class="section-stack">
+          <div>
+            <p class="row-title">${esc(title)}</p>
+            <p class="row-detail">${esc(context)}</p>
+          </div>
+          ${questions.map((question, index) => inset(`
+            <p class="row-detail" style="margin-top:0">${esc(question)}</p>
+            ${booleanButtons(`vitality.${key}.${index}`, values[index])}
+          `)).join("")}
+        </section>
+      `;
+    }
+
+    function labRoute() {
+      const selected = state.lab.path;
+      return `
+        ${standardHeader(COPY.lab_path_selection.title)}
+        ${card(`
+          <div class="section-stack">
+            ${inset(`
+              <p class="route-kicker">Lab path</p>
+              <p class="row-title">Choose how you want to complete your blood draw.</p>
+            `)}
+            <div class="choice-list">
+              ${choiceCard("lab-path", "tasso_home_capillary", selected, "Home capillary draw", "Tasso kit mailed to your address. Fingertip collection with prepaid return. Results approximately 7-10 days from sample receipt.")}
+              ${selected === "tasso_home_capillary" ? tassoFields() : ""}
+              ${choiceCard("lab-path", "quest_venous_draw", selected, "Quest Diagnostics", "Venous draw at a Quest location. Venous draw is the clinical standard. Results approximately 5-7 days from draw.")}
+              ${selected === "quest_venous_draw" ? questFields() : ""}
+            </div>
+          </div>
+        `)}
+        ${primaryBlock(COPY.lab_path_selection.cta, !canContinue("lab_path_selection"))}
+      `;
+    }
+
+    function tassoFields() {
+      return inset(`
+        <div class="field-stack">
+          <div>
+            <p class="row-title">Shipping address for kit</p>
+            <p class="row-detail">A kit cannot be mailed without a complete address.</p>
+          </div>
+          ${inputField("Full name", "lab.tasso.fullName")}
+          ${inputField("Street address", "lab.tasso.street")}
+          ${inputField("Apt, suite", "lab.tasso.apartment", "Optional")}
+          ${inputField("City", "lab.tasso.city")}
+          ${inputField("State", "lab.tasso.state")}
+          ${inputField("ZIP", "lab.tasso.zip")}
+        </div>
+      `);
+    }
+
+    function questFields() {
+      return inset(`
+        <div class="field-stack">
+          <div>
+            <p class="row-title">Quest draw preference</p>
+            <p class="row-detail">Capture where and when you want the venous draw. Live Quest booking can use this preference.</p>
+          </div>
+          ${inputField("City or ZIP", "lab.quest.cityOrZip")}
+          ${inputField("Preferred Quest location name", "lab.quest.locationName")}
+          <div>
+            <span class="field-label">Preferred window</span>
+            ${segmentControl("lab.quest.preferredWindow", [["First available", "first_available"], ["Morning", "morning"], ["Afternoon", "afternoon"]])}
+          </div>
+        </div>
+      `);
+    }
+
+    function wearableRoute() {
+      const snapshot = state.wearable.snapshot;
+      return `
+        ${standardHeader(COPY.wearable_connection.title)}
+        ${card(`
+          <div class="section-stack">
+            ${inset(`
+              <p class="route-kicker">Health data</p>
+              <p class="row-title">Connect Apple Health when you are ready.</p>
+            `)}
+            <div class="choice-list">
+              ${choiceCard("wearable-choice", "connect", state.wearable.choice, "Connect Apple Health", "Share recent heart rate, sleep, steps, and activity.")}
+              ${inset(`
+                <p class="row-detail" style="margin-top:0">${esc(state.wearable.message)}</p>
+                <div style="margin-top: var(--air-4)">
+                  <button class="button button-secondary" data-action="sync-health" ${state.wearable.syncing ? "disabled" : ""}>${state.wearable.syncing ? "Opening Apple Health..." : snapshot ? "Sync Apple Health again" : "Connect and sync Apple Health"}</button>
+                </div>
+                ${snapshot ? wearableMetrics(snapshot) : ""}
+              `)}
+              ${choiceCard("wearable-choice", "skip", state.wearable.choice, "Skip for now", "Continue onboarding without HealthKit. You can connect later from Home.")}
+            </div>
+          </div>
+        `)}
+        ${primaryBlock(COPY.wearable_connection.cta, !canContinue("wearable_connection"))}
+      `;
+    }
+
+    function wearableMetrics(snapshot) {
+      const metrics = [
+        ["Resting HR", snapshot.restingHr],
+        ["Sleep h", snapshot.sleepHours],
+        ["Steps", snapshot.steps],
+        ["VO2 max", snapshot.vo2Max],
+        ["HRV ms", snapshot.hrv],
+        ["Heart rate", snapshot.heartRate]
+      ];
+      return `
+        <div class="metric-grid" style="margin-top: var(--air-4)">
+          ${metrics.map(([label, value]) => `
+            <div class="metric-card">
+              <p class="micro-copy" style="margin-top:0">${esc(label)}</p>
+              <p class="metric-value">${esc(value)}</p>
+            </div>
+          `).join("")}
+        </div>
+      `;
+    }
+
+    function introRoute() {
+      return `
+        ${standardHeader(COPY.intro_call.title)}
+        ${card(`
+          <div class="section-stack">
+            ${inset(`
+              <p class="route-kicker">Intro call</p>
+              <p class="row-title">Choose a call window for your care team.</p>
+            `)}
+            <div class="choice-list">
+              ${choiceCard("intro-window", "first_available", state.intro.window, "First available", "Let the care team pick the earliest available opening.")}
+              ${choiceCard("intro-window", "morning", state.intro.window, "Morning preferred", "Ask for a morning window if one is available.")}
+              ${choiceCard("intro-window", "afternoon", state.intro.window, "Afternoon preferred", "Ask for an afternoon window if one is available.")}
+            </div>
+          </div>
+        `)}
+        ${primaryBlock(COPY.intro_call.cta, false)}
+      `;
+    }
+
+    function confirmationRoute() {
+      const packetState = state.packet.state;
+      const rows = [
+        ["Onboarding packet", packetDetail()],
+        ["Diagnostics", "Your blood draw path is queued for care-team handling."],
+        ["Home hub", "After submission, you land on Home with resumable chapters and logistics status."]
+      ];
+      const cta =
+        packetState === "submitting" ? "Sending packet..." :
+        packetState === "failed" ? "Try sending again" :
+        "Send packet and go to Home";
+      return `
+        ${standardHeader(COPY.confirmation_waiting.title)}
+        ${card(`
+          <div class="section-stack">
+            ${inset(`
+              <p class="route-kicker">Ready for physician review</p>
+              <p class="row-title">Send your packet to your physician.</p>
+              <p class="row-detail">Your answers, consent records, lab path, and logistics preferences are saved into a physician-only patient packet. Clinical results stay hidden until your physician releases a plan.</p>
+            `)}
+            <div class="stage-list">
+              ${rows.map(([title, detail]) => `
+                <div class="stage-row">
+                  <p class="row-title">${esc(title)}</p>
+                  <p class="row-detail">${esc(detail)}</p>
+                </div>
+              `).join("")}
+            </div>
+          </div>
+        `)}
+        ${primaryBlock(cta, packetState === "submitting", "submit-packet")}
+      `;
+    }
+
+    function packetDetail() {
+      if (state.packet.state === "submitting") return "Submitting packet to the backend now. Keep this screen open.";
+      if (state.packet.state === "submitted") return "Packet received. Your Home hub will show logistics and physician review status.";
+      if (state.packet.state === "failed") return "Packet was not received. Retry before leaving this step.";
+      return "Structured member packet will be submitted on continue.";
+    }
+
+    function homeRoute() {
+      const packetReceived = state.packet.state === "submitted";
+      const geneticsConsented = Object.values(state.genetics.acknowledgements).every(Boolean);
+      const first = state.details.firstName.trim();
+      const intro =
+        state.release.released ? "Your physician-released plan is available. Home stays connected to logistics, messages, and action progress without exposing unreleased clinical work." :
+        packetReceived ? "Your packet is received. Home now reflects backend status: diagnostics logistics, physician review, and message availability. Clinical content stays locked until release." :
+        geneticsConsented ? "Your blood draw and genetic testing are both ordered. Results take about a week to come back. In the meantime, a few short chapters help your physician read them in the fullest context." :
+        "Your blood draw is ordered. Results take about a week to come back. In the meantime, a few short chapters help your physician read them in the fullest context.";
+      return `
+        <header class="route-header home-header">
+          <div class="home-header-row">
+            <h1 class="home-greeting">Welcome.</h1>
+            <button class="home-settings-link" data-action="open-settings">Settings</button>
+          </div>
+          <p class="route-subtitle">${esc(intro)}</p>
+        </header>
+        <div class="section-stack">
+          ${workflowStatusCard(packetReceived)}
+          ${kitTrackingCard()}
+          ${liveVitalsCard()}
+          ${chaptersCard()}
+          ${vitalityTile()}
+        </div>
+      `;
+    }
+
+    function workflowStatusCard(packetReceived) {
+      const released = state.release.released;
+      const title = released ? "Plan released" : packetReceived ? "Packet received" : "Onboarding in progress";
+      const badge = released ? "RELEASED" : packetReceived ? "RECEIVED" : "OPEN";
+      const lead =
+        released ? "Your released plan is ready. Review actions and message your care team from the plan tabs." :
+        packetReceived ? "Your physician review status, diagnostics, and messages now come from backend state." :
+        "Complete your health chapters so your physician can read your results in full context.";
+      return card(`
+        <div class="row-topline">
+          <p class="row-title">${esc(title)}</p>
+          <span class="status-badge">${esc(badge)}</span>
+        </div>
+        <p class="row-detail">${esc(lead)}</p>
+        <div class="divider"></div>
+        <p class="micro-copy" style="margin-top:0">Diagnostics logistics are linked to your selected lab path.</p>
+      `);
+    }
+
+    function kitTrackingCard() {
+      const tasso = state.lab.path === "tasso_home_capillary";
+      const title = tasso ? "Home capillary kit" : "Quest blood draw";
+      const subtitle = tasso ? "Tasso kit mailed to your address. Prepaid return." : "Quest Diagnostics";
+      const stages = tasso
+        ? [
+            ["Kit ordered", "Your kit is queued for mailing."],
+            ["Sample return", "Use the prepaid return after collection."],
+            ["Results pending", "Results usually arrive 7-10 days from sample receipt."]
+          ]
+        : [
+            ["Appointment booked", "Your draw is scheduled. Bring a photo ID."],
+            ["Draw complete", "Results usually arrive 5-7 days from draw."],
+            ["Physician review", "Clinical content stays locked until release."]
+          ];
+      return card(`
+        <p class="row-title">${esc(title)}</p>
+        <p class="row-detail">${esc(subtitle)}</p>
+        <div class="stage-list" style="margin-top: var(--air-4)">
+          ${stages.map(([stage, note], index) => `
+            <div class="stage-row ${index === 0 ? "is-selected" : ""}">
+              <div class="row-topline">
+                <p class="row-title">${esc(stage)}</p>
+                <span class="status-badge ${index === 0 ? "" : "neutral"}">${index === 0 ? "CURRENT" : "NEXT"}</span>
+              </div>
+              <p class="row-detail">${esc(note)}</p>
+            </div>
+          `).join("")}
+        </div>
+      `);
+    }
+
+    function liveVitalsCard() {
+      if (!state.wearable.snapshot) {
+        return card(`
+          <p class="row-title">Live vitals</p>
+          <p class="row-detail">Waiting for first sync. Open Health &gt; Sharing to confirm what you are sharing.</p>
+        `);
+      }
+      return card(`
+        <p class="row-title">Live vitals</p>
+        <p class="row-detail">Apple Health snapshot synced for physician context.</p>
+        ${wearableMetrics(state.wearable.snapshot)}
+      `);
+    }
+
+    function chaptersCard() {
+      const chapters = [
+        ["Family history", "The conditions your biological family carries. About 5 questions.", "family_history"],
+        ["Your health today", "Current conditions, medications, and how you are feeling. About 3 minutes.", ""],
+        ["In your own words", "How your body is different now than five years ago.", "symptomatology"],
+        ["Structured clinical signals", "A short structured layer that turns your narrative into auditable inputs.", "vitality_baseline"],
+        ["Intro call", "Optional. A short call with your care team before results.", "intro_call"]
+      ];
+      return card(`
+        <p class="row-title">Chapters</p>
+        <div class="chapter-list" style="margin-top: var(--air-4)">
+          ${chapters.map(([title, blurb, target]) => `
+            <button class="chapter-row" type="button" ${target ? `data-action="open-chapter" data-route="${esc(target)}"` : "disabled"}>
+              <div class="row-topline">
+                <div>
+                  <p class="row-title">${esc(title)}</p>
+                  <p class="row-detail">${esc(blurb)}</p>
+                </div>
+                <span class="status-badge neutral">${chapterStatus(title)}</span>
+              </div>
+            </button>
+          `).join("")}
+        </div>
+      `);
+    }
+
+    function chapterStatus(title) {
+      if (title === "Family history") return "RESUME";
+      if (title === "In your own words" && state.symptom.narrative.trim()) return "DONE";
+      if (title === "Structured clinical signals" && canContinue("vitality_baseline")) return "DONE";
+      return "START";
+    }
+
+    function vitalityTile() {
+      return card(`
+        <div class="row-topline">
+          <p class="row-title">Your vitality reading</p>
+          <span class="status-badge neutral">LOCKED</span>
+        </div>
+        <p class="row-detail">Your vitality reading unlocks once your results arrive and your health chapters are complete.</p>
+      `);
+    }
+
+    function settingsRoute() {
+      return `
+        ${headerBlock("Settings", "Account", "")}
+        ${card(`
+          <div class="tight-stack">
+            <button class="button button-secondary" data-action="settings-back">Back</button>
+          </div>
+          <div class="settings-row">
+            <div>
+              <p class="row-title">Member</p>
+            </div>
+            <p class="settings-value">${esc(state.patient.accountName || "Not loaded")}</p>
+          </div>
+          <div class="settings-row">
+            <div>
+              <p class="row-title">Patient ID</p>
+            </div>
+            <p class="settings-value">${esc(state.patient.patientId || "Not loaded")}</p>
+          </div>
+          <div style="margin-top: var(--air-5)">
+            <button class="button button-secondary" data-action="request-sign-out">Sign out</button>
+          </div>
+        `)}
+        ${state.settings.confirmSignOut ? signOutDialog() : ""}
+      `;
+    }
+
+    function signOutDialog() {
+      return `
+        <div class="dialog-scrim" role="dialog" aria-modal="true" aria-label="Confirm sign out">
+          <section class="dialog-card">
+            <p class="row-title">Sign out?</p>
+            <p class="row-detail">You will return to account claim.</p>
+            <div class="dialog-actions">
+              <button class="button button-secondary" data-action="cancel-sign-out">Cancel</button>
+              <button class="button button-primary" data-action="confirm-sign-out">Sign out</button>
+            </div>
+          </section>
+        </div>
+      `;
+    }
+
+    function routeContent() {
+      switch (route) {
+        case "account_claim":
+          return accountClaimRoute();
+        case "confirm_details":
+          return confirmDetailsRoute();
+        case "welcome":
+          return welcomeRoute();
+        case "consents":
+          return consentRoute();
+        case "genetics_consent":
+          return geneticsRoute();
+        case "family_history":
+          return familyRoute();
+        case "symptomatology":
+          return symptomRoute();
+        case "vitality_baseline":
+          return vitalityRoute();
+        case "lab_path_selection":
+          return labRoute();
+        case "wearable_connection":
+          return wearableRoute();
+        case "intro_call":
+          return introRoute();
+        case "confirmation_waiting":
+          return confirmationRoute();
+        case "home":
+          return homeRoute();
+        case "settings":
+          return settingsRoute();
+        default:
+          return accountClaimRoute();
+      }
+    }
+
+    function canContinue(routeName) {
+      switch (routeName) {
+        case "confirm_details":
+          return ["firstName", "lastName", "dateOfBirth", "sexAtBirth", "state"].every((key) => String(state.details[key] || "").trim());
+        case "consents":
+          return CONSENTS.every((item) => state.consents[item.key]);
+        case "genetics_consent":
+          return GENETICS_ACKS.every((item) => state.genetics.acknowledgements[item.key]);
+        case "symptomatology":
+          return state.symptom.narrative.trim().length > 0;
+        case "vitality_baseline":
+          return vitalityComplete();
+        case "lab_path_selection":
+          return labComplete();
+        case "wearable_connection":
+          return state.wearable.choice === "skip" || (state.wearable.choice === "connect" && Boolean(state.wearable.snapshot));
+        case "confirmation_waiting":
+          return state.packet.state !== "submitting";
+        default:
+          return true;
+      }
+    }
+
+    function vitalityComplete() {
+      const v = state.vitality;
+      const phq2 = scorePrefix(v.phq, 2);
+      const gad2 = scorePrefix(v.gad, 2);
+      const phqRequired = [0, 1, 8];
+      if (phq2.ready && phq2.total >= 2) {
+        [2, 3, 4, 5, 6, 7].forEach((index) => phqRequired.push(index));
+      }
+      const gadRequired = [0, 1];
+      if (gad2.ready && gad2.total >= 2) {
+        [2, 3, 4, 5, 6].forEach((index) => gadRequired.push(index));
+      }
+      return [
+        v.baselines.every((value) => value !== null),
+        phqRequired.every((index) => v.phq[index] !== null),
+        gadRequired.every((index) => v.gad[index] !== null),
+        v.audit.every((value) => value !== null),
+        v.stopBang.every((value) => value !== null),
+        v.peg.every((value) => value !== null),
+        v.redFlags.every((value) => value !== null),
+        v.hypogonadism !== null,
+        v.sedating !== null,
+        v.perimenopause !== null
+      ].every(Boolean);
+    }
+
+    function labComplete() {
+      if (state.lab.path === "tasso_home_capillary") {
+        const t = state.lab.tasso;
+        return ["fullName", "street", "city", "state", "zip"].every((key) => String(t[key] || "").trim());
+      }
+      const q = state.lab.quest;
+      return ["cityOrZip", "locationName", "preferredWindow"].every((key) => String(q[key] || "").trim());
+    }
+
+    function render() {
+      const showSettings = route !== "account_claim" && route !== "settings" && route !== "home";
+      app.innerHTML = `
+        <div class="native-status" aria-hidden="true">
+          <span>8:37</span>
+          <span class="dynamic-island"></span>
+          <span class="status-icons"><span class="status-signal"></span><span class="status-wifi"></span><span class="status-battery"></span></span>
+        </div>
+        ${showSettings ? `<button class="settings-action" data-action="open-settings" aria-label="Settings">Settings</button>` : ""}
+        <div class="route-scroll" data-current-route="${esc(route)}">${routeContent()}</div>
+      `;
+    }
+
+    function handleInput(event) {
+      const field = event.target.closest("[data-field]");
+      if (!field) return;
+      const raw = field.value;
+      let value = raw;
+      if (field.dataset.number !== undefined) {
+        value = raw === "" ? null : Number(raw);
+      }
+      setPath(field.dataset.field, value);
+      render();
+    }
+
+    function handleClick(event) {
+      const actionNode = event.target.closest("[data-action]");
+      if (!actionNode) return;
+      const action = actionNode.dataset.action;
+      if (actionNode.disabled) return;
+      event.preventDefault();
+
+      switch (action) {
+        case "send-code":
+          state.account.codeSent = true;
+          state.account.claimed = false;
+          render();
+          break;
+        case "create-account":
+          state.account.working = true;
+          render();
+          setTimer(() => {
+            state.account.working = false;
+            state.account.claimed = true;
+            state.patient.accountName = state.account.email || "Synthetic Member";
+            render();
+          }, 450);
+          break;
+        case "continue-setup":
+          go("confirm_details");
+          break;
+        case "primary-continue":
+          if (canContinue(route)) go(nextRoute(route));
+          break;
+        case "toggle-consent":
+          state.consents[actionNode.dataset.key] = !state.consents[actionNode.dataset.key];
+          render();
+          break;
+        case "genetic-preference":
+          state.genetics.preference = actionNode.dataset.value;
+          render();
+          break;
+        case "toggle-genetics-ack":
+          state.genetics.acknowledgements[actionNode.dataset.key] = !state.genetics.acknowledgements[actionNode.dataset.key];
+          render();
+          break;
+        case "set-path":
+          setPath(actionNode.dataset.path, actionNode.dataset.value);
+          render();
+          break;
+        case "set-number":
+          setPath(actionNode.dataset.path, Number(actionNode.dataset.value));
+          render();
+          break;
+        case "set-boolean-ish":
+          setPath(actionNode.dataset.path, parseBooleanish(actionNode.dataset.value));
+          render();
+          break;
+        case "voice-record":
+          handleVoice();
+          break;
+        case "type-instead":
+          state.symptom.typed = true;
+          render();
+          break;
+        case "lab-path":
+          state.lab.path = actionNode.dataset.value;
+          render();
+          break;
+        case "wearable-choice":
+          state.wearable.choice = actionNode.dataset.value;
+          if (state.wearable.choice === "skip") {
+            state.wearable.message = "Apple Health skipped for now. You can connect later from Home.";
+          } else {
+            state.wearable.message = state.wearable.snapshot ? "Apple Health snapshot synced for physician context." : "Choose how you want to handle Apple Health.";
+          }
+          render();
+          break;
+        case "sync-health":
+          syncWearable();
+          break;
+        case "intro-window":
+          state.intro.window = actionNode.dataset.value;
+          render();
+          break;
+        case "submit-packet":
+          submitPacket();
+          break;
+        case "open-settings":
+          previousRoute = route;
+          go("settings");
+          break;
+        case "settings-back":
+          go(previousRoute && previousRoute !== "settings" ? previousRoute : "confirm_details");
+          break;
+        case "request-sign-out":
+          state.settings.confirmSignOut = true;
+          render();
+          break;
+        case "cancel-sign-out":
+          state.settings.confirmSignOut = false;
+          render();
+          break;
+        case "confirm-sign-out":
+          clearTimers();
+          state = freshState();
+          previousRoute = "account_claim";
+          go("account_claim");
+          break;
+        case "open-chapter":
+          if (actionNode.dataset.route) go(actionNode.dataset.route);
+          break;
+        default:
+          break;
+      }
+    }
+
+    function parseBooleanish(raw) {
+      if (raw === "true") return true;
+      if (raw === "false") return false;
+      return "unknown";
+    }
+
+    function handleVoice() {
+      if (state.symptom.recordingState === "recording") {
+        state.symptom.recordingState = "transcribing";
+        render();
+        setTimer(() => {
+          if (!state.symptom.narrative.trim()) {
+            state.symptom.narrative = "Over the last five years I have noticed lower energy, less reliable sleep, and slower recovery after stress.";
+          }
+          state.symptom.recordingState = "idle";
+          render();
+        }, 500);
+        return;
+      }
+      state.symptom.recordingState = "requesting";
+      render();
+      setTimer(() => {
+        state.symptom.recordingState = "recording";
+        render();
+      }, 350);
+    }
+
+    function syncWearable() {
+      state.wearable.choice = "connect";
+      state.wearable.syncing = true;
+      state.wearable.message = "Opening Apple Health...";
+      render();
+      setTimer(() => {
+        state.wearable.syncing = false;
+        state.wearable.message = "Apple Health snapshot synced for physician context.";
+        state.wearable.snapshot = {
+          restingHr: "58",
+          sleepHours: "7.1",
+          steps: "8,642",
+          vo2Max: "42",
+          hrv: "51",
+          heartRate: "64"
+        };
+        render();
+      }, 650);
+    }
+
+    function submitPacket() {
+      state.packet.state = "submitting";
+      render();
+      setTimer(() => {
+        state.packet.state = "submitted";
+        go("home");
+      }, 700);
+    }
+
+    window.addEventListener("popstate", () => {
+      route = routeFromQuery();
+      render();
+    });
+    document.addEventListener("input", handleInput);
+    document.addEventListener("click", handleClick);
+
+    window.__aleronMirror = {
+      routes: ALL_ROUTES,
+      get route() {
+        return route;
+      },
+      get state() {
+        return state;
+      },
+      go,
+      render,
+      canContinue,
+      setPath
+    };
+
+    render();
+  </script>
+</body>
+</html>
