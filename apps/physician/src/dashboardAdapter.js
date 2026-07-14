@@ -758,8 +758,8 @@ export function adaptPhysicianCase(caseBundle) {
       canonical: {
         id: 'vitality',
         label: 'Vitality phenotype model v1.5',
-        repoPath: record.source || 'system-design/vitality-phenotype-model.md',
-        href: pagesUrl({ pagesPath: 'system-design/diagrams/aleron-vitality-physician-outcomes.html' }),
+        repoPath: record.source || 'engine/system-design/vitality-phenotype-model.md',
+        href: pagesUrl({ pagesPath: 'engine/system-design/diagrams/aleron-vitality-physician-outcomes.html' }),
         role: 'Within-person protocol; no composite score'
       }
     };

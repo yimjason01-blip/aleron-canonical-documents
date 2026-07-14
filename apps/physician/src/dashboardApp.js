@@ -219,11 +219,10 @@ function riskView(model, state) {
 }
 
 const ACTION_SPACE_EVIDENCE = [
-  ['unverified', 'Unverified'],
-  ['see_library', 'Library pending'],
+  ['very_low', 'Very low'],
+  ['low', 'Low'],
   ['moderate', 'Moderate'],
-  ['strong', 'Strong'],
-  ['missing', 'Unverified'],
+  ['high', 'High'],
 ];
 
 function actionSpaceCategory(item) {
@@ -248,8 +247,7 @@ function auditQalyValue(value) {
 }
 
 function actionSpaceEvidenceLabel(item) {
-  const key = item.evidenceCategory === 'missing' ? 'unverified' : item.evidenceCategory;
-  return ACTION_SPACE_EVIDENCE.find(([id]) => id === key)?.[1] ?? 'Unverified';
+  return ACTION_SPACE_EVIDENCE.find(([id]) => id === item.evidenceCategory)?.[1] ?? 'Not rubric-provenanced';
 }
 
 function actionSpaceRecordText(value) {
@@ -301,7 +299,7 @@ function actionSpaceView(model, state) {
     ? state.selectedActionSpaceItemId
     : visible[0]?.id ?? null;
   const selectedItem = visible.find((item) => item.id === selectedId) ?? null;
-  const evidenceIndex = (item) => item.evidenceCategory === 'missing' ? 0 : Math.max(0, ACTION_SPACE_EVIDENCE.slice(0, 4).findIndex(([id]) => id === item.evidenceCategory));
+  const evidenceIndex = (item) => Math.max(0, ACTION_SPACE_EVIDENCE.findIndex(([id]) => id === item.evidenceCategory));
   const values = visible.map((item) => item.expectedValueQaly);
   const min = Math.min(0, ...values);
   const max = Math.max(0, ...values);
@@ -361,7 +359,7 @@ function actionSpaceView(model, state) {
       : '';
     return `<g data-action-space-mark="${esc(item.id)}" role="button" tabindex="0" aria-label="${esc(`${fullLabel}, ${actionSpaceValue(item.expectedValueQaly)}`)}" aria-pressed="${selected}" data-mark-kind="${esc(item.kind)}" class="action-space-mark ${selected ? 'selected ' : ''}${esc(item.disposition ?? 'staged')}" transform="translate(0 0)">${shape}${selected ? `<circle class="selection-ring" cx="${x}" cy="${y}" r="13"/>` : ''}<title>${esc(fullLabel)} · ${esc(actionSpaceValue(item.expectedValueQaly))}</title></g>${selectedLabel}`;
   }).join('');
-  const labels = ACTION_SPACE_EVIDENCE.slice(0, 4).map(([, label], index) => `<text x="${110 + index * 160}" y="334" text-anchor="middle">${esc(label)}</text>`).join('');
+  const labels = ACTION_SPACE_EVIDENCE.map(([, label], index) => `<text x="${110 + index * 160}" y="334" text-anchor="middle">${esc(label)}</text>`).join('');
   const ledger = visible.map((item) => {
     const status = item.disposition ? stateText(item.disposition) : 'Not emitted';
     return `<button type="button" data-action-space-item="${esc(item.id)}" aria-pressed="${item.id === selectedId}" class="action-space-ledger-row ${item.id === selectedId ? 'selected' : ''}">
@@ -386,7 +384,7 @@ function actionSpaceView(model, state) {
   const adjacent = (title, items, kind, collapsible = false) => {
     const rows = items.map((item) => {
       const id = item.id ?? item.candidate_id ?? item.library_item_id ?? item.label ?? 'unidentified';
-      return `<div data-adjacent-item="${esc(id)}"><strong>${esc(item.label ?? id)}</strong><small>${esc(item.reason ?? item.whyNotSelected ?? item.decisionLogic ?? item.source ?? id)}</small></div>`;
+      return `<div data-adjacent-item="${esc(id)}"><strong>${esc(item.label ?? id)}</strong><small>${esc(item.reason ?? item.nonPlottableReason ?? item.whyNotSelected ?? item.decisionLogic ?? item.source ?? id)}</small></div>`;
     }).join('');
     if (collapsible && items.length) {
       const countLabel = `${items.length} ${items.length === 1 ? 'item' : 'items'}`;
@@ -410,11 +408,11 @@ function actionSpaceView(model, state) {
       const id = item.id ?? item.candidate_id ?? item.library_item_id ?? item.label;
       return items.findIndex((candidate) => (candidate.id ?? candidate.candidate_id ?? candidate.library_item_id ?? candidate.label) === id) === index;
     });
-  return `<header class="screen-head"><div><h1>Action Space</h1><p>Expected patient value by categorical evidence state. Actions plot expected net value; diagnostics plot probability of reclassification multiplied by QALY if reclassified.</p></div></header>
-    <div class="action-space-boundary">Technically rendered does not mean clinically promoted. Values remain staged pending clinical promotion.</div>
+  return `<header class="screen-head"><div><h1>Action Space</h1><p>Expected patient value by confidence in estimated patient value. Actions plot expected net value; diagnostics plot emitted expected value of information.</p></div></header>
+    <div class="action-space-boundary">A library status such as fully_derived_v2 is not clinical promotion. Only explicitly rubric-provenanced, promotion-eligible records are plotted.</div>
     <section class="action-space-layout" data-action-space-layout="reference-stack">
-      <div class="action-space-map"><div class="panel-head"><h2>Action map</h2><span>Every scored action and diagnostic on one patient-QALY scale</span></div><div class="action-space-plot" role="region" aria-label="Action map plot" tabindex="0"><svg viewBox="0 0 720 360" role="img" aria-label="Expected QALY by categorical evidence"><line class="action-space-axis" x1="76" y1="60" x2="76" y2="300"/>${evidenceGuides}${axisTicks}<text x="20" y="28">Expected QALY ↑</text>${labels}${marks}${visible.length ? '' : '<text x="360" y="180" text-anchor="middle">No plotted items for this filter</text>'}</svg></div><div class="action-space-legend" data-action-space-legend><span><i class="mark-key action" aria-hidden="true"></i>Action</span><span><i class="mark-key diagnostic" aria-hidden="true"></i>Diagnostic</span><span><i class="mark-key selected-key" aria-hidden="true"></i>Selected</span><span><i class="mark-key deferred-key" aria-hidden="true"></i>Deferred</span></div></div>
-      <div class="action-space-ledger"><div class="panel-head"><h2>Evidence ledger</h2><span>Every plotted mark, its value, status, and decision logic · ${visible.length} plotted</span></div><nav class="action-space-filters" aria-label="Action Space categories">${filters.map((filter) => `<button type="button" data-action-space-filter="${esc(filter.id)}" aria-pressed="${filter.id === activeFilter}" class="${filter.id === activeFilter ? 'on' : ''}">${esc(filter.label)} <span>${filter.id === 'all' ? plottable.length : plottable.filter((item) => actionSpaceCategory(item)?.id === filter.id).length}</span></button>`).join('')}</nav><div class="action-space-ledger-head" data-action-space-ledger-head aria-hidden="true"><span>Item</span><span>Patient value</span><span>Status</span><span>Decision logic</span></div>${ledger || empty('No plotted items for this filter.')}</div>
+      <div class="action-space-map"><div class="panel-head"><h2>Action map</h2><span>Every promoted action and diagnostic on one patient-QALY scale</span></div><div class="action-space-plot" role="region" aria-label="Action map plot" tabindex="0"><svg viewBox="0 0 720 360" role="img" aria-label="Expected QALY by confidence in estimated patient value"><line class="action-space-axis" x1="76" y1="60" x2="76" y2="300"/>${evidenceGuides}${axisTicks}<text x="20" y="28">Expected QALY ↑</text><text x="382" y="354" text-anchor="middle">Confidence in estimated patient value</text>${labels}${marks}${visible.length ? '' : '<text x="360" y="180" text-anchor="middle">No rubric-provenanced promoted items</text>'}</svg></div><div class="action-space-legend" data-action-space-legend><span><i class="mark-key action" aria-hidden="true"></i>Action</span><span><i class="mark-key diagnostic" aria-hidden="true"></i>Diagnostic</span><span><i class="mark-key selected-key" aria-hidden="true"></i>Selected</span><span><i class="mark-key deferred-key" aria-hidden="true"></i>Deferred</span></div></div>
+      <div class="action-space-ledger"><div class="panel-head"><h2>Confidence ledger</h2><span>Every plotted mark, its value, status, and decision logic · ${visible.length} plotted</span></div><nav class="action-space-filters" aria-label="Action Space categories">${filters.map((filter) => `<button type="button" data-action-space-filter="${esc(filter.id)}" aria-pressed="${filter.id === activeFilter}" class="${filter.id === activeFilter ? 'on' : ''}">${esc(filter.label)} <span>${filter.id === 'all' ? plottable.length : plottable.filter((item) => actionSpaceCategory(item)?.id === filter.id).length}</span></button>`).join('')}</nav><div class="action-space-ledger-head" data-action-space-ledger-head aria-hidden="true"><span>Item</span><span>Patient value</span><span>Status</span><span>Decision logic</span></div>${ledger || empty('No rubric-provenanced promoted items.')}</div>
       ${selectedDetail}
     </section>
     <section class="action-space-audit"><h2>Adjacent audit</h2>${mismatchAudit}${adjacent('Non-plottable records', nonPlottable, 'nonplottable')}${adjacent('Required obligations', model.actionMap.required ?? [], 'required')}${adjacent('Excluded items', excluded, 'excluded', true)}</section>`;

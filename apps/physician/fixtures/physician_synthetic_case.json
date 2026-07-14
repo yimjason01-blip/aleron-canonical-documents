@@ -209,733 +209,913 @@
             "resting_hr": [
               {
                 "local_date": "2026-06-11",
-                "value": 50.7
+                "value": 50.7,
+                "unit": "bpm"
               },
               {
                 "local_date": "2026-06-12",
-                "value": 52.6
+                "value": 52.6,
+                "unit": "bpm"
               },
               {
                 "local_date": "2026-06-13",
-                "value": 51.7
+                "value": 51.7,
+                "unit": "bpm"
               },
               {
                 "local_date": "2026-06-14",
-                "value": 50.8
+                "value": 50.8,
+                "unit": "bpm"
               },
               {
                 "local_date": "2026-06-15",
-                "value": 53
+                "value": 53,
+                "unit": "bpm"
               },
               {
                 "local_date": "2026-06-16",
-                "value": 53.8
+                "value": 53.8,
+                "unit": "bpm"
               },
               {
                 "local_date": "2026-06-17",
-                "value": 50.9
+                "value": 50.9,
+                "unit": "bpm"
               },
               {
                 "local_date": "2026-06-18",
-                "value": 49.6
+                "value": 49.6,
+                "unit": "bpm"
               },
               {
                 "local_date": "2026-06-19",
-                "value": 51.7
+                "value": 51.7,
+                "unit": "bpm"
               },
               {
                 "local_date": "2026-06-20",
-                "value": 52.3
+                "value": 52.3,
+                "unit": "bpm"
               },
               {
                 "local_date": "2026-06-21",
-                "value": 50.8
+                "value": 50.8,
+                "unit": "bpm"
               },
               {
                 "local_date": "2026-06-22",
-                "value": 51.6
+                "value": 51.6,
+                "unit": "bpm"
               },
               {
                 "local_date": "2026-06-23",
-                "value": 53.4
+                "value": 53.4,
+                "unit": "bpm"
               },
               {
                 "local_date": "2026-06-24",
-                "value": 51.5
+                "value": 51.5,
+                "unit": "bpm"
               },
               {
                 "local_date": "2026-06-25",
-                "value": 49
+                "value": 49,
+                "unit": "bpm"
               },
               {
                 "local_date": "2026-06-26",
-                "value": 50.5
+                "value": 50.5,
+                "unit": "bpm"
               },
               {
                 "local_date": "2026-06-27",
-                "value": 52.4
+                "value": 52.4,
+                "unit": "bpm"
               },
               {
                 "local_date": "2026-06-28",
-                "value": 51.2
+                "value": 51.2,
+                "unit": "bpm"
               },
               {
                 "local_date": "2026-06-29",
-                "value": 50.6
+                "value": 50.6,
+                "unit": "bpm"
               },
               {
                 "local_date": "2026-06-30",
-                "value": 52.4
+                "value": 52.4,
+                "unit": "bpm"
               },
               {
                 "local_date": "2026-07-01",
-                "value": 52
+                "value": 52,
+                "unit": "bpm"
               },
               {
                 "local_date": "2026-07-02",
-                "value": 49
+                "value": 49,
+                "unit": "bpm"
               },
               {
                 "local_date": "2026-07-03",
-                "value": 49.2
+                "value": 49.2,
+                "unit": "bpm"
               },
               {
                 "local_date": "2026-07-04",
-                "value": 51.9
+                "value": 51.9,
+                "unit": "bpm"
               },
               {
                 "local_date": "2026-07-05",
-                "value": 51.8
+                "value": 51.8,
+                "unit": "bpm"
               },
               {
                 "local_date": "2026-07-06",
-                "value": 50.1
+                "value": 50.1,
+                "unit": "bpm"
               },
               {
                 "local_date": "2026-07-07",
-                "value": 51.1
+                "value": 51.1,
+                "unit": "bpm"
               },
               {
                 "local_date": "2026-07-08",
-                "value": 51.9
+                "value": 51.9,
+                "unit": "bpm"
               },
               {
                 "local_date": "2026-07-09",
-                "value": 49.5
+                "value": 49.5,
+                "unit": "bpm"
               },
               {
                 "local_date": "2026-07-10",
-                "value": 48.2
+                "value": 48.2,
+                "unit": "bpm"
               }
             ],
             "hrv_rmssd": [
               {
                 "local_date": "2026-06-11",
-                "value": 49.7
+                "value": 49.7,
+                "unit": "ms"
               },
               {
                 "local_date": "2026-06-12",
-                "value": 47.7
+                "value": 47.7,
+                "unit": "ms"
               },
               {
                 "local_date": "2026-06-13",
-                "value": 45.6
+                "value": 45.6,
+                "unit": "ms"
               },
               {
                 "local_date": "2026-06-14",
-                "value": 51.6
+                "value": 51.6,
+                "unit": "ms"
               },
               {
                 "local_date": "2026-06-15",
-                "value": 54
+                "value": 54,
+                "unit": "ms"
               },
               {
                 "local_date": "2026-06-16",
-                "value": 46.6
+                "value": 46.6,
+                "unit": "ms"
               },
               {
                 "local_date": "2026-06-17",
-                "value": 43.4
+                "value": 43.4,
+                "unit": "ms"
               },
               {
                 "local_date": "2026-06-18",
-                "value": 49.3
+                "value": 49.3,
+                "unit": "ms"
               },
               {
                 "local_date": "2026-06-19",
-                "value": 51.1
+                "value": 51.1,
+                "unit": "ms"
               },
               {
                 "local_date": "2026-06-20",
-                "value": 47.3
+                "value": 47.3,
+                "unit": "ms"
               },
               {
                 "local_date": "2026-06-21",
-                "value": 49.9
+                "value": 49.9,
+                "unit": "ms"
               },
               {
                 "local_date": "2026-06-22",
-                "value": 54.9
+                "value": 54.9,
+                "unit": "ms"
               },
               {
                 "local_date": "2026-06-23",
-                "value": 50.1
+                "value": 50.1,
+                "unit": "ms"
               },
               {
                 "local_date": "2026-06-24",
-                "value": 43.7
+                "value": 43.7,
+                "unit": "ms"
               },
               {
                 "local_date": "2026-06-25",
-                "value": 47.9
+                "value": 47.9,
+                "unit": "ms"
               },
               {
                 "local_date": "2026-06-26",
-                "value": 53.3
+                "value": 53.3,
+                "unit": "ms"
               },
               {
                 "local_date": "2026-06-27",
-                "value": 50.4
+                "value": 50.4,
+                "unit": "ms"
               },
               {
                 "local_date": "2026-06-28",
-                "value": 49.1
+                "value": 49.1,
+                "unit": "ms"
               },
               {
                 "local_date": "2026-06-29",
-                "value": 54.2
+                "value": 54.2,
+                "unit": "ms"
               },
               {
                 "local_date": "2026-06-30",
-                "value": 53.3
+                "value": 53.3,
+                "unit": "ms"
               },
               {
                 "local_date": "2026-07-01",
-                "value": 45.7
+                "value": 45.7,
+                "unit": "ms"
               },
               {
                 "local_date": "2026-07-02",
-                "value": 46.4
+                "value": 46.4,
+                "unit": "ms"
               },
               {
                 "local_date": "2026-07-03",
-                "value": 53.9
+                "value": 53.9,
+                "unit": "ms"
               },
               {
                 "local_date": "2026-07-04",
-                "value": 54
+                "value": 54,
+                "unit": "ms"
               },
               {
                 "local_date": "2026-07-05",
-                "value": 49.8
+                "value": 49.8,
+                "unit": "ms"
               },
               {
                 "local_date": "2026-07-06",
-                "value": 52.6
+                "value": 52.6,
+                "unit": "ms"
               },
               {
                 "local_date": "2026-07-07",
-                "value": 55.1
+                "value": 55.1,
+                "unit": "ms"
               },
               {
                 "local_date": "2026-07-08",
-                "value": 49
+                "value": 49,
+                "unit": "ms"
               },
               {
                 "local_date": "2026-07-09",
-                "value": 45.8
+                "value": 45.8,
+                "unit": "ms"
               },
               {
                 "local_date": "2026-07-10",
-                "value": 53
+                "value": 53,
+                "unit": "ms"
               }
             ],
             "sleep_duration": [
               {
                 "local_date": "2026-06-11",
-                "value": 7.1
+                "value": 7.1,
+                "unit": "h"
               },
               {
                 "local_date": "2026-06-12",
-                "value": 7.7
+                "value": 7.7,
+                "unit": "h"
               },
               {
                 "local_date": "2026-06-13",
-                "value": 7.5
+                "value": 7.5,
+                "unit": "h"
               },
               {
                 "local_date": "2026-06-14",
-                "value": 6.9
+                "value": 6.9,
+                "unit": "h"
               },
               {
                 "local_date": "2026-06-15",
-                "value": 6.9
+                "value": 6.9,
+                "unit": "h"
               },
               {
                 "local_date": "2026-06-16",
-                "value": 7.3
+                "value": 7.3,
+                "unit": "h"
               },
               {
                 "local_date": "2026-06-17",
-                "value": 7.2
+                "value": 7.2,
+                "unit": "h"
               },
               {
                 "local_date": "2026-06-18",
-                "value": 7
+                "value": 7,
+                "unit": "h"
               },
               {
                 "local_date": "2026-06-19",
-                "value": 7.5
+                "value": 7.5,
+                "unit": "h"
               },
               {
                 "local_date": "2026-06-20",
-                "value": 7.7
+                "value": 7.7,
+                "unit": "h"
               },
               {
                 "local_date": "2026-06-21",
-                "value": 7
+                "value": 7,
+                "unit": "h"
               },
               {
                 "local_date": "2026-06-22",
-                "value": 6.7
+                "value": 6.7,
+                "unit": "h"
               },
               {
                 "local_date": "2026-06-23",
-                "value": 7.2
+                "value": 7.2,
+                "unit": "h"
               },
               {
                 "local_date": "2026-06-24",
-                "value": 7.4
+                "value": 7.4,
+                "unit": "h"
               },
               {
                 "local_date": "2026-06-25",
-                "value": 7
+                "value": 7,
+                "unit": "h"
               },
               {
                 "local_date": "2026-06-26",
-                "value": 7.2
+                "value": 7.2,
+                "unit": "h"
               },
               {
                 "local_date": "2026-06-27",
-                "value": 7.7
+                "value": 7.7,
+                "unit": "h"
               },
               {
                 "local_date": "2026-06-28",
-                "value": 7.2
+                "value": 7.2,
+                "unit": "h"
               },
               {
                 "local_date": "2026-06-29",
-                "value": 6.7
+                "value": 6.7,
+                "unit": "h"
               },
               {
                 "local_date": "2026-06-30",
-                "value": 7
+                "value": 7,
+                "unit": "h"
               },
               {
                 "local_date": "2026-07-01",
-                "value": 7.5
+                "value": 7.5,
+                "unit": "h"
               },
               {
                 "local_date": "2026-07-02",
-                "value": 7.2
+                "value": 7.2,
+                "unit": "h"
               },
               {
                 "local_date": "2026-07-03",
-                "value": 7.1
+                "value": 7.1,
+                "unit": "h"
               },
               {
                 "local_date": "2026-07-04",
-                "value": 7.5
+                "value": 7.5,
+                "unit": "h"
               },
               {
                 "local_date": "2026-07-05",
-                "value": 7.4
+                "value": 7.4,
+                "unit": "h"
               },
               {
                 "local_date": "2026-07-06",
-                "value": 6.8
+                "value": 6.8,
+                "unit": "h"
               },
               {
                 "local_date": "2026-07-07",
-                "value": 6.8
+                "value": 6.8,
+                "unit": "h"
               },
               {
                 "local_date": "2026-07-08",
-                "value": 7.5
+                "value": 7.5,
+                "unit": "h"
               },
               {
                 "local_date": "2026-07-09",
-                "value": 7.5
+                "value": 7.5,
+                "unit": "h"
               },
               {
                 "local_date": "2026-07-10",
-                "value": 7.1
+                "value": 7.1,
+                "unit": "h"
               }
             ],
             "steps": [
               {
                 "local_date": "2026-06-11",
-                "value": 10424
+                "value": 10424,
+                "unit": "count"
               },
               {
                 "local_date": "2026-06-12",
-                "value": 8732
+                "value": 8732,
+                "unit": "count"
               },
               {
                 "local_date": "2026-06-13",
-                "value": 7979
+                "value": 7979,
+                "unit": "count"
               },
               {
                 "local_date": "2026-06-14",
-                "value": 9282
+                "value": 9282,
+                "unit": "count"
               },
               {
                 "local_date": "2026-06-15",
-                "value": 9645
+                "value": 9645,
+                "unit": "count"
               },
               {
                 "local_date": "2026-06-16",
-                "value": 8766
+                "value": 8766,
+                "unit": "count"
               },
               {
                 "local_date": "2026-06-17",
-                "value": 9326
+                "value": 9326,
+                "unit": "count"
               },
               {
                 "local_date": "2026-06-18",
-                "value": 10410
+                "value": 10410,
+                "unit": "count"
               },
               {
                 "local_date": "2026-06-19",
-                "value": 9307
+                "value": 9307,
+                "unit": "count"
               },
               {
                 "local_date": "2026-06-20",
-                "value": 7832
+                "value": 7832,
+                "unit": "count"
               },
               {
                 "local_date": "2026-06-21",
-                "value": 8737
+                "value": 8737,
+                "unit": "count"
               },
               {
                 "local_date": "2026-06-22",
-                "value": 9938
+                "value": 9938,
+                "unit": "count"
               },
               {
                 "local_date": "2026-06-23",
-                "value": 9249
+                "value": 9249,
+                "unit": "count"
               },
               {
                 "local_date": "2026-06-24",
-                "value": 8921
+                "value": 8921,
+                "unit": "count"
               },
               {
                 "local_date": "2026-06-25",
-                "value": 10033
+                "value": 10033,
+                "unit": "count"
               },
               {
                 "local_date": "2026-06-26",
-                "value": 9800
+                "value": 9800,
+                "unit": "count"
               },
               {
                 "local_date": "2026-06-27",
-                "value": 8069
+                "value": 8069,
+                "unit": "count"
               },
               {
                 "local_date": "2026-06-28",
-                "value": 8177
+                "value": 8177,
+                "unit": "count"
               },
               {
                 "local_date": "2026-06-29",
-                "value": 9851
+                "value": 9851,
+                "unit": "count"
               },
               {
                 "local_date": "2026-06-30",
-                "value": 9844
+                "value": 9844,
+                "unit": "count"
               },
               {
                 "local_date": "2026-07-01",
-                "value": 8865
+                "value": 8865,
+                "unit": "count"
               },
               {
                 "local_date": "2026-07-02",
-                "value": 9452
+                "value": 9452,
+                "unit": "count"
               },
               {
                 "local_date": "2026-07-03",
-                "value": 9995
+                "value": 9995,
+                "unit": "count"
               },
               {
                 "local_date": "2026-07-04",
-                "value": 8586
+                "value": 8586,
+                "unit": "count"
               },
               {
                 "local_date": "2026-07-05",
-                "value": 7843
+                "value": 7843,
+                "unit": "count"
               },
               {
                 "local_date": "2026-07-06",
-                "value": 9426
+                "value": 9426,
+                "unit": "count"
               },
               {
                 "local_date": "2026-07-07",
-                "value": 10302
+                "value": 10302,
+                "unit": "count"
               },
               {
                 "local_date": "2026-07-08",
-                "value": 9184
+                "value": 9184,
+                "unit": "count"
               },
               {
                 "local_date": "2026-07-09",
-                "value": 8913
+                "value": 8913,
+                "unit": "count"
               },
               {
                 "local_date": "2026-07-10",
-                "value": 9805
+                "value": 9805,
+                "unit": "count"
               }
             ],
             "active_minutes": [
               {
                 "local_date": "2026-06-11",
-                "value": 45
+                "value": 45,
+                "unit": "min/day"
               },
               {
                 "local_date": "2026-06-12",
-                "value": 56
+                "value": 56,
+                "unit": "min/day"
               },
               {
                 "local_date": "2026-06-13",
-                "value": 54
+                "value": 54,
+                "unit": "min/day"
               },
               {
                 "local_date": "2026-06-14",
-                "value": 42
+                "value": 42,
+                "unit": "min/day"
               },
               {
                 "local_date": "2026-06-15",
-                "value": 43
+                "value": 43,
+                "unit": "min/day"
               },
               {
                 "local_date": "2026-06-16",
-                "value": 51
+                "value": 51,
+                "unit": "min/day"
               },
               {
                 "local_date": "2026-06-17",
-                "value": 47
+                "value": 47,
+                "unit": "min/day"
               },
               {
                 "local_date": "2026-06-18",
-                "value": 44
+                "value": 44,
+                "unit": "min/day"
               },
               {
                 "local_date": "2026-06-19",
-                "value": 53
+                "value": 53,
+                "unit": "min/day"
               },
               {
                 "local_date": "2026-06-20",
-                "value": 56
+                "value": 56,
+                "unit": "min/day"
               },
               {
                 "local_date": "2026-06-21",
-                "value": 45
+                "value": 45,
+                "unit": "min/day"
               },
               {
                 "local_date": "2026-06-22",
-                "value": 40
+                "value": 40,
+                "unit": "min/day"
               },
               {
                 "local_date": "2026-06-23",
-                "value": 49
+                "value": 49,
+                "unit": "min/day"
               },
               {
                 "local_date": "2026-06-24",
-                "value": 51
+                "value": 51,
+                "unit": "min/day"
               },
               {
                 "local_date": "2026-06-25",
-                "value": 45
+                "value": 45,
+                "unit": "min/day"
               },
               {
                 "local_date": "2026-06-26",
-                "value": 49
+                "value": 49,
+                "unit": "min/day"
               },
               {
                 "local_date": "2026-06-27",
-                "value": 56
+                "value": 56,
+                "unit": "min/day"
               },
               {
                 "local_date": "2026-06-28",
-                "value": 49
+                "value": 49,
+                "unit": "min/day"
               },
               {
                 "local_date": "2026-06-29",
-                "value": 39
+                "value": 39,
+                "unit": "min/day"
               },
               {
                 "local_date": "2026-06-30",
-                "value": 45
+                "value": 45,
+                "unit": "min/day"
               },
               {
                 "local_date": "2026-07-01",
-                "value": 53
+                "value": 53,
+                "unit": "min/day"
               },
               {
                 "local_date": "2026-07-02",
-                "value": 48
+                "value": 48,
+                "unit": "min/day"
               },
               {
                 "local_date": "2026-07-03",
-                "value": 46
+                "value": 46,
+                "unit": "min/day"
               },
               {
                 "local_date": "2026-07-04",
-                "value": 54
+                "value": 54,
+                "unit": "min/day"
               },
               {
                 "local_date": "2026-07-05",
-                "value": 52
+                "value": 52,
+                "unit": "min/day"
               },
               {
                 "local_date": "2026-07-06",
-                "value": 40
+                "value": 40,
+                "unit": "min/day"
               },
               {
                 "local_date": "2026-07-07",
-                "value": 41
+                "value": 41,
+                "unit": "min/day"
               },
               {
                 "local_date": "2026-07-08",
-                "value": 52
+                "value": 52,
+                "unit": "min/day"
               },
               {
                 "local_date": "2026-07-09",
-                "value": 52
+                "value": 52,
+                "unit": "min/day"
               },
               {
                 "local_date": "2026-07-10",
-                "value": 46
+                "value": 46,
+                "unit": "min/day"
               }
             ],
             "vo2max": [
               {
                 "local_date": "2026-06-11",
-                "value": 54.1
+                "value": 54.1,
+                "unit": "mL/kg/min"
               },
               {
                 "local_date": "2026-06-12",
-                "value": 54.2
+                "value": 54.2,
+                "unit": "mL/kg/min"
               },
               {
                 "local_date": "2026-06-13",
-                "value": 53.9
+                "value": 53.9,
+                "unit": "mL/kg/min"
               },
               {
                 "local_date": "2026-06-14",
-                "value": 53.8
+                "value": 53.8,
+                "unit": "mL/kg/min"
               },
               {
                 "local_date": "2026-06-15",
-                "value": 54
+                "value": 54,
+                "unit": "mL/kg/min"
               },
               {
                 "local_date": "2026-06-16",
-                "value": 54.1
+                "value": 54.1,
+                "unit": "mL/kg/min"
               },
               {
                 "local_date": "2026-06-17",
-                "value": 53.9
+                "value": 53.9,
+                "unit": "mL/kg/min"
               },
               {
                 "local_date": "2026-06-18",
-                "value": 54
+                "value": 54,
+                "unit": "mL/kg/min"
               },
               {
                 "local_date": "2026-06-19",
-                "value": 54.2
+                "value": 54.2,
+                "unit": "mL/kg/min"
               },
               {
                 "local_date": "2026-06-20",
-                "value": 54
+                "value": 54,
+                "unit": "mL/kg/min"
               },
               {
                 "local_date": "2026-06-21",
-                "value": 53.8
+                "value": 53.8,
+                "unit": "mL/kg/min"
               },
               {
                 "local_date": "2026-06-22",
-                "value": 53.9
+                "value": 53.9,
+                "unit": "mL/kg/min"
               },
               {
                 "local_date": "2026-06-23",
-                "value": 54.1
+                "value": 54.1,
+                "unit": "mL/kg/min"
               },
               {
                 "local_date": "2026-06-24",
-                "value": 54
+                "value": 54,
+                "unit": "mL/kg/min"
               },
               {
                 "local_date": "2026-06-25",
-                "value": 54
+                "value": 54,
+                "unit": "mL/kg/min"
               },
               {
                 "local_date": "2026-06-26",
-                "value": 54.1
+                "value": 54.1,
+                "unit": "mL/kg/min"
               },
               {
                 "local_date": "2026-06-27",
-                "value": 54.1
+                "value": 54.1,
+                "unit": "mL/kg/min"
               },
               {
                 "local_date": "2026-06-28",
-                "value": 53.8
+                "value": 53.8,
+                "unit": "mL/kg/min"
               },
               {
                 "local_date": "2026-06-29",
-                "value": 53.8
+                "value": 53.8,
+                "unit": "mL/kg/min"
               },
               {
                 "local_date": "2026-06-30",
-                "value": 54.1
+                "value": 54.1,
+                "unit": "mL/kg/min"
               },
               {
                 "local_date": "2026-07-01",
-                "value": 54.1
+                "value": 54.1,
+                "unit": "mL/kg/min"
               },
               {
                 "local_date": "2026-07-02",
-                "value": 53.9
+                "value": 53.9,
+                "unit": "mL/kg/min"
               },
               {
                 "local_date": "2026-07-03",
-                "value": 54
+                "value": 54,
+                "unit": "mL/kg/min"
               },
               {
                 "local_date": "2026-07-04",
-                "value": 54.1
+                "value": 54.1,
+                "unit": "mL/kg/min"
               },
               {
                 "local_date": "2026-07-05",
-                "value": 53.9
+                "value": 53.9,
+                "unit": "mL/kg/min"
               },
               {
                 "local_date": "2026-07-06",
-                "value": 53.8
+                "value": 53.8,
+                "unit": "mL/kg/min"
               },
               {
                 "local_date": "2026-07-07",
-                "value": 54
+                "value": 54,
+                "unit": "mL/kg/min"
               },
               {
                 "local_date": "2026-07-08",
-                "value": 54.2
+                "value": 54.2,
+                "unit": "mL/kg/min"
               },
               {
                 "local_date": "2026-07-09",
-                "value": 54
+                "value": 54,
+                "unit": "mL/kg/min"
               },
               {
                 "local_date": "2026-07-10",
-                "value": 54
+                "value": 54,
+                "unit": "mL/kg/min"
               }
             ]
           },
@@ -961,125 +1141,156 @@
                   "series_tail": [
                     {
                       "local_date": "2026-06-11",
-                      "value": 50.7
+                      "value": 50.7,
+                      "unit": "bpm"
                     },
                     {
                       "local_date": "2026-06-12",
-                      "value": 52.6
+                      "value": 52.6,
+                      "unit": "bpm"
                     },
                     {
                       "local_date": "2026-06-13",
-                      "value": 51.7
+                      "value": 51.7,
+                      "unit": "bpm"
                     },
                     {
                       "local_date": "2026-06-14",
-                      "value": 50.8
+                      "value": 50.8,
+                      "unit": "bpm"
                     },
                     {
                       "local_date": "2026-06-15",
-                      "value": 53
+                      "value": 53,
+                      "unit": "bpm"
                     },
                     {
                       "local_date": "2026-06-16",
-                      "value": 53.8
+                      "value": 53.8,
+                      "unit": "bpm"
                     },
                     {
                       "local_date": "2026-06-17",
-                      "value": 50.9
+                      "value": 50.9,
+                      "unit": "bpm"
                     },
                     {
                       "local_date": "2026-06-18",
-                      "value": 49.6
+                      "value": 49.6,
+                      "unit": "bpm"
                     },
                     {
                       "local_date": "2026-06-19",
-                      "value": 51.7
+                      "value": 51.7,
+                      "unit": "bpm"
                     },
                     {
                       "local_date": "2026-06-20",
-                      "value": 52.3
+                      "value": 52.3,
+                      "unit": "bpm"
                     },
                     {
                       "local_date": "2026-06-21",
-                      "value": 50.8
+                      "value": 50.8,
+                      "unit": "bpm"
                     },
                     {
                       "local_date": "2026-06-22",
-                      "value": 51.6
+                      "value": 51.6,
+                      "unit": "bpm"
                     },
                     {
                       "local_date": "2026-06-23",
-                      "value": 53.4
+                      "value": 53.4,
+                      "unit": "bpm"
                     },
                     {
                       "local_date": "2026-06-24",
-                      "value": 51.5
+                      "value": 51.5,
+                      "unit": "bpm"
                     },
                     {
                       "local_date": "2026-06-25",
-                      "value": 49
+                      "value": 49,
+                      "unit": "bpm"
                     },
                     {
                       "local_date": "2026-06-26",
-                      "value": 50.5
+                      "value": 50.5,
+                      "unit": "bpm"
                     },
                     {
                       "local_date": "2026-06-27",
-                      "value": 52.4
+                      "value": 52.4,
+                      "unit": "bpm"
                     },
                     {
                       "local_date": "2026-06-28",
-                      "value": 51.2
+                      "value": 51.2,
+                      "unit": "bpm"
                     },
                     {
                       "local_date": "2026-06-29",
-                      "value": 50.6
+                      "value": 50.6,
+                      "unit": "bpm"
                     },
                     {
                       "local_date": "2026-06-30",
-                      "value": 52.4
+                      "value": 52.4,
+                      "unit": "bpm"
                     },
                     {
                       "local_date": "2026-07-01",
-                      "value": 52
+                      "value": 52,
+                      "unit": "bpm"
                     },
                     {
                       "local_date": "2026-07-02",
-                      "value": 49
+                      "value": 49,
+                      "unit": "bpm"
                     },
                     {
                       "local_date": "2026-07-03",
-                      "value": 49.2
+                      "value": 49.2,
+                      "unit": "bpm"
                     },
                     {
                       "local_date": "2026-07-04",
-                      "value": 51.9
+                      "value": 51.9,
+                      "unit": "bpm"
                     },
                     {
                       "local_date": "2026-07-05",
-                      "value": 51.8
+                      "value": 51.8,
+                      "unit": "bpm"
                     },
                     {
                       "local_date": "2026-07-06",
-                      "value": 50.1
+                      "value": 50.1,
+                      "unit": "bpm"
                     },
                     {
                       "local_date": "2026-07-07",
-                      "value": 51.1
+                      "value": 51.1,
+                      "unit": "bpm"
                     },
                     {
                       "local_date": "2026-07-08",
-                      "value": 51.9
+                      "value": 51.9,
+                      "unit": "bpm"
                     },
                     {
                       "local_date": "2026-07-09",
-                      "value": 49.5
+                      "value": 49.5,
+                      "unit": "bpm"
                     },
                     {
                       "local_date": "2026-07-10",
-                      "value": 48.2
+                      "value": 48.2,
+                      "unit": "bpm"
                     }
-                  ]
+                  ],
+                  "unit": "bpm"
                 },
                 "30d": {
                   "window": "30d",
@@ -1096,125 +1307,156 @@
                   "series_tail": [
                     {
                       "local_date": "2026-06-11",
-                      "value": 50.7
+                      "value": 50.7,
+                      "unit": "bpm"
                     },
                     {
                       "local_date": "2026-06-12",
-                      "value": 52.6
+                      "value": 52.6,
+                      "unit": "bpm"
                     },
                     {
                       "local_date": "2026-06-13",
-                      "value": 51.7
+                      "value": 51.7,
+                      "unit": "bpm"
                     },
                     {
                       "local_date": "2026-06-14",
-                      "value": 50.8
+                      "value": 50.8,
+                      "unit": "bpm"
                     },
                     {
                       "local_date": "2026-06-15",
-                      "value": 53
+                      "value": 53,
+                      "unit": "bpm"
                     },
                     {
                       "local_date": "2026-06-16",
-                      "value": 53.8
+                      "value": 53.8,
+                      "unit": "bpm"
                     },
                     {
                       "local_date": "2026-06-17",
-                      "value": 50.9
+                      "value": 50.9,
+                      "unit": "bpm"
                     },
                     {
                       "local_date": "2026-06-18",
-                      "value": 49.6
+                      "value": 49.6,
+                      "unit": "bpm"
                     },
                     {
                       "local_date": "2026-06-19",
-                      "value": 51.7
+                      "value": 51.7,
+                      "unit": "bpm"
                     },
                     {
                       "local_date": "2026-06-20",
-                      "value": 52.3
+                      "value": 52.3,
+                      "unit": "bpm"
                     },
                     {
                       "local_date": "2026-06-21",
-                      "value": 50.8
+                      "value": 50.8,
+                      "unit": "bpm"
                     },
                     {
                       "local_date": "2026-06-22",
-                      "value": 51.6
+                      "value": 51.6,
+                      "unit": "bpm"
                     },
                     {
                       "local_date": "2026-06-23",
-                      "value": 53.4
+                      "value": 53.4,
+                      "unit": "bpm"
                     },
                     {
                       "local_date": "2026-06-24",
-                      "value": 51.5
+                      "value": 51.5,
+                      "unit": "bpm"
                     },
                     {
                       "local_date": "2026-06-25",
-                      "value": 49
+                      "value": 49,
+                      "unit": "bpm"
                     },
                     {
                       "local_date": "2026-06-26",
-                      "value": 50.5
+                      "value": 50.5,
+                      "unit": "bpm"
                     },
                     {
                       "local_date": "2026-06-27",
-                      "value": 52.4
+                      "value": 52.4,
+                      "unit": "bpm"
                     },
                     {
                       "local_date": "2026-06-28",
-                      "value": 51.2
+                      "value": 51.2,
+                      "unit": "bpm"
                     },
                     {
                       "local_date": "2026-06-29",
-                      "value": 50.6
+                      "value": 50.6,
+                      "unit": "bpm"
                     },
                     {
                       "local_date": "2026-06-30",
-                      "value": 52.4
+                      "value": 52.4,
+                      "unit": "bpm"
                     },
                     {
                       "local_date": "2026-07-01",
-                      "value": 52
+                      "value": 52,
+                      "unit": "bpm"
                     },
                     {
                       "local_date": "2026-07-02",
-                      "value": 49
+                      "value": 49,
+                      "unit": "bpm"
                     },
                     {
                       "local_date": "2026-07-03",
-                      "value": 49.2
+                      "value": 49.2,
+                      "unit": "bpm"
                     },
                     {
                       "local_date": "2026-07-04",
-                      "value": 51.9
+                      "value": 51.9,
+                      "unit": "bpm"
                     },
                     {
                       "local_date": "2026-07-05",
-                      "value": 51.8
+                      "value": 51.8,
+                      "unit": "bpm"
                     },
                     {
                       "local_date": "2026-07-06",
-                      "value": 50.1
+                      "value": 50.1,
+                      "unit": "bpm"
                     },
                     {
                       "local_date": "2026-07-07",
-                      "value": 51.1
+                      "value": 51.1,
+                      "unit": "bpm"
                     },
                     {
                       "local_date": "2026-07-08",
-                      "value": 51.9
+                      "value": 51.9,
+                      "unit": "bpm"
                     },
                     {
                       "local_date": "2026-07-09",
-                      "value": 49.5
+                      "value": 49.5,
+                      "unit": "bpm"
                     },
                     {
                       "local_date": "2026-07-10",
-                      "value": 48.2
+                      "value": 48.2,
+                      "unit": "bpm"
                     }
-                  ]
+                  ],
+                  "unit": "bpm"
                 },
                 "density_met": true
               },
@@ -1234,125 +1476,156 @@
                   "series_tail": [
                     {
                       "local_date": "2026-06-11",
-                      "value": 49.7
+                      "value": 49.7,
+                      "unit": "ms"
                     },
                     {
                       "local_date": "2026-06-12",
-                      "value": 47.7
+                      "value": 47.7,
+                      "unit": "ms"
                     },
                     {
                       "local_date": "2026-06-13",
-                      "value": 45.6
+                      "value": 45.6,
+                      "unit": "ms"
                     },
                     {
                       "local_date": "2026-06-14",
-                      "value": 51.6
+                      "value": 51.6,
+                      "unit": "ms"
                     },
                     {
                       "local_date": "2026-06-15",
-                      "value": 54
+                      "value": 54,
+                      "unit": "ms"
                     },
                     {
                       "local_date": "2026-06-16",
-                      "value": 46.6
+                      "value": 46.6,
+                      "unit": "ms"
                     },
                     {
                       "local_date": "2026-06-17",
-                      "value": 43.4
+                      "value": 43.4,
+                      "unit": "ms"
                     },
                     {
                       "local_date": "2026-06-18",
-                      "value": 49.3
+                      "value": 49.3,
+                      "unit": "ms"
                     },
                     {
                       "local_date": "2026-06-19",
-                      "value": 51.1
+                      "value": 51.1,
+                      "unit": "ms"
                     },
                     {
                       "local_date": "2026-06-20",
-                      "value": 47.3
+                      "value": 47.3,
+                      "unit": "ms"
                     },
                     {
                       "local_date": "2026-06-21",
-                      "value": 49.9
+                      "value": 49.9,
+                      "unit": "ms"
                     },
                     {
                       "local_date": "2026-06-22",
-                      "value": 54.9
+                      "value": 54.9,
+                      "unit": "ms"
                     },
                     {
                       "local_date": "2026-06-23",
-                      "value": 50.1
+                      "value": 50.1,
+                      "unit": "ms"
                     },
                     {
                       "local_date": "2026-06-24",
-                      "value": 43.7
+                      "value": 43.7,
+                      "unit": "ms"
                     },
                     {
                       "local_date": "2026-06-25",
-                      "value": 47.9
+                      "value": 47.9,
+                      "unit": "ms"
                     },
                     {
                       "local_date": "2026-06-26",
-                      "value": 53.3
+                      "value": 53.3,
+                      "unit": "ms"
                     },
                     {
                       "local_date": "2026-06-27",
-                      "value": 50.4
+                      "value": 50.4,
+                      "unit": "ms"
                     },
                     {
                       "local_date": "2026-06-28",
-                      "value": 49.1
+                      "value": 49.1,
+                      "unit": "ms"
                     },
                     {
                       "local_date": "2026-06-29",
-                      "value": 54.2
+                      "value": 54.2,
+                      "unit": "ms"
                     },
                     {
                       "local_date": "2026-06-30",
-                      "value": 53.3
+                      "value": 53.3,
+                      "unit": "ms"
                     },
                     {
                       "local_date": "2026-07-01",
-                      "value": 45.7
+                      "value": 45.7,
+                      "unit": "ms"
                     },
                     {
                       "local_date": "2026-07-02",
-                      "value": 46.4
+                      "value": 46.4,
+                      "unit": "ms"
                     },
                     {
                       "local_date": "2026-07-03",
-                      "value": 53.9
+                      "value": 53.9,
+                      "unit": "ms"
                     },
                     {
                       "local_date": "2026-07-04",
-                      "value": 54
+                      "value": 54,
+                      "unit": "ms"
                     },
                     {
                       "local_date": "2026-07-05",
-                      "value": 49.8
+                      "value": 49.8,
+                      "unit": "ms"
                     },
                     {
                       "local_date": "2026-07-06",
-                      "value": 52.6
+                      "value": 52.6,
+                      "unit": "ms"
                     },
                     {
                       "local_date": "2026-07-07",
-                      "value": 55.1
+                      "value": 55.1,
+                      "unit": "ms"
                     },
                     {
                       "local_date": "2026-07-08",
-                      "value": 49
+                      "value": 49,
+                      "unit": "ms"
                     },
                     {
                       "local_date": "2026-07-09",
-                      "value": 45.8
+                      "value": 45.8,
+                      "unit": "ms"
                     },
                     {
                       "local_date": "2026-07-10",
-                      "value": 53
+                      "value": 53,
+                      "unit": "ms"
                     }
-                  ]
+                  ],
+                  "unit": "ms"
                 },
                 "30d": {
                   "window": "30d",
@@ -1369,125 +1642,156 @@
                   "series_tail": [
                     {
                       "local_date": "2026-06-11",
-                      "value": 49.7
+                      "value": 49.7,
+                      "unit": "ms"
                     },
                     {
                       "local_date": "2026-06-12",
-                      "value": 47.7
+                      "value": 47.7,
+                      "unit": "ms"
                     },
                     {
                       "local_date": "2026-06-13",
-                      "value": 45.6
+                      "value": 45.6,
+                      "unit": "ms"
                     },
                     {
                       "local_date": "2026-06-14",
-                      "value": 51.6
+                      "value": 51.6,
+                      "unit": "ms"
                     },
                     {
                       "local_date": "2026-06-15",
-                      "value": 54
+                      "value": 54,
+                      "unit": "ms"
                     },
                     {
                       "local_date": "2026-06-16",
-                      "value": 46.6
+                      "value": 46.6,
+                      "unit": "ms"
                     },
                     {
                       "local_date": "2026-06-17",
-                      "value": 43.4
+                      "value": 43.4,
+                      "unit": "ms"
                     },
                     {
                       "local_date": "2026-06-18",
-                      "value": 49.3
+                      "value": 49.3,
+                      "unit": "ms"
                     },
                     {
                       "local_date": "2026-06-19",
-                      "value": 51.1
+                      "value": 51.1,
+                      "unit": "ms"
                     },
                     {
                       "local_date": "2026-06-20",
-                      "value": 47.3
+                      "value": 47.3,
+                      "unit": "ms"
                     },
                     {
                       "local_date": "2026-06-21",
-                      "value": 49.9
+                      "value": 49.9,
+                      "unit": "ms"
                     },
                     {
                       "local_date": "2026-06-22",
-                      "value": 54.9
+                      "value": 54.9,
+                      "unit": "ms"
                     },
                     {
                       "local_date": "2026-06-23",
-                      "value": 50.1
+                      "value": 50.1,
+                      "unit": "ms"
                     },
                     {
                       "local_date": "2026-06-24",
-                      "value": 43.7
+                      "value": 43.7,
+                      "unit": "ms"
                     },
                     {
                       "local_date": "2026-06-25",
-                      "value": 47.9
+                      "value": 47.9,
+                      "unit": "ms"
                     },
                     {
                       "local_date": "2026-06-26",
-                      "value": 53.3
+                      "value": 53.3,
+                      "unit": "ms"
                     },
                     {
                       "local_date": "2026-06-27",
-                      "value": 50.4
+                      "value": 50.4,
+                      "unit": "ms"
                     },
                     {
                       "local_date": "2026-06-28",
-                      "value": 49.1
+                      "value": 49.1,
+                      "unit": "ms"
                     },
                     {
                       "local_date": "2026-06-29",
-                      "value": 54.2
+                      "value": 54.2,
+                      "unit": "ms"
                     },
                     {
                       "local_date": "2026-06-30",
-                      "value": 53.3
+                      "value": 53.3,
+                      "unit": "ms"
                     },
                     {
                       "local_date": "2026-07-01",
-                      "value": 45.7
+                      "value": 45.7,
+                      "unit": "ms"
                     },
                     {
                       "local_date": "2026-07-02",
-                      "value": 46.4
+                      "value": 46.4,
+                      "unit": "ms"
                     },
                     {
                       "local_date": "2026-07-03",
-                      "value": 53.9
+                      "value": 53.9,
+                      "unit": "ms"
                     },
                     {
                       "local_date": "2026-07-04",
-                      "value": 54
+                      "value": 54,
+                      "unit": "ms"
                     },
                     {
                       "local_date": "2026-07-05",
-                      "value": 49.8
+                      "value": 49.8,
+                      "unit": "ms"
                     },
                     {
                       "local_date": "2026-07-06",
-                      "value": 52.6
+                      "value": 52.6,
+                      "unit": "ms"
                     },
                     {
                       "local_date": "2026-07-07",
-                      "value": 55.1
+                      "value": 55.1,
+                      "unit": "ms"
                     },
                     {
                       "local_date": "2026-07-08",
-                      "value": 49
+                      "value": 49,
+                      "unit": "ms"
                     },
                     {
                       "local_date": "2026-07-09",
-                      "value": 45.8
+                      "value": 45.8,
+                      "unit": "ms"
                     },
                     {
                       "local_date": "2026-07-10",
-                      "value": 53
+                      "value": 53,
+                      "unit": "ms"
                     }
-                  ]
+                  ],
+                  "unit": "ms"
                 },
                 "density_met": true
               },
@@ -1507,125 +1811,156 @@
                   "series_tail": [
                     {
                       "local_date": "2026-06-11",
-                      "value": 7.1
+                      "value": 7.1,
+                      "unit": "h"
                     },
                     {
                       "local_date": "2026-06-12",
-                      "value": 7.7
+                      "value": 7.7,
+                      "unit": "h"
                     },
                     {
                       "local_date": "2026-06-13",
-                      "value": 7.5
+                      "value": 7.5,
+                      "unit": "h"
                     },
                     {
                       "local_date": "2026-06-14",
-                      "value": 6.9
+                      "value": 6.9,
+                      "unit": "h"
                     },
                     {
                       "local_date": "2026-06-15",
-                      "value": 6.9
+                      "value": 6.9,
+                      "unit": "h"
                     },
                     {
                       "local_date": "2026-06-16",
-                      "value": 7.3
+                      "value": 7.3,
+                      "unit": "h"
                     },
                     {
                       "local_date": "2026-06-17",
-                      "value": 7.2
+                      "value": 7.2,
+                      "unit": "h"
                     },
                     {
                       "local_date": "2026-06-18",
-                      "value": 7
+                      "value": 7,
+                      "unit": "h"
                     },
                     {
                       "local_date": "2026-06-19",
-                      "value": 7.5
+                      "value": 7.5,
+                      "unit": "h"
                     },
                     {
                       "local_date": "2026-06-20",
-                      "value": 7.7
+                      "value": 7.7,
+                      "unit": "h"
                     },
                     {
                       "local_date": "2026-06-21",
-                      "value": 7
+                      "value": 7,
+                      "unit": "h"
                     },
                     {
                       "local_date": "2026-06-22",
-                      "value": 6.7
+                      "value": 6.7,
+                      "unit": "h"
                     },
                     {
                       "local_date": "2026-06-23",
-                      "value": 7.2
+                      "value": 7.2,
+                      "unit": "h"
                     },
                     {
                       "local_date": "2026-06-24",
-                      "value": 7.4
+                      "value": 7.4,
+                      "unit": "h"
                     },
                     {
                       "local_date": "2026-06-25",
-                      "value": 7
+                      "value": 7,
+                      "unit": "h"
                     },
                     {
                       "local_date": "2026-06-26",
-                      "value": 7.2
+                      "value": 7.2,
+                      "unit": "h"
                     },
                     {
                       "local_date": "2026-06-27",
-                      "value": 7.7
+                      "value": 7.7,
+                      "unit": "h"
                     },
                     {
                       "local_date": "2026-06-28",
-                      "value": 7.2
+                      "value": 7.2,
+                      "unit": "h"
                     },
                     {
                       "local_date": "2026-06-29",
-                      "value": 6.7
+                      "value": 6.7,
+                      "unit": "h"
                     },
                     {
                       "local_date": "2026-06-30",
-                      "value": 7
+                      "value": 7,
+                      "unit": "h"
                     },
                     {
                       "local_date": "2026-07-01",
-                      "value": 7.5
+                      "value": 7.5,
+                      "unit": "h"
                     },
                     {
                       "local_date": "2026-07-02",
-                      "value": 7.2
+                      "value": 7.2,
+                      "unit": "h"
                     },
                     {
                       "local_date": "2026-07-03",
-                      "value": 7.1
+                      "value": 7.1,
+                      "unit": "h"
                     },
                     {
                       "local_date": "2026-07-04",
-                      "value": 7.5
+                      "value": 7.5,
+                      "unit": "h"
                     },
                     {
                       "local_date": "2026-07-05",
-                      "value": 7.4
+                      "value": 7.4,
+                      "unit": "h"
                     },
                     {
                       "local_date": "2026-07-06",
-                      "value": 6.8
+                      "value": 6.8,
+                      "unit": "h"
                     },
                     {
                       "local_date": "2026-07-07",
-                      "value": 6.8
+                      "value": 6.8,
+                      "unit": "h"
                     },
                     {
                       "local_date": "2026-07-08",
-                      "value": 7.5
+                      "value": 7.5,
+                      "unit": "h"
                     },
                     {
                       "local_date": "2026-07-09",
-                      "value": 7.5
+                      "value": 7.5,
+                      "unit": "h"
                     },
                     {
                       "local_date": "2026-07-10",
-                      "value": 7.1
+                      "value": 7.1,
+                      "unit": "h"
                     }
-                  ]
+                  ],
+                  "unit": "h"
                 },
                 "30d": {
                   "window": "30d",
@@ -1642,125 +1977,156 @@
                   "series_tail": [
                     {
                       "local_date": "2026-06-11",
-                      "value": 7.1
+                      "value": 7.1,
+                      "unit": "h"
                     },
                     {
                       "local_date": "2026-06-12",
-                      "value": 7.7
+                      "value": 7.7,
+                      "unit": "h"
                     },
                     {
                       "local_date": "2026-06-13",
-                      "value": 7.5
+                      "value": 7.5,
+                      "unit": "h"
                     },
                     {
                       "local_date": "2026-06-14",
-                      "value": 6.9
+                      "value": 6.9,
+                      "unit": "h"
                     },
                     {
                       "local_date": "2026-06-15",
-                      "value": 6.9
+                      "value": 6.9,
+                      "unit": "h"
                     },
                     {
                       "local_date": "2026-06-16",
-                      "value": 7.3
+                      "value": 7.3,
+                      "unit": "h"
                     },
                     {
                       "local_date": "2026-06-17",
-                      "value": 7.2
+                      "value": 7.2,
+                      "unit": "h"
                     },
                     {
                       "local_date": "2026-06-18",
-                      "value": 7
+                      "value": 7,
+                      "unit": "h"
                     },
                     {
                       "local_date": "2026-06-19",
-                      "value": 7.5
+                      "value": 7.5,
+                      "unit": "h"
                     },
                     {
                       "local_date": "2026-06-20",
-                      "value": 7.7
+                      "value": 7.7,
+                      "unit": "h"
                     },
                     {
                       "local_date": "2026-06-21",
-                      "value": 7
+                      "value": 7,
+                      "unit": "h"
                     },
                     {
                       "local_date": "2026-06-22",
-                      "value": 6.7
+                      "value": 6.7,
+                      "unit": "h"
                     },
                     {
                       "local_date": "2026-06-23",
-                      "value": 7.2
+                      "value": 7.2,
+                      "unit": "h"
                     },
                     {
                       "local_date": "2026-06-24",
-                      "value": 7.4
+                      "value": 7.4,
+                      "unit": "h"
                     },
                     {
                       "local_date": "2026-06-25",
-                      "value": 7
+                      "value": 7,
+                      "unit": "h"
                     },
                     {
                       "local_date": "2026-06-26",
-                      "value": 7.2
+                      "value": 7.2,
+                      "unit": "h"
                     },
                     {
                       "local_date": "2026-06-27",
-                      "value": 7.7
+                      "value": 7.7,
+                      "unit": "h"
                     },
                     {
                       "local_date": "2026-06-28",
-                      "value": 7.2
+                      "value": 7.2,
+                      "unit": "h"
                     },
                     {
                       "local_date": "2026-06-29",
-                      "value": 6.7
+                      "value": 6.7,
+                      "unit": "h"
                     },
                     {
                       "local_date": "2026-06-30",
-                      "value": 7
+                      "value": 7,
+                      "unit": "h"
                     },
                     {
                       "local_date": "2026-07-01",
-                      "value": 7.5
+                      "value": 7.5,
+                      "unit": "h"
                     },
                     {
                       "local_date": "2026-07-02",
-                      "value": 7.2
+                      "value": 7.2,
+                      "unit": "h"
                     },
                     {
                       "local_date": "2026-07-03",
-                      "value": 7.1
+                      "value": 7.1,
+                      "unit": "h"
                     },
                     {
                       "local_date": "2026-07-04",
-                      "value": 7.5
+                      "value": 7.5,
+                      "unit": "h"
                     },
                     {
                       "local_date": "2026-07-05",
-                      "value": 7.4
+                      "value": 7.4,
+                      "unit": "h"
                     },
                     {
                       "local_date": "2026-07-06",
-                      "value": 6.8
+                      "value": 6.8,
+                      "unit": "h"
                     },
                     {
                       "local_date": "2026-07-07",
-                      "value": 6.8
+                      "value": 6.8,
+                      "unit": "h"
                     },
                     {
                       "local_date": "2026-07-08",
-                      "value": 7.5
+                      "value": 7.5,
+                      "unit": "h"
                     },
                     {
                       "local_date": "2026-07-09",
-                      "value": 7.5
+                      "value": 7.5,
+                      "unit": "h"
                     },
                     {
                       "local_date": "2026-07-10",
-                      "value": 7.1
+                      "value": 7.1,
+                      "unit": "h"
                     }
-                  ]
+                  ],
+                  "unit": "h"
                 },
                 "density_met": true
               },
@@ -1780,125 +2146,156 @@
                   "series_tail": [
                     {
                       "local_date": "2026-06-11",
-                      "value": 10424
+                      "value": 10424,
+                      "unit": "count"
                     },
                     {
                       "local_date": "2026-06-12",
-                      "value": 8732
+                      "value": 8732,
+                      "unit": "count"
                     },
                     {
                       "local_date": "2026-06-13",
-                      "value": 7979
+                      "value": 7979,
+                      "unit": "count"
                     },
                     {
                       "local_date": "2026-06-14",
-                      "value": 9282
+                      "value": 9282,
+                      "unit": "count"
                     },
                     {
                       "local_date": "2026-06-15",
-                      "value": 9645
+                      "value": 9645,
+                      "unit": "count"
                     },
                     {
                       "local_date": "2026-06-16",
-                      "value": 8766
+                      "value": 8766,
+                      "unit": "count"
                     },
                     {
                       "local_date": "2026-06-17",
-                      "value": 9326
+                      "value": 9326,
+                      "unit": "count"
                     },
                     {
                       "local_date": "2026-06-18",
-                      "value": 10410
+                      "value": 10410,
+                      "unit": "count"
                     },
                     {
                       "local_date": "2026-06-19",
-                      "value": 9307
+                      "value": 9307,
+                      "unit": "count"
                     },
                     {
                       "local_date": "2026-06-20",
-                      "value": 7832
+                      "value": 7832,
+                      "unit": "count"
                     },
                     {
                       "local_date": "2026-06-21",
-                      "value": 8737
+                      "value": 8737,
+                      "unit": "count"
                     },
                     {
                       "local_date": "2026-06-22",
-                      "value": 9938
+                      "value": 9938,
+                      "unit": "count"
                     },
                     {
                       "local_date": "2026-06-23",
-                      "value": 9249
+                      "value": 9249,
+                      "unit": "count"
                     },
                     {
                       "local_date": "2026-06-24",
-                      "value": 8921
+                      "value": 8921,
+                      "unit": "count"
                     },
                     {
                       "local_date": "2026-06-25",
-                      "value": 10033
+                      "value": 10033,
+                      "unit": "count"
                     },
                     {
                       "local_date": "2026-06-26",
-                      "value": 9800
+                      "value": 9800,
+                      "unit": "count"
                     },
                     {
                       "local_date": "2026-06-27",
-                      "value": 8069
+                      "value": 8069,
+                      "unit": "count"
                     },
                     {
                       "local_date": "2026-06-28",
-                      "value": 8177
+                      "value": 8177,
+                      "unit": "count"
                     },
                     {
                       "local_date": "2026-06-29",
-                      "value": 9851
+                      "value": 9851,
+                      "unit": "count"
                     },
                     {
                       "local_date": "2026-06-30",
-                      "value": 9844
+                      "value": 9844,
+                      "unit": "count"
                     },
                     {
                       "local_date": "2026-07-01",
-                      "value": 8865
+                      "value": 8865,
+                      "unit": "count"
                     },
                     {
                       "local_date": "2026-07-02",
-                      "value": 9452
+                      "value": 9452,
+                      "unit": "count"
                     },
                     {
                       "local_date": "2026-07-03",
-                      "value": 9995
+                      "value": 9995,
+                      "unit": "count"
                     },
                     {
                       "local_date": "2026-07-04",
-                      "value": 8586
+                      "value": 8586,
+                      "unit": "count"
                     },
                     {
                       "local_date": "2026-07-05",
-                      "value": 7843
+                      "value": 7843,
+                      "unit": "count"
                     },
                     {
                       "local_date": "2026-07-06",
-                      "value": 9426
+                      "value": 9426,
+                      "unit": "count"
                     },
                     {
                       "local_date": "2026-07-07",
-                      "value": 10302
+                      "value": 10302,
+                      "unit": "count"
                     },
                     {
                       "local_date": "2026-07-08",
-                      "value": 9184
+                      "value": 9184,
+                      "unit": "count"
                     },
                     {
                       "local_date": "2026-07-09",
-                      "value": 8913
+                      "value": 8913,
+                      "unit": "count"
                     },
                     {
                       "local_date": "2026-07-10",
-                      "value": 9805
+                      "value": 9805,
+                      "unit": "count"
                     }
-                  ]
+                  ],
+                  "unit": "count"
                 },
                 "30d": {
                   "window": "30d",
@@ -1915,125 +2312,156 @@
                   "series_tail": [
                     {
                       "local_date": "2026-06-11",
-                      "value": 10424
+                      "value": 10424,
+                      "unit": "count"
                     },
                     {
                       "local_date": "2026-06-12",
-                      "value": 8732
+                      "value": 8732,
+                      "unit": "count"
                     },
                     {
                       "local_date": "2026-06-13",
-                      "value": 7979
+                      "value": 7979,
+                      "unit": "count"
                     },
                     {
                       "local_date": "2026-06-14",
-                      "value": 9282
+                      "value": 9282,
+                      "unit": "count"
                     },
                     {
                       "local_date": "2026-06-15",
-                      "value": 9645
+                      "value": 9645,
+                      "unit": "count"
                     },
                     {
                       "local_date": "2026-06-16",
-                      "value": 8766
+                      "value": 8766,
+                      "unit": "count"
                     },
                     {
                       "local_date": "2026-06-17",
-                      "value": 9326
+                      "value": 9326,
+                      "unit": "count"
                     },
                     {
                       "local_date": "2026-06-18",
-                      "value": 10410
+                      "value": 10410,
+                      "unit": "count"
                     },
                     {
                       "local_date": "2026-06-19",
-                      "value": 9307
+                      "value": 9307,
+                      "unit": "count"
                     },
                     {
                       "local_date": "2026-06-20",
-                      "value": 7832
+                      "value": 7832,
+                      "unit": "count"
                     },
                     {
                       "local_date": "2026-06-21",
-                      "value": 8737
+                      "value": 8737,
+                      "unit": "count"
                     },
                     {
                       "local_date": "2026-06-22",
-                      "value": 9938
+                      "value": 9938,
+                      "unit": "count"
                     },
                     {
                       "local_date": "2026-06-23",
-                      "value": 9249
+                      "value": 9249,
+                      "unit": "count"
                     },
                     {
                       "local_date": "2026-06-24",
-                      "value": 8921
+                      "value": 8921,
+                      "unit": "count"
                     },
                     {
                       "local_date": "2026-06-25",
-                      "value": 10033
+                      "value": 10033,
+                      "unit": "count"
                     },
                     {
                       "local_date": "2026-06-26",
-                      "value": 9800
+                      "value": 9800,
+                      "unit": "count"
                     },
                     {
                       "local_date": "2026-06-27",
-                      "value": 8069
+                      "value": 8069,
+                      "unit": "count"
                     },
                     {
                       "local_date": "2026-06-28",
-                      "value": 8177
+                      "value": 8177,
+                      "unit": "count"
                     },
                     {
                       "local_date": "2026-06-29",
-                      "value": 9851
+                      "value": 9851,
+                      "unit": "count"
                     },
                     {
                       "local_date": "2026-06-30",
-                      "value": 9844
+                      "value": 9844,
+                      "unit": "count"
                     },
                     {
                       "local_date": "2026-07-01",
-                      "value": 8865
+                      "value": 8865,
+                      "unit": "count"
                     },
                     {
                       "local_date": "2026-07-02",
-                      "value": 9452
+                      "value": 9452,
+                      "unit": "count"
                     },
                     {
                       "local_date": "2026-07-03",
-                      "value": 9995
+                      "value": 9995,
+                      "unit": "count"
                     },
                     {
                       "local_date": "2026-07-04",
-                      "value": 8586
+                      "value": 8586,
+                      "unit": "count"
                     },
                     {
                       "local_date": "2026-07-05",
-                      "value": 7843
+                      "value": 7843,
+                      "unit": "count"
                     },
                     {
                       "local_date": "2026-07-06",
-                      "value": 9426
+                      "value": 9426,
+                      "unit": "count"
                     },
                     {
                       "local_date": "2026-07-07",
-                      "value": 10302
+                      "value": 10302,
+                      "unit": "count"
                     },
                     {
                       "local_date": "2026-07-08",
-                      "value": 9184
+                      "value": 9184,
+                      "unit": "count"
                     },
                     {
                       "local_date": "2026-07-09",
-                      "value": 8913
+                      "value": 8913,
+                      "unit": "count"
                     },
                     {
                       "local_date": "2026-07-10",
-                      "value": 9805
+                      "value": 9805,
+                      "unit": "count"
                     }
-                  ]
+                  ],
+                  "unit": "count"
                 },
                 "density_met": true
               },
@@ -2053,125 +2481,156 @@
                   "series_tail": [
                     {
                       "local_date": "2026-06-11",
-                      "value": 45
+                      "value": 45,
+                      "unit": "min/day"
                     },
                     {
                       "local_date": "2026-06-12",
-                      "value": 56
+                      "value": 56,
+                      "unit": "min/day"
                     },
                     {
                       "local_date": "2026-06-13",
-                      "value": 54
+                      "value": 54,
+                      "unit": "min/day"
                     },
                     {
                       "local_date": "2026-06-14",
-                      "value": 42
+                      "value": 42,
+                      "unit": "min/day"
                     },
                     {
                       "local_date": "2026-06-15",
-                      "value": 43
+                      "value": 43,
+                      "unit": "min/day"
                     },
                     {
                       "local_date": "2026-06-16",
-                      "value": 51
+                      "value": 51,
+                      "unit": "min/day"
                     },
                     {
                       "local_date": "2026-06-17",
-                      "value": 47
+                      "value": 47,
+                      "unit": "min/day"
                     },
                     {
                       "local_date": "2026-06-18",
-                      "value": 44
+                      "value": 44,
+                      "unit": "min/day"
                     },
                     {
                       "local_date": "2026-06-19",
-                      "value": 53
+                      "value": 53,
+                      "unit": "min/day"
                     },
                     {
                       "local_date": "2026-06-20",
-                      "value": 56
+                      "value": 56,
+                      "unit": "min/day"
                     },
                     {
                       "local_date": "2026-06-21",
-                      "value": 45
+                      "value": 45,
+                      "unit": "min/day"
                     },
                     {
                       "local_date": "2026-06-22",
-                      "value": 40
+                      "value": 40,
+                      "unit": "min/day"
                     },
                     {
                       "local_date": "2026-06-23",
-                      "value": 49
+                      "value": 49,
+                      "unit": "min/day"
                     },
                     {
                       "local_date": "2026-06-24",
-                      "value": 51
+                      "value": 51,
+                      "unit": "min/day"
                     },
                     {
                       "local_date": "2026-06-25",
-                      "value": 45
+                      "value": 45,
+                      "unit": "min/day"
                     },
                     {
                       "local_date": "2026-06-26",
-                      "value": 49
+                      "value": 49,
+                      "unit": "min/day"
                     },
                     {
                       "local_date": "2026-06-27",
-                      "value": 56
+                      "value": 56,
+                      "unit": "min/day"
                     },
                     {
                       "local_date": "2026-06-28",
-                      "value": 49
+                      "value": 49,
+                      "unit": "min/day"
                     },
                     {
                       "local_date": "2026-06-29",
-                      "value": 39
+                      "value": 39,
+                      "unit": "min/day"
                     },
                     {
                       "local_date": "2026-06-30",
-                      "value": 45
+                      "value": 45,
+                      "unit": "min/day"
                     },
                     {
                       "local_date": "2026-07-01",
-                      "value": 53
+                      "value": 53,
+                      "unit": "min/day"
                     },
                     {
                       "local_date": "2026-07-02",
-                      "value": 48
+                      "value": 48,
+                      "unit": "min/day"
                     },
                     {
                       "local_date": "2026-07-03",
-                      "value": 46
+                      "value": 46,
+                      "unit": "min/day"
                     },
                     {
                       "local_date": "2026-07-04",
-                      "value": 54
+                      "value": 54,
+                      "unit": "min/day"
                     },
                     {
                       "local_date": "2026-07-05",
-                      "value": 52
+                      "value": 52,
+                      "unit": "min/day"
                     },
                     {
                       "local_date": "2026-07-06",
-                      "value": 40
+                      "value": 40,
+                      "unit": "min/day"
                     },
                     {
                       "local_date": "2026-07-07",
-                      "value": 41
+                      "value": 41,
+                      "unit": "min/day"
                     },
                     {
                       "local_date": "2026-07-08",
-                      "value": 52
+                      "value": 52,
+                      "unit": "min/day"
                     },
                     {
                       "local_date": "2026-07-09",
-                      "value": 52
+                      "value": 52,
+                      "unit": "min/day"
                     },
                     {
                       "local_date": "2026-07-10",
-                      "value": 46
+                      "value": 46,
+                      "unit": "min/day"
                     }
-                  ]
+                  ],
+                  "unit": "min/day"
                 },
                 "30d": {
                   "window": "30d",
@@ -2188,125 +2647,156 @@
                   "series_tail": [
                     {
                       "local_date": "2026-06-11",
-                      "value": 45
+                      "value": 45,
+                      "unit": "min/day"
                     },
                     {
                       "local_date": "2026-06-12",
-                      "value": 56
+                      "value": 56,
+                      "unit": "min/day"
                     },
                     {
                       "local_date": "2026-06-13",
-                      "value": 54
+                      "value": 54,
+                      "unit": "min/day"
                     },
                     {
                       "local_date": "2026-06-14",
-                      "value": 42
+                      "value": 42,
+                      "unit": "min/day"
                     },
                     {
                       "local_date": "2026-06-15",
-                      "value": 43
+                      "value": 43,
+                      "unit": "min/day"
                     },
                     {
                       "local_date": "2026-06-16",
-                      "value": 51
+                      "value": 51,
+                      "unit": "min/day"
                     },
                     {
                       "local_date": "2026-06-17",
-                      "value": 47
+                      "value": 47,
+                      "unit": "min/day"
                     },
                     {
                       "local_date": "2026-06-18",
-                      "value": 44
+                      "value": 44,
+                      "unit": "min/day"
                     },
                     {
                       "local_date": "2026-06-19",
-                      "value": 53
+                      "value": 53,
+                      "unit": "min/day"
                     },
                     {
                       "local_date": "2026-06-20",
-                      "value": 56
+                      "value": 56,
+                      "unit": "min/day"
                     },
                     {
                       "local_date": "2026-06-21",
-                      "value": 45
+                      "value": 45,
+                      "unit": "min/day"
                     },
                     {
                       "local_date": "2026-06-22",
-                      "value": 40
+                      "value": 40,
+                      "unit": "min/day"
                     },
                     {
                       "local_date": "2026-06-23",
-                      "value": 49
+                      "value": 49,
+                      "unit": "min/day"
                     },
                     {
                       "local_date": "2026-06-24",
-                      "value": 51
+                      "value": 51,
+                      "unit": "min/day"
                     },
                     {
                       "local_date": "2026-06-25",
-                      "value": 45
+                      "value": 45,
+                      "unit": "min/day"
                     },
                     {
                       "local_date": "2026-06-26",
-                      "value": 49
+                      "value": 49,
+                      "unit": "min/day"
                     },
                     {
                       "local_date": "2026-06-27",
-                      "value": 56
+                      "value": 56,
+                      "unit": "min/day"
                     },
                     {
                       "local_date": "2026-06-28",
-                      "value": 49
+                      "value": 49,
+                      "unit": "min/day"
                     },
                     {
                       "local_date": "2026-06-29",
-                      "value": 39
+                      "value": 39,
+                      "unit": "min/day"
                     },
                     {
                       "local_date": "2026-06-30",
-                      "value": 45
+                      "value": 45,
+                      "unit": "min/day"
                     },
                     {
                       "local_date": "2026-07-01",
-                      "value": 53
+                      "value": 53,
+                      "unit": "min/day"
                     },
                     {
                       "local_date": "2026-07-02",
-                      "value": 48
+                      "value": 48,
+                      "unit": "min/day"
                     },
                     {
                       "local_date": "2026-07-03",
-                      "value": 46
+                      "value": 46,
+                      "unit": "min/day"
                     },
                     {
                       "local_date": "2026-07-04",
-                      "value": 54
+                      "value": 54,
+                      "unit": "min/day"
                     },
                     {
                       "local_date": "2026-07-05",
-                      "value": 52
+                      "value": 52,
+                      "unit": "min/day"
                     },
                     {
                       "local_date": "2026-07-06",
-                      "value": 40
+                      "value": 40,
+                      "unit": "min/day"
                     },
                     {
                       "local_date": "2026-07-07",
-                      "value": 41
+                      "value": 41,
+                      "unit": "min/day"
                     },
                     {
                       "local_date": "2026-07-08",
-                      "value": 52
+                      "value": 52,
+                      "unit": "min/day"
                     },
                     {
                       "local_date": "2026-07-09",
-                      "value": 52
+                      "value": 52,
+                      "unit": "min/day"
                     },
                     {
                       "local_date": "2026-07-10",
-                      "value": 46
+                      "value": 46,
+                      "unit": "min/day"
                     }
-                  ]
+                  ],
+                  "unit": "min/day"
                 },
                 "density_met": true
               },
@@ -2326,125 +2816,156 @@
                   "series_tail": [
                     {
                       "local_date": "2026-06-11",
-                      "value": 54.1
+                      "value": 54.1,
+                      "unit": "mL/kg/min"
                     },
                     {
                       "local_date": "2026-06-12",
-                      "value": 54.2
+                      "value": 54.2,
+                      "unit": "mL/kg/min"
                     },
                     {
                       "local_date": "2026-06-13",
-                      "value": 53.9
+                      "value": 53.9,
+                      "unit": "mL/kg/min"
                     },
                     {
                       "local_date": "2026-06-14",
-                      "value": 53.8
+                      "value": 53.8,
+                      "unit": "mL/kg/min"
                     },
                     {
                       "local_date": "2026-06-15",
-                      "value": 54
+                      "value": 54,
+                      "unit": "mL/kg/min"
                     },
                     {
                       "local_date": "2026-06-16",
-                      "value": 54.1
+                      "value": 54.1,
+                      "unit": "mL/kg/min"
                     },
                     {
                       "local_date": "2026-06-17",
-                      "value": 53.9
+                      "value": 53.9,
+                      "unit": "mL/kg/min"
                     },
                     {
                       "local_date": "2026-06-18",
-                      "value": 54
+                      "value": 54,
+                      "unit": "mL/kg/min"
                     },
                     {
                       "local_date": "2026-06-19",
-                      "value": 54.2
+                      "value": 54.2,
+                      "unit": "mL/kg/min"
                     },
                     {
                       "local_date": "2026-06-20",
-                      "value": 54
+                      "value": 54,
+                      "unit": "mL/kg/min"
                     },
                     {
                       "local_date": "2026-06-21",
-                      "value": 53.8
+                      "value": 53.8,
+                      "unit": "mL/kg/min"
                     },
                     {
                       "local_date": "2026-06-22",
-                      "value": 53.9
+                      "value": 53.9,
+                      "unit": "mL/kg/min"
                     },
                     {
                       "local_date": "2026-06-23",
-                      "value": 54.1
+                      "value": 54.1,
+                      "unit": "mL/kg/min"
                     },
                     {
                       "local_date": "2026-06-24",
-                      "value": 54
+                      "value": 54,
+                      "unit": "mL/kg/min"
                     },
                     {
                       "local_date": "2026-06-25",
-                      "value": 54
+                      "value": 54,
+                      "unit": "mL/kg/min"
                     },
                     {
                       "local_date": "2026-06-26",
-                      "value": 54.1
+                      "value": 54.1,
+                      "unit": "mL/kg/min"
                     },
                     {
                       "local_date": "2026-06-27",
-                      "value": 54.1
+                      "value": 54.1,
+                      "unit": "mL/kg/min"
                     },
                     {
                       "local_date": "2026-06-28",
-                      "value": 53.8
+                      "value": 53.8,
+                      "unit": "mL/kg/min"
                     },
                     {
                       "local_date": "2026-06-29",
-                      "value": 53.8
+                      "value": 53.8,
+                      "unit": "mL/kg/min"
                     },
                     {
                       "local_date": "2026-06-30",
-                      "value": 54.1
+                      "value": 54.1,
+                      "unit": "mL/kg/min"
                     },
                     {
                       "local_date": "2026-07-01",
-                      "value": 54.1
+                      "value": 54.1,
+                      "unit": "mL/kg/min"
                     },
                     {
                       "local_date": "2026-07-02",
-                      "value": 53.9
+                      "value": 53.9,
+                      "unit": "mL/kg/min"
                     },
                     {
                       "local_date": "2026-07-03",
-                      "value": 54
+                      "value": 54,
+                      "unit": "mL/kg/min"
                     },
                     {
                       "local_date": "2026-07-04",
-                      "value": 54.1
+                      "value": 54.1,
+                      "unit": "mL/kg/min"
                     },
                     {
                       "local_date": "2026-07-05",
-                      "value": 53.9
+                      "value": 53.9,
+                      "unit": "mL/kg/min"
                     },
                     {
                       "local_date": "2026-07-06",
-                      "value": 53.8
+                      "value": 53.8,
+                      "unit": "mL/kg/min"
                     },
                     {
                       "local_date": "2026-07-07",
-                      "value": 54
+                      "value": 54,
+                      "unit": "mL/kg/min"
                     },
                     {
                       "local_date": "2026-07-08",
-                      "value": 54.2
+                      "value": 54.2,
+                      "unit": "mL/kg/min"
                     },
                     {
                       "local_date": "2026-07-09",
-                      "value": 54
+                      "value": 54,
+                      "unit": "mL/kg/min"
                     },
                     {
                       "local_date": "2026-07-10",
-                      "value": 54
+                      "value": 54,
+                      "unit": "mL/kg/min"
                     }
-                  ]
+                  ],
+                  "unit": "mL/kg/min"
                 },
                 "30d": {
                   "window": "30d",
@@ -2461,125 +2982,156 @@
                   "series_tail": [
                     {
                       "local_date": "2026-06-11",
-                      "value": 54.1
+                      "value": 54.1,
+                      "unit": "mL/kg/min"
                     },
                     {
                       "local_date": "2026-06-12",
-                      "value": 54.2
+                      "value": 54.2,
+                      "unit": "mL/kg/min"
                     },
                     {
                       "local_date": "2026-06-13",
-                      "value": 53.9
+                      "value": 53.9,
+                      "unit": "mL/kg/min"
                     },
                     {
                       "local_date": "2026-06-14",
-                      "value": 53.8
+                      "value": 53.8,
+                      "unit": "mL/kg/min"
                     },
                     {
                       "local_date": "2026-06-15",
-                      "value": 54
+                      "value": 54,
+                      "unit": "mL/kg/min"
                     },
                     {
                       "local_date": "2026-06-16",
-                      "value": 54.1
+                      "value": 54.1,
+                      "unit": "mL/kg/min"
                     },
                     {
                       "local_date": "2026-06-17",
-                      "value": 53.9
+                      "value": 53.9,
+                      "unit": "mL/kg/min"
                     },
                     {
                       "local_date": "2026-06-18",
-                      "value": 54
+                      "value": 54,
+                      "unit": "mL/kg/min"
                     },
                     {
                       "local_date": "2026-06-19",
-                      "value": 54.2
+                      "value": 54.2,
+                      "unit": "mL/kg/min"
                     },
                     {
                       "local_date": "2026-06-20",
-                      "value": 54
+                      "value": 54,
+                      "unit": "mL/kg/min"
                     },
                     {
                       "local_date": "2026-06-21",
-                      "value": 53.8
+                      "value": 53.8,
+                      "unit": "mL/kg/min"
                     },
                     {
                       "local_date": "2026-06-22",
-                      "value": 53.9
+                      "value": 53.9,
+                      "unit": "mL/kg/min"
                     },
                     {
                       "local_date": "2026-06-23",
-                      "value": 54.1
+                      "value": 54.1,
+                      "unit": "mL/kg/min"
                     },
                     {
                       "local_date": "2026-06-24",
-                      "value": 54
+                      "value": 54,
+                      "unit": "mL/kg/min"
                     },
                     {
                       "local_date": "2026-06-25",
-                      "value": 54
+                      "value": 54,
+                      "unit": "mL/kg/min"
                     },
                     {
                       "local_date": "2026-06-26",
-                      "value": 54.1
+                      "value": 54.1,
+                      "unit": "mL/kg/min"
                     },
                     {
                       "local_date": "2026-06-27",
-                      "value": 54.1
+                      "value": 54.1,
+                      "unit": "mL/kg/min"
                     },
                     {
                       "local_date": "2026-06-28",
-                      "value": 53.8
+                      "value": 53.8,
+                      "unit": "mL/kg/min"
                     },
                     {
                       "local_date": "2026-06-29",
-                      "value": 53.8
+                      "value": 53.8,
+                      "unit": "mL/kg/min"
                     },
                     {
                       "local_date": "2026-06-30",
-                      "value": 54.1
+                      "value": 54.1,
+                      "unit": "mL/kg/min"
                     },
                     {
                       "local_date": "2026-07-01",
-                      "value": 54.1
+                      "value": 54.1,
+                      "unit": "mL/kg/min"
                     },
                     {
                       "local_date": "2026-07-02",
-                      "value": 53.9
+                      "value": 53.9,
+                      "unit": "mL/kg/min"
                     },
                     {
                       "local_date": "2026-07-03",
-                      "value": 54
+                      "value": 54,
+                      "unit": "mL/kg/min"
                     },
                     {
                       "local_date": "2026-07-04",
-                      "value": 54.1
+                      "value": 54.1,
+                      "unit": "mL/kg/min"
                     },
                     {
                       "local_date": "2026-07-05",
-                      "value": 53.9
+                      "value": 53.9,
+                      "unit": "mL/kg/min"
                     },
                     {
                       "local_date": "2026-07-06",
-                      "value": 53.8
+                      "value": 53.8,
+                      "unit": "mL/kg/min"
                     },
                     {
                       "local_date": "2026-07-07",
-                      "value": 54
+                      "value": 54,
+                      "unit": "mL/kg/min"
                     },
                     {
                       "local_date": "2026-07-08",
-                      "value": 54.2
+                      "value": 54.2,
+                      "unit": "mL/kg/min"
                     },
                     {
                       "local_date": "2026-07-09",
-                      "value": 54
+                      "value": 54,
+                      "unit": "mL/kg/min"
                     },
                     {
                       "local_date": "2026-07-10",
-                      "value": 54
+                      "value": 54,
+                      "unit": "mL/kg/min"
                     }
-                  ]
+                  ],
+                  "unit": "mL/kg/min"
                 },
                 "density_met": true
               }
