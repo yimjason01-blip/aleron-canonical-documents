@@ -329,6 +329,36 @@
       gap: var(--air-5);
     }
 
+    .home-stack {
+      display: grid;
+      gap: var(--air-8);
+    }
+
+    .home-group {
+      display: grid;
+      gap: var(--air-2);
+    }
+
+    .group-label {
+      margin: 0;
+      color: var(--color-text-tertiary);
+      font-size: 11px;
+      line-height: 1;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+    }
+
+    .home-group .stage-list,
+    .home-group .chapter-list {
+      display: grid;
+      gap: var(--air-3);
+    }
+
+    .home-block {
+      display: block;
+    }
+
     .tight-stack {
       display: grid;
       gap: var(--air-3);
@@ -1697,12 +1727,27 @@
           </div>
           <p class="route-subtitle">${esc(intro)}</p>
         </header>
-        <div class="section-stack">
-          ${workflowStatusCard(packetReceived)}
-          ${kitTrackingCard()}
-          ${liveVitalsCard()}
-          ${chaptersCard()}
-          ${vitalityTile()}
+        <div class="home-stack">
+          <div class="home-group">
+            <p class="group-label">Review status</p>
+            ${workflowStatusCard(packetReceived)}
+          </div>
+          <div class="home-group">
+            <p class="group-label">${state.lab.path === "tasso_home_capillary" ? "Diagnostics · Home kit" : "Diagnostics · Quest"}</p>
+            ${kitTrackingCard()}
+          </div>
+          <div class="home-group">
+            <p class="group-label">Live vitals</p>
+            ${liveVitalsCard()}
+          </div>
+          <div class="home-group">
+            <p class="group-label">Chapters</p>
+            ${chaptersCard()}
+          </div>
+          <div class="home-group">
+            <p class="group-label">Vitality</p>
+            ${vitalityTile()}
+          </div>
         </div>
       `;
     }
@@ -1728,8 +1773,6 @@
 
     function kitTrackingCard() {
       const tasso = state.lab.path === "tasso_home_capillary";
-      const title = tasso ? "Home capillary kit" : "Quest blood draw";
-      const subtitle = tasso ? "Tasso kit mailed to your address. Prepaid return." : "Quest Diagnostics";
       const stages = tasso
         ? [
             ["Kit ordered", "Your kit is queued for mailing."],
@@ -1741,33 +1784,31 @@
             ["Draw complete", "Results usually arrive 5-7 days from draw."],
             ["Physician review", "Clinical content stays locked until release."]
           ];
-      return card(`
-        <p class="row-title">${esc(title)}</p>
-        <p class="row-detail">${esc(subtitle)}</p>
-        <div class="stage-list" style="margin-top: var(--air-4)">
-          ${stages.map(([stage, note], index) => `
-            <div class="stage-row ${index === 0 ? "is-selected" : ""}">
-              <div class="row-topline">
-                <p class="row-title">${esc(stage)}</p>
-                <span class="status-badge ${index === 0 ? "" : "neutral"}">${index === 0 ? "CURRENT" : "NEXT"}</span>
+      return `
+        <div class="home-block">
+          <div class="stage-list">
+            ${stages.map(([stage, note], index) => `
+              <div class="stage-row ${index === 0 ? "is-selected" : ""}">
+                <div class="row-topline">
+                  <p class="row-title">${esc(stage)}</p>
+                  <span class="status-badge ${index === 0 ? "" : "neutral"}">${index === 0 ? "CURRENT" : "NEXT"}</span>
+                </div>
+                <p class="row-detail">${esc(note)}</p>
               </div>
-              <p class="row-detail">${esc(note)}</p>
-            </div>
-          `).join("")}
+            `).join("")}
+          </div>
         </div>
-      `);
+      `;
     }
 
     function liveVitalsCard() {
       if (!state.wearable.snapshot) {
         return card(`
-          <p class="row-title">Live vitals</p>
-          <p class="row-detail">Waiting for first sync. Open Health &gt; Sharing to confirm what you are sharing.</p>
+          <p class="row-detail" style="margin-top:0">Waiting for first sync. Open Health &gt; Sharing to confirm what you are sharing.</p>
         `);
       }
       return card(`
-        <p class="row-title">Live vitals</p>
-        <p class="row-detail">Apple Health snapshot synced for physician context.</p>
+        <p class="row-detail" style="margin-top:0">Apple Health snapshot synced for physician context.</p>
         ${wearableMetrics(state.wearable.snapshot)}
       `);
     }
@@ -1780,22 +1821,23 @@
         ["Structured clinical signals", "A short structured layer that turns your narrative into auditable inputs.", "vitality_baseline"],
         ["Intro call", "Optional. A short call with your care team before results.", "intro_call"]
       ];
-      return card(`
-        <p class="row-title">Chapters</p>
-        <div class="chapter-list" style="margin-top: var(--air-4)">
-          ${chapters.map(([title, blurb, target]) => `
-            <button class="chapter-row" type="button" ${target ? `data-action="open-chapter" data-route="${esc(target)}"` : "disabled"}>
-              <div class="row-topline">
-                <div>
-                  <p class="row-title">${esc(title)}</p>
-                  <p class="row-detail">${esc(blurb)}</p>
+      return `
+        <div class="home-block">
+          <div class="chapter-list">
+            ${chapters.map(([title, blurb, target]) => `
+              <button class="chapter-row" type="button" ${target ? `data-action="open-chapter" data-route="${esc(target)}"` : "disabled"}>
+                <div class="row-topline">
+                  <div>
+                    <p class="row-title">${esc(title)}</p>
+                    <p class="row-detail">${esc(blurb)}</p>
+                  </div>
+                  <span class="status-badge neutral">${chapterStatus(title)}</span>
                 </div>
-                <span class="status-badge neutral">${chapterStatus(title)}</span>
-              </div>
-            </button>
-          `).join("")}
+              </button>
+            `).join("")}
+          </div>
         </div>
-      `);
+      `;
     }
 
     function chapterStatus(title) {
