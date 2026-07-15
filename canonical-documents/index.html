@@ -35,19 +35,21 @@ body{margin:0;background:var(--bg);color:var(--fg);font-family:-apple-system,Bli
 <script>
 const canonicalDocs = [
   { id: "coordination", label: "Project Coordination Board", src: "docs/PROJECT_COORDINATION_BOARD.html" },
-  { id: "risk-models", label: "Risk Models", src: "engine/system-design/diagrams/aleron-risk-models.html" },
-  { id: "repo-architecture", label: "Repository Architecture", src: "engine/system-design/diagrams/aleron-repo-architecture.html" },
+  { id: "risk-models", label: "Risk Models", src: "system-design/diagrams/aleron-risk-models.html" },
+  { id: "repo-architecture", label: "Repository Architecture", src: "system-design/diagrams/aleron-repo-architecture.html" },
   { id: "staging-physician-dashboard", label: "Staging Physician Dashboard", src: "apps/physician/index.html?staging=1&v=physician-action-map-reference-v1" },
-  { id: "system", label: "System Design", src: "engine/system-design/diagrams/aleron-system-detail-v3-dossier.html" },
-  { id: "identity", label: "Visual Identity", src: "design/brand-deck/index.html" },
-  { id: "design-system", label: "Product Design System", src: "design/product-design-system/index.html#surfaces" },
-  { id: "onboarding", label: "Patient Mobile App · TestFlight 0.1.0 (46)", src: "apps/prototypes/patient-app/onboarding.v3.html?mode=release" },
+  { id: "system", label: "System Design", src: "system-design/diagrams/aleron-system-detail-v3-dossier.html" },
+  { id: "identity", label: "Visual Identity", src: "brand-deck/index.html" },
+  { id: "design-system", label: "Product Design System", src: "product-design-system/index.html#surfaces" },
+  { id: "onboarding", label: "Patient Mobile App · TestFlight 0.1.0 (46)", src: "patient-app/onboarding.build46-mirror.html?route=account_claim" },
   { id: "member", label: "Patient Web App", src: "workspaces/landing-staging/member.html" }
 ];
 
 const select = document.getElementById("canonicalDocSelect");
 const frame = document.getElementById("canonicalFrame");
-const canonicalDocAliases = { "dashboard-ds": "staging-physician-dashboard" };
+// Pages tree layout is flat (system-design/, brand-deck/, patient-app/).
+// Do not point registry srcs at monorepo-only paths (engine/, design/, apps/prototypes/).
+const canonicalDocAliases = { "dashboard-ds": "staging-physician-dashboard", "onboarding-mirror": "onboarding" };
 
 select.innerHTML = canonicalDocs.map(doc => `<option value="${doc.id}">${doc.label}</option>`).join("");
 
