@@ -51,8 +51,10 @@ function mappingById(mappingId) {
 function formatPeriod(period) {
   const min = period.minimum;
   const max = period.maximum;
-  if (min.value === max.value && min.unit === max.unit) return `${min.value} ${min.unit}`;
-  return `${min.value} to ${max.value} ${max.unit}`;
+  const quantity = ({ value, unit }) => `${value} ${value === 1 ? unit.replace(/s$/, "") : unit}`;
+  if (min.value === max.value && min.unit === max.unit) return quantity(min);
+  if (min.unit === max.unit) return `${min.value} to ${max.value} ${max.unit}`;
+  return `${quantity(min)} to ${quantity(max)}`;
 }
 
 function formatBaseline() {
@@ -99,6 +101,29 @@ function renderOutcomeTabs() {
   }));
 }
 
+function confidenceMarkers(value) {
+  const markers = el("span", "confidence-markers");
+  markers.classList.add(`confidence-${value}`);
+  markers.setAttribute("aria-hidden", "true");
+  for (let index = 0; index < 3; index += 1) markers.append(el("i"));
+  return markers;
+}
+
+function confidenceCell(value) {
+  const cell = el("span", "confidence-cell");
+  cell.append(el("strong", "", `${value} confidence`), confidenceMarkers(value));
+  return cell;
+}
+
+function effectCell(effect) {
+  const cell = el("span", "effect-value");
+  cell.append(
+    el("strong", "", `+${effect.point} pts`),
+    el("small", "effect-range", `${effect.interval.lower} to ${effect.interval.upper} pts`),
+  );
+  return cell;
+}
+
 function renderMap() {
   document.getElementById("outcome-title").textContent = OUTCOME_LABELS[state.outcomeId];
   document.getElementById("baseline-value").textContent = formatBaseline();
@@ -114,13 +139,13 @@ function renderMap() {
     notice.append(el("strong", "", "No elective Action map"), el("span", "", "Resolve the safety exit before considering an outcome-matched Action."));
     map.replaceChildren(notice);
   } else {
-    context.textContent = `${eligible.length} of ${eligible.length + excluded.length} primary-target mappings are eligible for this synthetic patient. Position reflects illustrative effect only; the six decision dimensions remain separate.`;
+    context.textContent = `${eligible.length} of ${eligible.length + excluded.length} primary-target mappings are eligible. Rows are ordered by illustrative effect within this outcome; confidence is shown beside every estimate and is never combined into a score.`;
     map.replaceChildren(...eligible.map((row) => {
       const button = el("button", `action-row${row.mapping_id === state.focusedMappingId ? " focused" : ""}`);
       button.type = "button";
       button.dataset.mappingId = row.mapping_id;
       const name = el("span", "action-name");
-      name.append(el("strong", "", row.action_title), el("span", "", `${row.preference_state} preference · ${row.feasibility_state} feasibility`));
+      name.append(el("strong", "", row.action_title), el("span", "", `Expected response in ${formatPeriod(row.response_period)}`));
       const track = el("span", "effect-track");
       const interval = el("span", "effect-interval");
       const lower = Math.max(0, Math.min(100, row.effect.interval.lower / AXIS_MAX * 100));
@@ -130,7 +155,12 @@ function renderMap() {
       const point = el("span", "effect-point");
       point.style.left = `${Math.max(0, Math.min(100, row.effect.point / AXIS_MAX * 100))}%`;
       track.append(interval, point);
-      button.append(name, track, el("span", "effect-value", `+${row.effect.point} pts`));
+      button.append(
+        name,
+        track,
+        effectCell(row.effect),
+        confidenceCell(row.decision_dimensions.confidence),
+      );
       button.addEventListener("click", () => {
         state.focusedMappingId = row.mapping_id;
         renderMap();
@@ -175,13 +205,24 @@ function renderDetail() {
 
   const heading = el("div");
   heading.append(el("p", "section-kicker", `${OUTCOME_LABELS[row.outcome_id]} · synthetic mapping`), el("h2", "", row.action_title));
-  const effect = el("div", "detail-effect");
-  const effectLabel = el("div");
-  effectLabel.append(el("span", "", "Illustrative outcome-local response"), el("strong", "", `+${row.effect.point} pts of 100`));
-  effect.append(effectLabel, el("span", "", `${row.effect.interval.lower} to ${row.effect.interval.upper} synthetic points of 100`));
+  const signals = el("div", "detail-signal-pair");
+  const effectSignal = el("div", "detail-signal effect-signal");
+  effectSignal.append(
+    el("span", "signal-label", "Effect size"),
+    el("strong", "", `+${row.effect.point} pts`),
+    el("small", "", `Range ${row.effect.interval.lower} to ${row.effect.interval.upper} synthetic points of 100`),
+  );
+  const confidenceSignal = el("div", "detail-signal confidence-signal");
+  confidenceSignal.append(
+    el("span", "signal-label", "Confidence"),
+    el("strong", "", row.decision_dimensions.confidence),
+    confidenceMarkers(row.decision_dimensions.confidence),
+    el("small", "", "Synthetic confidence, not evidence grade"),
+  );
+  signals.append(effectSignal, confidenceSignal);
+  const secondaryHeading = el("p", "secondary-heading", "Other decision dimensions");
   const dimensions = el("div", "dimension-grid");
   dimensions.append(
-    dimension("Confidence", row.decision_dimensions.confidence),
     dimension("Burden", row.decision_dimensions.burden),
     dimension("Harm", row.decision_dimensions.harm),
     dimension("Feasibility", row.feasibility_state),
@@ -199,7 +240,7 @@ function renderDetail() {
     renderDetail();
     renderReassessment();
   });
-  panel.replaceChildren(heading, effect, dimensions, copy, button);
+  panel.replaceChildren(heading, signals, secondaryHeading, dimensions, copy, button);
 }
 
 function renderReassessment() {
