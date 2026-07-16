@@ -1,0 +1,153 @@
+/* Generated from tokens.json. Do not edit directly. */
+@font-face {
+  font-family: 'PolySans';
+  src: url('fonts/PolySans-Slim.ttf') format('truetype');
+  font-weight: 300;
+  font-style: normal;
+  font-display: swap;
+}
+@font-face {
+  font-family: 'PolySans';
+  src: url('fonts/PolySans-Neutral.ttf') format('truetype');
+  font-weight: 400;
+  font-style: normal;
+  font-display: swap;
+}
+@font-face {
+  font-family: 'PolySans';
+  src: url('fonts/PolySans-NeutralItalic.ttf') format('truetype');
+  font-weight: 400;
+  font-style: italic;
+  font-display: swap;
+}
+@font-face {
+  font-family: 'PolySans';
+  src: url('fonts/PolySans-Median.ttf') format('truetype');
+  font-weight: 500;
+  font-style: normal;
+  font-display: swap;
+}
+@font-face {
+  font-family: 'PolySans';
+  src: url('fonts/PolySans-MedianItalic.ttf') format('truetype');
+  font-weight: 500;
+  font-style: italic;
+  font-display: swap;
+}
+@font-face {
+  font-family: 'PolySans';
+  src: url('fonts/PolySans-Bulky.ttf') format('truetype');
+  font-weight: 700;
+  font-style: normal;
+  font-display: swap;
+}
+:root {
+  --paper: #FAF7F2;
+  --ink: #1D1B18;
+  --cream: #F5F1E8;
+  --graphite: #15171C;
+  --gunmetal: #333E48;
+  --steel: #46555F;
+  --navy: #252B3D;
+  --slate: #5A6378;
+  --gold: #C9A14E;
+  --lit-gold: #EACB7F;
+  --text-gold: #8A6A2F;
+  --gold-800: #655127;
+  --ember: #A4452C;
+  --signal-unmodeled: #4A6FA5;
+  --day-text-tertiary: #6E6A63;
+  --day-surface-card: #FFFFFF;
+  --day-surface-inset: #F1EDE6;
+  --night-surface-inset: #20253A;
+  --night-surface-sunken: #1C2030;
+  --voice: 'PolySans', 'Hanken Grotesk', -apple-system, BlinkMacSystemFont, sans-serif;
+  --audit: 'Space Mono', ui-monospace, Menlo, monospace;
+  --size-display: clamp(32px, 4vw, 48px);
+  --size-h1: 36px;
+  --size-h2: 26px;
+  --size-h3: 19px;
+  --size-lede: 18px;
+  --size-text: 15.5px;
+  --size-small: 13px;
+  --size-audit: 11.5px;
+  --size-caption: 10.5px;
+  --s-2xs: 4px;
+  --s-xs: 8px;
+  --s-sm: 12px;
+  --s-md: 16px;
+  --s-lg: 24px;
+  --s-xl: 32px;
+  --s-2xl: 48px;
+  --s-3xl: 64px;
+  --air-row: 9px;
+  --air-group: 26px;
+  --air-tier: 20px;
+  --air-section: 44px;
+  --nav-w: 200px;
+  --page-max: 1240px;
+  --radius-panel: 18px;
+  --radius-tier1: 16px;
+  --radius-tier2: 12px;
+  --radius-control: 10px;
+  --radius-tile: 4px;
+  --line-thin: 1px;
+  --line-focus: 2px;
+  --line-signal: 3px;
+  --control-min-h: 44px;
+  --ease: cubic-bezier(0.4,0,0.2,1);
+  --dur-fast: 150ms;
+  --dur-base: 240ms;
+  --dur-slow: 400ms;
+  --day-shadow-tier1: 0 12px 36px rgba(29,27,24,0.09);
+  --ground: var(--paper);
+  --text-primary: var(--ink);
+  --text-secondary: var(--slate);
+  --text-tertiary: var(--day-text-tertiary);
+  --surface-card: var(--day-surface-card);
+  --surface-inset: var(--day-surface-inset);
+  --surface-sunken: var(--cream);
+  --surface-selected: var(--day-surface-inset);
+  --surface-tier1: var(--day-surface-card);
+  --surface-tier2: var(--day-surface-inset);
+  --border-subtle: rgba(29,27,24,0.10);
+  --border-base: rgba(29,27,24,0.18);
+  --border-strong: rgba(29,27,24,0.35);
+  --hairline: rgba(29,27,24,0.07);
+  --signal-forward: var(--gold);
+  --signal-advisory: var(--text-gold);
+  --signal-hazard: var(--ember);
+  --signal-baseline: var(--slate);
+  --control-primary-bg: var(--ink);
+  --control-primary-fg: var(--cream);
+  --control-primary-hover-bg: #000000;
+  --control-disabled-bg: var(--day-surface-inset);
+  --control-disabled-fg: rgba(29,27,24,0.38);
+  --shadow-tier1: var(--day-shadow-tier1);
+}
+.night, [data-register="flight-deck"] {
+  --ground: var(--navy);
+  --text-primary: var(--cream);
+  --text-secondary: rgba(245,241,232,0.68);
+  --text-tertiary: rgba(245,241,232,0.55);
+  --surface-card: var(--gunmetal);
+  --surface-inset: var(--night-surface-inset);
+  --surface-sunken: var(--night-surface-sunken);
+  --surface-selected: var(--gunmetal);
+  --surface-tier1: var(--gunmetal);
+  --surface-tier2: var(--night-surface-inset);
+  --border-subtle: rgba(245,241,232,0.08);
+  --border-base: rgba(245,241,232,0.14);
+  --border-strong: rgba(245,241,232,0.25);
+  --hairline: rgba(245,241,232,0.09);
+  --signal-forward: var(--gold);
+  --signal-advisory: var(--lit-gold);
+  --signal-hazard: var(--ember);
+  --signal-baseline: rgba(245,241,232,0.68);
+  --control-primary-bg: var(--cream);
+  --control-primary-fg: var(--ink);
+  --control-primary-hover-bg: #FFFFFF;
+  --control-disabled-bg: rgba(245,241,232,0.12);
+  --control-disabled-fg: rgba(245,241,232,0.30);
+  --shadow-tier1: 0 0 0 1px rgba(245,241,232,0.10);
+}

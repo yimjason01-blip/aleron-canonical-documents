@@ -1,0 +1,61 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "acceptance.schema.json",
+  "title": "Aleron acceptance contract",
+  "type": "object",
+  "required": [
+    "design_system",
+    "version",
+    "tests",
+    "required_report"
+  ],
+  "properties": {
+    "$schema": {
+      "type": "string"
+    },
+    "design_system": {
+      "const": "aleron-md-product-ds"
+    },
+    "version": {
+      "type": "string"
+    },
+    "tests": {
+      "type": "array",
+      "minItems": 7,
+      "maxItems": 7,
+      "items": {
+        "type": "object",
+        "required": [
+          "id",
+          "name",
+          "mode",
+          "pass"
+        ],
+        "properties": {
+          "id": {
+            "type": "string",
+            "pattern": "^T[1-7]$"
+          },
+          "name": {
+            "type": "string"
+          },
+          "mode": {
+            "type": "string"
+          },
+          "tool": {
+            "type": "string"
+          },
+          "threshold": {
+            "type": "object"
+          },
+          "pass": {
+            "type": "string"
+          }
+        }
+      }
+    },
+    "required_report": {
+      "type": "object"
+    }
+  }
+}

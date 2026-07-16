@@ -8,6 +8,7 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Hanken+Grotesk:wght@400;500;600;700&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="tokens.css">
 <style>
 /* ================================================================ */
 /*  POLYSANS bundled local reference                                 */
@@ -22,128 +23,7 @@
 
 
 
-/* ================================================================ */
-/*  TOKENS                                                           */
-/* ================================================================ */
-:root {
-  /* Brand materials (locked from brand-deck Section 03) */
-  --paper: #FAF7F2;
-  --ink: #1D1B18;
-  --cream: #F5F1E8;
-  --graphite: #15171C;
-  --gunmetal: #333E48;
-  --steel: #46555F;
-  --navy: #252B3D;
-  --slate: #5A6378;
-  --gold: #C9A14E;
-  --lit-gold: #EACB7F;
-  --text-gold: #8A6A2F;
-  --gold-800: #655127; /* brand gold scale: advisory text on inset (text-gold measures 4.3 there, gold-800 measures 6.6) */
-  --ember: #A4452C;
-
-  /* Semantic: day register (default) */
-  --ground: var(--paper);
-  --text-primary: var(--ink);
-  --text-secondary: var(--slate);
-  --text-tertiary: #6E6A63; /* 4.8:1 on paper · lowest legal reading gray */
-  --surface-card: #FFFFFF;
-  --surface-inset: #F1EDE6;
-  --surface-sunken: #F5F1E8;
-  --surface-selected: var(--surface-inset); /* nav/tab selection: recessed inset on light */
-  --border-subtle: rgba(29,27,24,0.10);
-  --border-base: rgba(29,27,24,0.18);
-  --border-strong: rgba(29,27,24,0.35);
-  --hairline: rgba(29,27,24,0.07); /* within-group row separators, lighter than border-subtle */
-  --signal-forward: var(--gold);
-  --signal-advisory: var(--text-gold);
-  --signal-hazard: var(--ember);
-  --signal-baseline: var(--slate);
-  --signal-unmodeled: #4A6FA5; /* product extension: indigo for unmodeled window */
-  --control-primary-bg: var(--ink);
-  --control-primary-fg: var(--cream);
-
-  /* Type */
-  --voice: 'PolySans', 'Hanken Grotesk', -apple-system, BlinkMacSystemFont, sans-serif;
-  --audit: 'Space Mono', ui-monospace, Menlo, monospace;
-
-  /* Type scale */
-  --size-display: clamp(32px, 4vw, 48px);
-  --size-h1: 36px;
-  --size-h2: 26px;
-  --size-h3: 19px;
-  --size-lede: 18px;
-  --size-text: 15.5px;
-  --size-small: 13px;
-  --size-audit: 11.5px;
-  --size-caption: 10.5px;
-
-  /* Spacing (4px grid) */
-  --s-2xs: 4px;
-  --s-xs: 8px;
-  --s-sm: 12px;
-  --s-md: 16px;
-  --s-lg: 24px;
-  --s-xl: 32px;
-  --s-2xl: 48px;
-  --s-3xl: 64px;
-
-  /* Air ladder · A2 tokenized · proposed 02 Jul 2026. The --s scale supplies sizes;
-     these supply relationships. Components spend vertical air only through these,
-     so the ratio law (between is at least twice within) holds by construction. */
-  --air-row: 9px;      /* within a group, leaf to leaf */
-  --air-group: 26px;   /* into a new group, above a head */
-  --air-tier: 20px;    /* between sibling blocks inside a module */
-  --air-section: 44px; /* into a new module or section */
-
-  /* Layout */
-  --nav-w: 200px;
-  --page-max: 1240px;
-
-  /* Motion */
-  --ease: cubic-bezier(0.4,0,0.2,1);
-  --dur-fast: 150ms;
-  --dur-base: 240ms;
-  --dur-slow: 400ms;
-
-  /* Register v1 · the Cabin, tiered (register.html) */
-  --surface-tier1: #FFFFFF;
-  --surface-tier2: var(--surface-inset);
-  --radius-panel: 18px;
-  --radius-tier1: 16px;
-  --radius-tier2: 12px;
-  --radius-control: 10px;
-  --radius-tile: 4px;
-  --shadow-tier1: 0 12px 36px rgba(29,27,24,0.09);
-}
-
-/* Flight-deck register override */
-.night {
-  --ground: var(--navy);
-  --text-primary: var(--cream);
-  --text-secondary: rgba(245,241,232,0.68); /* 6.7:1 on navy, 5.0:1 on gunmetal */
-  --text-tertiary: rgba(245,241,232,0.55);  /* non-content only below 0.68 */
-  --surface-card: var(--gunmetal);
-  --surface-inset: #20253A;
-  --surface-sunken: #1C2030;
-  /* Selection lifts on dark (a recessed inset is invisible on navy): gunmetal reads
-     at ~1.29 against navy vs the inset's ~1.07, matching the light register's legibility. */
-  --surface-selected: var(--gunmetal);
-  /* Flight-deck tiers: shadow does not read on dark, so Tier 1 lifts by a lighter
-     panel + hairline ring; Tier 2 sinks by a darker inset. Same three-tier grammar. */
-  --surface-tier1: var(--gunmetal);
-  --surface-tier2: #20253A;
-  --shadow-tier1: 0 0 0 1px rgba(245,241,232,0.10);
-  --border-subtle: rgba(245,241,232,0.08);
-  --border-base: rgba(245,241,232,0.14);
-  --border-strong: rgba(245,241,232,0.25);
-  --signal-forward: var(--gold);
-  --signal-advisory: var(--lit-gold);
-  --signal-hazard: var(--ember);
-  --signal-baseline: rgba(245,241,232,0.68);
-  --control-primary-bg: var(--cream);
-  --control-primary-fg: var(--ink);
-  --hairline: rgba(245,241,232,0.09);
-}
+/* Token definitions are generated from tokens.json into tokens.css. */
 
 /* ================================================================ */
 /*  RESET                                                            */
@@ -251,6 +131,8 @@ a { color: inherit; text-decoration: none; }
 .ds-content {
   padding: 0 56px 120px;
   max-width: 920px;
+  min-width: 0;
+  width: 100%;
 }
 
 /* ================================================================ */
@@ -605,6 +487,8 @@ section.ds-section:first-child { border-top: none; padding-top: 48px; }
 }
 .input-unit {
   font-family: var(--voice);
+  font-weight: 500;
+  font-variant-numeric: tabular-nums;
   font-size: 11px;
   color: var(--slate);
   margin-left: 4px;
@@ -742,6 +626,7 @@ section.ds-section:first-child { border-top: none; padding-top: 48px; }
 }
 .ct-unit {
   font-family: var(--voice);
+  font-weight: 500;
   font-size: 10.5px;
   color: var(--slate);
 }
@@ -1243,10 +1128,12 @@ section.ds-section:first-child { border-top: none; padding-top: 48px; }
   border: 1px solid var(--border-base);
   padding: 20px;
   margin: 12px 0;
-  font-family: var(--audit);
+  font-family: var(--voice);
+  font-variant-numeric: tabular-nums;
   font-size: 11.5px;
   line-height: 1.7;
-  overflow-x: auto;
+  max-height: 560px;
+  overflow: auto;
   white-space: pre;
   color: var(--ink);
 }
@@ -2378,7 +2265,7 @@ section.ds-section:first-child { border-top: none; padding-top: 48px; }
 .refsurf .g-row:last-of-type { border-bottom: none; }
 .refsurf .g-name { font-size: 14.5px; color: var(--text-primary); }
 .refsurf .g-val { font-family: var(--voice); font-weight: 500; font-variant-numeric: tabular-nums; text-align: right; white-space: nowrap; font-size: 14.5px; color: var(--text-primary); }
-.refsurf .g-val em { font-style: normal; font-weight: 400; font-size: 10.5px; color: var(--text-secondary); }
+.refsurf .g-val em { font-style: normal; font-weight: 500; font-size: 10.5px; color: var(--text-secondary); }
 .refsurf .g-trend { font-size: 12px; }
 .refsurf .g-trend.adv { color: var(--signal-advisory); }
 .refsurf .tier2 .g-trend.adv, .refsurf .tier2 .proto-status.adv { color: var(--gold-800); }
@@ -2396,7 +2283,7 @@ section.ds-section:first-child { border-top: none; padding-top: 48px; }
 .refsurf .c-label { font-size: 12.5px; color: var(--text-secondary); margin-bottom: 8px; }
 .refsurf .c-valrow { display: flex; align-items: baseline; gap: 7px; }
 .refsurf .c-val { font-family: var(--voice); font-weight: 500; font-variant-numeric: tabular-nums; font-size: 24px; color: var(--text-primary); }
-.refsurf .c-unit { font-family: var(--voice); font-size: 10.5px; color: var(--text-secondary); }
+.refsurf .c-unit { font-family: var(--voice); font-weight: 500; font-variant-numeric: tabular-nums; font-size: 10.5px; color: var(--text-secondary); }
 .refsurf .c-status { font-size: 12px; color: var(--text-secondary); margin-left: auto; }
 .refsurf .plot { display: block; width: 100%; height: auto; margin-top: 10px; }
 .refsurf .plot .grid-l { stroke: var(--hairline); stroke-width: 1; }
@@ -2434,6 +2321,7 @@ section.ds-section:first-child { border-top: none; padding-top: 48px; }
   .ds-header { padding: 16px 24px; }
   .row-pair { grid-template-columns: 1fr; }
   .mockup-body { grid-template-columns: 1fr; }
+  .demo, .citation, .refsurf .rmain { min-width: 0; max-width: 100%; overflow-x: auto; }
   .cr-context { display: none; }
   .igrid { font-size: 8px; }
   .igrid { grid-template-columns: 60px repeat(7, 1fr); }
@@ -2460,7 +2348,7 @@ section.ds-section:first-child { border-top: none; padding-top: 48px; }
 <!-- ================================================================ -->
 <header class="ds-header">
   <div class="ds-header-lockup">aleron<span class="md">MD</span></div>
-  <div class="ds-header-meta">Product Design System · v0.3 · Register v1 · 02 Jul 2026</div>
+  <div class="ds-header-meta">Product Design System · v0.4 · Register v1 · Agent kit · 16 Jul 2026</div>
 </header>
 
 <!-- ================================================================ -->
@@ -2495,7 +2383,7 @@ section.ds-section:first-child { border-top: none; padding-top: 48px; }
 <section class="ds-section" id="law">
   <div class="sec-label">00 · Governing Law</div>
   <h1 class="sec-title">Two artifacts, one arrow.</h1>
-  <p class="sec-abstract">The brand identity lives in <b>brand-deck/index.html</b>. The product design system lives here. The arrow points from product to brand, never the reverse. If a product need is not covered, it goes back through the brand section that owns it. Nothing is invented at the point of use. On 01 Jul 2026 the member register was ratified: <b>the Cabin, tiered</b> (register.html). Its premise governs everything below: reading is the luxury.</p>
+  <p class="sec-abstract">The brand identity lives in <b>brand-deck/index.html</b>. The product design system lives here. The inheritance arrow points from brand to product, never the reverse. If a product need is not covered, it goes back through the brand section that owns it. Nothing is invented at the point of use. On 01 Jul 2026 the member register was ratified: <b>the Cabin, tiered</b> (register.html). Its premise governs everything below: reading is the luxury.</p>
 
   <div class="subsec">
     <div class="subsec-label">The ten rules</div>
@@ -2605,17 +2493,17 @@ section.ds-section:first-child { border-top: none; padding-top: 48px; }
     <div class="type-scale">
       <div class="type-scale-row">
         <div class="type-scale-role">Display</div>
-        <div class="type-scale-sample" style="font-size:clamp(28px,3.5vw,42px);font-weight:500;letter-spacing:-0.02em;line-height:1.1">Your best days are still ahead.</div>
+        <div class="type-scale-sample" style="font-size:var(--size-display);font-weight:500;letter-spacing:-0.02em;line-height:1.1">Your best days are still ahead.</div>
         <div class="type-scale-spec">clamp(32,4vw,48) / 500 / -0.02em</div>
       </div>
       <div class="type-scale-row">
         <div class="type-scale-role">H1</div>
-        <div class="type-scale-sample" style="font-size:28px;font-weight:500;letter-spacing:-0.02em">Some of your best days.</div>
+        <div class="type-scale-sample" style="font-size:var(--size-h1);font-weight:500;letter-spacing:-0.02em">Some of your best days.</div>
         <div class="type-scale-spec">36 / 500 / -0.02em</div>
       </div>
       <div class="type-scale-row">
         <div class="type-scale-role">H2</div>
-        <div class="type-scale-sample" style="font-size:22px;font-weight:500">The medical team you would build.</div>
+        <div class="type-scale-sample" style="font-size:var(--size-h2);font-weight:500">The medical team you would build.</div>
         <div class="type-scale-spec">26 / 500</div>
       </div>
       <div class="type-scale-row">
@@ -2726,7 +2614,7 @@ section.ds-section:first-child { border-top: none; padding-top: 48px; }
     <p class="type-body">Spaciousness is not leftover room; it is the primary grouping instrument, and it is codified. The scale above supplies the units; the laws below decide how they are spent. The test for any surface: cover the hairlines and the fills, and the grouping should still be legible from the air alone.</p>
     <ol class="rules">
       <li><span class="rule-num">A1</span><span><b>Air carries the grouping.</b> Proximity first, enclosure second, lines last. If a grouping fails without hairlines, fix the space, not the lines.</span></li>
-      <li><span class="rule-num">A2</span><span><b>The ratio law.</b> Space between groups is at least twice the space within them, at every altitude: rows within a group, groups within a tier, tiers on a surface. Reference ladder from the ratified surface: 9 within rows, 26 above a group head, 16 between tiers, 20 between columns, 44 into a new section. Proposed 02 Jul 2026: the ladder is tokenized (--air-row, --air-group, --air-tier, --air-section) and components spend vertical air only through the tokens; a ladder that lives only in prose does not transfer. The ratio law binds only where the markup preserves the grouping tree: a flat DOM has no group boundaries for air to attach to, so chunking must survive from data to markup to style.</span></li>
+      <li><span class="rule-num">A2</span><span><b>The ratio law.</b> Space between groups is at least twice the space within them, at every altitude: rows within a group, groups within a tier, tiers on a surface. Reference ladder: 9 within rows, 26 above a group head, 20 between tiers, 20 between columns, 44 into a new section. Proposed 02 Jul 2026: the ladder is tokenized (--air-row, --air-group, --air-tier, --air-section), and new reusable components spend vertical air only through the tokens; a ladder that lives only in prose does not transfer. The ratio law binds only where the markup preserves the grouping tree: a flat DOM has no group boundaries for air to attach to, so chunking must survive from data to markup to style.</span></li>
       <li><span class="rule-num">A3</span><span><b>The measure.</b> Reading prose runs 45 to 75 characters; table notes hold near 48. A full-width line of text is a legibility failure, not a layout choice.</span></li>
       <li><span class="rule-num">A4</span><span><b>Under load, content yields, air does not.</b> When a surface grows, quiet groups collapse to one honest line and detail defers to disclosure. Air is never shrunk to fit more in. The dark cockpit is a spacing law: 104 markers stay readable because most of them stay quiet.</span></li>
       <li><span class="rule-num">A5</span><span><b>Empty is correct.</b> A quiet surface is the product working. No filler, no decorative dividers, no cards added to occupy room. One enclosure between the reader and the paper, never more.</span></li>
@@ -2816,7 +2704,7 @@ section.ds-section:first-child { border-top: none; padding-top: 48px; }
       <li><span class="rule-num">S2</span><span><b>Ink acts.</b> Filled ink and strong outlines belong to controls alone. A container is never ink-filled and never outlined heavier than border-base. If it is dark or strongly ruled, a finger is invited.</span></li>
       <li><span class="rule-num">S3</span><span><b>Controls are fixed-height and single-line; containers flow.</b> A control is one thing to do: centered or icon-led, one line, 28 to 44 tall. A box is several things to read: left-aligned, content-driven height, mixed type sizes.</span></li>
       <li><span class="rule-num">S4</span><span><b>Interactive text is ink at weight 500.</b> Annotations are slate at 400. A verb in slate is a whisper the member misses; a note in ink at 500 is a false invitation. Color never signals alone: weight travels with it.</span></li>
-      <li><span class="rule-num">S5</span><span><b>Containers nest concentric; controls keep their radius.</b> A holder inside a holder steps down with the padding: 18 holds 16 holds 12. A control carries its own radius wherever it sits. The shadow stays Tier 1's alone; controls never float.</span></li>
+      <li><span class="rule-num">S5</span><span><b>Holders and controls keep their assigned radius.</b> Surface tiers never nest. A control carries its own radius wherever it sits, while a holder uses the radius for its tier. The shadow stays Tier 1's alone; controls never float.</span></li>
       <li><span class="rule-num">S6</span><span><b>Square is for specimens, not surfaces.</b> Radius 0 is off the scale and never renders on anything the product itself draws. It is reserved for references and instruments: color material chips, the interaction grid, the type specimen, data tables, the code manifest, and the simulated browser chrome. If it is a card, field, control, tile, or chip, it takes a radius from the scale; if it sits square, it must be one of these named specimens.</span></li>
     </ol>
     <div class="demo" style="background:var(--paper)">
@@ -2962,7 +2850,7 @@ section.ds-section:first-child { border-top: none; padding-top: 48px; }
       <div style="margin-top:4px"></div>
       <button class="btn btn--primary btn--disabled">Apply</button>
       <button class="btn btn--primary btn--loading"><span class="btn-dots"><span></span><span></span><span></span></span></button>
-      <div class="demo-caption">Voice 400 · 16px · -1% em · sentence case · centered · corners filleted R10 · weight from fill, never face · gold is never a button · min 160px</div>
+      <div class="demo-caption">Voice 400 · 15px · -1% em · sentence case · centered · corners filleted R10 · weight from fill, never face · gold is never a button · min 160px</div>
     </div>
   </div>
 
@@ -3818,7 +3706,7 @@ section.ds-section:first-child { border-top: none; padding-top: 48px; }
         </div>
       </div>
     </div>
-    <p class="fine">The ratified member plan, register v1, byte for byte the reference in register.html. Rail: lockup, member, rule, tabs; Plan is where you are; Appointments carries the attention dot. One Tier 1 card. Two Tier 2 fields per column at most. Tier 3 holds the calendar, the physician, and the ask. Every member surface, Your Data first, derives from this surface and cites it.</p>
+    <p class="fine">The ratified member plan, register v1, reproduced here as a semantic reference implementation of register.html. Rail: lockup, member, rule, tabs; Plan is where you are; Appointments carries the attention dot. One Tier 1 card. Two Tier 2 fields per column at most. Tier 3 holds the calendar, the physician, and the ask. Every member surface, Your Data first, derives from this surface and cites it.</p>
   </div>
 
   <div class="subsec">
@@ -4281,7 +4169,21 @@ section.ds-section:first-child { border-top: none; padding-top: 48px; }
 <section class="ds-section" id="agent">
   <div class="sec-label">07 · Layer 6 · Agent Interface</div>
   <h1 class="sec-title">Machine-applicable.</h1>
-  <p class="sec-abstract">An agent reading this section plus a product spec should produce coherent HTML without drifting. The registry names every component, its token dependencies, and its forbidden patterns. The contract defines the load order and prompt shape.</p>
+  <p class="sec-abstract">The visual reference and the agent kit now share one token source, one component registry, and one acceptance contract. Humans can keep reading this page. Agents start with the manifest and load only the relevant visual examples.</p>
+
+  <div class="subsec">
+    <div class="subsec-label">Machine bundle · v0.4 · active</div>
+    <div class="row-pair">
+      <a class="card-demo" href="manifest.json"><div class="card-demo-title">Manifest</div><div class="card-demo-body">Authority, version, register status, dependencies, and load order.</div></a>
+      <a class="card-demo" href="AGENTS.md"><div class="card-demo-title">Agent contract</div><div class="card-demo-body">Build brief, implementation rules, missing-pattern rule, and verification order.</div></a>
+      <a class="card-demo" href="tokens.json"><div class="card-demo-title">Tokens</div><div class="card-demo-body">Schema-validated primitives, semantic aliases, and register mappings.</div></a>
+      <a class="card-demo" href="components.json"><div class="card-demo-title">Components</div><div class="card-demo-body">Canonical IDs, states, token dependencies, selectors, and forbidden patterns.</div></a>
+      <a class="card-demo" href="acceptance.json"><div class="card-demo-title">Acceptance</div><div class="card-demo-body">T1 through T7 in structured, reportable form.</div></a>
+      <a class="card-demo" href="prototype-starter.html"><div class="card-demo-title">Prototype starter</div><div class="card-demo-body">Register-aware HTML using the generated tokens and reusable components.</div></a>
+    </div>
+    <p class="fine">Implementation: <a href="tokens.css"><b>tokens.css</b></a> · <a href="components.css"><b>components.css</b></a> · Validation: <a href="validate-agent-kit.py"><b>validate-agent-kit.py</b></a> · Rendered audits: <a href="air-audit.js"><b>air-audit.js</b></a> · <a href="copy-audit.js"><b>copy-audit.js</b></a></p>
+    <p class="fine"><b>Ratified:</b> member Cabin register. <b>Provisional:</b> physician flight-deck register, air ladder, copy provenance law, and components marked provisional in the registry.</p>
+  </div>
 
   <div class="subsec">
     <div class="subsec-label">Forbidden patterns · enforced</div>
@@ -4337,54 +4239,14 @@ section.ds-section:first-child { border-top: none; padding-top: 48px; }
 
   <div class="subsec">
     <div class="subsec-label">Component registry · JSON manifest</div>
-    <div class="registry">{
-  "design_system": "aleron-md-product-ds",
-  "version": "0.3.0",
-  "inherits_from": "brand-deck/index.html",
-  "registers": ["day", "flight-deck"],
-  "global_forbidden": [
-    "audit-face-except-wordmark-tag",
-    "values-or-units-not-voice-tabular-500",
-    "tracked-caps-on-product-surface",
-    "gold-as-control-or-card-trim",
-    "shadow-except-tier1-toast-launcher",
-    "selection-as-ink-fill",
-    "raw-hex-or-px-literal-in-component"
-  ],
-  "components": {
-    "core": {
-      "button":    { "forbidden": ["gold-fill","pill-radius"] },
-      "input":     { "forbidden": ["box-shadow","border-at-rest"] },
-      "card":      { "forbidden": ["shadow-outside-tier1","nested-enclosure"] },
-      "tabs":      { "forbidden": ["pill-radius","mixed-mechanism"] }
-    },
-    "domain": {
-      "annunciator":     { "forbidden": ["ember-text-on-dark","one-thing-inside"] },
-      "citation-table":  { "forbidden": ["blank-missing","group-reorder","value-without-unit"] },
-      "trajectory":      { "forbidden": ["decorative-use","color-before-structure"] },
-      "one-thing":       { "forbidden": ["multiple-per-surface","inside-data","gold-edge-trim"] },
-      "action-card":     { "forbidden": ["chip-spray","triad-header","decorative-color"] }
-    },
-    "interaction": {
-      "ai-thread":       { "forbidden": ["accent-chrome","sourceless-message"] },
-      "ask-trigger":     { "forbidden": ["accent-color","labeled-rail"] },
-      "confidence":      { "forbidden": ["raw-percentage","gold-bars"] },
-      "proposed-action": { "forbidden": ["auto-execute","no-approve-control"] },
-      "mic-button":      { "forbidden": ["ember-recording-state"] },
-      "toast":           { "forbidden": ["stack-overflow","no-auto-dismiss"] },
-      "stepper":         { "forbidden": ["circular-nodes"] },
-      "consent":         { "forbidden": ["checkbox-style","no-version"] },
-      "lab-result":      { "forbidden": ["value-without-unit","decorative-flag"] }
-    }
-  }
-}</div>
+    <pre class="registry" id="component-registry">Loading components.json…</pre>
   </div>
 
   <div class="subsec">
     <div class="subsec-label">Agent contract · load order</div>
     <ol class="rules">
-      <li><span class="rule-num">01</span><span>Read <b>this reference page</b> fully. This page is canonical; DESIGN_SYSTEM.md is retired until regenerated from it, and an agent that reads only the markdown is applying superseded law.</span></li>
-      <li><span class="rule-num">02</span><span>Read <b>brand-deck/index.html</b> Section 03 (Color) and Section 10 (Application).</span></li>
+      <li><span class="rule-num">01</span><span>Read <a href="manifest.json"><b>manifest.json</b></a> and <a href="AGENTS.md"><b>AGENTS.md</b></a>. They identify the current authority, version, dependencies, and required load order.</span></li>
+      <li><span class="rule-num">02</span><span>Read <a href="tokens.json"><b>tokens.json</b></a>, <a href="components.json"><b>components.json</b></a>, and <a href="acceptance.json"><b>acceptance.json</b></a>, then consult this page for the relevant anatomy and worked examples.</span></li>
       <li><span class="rule-num">03</span><span>Read the product spec for the surface being built.</span></li>
       <li><span class="rule-num">04</span><span>Identify the register (day or flight-deck) from Layer 4, then find the surface family's <b>ratified register study</b> and derive from its reference surface. If no study exists for the family, say so before building: the work ahead is design, not application, and it runs the study loop (study, ratify, codify, derive), not this contract alone.</span></li>
       <li><span class="rule-num">05</span><span>Identify which domain components the spec requires.</span></li>
@@ -4399,12 +4261,12 @@ section.ds-section:first-child { border-top: none; padding-top: 48px; }
     <div class="subsec-label">Acceptance · the seven tests a surface must pass</div>
     <ol class="rules">
       <li><span class="rule-num">T1</span><span><b>Cover the words.</b> Shape alone says what presses. Verbs look pressable, statuses do not, selections sit in insets. (H1 to H4.)</span></li>
-      <li><span class="rule-num">T2</span><span><b>Squint.</b> Cover the hairlines and the fills; the grouping still reads from air alone, and between-group space is at least twice within-group space. (A1 to A5.) This test has a numeric form and it is the required one: measure rendered text-to-text air on the built page, and between divided by within reads 2.0 or better at every altitude. Source cannot pass this test; only the render can. Tooling: air-audit.js beside this file.</span></li>
-      <li><span class="rule-num">T3</span><span><b>Flip the register.</b> One class swaps day and flight-deck and nothing else changes. Any color that survives the flip unresolved is a defect. (R4.)</span></li>
+      <li><span class="rule-num">T2</span><span><b>Squint.</b> Cover the hairlines and the fills; the grouping still reads from air alone, and between-group space is at least twice within-group space. (A1 to A5.) This test has a numeric form and it is the required one: measure rendered text-to-text air on the built page, and between divided by within reads 2.0 or better at every altitude. Source cannot pass this test; only the render can. Tooling: <a href="air-audit.js"><b>air-audit.js</b></a>.</span></li>
+      <li><span class="rule-num">T3</span><span><b>Flip the register.</b> Change the root <code>data-register</code> value between <code>day</code> and <code>flight-deck</code>; nothing else changes. The legacy <code>.night</code> class remains a compatibility alias. Any color that survives the flip unresolved is a defect. (R4.)</span></li>
       <li><span class="rule-num">T4</span><span><b>Count the golds.</b> At most one gold detail per surface. If a One-Thing card is present, its label bar is the gold; on an instrument, the selection focus is the gold. Never both.</span></li>
       <li><span class="rule-num">T5</span><span><b>Check the floors.</b> Every value carries a unit; reading prose at 14 and up; functional voice text at 10.5 and up; every color pair passes the interaction grid. Instrument exception, provisional 03 Jul 2026: on charts, annotations secondary to a plotted mark may run 9.5 minimum, per the physician register's O1.</span></li>
       <li><span class="rule-num">T6</span><span><b>Empty is correct.</b> Nothing was added to occupy room. Quiet groups collapsed to one honest line. A surface that got busier without new information fails this test.</span></li>
-      <li><span class="rule-num">T7</span><span><b>Every string would ship.</b> Extract the rendered copy deck (copy-audit.js beside this file) and give every string a provenance class per the string law below: a spec'd constant, a variable fed from the data model, or sanctioned AI content wearing its provenance chrome. A string with no class fails, and the tells scan reports zero unwaived flags. Vocabulary alone never convicts; provenance decides.</span></li>
+      <li><span class="rule-num">T7</span><span><b>Every string would ship.</b> Extract the rendered copy deck with <a href="copy-audit.js"><b>copy-audit.js</b></a> and give every string a provenance class per the string law below: a spec'd constant, a variable fed from the data model, or sanctioned AI content wearing its provenance chrome. A string with no class fails, and the tells scan reports zero unwaived flags. Vocabulary alone never convicts; provenance decides.</span></li>
     </ol>
   </div>
 
@@ -4435,7 +4297,7 @@ section.ds-section:first-child { border-top: none; padding-top: 48px; }
     <p class="fine">Declared dialects as of 02 Jul 2026: the member experience (workspaces/landing-staging/member.html) and the physician chart (system-design/diagrams/aleron-actionmap-al47m-ds.html).</p>
   </div>
 
-  <p class="fine">Contract amendment drafted 02 Jul 2026: step 01 recanonized to this page, step 04 study-derivation, step 07 the brief, step 09 plus the six tests, the ratchet, and the dialect law. Provisionally in force since 03 Jul 2026 for field validation across the canonical surfaces; ratification pending on the field results. The prior seven-step order survives unchanged in substance as steps 01 to 08.</p>
+  <p class="fine">Contract amendment drafted 02 Jul 2026: step 01 recanonized to the manifest and agent contract, step 04 study-derivation, step 07 the brief, step 09 plus the seven tests, the ratchet, and the dialect law. Provisionally in force since 03 Jul 2026 for field validation across the canonical surfaces; ratification pending on the field results. The prior seven-step order survives unchanged in substance as steps 01 to 08.</p>
 </section>
 
 </main>
@@ -4445,11 +4307,25 @@ section.ds-section:first-child { border-top: none; padding-top: 48px; }
 <!--  FOOTER                                                           -->
 <!-- ================================================================ -->
 <footer class="ds-footer">
-  <div>aleron MD · Product Design System · v0.3</div>
-  <div>Inherits from brand-deck/index.html · One-way arrow · 02 Jul 2026</div>
+  <div>aleron MD · Product Design System · v0.4</div>
+  <div>Human reference + machine bundle · Inherits from brand-deck/index.html · 16 Jul 2026</div>
 </footer>
 
 <script>
+fetch('components.json')
+  .then(response => {
+    if (!response.ok) throw new Error('Registry unavailable');
+    return response.json();
+  })
+  .then(registry => {
+    const target = document.getElementById('component-registry');
+    if (target) target.textContent = JSON.stringify(registry, null, 2);
+  })
+  .catch(() => {
+    const target = document.getElementById('component-registry');
+    if (target) target.textContent = 'Open components.json to read the canonical registry.';
+  });
+
 // Nav tracking
 const sections = document.querySelectorAll('section.ds-section');
 const navLinks = document.querySelectorAll('.ds-nav a');

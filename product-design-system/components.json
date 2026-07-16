@@ -1,0 +1,787 @@
+{
+  "$schema": "./schemas/components.schema.json",
+  "design_system": "aleron-md-product-ds",
+  "version": "0.4.0",
+  "updated": "2026-07-16",
+  "status_note": "Ratified entries have complete reusable web implementations. Provisional entries declare the intended state contract and may not yet encode every state selector. The physician register and the air and copy laws remain provisional where marked.",
+  "global_forbidden": [
+    "audit-face-except-wordmark-tag",
+    "values-or-units-not-voice-tabular-500",
+    "tracked-caps-on-product-surface",
+    "gold-as-control-or-card-trim",
+    "shadow-except-tier1-toast-launcher",
+    "selection-as-ink-fill",
+    "raw-hex-or-px-literal-in-component",
+    "em-dash-in-user-facing-prose",
+    "anonymous-string"
+  ],
+  "components": [
+    {
+      "id": "core.button",
+      "category": "core",
+      "status": "ratified",
+      "selector": ".amd-button",
+      "purpose": "Primary, secondary, tertiary, disabled, and loading actions.",
+      "registers": [
+        "day",
+        "flight-deck"
+      ],
+      "required_tokens": [
+        "control-primary-bg",
+        "control-primary-fg",
+        "radius.control",
+        "control.minHeight"
+      ],
+      "states": [
+        "default",
+        "hover",
+        "focus-visible",
+        "disabled",
+        "loading"
+      ],
+      "forbidden": [
+        "gold-fill",
+        "gold-border",
+        "pill-radius"
+      ],
+      "reference": "./index.html#core",
+      "implementation": {
+        "web": "./components.css",
+        "source_selector": ".amd-button"
+      },
+      "acceptance": [
+        "T1",
+        "T2",
+        "T3",
+        "T4",
+        "T5",
+        "T6",
+        "T7"
+      ]
+    },
+    {
+      "id": "core.input",
+      "category": "core",
+      "status": "ratified",
+      "selector": ".amd-input",
+      "purpose": "Text and numeric data entry with explicit labels and units.",
+      "registers": [
+        "day",
+        "flight-deck"
+      ],
+      "required_tokens": [
+        "surface-inset",
+        "text-primary",
+        "signal-forward",
+        "radius.control"
+      ],
+      "states": [
+        "default",
+        "focus-visible",
+        "disabled",
+        "invalid"
+      ],
+      "forbidden": [
+        "box-shadow",
+        "border-at-rest",
+        "value-without-unit"
+      ],
+      "reference": "./index.html#core",
+      "implementation": {
+        "web": "./components.css",
+        "source_selector": ".amd-input"
+      },
+      "acceptance": [
+        "T1",
+        "T2",
+        "T3",
+        "T4",
+        "T5",
+        "T6",
+        "T7"
+      ]
+    },
+    {
+      "id": "core.card",
+      "category": "core",
+      "status": "ratified",
+      "selector": ".amd-card",
+      "purpose": "Tiered grouping surface.",
+      "registers": [
+        "day",
+        "flight-deck"
+      ],
+      "required_tokens": [
+        "surface-tier1",
+        "surface-tier2",
+        "border-base",
+        "shadow-tier1"
+      ],
+      "states": [
+        "tier1",
+        "tier2",
+        "flat"
+      ],
+      "forbidden": [
+        "shadow-outside-tier1",
+        "nested-enclosure",
+        "gold-edge-trim"
+      ],
+      "reference": "./index.html#core",
+      "implementation": {
+        "web": "./components.css",
+        "source_selector": ".amd-card"
+      },
+      "acceptance": [
+        "T1",
+        "T2",
+        "T3",
+        "T4",
+        "T5",
+        "T6",
+        "T7"
+      ]
+    },
+    {
+      "id": "core.tabs",
+      "category": "core",
+      "status": "ratified",
+      "selector": ".amd-tabs",
+      "purpose": "Peer view selection using one navigation mechanism.",
+      "registers": [
+        "day",
+        "flight-deck"
+      ],
+      "required_tokens": [
+        "surface-selected",
+        "text-primary",
+        "text-secondary",
+        "radius.control"
+      ],
+      "states": [
+        "default",
+        "hover",
+        "selected",
+        "focus-visible"
+      ],
+      "forbidden": [
+        "pill-radius",
+        "mixed-mechanism",
+        "selection-as-ink-fill"
+      ],
+      "reference": "./index.html#core",
+      "implementation": {
+        "web": "./components.css",
+        "source_selector": ".amd-tabs"
+      },
+      "acceptance": [
+        "T1",
+        "T2",
+        "T3",
+        "T4",
+        "T5",
+        "T6",
+        "T7"
+      ]
+    },
+    {
+      "id": "domain.annunciator",
+      "category": "domain",
+      "status": "provisional",
+      "selector": ".amd-annunciator",
+      "purpose": "Summarizes hazards and advisories without becoming the one thing.",
+      "registers": [
+        "day",
+        "flight-deck"
+      ],
+      "required_tokens": [
+        "signal-hazard",
+        "signal-advisory",
+        "border-base"
+      ],
+      "states": [
+        "default",
+        "empty",
+        "hazard",
+        "advisory"
+      ],
+      "forbidden": [
+        "ember-text-on-dark",
+        "one-thing-inside"
+      ],
+      "reference": "./index.html#domain",
+      "implementation": {
+        "web": "./components.css",
+        "source_selector": ".amd-annunciator"
+      },
+      "acceptance": [
+        "T1",
+        "T2",
+        "T3",
+        "T4",
+        "T5",
+        "T6",
+        "T7"
+      ]
+    },
+    {
+      "id": "domain.citation-table",
+      "category": "domain",
+      "status": "provisional",
+      "selector": ".amd-citation-table",
+      "purpose": "Groups clinical values with units, trends, notes, and missingness.",
+      "registers": [
+        "day",
+        "flight-deck"
+      ],
+      "required_tokens": [
+        "text-primary",
+        "text-secondary",
+        "hairline",
+        "signal-advisory",
+        "signal-hazard"
+      ],
+      "states": [
+        "default",
+        "advisory",
+        "hazard",
+        "missing"
+      ],
+      "forbidden": [
+        "blank-missing",
+        "group-reorder",
+        "value-without-unit"
+      ],
+      "reference": "./index.html#domain",
+      "implementation": {
+        "web": "./components.css",
+        "source_selector": ".amd-citation-table"
+      },
+      "acceptance": [
+        "T1",
+        "T2",
+        "T3",
+        "T4",
+        "T5",
+        "T6",
+        "T7"
+      ]
+    },
+    {
+      "id": "domain.trajectory",
+      "category": "domain",
+      "status": "provisional",
+      "selector": ".amd-trajectory",
+      "purpose": "Shows structured change over time.",
+      "registers": [
+        "day",
+        "flight-deck"
+      ],
+      "required_tokens": [
+        "signal-baseline",
+        "signal-advisory",
+        "signal-hazard",
+        "border-base"
+      ],
+      "states": [
+        "baseline",
+        "improving",
+        "advisory",
+        "hazard",
+        "unmodeled"
+      ],
+      "forbidden": [
+        "decorative-use",
+        "color-before-structure"
+      ],
+      "reference": "./index.html#domain",
+      "implementation": {
+        "web": "./components.css",
+        "source_selector": ".amd-trajectory"
+      },
+      "acceptance": [
+        "T1",
+        "T2",
+        "T3",
+        "T4",
+        "T5",
+        "T6",
+        "T7"
+      ]
+    },
+    {
+      "id": "domain.one-thing",
+      "category": "domain",
+      "status": "ratified",
+      "selector": ".amd-one-thing",
+      "purpose": "The single elevated answer to what matters first.",
+      "registers": [
+        "day",
+        "flight-deck"
+      ],
+      "required_tokens": [
+        "surface-tier1",
+        "signal-forward",
+        "shadow-tier1"
+      ],
+      "states": [
+        "day",
+        "flight-deck"
+      ],
+      "forbidden": [
+        "multiple-per-surface",
+        "inside-data",
+        "gold-edge-trim"
+      ],
+      "reference": "./index.html#domain",
+      "implementation": {
+        "web": "./components.css",
+        "source_selector": ".amd-one-thing"
+      },
+      "acceptance": [
+        "T1",
+        "T2",
+        "T3",
+        "T4",
+        "T5",
+        "T6",
+        "T7"
+      ]
+    },
+    {
+      "id": "domain.action-card",
+      "category": "domain",
+      "status": "provisional",
+      "selector": ".amd-action-card",
+      "purpose": "Represents a recommendation or action and its lifecycle.",
+      "registers": [
+        "day",
+        "flight-deck"
+      ],
+      "required_tokens": [
+        "surface-card",
+        "border-base",
+        "signal-baseline",
+        "signal-advisory"
+      ],
+      "states": [
+        "pending",
+        "accepted",
+        "deferred"
+      ],
+      "forbidden": [
+        "chip-spray",
+        "triad-header",
+        "decorative-color"
+      ],
+      "reference": "./index.html#domain",
+      "implementation": {
+        "web": "./components.css",
+        "source_selector": ".amd-action-card"
+      },
+      "acceptance": [
+        "T1",
+        "T2",
+        "T3",
+        "T4",
+        "T5",
+        "T6",
+        "T7"
+      ]
+    },
+    {
+      "id": "domain.milestone-ladder",
+      "category": "domain",
+      "status": "provisional",
+      "selector": ".amd-milestones",
+      "purpose": "Shows sequence and next milestone without implying checkbox completion.",
+      "registers": [
+        "day",
+        "flight-deck"
+      ],
+      "required_tokens": [
+        "border-base",
+        "signal-forward",
+        "text-secondary"
+      ],
+      "states": [
+        "past",
+        "next",
+        "future"
+      ],
+      "forbidden": [
+        "checkbox-nodes",
+        "decorative-color"
+      ],
+      "reference": "./index.html#domain",
+      "implementation": {
+        "web": "./components.css",
+        "source_selector": ".amd-milestones"
+      },
+      "acceptance": [
+        "T1",
+        "T2",
+        "T3",
+        "T4",
+        "T5",
+        "T6",
+        "T7"
+      ]
+    },
+    {
+      "id": "interaction.ai-thread",
+      "category": "interaction",
+      "status": "provisional",
+      "selector": ".amd-ai-thread",
+      "purpose": "A sourced conversation with named product provenance.",
+      "registers": [
+        "day",
+        "flight-deck"
+      ],
+      "required_tokens": [
+        "surface-inset",
+        "text-primary",
+        "text-secondary",
+        "border-subtle"
+      ],
+      "states": [
+        "user",
+        "assistant",
+        "loading"
+      ],
+      "forbidden": [
+        "accent-chrome",
+        "sourceless-message"
+      ],
+      "reference": "./index.html#interaction",
+      "implementation": {
+        "web": "./components.css",
+        "source_selector": ".amd-ai-thread"
+      },
+      "acceptance": [
+        "T1",
+        "T2",
+        "T3",
+        "T4",
+        "T5",
+        "T6",
+        "T7"
+      ]
+    },
+    {
+      "id": "interaction.ask-trigger",
+      "category": "interaction",
+      "status": "provisional",
+      "selector": ".amd-ask-trigger",
+      "purpose": "A restrained entry point into AI assistance.",
+      "registers": [
+        "day",
+        "flight-deck"
+      ],
+      "required_tokens": [
+        "text-secondary",
+        "border-subtle",
+        "border-base"
+      ],
+      "states": [
+        "default",
+        "hover",
+        "focus-visible"
+      ],
+      "forbidden": [
+        "accent-color",
+        "labeled-rail"
+      ],
+      "reference": "./index.html#interaction",
+      "implementation": {
+        "web": "./components.css",
+        "source_selector": ".amd-ask-trigger"
+      },
+      "acceptance": [
+        "T1",
+        "T2",
+        "T3",
+        "T4",
+        "T5",
+        "T6",
+        "T7"
+      ]
+    },
+    {
+      "id": "interaction.confidence",
+      "category": "interaction",
+      "status": "provisional",
+      "selector": ".amd-confidence",
+      "purpose": "Communicates categorical confidence without false precision.",
+      "registers": [
+        "day",
+        "flight-deck"
+      ],
+      "required_tokens": [
+        "signal-baseline",
+        "signal-advisory",
+        "signal-hazard"
+      ],
+      "states": [
+        "high",
+        "moderate",
+        "low"
+      ],
+      "forbidden": [
+        "raw-percentage",
+        "gold-bars"
+      ],
+      "reference": "./index.html#interaction",
+      "implementation": {
+        "web": "./components.css",
+        "source_selector": ".amd-confidence"
+      },
+      "acceptance": [
+        "T1",
+        "T2",
+        "T3",
+        "T4",
+        "T5",
+        "T6",
+        "T7"
+      ]
+    },
+    {
+      "id": "interaction.proposed-action",
+      "category": "interaction",
+      "status": "provisional",
+      "selector": ".amd-proposed-action",
+      "purpose": "Separates an AI proposal from a human-approved action.",
+      "registers": [
+        "day",
+        "flight-deck"
+      ],
+      "required_tokens": [
+        "surface-card",
+        "border-base",
+        "signal-forward"
+      ],
+      "states": [
+        "awaiting-review",
+        "approved",
+        "modified",
+        "rejected"
+      ],
+      "forbidden": [
+        "auto-execute",
+        "no-approve-control"
+      ],
+      "reference": "./index.html#interaction",
+      "implementation": {
+        "web": "./components.css",
+        "source_selector": ".amd-proposed-action"
+      },
+      "acceptance": [
+        "T1",
+        "T2",
+        "T3",
+        "T4",
+        "T5",
+        "T6",
+        "T7"
+      ]
+    },
+    {
+      "id": "interaction.mic-button",
+      "category": "interaction",
+      "status": "provisional",
+      "selector": ".amd-mic-button",
+      "purpose": "Captures voice using neutral recording state.",
+      "registers": [
+        "day",
+        "flight-deck"
+      ],
+      "required_tokens": [
+        "control-primary-bg",
+        "control-primary-fg",
+        "signal-baseline"
+      ],
+      "states": [
+        "idle",
+        "recording",
+        "processing",
+        "error"
+      ],
+      "forbidden": [
+        "ember-recording-state"
+      ],
+      "reference": "./index.html#interaction",
+      "implementation": {
+        "web": "./components.css",
+        "source_selector": ".amd-mic-button"
+      },
+      "acceptance": [
+        "T1",
+        "T2",
+        "T3",
+        "T4",
+        "T5",
+        "T6",
+        "T7"
+      ]
+    },
+    {
+      "id": "interaction.toast",
+      "category": "interaction",
+      "status": "provisional",
+      "selector": ".amd-toast",
+      "purpose": "Short-lived feedback or warning.",
+      "registers": [
+        "day",
+        "flight-deck"
+      ],
+      "required_tokens": [
+        "surface-tier1",
+        "signal-hazard",
+        "shadow-tier1"
+      ],
+      "states": [
+        "info",
+        "success",
+        "warning",
+        "error"
+      ],
+      "forbidden": [
+        "stack-overflow",
+        "no-auto-dismiss"
+      ],
+      "reference": "./index.html#interaction",
+      "implementation": {
+        "web": "./components.css",
+        "source_selector": ".amd-toast"
+      },
+      "acceptance": [
+        "T1",
+        "T2",
+        "T3",
+        "T4",
+        "T5",
+        "T6",
+        "T7"
+      ]
+    },
+    {
+      "id": "interaction.stepper",
+      "category": "interaction",
+      "status": "provisional",
+      "selector": ".amd-stepper",
+      "purpose": "Shows onboarding progress with linear segments.",
+      "registers": [
+        "day",
+        "flight-deck"
+      ],
+      "required_tokens": [
+        "border-base",
+        "signal-forward",
+        "text-secondary"
+      ],
+      "states": [
+        "complete",
+        "current",
+        "future"
+      ],
+      "forbidden": [
+        "circular-nodes"
+      ],
+      "reference": "./index.html#interaction",
+      "implementation": {
+        "web": "./components.css",
+        "source_selector": ".amd-stepper"
+      },
+      "acceptance": [
+        "T1",
+        "T2",
+        "T3",
+        "T4",
+        "T5",
+        "T6",
+        "T7"
+      ]
+    },
+    {
+      "id": "interaction.consent",
+      "category": "interaction",
+      "status": "provisional",
+      "selector": ".amd-consent",
+      "purpose": "Captures versioned, explicit consent.",
+      "registers": [
+        "day",
+        "flight-deck"
+      ],
+      "required_tokens": [
+        "surface-tier2",
+        "border-base",
+        "text-primary"
+      ],
+      "states": [
+        "unreviewed",
+        "reviewed",
+        "accepted"
+      ],
+      "forbidden": [
+        "checkbox-style",
+        "no-version"
+      ],
+      "reference": "./index.html#interaction",
+      "implementation": {
+        "web": "./components.css",
+        "source_selector": ".amd-consent"
+      },
+      "acceptance": [
+        "T1",
+        "T2",
+        "T3",
+        "T4",
+        "T5",
+        "T6",
+        "T7"
+      ]
+    },
+    {
+      "id": "interaction.lab-result",
+      "category": "interaction",
+      "status": "provisional",
+      "selector": ".amd-lab-result",
+      "purpose": "Captures a clinical result with units and source context.",
+      "registers": [
+        "day",
+        "flight-deck"
+      ],
+      "required_tokens": [
+        "text-primary",
+        "text-secondary",
+        "hairline",
+        "signal-hazard"
+      ],
+      "states": [
+        "normal",
+        "advisory",
+        "hazard",
+        "missing"
+      ],
+      "forbidden": [
+        "value-without-unit",
+        "decorative-flag"
+      ],
+      "reference": "./index.html#interaction",
+      "implementation": {
+        "web": "./components.css",
+        "source_selector": ".amd-lab-result"
+      },
+      "acceptance": [
+        "T1",
+        "T2",
+        "T3",
+        "T4",
+        "T5",
+        "T6",
+        "T7"
+      ]
+    }
+  ]
+}

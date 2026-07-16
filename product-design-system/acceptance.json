@@ -1,0 +1,76 @@
+{
+  "$schema": "./schemas/acceptance.schema.json",
+  "design_system": "aleron-md-product-ds",
+  "version": "0.4.0",
+  "tests": [
+    {
+      "id": "T1",
+      "name": "Cover the words",
+      "mode": "human",
+      "pass": "Shape alone distinguishes controls, status, and selection."
+    },
+    {
+      "id": "T2",
+      "name": "Squint",
+      "mode": "rendered-computed",
+      "tool": "./air-audit.js",
+      "threshold": {
+        "between_to_within": 2.0
+      },
+      "pass": "Every measured altitude is 2.0 or better."
+    },
+    {
+      "id": "T3",
+      "name": "Flip the register",
+      "mode": "rendered-computed",
+      "pass": "Changing only data-register swaps day and flight-deck with no unresolved color."
+    },
+    {
+      "id": "T4",
+      "name": "Count the golds",
+      "mode": "rendered-human",
+      "threshold": {
+        "gold_details_per_surface": 1
+      },
+      "pass": "At most one gold detail appears on a surface."
+    },
+    {
+      "id": "T5",
+      "name": "Check the floors",
+      "mode": "rendered-computed",
+      "threshold": {
+        "reading_text_px": 14,
+        "functional_text_px": 10.5,
+        "chart_secondary_annotation_px": 9.5,
+        "contrast_ratio": 4.5
+      },
+      "pass": "Every value has a unit and every applicable type and contrast floor passes."
+    },
+    {
+      "id": "T6",
+      "name": "Empty is correct",
+      "mode": "human",
+      "pass": "No element exists only to occupy room and quiet groups collapse honestly."
+    },
+    {
+      "id": "T7",
+      "name": "Every string would ship",
+      "mode": "rendered-assisted",
+      "tool": "./copy-audit.js",
+      "pass": "Every string has provenance and the tells scan has zero unwaived flags."
+    }
+  ],
+  "required_report": {
+    "fields": [
+      "test_id",
+      "result",
+      "evidence",
+      "waiver"
+    ],
+    "allowed_results": [
+      "pass",
+      "fail",
+      "not-applicable"
+    ]
+  }
+}

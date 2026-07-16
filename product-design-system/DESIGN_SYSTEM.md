@@ -1,13 +1,18 @@
-# Aleron MD · Product Design System · RETIRED POINTER
+# Aleron MD Product Design System
 
-**Status:** Retired 03 Jul 2026. This markdown was Draft v0.1 (30 Jun 2026) and predates the Cabin register, the v0.3 semantic tokens, the radius scale, the retirement of the audit face, and the air ladder. Applying it means applying superseded law.
+**Current machine bundle:** v0.4.0, 16 Jul 2026.
 
-**The canonical design system is [`index.html`](./index.html) in this folder.** Read it fully before any surface work, and follow its Section 07 agent contract (the load order, the brief, the six acceptance tests, the ratchet, the dialect law).
+The human reference is [`index.html`](./index.html). Agents start with [`manifest.json`](./manifest.json) and follow [`AGENTS.md`](./AGENTS.md). Tokens, component contracts, and acceptance tests are separately structured so the reference page and prototypes share one implementation contract.
 
-Companion documents:
+## Canonical assets
 
-- [`register.html`](./register.html): the ratified member register (the Cabin, tiered).
-- [`physician-register.html`](./physician-register.html): the physician register, provisionally in force for field validation.
-- [`air-audit.js`](./air-audit.js): the numeric air audit (laws A2/T2), run on rendered pages.
+- [`tokens.json`](./tokens.json): primitive and semantic source
+- [`tokens.css`](./tokens.css): generated web variables
+- [`components.json`](./components.json): component registry
+- [`components.css`](./components.css): reusable web implementations
+- [`acceptance.json`](./acceptance.json): T1 through T7 test contract
+- [`prototype-starter.html`](./prototype-starter.html): minimal register-aware prototype
+- [`air-audit.js`](./air-audit.js): rendered air audit
+- [`copy-audit.js`](./copy-audit.js): rendered copy audit
 
-The full prior text is recoverable from git history (last complete version: commit `7604971` and earlier). If this file is ever regenerated, it must be generated from `index.html`, never written independently.
+The member Cabin register in [`register.html`](./register.html) is ratified. The physician register in [`physician-register.html`](./physician-register.html) remains provisional.

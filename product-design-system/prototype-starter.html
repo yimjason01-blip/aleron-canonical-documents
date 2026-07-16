@@ -1,0 +1,49 @@
+<!doctype html>
+<html lang="en" data-register="day">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Aleron MD prototype starter</title>
+  <link rel="stylesheet" href="tokens.css">
+  <link rel="stylesheet" href="components.css">
+  <style>
+    * { box-sizing: border-box; }
+    body { margin: 0; background: var(--ground); color: var(--text-primary); font-family: var(--voice); }
+    h1, h2, p { margin: 0; }
+    main { max-width: var(--page-max); margin: 0 auto; padding: var(--s-xl); display: grid; gap: var(--air-section); }
+    section { display: grid; gap: var(--air-tier); }
+    .group { display: grid; gap: var(--air-row); }
+  </style>
+</head>
+<body>
+  <main class="amd-surface">
+    <header class="group">
+      <div class="amd-tabs" role="tablist" aria-label="Register">
+        <button role="tab" aria-selected="true" data-register-choice="day">Day</button>
+        <button role="tab" aria-selected="false" data-register-choice="flight-deck">Flight deck</button>
+      </div>
+      <h1>Plan</h1>
+      <p>Your next physician-reviewed action.</p>
+    </header>
+    <section aria-labelledby="priority-title">
+      <article class="amd-one-thing">
+        <div class="amd-one-thing__label">Priority</div>
+        <h2 id="priority-title">Review ApoB with your physician</h2>
+        <p><span class="amd-value" data-field="apob"></span> <span class="amd-value__unit" data-field="apob-unit"></span></p>
+        <button class="amd-button" data-variant="primary">Review plan</button>
+      </article>
+    </section>
+  </main>
+  <script>
+    const fixture = { apob: { value: 92, unit: 'mg/dL' } };
+    document.querySelector('[data-field="apob"]').textContent = fixture.apob.value;
+    document.querySelector('[data-field="apob-unit"]').textContent = fixture.apob.unit;
+    document.querySelectorAll('[data-register-choice]').forEach((button) => {
+      button.addEventListener('click', () => {
+        document.documentElement.dataset.register = button.dataset.registerChoice;
+        document.querySelectorAll('[data-register-choice]').forEach((item) => item.setAttribute('aria-selected', String(item === button)));
+      });
+    });
+  </script>
+</body>
+</html>

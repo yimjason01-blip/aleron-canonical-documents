@@ -1,0 +1,126 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "manifest.schema.json",
+  "title": "Aleron design system manifest",
+  "$defs": {
+    "register": {
+      "type": "object",
+      "required": [
+        "name",
+        "status",
+        "study"
+      ],
+      "properties": {
+        "name": {
+          "type": "string"
+        },
+        "status": {
+          "enum": [
+            "draft",
+            "provisional",
+            "ratified",
+            "retired"
+          ]
+        },
+        "study": {
+          "type": "string"
+        }
+      },
+      "additionalProperties": false
+    }
+  },
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "name",
+    "id",
+    "version",
+    "status",
+    "authority",
+    "load_order",
+    "registers"
+  ],
+  "properties": {
+    "$schema": {
+      "type": "string"
+    },
+    "name": {
+      "type": "string",
+      "minLength": 1
+    },
+    "id": {
+      "const": "aleron-md-product-ds"
+    },
+    "version": {
+      "type": "string",
+      "pattern": "^\\d+\\.\\d+\\.\\d+$"
+    },
+    "status": {
+      "enum": [
+        "draft",
+        "provisional",
+        "ratified",
+        "mixed",
+        "retired"
+      ]
+    },
+    "updated": {
+      "type": "string",
+      "pattern": "^\\d{4}-\\d{2}-\\d{2}$"
+    },
+    "governing_idea": {
+      "type": "string"
+    },
+    "authority": {
+      "type": "object",
+      "minProperties": 5,
+      "additionalProperties": {
+        "type": "string"
+      }
+    },
+    "generated_assets": {
+      "type": "object",
+      "additionalProperties": {
+        "type": "string"
+      }
+    },
+    "implementation_assets": {
+      "type": "object",
+      "additionalProperties": {
+        "type": "string"
+      }
+    },
+    "audits": {
+      "type": "object",
+      "additionalProperties": {
+        "type": "string"
+      }
+    },
+    "registers": {
+      "type": "object",
+      "required": [
+        "day",
+        "flight-deck"
+      ],
+      "properties": {
+        "day": {
+          "$ref": "#/$defs/register"
+        },
+        "flight-deck": {
+          "$ref": "#/$defs/register"
+        }
+      },
+      "additionalProperties": false
+    },
+    "load_order": {
+      "type": "array",
+      "minItems": 5,
+      "items": {
+        "type": "string"
+      }
+    },
+    "compatibility": {
+      "type": "object"
+    }
+  }
+}
