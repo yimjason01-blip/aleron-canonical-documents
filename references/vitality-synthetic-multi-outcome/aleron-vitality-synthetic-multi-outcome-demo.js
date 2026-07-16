@@ -1,7 +1,9 @@
 const OUTCOMES = ["energy", "mood", "body", "mind", "meaning"];
 const OUTCOME_LABELS = { energy: "Energy", mood: "Mood", body: "Body", mind: "Mind", meaning: "Meaning" };
 const AXIS_MAX = 20;
-const RUNS_URL = "./vitality_synthetic_multi_outcome_runs_v1.json";
+const CONFIDENCE_ORDER = ["very_low", "low", "moderate", "high"];
+const SVG_NS = "http://www.w3.org/2000/svg";
+const RUNS_URL = "vitality_synthetic_multi_outcome_runs_v1.json";
 
 const state = {
   bundle: null,
@@ -14,6 +16,14 @@ const state = {
 const el = (tag, className, text) => {
   const node = document.createElement(tag);
   if (className) node.className = className;
+  if (text !== undefined) node.textContent = text;
+  return node;
+};
+
+const svgEl = (tag, className, attrs = {}, text) => {
+  const node = document.createElementNS(SVG_NS, tag);
+  if (className) node.setAttribute("class", className);
+  Object.entries(attrs).forEach(([key, value]) => node.setAttribute(key, String(value)));
   if (text !== undefined) node.textContent = text;
   return node;
 };
@@ -109,19 +119,117 @@ function confidenceMarkers(value) {
   return markers;
 }
 
-function confidenceCell(value) {
-  const cell = el("span", "confidence-cell");
-  cell.append(el("strong", "", `${value} confidence`), confidenceMarkers(value));
-  return cell;
+function confidenceLabel(value) {
+  return value.replaceAll("_", " ").replace(/\b\w/g, (letter) => letter.toUpperCase());
 }
 
-function effectCell(effect) {
-  const cell = el("span", "effect-value");
-  cell.append(
-    el("strong", "", `+${effect.point} pts`),
-    el("small", "effect-range", `${effect.interval.lower} to ${effect.interval.upper} pts`),
-  );
-  return cell;
+function focusMapping(mappingId) {
+  state.focusedMappingId = mappingId;
+  renderMap();
+  renderDetail();
+}
+
+function renderActionGraph(rows) {
+  const compact = window.matchMedia("(max-width: 640px)").matches;
+  const width = compact ? 360 : 760;
+  const height = compact ? 520 : 500;
+  const margin = compact
+    ? { top: 24, right: 18, bottom: 82, left: 48 }
+    : { top: 24, right: 28, bottom: 76, left: 72 };
+  const plotWidth = width - margin.left - margin.right;
+  const plotHeight = height - margin.top - margin.bottom;
+  const xFor = (confidence) => margin.left + CONFIDENCE_ORDER.indexOf(confidence) * (plotWidth / (CONFIDENCE_ORDER.length - 1));
+  const yFor = (value) => margin.top + (AXIS_MAX - value) / AXIS_MAX * plotHeight;
+
+  const wrapper = el("div", "action-graph");
+  const svg = svgEl("svg", "action-graph-svg", {
+    viewBox: `0 0 ${width} ${height}`,
+    role: "img",
+    "aria-label": `${OUTCOME_LABELS[state.outcomeId]} Actions plotted by synthetic confidence on the x-axis and synthetic effect size on the y-axis`,
+  });
+
+  const effectAxis = svgEl("g", "effect-axis");
+  [0, 5, 10, 15, 20].forEach((value) => {
+    const y = yFor(value);
+    effectAxis.append(
+      svgEl("line", "graph-grid-line", { x1: margin.left, x2: width - margin.right, y1: y, y2: y }),
+      svgEl("text", "graph-tick-label", { x: margin.left - 12, y: y + 4, "text-anchor": "end" }, `${value} pts`),
+    );
+  });
+  const axisTitleX = compact ? 12 : 18;
+  effectAxis.append(svgEl("text", "graph-axis-title", {
+    x: axisTitleX,
+    y: margin.top + plotHeight / 2,
+    transform: `rotate(-90 ${axisTitleX} ${margin.top + plotHeight / 2})`,
+    "text-anchor": "middle",
+  }, "Synthetic effect size (points of 100)"));
+  svg.append(effectAxis);
+
+  const confidenceAxis = svgEl("g", "confidence-axis");
+  CONFIDENCE_ORDER.forEach((confidence) => {
+    const x = xFor(confidence);
+    confidenceAxis.append(
+      svgEl("line", "confidence-guide", { x1: x, x2: x, y1: margin.top, y2: height - margin.bottom }),
+      svgEl("text", "confidence-tick-label", { x, y: height - margin.bottom + 28, "text-anchor": "middle" }, confidenceLabel(confidence)),
+    );
+  });
+  confidenceAxis.append(svgEl("text", "graph-axis-title", {
+    x: margin.left + plotWidth / 2,
+    y: height - 18,
+    "text-anchor": "middle",
+  }, "Synthetic confidence (categorical, not evidence grade)"));
+  svg.append(confidenceAxis);
+
+  rows.forEach((row, index) => {
+    const tierRows = rows.filter((candidate) => candidate.decision_dimensions.confidence === row.decision_dimensions.confidence);
+    const tierIndex = tierRows.findIndex((candidate) => candidate.mapping_id === row.mapping_id);
+    const jitter = (tierIndex - (tierRows.length - 1) / 2) * (compact ? 16 : 28);
+    const x = xFor(row.decision_dimensions.confidence) + jitter;
+    const y = yFor(row.effect.point);
+    const yLower = yFor(row.effect.interval.lower);
+    const yUpper = yFor(row.effect.interval.upper);
+    const pointClass = row.mapping_id === state.focusedMappingId ? "graph-point focused" : "graph-point";
+    const group = svgEl("g", pointClass, {
+      role: "button",
+      tabindex: "0",
+      "data-mapping-id": row.mapping_id,
+      "aria-label": `${index + 1}. ${row.action_title}: ${row.effect.point} synthetic points of 100, range ${row.effect.interval.lower} to ${row.effect.interval.upper} synthetic points of 100, ${confidenceLabel(row.decision_dimensions.confidence)} synthetic confidence`,
+    });
+    group.append(
+      svgEl("title", "", {}, `${row.action_title} · ${row.effect.point} pts · ${confidenceLabel(row.decision_dimensions.confidence)} confidence`),
+      svgEl("line", "effect-range-line", { x1: x, x2: x, y1: yUpper, y2: yLower }),
+      svgEl("line", "effect-range-cap", { x1: x - 6, x2: x + 6, y1: yUpper, y2: yUpper }),
+      svgEl("line", "effect-range-cap", { x1: x - 6, x2: x + 6, y1: yLower, y2: yLower }),
+      svgEl("circle", "graph-point-dot", { cx: x, cy: y, r: compact ? 10 : 13 }),
+      svgEl("text", "graph-point-number", { x, y: y + 4, "text-anchor": "middle" }, String(index + 1)),
+    );
+    group.addEventListener("click", () => focusMapping(row.mapping_id));
+    group.addEventListener("keydown", (event) => {
+      if (event.key === "Enter" || event.key === " ") {
+        event.preventDefault();
+        focusMapping(row.mapping_id);
+      }
+    });
+    svg.append(group);
+  });
+
+  const key = el("div", "graph-key");
+  rows.forEach((row, index) => {
+    const keyClass = row.mapping_id === state.focusedMappingId ? "graph-key-item focused" : "graph-key-item";
+    const button = el("button", keyClass);
+    button.type = "button";
+    button.setAttribute("data-mapping-id", row.mapping_id);
+    button.append(
+      el("span", "graph-key-number", String(index + 1).padStart(2, "0")),
+      el("strong", "", row.action_title),
+      el("span", "effect-range", `+${row.effect.point} pts · ${row.effect.interval.lower} to ${row.effect.interval.upper} pts`),
+      el("span", "graph-key-confidence", `${confidenceLabel(row.decision_dimensions.confidence)} confidence`),
+    );
+    button.addEventListener("click", () => focusMapping(row.mapping_id));
+    key.append(button);
+  });
+  wrapper.append(svg, key);
+  return wrapper;
 }
 
 function renderMap() {
@@ -139,35 +247,8 @@ function renderMap() {
     notice.append(el("strong", "", "No elective Action map"), el("span", "", "Resolve the safety exit before considering an outcome-matched Action."));
     map.replaceChildren(notice);
   } else {
-    context.textContent = `${eligible.length} of ${eligible.length + excluded.length} primary-target mappings are eligible. Rows are ordered by illustrative effect within this outcome; confidence is shown beside every estimate and is never combined into a score.`;
-    map.replaceChildren(...eligible.map((row) => {
-      const button = el("button", `action-row${row.mapping_id === state.focusedMappingId ? " focused" : ""}`);
-      button.type = "button";
-      button.dataset.mappingId = row.mapping_id;
-      const name = el("span", "action-name");
-      name.append(el("strong", "", row.action_title), el("span", "", `Expected response in ${formatPeriod(row.response_period)}`));
-      const track = el("span", "effect-track");
-      const interval = el("span", "effect-interval");
-      const lower = Math.max(0, Math.min(100, row.effect.interval.lower / AXIS_MAX * 100));
-      const upper = Math.max(lower, Math.min(100, row.effect.interval.upper / AXIS_MAX * 100));
-      interval.style.left = `${lower}%`;
-      interval.style.width = `${upper - lower}%`;
-      const point = el("span", "effect-point");
-      point.style.left = `${Math.max(0, Math.min(100, row.effect.point / AXIS_MAX * 100))}%`;
-      track.append(interval, point);
-      button.append(
-        name,
-        track,
-        effectCell(row.effect),
-        confidenceCell(row.decision_dimensions.confidence),
-      );
-      button.addEventListener("click", () => {
-        state.focusedMappingId = row.mapping_id;
-        renderMap();
-        renderDetail();
-      });
-      return button;
-    }));
+    context.textContent = `${eligible.length} of ${eligible.length + excluded.length} primary-target mappings are eligible. Confidence is the categorical x-axis; illustrative effect size is the y-axis, with a vertical range for each Action. Horizontal offsets only prevent overlap within a confidence category.`;
+    map.replaceChildren(renderActionGraph(eligible));
   }
 
   const excludedSection = document.getElementById("excluded-section");
