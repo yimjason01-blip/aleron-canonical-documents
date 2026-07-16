@@ -7,7 +7,7 @@
     "source_fixture_set_id": "vitality_synthetic_multi_outcome_cases_v1",
     "source_fixture_set_sha256": "5360baaac4b7fd50e7c3e878eaac49f3eb9b9963fb6d4852fc6287e263cf1aae",
     "source_registry_id": "vitality_synthetic_multi_outcome_map_v1",
-    "source_registry_sha256": "d985e36622bae5fb37d290b5351396a2fe8ea95cadfcbc50068e67e92155fd28"
+    "source_registry_sha256": "a2f99df612d3a8e86f289e3c34179845640a8cb3cafd7cac36d05d20428218f8"
   },
   "runs": [
     {
@@ -20,7 +20,7 @@
         "source_case_id": "broad_eligibility",
         "source_case_sha256": "1ad796873a961eaabee450aa32ff666010e980112bc546b256ee1009602cb425",
         "source_registry_id": "vitality_synthetic_multi_outcome_map_v1",
-        "source_registry_sha256": "d985e36622bae5fb37d290b5351396a2fe8ea95cadfcbc50068e67e92155fd28",
+        "source_registry_sha256": "a2f99df612d3a8e86f289e3c34179845640a8cb3cafd7cac36d05d20428218f8",
         "source_library_id": "vitality_action_library_v1",
         "source_library_sha256": "a27b0766c3b6c325f765b12a1a30dae6d89c6d4c6c4e42fe52f109a37e11bf4d"
       },
@@ -69,7 +69,7 @@
           ],
           "candidate_only": {
             "schedule_rule": "selected_action_response_period",
-            "meaningful_change": {
+            "illustrative_reassessment_threshold": {
               "value": 5,
               "unit": "synthetic_outcome_points_of_100"
             }
@@ -95,18 +95,19 @@
             }
           },
           "effect": {
-            "metric": "synthetic_outcome_response",
+            "metric": "synthetic_expected_outcome_change",
             "unit": "outcome_local_points_of_100",
             "direction": "higher_is_better",
             "point": 14,
             "interval": {
               "lower": 11,
-              "upper": 17
+              "upper": 17,
+              "type": "illustrative_fixture_span_not_statistical_interval"
             },
             "evidence_status": "illustrative_fixture_only"
           },
           "decision_dimensions": {
-            "confidence": "moderate",
+            "confidence": "high",
             "burden": "high",
             "harm": "low",
             "feasibility": "low",
@@ -138,18 +139,19 @@
             }
           },
           "effect": {
-            "metric": "synthetic_outcome_response",
+            "metric": "synthetic_expected_outcome_change",
             "unit": "outcome_local_points_of_100",
             "direction": "higher_is_better",
             "point": 13,
             "interval": {
               "lower": 9,
-              "upper": 17
+              "upper": 17,
+              "type": "illustrative_fixture_span_not_statistical_interval"
             },
             "evidence_status": "illustrative_fixture_only"
           },
           "decision_dimensions": {
-            "confidence": "high",
+            "confidence": "low",
             "burden": "moderate",
             "harm": "moderate",
             "feasibility": "moderate",
@@ -181,18 +183,19 @@
             }
           },
           "effect": {
-            "metric": "synthetic_outcome_response",
+            "metric": "synthetic_expected_outcome_change",
             "unit": "outcome_local_points_of_100",
             "direction": "higher_is_better",
             "point": 12,
             "interval": {
               "lower": 10,
-              "upper": 14
+              "upper": 14,
+              "type": "illustrative_fixture_span_not_statistical_interval"
             },
             "evidence_status": "illustrative_fixture_only"
           },
           "decision_dimensions": {
-            "confidence": "low",
+            "confidence": "very_low",
             "burden": "low",
             "harm": "minimal",
             "feasibility": "high",
@@ -224,18 +227,19 @@
             }
           },
           "effect": {
-            "metric": "synthetic_outcome_response",
+            "metric": "synthetic_expected_outcome_change",
             "unit": "outcome_local_points_of_100",
             "direction": "higher_is_better",
             "point": 12,
             "interval": {
               "lower": 10,
-              "upper": 14
+              "upper": 14,
+              "type": "illustrative_fixture_span_not_statistical_interval"
             },
             "evidence_status": "illustrative_fixture_only"
           },
           "decision_dimensions": {
-            "confidence": "low",
+            "confidence": "high",
             "burden": "low",
             "harm": "minimal",
             "feasibility": "high",
@@ -267,13 +271,14 @@
             }
           },
           "effect": {
-            "metric": "synthetic_outcome_response",
+            "metric": "synthetic_expected_outcome_change",
             "unit": "outcome_local_points_of_100",
             "direction": "higher_is_better",
             "point": 11,
             "interval": {
               "lower": 8,
-              "upper": 14
+              "upper": 14,
+              "type": "illustrative_fixture_span_not_statistical_interval"
             },
             "evidence_status": "illustrative_fixture_only"
           },
@@ -310,18 +315,19 @@
             }
           },
           "effect": {
-            "metric": "synthetic_outcome_response",
+            "metric": "synthetic_expected_outcome_change",
             "unit": "outcome_local_points_of_100",
             "direction": "higher_is_better",
             "point": 11,
             "interval": {
               "lower": 8,
-              "upper": 14
+              "upper": 14,
+              "type": "illustrative_fixture_span_not_statistical_interval"
             },
             "evidence_status": "illustrative_fixture_only"
           },
           "decision_dimensions": {
-            "confidence": "moderate",
+            "confidence": "high",
             "burden": "high",
             "harm": "low",
             "feasibility": "low",
@@ -353,18 +359,19 @@
             }
           },
           "effect": {
-            "metric": "synthetic_outcome_response",
+            "metric": "synthetic_expected_outcome_change",
             "unit": "outcome_local_points_of_100",
             "direction": "higher_is_better",
             "point": 11,
             "interval": {
               "lower": 8,
-              "upper": 14
+              "upper": 14,
+              "type": "illustrative_fixture_span_not_statistical_interval"
             },
             "evidence_status": "illustrative_fixture_only"
           },
           "decision_dimensions": {
-            "confidence": "moderate",
+            "confidence": "low",
             "burden": "high",
             "harm": "low",
             "feasibility": "low",
@@ -396,18 +403,19 @@
             }
           },
           "effect": {
-            "metric": "synthetic_outcome_response",
+            "metric": "synthetic_expected_outcome_change",
             "unit": "outcome_local_points_of_100",
             "direction": "higher_is_better",
             "point": 10,
             "interval": {
               "lower": 6,
-              "upper": 14
+              "upper": 14,
+              "type": "illustrative_fixture_span_not_statistical_interval"
             },
             "evidence_status": "illustrative_fixture_only"
           },
           "decision_dimensions": {
-            "confidence": "high",
+            "confidence": "very_low",
             "burden": "moderate",
             "harm": "moderate",
             "feasibility": "moderate",
@@ -439,18 +447,19 @@
             }
           },
           "effect": {
-            "metric": "synthetic_outcome_response",
+            "metric": "synthetic_expected_outcome_change",
             "unit": "outcome_local_points_of_100",
             "direction": "higher_is_better",
             "point": 9,
             "interval": {
               "lower": 7,
-              "upper": 11
+              "upper": 11,
+              "type": "illustrative_fixture_span_not_statistical_interval"
             },
             "evidence_status": "illustrative_fixture_only"
           },
           "decision_dimensions": {
-            "confidence": "low",
+            "confidence": "moderate",
             "burden": "low",
             "harm": "minimal",
             "feasibility": "high",
@@ -482,18 +491,19 @@
             }
           },
           "effect": {
-            "metric": "synthetic_outcome_response",
+            "metric": "synthetic_expected_outcome_change",
             "unit": "outcome_local_points_of_100",
             "direction": "higher_is_better",
             "point": 8,
             "interval": {
               "lower": 5,
-              "upper": 11
+              "upper": 11,
+              "type": "illustrative_fixture_span_not_statistical_interval"
             },
             "evidence_status": "illustrative_fixture_only"
           },
           "decision_dimensions": {
-            "confidence": "moderate",
+            "confidence": "very_low",
             "burden": "high",
             "harm": "low",
             "feasibility": "low",
@@ -525,18 +535,19 @@
             }
           },
           "effect": {
-            "metric": "synthetic_outcome_response",
+            "metric": "synthetic_expected_outcome_change",
             "unit": "outcome_local_points_of_100",
             "direction": "higher_is_better",
             "point": 7,
             "interval": {
               "lower": 3,
-              "upper": 11
+              "upper": 11,
+              "type": "illustrative_fixture_span_not_statistical_interval"
             },
             "evidence_status": "illustrative_fixture_only"
           },
           "decision_dimensions": {
-            "confidence": "high",
+            "confidence": "moderate",
             "burden": "moderate",
             "harm": "moderate",
             "feasibility": "moderate",
@@ -568,13 +579,14 @@
             }
           },
           "effect": {
-            "metric": "synthetic_outcome_response",
+            "metric": "synthetic_expected_outcome_change",
             "unit": "outcome_local_points_of_100",
             "direction": "higher_is_better",
             "point": 7,
             "interval": {
               "lower": 3,
-              "upper": 11
+              "upper": 11,
+              "type": "illustrative_fixture_span_not_statistical_interval"
             },
             "evidence_status": "illustrative_fixture_only"
           },
@@ -611,13 +623,14 @@
             }
           },
           "effect": {
-            "metric": "synthetic_outcome_response",
+            "metric": "synthetic_expected_outcome_change",
             "unit": "outcome_local_points_of_100",
             "direction": "higher_is_better",
             "point": 6,
             "interval": {
               "lower": 4,
-              "upper": 8
+              "upper": 8,
+              "type": "illustrative_fixture_span_not_statistical_interval"
             },
             "evidence_status": "illustrative_fixture_only"
           },
@@ -654,18 +667,19 @@
             }
           },
           "effect": {
-            "metric": "synthetic_outcome_response",
+            "metric": "synthetic_expected_outcome_change",
             "unit": "outcome_local_points_of_100",
             "direction": "higher_is_better",
             "point": 6,
             "interval": {
               "lower": 4,
-              "upper": 8
+              "upper": 8,
+              "type": "illustrative_fixture_span_not_statistical_interval"
             },
             "evidence_status": "illustrative_fixture_only"
           },
           "decision_dimensions": {
-            "confidence": "low",
+            "confidence": "very_low",
             "burden": "low",
             "harm": "minimal",
             "feasibility": "high",
@@ -697,13 +711,14 @@
             }
           },
           "effect": {
-            "metric": "synthetic_outcome_response",
+            "metric": "synthetic_expected_outcome_change",
             "unit": "outcome_local_points_of_100",
             "direction": "higher_is_better",
             "point": 12,
             "interval": {
               "lower": 10,
-              "upper": 14
+              "upper": 14,
+              "type": "illustrative_fixture_span_not_statistical_interval"
             },
             "evidence_status": "illustrative_fixture_only"
           },
@@ -740,18 +755,19 @@
             }
           },
           "effect": {
-            "metric": "synthetic_outcome_response",
+            "metric": "synthetic_expected_outcome_change",
             "unit": "outcome_local_points_of_100",
             "direction": "higher_is_better",
             "point": 11,
             "interval": {
               "lower": 8,
-              "upper": 14
+              "upper": 14,
+              "type": "illustrative_fixture_span_not_statistical_interval"
             },
             "evidence_status": "illustrative_fixture_only"
           },
           "decision_dimensions": {
-            "confidence": "moderate",
+            "confidence": "very_low",
             "burden": "moderate",
             "harm": "moderate",
             "feasibility": "low",
@@ -783,18 +799,19 @@
             }
           },
           "effect": {
-            "metric": "synthetic_outcome_response",
+            "metric": "synthetic_expected_outcome_change",
             "unit": "outcome_local_points_of_100",
             "direction": "higher_is_better",
             "point": 9,
             "interval": {
               "lower": 7,
-              "upper": 11
+              "upper": 11,
+              "type": "illustrative_fixture_span_not_statistical_interval"
             },
             "evidence_status": "illustrative_fixture_only"
           },
           "decision_dimensions": {
-            "confidence": "low",
+            "confidence": "high",
             "burden": "high",
             "harm": "low",
             "feasibility": "high",
@@ -826,18 +843,19 @@
             }
           },
           "effect": {
-            "metric": "synthetic_outcome_response",
+            "metric": "synthetic_expected_outcome_change",
             "unit": "outcome_local_points_of_100",
             "direction": "higher_is_better",
             "point": 9,
             "interval": {
               "lower": 7,
-              "upper": 11
+              "upper": 11,
+              "type": "illustrative_fixture_span_not_statistical_interval"
             },
             "evidence_status": "illustrative_fixture_only"
           },
           "decision_dimensions": {
-            "confidence": "low",
+            "confidence": "very_low",
             "burden": "high",
             "harm": "low",
             "feasibility": "high",
@@ -869,18 +887,19 @@
             }
           },
           "effect": {
-            "metric": "synthetic_outcome_response",
+            "metric": "synthetic_expected_outcome_change",
             "unit": "outcome_local_points_of_100",
             "direction": "higher_is_better",
             "point": 7,
             "interval": {
               "lower": 3,
-              "upper": 11
+              "upper": 11,
+              "type": "illustrative_fixture_span_not_statistical_interval"
             },
             "evidence_status": "illustrative_fixture_only"
           },
           "decision_dimensions": {
-            "confidence": "high",
+            "confidence": "very_low",
             "burden": "low",
             "harm": "minimal",
             "feasibility": "moderate",
@@ -912,18 +931,19 @@
             }
           },
           "effect": {
-            "metric": "synthetic_outcome_response",
+            "metric": "synthetic_expected_outcome_change",
             "unit": "outcome_local_points_of_100",
             "direction": "higher_is_better",
             "point": 6,
             "interval": {
               "lower": 4,
-              "upper": 8
+              "upper": 8,
+              "type": "illustrative_fixture_span_not_statistical_interval"
             },
             "evidence_status": "illustrative_fixture_only"
           },
           "decision_dimensions": {
-            "confidence": "low",
+            "confidence": "moderate",
             "burden": "high",
             "harm": "low",
             "feasibility": "high",
@@ -955,18 +975,19 @@
             }
           },
           "effect": {
-            "metric": "synthetic_outcome_response",
+            "metric": "synthetic_expected_outcome_change",
             "unit": "outcome_local_points_of_100",
             "direction": "higher_is_better",
             "point": 7,
             "interval": {
               "lower": 3,
-              "upper": 11
+              "upper": 11,
+              "type": "illustrative_fixture_span_not_statistical_interval"
             },
             "evidence_status": "illustrative_fixture_only"
           },
           "decision_dimensions": {
-            "confidence": "high",
+            "confidence": "moderate",
             "burden": "high",
             "harm": "low",
             "feasibility": "moderate",
@@ -998,18 +1019,19 @@
             }
           },
           "effect": {
-            "metric": "synthetic_outcome_response",
+            "metric": "synthetic_expected_outcome_change",
             "unit": "outcome_local_points_of_100",
             "direction": "higher_is_better",
             "point": 6,
             "interval": {
               "lower": 4,
-              "upper": 8
+              "upper": 8,
+              "type": "illustrative_fixture_span_not_statistical_interval"
             },
             "evidence_status": "illustrative_fixture_only"
           },
           "decision_dimensions": {
-            "confidence": "low",
+            "confidence": "very_low",
             "burden": "moderate",
             "harm": "moderate",
             "feasibility": "high",
@@ -1041,18 +1063,19 @@
             }
           },
           "effect": {
-            "metric": "synthetic_outcome_response",
+            "metric": "synthetic_expected_outcome_change",
             "unit": "outcome_local_points_of_100",
             "direction": "higher_is_better",
             "point": 10,
             "interval": {
               "lower": 6,
-              "upper": 14
+              "upper": 14,
+              "type": "illustrative_fixture_span_not_statistical_interval"
             },
             "evidence_status": "illustrative_fixture_only"
           },
           "decision_dimensions": {
-            "confidence": "high",
+            "confidence": "very_low",
             "burden": "moderate",
             "harm": "moderate",
             "feasibility": "moderate",
@@ -1084,18 +1107,19 @@
             }
           },
           "effect": {
-            "metric": "synthetic_outcome_response",
+            "metric": "synthetic_expected_outcome_change",
             "unit": "outcome_local_points_of_100",
             "direction": "higher_is_better",
             "point": 8,
             "interval": {
               "lower": 5,
-              "upper": 11
+              "upper": 11,
+              "type": "illustrative_fixture_span_not_statistical_interval"
             },
             "evidence_status": "illustrative_fixture_only"
           },
           "decision_dimensions": {
-            "confidence": "moderate",
+            "confidence": "very_low",
             "burden": "high",
             "harm": "low",
             "feasibility": "low",
@@ -1127,13 +1151,14 @@
             }
           },
           "effect": {
-            "metric": "synthetic_outcome_response",
+            "metric": "synthetic_expected_outcome_change",
             "unit": "outcome_local_points_of_100",
             "direction": "higher_is_better",
             "point": 14,
             "interval": {
               "lower": 11,
-              "upper": 17
+              "upper": 17,
+              "type": "illustrative_fixture_span_not_statistical_interval"
             },
             "evidence_status": "illustrative_fixture_only"
           },
@@ -1170,18 +1195,19 @@
             }
           },
           "effect": {
-            "metric": "synthetic_outcome_response",
+            "metric": "synthetic_expected_outcome_change",
             "unit": "outcome_local_points_of_100",
             "direction": "higher_is_better",
             "point": 13,
             "interval": {
               "lower": 9,
-              "upper": 17
+              "upper": 17,
+              "type": "illustrative_fixture_span_not_statistical_interval"
             },
             "evidence_status": "illustrative_fixture_only"
           },
           "decision_dimensions": {
-            "confidence": "high",
+            "confidence": "very_low",
             "burden": "low",
             "harm": "minimal",
             "feasibility": "moderate",
@@ -1213,18 +1239,19 @@
             }
           },
           "effect": {
-            "metric": "synthetic_outcome_response",
+            "metric": "synthetic_expected_outcome_change",
             "unit": "outcome_local_points_of_100",
             "direction": "higher_is_better",
             "point": 12,
             "interval": {
               "lower": 10,
-              "upper": 14
+              "upper": 14,
+              "type": "illustrative_fixture_span_not_statistical_interval"
             },
             "evidence_status": "illustrative_fixture_only"
           },
           "decision_dimensions": {
-            "confidence": "low",
+            "confidence": "moderate",
             "burden": "high",
             "harm": "low",
             "feasibility": "high",
@@ -1256,13 +1283,14 @@
             }
           },
           "effect": {
-            "metric": "synthetic_outcome_response",
+            "metric": "synthetic_expected_outcome_change",
             "unit": "outcome_local_points_of_100",
             "direction": "higher_is_better",
             "point": 9,
             "interval": {
               "lower": 7,
-              "upper": 11
+              "upper": 11,
+              "type": "illustrative_fixture_span_not_statistical_interval"
             },
             "evidence_status": "illustrative_fixture_only"
           },
@@ -1299,18 +1327,19 @@
             }
           },
           "effect": {
-            "metric": "synthetic_outcome_response",
+            "metric": "synthetic_expected_outcome_change",
             "unit": "outcome_local_points_of_100",
             "direction": "higher_is_better",
             "point": 7,
             "interval": {
               "lower": 3,
-              "upper": 11
+              "upper": 11,
+              "type": "illustrative_fixture_span_not_statistical_interval"
             },
             "evidence_status": "illustrative_fixture_only"
           },
           "decision_dimensions": {
-            "confidence": "high",
+            "confidence": "low",
             "burden": "low",
             "harm": "minimal",
             "feasibility": "moderate",
@@ -1355,7 +1384,7 @@
         "source_case_id": "constrained_capacity",
         "source_case_sha256": "e91024630e762488a76e04f15bdf888f137fc39d20322c5544802898b3f48feb",
         "source_registry_id": "vitality_synthetic_multi_outcome_map_v1",
-        "source_registry_sha256": "d985e36622bae5fb37d290b5351396a2fe8ea95cadfcbc50068e67e92155fd28",
+        "source_registry_sha256": "a2f99df612d3a8e86f289e3c34179845640a8cb3cafd7cac36d05d20428218f8",
         "source_library_id": "vitality_action_library_v1",
         "source_library_sha256": "a27b0766c3b6c325f765b12a1a30dae6d89c6d4c6c4e42fe52f109a37e11bf4d"
       },
@@ -1404,7 +1433,7 @@
           ],
           "candidate_only": {
             "schedule_rule": "selected_action_response_period",
-            "meaningful_change": {
+            "illustrative_reassessment_threshold": {
               "value": 5,
               "unit": "synthetic_outcome_points_of_100"
             }
@@ -1430,18 +1459,19 @@
             }
           },
           "effect": {
-            "metric": "synthetic_outcome_response",
+            "metric": "synthetic_expected_outcome_change",
             "unit": "outcome_local_points_of_100",
             "direction": "higher_is_better",
             "point": 14,
             "interval": {
               "lower": 11,
-              "upper": 17
+              "upper": 17,
+              "type": "illustrative_fixture_span_not_statistical_interval"
             },
             "evidence_status": "illustrative_fixture_only"
           },
           "decision_dimensions": {
-            "confidence": "moderate",
+            "confidence": "high",
             "burden": "high",
             "harm": "low",
             "feasibility": "low",
@@ -1473,18 +1503,19 @@
             }
           },
           "effect": {
-            "metric": "synthetic_outcome_response",
+            "metric": "synthetic_expected_outcome_change",
             "unit": "outcome_local_points_of_100",
             "direction": "higher_is_better",
             "point": 13,
             "interval": {
               "lower": 9,
-              "upper": 17
+              "upper": 17,
+              "type": "illustrative_fixture_span_not_statistical_interval"
             },
             "evidence_status": "illustrative_fixture_only"
           },
           "decision_dimensions": {
-            "confidence": "high",
+            "confidence": "low",
             "burden": "moderate",
             "harm": "moderate",
             "feasibility": "moderate",
@@ -1516,18 +1547,19 @@
             }
           },
           "effect": {
-            "metric": "synthetic_outcome_response",
+            "metric": "synthetic_expected_outcome_change",
             "unit": "outcome_local_points_of_100",
             "direction": "higher_is_better",
             "point": 12,
             "interval": {
               "lower": 10,
-              "upper": 14
+              "upper": 14,
+              "type": "illustrative_fixture_span_not_statistical_interval"
             },
             "evidence_status": "illustrative_fixture_only"
           },
           "decision_dimensions": {
-            "confidence": "low",
+            "confidence": "very_low",
             "burden": "low",
             "harm": "minimal",
             "feasibility": "high",
@@ -1559,18 +1591,19 @@
             }
           },
           "effect": {
-            "metric": "synthetic_outcome_response",
+            "metric": "synthetic_expected_outcome_change",
             "unit": "outcome_local_points_of_100",
             "direction": "higher_is_better",
             "point": 12,
             "interval": {
               "lower": 10,
-              "upper": 14
+              "upper": 14,
+              "type": "illustrative_fixture_span_not_statistical_interval"
             },
             "evidence_status": "illustrative_fixture_only"
           },
           "decision_dimensions": {
-            "confidence": "low",
+            "confidence": "high",
             "burden": "low",
             "harm": "minimal",
             "feasibility": "high",
@@ -1602,13 +1635,14 @@
             }
           },
           "effect": {
-            "metric": "synthetic_outcome_response",
+            "metric": "synthetic_expected_outcome_change",
             "unit": "outcome_local_points_of_100",
             "direction": "higher_is_better",
             "point": 11,
             "interval": {
               "lower": 8,
-              "upper": 14
+              "upper": 14,
+              "type": "illustrative_fixture_span_not_statistical_interval"
             },
             "evidence_status": "illustrative_fixture_only"
           },
@@ -1645,18 +1679,19 @@
             }
           },
           "effect": {
-            "metric": "synthetic_outcome_response",
+            "metric": "synthetic_expected_outcome_change",
             "unit": "outcome_local_points_of_100",
             "direction": "higher_is_better",
             "point": 11,
             "interval": {
               "lower": 8,
-              "upper": 14
+              "upper": 14,
+              "type": "illustrative_fixture_span_not_statistical_interval"
             },
             "evidence_status": "illustrative_fixture_only"
           },
           "decision_dimensions": {
-            "confidence": "moderate",
+            "confidence": "high",
             "burden": "high",
             "harm": "low",
             "feasibility": "low",
@@ -1688,18 +1723,19 @@
             }
           },
           "effect": {
-            "metric": "synthetic_outcome_response",
+            "metric": "synthetic_expected_outcome_change",
             "unit": "outcome_local_points_of_100",
             "direction": "higher_is_better",
             "point": 11,
             "interval": {
               "lower": 8,
-              "upper": 14
+              "upper": 14,
+              "type": "illustrative_fixture_span_not_statistical_interval"
             },
             "evidence_status": "illustrative_fixture_only"
           },
           "decision_dimensions": {
-            "confidence": "moderate",
+            "confidence": "low",
             "burden": "high",
             "harm": "low",
             "feasibility": "low",
@@ -1731,18 +1767,19 @@
             }
           },
           "effect": {
-            "metric": "synthetic_outcome_response",
+            "metric": "synthetic_expected_outcome_change",
             "unit": "outcome_local_points_of_100",
             "direction": "higher_is_better",
             "point": 10,
             "interval": {
               "lower": 6,
-              "upper": 14
+              "upper": 14,
+              "type": "illustrative_fixture_span_not_statistical_interval"
             },
             "evidence_status": "illustrative_fixture_only"
           },
           "decision_dimensions": {
-            "confidence": "high",
+            "confidence": "very_low",
             "burden": "moderate",
             "harm": "moderate",
             "feasibility": "moderate",
@@ -1774,18 +1811,19 @@
             }
           },
           "effect": {
-            "metric": "synthetic_outcome_response",
+            "metric": "synthetic_expected_outcome_change",
             "unit": "outcome_local_points_of_100",
             "direction": "higher_is_better",
             "point": 9,
             "interval": {
               "lower": 7,
-              "upper": 11
+              "upper": 11,
+              "type": "illustrative_fixture_span_not_statistical_interval"
             },
             "evidence_status": "illustrative_fixture_only"
           },
           "decision_dimensions": {
-            "confidence": "low",
+            "confidence": "moderate",
             "burden": "low",
             "harm": "minimal",
             "feasibility": "high",
@@ -1817,18 +1855,19 @@
             }
           },
           "effect": {
-            "metric": "synthetic_outcome_response",
+            "metric": "synthetic_expected_outcome_change",
             "unit": "outcome_local_points_of_100",
             "direction": "higher_is_better",
             "point": 8,
             "interval": {
               "lower": 5,
-              "upper": 11
+              "upper": 11,
+              "type": "illustrative_fixture_span_not_statistical_interval"
             },
             "evidence_status": "illustrative_fixture_only"
           },
           "decision_dimensions": {
-            "confidence": "moderate",
+            "confidence": "very_low",
             "burden": "high",
             "harm": "low",
             "feasibility": "low",
@@ -1860,18 +1899,19 @@
             }
           },
           "effect": {
-            "metric": "synthetic_outcome_response",
+            "metric": "synthetic_expected_outcome_change",
             "unit": "outcome_local_points_of_100",
             "direction": "higher_is_better",
             "point": 7,
             "interval": {
               "lower": 3,
-              "upper": 11
+              "upper": 11,
+              "type": "illustrative_fixture_span_not_statistical_interval"
             },
             "evidence_status": "illustrative_fixture_only"
           },
           "decision_dimensions": {
-            "confidence": "high",
+            "confidence": "moderate",
             "burden": "moderate",
             "harm": "moderate",
             "feasibility": "moderate",
@@ -1903,13 +1943,14 @@
             }
           },
           "effect": {
-            "metric": "synthetic_outcome_response",
+            "metric": "synthetic_expected_outcome_change",
             "unit": "outcome_local_points_of_100",
             "direction": "higher_is_better",
             "point": 7,
             "interval": {
               "lower": 3,
-              "upper": 11
+              "upper": 11,
+              "type": "illustrative_fixture_span_not_statistical_interval"
             },
             "evidence_status": "illustrative_fixture_only"
           },
@@ -1946,13 +1987,14 @@
             }
           },
           "effect": {
-            "metric": "synthetic_outcome_response",
+            "metric": "synthetic_expected_outcome_change",
             "unit": "outcome_local_points_of_100",
             "direction": "higher_is_better",
             "point": 6,
             "interval": {
               "lower": 4,
-              "upper": 8
+              "upper": 8,
+              "type": "illustrative_fixture_span_not_statistical_interval"
             },
             "evidence_status": "illustrative_fixture_only"
           },
@@ -1989,18 +2031,19 @@
             }
           },
           "effect": {
-            "metric": "synthetic_outcome_response",
+            "metric": "synthetic_expected_outcome_change",
             "unit": "outcome_local_points_of_100",
             "direction": "higher_is_better",
             "point": 6,
             "interval": {
               "lower": 4,
-              "upper": 8
+              "upper": 8,
+              "type": "illustrative_fixture_span_not_statistical_interval"
             },
             "evidence_status": "illustrative_fixture_only"
           },
           "decision_dimensions": {
-            "confidence": "low",
+            "confidence": "very_low",
             "burden": "low",
             "harm": "minimal",
             "feasibility": "high",
@@ -2032,13 +2075,14 @@
             }
           },
           "effect": {
-            "metric": "synthetic_outcome_response",
+            "metric": "synthetic_expected_outcome_change",
             "unit": "outcome_local_points_of_100",
             "direction": "higher_is_better",
             "point": 12,
             "interval": {
               "lower": 10,
-              "upper": 14
+              "upper": 14,
+              "type": "illustrative_fixture_span_not_statistical_interval"
             },
             "evidence_status": "illustrative_fixture_only"
           },
@@ -2075,18 +2119,19 @@
             }
           },
           "effect": {
-            "metric": "synthetic_outcome_response",
+            "metric": "synthetic_expected_outcome_change",
             "unit": "outcome_local_points_of_100",
             "direction": "higher_is_better",
             "point": 11,
             "interval": {
               "lower": 8,
-              "upper": 14
+              "upper": 14,
+              "type": "illustrative_fixture_span_not_statistical_interval"
             },
             "evidence_status": "illustrative_fixture_only"
           },
           "decision_dimensions": {
-            "confidence": "moderate",
+            "confidence": "very_low",
             "burden": "moderate",
             "harm": "moderate",
             "feasibility": "low",
@@ -2118,18 +2163,19 @@
             }
           },
           "effect": {
-            "metric": "synthetic_outcome_response",
+            "metric": "synthetic_expected_outcome_change",
             "unit": "outcome_local_points_of_100",
             "direction": "higher_is_better",
             "point": 9,
             "interval": {
               "lower": 7,
-              "upper": 11
+              "upper": 11,
+              "type": "illustrative_fixture_span_not_statistical_interval"
             },
             "evidence_status": "illustrative_fixture_only"
           },
           "decision_dimensions": {
-            "confidence": "low",
+            "confidence": "high",
             "burden": "high",
             "harm": "low",
             "feasibility": "high",
@@ -2161,18 +2207,19 @@
             }
           },
           "effect": {
-            "metric": "synthetic_outcome_response",
+            "metric": "synthetic_expected_outcome_change",
             "unit": "outcome_local_points_of_100",
             "direction": "higher_is_better",
             "point": 9,
             "interval": {
               "lower": 7,
-              "upper": 11
+              "upper": 11,
+              "type": "illustrative_fixture_span_not_statistical_interval"
             },
             "evidence_status": "illustrative_fixture_only"
           },
           "decision_dimensions": {
-            "confidence": "low",
+            "confidence": "very_low",
             "burden": "high",
             "harm": "low",
             "feasibility": "high",
@@ -2204,18 +2251,19 @@
             }
           },
           "effect": {
-            "metric": "synthetic_outcome_response",
+            "metric": "synthetic_expected_outcome_change",
             "unit": "outcome_local_points_of_100",
             "direction": "higher_is_better",
             "point": 7,
             "interval": {
               "lower": 3,
-              "upper": 11
+              "upper": 11,
+              "type": "illustrative_fixture_span_not_statistical_interval"
             },
             "evidence_status": "illustrative_fixture_only"
           },
           "decision_dimensions": {
-            "confidence": "high",
+            "confidence": "very_low",
             "burden": "low",
             "harm": "minimal",
             "feasibility": "moderate",
@@ -2247,18 +2295,19 @@
             }
           },
           "effect": {
-            "metric": "synthetic_outcome_response",
+            "metric": "synthetic_expected_outcome_change",
             "unit": "outcome_local_points_of_100",
             "direction": "higher_is_better",
             "point": 6,
             "interval": {
               "lower": 4,
-              "upper": 8
+              "upper": 8,
+              "type": "illustrative_fixture_span_not_statistical_interval"
             },
             "evidence_status": "illustrative_fixture_only"
           },
           "decision_dimensions": {
-            "confidence": "low",
+            "confidence": "moderate",
             "burden": "high",
             "harm": "low",
             "feasibility": "high",
@@ -2290,18 +2339,19 @@
             }
           },
           "effect": {
-            "metric": "synthetic_outcome_response",
+            "metric": "synthetic_expected_outcome_change",
             "unit": "outcome_local_points_of_100",
             "direction": "higher_is_better",
             "point": 7,
             "interval": {
               "lower": 3,
-              "upper": 11
+              "upper": 11,
+              "type": "illustrative_fixture_span_not_statistical_interval"
             },
             "evidence_status": "illustrative_fixture_only"
           },
           "decision_dimensions": {
-            "confidence": "high",
+            "confidence": "moderate",
             "burden": "high",
             "harm": "low",
             "feasibility": "moderate",
@@ -2333,18 +2383,19 @@
             }
           },
           "effect": {
-            "metric": "synthetic_outcome_response",
+            "metric": "synthetic_expected_outcome_change",
             "unit": "outcome_local_points_of_100",
             "direction": "higher_is_better",
             "point": 6,
             "interval": {
               "lower": 4,
-              "upper": 8
+              "upper": 8,
+              "type": "illustrative_fixture_span_not_statistical_interval"
             },
             "evidence_status": "illustrative_fixture_only"
           },
           "decision_dimensions": {
-            "confidence": "low",
+            "confidence": "very_low",
             "burden": "moderate",
             "harm": "moderate",
             "feasibility": "high",
@@ -2376,18 +2427,19 @@
             }
           },
           "effect": {
-            "metric": "synthetic_outcome_response",
+            "metric": "synthetic_expected_outcome_change",
             "unit": "outcome_local_points_of_100",
             "direction": "higher_is_better",
             "point": 10,
             "interval": {
               "lower": 6,
-              "upper": 14
+              "upper": 14,
+              "type": "illustrative_fixture_span_not_statistical_interval"
             },
             "evidence_status": "illustrative_fixture_only"
           },
           "decision_dimensions": {
-            "confidence": "high",
+            "confidence": "very_low",
             "burden": "moderate",
             "harm": "moderate",
             "feasibility": "moderate",
@@ -2419,18 +2471,19 @@
             }
           },
           "effect": {
-            "metric": "synthetic_outcome_response",
+            "metric": "synthetic_expected_outcome_change",
             "unit": "outcome_local_points_of_100",
             "direction": "higher_is_better",
             "point": 8,
             "interval": {
               "lower": 5,
-              "upper": 11
+              "upper": 11,
+              "type": "illustrative_fixture_span_not_statistical_interval"
             },
             "evidence_status": "illustrative_fixture_only"
           },
           "decision_dimensions": {
-            "confidence": "moderate",
+            "confidence": "very_low",
             "burden": "high",
             "harm": "low",
             "feasibility": "low",
@@ -2462,13 +2515,14 @@
             }
           },
           "effect": {
-            "metric": "synthetic_outcome_response",
+            "metric": "synthetic_expected_outcome_change",
             "unit": "outcome_local_points_of_100",
             "direction": "higher_is_better",
             "point": 14,
             "interval": {
               "lower": 11,
-              "upper": 17
+              "upper": 17,
+              "type": "illustrative_fixture_span_not_statistical_interval"
             },
             "evidence_status": "illustrative_fixture_only"
           },
@@ -2505,18 +2559,19 @@
             }
           },
           "effect": {
-            "metric": "synthetic_outcome_response",
+            "metric": "synthetic_expected_outcome_change",
             "unit": "outcome_local_points_of_100",
             "direction": "higher_is_better",
             "point": 13,
             "interval": {
               "lower": 9,
-              "upper": 17
+              "upper": 17,
+              "type": "illustrative_fixture_span_not_statistical_interval"
             },
             "evidence_status": "illustrative_fixture_only"
           },
           "decision_dimensions": {
-            "confidence": "high",
+            "confidence": "very_low",
             "burden": "low",
             "harm": "minimal",
             "feasibility": "moderate",
@@ -2548,18 +2603,19 @@
             }
           },
           "effect": {
-            "metric": "synthetic_outcome_response",
+            "metric": "synthetic_expected_outcome_change",
             "unit": "outcome_local_points_of_100",
             "direction": "higher_is_better",
             "point": 12,
             "interval": {
               "lower": 10,
-              "upper": 14
+              "upper": 14,
+              "type": "illustrative_fixture_span_not_statistical_interval"
             },
             "evidence_status": "illustrative_fixture_only"
           },
           "decision_dimensions": {
-            "confidence": "low",
+            "confidence": "moderate",
             "burden": "high",
             "harm": "low",
             "feasibility": "high",
@@ -2591,13 +2647,14 @@
             }
           },
           "effect": {
-            "metric": "synthetic_outcome_response",
+            "metric": "synthetic_expected_outcome_change",
             "unit": "outcome_local_points_of_100",
             "direction": "higher_is_better",
             "point": 9,
             "interval": {
               "lower": 7,
-              "upper": 11
+              "upper": 11,
+              "type": "illustrative_fixture_span_not_statistical_interval"
             },
             "evidence_status": "illustrative_fixture_only"
           },
@@ -2634,18 +2691,19 @@
             }
           },
           "effect": {
-            "metric": "synthetic_outcome_response",
+            "metric": "synthetic_expected_outcome_change",
             "unit": "outcome_local_points_of_100",
             "direction": "higher_is_better",
             "point": 7,
             "interval": {
               "lower": 3,
-              "upper": 11
+              "upper": 11,
+              "type": "illustrative_fixture_span_not_statistical_interval"
             },
             "evidence_status": "illustrative_fixture_only"
           },
           "decision_dimensions": {
-            "confidence": "high",
+            "confidence": "low",
             "burden": "low",
             "harm": "minimal",
             "feasibility": "moderate",
@@ -2690,7 +2748,7 @@
         "source_case_id": "safety_exit",
         "source_case_sha256": "98d8d1c1fef00e4b5787521ede0577b3a18a2b8e0d35f4cee9836d5bc4098a2a",
         "source_registry_id": "vitality_synthetic_multi_outcome_map_v1",
-        "source_registry_sha256": "d985e36622bae5fb37d290b5351396a2fe8ea95cadfcbc50068e67e92155fd28",
+        "source_registry_sha256": "a2f99df612d3a8e86f289e3c34179845640a8cb3cafd7cac36d05d20428218f8",
         "source_library_id": "vitality_action_library_v1",
         "source_library_sha256": "a27b0766c3b6c325f765b12a1a30dae6d89c6d4c6c4e42fe52f109a37e11bf4d"
       },
@@ -2739,7 +2797,7 @@
           ],
           "candidate_only": {
             "schedule_rule": "selected_action_response_period",
-            "meaningful_change": {
+            "illustrative_reassessment_threshold": {
               "value": 5,
               "unit": "synthetic_outcome_points_of_100"
             }
@@ -2765,18 +2823,19 @@
             }
           },
           "effect": {
-            "metric": "synthetic_outcome_response",
+            "metric": "synthetic_expected_outcome_change",
             "unit": "outcome_local_points_of_100",
             "direction": "higher_is_better",
             "point": 14,
             "interval": {
               "lower": 11,
-              "upper": 17
+              "upper": 17,
+              "type": "illustrative_fixture_span_not_statistical_interval"
             },
             "evidence_status": "illustrative_fixture_only"
           },
           "decision_dimensions": {
-            "confidence": "moderate",
+            "confidence": "high",
             "burden": "high",
             "harm": "low",
             "feasibility": "low",
@@ -2808,18 +2867,19 @@
             }
           },
           "effect": {
-            "metric": "synthetic_outcome_response",
+            "metric": "synthetic_expected_outcome_change",
             "unit": "outcome_local_points_of_100",
             "direction": "higher_is_better",
             "point": 13,
             "interval": {
               "lower": 9,
-              "upper": 17
+              "upper": 17,
+              "type": "illustrative_fixture_span_not_statistical_interval"
             },
             "evidence_status": "illustrative_fixture_only"
           },
           "decision_dimensions": {
-            "confidence": "high",
+            "confidence": "low",
             "burden": "moderate",
             "harm": "moderate",
             "feasibility": "moderate",
@@ -2851,18 +2911,19 @@
             }
           },
           "effect": {
-            "metric": "synthetic_outcome_response",
+            "metric": "synthetic_expected_outcome_change",
             "unit": "outcome_local_points_of_100",
             "direction": "higher_is_better",
             "point": 12,
             "interval": {
               "lower": 10,
-              "upper": 14
+              "upper": 14,
+              "type": "illustrative_fixture_span_not_statistical_interval"
             },
             "evidence_status": "illustrative_fixture_only"
           },
           "decision_dimensions": {
-            "confidence": "low",
+            "confidence": "very_low",
             "burden": "low",
             "harm": "minimal",
             "feasibility": "high",
@@ -2894,18 +2955,19 @@
             }
           },
           "effect": {
-            "metric": "synthetic_outcome_response",
+            "metric": "synthetic_expected_outcome_change",
             "unit": "outcome_local_points_of_100",
             "direction": "higher_is_better",
             "point": 12,
             "interval": {
               "lower": 10,
-              "upper": 14
+              "upper": 14,
+              "type": "illustrative_fixture_span_not_statistical_interval"
             },
             "evidence_status": "illustrative_fixture_only"
           },
           "decision_dimensions": {
-            "confidence": "low",
+            "confidence": "high",
             "burden": "low",
             "harm": "minimal",
             "feasibility": "high",
@@ -2937,13 +2999,14 @@
             }
           },
           "effect": {
-            "metric": "synthetic_outcome_response",
+            "metric": "synthetic_expected_outcome_change",
             "unit": "outcome_local_points_of_100",
             "direction": "higher_is_better",
             "point": 11,
             "interval": {
               "lower": 8,
-              "upper": 14
+              "upper": 14,
+              "type": "illustrative_fixture_span_not_statistical_interval"
             },
             "evidence_status": "illustrative_fixture_only"
           },
@@ -2980,18 +3043,19 @@
             }
           },
           "effect": {
-            "metric": "synthetic_outcome_response",
+            "metric": "synthetic_expected_outcome_change",
             "unit": "outcome_local_points_of_100",
             "direction": "higher_is_better",
             "point": 11,
             "interval": {
               "lower": 8,
-              "upper": 14
+              "upper": 14,
+              "type": "illustrative_fixture_span_not_statistical_interval"
             },
             "evidence_status": "illustrative_fixture_only"
           },
           "decision_dimensions": {
-            "confidence": "moderate",
+            "confidence": "high",
             "burden": "high",
             "harm": "low",
             "feasibility": "low",
@@ -3023,18 +3087,19 @@
             }
           },
           "effect": {
-            "metric": "synthetic_outcome_response",
+            "metric": "synthetic_expected_outcome_change",
             "unit": "outcome_local_points_of_100",
             "direction": "higher_is_better",
             "point": 11,
             "interval": {
               "lower": 8,
-              "upper": 14
+              "upper": 14,
+              "type": "illustrative_fixture_span_not_statistical_interval"
             },
             "evidence_status": "illustrative_fixture_only"
           },
           "decision_dimensions": {
-            "confidence": "moderate",
+            "confidence": "low",
             "burden": "high",
             "harm": "low",
             "feasibility": "low",
@@ -3066,18 +3131,19 @@
             }
           },
           "effect": {
-            "metric": "synthetic_outcome_response",
+            "metric": "synthetic_expected_outcome_change",
             "unit": "outcome_local_points_of_100",
             "direction": "higher_is_better",
             "point": 10,
             "interval": {
               "lower": 6,
-              "upper": 14
+              "upper": 14,
+              "type": "illustrative_fixture_span_not_statistical_interval"
             },
             "evidence_status": "illustrative_fixture_only"
           },
           "decision_dimensions": {
-            "confidence": "high",
+            "confidence": "very_low",
             "burden": "moderate",
             "harm": "moderate",
             "feasibility": "moderate",
@@ -3109,18 +3175,19 @@
             }
           },
           "effect": {
-            "metric": "synthetic_outcome_response",
+            "metric": "synthetic_expected_outcome_change",
             "unit": "outcome_local_points_of_100",
             "direction": "higher_is_better",
             "point": 9,
             "interval": {
               "lower": 7,
-              "upper": 11
+              "upper": 11,
+              "type": "illustrative_fixture_span_not_statistical_interval"
             },
             "evidence_status": "illustrative_fixture_only"
           },
           "decision_dimensions": {
-            "confidence": "low",
+            "confidence": "moderate",
             "burden": "low",
             "harm": "minimal",
             "feasibility": "high",
@@ -3152,18 +3219,19 @@
             }
           },
           "effect": {
-            "metric": "synthetic_outcome_response",
+            "metric": "synthetic_expected_outcome_change",
             "unit": "outcome_local_points_of_100",
             "direction": "higher_is_better",
             "point": 8,
             "interval": {
               "lower": 5,
-              "upper": 11
+              "upper": 11,
+              "type": "illustrative_fixture_span_not_statistical_interval"
             },
             "evidence_status": "illustrative_fixture_only"
           },
           "decision_dimensions": {
-            "confidence": "moderate",
+            "confidence": "very_low",
             "burden": "high",
             "harm": "low",
             "feasibility": "low",
@@ -3195,18 +3263,19 @@
             }
           },
           "effect": {
-            "metric": "synthetic_outcome_response",
+            "metric": "synthetic_expected_outcome_change",
             "unit": "outcome_local_points_of_100",
             "direction": "higher_is_better",
             "point": 7,
             "interval": {
               "lower": 3,
-              "upper": 11
+              "upper": 11,
+              "type": "illustrative_fixture_span_not_statistical_interval"
             },
             "evidence_status": "illustrative_fixture_only"
           },
           "decision_dimensions": {
-            "confidence": "high",
+            "confidence": "moderate",
             "burden": "moderate",
             "harm": "moderate",
             "feasibility": "moderate",
@@ -3238,13 +3307,14 @@
             }
           },
           "effect": {
-            "metric": "synthetic_outcome_response",
+            "metric": "synthetic_expected_outcome_change",
             "unit": "outcome_local_points_of_100",
             "direction": "higher_is_better",
             "point": 7,
             "interval": {
               "lower": 3,
-              "upper": 11
+              "upper": 11,
+              "type": "illustrative_fixture_span_not_statistical_interval"
             },
             "evidence_status": "illustrative_fixture_only"
           },
@@ -3281,13 +3351,14 @@
             }
           },
           "effect": {
-            "metric": "synthetic_outcome_response",
+            "metric": "synthetic_expected_outcome_change",
             "unit": "outcome_local_points_of_100",
             "direction": "higher_is_better",
             "point": 6,
             "interval": {
               "lower": 4,
-              "upper": 8
+              "upper": 8,
+              "type": "illustrative_fixture_span_not_statistical_interval"
             },
             "evidence_status": "illustrative_fixture_only"
           },
@@ -3324,18 +3395,19 @@
             }
           },
           "effect": {
-            "metric": "synthetic_outcome_response",
+            "metric": "synthetic_expected_outcome_change",
             "unit": "outcome_local_points_of_100",
             "direction": "higher_is_better",
             "point": 6,
             "interval": {
               "lower": 4,
-              "upper": 8
+              "upper": 8,
+              "type": "illustrative_fixture_span_not_statistical_interval"
             },
             "evidence_status": "illustrative_fixture_only"
           },
           "decision_dimensions": {
-            "confidence": "low",
+            "confidence": "very_low",
             "burden": "low",
             "harm": "minimal",
             "feasibility": "high",
@@ -3367,13 +3439,14 @@
             }
           },
           "effect": {
-            "metric": "synthetic_outcome_response",
+            "metric": "synthetic_expected_outcome_change",
             "unit": "outcome_local_points_of_100",
             "direction": "higher_is_better",
             "point": 12,
             "interval": {
               "lower": 10,
-              "upper": 14
+              "upper": 14,
+              "type": "illustrative_fixture_span_not_statistical_interval"
             },
             "evidence_status": "illustrative_fixture_only"
           },
@@ -3410,18 +3483,19 @@
             }
           },
           "effect": {
-            "metric": "synthetic_outcome_response",
+            "metric": "synthetic_expected_outcome_change",
             "unit": "outcome_local_points_of_100",
             "direction": "higher_is_better",
             "point": 11,
             "interval": {
               "lower": 8,
-              "upper": 14
+              "upper": 14,
+              "type": "illustrative_fixture_span_not_statistical_interval"
             },
             "evidence_status": "illustrative_fixture_only"
           },
           "decision_dimensions": {
-            "confidence": "moderate",
+            "confidence": "very_low",
             "burden": "moderate",
             "harm": "moderate",
             "feasibility": "low",
@@ -3453,18 +3527,19 @@
             }
           },
           "effect": {
-            "metric": "synthetic_outcome_response",
+            "metric": "synthetic_expected_outcome_change",
             "unit": "outcome_local_points_of_100",
             "direction": "higher_is_better",
             "point": 9,
             "interval": {
               "lower": 7,
-              "upper": 11
+              "upper": 11,
+              "type": "illustrative_fixture_span_not_statistical_interval"
             },
             "evidence_status": "illustrative_fixture_only"
           },
           "decision_dimensions": {
-            "confidence": "low",
+            "confidence": "high",
             "burden": "high",
             "harm": "low",
             "feasibility": "high",
@@ -3496,18 +3571,19 @@
             }
           },
           "effect": {
-            "metric": "synthetic_outcome_response",
+            "metric": "synthetic_expected_outcome_change",
             "unit": "outcome_local_points_of_100",
             "direction": "higher_is_better",
             "point": 9,
             "interval": {
               "lower": 7,
-              "upper": 11
+              "upper": 11,
+              "type": "illustrative_fixture_span_not_statistical_interval"
             },
             "evidence_status": "illustrative_fixture_only"
           },
           "decision_dimensions": {
-            "confidence": "low",
+            "confidence": "very_low",
             "burden": "high",
             "harm": "low",
             "feasibility": "high",
@@ -3539,18 +3615,19 @@
             }
           },
           "effect": {
-            "metric": "synthetic_outcome_response",
+            "metric": "synthetic_expected_outcome_change",
             "unit": "outcome_local_points_of_100",
             "direction": "higher_is_better",
             "point": 7,
             "interval": {
               "lower": 3,
-              "upper": 11
+              "upper": 11,
+              "type": "illustrative_fixture_span_not_statistical_interval"
             },
             "evidence_status": "illustrative_fixture_only"
           },
           "decision_dimensions": {
-            "confidence": "high",
+            "confidence": "very_low",
             "burden": "low",
             "harm": "minimal",
             "feasibility": "moderate",
@@ -3582,18 +3659,19 @@
             }
           },
           "effect": {
-            "metric": "synthetic_outcome_response",
+            "metric": "synthetic_expected_outcome_change",
             "unit": "outcome_local_points_of_100",
             "direction": "higher_is_better",
             "point": 6,
             "interval": {
               "lower": 4,
-              "upper": 8
+              "upper": 8,
+              "type": "illustrative_fixture_span_not_statistical_interval"
             },
             "evidence_status": "illustrative_fixture_only"
           },
           "decision_dimensions": {
-            "confidence": "low",
+            "confidence": "moderate",
             "burden": "high",
             "harm": "low",
             "feasibility": "high",
@@ -3625,18 +3703,19 @@
             }
           },
           "effect": {
-            "metric": "synthetic_outcome_response",
+            "metric": "synthetic_expected_outcome_change",
             "unit": "outcome_local_points_of_100",
             "direction": "higher_is_better",
             "point": 7,
             "interval": {
               "lower": 3,
-              "upper": 11
+              "upper": 11,
+              "type": "illustrative_fixture_span_not_statistical_interval"
             },
             "evidence_status": "illustrative_fixture_only"
           },
           "decision_dimensions": {
-            "confidence": "high",
+            "confidence": "moderate",
             "burden": "high",
             "harm": "low",
             "feasibility": "moderate",
@@ -3668,18 +3747,19 @@
             }
           },
           "effect": {
-            "metric": "synthetic_outcome_response",
+            "metric": "synthetic_expected_outcome_change",
             "unit": "outcome_local_points_of_100",
             "direction": "higher_is_better",
             "point": 6,
             "interval": {
               "lower": 4,
-              "upper": 8
+              "upper": 8,
+              "type": "illustrative_fixture_span_not_statistical_interval"
             },
             "evidence_status": "illustrative_fixture_only"
           },
           "decision_dimensions": {
-            "confidence": "low",
+            "confidence": "very_low",
             "burden": "moderate",
             "harm": "moderate",
             "feasibility": "high",
@@ -3711,18 +3791,19 @@
             }
           },
           "effect": {
-            "metric": "synthetic_outcome_response",
+            "metric": "synthetic_expected_outcome_change",
             "unit": "outcome_local_points_of_100",
             "direction": "higher_is_better",
             "point": 10,
             "interval": {
               "lower": 6,
-              "upper": 14
+              "upper": 14,
+              "type": "illustrative_fixture_span_not_statistical_interval"
             },
             "evidence_status": "illustrative_fixture_only"
           },
           "decision_dimensions": {
-            "confidence": "high",
+            "confidence": "very_low",
             "burden": "moderate",
             "harm": "moderate",
             "feasibility": "moderate",
@@ -3754,18 +3835,19 @@
             }
           },
           "effect": {
-            "metric": "synthetic_outcome_response",
+            "metric": "synthetic_expected_outcome_change",
             "unit": "outcome_local_points_of_100",
             "direction": "higher_is_better",
             "point": 8,
             "interval": {
               "lower": 5,
-              "upper": 11
+              "upper": 11,
+              "type": "illustrative_fixture_span_not_statistical_interval"
             },
             "evidence_status": "illustrative_fixture_only"
           },
           "decision_dimensions": {
-            "confidence": "moderate",
+            "confidence": "very_low",
             "burden": "high",
             "harm": "low",
             "feasibility": "low",
@@ -3797,13 +3879,14 @@
             }
           },
           "effect": {
-            "metric": "synthetic_outcome_response",
+            "metric": "synthetic_expected_outcome_change",
             "unit": "outcome_local_points_of_100",
             "direction": "higher_is_better",
             "point": 14,
             "interval": {
               "lower": 11,
-              "upper": 17
+              "upper": 17,
+              "type": "illustrative_fixture_span_not_statistical_interval"
             },
             "evidence_status": "illustrative_fixture_only"
           },
@@ -3840,18 +3923,19 @@
             }
           },
           "effect": {
-            "metric": "synthetic_outcome_response",
+            "metric": "synthetic_expected_outcome_change",
             "unit": "outcome_local_points_of_100",
             "direction": "higher_is_better",
             "point": 13,
             "interval": {
               "lower": 9,
-              "upper": 17
+              "upper": 17,
+              "type": "illustrative_fixture_span_not_statistical_interval"
             },
             "evidence_status": "illustrative_fixture_only"
           },
           "decision_dimensions": {
-            "confidence": "high",
+            "confidence": "very_low",
             "burden": "low",
             "harm": "minimal",
             "feasibility": "moderate",
@@ -3883,18 +3967,19 @@
             }
           },
           "effect": {
-            "metric": "synthetic_outcome_response",
+            "metric": "synthetic_expected_outcome_change",
             "unit": "outcome_local_points_of_100",
             "direction": "higher_is_better",
             "point": 12,
             "interval": {
               "lower": 10,
-              "upper": 14
+              "upper": 14,
+              "type": "illustrative_fixture_span_not_statistical_interval"
             },
             "evidence_status": "illustrative_fixture_only"
           },
           "decision_dimensions": {
-            "confidence": "low",
+            "confidence": "moderate",
             "burden": "high",
             "harm": "low",
             "feasibility": "high",
@@ -3926,13 +4011,14 @@
             }
           },
           "effect": {
-            "metric": "synthetic_outcome_response",
+            "metric": "synthetic_expected_outcome_change",
             "unit": "outcome_local_points_of_100",
             "direction": "higher_is_better",
             "point": 9,
             "interval": {
               "lower": 7,
-              "upper": 11
+              "upper": 11,
+              "type": "illustrative_fixture_span_not_statistical_interval"
             },
             "evidence_status": "illustrative_fixture_only"
           },
@@ -3969,18 +4055,19 @@
             }
           },
           "effect": {
-            "metric": "synthetic_outcome_response",
+            "metric": "synthetic_expected_outcome_change",
             "unit": "outcome_local_points_of_100",
             "direction": "higher_is_better",
             "point": 7,
             "interval": {
               "lower": 3,
-              "upper": 11
+              "upper": 11,
+              "type": "illustrative_fixture_span_not_statistical_interval"
             },
             "evidence_status": "illustrative_fixture_only"
           },
           "decision_dimensions": {
-            "confidence": "high",
+            "confidence": "low",
             "burden": "low",
             "harm": "minimal",
             "feasibility": "moderate",

@@ -2,22 +2,22 @@
   "artifact": "vitality_synthetic_multi_outcome_demo_v1",
   "clinical_use": "prohibited",
   "deployed_hashes": {
-    "aleron-vitality-synthetic-multi-outcome-demo.css": "37f39a99b0498c7f8966fdf3711182e566032f4a43bd253bc9e93e47d138c5c8",
-    "aleron-vitality-synthetic-multi-outcome-demo.js": "bf22e67f32fa8b2d7c7704e1e1e0f87f4b1276d91abfcab715929a2a4ce7d3d2",
-    "latest.html": "9b9823104e914429345a7db4fdf8e67013eef7b1fc3b5b29b3e58dbf8f4c9470",
+    "aleron-vitality-synthetic-multi-outcome-demo.css": "993fb9cc225bcd5f0bf86b035083cb7c1ba70e79d6dd6349f472cb52de04bd2a",
+    "aleron-vitality-synthetic-multi-outcome-demo.js": "cea209d57f2fba929340ff4686f4163dee6f21ca1cea7e6aeeb42ea30198a390",
+    "latest.html": "78334b70396a9adaa03790516eabe7bcb4691a8a74327b1fe9e5c3a8a72349b0",
     "vitality-action-library-v1.json": "0a2d98ef7e846a5ceb0902a669be39d1c4ee15bd8039019cc327b9d2761274d2",
-    "vitality-synthetic-multi-outcome-map-v1.json": "b611578c9c195b033adde3b6cd40ab89575740b5d9dcb10fe2d8529e106e3238",
-    "vitality_synthetic_multi_outcome_runs_v1.json": "22257133736cd01f49be8bab941bc2e0be4d8d2676942ead133cbb840ff56b09"
+    "vitality-synthetic-multi-outcome-map-v1.json": "19f1d752309b5a9d2e2ba6c5310172878838f88528514fea1702035f66882044",
+    "vitality_synthetic_multi_outcome_runs_v1.json": "c838a9f8fa820f41c33b2485f801d6602d1170e7e7495cbd88a7e2dc837d4a4e"
   },
   "listed_in_registry": false,
-  "source_commit": "f320bd379b25ffd8937e446d76daf9737c43a66d",
+  "source_commit": "cdac5cd9d4a6a4e30c2b347c77d3f8c489eb92f6",
   "source_hashes": {
-    "data/fixtures/vitality_synthetic_multi_outcome_runs_v1.json": "22257133736cd01f49be8bab941bc2e0be4d8d2676942ead133cbb840ff56b09",
-    "engine/system-design/diagrams/aleron-vitality-synthetic-multi-outcome-demo.css": "37f39a99b0498c7f8966fdf3711182e566032f4a43bd253bc9e93e47d138c5c8",
-    "engine/system-design/diagrams/aleron-vitality-synthetic-multi-outcome-demo.html": "9b9823104e914429345a7db4fdf8e67013eef7b1fc3b5b29b3e58dbf8f4c9470",
-    "engine/system-design/diagrams/aleron-vitality-synthetic-multi-outcome-demo.js": "e09979b59b5b4f9a87f9681501461b83a928c66f777624bfcdeee18b06e674b0",
+    "data/fixtures/vitality_synthetic_multi_outcome_runs_v1.json": "c838a9f8fa820f41c33b2485f801d6602d1170e7e7495cbd88a7e2dc837d4a4e",
+    "engine/system-design/diagrams/aleron-vitality-synthetic-multi-outcome-demo.css": "993fb9cc225bcd5f0bf86b035083cb7c1ba70e79d6dd6349f472cb52de04bd2a",
+    "engine/system-design/diagrams/aleron-vitality-synthetic-multi-outcome-demo.html": "78334b70396a9adaa03790516eabe7bcb4691a8a74327b1fe9e5c3a8a72349b0",
+    "engine/system-design/diagrams/aleron-vitality-synthetic-multi-outcome-demo.js": "1dba2e169f25962f2e48d7543cf38681e37ec27f5d5594910a6ba9353bc1ecda",
     "engine/system-design/vitality-action-library-v1.json": "0a2d98ef7e846a5ceb0902a669be39d1c4ee15bd8039019cc327b9d2761274d2",
-    "engine/system-design/vitality-synthetic-multi-outcome-map-v1.json": "b611578c9c195b033adde3b6cd40ab89575740b5d9dcb10fe2d8529e106e3238"
+    "engine/system-design/vitality-synthetic-multi-outcome-map-v1.json": "19f1d752309b5a9d2e2ba6c5310172878838f88528514fea1702035f66882044"
   },
   "source_repository": "yimjason01-blip/aleron-md-workspace",
   "synthetic": true,
