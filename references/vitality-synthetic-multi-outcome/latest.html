@@ -1,0 +1,87 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <meta name="color-scheme" content="light">
+  <title>Aleron MD | Synthetic Vitality Action Map</title>
+  <link rel="stylesheet" href="aleron-vitality-synthetic-multi-outcome-demo.css">
+</head>
+<body>
+  <div class="authority-strip" role="status">
+    <strong>Synthetic method test</strong>
+    <span>Illustrative values only. Clinical use prohibited.</span>
+  </div>
+
+  <header class="page-header">
+    <div>
+      <div class="wordmark">Aleron MD</div>
+      <h1>From what matters now to the next Action worth testing.</h1>
+      <p class="lede">Switch patients and outcomes to see eligibility, outcome-local effect, decision dimensions, and reassessment move together.</p>
+    </div>
+    <div class="header-rule">
+      <span>Within-outcome comparison only</span>
+      <span>No composite score</span>
+      <span>No clinical recommendation</span>
+    </div>
+  </header>
+
+  <main>
+    <section class="control-deck" aria-label="Synthetic patient controls">
+      <label for="scenario-select">Synthetic patient</label>
+      <select id="scenario-select"></select>
+      <div id="scenario-description" class="scenario-description"></div>
+      <div id="safety-state" class="safety-state"></div>
+    </section>
+
+    <nav id="outcome-tabs" class="outcome-tabs" aria-label="Vitality outcomes"></nav>
+
+    <section class="workspace">
+      <article class="map-panel">
+        <div class="section-heading">
+          <div>
+            <p class="section-kicker">Outcome-local Action map</p>
+            <h2 id="outcome-title">Energy</h2>
+          </div>
+          <div class="baseline-block">
+            <span>Baseline</span>
+            <strong id="baseline-value">0 synthetic points of 100</strong>
+          </div>
+        </div>
+
+        <div id="map-context" class="map-context"></div>
+        <div class="axis" aria-hidden="true"><span>Smaller synthetic response</span><span>Larger synthetic response</span></div>
+        <div id="action-map" class="action-map" aria-live="polite"></div>
+        <div id="excluded-section" class="excluded-section"></div>
+      </article>
+
+      <aside id="detail-panel" class="detail-panel" aria-live="polite">
+        <div class="empty-detail">
+          <h2>Inspect an Action</h2>
+          <p>Select a mapped row to review its synthetic effect, patient fit, and test period.</p>
+        </div>
+      </aside>
+    </section>
+
+    <section id="reassessment-panel" class="reassessment-panel" aria-live="polite">
+      <div>
+        <p class="section-kicker">Reassessment</p>
+        <h2>No Action selected</h2>
+      </div>
+      <p>Choose an eligible Action to activate a synthetic, outcome-matched reassessment plan.</p>
+    </section>
+
+    <section class="method-boundary">
+      <h2>What this demo proves</h2>
+      <div class="boundary-grid">
+        <div><strong>Patient state filters the map.</strong><span>Safety, constraints, feasibility, and preference change what remains available.</span></div>
+        <div><strong>Effects stay outcome-local.</strong><span>Energy is compared with Energy, never with Mood, Body, Mind, or Meaning.</span></div>
+        <div><strong>Selection creates a test.</strong><span>A chosen Action activates its own response period and a synthetic change threshold.</span></div>
+      </div>
+    </section>
+  </main>
+
+  <div id="fatal-error" class="fatal-error" hidden></div>
+  <script src="aleron-vitality-synthetic-multi-outcome-demo.js"></script>
+</body>
+</html>

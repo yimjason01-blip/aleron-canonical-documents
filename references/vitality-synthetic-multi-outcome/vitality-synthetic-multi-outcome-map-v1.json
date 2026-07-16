@@ -1,0 +1,1167 @@
+{
+  "artifact": {
+    "id": "vitality_synthetic_multi_outcome_map_v1",
+    "version": "1.0.0",
+    "synthetic": true,
+    "clinical_use": "prohibited",
+    "source_library_id": "vitality_action_library_v1",
+    "source_library_sha256": "a27b0766c3b6c325f765b12a1a30dae6d89c6d4c6c4e42fe52f109a37e11bf4d",
+    "generator": "deterministic_index_fixture_v1"
+  },
+  "comparison_contract": {
+    "scope": "within_outcome_only",
+    "cross_outcome_ranking": "prohibited",
+    "selection_basis": "synthetic_effect_only_with_dimensions_kept_separate"
+  },
+  "outcomes": [
+    "energy",
+    "mood",
+    "body",
+    "mind",
+    "meaning"
+  ],
+  "mappings": [
+    {
+      "mapping_id": "sleep_extension_short_sleep:energy:synthetic-v1",
+      "action_id": "sleep_extension_short_sleep",
+      "action_title": "Sleep extension for habitual short sleep",
+      "outcome_id": "energy",
+      "source_relationship": "target",
+      "dose": "30 to 60 additional minutes nightly on at least 6 nights weekly.",
+      "response_period": {
+        "minimum": {
+          "value": 2,
+          "unit": "weeks"
+        },
+        "maximum": {
+          "value": 4,
+          "unit": "weeks"
+        }
+      },
+      "effect": {
+        "metric": "synthetic_outcome_response",
+        "unit": "outcome_local_points_of_100",
+        "direction": "higher_is_better",
+        "point": 6,
+        "interval": {
+          "lower": 4,
+          "upper": 8
+        },
+        "evidence_status": "illustrative_fixture_only"
+      },
+      "decision_dimensions": {
+        "confidence": "low",
+        "burden": "low",
+        "harm": "minimal",
+        "feasibility": "high",
+        "preference": "patient_specific",
+        "urgency": "elective"
+      },
+      "synthetic": true,
+      "clinical_use": "prohibited"
+    },
+    {
+      "mapping_id": "stabilize_sleep_wake_timing:energy:synthetic-v1",
+      "action_id": "stabilize_sleep_wake_timing",
+      "action_title": "Stabilize sleep and wake timing",
+      "outcome_id": "energy",
+      "source_relationship": "target",
+      "dose": "Within 60 minutes on at least 6 days weekly.",
+      "response_period": {
+        "minimum": {
+          "value": 4,
+          "unit": "weeks"
+        },
+        "maximum": {
+          "value": 6,
+          "unit": "weeks"
+        }
+      },
+      "effect": {
+        "metric": "synthetic_outcome_response",
+        "unit": "outcome_local_points_of_100",
+        "direction": "higher_is_better",
+        "point": 11,
+        "interval": {
+          "lower": 8,
+          "upper": 14
+        },
+        "evidence_status": "illustrative_fixture_only"
+      },
+      "decision_dimensions": {
+        "confidence": "moderate",
+        "burden": "high",
+        "harm": "low",
+        "feasibility": "low",
+        "preference": "patient_specific",
+        "urgency": "elective"
+      },
+      "synthetic": true,
+      "clinical_use": "prohibited"
+    },
+    {
+      "mapping_id": "stabilize_sleep_wake_timing:mind:synthetic-v1",
+      "action_id": "stabilize_sleep_wake_timing",
+      "action_title": "Stabilize sleep and wake timing",
+      "outcome_id": "mind",
+      "source_relationship": "target",
+      "dose": "Within 60 minutes on at least 6 days weekly.",
+      "response_period": {
+        "minimum": {
+          "value": 4,
+          "unit": "weeks"
+        },
+        "maximum": {
+          "value": 6,
+          "unit": "weeks"
+        }
+      },
+      "effect": {
+        "metric": "synthetic_outcome_response",
+        "unit": "outcome_local_points_of_100",
+        "direction": "higher_is_better",
+        "point": 8,
+        "interval": {
+          "lower": 5,
+          "upper": 11
+        },
+        "evidence_status": "illustrative_fixture_only"
+      },
+      "decision_dimensions": {
+        "confidence": "moderate",
+        "burden": "high",
+        "harm": "low",
+        "feasibility": "low",
+        "preference": "patient_specific",
+        "urgency": "elective"
+      },
+      "synthetic": true,
+      "clinical_use": "prohibited"
+    },
+    {
+      "mapping_id": "add_morning_outdoor_light:energy:synthetic-v1",
+      "action_id": "add_morning_outdoor_light",
+      "action_title": "Add morning outdoor light",
+      "outcome_id": "energy",
+      "source_relationship": "target",
+      "dose": "At least 30 minutes on at least 5 days weekly.",
+      "response_period": {
+        "minimum": {
+          "value": 2,
+          "unit": "weeks"
+        },
+        "maximum": {
+          "value": 4,
+          "unit": "weeks"
+        }
+      },
+      "effect": {
+        "metric": "synthetic_outcome_response",
+        "unit": "outcome_local_points_of_100",
+        "direction": "higher_is_better",
+        "point": 7,
+        "interval": {
+          "lower": 3,
+          "upper": 11
+        },
+        "evidence_status": "illustrative_fixture_only"
+      },
+      "decision_dimensions": {
+        "confidence": "high",
+        "burden": "moderate",
+        "harm": "moderate",
+        "feasibility": "moderate",
+        "preference": "patient_specific",
+        "urgency": "elective"
+      },
+      "synthetic": true,
+      "clinical_use": "prohibited"
+    },
+    {
+      "mapping_id": "add_morning_outdoor_light:mood:synthetic-v1",
+      "action_id": "add_morning_outdoor_light",
+      "action_title": "Add morning outdoor light",
+      "outcome_id": "mood",
+      "source_relationship": "target",
+      "dose": "At least 30 minutes on at least 5 days weekly.",
+      "response_period": {
+        "minimum": {
+          "value": 2,
+          "unit": "weeks"
+        },
+        "maximum": {
+          "value": 4,
+          "unit": "weeks"
+        }
+      },
+      "effect": {
+        "metric": "synthetic_outcome_response",
+        "unit": "outcome_local_points_of_100",
+        "direction": "higher_is_better",
+        "point": 9,
+        "interval": {
+          "lower": 7,
+          "upper": 11
+        },
+        "evidence_status": "illustrative_fixture_only"
+      },
+      "decision_dimensions": {
+        "confidence": "low",
+        "burden": "high",
+        "harm": "low",
+        "feasibility": "high",
+        "preference": "patient_specific",
+        "urgency": "elective"
+      },
+      "synthetic": true,
+      "clinical_use": "prohibited"
+    },
+    {
+      "mapping_id": "reduce_evening_bright_light:energy:synthetic-v1",
+      "action_id": "reduce_evening_bright_light",
+      "action_title": "Reduce evening bright light",
+      "outcome_id": "energy",
+      "source_relationship": "target",
+      "dose": "Final 2 hours before bedtime on at least 5 nights weekly.",
+      "response_period": {
+        "minimum": {
+          "value": 2,
+          "unit": "weeks"
+        },
+        "maximum": {
+          "value": 4,
+          "unit": "weeks"
+        }
+      },
+      "effect": {
+        "metric": "synthetic_outcome_response",
+        "unit": "outcome_local_points_of_100",
+        "direction": "higher_is_better",
+        "point": 12,
+        "interval": {
+          "lower": 10,
+          "upper": 14
+        },
+        "evidence_status": "illustrative_fixture_only"
+      },
+      "decision_dimensions": {
+        "confidence": "low",
+        "burden": "low",
+        "harm": "minimal",
+        "feasibility": "high",
+        "preference": "patient_specific",
+        "urgency": "elective"
+      },
+      "synthetic": true,
+      "clinical_use": "prohibited"
+    },
+    {
+      "mapping_id": "move_caffeine_earlier:energy:synthetic-v1",
+      "action_id": "move_caffeine_earlier",
+      "action_title": "Move caffeine earlier",
+      "outcome_id": "energy",
+      "source_relationship": "target",
+      "dose": "No caffeine within 9 hours of bedtime for 14 days.",
+      "response_period": {
+        "minimum": {
+          "value": 2,
+          "unit": "weeks"
+        },
+        "maximum": {
+          "value": 2,
+          "unit": "weeks"
+        }
+      },
+      "effect": {
+        "metric": "synthetic_outcome_response",
+        "unit": "outcome_local_points_of_100",
+        "direction": "higher_is_better",
+        "point": 8,
+        "interval": {
+          "lower": 5,
+          "upper": 11
+        },
+        "evidence_status": "illustrative_fixture_only"
+      },
+      "decision_dimensions": {
+        "confidence": "moderate",
+        "burden": "high",
+        "harm": "low",
+        "feasibility": "low",
+        "preference": "patient_specific",
+        "urgency": "elective"
+      },
+      "synthetic": true,
+      "clinical_use": "prohibited"
+    },
+    {
+      "mapping_id": "bounded_alcohol_free_trial:energy:synthetic-v1",
+      "action_id": "bounded_alcohol_free_trial",
+      "action_title": "Bounded alcohol-free trial",
+      "outcome_id": "energy",
+      "source_relationship": "target",
+      "dose": "Zero alcohol for 4 weeks.",
+      "response_period": {
+        "minimum": {
+          "value": 4,
+          "unit": "weeks"
+        },
+        "maximum": {
+          "value": 4,
+          "unit": "weeks"
+        }
+      },
+      "effect": {
+        "metric": "synthetic_outcome_response",
+        "unit": "outcome_local_points_of_100",
+        "direction": "higher_is_better",
+        "point": 13,
+        "interval": {
+          "lower": 9,
+          "upper": 17
+        },
+        "evidence_status": "illustrative_fixture_only"
+      },
+      "decision_dimensions": {
+        "confidence": "high",
+        "burden": "moderate",
+        "harm": "moderate",
+        "feasibility": "moderate",
+        "preference": "patient_specific",
+        "urgency": "elective"
+      },
+      "synthetic": true,
+      "clinical_use": "prohibited"
+    },
+    {
+      "mapping_id": "bounded_alcohol_free_trial:mood:synthetic-v1",
+      "action_id": "bounded_alcohol_free_trial",
+      "action_title": "Bounded alcohol-free trial",
+      "outcome_id": "mood",
+      "source_relationship": "target",
+      "dose": "Zero alcohol for 4 weeks.",
+      "response_period": {
+        "minimum": {
+          "value": 4,
+          "unit": "weeks"
+        },
+        "maximum": {
+          "value": 4,
+          "unit": "weeks"
+        }
+      },
+      "effect": {
+        "metric": "synthetic_outcome_response",
+        "unit": "outcome_local_points_of_100",
+        "direction": "higher_is_better",
+        "point": 6,
+        "interval": {
+          "lower": 4,
+          "upper": 8
+        },
+        "evidence_status": "illustrative_fixture_only"
+      },
+      "decision_dimensions": {
+        "confidence": "low",
+        "burden": "high",
+        "harm": "low",
+        "feasibility": "high",
+        "preference": "patient_specific",
+        "urgency": "elective"
+      },
+      "synthetic": true,
+      "clinical_use": "prohibited"
+    },
+    {
+      "mapping_id": "bounded_alcohol_free_trial:mind:synthetic-v1",
+      "action_id": "bounded_alcohol_free_trial",
+      "action_title": "Bounded alcohol-free trial",
+      "outcome_id": "mind",
+      "source_relationship": "target",
+      "dose": "Zero alcohol for 4 weeks.",
+      "response_period": {
+        "minimum": {
+          "value": 4,
+          "unit": "weeks"
+        },
+        "maximum": {
+          "value": 4,
+          "unit": "weeks"
+        }
+      },
+      "effect": {
+        "metric": "synthetic_outcome_response",
+        "unit": "outcome_local_points_of_100",
+        "direction": "higher_is_better",
+        "point": 10,
+        "interval": {
+          "lower": 6,
+          "upper": 14
+        },
+        "evidence_status": "illustrative_fixture_only"
+      },
+      "decision_dimensions": {
+        "confidence": "high",
+        "burden": "moderate",
+        "harm": "moderate",
+        "feasibility": "moderate",
+        "preference": "patient_specific",
+        "urgency": "elective"
+      },
+      "synthetic": true,
+      "clinical_use": "prohibited"
+    },
+    {
+      "mapping_id": "protected_work_recovery_breaks:energy:synthetic-v1",
+      "action_id": "protected_work_recovery_breaks",
+      "action_title": "Protected work-recovery breaks",
+      "outcome_id": "energy",
+      "source_relationship": "target",
+      "dose": "5 to 10 minutes after each 90 minutes of sustained work.",
+      "response_period": {
+        "minimum": {
+          "value": 2,
+          "unit": "weeks"
+        },
+        "maximum": {
+          "value": 4,
+          "unit": "weeks"
+        }
+      },
+      "effect": {
+        "metric": "synthetic_outcome_response",
+        "unit": "outcome_local_points_of_100",
+        "direction": "higher_is_better",
+        "point": 9,
+        "interval": {
+          "lower": 7,
+          "upper": 11
+        },
+        "evidence_status": "illustrative_fixture_only"
+      },
+      "decision_dimensions": {
+        "confidence": "low",
+        "burden": "low",
+        "harm": "minimal",
+        "feasibility": "high",
+        "preference": "patient_specific",
+        "urgency": "elective"
+      },
+      "synthetic": true,
+      "clinical_use": "prohibited"
+    },
+    {
+      "mapping_id": "scheduled_caregiver_respite:energy:synthetic-v1",
+      "action_id": "scheduled_caregiver_respite",
+      "action_title": "Scheduled caregiver respite",
+      "outcome_id": "energy",
+      "source_relationship": "target",
+      "dose": "At least 2 hours weekly.",
+      "response_period": {
+        "minimum": {
+          "value": 4,
+          "unit": "weeks"
+        },
+        "maximum": {
+          "value": 8,
+          "unit": "weeks"
+        }
+      },
+      "effect": {
+        "metric": "synthetic_outcome_response",
+        "unit": "outcome_local_points_of_100",
+        "direction": "higher_is_better",
+        "point": 14,
+        "interval": {
+          "lower": 11,
+          "upper": 17
+        },
+        "evidence_status": "illustrative_fixture_only"
+      },
+      "decision_dimensions": {
+        "confidence": "moderate",
+        "burden": "high",
+        "harm": "low",
+        "feasibility": "low",
+        "preference": "patient_specific",
+        "urgency": "elective"
+      },
+      "synthetic": true,
+      "clinical_use": "prohibited"
+    },
+    {
+      "mapping_id": "scheduled_caregiver_respite:mood:synthetic-v1",
+      "action_id": "scheduled_caregiver_respite",
+      "action_title": "Scheduled caregiver respite",
+      "outcome_id": "mood",
+      "source_relationship": "target",
+      "dose": "At least 2 hours weekly.",
+      "response_period": {
+        "minimum": {
+          "value": 4,
+          "unit": "weeks"
+        },
+        "maximum": {
+          "value": 8,
+          "unit": "weeks"
+        }
+      },
+      "effect": {
+        "metric": "synthetic_outcome_response",
+        "unit": "outcome_local_points_of_100",
+        "direction": "higher_is_better",
+        "point": 7,
+        "interval": {
+          "lower": 3,
+          "upper": 11
+        },
+        "evidence_status": "illustrative_fixture_only"
+      },
+      "decision_dimensions": {
+        "confidence": "high",
+        "burden": "low",
+        "harm": "minimal",
+        "feasibility": "moderate",
+        "preference": "patient_specific",
+        "urgency": "elective"
+      },
+      "synthetic": true,
+      "clinical_use": "prohibited"
+    },
+    {
+      "mapping_id": "easy_walking_program:energy:synthetic-v1",
+      "action_id": "easy_walking_program",
+      "action_title": "Easy walking program",
+      "outcome_id": "energy",
+      "source_relationship": "target",
+      "dose": "20 to 30 minutes on at least 5 days weekly.",
+      "response_period": {
+        "minimum": {
+          "value": 4,
+          "unit": "weeks"
+        },
+        "maximum": {
+          "value": 8,
+          "unit": "weeks"
+        }
+      },
+      "effect": {
+        "metric": "synthetic_outcome_response",
+        "unit": "outcome_local_points_of_100",
+        "direction": "higher_is_better",
+        "point": 10,
+        "interval": {
+          "lower": 6,
+          "upper": 14
+        },
+        "evidence_status": "illustrative_fixture_only"
+      },
+      "decision_dimensions": {
+        "confidence": "high",
+        "burden": "moderate",
+        "harm": "moderate",
+        "feasibility": "moderate",
+        "preference": "patient_specific",
+        "urgency": "elective"
+      },
+      "synthetic": true,
+      "clinical_use": "prohibited"
+    },
+    {
+      "mapping_id": "easy_walking_program:mood:synthetic-v1",
+      "action_id": "easy_walking_program",
+      "action_title": "Easy walking program",
+      "outcome_id": "mood",
+      "source_relationship": "target",
+      "dose": "20 to 30 minutes on at least 5 days weekly.",
+      "response_period": {
+        "minimum": {
+          "value": 4,
+          "unit": "weeks"
+        },
+        "maximum": {
+          "value": 8,
+          "unit": "weeks"
+        }
+      },
+      "effect": {
+        "metric": "synthetic_outcome_response",
+        "unit": "outcome_local_points_of_100",
+        "direction": "higher_is_better",
+        "point": 12,
+        "interval": {
+          "lower": 10,
+          "upper": 14
+        },
+        "evidence_status": "illustrative_fixture_only"
+      },
+      "decision_dimensions": {
+        "confidence": "low",
+        "burden": "high",
+        "harm": "low",
+        "feasibility": "high",
+        "preference": "patient_specific",
+        "urgency": "elective"
+      },
+      "synthetic": true,
+      "clinical_use": "prohibited"
+    },
+    {
+      "mapping_id": "progressive_aerobic_exercise:energy:synthetic-v1",
+      "action_id": "progressive_aerobic_exercise",
+      "action_title": "Progressive aerobic exercise",
+      "outcome_id": "energy",
+      "source_relationship": "target",
+      "dose": "Progress toward 150 minutes weekly across at least 3 sessions.",
+      "response_period": {
+        "minimum": {
+          "value": 8,
+          "unit": "weeks"
+        },
+        "maximum": {
+          "value": 12,
+          "unit": "weeks"
+        }
+      },
+      "effect": {
+        "metric": "synthetic_outcome_response",
+        "unit": "outcome_local_points_of_100",
+        "direction": "higher_is_better",
+        "point": 6,
+        "interval": {
+          "lower": 4,
+          "upper": 8
+        },
+        "evidence_status": "illustrative_fixture_only"
+      },
+      "decision_dimensions": {
+        "confidence": "low",
+        "burden": "low",
+        "harm": "minimal",
+        "feasibility": "high",
+        "preference": "patient_specific",
+        "urgency": "elective"
+      },
+      "synthetic": true,
+      "clinical_use": "prohibited"
+    },
+    {
+      "mapping_id": "progressive_resistance_training:energy:synthetic-v1",
+      "action_id": "progressive_resistance_training",
+      "action_title": "Progressive resistance training",
+      "outcome_id": "energy",
+      "source_relationship": "target",
+      "dose": "Two nonconsecutive sessions weekly; 1 to 3 sets of 8 to 12 repetitions initially.",
+      "response_period": {
+        "minimum": {
+          "value": 8,
+          "unit": "weeks"
+        },
+        "maximum": {
+          "value": 12,
+          "unit": "weeks"
+        }
+      },
+      "effect": {
+        "metric": "synthetic_outcome_response",
+        "unit": "outcome_local_points_of_100",
+        "direction": "higher_is_better",
+        "point": 11,
+        "interval": {
+          "lower": 8,
+          "upper": 14
+        },
+        "evidence_status": "illustrative_fixture_only"
+      },
+      "decision_dimensions": {
+        "confidence": "moderate",
+        "burden": "high",
+        "harm": "low",
+        "feasibility": "low",
+        "preference": "patient_specific",
+        "urgency": "elective"
+      },
+      "synthetic": true,
+      "clinical_use": "prohibited"
+    },
+    {
+      "mapping_id": "progressive_resistance_training:body:synthetic-v1",
+      "action_id": "progressive_resistance_training",
+      "action_title": "Progressive resistance training",
+      "outcome_id": "body",
+      "source_relationship": "target",
+      "dose": "Two nonconsecutive sessions weekly; 1 to 3 sets of 8 to 12 repetitions initially.",
+      "response_period": {
+        "minimum": {
+          "value": 8,
+          "unit": "weeks"
+        },
+        "maximum": {
+          "value": 12,
+          "unit": "weeks"
+        }
+      },
+      "effect": {
+        "metric": "synthetic_outcome_response",
+        "unit": "outcome_local_points_of_100",
+        "direction": "higher_is_better",
+        "point": 6,
+        "interval": {
+          "lower": 4,
+          "upper": 8
+        },
+        "evidence_status": "illustrative_fixture_only"
+      },
+      "decision_dimensions": {
+        "confidence": "low",
+        "burden": "moderate",
+        "harm": "moderate",
+        "feasibility": "high",
+        "preference": "patient_specific",
+        "urgency": "elective"
+      },
+      "synthetic": true,
+      "clinical_use": "prohibited"
+    },
+    {
+      "mapping_id": "interrupt_prolonged_sitting:energy:synthetic-v1",
+      "action_id": "interrupt_prolonged_sitting",
+      "action_title": "Interrupt prolonged sitting",
+      "outcome_id": "energy",
+      "source_relationship": "target",
+      "dose": "3 minutes of light walking every 30 minutes.",
+      "response_period": {
+        "minimum": {
+          "value": 1,
+          "unit": "weeks"
+        },
+        "maximum": {
+          "value": 1,
+          "unit": "weeks"
+        }
+      },
+      "effect": {
+        "metric": "synthetic_outcome_response",
+        "unit": "outcome_local_points_of_100",
+        "direction": "higher_is_better",
+        "point": 7,
+        "interval": {
+          "lower": 3,
+          "upper": 11
+        },
+        "evidence_status": "illustrative_fixture_only"
+      },
+      "decision_dimensions": {
+        "confidence": "high",
+        "burden": "moderate",
+        "harm": "moderate",
+        "feasibility": "moderate",
+        "preference": "patient_specific",
+        "urgency": "elective"
+      },
+      "synthetic": true,
+      "clinical_use": "prohibited"
+    },
+    {
+      "mapping_id": "interrupt_prolonged_sitting:mood:synthetic-v1",
+      "action_id": "interrupt_prolonged_sitting",
+      "action_title": "Interrupt prolonged sitting",
+      "outcome_id": "mood",
+      "source_relationship": "target",
+      "dose": "3 minutes of light walking every 30 minutes.",
+      "response_period": {
+        "minimum": {
+          "value": 1,
+          "unit": "weeks"
+        },
+        "maximum": {
+          "value": 1,
+          "unit": "weeks"
+        }
+      },
+      "effect": {
+        "metric": "synthetic_outcome_response",
+        "unit": "outcome_local_points_of_100",
+        "direction": "higher_is_better",
+        "point": 9,
+        "interval": {
+          "lower": 7,
+          "upper": 11
+        },
+        "evidence_status": "illustrative_fixture_only"
+      },
+      "decision_dimensions": {
+        "confidence": "low",
+        "burden": "high",
+        "harm": "low",
+        "feasibility": "high",
+        "preference": "patient_specific",
+        "urgency": "elective"
+      },
+      "synthetic": true,
+      "clinical_use": "prohibited"
+    },
+    {
+      "mapping_id": "bounded_training_deload:energy:synthetic-v1",
+      "action_id": "bounded_training_deload",
+      "action_title": "Bounded training deload",
+      "outcome_id": "energy",
+      "source_relationship": "target",
+      "dose": "About 50% volume reduction for 1 week.",
+      "response_period": {
+        "minimum": {
+          "value": 1,
+          "unit": "weeks"
+        },
+        "maximum": {
+          "value": 2,
+          "unit": "weeks"
+        }
+      },
+      "effect": {
+        "metric": "synthetic_outcome_response",
+        "unit": "outcome_local_points_of_100",
+        "direction": "higher_is_better",
+        "point": 12,
+        "interval": {
+          "lower": 10,
+          "upper": 14
+        },
+        "evidence_status": "illustrative_fixture_only"
+      },
+      "decision_dimensions": {
+        "confidence": "low",
+        "burden": "low",
+        "harm": "minimal",
+        "feasibility": "high",
+        "preference": "patient_specific",
+        "urgency": "elective"
+      },
+      "synthetic": true,
+      "clinical_use": "prohibited"
+    },
+    {
+      "mapping_id": "bounded_training_deload:body:synthetic-v1",
+      "action_id": "bounded_training_deload",
+      "action_title": "Bounded training deload",
+      "outcome_id": "body",
+      "source_relationship": "target",
+      "dose": "About 50% volume reduction for 1 week.",
+      "response_period": {
+        "minimum": {
+          "value": 1,
+          "unit": "weeks"
+        },
+        "maximum": {
+          "value": 2,
+          "unit": "weeks"
+        }
+      },
+      "effect": {
+        "metric": "synthetic_outcome_response",
+        "unit": "outcome_local_points_of_100",
+        "direction": "higher_is_better",
+        "point": 7,
+        "interval": {
+          "lower": 3,
+          "upper": 11
+        },
+        "evidence_status": "illustrative_fixture_only"
+      },
+      "decision_dimensions": {
+        "confidence": "high",
+        "burden": "high",
+        "harm": "low",
+        "feasibility": "moderate",
+        "preference": "patient_specific",
+        "urgency": "elective"
+      },
+      "synthetic": true,
+      "clinical_use": "prohibited"
+    },
+    {
+      "mapping_id": "meaningful_one_to_one_contact:meaning:synthetic-v1",
+      "action_id": "meaningful_one_to_one_contact",
+      "action_title": "Meaningful one-to-one contact",
+      "outcome_id": "meaning",
+      "source_relationship": "target",
+      "dose": "At least 30 minutes once weekly for 4 weeks.",
+      "response_period": {
+        "minimum": {
+          "value": 4,
+          "unit": "weeks"
+        },
+        "maximum": {
+          "value": 8,
+          "unit": "weeks"
+        }
+      },
+      "effect": {
+        "metric": "synthetic_outcome_response",
+        "unit": "outcome_local_points_of_100",
+        "direction": "higher_is_better",
+        "point": 7,
+        "interval": {
+          "lower": 3,
+          "upper": 11
+        },
+        "evidence_status": "illustrative_fixture_only"
+      },
+      "decision_dimensions": {
+        "confidence": "high",
+        "burden": "low",
+        "harm": "minimal",
+        "feasibility": "moderate",
+        "preference": "patient_specific",
+        "urgency": "elective"
+      },
+      "synthetic": true,
+      "clinical_use": "prohibited"
+    },
+    {
+      "mapping_id": "recurring_group_active_participation:meaning:synthetic-v1",
+      "action_id": "recurring_group_active_participation",
+      "action_title": "Recurring group participation",
+      "outcome_id": "meaning",
+      "source_relationship": "target",
+      "dose": "At least 45 minutes once weekly for 6 weeks.",
+      "response_period": {
+        "minimum": {
+          "value": 6,
+          "unit": "weeks"
+        },
+        "maximum": {
+          "value": 12,
+          "unit": "weeks"
+        }
+      },
+      "effect": {
+        "metric": "synthetic_outcome_response",
+        "unit": "outcome_local_points_of_100",
+        "direction": "higher_is_better",
+        "point": 12,
+        "interval": {
+          "lower": 10,
+          "upper": 14
+        },
+        "evidence_status": "illustrative_fixture_only"
+      },
+      "decision_dimensions": {
+        "confidence": "low",
+        "burden": "high",
+        "harm": "low",
+        "feasibility": "high",
+        "preference": "patient_specific",
+        "urgency": "elective"
+      },
+      "synthetic": true,
+      "clinical_use": "prohibited"
+    },
+    {
+      "mapping_id": "pleasant_activity_resumption:mood:synthetic-v1",
+      "action_id": "pleasant_activity_resumption",
+      "action_title": "Resume one pleasant activity",
+      "outcome_id": "mood",
+      "source_relationship": "target",
+      "dose": "At least 30 minutes three times weekly for 4 weeks.",
+      "response_period": {
+        "minimum": {
+          "value": 4,
+          "unit": "weeks"
+        },
+        "maximum": {
+          "value": 8,
+          "unit": "weeks"
+        }
+      },
+      "effect": {
+        "metric": "synthetic_outcome_response",
+        "unit": "outcome_local_points_of_100",
+        "direction": "higher_is_better",
+        "point": 11,
+        "interval": {
+          "lower": 8,
+          "upper": 14
+        },
+        "evidence_status": "illustrative_fixture_only"
+      },
+      "decision_dimensions": {
+        "confidence": "moderate",
+        "burden": "moderate",
+        "harm": "moderate",
+        "feasibility": "low",
+        "preference": "patient_specific",
+        "urgency": "elective"
+      },
+      "synthetic": true,
+      "clinical_use": "prohibited"
+    },
+    {
+      "mapping_id": "values_aligned_activity:meaning:synthetic-v1",
+      "action_id": "values_aligned_activity",
+      "action_title": "Complete one values-aligned activity",
+      "outcome_id": "meaning",
+      "source_relationship": "target",
+      "dose": "One predefined activity weekly for 6 weeks.",
+      "response_period": {
+        "minimum": {
+          "value": 6,
+          "unit": "weeks"
+        },
+        "maximum": {
+          "value": 8,
+          "unit": "weeks"
+        }
+      },
+      "effect": {
+        "metric": "synthetic_outcome_response",
+        "unit": "outcome_local_points_of_100",
+        "direction": "higher_is_better",
+        "point": 13,
+        "interval": {
+          "lower": 9,
+          "upper": 17
+        },
+        "evidence_status": "illustrative_fixture_only"
+      },
+      "decision_dimensions": {
+        "confidence": "high",
+        "burden": "low",
+        "harm": "minimal",
+        "feasibility": "moderate",
+        "preference": "patient_specific",
+        "urgency": "elective"
+      },
+      "synthetic": true,
+      "clinical_use": "prohibited"
+    },
+    {
+      "mapping_id": "bounded_mastery_project:meaning:synthetic-v1",
+      "action_id": "bounded_mastery_project",
+      "action_title": "Bounded mastery project",
+      "outcome_id": "meaning",
+      "source_relationship": "target",
+      "dose": "Two sessions weekly of 30 to 60 minutes for 8 weeks, capped at 2 hours weekly.",
+      "response_period": {
+        "minimum": {
+          "value": 8,
+          "unit": "weeks"
+        },
+        "maximum": {
+          "value": 8,
+          "unit": "weeks"
+        }
+      },
+      "effect": {
+        "metric": "synthetic_outcome_response",
+        "unit": "outcome_local_points_of_100",
+        "direction": "higher_is_better",
+        "point": 9,
+        "interval": {
+          "lower": 7,
+          "upper": 11
+        },
+        "evidence_status": "illustrative_fixture_only"
+      },
+      "decision_dimensions": {
+        "confidence": "low",
+        "burden": "high",
+        "harm": "low",
+        "feasibility": "high",
+        "preference": "patient_specific",
+        "urgency": "elective"
+      },
+      "synthetic": true,
+      "clinical_use": "prohibited"
+    },
+    {
+      "mapping_id": "recurring_contribution_service:meaning:synthetic-v1",
+      "action_id": "recurring_contribution_service",
+      "action_title": "Recurring contribution or service",
+      "outcome_id": "meaning",
+      "source_relationship": "target",
+      "dose": "One session weekly of 60 to 120 minutes for 8 weeks.",
+      "response_period": {
+        "minimum": {
+          "value": 8,
+          "unit": "weeks"
+        },
+        "maximum": {
+          "value": 12,
+          "unit": "weeks"
+        }
+      },
+      "effect": {
+        "metric": "synthetic_outcome_response",
+        "unit": "outcome_local_points_of_100",
+        "direction": "higher_is_better",
+        "point": 14,
+        "interval": {
+          "lower": 11,
+          "upper": 17
+        },
+        "evidence_status": "illustrative_fixture_only"
+      },
+      "decision_dimensions": {
+        "confidence": "moderate",
+        "burden": "moderate",
+        "harm": "moderate",
+        "feasibility": "low",
+        "preference": "patient_specific",
+        "urgency": "elective"
+      },
+      "synthetic": true,
+      "clinical_use": "prohibited"
+    },
+    {
+      "mapping_id": "protected_recovery_by_obligation_removal:energy:synthetic-v1",
+      "action_id": "protected_recovery_by_obligation_removal",
+      "action_title": "Protected recovery by obligation removal",
+      "outcome_id": "energy",
+      "source_relationship": "target",
+      "dose": "Change one obligation within 2 weeks and release at least 30 minutes weekly for 4 weeks.",
+      "response_period": {
+        "minimum": {
+          "value": 4,
+          "unit": "weeks"
+        },
+        "maximum": {
+          "value": 6,
+          "unit": "weeks"
+        }
+      },
+      "effect": {
+        "metric": "synthetic_outcome_response",
+        "unit": "outcome_local_points_of_100",
+        "direction": "higher_is_better",
+        "point": 11,
+        "interval": {
+          "lower": 8,
+          "upper": 14
+        },
+        "evidence_status": "illustrative_fixture_only"
+      },
+      "decision_dimensions": {
+        "confidence": "moderate",
+        "burden": "high",
+        "harm": "low",
+        "feasibility": "low",
+        "preference": "patient_specific",
+        "urgency": "elective"
+      },
+      "synthetic": true,
+      "clinical_use": "prohibited"
+    }
+  ],
+  "summary": {
+    "unique_actions": 20,
+    "total_mappings": 29,
+    "by_outcome": {
+      "energy": 14,
+      "mood": 6,
+      "body": 2,
+      "mind": 2,
+      "meaning": 5
+    }
+  }
+}

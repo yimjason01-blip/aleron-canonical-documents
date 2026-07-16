@@ -1,0 +1,27 @@
+{
+  "artifact": "vitality_synthetic_multi_outcome_demo_v1",
+  "clinical_use": "prohibited",
+  "deployed_hashes": {
+    "aleron-vitality-synthetic-multi-outcome-demo.css": "96434fd994a5b6d74694601f889eaa9872a94bf4a7961e404a0485332c450a00",
+    "aleron-vitality-synthetic-multi-outcome-demo.js": "74d02016f819e230391b367c0de2cb03765abcdd6668273b92519dda9d99dd24",
+    "latest.html": "8140f4eb1528d7b3a7224aa060bb2847c2f04a0d8a42be1d7d894f3e6d1ef5f6",
+    "vitality-action-library-v1.json": "0a2d98ef7e846a5ceb0902a669be39d1c4ee15bd8039019cc327b9d2761274d2",
+    "vitality-synthetic-multi-outcome-map-v1.json": "b611578c9c195b033adde3b6cd40ab89575740b5d9dcb10fe2d8529e106e3238",
+    "vitality_synthetic_multi_outcome_runs_v1.json": "22257133736cd01f49be8bab941bc2e0be4d8d2676942ead133cbb840ff56b09"
+  },
+  "listed_in_registry": false,
+  "source_commit": "91d488327458a51b9f41c73a4d90e471e7b675d9",
+  "source_hashes": {
+    "data/fixtures/vitality_synthetic_multi_outcome_runs_v1.json": "22257133736cd01f49be8bab941bc2e0be4d8d2676942ead133cbb840ff56b09",
+    "engine/system-design/diagrams/aleron-vitality-synthetic-multi-outcome-demo.css": "96434fd994a5b6d74694601f889eaa9872a94bf4a7961e404a0485332c450a00",
+    "engine/system-design/diagrams/aleron-vitality-synthetic-multi-outcome-demo.html": "8140f4eb1528d7b3a7224aa060bb2847c2f04a0d8a42be1d7d894f3e6d1ef5f6",
+    "engine/system-design/diagrams/aleron-vitality-synthetic-multi-outcome-demo.js": "4ecb43e46a5d9f072100a6ccd5293d21037deefeb9800b59ecc6e58bba86d2dc",
+    "engine/system-design/vitality-action-library-v1.json": "0a2d98ef7e846a5ceb0902a669be39d1c4ee15bd8039019cc327b9d2761274d2",
+    "engine/system-design/vitality-synthetic-multi-outcome-map-v1.json": "b611578c9c195b033adde3b6cd40ab89575740b5d9dcb10fe2d8529e106e3238"
+  },
+  "source_repository": "yimjason01-blip/aleron-md-workspace",
+  "synthetic": true,
+  "transformations": {
+    "aleron-vitality-synthetic-multi-outcome-demo.js": "RUNS_URL rewritten to same-folder generated run fixture"
+  }
+}
