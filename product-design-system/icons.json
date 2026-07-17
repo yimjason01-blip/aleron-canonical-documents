@@ -1,0 +1,47 @@
+{
+  "design_system": "aleron-md-product-ds",
+  "version": "0.5.0",
+  "recipe": "24px grid, 1.6 stroke, round caps and joins, no fills except dots 8px and under, always currentColor",
+  "sizes": {
+    "rail": 16,
+    "mobile_bar": 20
+  },
+  "icons": [
+    {
+      "id": "plan",
+      "file": "icons/plan.svg",
+      "label": "Plan",
+      "aliases": ["Care Plan"]
+    },
+    {
+      "id": "quality-of-life",
+      "file": "icons/quality-of-life.svg",
+      "label": "Quality of Life",
+      "aliases": ["Vitality"]
+    },
+    {
+      "id": "your-data",
+      "file": "icons/your-data.svg",
+      "label": "Your Data",
+      "aliases": ["Patient Data"]
+    },
+    {
+      "id": "risk",
+      "file": "icons/risk.svg",
+      "label": "Risk",
+      "aliases": []
+    },
+    {
+      "id": "chat",
+      "file": "icons/chat.svg",
+      "label": "Chat",
+      "aliases": ["Aleron AI"]
+    },
+    {
+      "id": "appointments",
+      "file": "icons/appointments.svg",
+      "label": "Appointments",
+      "aliases": ["Journal"]
+    }
+  ]
+}

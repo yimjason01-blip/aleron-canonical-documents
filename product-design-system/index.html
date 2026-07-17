@@ -2348,7 +2348,7 @@ section.ds-section:first-child { border-top: none; padding-top: 48px; }
 <!-- ================================================================ -->
 <header class="ds-header">
   <div class="ds-header-lockup">aleron<span class="md">MD</span></div>
-  <div class="ds-header-meta">Product Design System · v0.4 · Register v1 · Agent kit · 16 Jul 2026</div>
+  <div class="ds-header-meta">Product Design System · v0.5 · Register v1 · Agent kit · 17 Jul 2026</div>
 </header>
 
 <!-- ================================================================ -->
@@ -2769,7 +2769,7 @@ section.ds-section:first-child { border-top: none; padding-top: 48px; }
         <tr><td>--dur-slow</td><td>400ms</td><td>Modal, surface transition</td></tr>
       </tbody>
     </table>
-    <p class="fine">Motion reveals cause, never decorates. Loading is three dots. Numbers do not count up. Reduced motion: all durations to 0ms.</p>
+    <p class="fine">Motion reveals cause, never decorates. Loading is three dots. Numbers do not count up. Reduced motion: all durations to 0ms. At surface level the same three dots mark the region being loaded: no skeleton screens, no shimmer, no spinners.</p>
   </div>
 
   <!-- FOCUS -->
@@ -2934,6 +2934,71 @@ section.ds-section:first-child { border-top: none; padding-top: 48px; }
     </div>
   </div>
 
+  <!-- FORM CONTROLS -->
+  <div class="subsec" id="form-controls">
+    <div class="subsec-label">Form controls · the input set · proposed 17 Jul 2026, provisional</div>
+    <div class="demo">
+      <div style="display:grid;gap:22px;max-width:560px">
+        <div>
+          <div class="demo-label">Select · styled native menu</div>
+          <div style="position:relative">
+            <div style="min-height:var(--control-min-h);padding:10px 32px 10px 12px;border-radius:var(--radius-control);background:var(--surface-inset);color:var(--text-primary);font-size:14px;display:flex;align-items:center">Quest Elite · 100+ markers</div>
+            <svg viewBox="0 0 24 24" style="position:absolute;right:12px;top:50%;width:12px;height:12px;transform:translateY(-50%)" fill="none" stroke="var(--text-secondary)" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M6 9.5l6 6 6-6"/></svg>
+          </div>
+        </div>
+        <div>
+          <div class="demo-label">Segmented · exclusive form choice, selected lifts per H2</div>
+          <div style="display:flex;gap:4px;padding:4px;border-radius:var(--radius-control);background:var(--surface-inset)">
+            <div style="flex:1;min-height:36px;display:grid;place-items:center;border-radius:8px;color:var(--text-secondary);font-size:13.5px">Home kit</div>
+            <div style="flex:1;min-height:36px;display:grid;place-items:center;border-radius:8px;background:var(--surface-card);color:var(--text-primary);font-size:13.5px;font-weight:500">Quest draw</div>
+            <div style="flex:1;min-height:36px;display:grid;place-items:center;border-radius:8px;color:var(--text-secondary);font-size:13.5px">Upload PDF</div>
+          </div>
+        </div>
+        <div>
+          <div class="demo-label">Toggle · ink acts; knob is the one circular control element</div>
+          <div style="display:flex;gap:20px;align-items:center">
+            <div style="width:56px;height:32px;border-radius:var(--radius-control);background:var(--control-primary-bg);position:relative"><span style="position:absolute;left:32px;top:4px;width:24px;height:24px;border-radius:50%;background:var(--control-primary-fg)"></span></div>
+            <div style="width:56px;height:32px;border-radius:var(--radius-control);background:var(--surface-inset);position:relative"><span style="position:absolute;left:4px;top:4px;width:24px;height:24px;border-radius:50%;background:var(--surface-card)"></span></div>
+          </div>
+        </div>
+        <div>
+          <div class="demo-label">Checkbox and radio · marks, never consent</div>
+          <div style="display:flex;gap:20px;align-items:center">
+            <span style="width:24px;height:24px;border-radius:var(--radius-control);background:var(--control-primary-bg);display:inline-grid;place-items:center"><svg viewBox="0 0 24 24" style="width:13px;height:13px" fill="none" stroke="var(--control-primary-fg)" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12.5l4.5 4.5L19 7.5"/></svg></span>
+            <span style="width:24px;height:24px;border-radius:var(--radius-control);border:1px solid var(--border-strong);display:inline-block"></span>
+            <span style="width:24px;height:24px;border-radius:50%;border:1px solid var(--control-primary-bg);display:inline-grid;place-items:center"><span style="width:8px;height:8px;border-radius:50%;background:var(--control-primary-bg)"></span></span>
+            <span style="width:24px;height:24px;border-radius:50%;border:1px solid var(--border-strong);display:inline-block"></span>
+          </div>
+        </div>
+        <div>
+          <div class="demo-label">Slider · scaled input; value beside, never on the thumb</div>
+          <div style="display:flex;align-items:center;gap:14px">
+            <div style="flex:1;height:4px;border-radius:var(--radius-tile);background:var(--surface-inset);position:relative"><span style="position:absolute;left:60%;top:50%;transform:translate(-50%,-50%);width:24px;height:24px;border-radius:50%;background:var(--control-primary-bg)"></span></div>
+            <span style="font-variant-numeric:tabular-nums;font-weight:500;font-size:14px;color:var(--text-primary)">6</span>
+          </div>
+        </div>
+        <div>
+          <div class="demo-label">OTP field · one-time code, tabular cells</div>
+          <div style="display:flex;gap:8px">
+            <span style="width:44px;height:44px;border-radius:var(--radius-control);background:var(--surface-inset);display:grid;place-items:center;font-variant-numeric:tabular-nums;font-weight:500;color:var(--text-primary)">4</span>
+            <span style="width:44px;height:44px;border-radius:var(--radius-control);background:var(--surface-inset);display:grid;place-items:center;font-variant-numeric:tabular-nums;font-weight:500;color:var(--text-primary)">2</span>
+            <span style="width:44px;height:44px;border-radius:var(--radius-control);background:var(--surface-inset);display:grid;place-items:center;font-variant-numeric:tabular-nums;font-weight:500;color:var(--text-primary)">7</span>
+            <span style="width:44px;height:44px;border-radius:var(--radius-control);background:var(--surface-inset);outline:2px solid var(--signal-forward);outline-offset:4px"></span>
+            <span style="width:44px;height:44px;border-radius:var(--radius-control);background:var(--surface-inset)"></span>
+            <span style="width:44px;height:44px;border-radius:var(--radius-control);background:var(--surface-inset)"></span>
+          </div>
+        </div>
+      </div>
+      <p class="demo-caption">One family: inset fields at R10, no borders at rest, gold 2px outline on focus, invalid outlined ember, disabled loses ink. Segmented owns form choice; tabs own navigation; the mechanisms never mix. Checkbox and radio are marks for multi- and single-select inside forms; consent is never a checkbox, it is a structured surface per Archetype 06. Registry: core.select, core.segmented, core.toggle, core.checkbox, core.radio, core.slider, core.otp-field in components.json, implemented in components.css.</p>
+    </div>
+  </div>
+
+  <!-- OVERLAY -->
+  <div class="subsec">
+    <div class="subsec-label">Modal and scrim · one overlay at a time · proposed 17 Jul 2026, provisional</div>
+    <p class="fine">Centered dialog on web, bottom sheet on mobile (<code>data-variant="sheet"</code>). The scrim takes <code>--scrim</code>; the sheet takes Tier 1 radius and, as a floating element, the register's only shadow under the same sanctioned exception as the toast and the AI launcher. Layer order is fixed: layout, then raised (<code>--z-raised</code>, toast and launcher), then overlay (<code>--z-overlay</code>, scrim and sheet). Overlays never nest and never stack; a second overlay waits for the first to close. Registry: core.modal.</p>
+  </div>
+
   <!-- PATTERN CONTRACTS -->
   <div class="subsec">
     <div class="subsec-label">Pattern contracts · no local translation</div>
@@ -3005,6 +3070,7 @@ section.ds-section:first-child { border-top: none; padding-top: 48px; }
       <li><span class="rule-num">R3</span><span><b>Items are one line.</b> Icon 16 from the codified set, label 13.5 voice, 9px vertical padding. Labels never wrap, never truncate, never abbreviate; the rail is sized to its longest label.</span></li>
       <li><span class="rule-num">R4</span><span><b>Dark is the same design in a different color space.</b> The identical markup resolves through the night tokens: ground, text, inset, borders swap; nothing else may change. Same anatomy, same order, same icons, same content, same spacing. If a dark surface cannot be produced by the token swap alone, the component is wrong, not the mode.</span></li>
       <li><span class="rule-num">R5</span><span><b>Two navs, two mechanisms, never mixed.</b> The primary rail, the constant left edge of an app surface, is icon plus label with the inset selection above; member and physician surfaces share it exactly. A secondary index, a documentation nav or an in-panel history list, is text only and marks its place with a gold tick and weight, never an inset. A surface picks one mechanism and holds it; the two never appear in the same list.</span></li>
+      <li><span class="rule-num">R6</span><span><b>Below the hinge, the rail is replaced, never shrunk.</b> At content widths under <code>--rail-hinge</code> (760px) the rail yields to the bottom bar: the same tabs in the same order, icons at 20, the same inset selection, at most one attention dot. The rail never collapses to icons alone and never squeezes below its labels; under the hinge it does not compress, it hands over. Proposed 17 Jul 2026, provisional.</span></li>
     </ol>
     <div class="demo" style="background:var(--paper)">
       <div class="demo-label">Day and night · the same rail, one class apart</div>
@@ -4172,17 +4238,19 @@ section.ds-section:first-child { border-top: none; padding-top: 48px; }
   <p class="sec-abstract">The visual reference and the agent kit now share one token source, one component registry, and one acceptance contract. Humans can keep reading this page. Agents start with the manifest and load only the relevant visual examples.</p>
 
   <div class="subsec">
-    <div class="subsec-label">Machine bundle · v0.4 · active</div>
+    <div class="subsec-label">Machine bundle · v0.5 · active</div>
     <div class="row-pair">
-      <a class="card-demo" href="manifest.json"><div class="card-demo-title">Manifest</div><div class="card-demo-body">Authority, version, register status, dependencies, and load order.</div></a>
+      <a class="card-demo" href="manifest.json"><div class="card-demo-title">Manifest</div><div class="card-demo-body">Authority, version, register status, dependencies, load order, and the complete files inventory for deterministic mirroring.</div></a>
       <a class="card-demo" href="AGENTS.md"><div class="card-demo-title">Agent contract</div><div class="card-demo-body">Build brief, implementation rules, missing-pattern rule, and verification order.</div></a>
       <a class="card-demo" href="tokens.json"><div class="card-demo-title">Tokens</div><div class="card-demo-body">Schema-validated primitives, semantic aliases, and register mappings.</div></a>
       <a class="card-demo" href="components.json"><div class="card-demo-title">Components</div><div class="card-demo-body">Canonical IDs, states, token dependencies, selectors, and forbidden patterns.</div></a>
       <a class="card-demo" href="acceptance.json"><div class="card-demo-title">Acceptance</div><div class="card-demo-body">T1 through T7 in structured, reportable form.</div></a>
       <a class="card-demo" href="prototype-starter.html"><div class="card-demo-title">Prototype starter</div><div class="card-demo-body">Register-aware HTML using the generated tokens and reusable components.</div></a>
+      <a class="card-demo" href="icons.json"><div class="card-demo-title">Icon set</div><div class="card-demo-body">The six member icons as standalone SVGs with the alias map. Never redrawn, never invented.</div></a>
+      <a class="card-demo" href="AleronDesignTokens.swift"><div class="card-demo-title">SwiftUI tokens</div><div class="card-demo-body">Generated from tokens.json: palette, registers, spacing, air, radii, motion, type. The register is a design decision, never a dark-mode response.</div></a>
     </div>
-    <p class="fine">Implementation: <a href="tokens.css"><b>tokens.css</b></a> · <a href="components.css"><b>components.css</b></a> · Validation: <a href="validate-agent-kit.py"><b>validate-agent-kit.py</b></a> · Rendered audits: <a href="air-audit.js"><b>air-audit.js</b></a> · <a href="copy-audit.js"><b>copy-audit.js</b></a></p>
-    <p class="fine"><b>Ratified:</b> member Cabin register. <b>Provisional:</b> physician flight-deck register, air ladder, copy provenance law, and components marked provisional in the registry.</p>
+    <p class="fine">Implementation: <a href="tokens.css"><b>tokens.css</b></a> · <a href="components.css"><b>components.css</b></a> · Generators: <a href="build-agent-kit.py"><b>build-agent-kit.py</b></a> · <a href="build-swiftui-tokens.py"><b>build-swiftui-tokens.py</b></a> · Validation: <a href="validate-agent-kit.py"><b>validate-agent-kit.py</b></a> · Rendered audits: <a href="air-audit.js"><b>air-audit.js</b></a> · <a href="copy-audit.js"><b>copy-audit.js</b></a></p>
+    <p class="fine"><b>Ratified:</b> member Cabin register. <b>Provisional:</b> physician flight-deck register, air ladder, copy provenance law, the 17 Jul 2026 additions (form-control set, modal overlay grammar, rail hinge R6, layer tokens, surface loading instrument, icon assets, SwiftUI export), and components marked provisional in the registry.</p>
   </div>
 
   <div class="subsec">
@@ -4217,6 +4285,9 @@ section.ds-section:first-child { border-top: none; padding-top: 48px; }
           <li>Ember on the mic recording state</li>
           <li>Circular nodes on the stepper</li>
           <li>Checkbox-style consent capture</li>
+          <li>Skeleton screens, shimmer placeholders, or spinners</li>
+          <li>Nested or simultaneous overlays</li>
+          <li>Redrawing or recoloring a codified icon</li>
           </ul>
       </div>
     </div>
@@ -4298,6 +4369,7 @@ section.ds-section:first-child { border-top: none; padding-top: 48px; }
   </div>
 
   <p class="fine">Contract amendment drafted 02 Jul 2026: step 01 recanonized to the manifest and agent contract, step 04 study-derivation, step 07 the brief, step 09 plus the seven tests, the ratchet, and the dialect law. Provisionally in force since 03 Jul 2026 for field validation across the canonical surfaces; ratification pending on the field results. The prior seven-step order survives unchanged in substance as steps 01 to 08.</p>
+  <p class="fine">Contract amendment proposed 17 Jul 2026: the form-control set (select, segmented, toggle, checkbox, radio, slider, otp-field), the modal overlay grammar with fixed layer order, rail hinge R6, the surface loading instrument, the icon asset set with its alias map, and the SwiftUI token export enter as provisional. The rail-width conflict resolved to 188px per R1 and the ratified register study. The manifest now carries a complete files inventory, existence-checked by the validator, so agents can mirror the kit deterministically. Ratification pending field validation on the patient app and member web surfaces.</p>
 </section>
 
 </main>
@@ -4307,8 +4379,8 @@ section.ds-section:first-child { border-top: none; padding-top: 48px; }
 <!--  FOOTER                                                           -->
 <!-- ================================================================ -->
 <footer class="ds-footer">
-  <div>aleron MD · Product Design System · v0.4</div>
-  <div>Human reference + machine bundle · Inherits from brand-deck/index.html · 16 Jul 2026</div>
+  <div>aleron MD · Product Design System · v0.5</div>
+  <div>Human reference + machine bundle · Inherits from brand-deck/index.html · 17 Jul 2026</div>
 </footer>
 
 <script>

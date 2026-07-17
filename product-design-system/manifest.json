@@ -1,54 +1,116 @@
 {
-  "$schema": "./schemas/manifest.schema.json",
-  "name": "Aleron MD Product Design System",
-  "id": "aleron-md-product-ds",
-  "version": "0.4.0",
-  "status": "mixed",
-  "updated": "2026-07-16",
-  "governing_idea": "Warm at the surface, rigorous one layer down, calm always.",
-  "authority": {
-    "brand": "../brand-deck/index.html",
-    "human_reference": "./index.html",
-    "agent_contract": "./AGENTS.md",
-    "tokens": "./tokens.json",
-    "components": "./components.json",
-    "acceptance": "./acceptance.json"
+ "$schema": "./schemas/manifest.schema.json",
+ "name": "Aleron MD Product Design System",
+ "id": "aleron-md-product-ds",
+ "version": "0.5.0",
+ "status": "mixed",
+ "updated": "2026-07-17",
+ "governing_idea": "Warm at the surface, rigorous one layer down, calm always.",
+ "authority": {
+  "brand": "../brand-deck/index.html",
+  "human_reference": "./index.html",
+  "agent_contract": "./AGENTS.md",
+  "tokens": "./tokens.json",
+  "components": "./components.json",
+  "acceptance": "./acceptance.json"
+ },
+ "generated_assets": {
+  "web_tokens": "./tokens.css",
+  "swiftui_tokens": "./AleronDesignTokens.swift"
+ },
+ "implementation_assets": {
+  "web_components": "./components.css",
+  "prototype_starter": "./prototype-starter.html",
+  "icon_set": "./icons.json"
+ },
+ "audits": {
+  "air": "./air-audit.js",
+  "copy": "./copy-audit.js",
+  "kit": "./validate-agent-kit.py"
+ },
+ "registers": {
+  "day": {
+   "name": "Cabin",
+   "status": "ratified",
+   "study": "./register.html"
   },
-  "generated_assets": {
-    "web_tokens": "./tokens.css"
-  },
-  "implementation_assets": {
-    "web_components": "./components.css",
-    "prototype_starter": "./prototype-starter.html"
-  },
-  "audits": {
-    "air": "./air-audit.js",
-    "copy": "./copy-audit.js",
-    "kit": "./validate-agent-kit.py"
-  },
-  "registers": {
-    "day": {
-      "name": "Cabin",
-      "status": "ratified",
-      "study": "./register.html"
-    },
-    "flight-deck": {
-      "name": "Physician flight deck",
-      "status": "provisional",
-      "study": "./physician-register.html"
-    }
-  },
-  "load_order": [
-    "manifest.json",
-    "AGENTS.md",
-    "tokens.json",
-    "components.json",
-    "acceptance.json",
-    "product spec",
-    "applicable register study"
-  ],
-  "compatibility": {
-    "legacy_register_class": "night",
-    "preferred_register_attribute": "data-register"
+  "flight-deck": {
+   "name": "Physician flight deck",
+   "status": "provisional",
+   "study": "./physician-register.html"
   }
+ },
+ "load_order": [
+  "manifest.json",
+  "AGENTS.md",
+  "tokens.json",
+  "components.json",
+  "acceptance.json",
+  "product spec",
+  "applicable register study"
+ ],
+ "compatibility": {
+  "legacy_register_class": "night",
+  "preferred_register_attribute": "data-register"
+ },
+ "files": {
+  "contract": [
+   "AGENTS.md"
+  ],
+  "machine": [
+   "manifest.json",
+   "tokens.json",
+   "components.json",
+   "acceptance.json",
+   "icons.json"
+  ],
+  "build": [
+   "build-agent-kit.py",
+   "build-swiftui-tokens.py",
+   "validate-agent-kit.py"
+  ],
+  "generated": [
+   "tokens.css",
+   "AleronDesignTokens.swift"
+  ],
+  "implementation": [
+   "components.css",
+   "prototype-starter.html"
+  ],
+  "audits": [
+   "air-audit.js",
+   "copy-audit.js"
+  ],
+  "schemas": [
+   "schemas/manifest.schema.json",
+   "schemas/tokens.schema.json",
+   "schemas/components.schema.json",
+   "schemas/acceptance.schema.json"
+  ],
+  "fonts": [
+   "fonts/PolySans-Slim.ttf",
+   "fonts/PolySans-Neutral.ttf",
+   "fonts/PolySans-NeutralItalic.ttf",
+   "fonts/PolySans-Median.ttf",
+   "fonts/PolySans-MedianItalic.ttf",
+   "fonts/PolySans-Bulky.ttf"
+  ],
+  "icons": [
+   "icons/plan.svg",
+   "icons/quality-of-life.svg",
+   "icons/your-data.svg",
+   "icons/risk.svg",
+   "icons/chat.svg",
+   "icons/appointments.svg"
+  ],
+  "studies": [
+   "register.html",
+   "physician-register.html"
+  ],
+  "reference": [
+   "index.html",
+   "DESIGN_SYSTEM.md",
+   "../brand-deck/index.html"
+  ]
+ }
 }

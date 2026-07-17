@@ -24,10 +24,13 @@ Before implementation, state three sentences:
 ## Implementation contract
 
 - New web prototypes import `tokens.css` and `components.css`.
+- New iOS work imports `AleronDesignTokens.swift`, generated from `tokens.json` by `build-swiftui-tokens.py`. The register is a per-surface design decision, never a dark-mode response: do not map `AleronRegister` to `UITraitCollection.userInterfaceStyle` or `ColorScheme`. PolySans faces live in `fonts/` and must be added to the target and declared under UIAppFonts.
 - Select a register with `data-register="day"` or `data-register="flight-deck"` on the surface root.
 - The legacy `.night` class remains supported only for existing surfaces.
 - Use component IDs and selectors from `components.json`.
+- Use icons from `icons.json` and the `icons/` SVG set. Never redraw a codified icon, never invent a local glyph.
 - Use semantic tokens in components. Do not write raw color or spacing literals at the point of use.
+- To mirror the kit, fetch the complete `files` inventory in `manifest.json`; `validate-agent-kit.py` existence-checks every listed path.
 - Every clinical value includes its unit every time it appears.
 - Do not use the audit face on product surfaces. It survives only in the wordmark tag.
 - Do not use em dashes in user-facing prose.
