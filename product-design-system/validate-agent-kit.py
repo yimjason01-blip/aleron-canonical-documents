@@ -97,6 +97,9 @@ for test in acceptance.get('tests',[]):
 for group in ['authority','generated_assets','implementation_assets','audits']:
     for label,ref in manifest.get(group,{}).items():
         if not (ROOT/ref.split('#')[0].split('?')[0]).is_file(): errors.append(f'manifest {group}.{label}: missing {ref}')
+for label,refs in manifest.get('files',{}).items():
+    for ref in refs:
+        if not (ROOT/ref.split('#')[0].split('?')[0]).is_file(): errors.append(f'manifest files.{label}: missing {ref}')
 for register,spec in manifest.get('registers',{}).items():
     if not (ROOT/spec.get('study','')).is_file(): errors.append(f'manifest register {register}: missing study')
 for face in tokens.get('font_faces',[]):
@@ -147,10 +150,15 @@ if 'fixture.apob.value' not in starter or 'fixture.apob.unit' not in starter: er
 
 proc=subprocess.run([sys.executable,str(ROOT/'build-agent-kit.py'),'--check'],capture_output=True,text=True)
 if proc.returncode: errors.append(proc.stderr.strip() or proc.stdout.strip())
+swift_gen=ROOT/'build-swiftui-tokens.py'
+if swift_gen.is_file():
+    proc=subprocess.run([sys.executable,str(swift_gen),'--check'],capture_output=True,text=True)
+    if proc.returncode: errors.append(proc.stderr.strip() or proc.stdout.strip())
 for js in ['air-audit.js','copy-audit.js']:
     proc=subprocess.run(['node','--check',str(ROOT/js)],capture_output=True,text=True)
     if proc.returncode: errors.append(f'{js}: {proc.stderr.strip()}')
-for py in ['build-agent-kit.py','validate-agent-kit.py']:
+for py in ['build-agent-kit.py','build-swiftui-tokens.py','validate-agent-kit.py']:
+    if not (ROOT/py).is_file(): continue
     proc=subprocess.run([sys.executable,'-m','py_compile',str(ROOT/py)],capture_output=True,text=True)
     if proc.returncode: errors.append(f'{py}: {proc.stderr.strip()}')
 if errors:

@@ -84,8 +84,11 @@
   --air-group: 26px;
   --air-tier: 20px;
   --air-section: 44px;
-  --nav-w: 200px;
+  --nav-w: 188px;
+  --rail-hinge: 760px;
   --page-max: 1240px;
+  --z-raised: 100;
+  --z-overlay: 200;
   --radius-panel: 18px;
   --radius-tier1: 16px;
   --radius-tier2: 12px;
@@ -124,6 +127,7 @@
   --control-disabled-bg: var(--day-surface-inset);
   --control-disabled-fg: rgba(29,27,24,0.38);
   --shadow-tier1: var(--day-shadow-tier1);
+  --scrim: rgba(29,27,24,0.28);
 }
 .night, [data-register="flight-deck"] {
   --ground: var(--navy);
@@ -150,4 +154,5 @@
   --control-disabled-bg: rgba(245,241,232,0.12);
   --control-disabled-fg: rgba(245,241,232,0.30);
   --shadow-tier1: 0 0 0 1px rgba(245,241,232,0.10);
+  --scrim: rgba(0,0,0,0.48);
 }
