@@ -1,4 +1,4 @@
-import { RISK_DOMAINS } from './riskActionLibrary.js?v=risk-domain-action-space-v1';
+import { RISK_DOMAINS } from './riskActionLibrary.js?v=risk-domain-action-space-v2';
 
 const esc = (value) => String(value ?? '')
   .replace(/&/g, '&amp;')
@@ -91,6 +91,44 @@ function findAction(domain, slug) {
   return null;
 }
 
+function normalizedActionId(value) {
+  return String(value ?? '').trim().toLowerCase().replaceAll('-', '_');
+}
+
+function riskArrCoordinates(model) {
+  return Array.isArray(model?.actionMap?.riskArrCoordinates)
+    ? model.actionMap.riskArrCoordinates
+    : [];
+}
+
+function coordinateForAction(model, action) {
+  const slug = normalizedActionId(action?.slug);
+  return riskArrCoordinates(model).find((coordinate) =>
+    normalizedActionId(coordinate?.native_action_id) === slug
+  ) ?? null;
+}
+
+function asFinite(value) {
+  const number = Number(value);
+  return Number.isFinite(number) ? number : null;
+}
+
+function percent(value, digits = 1) {
+  const number = asFinite(value);
+  return number === null ? null : `${Number((number * 100).toFixed(digits))}%`;
+}
+
+function modelRowsWithBaseline(domain, coordinate) {
+  if (!coordinate || coordinate.coordinate_status !== 'materialized') return domain.modelRows;
+  const baseline = percent(coordinate.baseline?.probability);
+  if (!baseline) return domain.modelRows;
+  const horizon = asFinite(coordinate.baseline?.horizon_years);
+  const display = horizon === null ? baseline : `${baseline} at ${Number(horizon)} years`;
+  return domain.modelRows.map(([key, value]) =>
+    key === 'Baseline risk' ? [key, display] : [key, value]
+  );
+}
+
 function runtimeModelRows(model, domain) {
   const runtimeIds = new Set(domain.runtimeIds ?? [domain.modelId]);
   const emitted = (model?.risk ?? []).find((row) => runtimeIds.has(row.id));
@@ -113,10 +151,18 @@ export function riskSpaceView(model, state) {
     ?? RISK_DOMAINS.find((d) => d.modelId === state.selectedRiskId)?.id;
   const domain = RISK_DOMAINS.find((d) => d.id === selectedDomainId) ?? RISK_DOMAINS[0];
   const selected = findAction(domain, state.selectedRiskAction) ?? { action: domain.lanes[0].actions[0], lane: domain.lanes[0] };
+  const selectedCoordinate = coordinateForAction(model, selected.action);
+  const domainCoordinate = selectedCoordinate ?? riskArrCoordinates(model).find((coordinate) =>
+    coordinate?.coordinate_status === 'materialized' &&
+    domain.lanes.some((lane) => lane.actions.some((action) =>
+      normalizedActionId(action.slug) === normalizedActionId(coordinate?.native_action_id)
+    ))
+  ) ?? null;
+  const hasMaterializedCoordinate = riskArrCoordinates(model).some((coordinate) => coordinate?.coordinate_status === 'materialized');
 
   const tabs = RISK_DOMAINS.map((d) => `<button type="button" id="risk-domain-tab-${esc(d.id)}" data-rs-domain="${esc(d.id)}" data-risk-domain="${esc(d.modelId)}" role="tab" aria-controls="risk-domain-panel" aria-selected="${d.id === domain.id}" tabindex="${d.id === domain.id ? '0' : '-1'}" class="rs-tab${d.id === domain.id ? ' on' : ''}">${esc(d.title)}<span class="rs-tab-count">${d.ready} / ${d.total} ready</span></button>`).join('');
 
-  const modelRows = [...domain.modelRows, ...runtimeModelRows(model, domain)]
+  const modelRows = [...modelRowsWithBaseline(domain, domainCoordinate), ...runtimeModelRows(model, domain)]
     .map(([k, v]) => `<li><span class="k">${esc(k)}</span><span class="v">${esc(v)}</span></li>`).join('');
 
   const lanes = domain.lanes.map((laneDef) => `
@@ -138,10 +184,8 @@ export function riskSpaceView(model, state) {
       <div class="rs-confidence">Confidence · ${esc(action.confidence.charAt(0) + action.confidence.slice(1).toLowerCase())}</div>
     </div>`)).join('');
 
-  const detail = `${fmtEffect(selected.action)}. Matrix confidence ${selected.action.confidence} per ARR V1 census. ${selected.action.contrast}.`;
-
   return `
-    <header class="screen-head"><div><h1>Risk</h1><p>Native relative effects by disease domain. Baseline risk not yet emitted; absolute risk reduction appears when it is.</p></div></header>
+    <header class="screen-head"><div><h1>Risk</h1><p>${hasMaterializedCoordinate ? 'Patient-conditioned baseline risk and absolute risk reduction are emitted where endpoint-compatible.' : 'Native relative effects by disease domain. Baseline risk not yet emitted; absolute risk reduction appears when it is.'}</p></div></header>
     <nav class="rs-tabs" role="tablist" aria-label="Risk domains">${tabs}</nav>
     <div class="rs-workspace" id="risk-domain-panel" role="tabpanel" aria-labelledby="risk-domain-tab-${esc(domain.id)}">
       <section class="rs-main">
@@ -159,12 +203,5 @@ export function riskSpaceView(model, state) {
           ${ledger}
         </section>
       </section>
-      <aside class="rs-rail" aria-label="${esc(domain.title)} domain context">
-        <section class="panel rs-detail"><div class="panel-head"><h3>Action detail</h3></div>
-          <div class="rs-detail-key">${esc(`${selected.action.key} · ${selected.lane.label}`)}</div>
-          <strong>${esc(selected.action.name)}</strong>
-          <p>${esc(detail)}</p>
-        </section>
-      </aside>
     </div>`;
 }

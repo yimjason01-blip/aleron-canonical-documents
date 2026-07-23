@@ -825,6 +825,7 @@ export function adaptPhysicianCase(caseBundle) {
     vitality,
     actionMap: {
       items: normalizeActionSpace({ action_map_state: actionMap }),
+      riskArrCoordinates: array(actionMap.risk_arr_coordinates),
       required: array(actionMap.required_items),
       excluded: array(actionMap.excluded_items),
       warnings: array(actionMap.warnings),
