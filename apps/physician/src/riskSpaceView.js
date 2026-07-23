@@ -178,10 +178,10 @@ function arrCard(selected, coordinate) {
   }
   const arrPp = Number((arr * 100).toFixed(1));
   const arrRange = arrValues.length
-    ? ` [${Number((Math.min(...arrValues) * 100).toFixed(1))}–${Number((Math.max(...arrValues) * 100).toFixed(1))}]`
+    ? `[${Number((Math.min(...arrValues) * 100).toFixed(1))}–${Number((Math.max(...arrValues) * 100).toFixed(1))}]`
     : '';
   const nntRange = nntValues.length
-    ? `${Math.round(Math.min(...nntValues))}–${Math.round(Math.max(...nntValues))} across the interval`
+    ? `interval ${Math.round(Math.min(...nntValues))}–${Math.round(Math.max(...nntValues))}`
     : '';
   const benefitPct = Number(benefit(selected.action).b.toFixed(1));
   const confidence = String(coordinate.matrix_confidence ?? selected.action.confidence ?? '').toUpperCase();
@@ -192,12 +192,12 @@ function arrCard(selected, coordinate) {
         <section class="panel rs-arr" aria-label="Patient-conditioned benefit">
           <div class="rs-arr-main">
             <div class="rs-arr-key">${esc(key)}</div>
-            <div class="rs-arr-answer"><span class="rs-arr-hero">${arrPp} fewer events</span><span class="rs-arr-per">per 100 patients${esc(horizonText)}</span></div>
-            <div class="rs-arr-chain">${esc(baseline)} baseline${esc(horizonAt)} × ${esc(fmtEffect(selected.action))} (${benefitPct}% relative benefit) → ARR ${arrPp} percentage points${esc(arrRange)}</div>
+            <div class="rs-arr-answer"><span class="rs-arr-hero">${arrPp} fewer events</span><span class="rs-arr-interval">${esc(arrRange)}</span><span class="rs-arr-per">per 100 patients${esc(horizonText)}</span></div>
+            <div class="rs-arr-chain">${esc(baseline)} baseline${esc(horizonAt)} × ${esc(fmtEffect(selected.action))} (${benefitPct}% relative benefit)</div>
+            <div class="rs-arr-conf">${esc(confidence.charAt(0) + confidence.slice(1).toLowerCase())} ARR translation confidence${esc(transport)}</div>
           </div>
           <div class="rs-arr-side">
             <div class="rs-arr-nnt"><span class="rs-arr-nnt-value">${nnt === null ? 'NNT not emitted' : `NNT ${Math.round(nnt)}`}</span><span class="rs-arr-nnt-range">${esc(nntRange)}</span></div>
-            <div class="rs-arr-conf">${esc(confidence.charAt(0) + confidence.slice(1).toLowerCase())} ARR translation confidence${esc(transport)}</div>
           </div>
         </section>`;
 }
