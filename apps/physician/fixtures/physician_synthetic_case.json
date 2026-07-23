@@ -3510,7 +3510,2748 @@
           ]
         }
       ],
-      "warnings": []
+      "warnings": [],
+      "risk_arr_coordinates": [
+        {
+          "source_key": "ascvd:ascvd-bp-lowering",
+          "native_action_id": "ascvd-bp-lowering",
+          "source_family": "ascvd",
+          "assigned_target_id": "PREVENT_ASCVD_FIRST_EVENT",
+          "endpoint": "PREVENT_ASCVD_FIRST_EVENT",
+          "horizon_years": 10,
+          "production_ready": true,
+          "effect_rateability": "rateable",
+          "coordinate_status": "materialized",
+          "blocked_reason": null,
+          "matrix_confidence": "LOW",
+          "baseline": {
+            "target_id": "PREVENT_ASCVD_FIRST_EVENT",
+            "endpoint": "PREVENT_ASCVD_FIRST_EVENT",
+            "horizon_years": 10,
+            "probability": 0.1,
+            "calculation_state": "calculated",
+            "model_id": "prevent",
+            "model_version": "3.0.0",
+            "output_id": "prevent:ascvd:10y",
+            "clinical_use": "staging_nonproduction"
+          },
+          "native_effect": {
+            "measure": "HR",
+            "estimate": 0.93,
+            "contrast": "candesartan 16 mg plus hydrochlorothiazide 12.5 mg once daily versus matching placebo once daily for the first coprimary outcome"
+          },
+          "native_effect_95_interval": {
+            "lower": 0.79,
+            "upper": 1.1,
+            "level": 0.95
+          },
+          "effect_transport": "decision_grade_hazard_projection",
+          "technique": {
+            "technique_id": "V1_DECISION_GRADE",
+            "kernel_id": "RISK_ARR_V1",
+            "authority": "method.risk_arr_action_map.v1.2"
+          },
+          "transport_disclosure": {
+            "source_horizon_semantics": "median randomized follow-up 5.6 years, IQR 5.2 to 6.2 years; source-native time-to-first-event horizon with no extrapolation",
+            "baseline_horizon_years": 10,
+            "endpoint_relationship": "SUPERSET_PROXY",
+            "confidence_authority": "census.matrix_confidence",
+            "estimate_boundary": "decision-grade, patient-conditioned, not individually predicted"
+          },
+          "interval_scenarios": [
+            {
+              "scenario": "conservative",
+              "native_effect_value": 1.1,
+              "treated_probability": 0.10943266761440706,
+              "arr": -0.009432667614407059,
+              "nnt": null
+            },
+            {
+              "scenario": "central",
+              "native_effect_value": 0.93,
+              "treated_probability": 0.09333774987867083,
+              "arr": 0.006662250121329177,
+              "nnt": 150.09943814605555
+            },
+            {
+              "scenario": "optimistic",
+              "native_effect_value": 0.79,
+              "treated_probability": 0.07986493264237371,
+              "arr": 0.020135067357626296,
+              "nnt": 49.66459670775539
+            }
+          ],
+          "patient_coordinate": {
+            "baseline_probability": 0.1,
+            "treated_probability": 0.09333774987867083,
+            "arr": 0.006662250121329177,
+            "nnt": 150.09943814605555,
+            "units": "probability",
+            "personalization_label": "patient-conditioned, not individually predicted"
+          },
+          "source_identity": {
+            "pmid": "27041480",
+            "pmcid": null,
+            "doi": "10.1056/NEJMoa1600175",
+            "citation_resolved": true
+          },
+          "clinical_use_prohibited": true
+        },
+        {
+          "source_key": "ascvd:ascvd-ezetimibe",
+          "native_action_id": "ascvd-ezetimibe",
+          "source_family": "ascvd",
+          "assigned_target_id": "PREVENT_ASCVD_FIRST_EVENT",
+          "endpoint": "PREVENT_ASCVD_FIRST_EVENT",
+          "horizon_years": 10,
+          "production_ready": true,
+          "effect_rateability": "rateable",
+          "coordinate_status": "materialized",
+          "blocked_reason": null,
+          "matrix_confidence": "LOW",
+          "baseline": {
+            "target_id": "PREVENT_ASCVD_FIRST_EVENT",
+            "endpoint": "PREVENT_ASCVD_FIRST_EVENT",
+            "horizon_years": 10,
+            "probability": 0.1,
+            "calculation_state": "calculated",
+            "model_id": "prevent",
+            "model_version": "3.0.0",
+            "output_id": "prevent:ascvd:10y",
+            "clinical_use": "staging_nonproduction"
+          },
+          "native_effect": {
+            "measure": "RR",
+            "estimate": 0.75,
+            "contrast": "per 1 mmol/L LDL-C reduction for the pooled established-nonstatin mechanism class, not an ezetimibe-only estimate"
+          },
+          "native_effect_95_interval": {
+            "lower": 0.66,
+            "upper": 0.86,
+            "level": 0.95
+          },
+          "effect_transport": "decision_grade_risk_ratio_projection",
+          "technique": {
+            "technique_id": "V1_DECISION_GRADE",
+            "kernel_id": "RISK_ARR_V1",
+            "authority": "method.risk_arr_action_map.v1.2"
+          },
+          "transport_disclosure": {
+            "source_horizon_semantics": "Class-source trials lasted at least 6 months with heterogeneous horizons; exact-action IMPROVE-IT median follow-up was 6 years",
+            "baseline_horizon_years": 10,
+            "endpoint_relationship": "SUPERSET_PROXY",
+            "confidence_authority": "census.matrix_confidence",
+            "estimate_boundary": "decision-grade, patient-conditioned, not individually predicted"
+          },
+          "interval_scenarios": [
+            {
+              "scenario": "conservative",
+              "native_effect_value": 0.86,
+              "treated_probability": 0.08600000000000001,
+              "arr": 0.013999999999999999,
+              "nnt": 71.42857142857143
+            },
+            {
+              "scenario": "central",
+              "native_effect_value": 0.75,
+              "treated_probability": 0.07500000000000001,
+              "arr": 0.024999999999999994,
+              "nnt": 40.00000000000001
+            },
+            {
+              "scenario": "optimistic",
+              "native_effect_value": 0.66,
+              "treated_probability": 0.066,
+              "arr": 0.034,
+              "nnt": 29.41176470588235
+            }
+          ],
+          "patient_coordinate": {
+            "baseline_probability": 0.1,
+            "treated_probability": 0.07500000000000001,
+            "arr": 0.024999999999999994,
+            "nnt": 40.00000000000001,
+            "units": "probability",
+            "personalization_label": "patient-conditioned, not individually predicted"
+          },
+          "source_identity": {
+            "pmid": "27673306",
+            "pmcid": null,
+            "doi": "10.1001/jama.2016.13985",
+            "citation_resolved": true
+          },
+          "clinical_use_prohibited": true
+        },
+        {
+          "source_key": "ascvd:ascvd-mediterranean-diet",
+          "native_action_id": "ascvd-mediterranean-diet",
+          "source_family": "ascvd",
+          "assigned_target_id": "PREVENT_ASCVD_FIRST_EVENT",
+          "endpoint": "PREVENT_ASCVD_FIRST_EVENT",
+          "horizon_years": 10,
+          "production_ready": true,
+          "effect_rateability": "rateable",
+          "coordinate_status": "materialized",
+          "blocked_reason": null,
+          "matrix_confidence": "LOW",
+          "baseline": {
+            "target_id": "PREVENT_ASCVD_FIRST_EVENT",
+            "endpoint": "PREVENT_ASCVD_FIRST_EVENT",
+            "horizon_years": 10,
+            "probability": 0.1,
+            "calculation_state": "calculated",
+            "model_id": "prevent",
+            "model_version": "3.0.0",
+            "output_id": "prevent:ascvd:10y",
+            "clinical_use": "staging_nonproduction"
+          },
+          "native_effect": {
+            "measure": "HR",
+            "estimate": 0.69,
+            "contrast": "Mediterranean diet plus extra-virgin olive oil versus reduced-fat advice"
+          },
+          "native_effect_95_interval": {
+            "lower": 0.53,
+            "upper": 0.91,
+            "level": 0.95
+          },
+          "effect_transport": "decision_grade_hazard_projection",
+          "technique": {
+            "technique_id": "V1_DECISION_GRADE",
+            "kernel_id": "RISK_ARR_V1",
+            "authority": "method.risk_arr_action_map.v1.2"
+          },
+          "transport_disclosure": {
+            "source_horizon_semantics": "median follow-up 4.8 years; trial stopped at a prespecified interim analysis",
+            "baseline_horizon_years": 10,
+            "endpoint_relationship": "SUPERSET_PROXY",
+            "confidence_authority": "census.matrix_confidence",
+            "estimate_boundary": "decision-grade, patient-conditioned, not individually predicted"
+          },
+          "interval_scenarios": [
+            {
+              "scenario": "conservative",
+              "native_effect_value": 0.91,
+              "treated_probability": 0.09142520747782379,
+              "arr": 0.008574792522176217,
+              "nnt": 116.62089752186887
+            },
+            {
+              "scenario": "central",
+              "native_effect_value": 0.69,
+              "treated_probability": 0.07011909093549806,
+              "arr": 0.029880909064501943,
+              "nnt": 33.46618397189209
+            },
+            {
+              "scenario": "optimistic",
+              "native_effect_value": 0.53,
+              "treated_probability": 0.05431058075203454,
+              "arr": 0.04568941924796546,
+              "nnt": 21.88690546869951
+            }
+          ],
+          "patient_coordinate": {
+            "baseline_probability": 0.1,
+            "treated_probability": 0.07011909093549806,
+            "arr": 0.029880909064501943,
+            "nnt": 33.46618397189209,
+            "units": "probability",
+            "personalization_label": "patient-conditioned, not individually predicted"
+          },
+          "source_identity": {
+            "pmid": "29897866",
+            "pmcid": null,
+            "doi": "10.1056/NEJMoa1800389",
+            "citation_resolved": true
+          },
+          "clinical_use_prohibited": true
+        },
+        {
+          "source_key": "ascvd:ascvd-pcsk9-inhibitor",
+          "native_action_id": "ascvd-pcsk9-inhibitor",
+          "source_family": "ascvd",
+          "assigned_target_id": "PREVENT_ASCVD_FIRST_EVENT",
+          "endpoint": "PREVENT_ASCVD_FIRST_EVENT",
+          "horizon_years": 10,
+          "production_ready": true,
+          "effect_rateability": "rateable",
+          "coordinate_status": "materialized",
+          "blocked_reason": null,
+          "matrix_confidence": "LOW",
+          "baseline": {
+            "target_id": "PREVENT_ASCVD_FIRST_EVENT",
+            "endpoint": "PREVENT_ASCVD_FIRST_EVENT",
+            "horizon_years": 10,
+            "probability": 0.1,
+            "calculation_state": "calculated",
+            "model_id": "prevent",
+            "model_version": "3.0.0",
+            "output_id": "prevent:ascvd:10y",
+            "clinical_use": "staging_nonproduction"
+          },
+          "native_effect": {
+            "measure": "RR",
+            "estimate": 0.49,
+            "contrast": "observed pooled PCSK9-inhibitor trial risk ratio versus trial controls in the class source"
+          },
+          "native_effect_95_interval": {
+            "lower": 0.34,
+            "upper": 0.71,
+            "level": 0.95
+          },
+          "effect_transport": "decision_grade_risk_ratio_projection",
+          "technique": {
+            "technique_id": "V1_DECISION_GRADE",
+            "kernel_id": "RISK_ARR_V1",
+            "authority": "method.risk_arr_action_map.v1.2"
+          },
+          "transport_disclosure": {
+            "source_horizon_semantics": "Class-source trials lasted at least 6 months with no single subset horizon; exact-action FOURIER median follow-up was 2.2 years",
+            "baseline_horizon_years": 10,
+            "endpoint_relationship": "SUPERSET_PROXY",
+            "confidence_authority": "census.matrix_confidence",
+            "estimate_boundary": "decision-grade, patient-conditioned, not individually predicted"
+          },
+          "interval_scenarios": [
+            {
+              "scenario": "conservative",
+              "native_effect_value": 0.71,
+              "treated_probability": 0.071,
+              "arr": 0.029000000000000012,
+              "nnt": 34.482758620689644
+            },
+            {
+              "scenario": "central",
+              "native_effect_value": 0.49,
+              "treated_probability": 0.049,
+              "arr": 0.051000000000000004,
+              "nnt": 19.6078431372549
+            },
+            {
+              "scenario": "optimistic",
+              "native_effect_value": 0.34,
+              "treated_probability": 0.034,
+              "arr": 0.066,
+              "nnt": 15.15151515151515
+            }
+          ],
+          "patient_coordinate": {
+            "baseline_probability": 0.1,
+            "treated_probability": 0.049,
+            "arr": 0.051000000000000004,
+            "nnt": 19.6078431372549,
+            "units": "probability",
+            "personalization_label": "patient-conditioned, not individually predicted"
+          },
+          "source_identity": {
+            "pmid": "27673306",
+            "pmcid": null,
+            "doi": "10.1001/jama.2016.13985",
+            "citation_resolved": true
+          },
+          "clinical_use_prohibited": true
+        },
+        {
+          "source_key": "ascvd:ascvd-physical-activity",
+          "native_action_id": "ascvd-physical-activity",
+          "source_family": "ascvd",
+          "assigned_target_id": "PREVENT_ASCVD_FIRST_EVENT",
+          "endpoint": "PREVENT_ASCVD_FIRST_EVENT",
+          "horizon_years": null,
+          "production_ready": false,
+          "effect_rateability": "not_rateable",
+          "coordinate_status": "unmaterialized_non_production_ready",
+          "blocked_reason": "ASSOCIATION_ONLY",
+          "matrix_confidence": "NOT_ADMITTED",
+          "baseline": null,
+          "native_effect": {
+            "measure": "HR",
+            "estimate": 0.6,
+            "contrast": "highest (>52.0 MET-h/day) versus lowest (<=16.0 MET-h/day) total-activity-volume quartile"
+          },
+          "native_effect_95_interval": {
+            "lower": 0.55,
+            "upper": 0.67,
+            "level": 0.95
+          },
+          "effect_transport": null,
+          "technique": null,
+          "transport_disclosure": null,
+          "interval_scenarios": [],
+          "patient_coordinate": null,
+          "source_identity": {
+            "pmid": "39993710",
+            "pmcid": "PMC12302729",
+            "doi": "10.1016/j.jshs.2025.101031",
+            "citation_resolved": true
+          },
+          "clinical_use_prohibited": true
+        },
+        {
+          "source_key": "ascvd:ascvd-smoking-cessation",
+          "native_action_id": "ascvd-smoking-cessation",
+          "source_family": "ascvd",
+          "assigned_target_id": "PREVENT_ASCVD_FIRST_EVENT",
+          "endpoint": "PREVENT_ASCVD_FIRST_EVENT",
+          "horizon_years": null,
+          "production_ready": false,
+          "effect_rateability": "not_rateable",
+          "coordinate_status": "unmaterialized_non_production_ready",
+          "blocked_reason": "ASSOCIATION_ONLY",
+          "matrix_confidence": "NOT_ADMITTED",
+          "baseline": null,
+          "native_effect": {
+            "measure": "HR",
+            "estimate": 0.56,
+            "contrast": "long-term quitters (>5 years) versus sustained smokers"
+          },
+          "native_effect_95_interval": {
+            "lower": 0.49,
+            "upper": 0.64,
+            "level": 0.95
+          },
+          "effect_transport": null,
+          "technique": null,
+          "transport_disclosure": null,
+          "interval_scenarios": [],
+          "patient_coordinate": null,
+          "source_identity": {
+            "pmid": "34083407",
+            "pmcid": null,
+            "doi": "10.1136/heartjnl-2021-318972",
+            "citation_resolved": true
+          },
+          "clinical_use_prohibited": true
+        },
+        {
+          "source_key": "ascvd:ascvd-statin-high-intensity",
+          "native_action_id": "ascvd-statin-high-intensity",
+          "source_family": "ascvd",
+          "assigned_target_id": "PREVENT_ASCVD_FIRST_EVENT",
+          "endpoint": "PREVENT_ASCVD_FIRST_EVENT",
+          "horizon_years": 10,
+          "production_ready": true,
+          "effect_rateability": "rateable",
+          "coordinate_status": "materialized",
+          "blocked_reason": null,
+          "matrix_confidence": "LOW",
+          "baseline": {
+            "target_id": "PREVENT_ASCVD_FIRST_EVENT",
+            "endpoint": "PREVENT_ASCVD_FIRST_EVENT",
+            "horizon_years": 10,
+            "probability": 0.1,
+            "calculation_state": "calculated",
+            "model_id": "prevent",
+            "model_version": "3.0.0",
+            "output_id": "prevent:ascvd:10y",
+            "clinical_use": "staging_nonproduction"
+          },
+          "native_effect": {
+            "measure": "RR",
+            "estimate": 0.78,
+            "contrast": "per 1.0 mmol/L LDL-C reduction across both trial types"
+          },
+          "native_effect_95_interval": {
+            "lower": 0.76,
+            "upper": 0.8,
+            "level": 0.95
+          },
+          "effect_transport": "decision_grade_risk_ratio_projection",
+          "technique": {
+            "technique_id": "V1_DECISION_GRADE",
+            "kernel_id": "RISK_ARR_V1",
+            "authority": "method.risk_arr_action_map.v1.2"
+          },
+          "transport_disclosure": {
+            "source_horizon_semantics": "median follow-up 5.1 years for more-versus-less intensive trials and 4.8 years for statin-versus-control trials",
+            "baseline_horizon_years": 10,
+            "endpoint_relationship": "PARTIAL_OVERLAP",
+            "confidence_authority": "census.matrix_confidence",
+            "estimate_boundary": "decision-grade, patient-conditioned, not individually predicted"
+          },
+          "interval_scenarios": [
+            {
+              "scenario": "conservative",
+              "native_effect_value": 0.8,
+              "treated_probability": 0.08000000000000002,
+              "arr": 0.01999999999999999,
+              "nnt": 50.00000000000003
+            },
+            {
+              "scenario": "central",
+              "native_effect_value": 0.78,
+              "treated_probability": 0.07800000000000001,
+              "arr": 0.021999999999999992,
+              "nnt": 45.454545454545475
+            },
+            {
+              "scenario": "optimistic",
+              "native_effect_value": 0.76,
+              "treated_probability": 0.07600000000000001,
+              "arr": 0.023999999999999994,
+              "nnt": 41.66666666666668
+            }
+          ],
+          "patient_coordinate": {
+            "baseline_probability": 0.1,
+            "treated_probability": 0.07800000000000001,
+            "arr": 0.021999999999999992,
+            "nnt": 45.454545454545475,
+            "units": "probability",
+            "personalization_label": "patient-conditioned, not individually predicted"
+          },
+          "source_identity": {
+            "pmid": "21067804",
+            "pmcid": "PMC2988224",
+            "doi": "10.1016/S0140-6736(10)61350-5",
+            "citation_resolved": true
+          },
+          "clinical_use_prohibited": true
+        },
+        {
+          "source_key": "cancer:breast-anastrozole-ibis-ii-incidence",
+          "native_action_id": "breast-anastrozole-ibis-ii-incidence",
+          "source_family": "cancer",
+          "assigned_target_id": "BREAST_CANCER_INCIDENCE",
+          "endpoint": "BREAST_CANCER_INCIDENCE",
+          "horizon_years": null,
+          "production_ready": true,
+          "effect_rateability": "rateable",
+          "coordinate_status": "parameterized_missing_baseline",
+          "blocked_reason": "MISSING_COMPATIBLE_BASELINE",
+          "matrix_confidence": "MODERATE",
+          "baseline": null,
+          "native_effect": {
+            "measure": "HR",
+            "estimate": 0.47,
+            "contrast": "anastrozole 1 mg orally daily versus matching placebo for invasive breast cancer or DCIS"
+          },
+          "native_effect_95_interval": {
+            "lower": 0.32,
+            "upper": 0.68,
+            "level": 0.95
+          },
+          "effect_transport": null,
+          "technique": null,
+          "transport_disclosure": null,
+          "interval_scenarios": [],
+          "patient_coordinate": null,
+          "source_identity": {
+            "pmid": "24333009",
+            "pmcid": null,
+            "doi": "10.1016/S0140-6736(13)62292-8",
+            "citation_resolved": true
+          },
+          "clinical_use_prohibited": true
+        },
+        {
+          "source_key": "cancer:breast-exemestane-map3-invasive-incidence",
+          "native_action_id": "breast-exemestane-map3-invasive-incidence",
+          "source_family": "cancer",
+          "assigned_target_id": "BREAST_CANCER_INCIDENCE",
+          "endpoint": "BREAST_CANCER_INCIDENCE",
+          "horizon_years": null,
+          "production_ready": true,
+          "effect_rateability": "rateable",
+          "coordinate_status": "parameterized_missing_baseline",
+          "blocked_reason": "MISSING_COMPATIBLE_BASELINE",
+          "matrix_confidence": "MODERATE",
+          "baseline": null,
+          "native_effect": {
+            "measure": "HR",
+            "estimate": 0.35,
+            "contrast": "exemestane 25 mg orally once daily versus matching placebo for invasive breast-cancer incidence"
+          },
+          "native_effect_95_interval": {
+            "lower": 0.18,
+            "upper": 0.7,
+            "level": 0.95
+          },
+          "effect_transport": null,
+          "technique": null,
+          "transport_disclosure": null,
+          "interval_scenarios": [],
+          "patient_coordinate": null,
+          "source_identity": {
+            "pmid": "21639806",
+            "pmcid": null,
+            "doi": "10.1056/NEJMoa1103507",
+            "citation_resolved": true
+          },
+          "clinical_use_prohibited": true
+        },
+        {
+          "source_key": "cancer:breast-tamoxifen-nsabp-p1-invasive-incidence",
+          "native_action_id": "breast-tamoxifen-nsabp-p1-invasive-incidence",
+          "source_family": "cancer",
+          "assigned_target_id": "BREAST_CANCER_INCIDENCE",
+          "endpoint": "BREAST_CANCER_INCIDENCE",
+          "horizon_years": null,
+          "production_ready": true,
+          "effect_rateability": "rateable",
+          "coordinate_status": "parameterized_missing_baseline",
+          "blocked_reason": "MISSING_COMPATIBLE_BASELINE",
+          "matrix_confidence": "MODERATE",
+          "baseline": null,
+          "native_effect": {
+            "measure": "RR",
+            "estimate": 0.51,
+            "contrast": "tamoxifen 20 mg/day versus placebo for invasive breast-cancer incidence"
+          },
+          "native_effect_95_interval": {
+            "lower": 0.39,
+            "upper": 0.66,
+            "level": 0.95
+          },
+          "effect_transport": null,
+          "technique": null,
+          "transport_disclosure": null,
+          "interval_scenarios": [],
+          "patient_coordinate": null,
+          "source_identity": {
+            "pmid": "9747868",
+            "pmcid": null,
+            "doi": "10.1093/jnci/90.18.1371",
+            "citation_resolved": true
+          },
+          "clinical_use_prohibited": true
+        },
+        {
+          "source_key": "cancer:crc-colonoscopy-nordicc-invitation-incidence",
+          "native_action_id": "crc-colonoscopy-nordicc-invitation-incidence",
+          "source_family": "cancer",
+          "assigned_target_id": "COLORECTAL_CANCER_INCIDENCE",
+          "endpoint": "COLORECTAL_CANCER_INCIDENCE",
+          "horizon_years": null,
+          "production_ready": true,
+          "effect_rateability": "rateable",
+          "coordinate_status": "parameterized_missing_baseline",
+          "blocked_reason": "MISSING_COMPATIBLE_BASELINE",
+          "matrix_confidence": "MODERATE",
+          "baseline": null,
+          "native_effect": {
+            "measure": "RR",
+            "estimate": 0.82,
+            "contrast": "intention-to-screen invitation to a single colonoscopy policy versus no invitation and no screening for colorectal-cancer incidence"
+          },
+          "native_effect_95_interval": {
+            "lower": 0.7,
+            "upper": 0.93,
+            "level": 0.95
+          },
+          "effect_transport": null,
+          "technique": null,
+          "transport_disclosure": null,
+          "interval_scenarios": [],
+          "patient_coordinate": null,
+          "source_identity": {
+            "pmid": "36214590",
+            "pmcid": null,
+            "doi": "10.1056/NEJMoa2208375",
+            "citation_resolved": true
+          },
+          "clinical_use_prohibited": true
+        },
+        {
+          "source_key": "cancer:crc-flex-sig-uk-incidence",
+          "native_action_id": "crc-flex-sig-uk-incidence",
+          "source_family": "cancer",
+          "assigned_target_id": "COLORECTAL_CANCER_INCIDENCE",
+          "endpoint": "COLORECTAL_CANCER_INCIDENCE",
+          "horizon_years": null,
+          "production_ready": true,
+          "effect_rateability": "rateable",
+          "coordinate_status": "parameterized_missing_baseline",
+          "blocked_reason": "MISSING_COMPATIBLE_BASELINE",
+          "matrix_confidence": "MODERATE",
+          "baseline": null,
+          "native_effect": {
+            "measure": "HR",
+            "estimate": 0.77,
+            "contrast": "intention-to-treat invitation to once-only flexible sigmoidoscopy policy versus control not contacted for colorectal-cancer incidence"
+          },
+          "native_effect_95_interval": {
+            "lower": 0.7,
+            "upper": 0.84,
+            "level": 0.95
+          },
+          "effect_transport": null,
+          "technique": null,
+          "transport_disclosure": null,
+          "interval_scenarios": [],
+          "patient_coordinate": null,
+          "source_identity": {
+            "pmid": "20430429",
+            "pmcid": null,
+            "doi": "10.1016/S0140-6736(10)60551-X",
+            "citation_resolved": true
+          },
+          "clinical_use_prohibited": true
+        },
+        {
+          "source_key": "cancer:crc-flex-sig-uk-mortality",
+          "native_action_id": "crc-flex-sig-uk-mortality",
+          "source_family": "cancer",
+          "assigned_target_id": "COLORECTAL_CANCER_MORTALITY",
+          "endpoint": "COLORECTAL_CANCER_MORTALITY",
+          "horizon_years": null,
+          "production_ready": true,
+          "effect_rateability": "rateable",
+          "coordinate_status": "parameterized_missing_baseline",
+          "blocked_reason": "MISSING_COMPATIBLE_BASELINE",
+          "matrix_confidence": "MODERATE",
+          "baseline": null,
+          "native_effect": {
+            "measure": "HR",
+            "estimate": 0.69,
+            "contrast": "intention-to-treat invitation to once-only flexible sigmoidoscopy policy versus control not contacted for colorectal-cancer mortality"
+          },
+          "native_effect_95_interval": {
+            "lower": 0.59,
+            "upper": 0.82,
+            "level": 0.95
+          },
+          "effect_transport": null,
+          "technique": null,
+          "transport_disclosure": null,
+          "interval_scenarios": [],
+          "patient_coordinate": null,
+          "source_identity": {
+            "pmid": "20430429",
+            "pmcid": null,
+            "doi": "10.1016/S0140-6736(10)60551-X",
+            "citation_resolved": true
+          },
+          "clinical_use_prohibited": true
+        },
+        {
+          "source_key": "ckd:act_finerenone",
+          "native_action_id": "act_finerenone",
+          "source_family": "ckd",
+          "assigned_target_id": "KIDNEY_DISEASE_PROGRESSION_FIRST_EVENT",
+          "endpoint": "KIDNEY_DISEASE_PROGRESSION_FIRST_EVENT",
+          "horizon_years": null,
+          "production_ready": true,
+          "effect_rateability": "rateable",
+          "coordinate_status": "parameterized_missing_baseline",
+          "blocked_reason": "MISSING_COMPATIBLE_BASELINE",
+          "matrix_confidence": "MODERATE",
+          "baseline": null,
+          "native_effect": {
+            "measure": "HR",
+            "estimate": 0.77,
+            "contrast": "finerenone versus placebo for the composite kidney outcome"
+          },
+          "native_effect_95_interval": {
+            "lower": 0.67,
+            "upper": 0.88,
+            "level": 0.95
+          },
+          "effect_transport": null,
+          "technique": null,
+          "transport_disclosure": null,
+          "interval_scenarios": [],
+          "patient_coordinate": null,
+          "source_identity": {
+            "pmid": "35023547",
+            "pmcid": "PMC8830527",
+            "doi": "10.1093/eurheartj/ehab777",
+            "citation_resolved": true
+          },
+          "clinical_use_prohibited": true
+        },
+        {
+          "source_key": "ckd:act_glp1_ckd",
+          "native_action_id": "act_glp1_ckd",
+          "source_family": "ckd",
+          "assigned_target_id": "MIXED_KIDNEY_CV_DEATH_FIRST_EVENT",
+          "endpoint": "MIXED_KIDNEY_CV_DEATH_FIRST_EVENT",
+          "horizon_years": null,
+          "production_ready": true,
+          "effect_rateability": "rateable",
+          "coordinate_status": "parameterized_missing_baseline",
+          "blocked_reason": "MISSING_COMPATIBLE_BASELINE",
+          "matrix_confidence": "MODERATE",
+          "baseline": null,
+          "native_effect": {
+            "measure": "HR",
+            "estimate": 0.76,
+            "contrast": "semaglutide versus placebo for the primary major-kidney-disease-event composite"
+          },
+          "native_effect_95_interval": {
+            "lower": 0.66,
+            "upper": 0.88,
+            "level": 0.95
+          },
+          "effect_transport": null,
+          "technique": null,
+          "transport_disclosure": null,
+          "interval_scenarios": [],
+          "patient_coordinate": null,
+          "source_identity": {
+            "pmid": "38785209",
+            "pmcid": null,
+            "doi": "10.1056/NEJMoa2403347",
+            "citation_resolved": true
+          },
+          "clinical_use_prohibited": true
+        },
+        {
+          "source_key": "ckd:act_sglt2i_ckd",
+          "native_action_id": "act_sglt2i_ckd",
+          "source_family": "ckd",
+          "assigned_target_id": "KIDNEY_DISEASE_PROGRESSION_FIRST_EVENT",
+          "endpoint": "KIDNEY_DISEASE_PROGRESSION_FIRST_EVENT",
+          "horizon_years": null,
+          "production_ready": true,
+          "effect_rateability": "rateable",
+          "coordinate_status": "parameterized_missing_baseline",
+          "blocked_reason": "MISSING_COMPATIBLE_BASELINE",
+          "matrix_confidence": "MODERATE",
+          "baseline": null,
+          "native_effect": {
+            "measure": "RR",
+            "estimate": 0.63,
+            "contrast": "SGLT2 inhibitor class versus placebo for harmonized kidney disease progression"
+          },
+          "native_effect_95_interval": {
+            "lower": 0.58,
+            "upper": 0.69,
+            "level": 0.95
+          },
+          "effect_transport": null,
+          "technique": null,
+          "transport_disclosure": null,
+          "interval_scenarios": [],
+          "patient_coordinate": null,
+          "source_identity": {
+            "pmid": "36351458",
+            "pmcid": "PMC7613836",
+            "doi": "10.1016/S0140-6736(22)02074-8",
+            "citation_resolved": true
+          },
+          "clinical_use_prohibited": true
+        },
+        {
+          "source_key": "ckd:act_statin_ezetimibe_ckd",
+          "native_action_id": "act_statin_ezetimibe_ckd",
+          "source_family": "ckd",
+          "assigned_target_id": "PREVENT_ASCVD_FIRST_EVENT",
+          "endpoint": "PREVENT_ASCVD_FIRST_EVENT",
+          "horizon_years": 10,
+          "production_ready": true,
+          "effect_rateability": "rateable",
+          "coordinate_status": "materialized",
+          "blocked_reason": null,
+          "matrix_confidence": "LOW",
+          "baseline": {
+            "target_id": "PREVENT_ASCVD_FIRST_EVENT",
+            "endpoint": "PREVENT_ASCVD_FIRST_EVENT",
+            "horizon_years": 10,
+            "probability": 0.1,
+            "calculation_state": "calculated",
+            "model_id": "prevent",
+            "model_version": "3.0.0",
+            "output_id": "prevent:ascvd:10y",
+            "clinical_use": "staging_nonproduction"
+          },
+          "native_effect": {
+            "measure": "RR",
+            "estimate": 0.83,
+            "contrast": "simvastatin 20 mg plus ezetimibe 10 mg daily versus placebo for first major atherosclerotic event"
+          },
+          "native_effect_95_interval": {
+            "lower": 0.74,
+            "upper": 0.94,
+            "level": 0.95
+          },
+          "effect_transport": "decision_grade_risk_ratio_projection",
+          "technique": {
+            "technique_id": "V1_DECISION_GRADE",
+            "kernel_id": "RISK_ARR_V1",
+            "authority": "method.risk_arr_action_map.v1.2"
+          },
+          "transport_disclosure": {
+            "source_horizon_semantics": "Intention-to-treat time-to-first-event analysis over median 4.9 years; no post-trial extrapolation.",
+            "baseline_horizon_years": 10,
+            "endpoint_relationship": "PARTIAL_OVERLAP",
+            "confidence_authority": "census.matrix_confidence",
+            "estimate_boundary": "decision-grade, patient-conditioned, not individually predicted"
+          },
+          "interval_scenarios": [
+            {
+              "scenario": "conservative",
+              "native_effect_value": 0.94,
+              "treated_probability": 0.094,
+              "arr": 0.006000000000000005,
+              "nnt": 166.66666666666652
+            },
+            {
+              "scenario": "central",
+              "native_effect_value": 0.83,
+              "treated_probability": 0.083,
+              "arr": 0.017,
+              "nnt": 58.8235294117647
+            },
+            {
+              "scenario": "optimistic",
+              "native_effect_value": 0.74,
+              "treated_probability": 0.074,
+              "arr": 0.02600000000000001,
+              "nnt": 38.461538461538446
+            }
+          ],
+          "patient_coordinate": {
+            "baseline_probability": 0.1,
+            "treated_probability": 0.083,
+            "arr": 0.017,
+            "nnt": 58.8235294117647,
+            "units": "probability",
+            "personalization_label": "patient-conditioned, not individually predicted"
+          },
+          "source_identity": {
+            "pmid": "21663949",
+            "pmcid": "PMC3145073",
+            "doi": "10.1016/S0140-6736(11)60739-3",
+            "citation_resolved": true
+          },
+          "clinical_use_prohibited": true
+        },
+        {
+          "source_key": "ckd:antihypertensive_rx",
+          "native_action_id": "antihypertensive_rx",
+          "source_family": "ckd",
+          "assigned_target_id": "ALL_CAUSE_MORTALITY",
+          "endpoint": "ALL_CAUSE_MORTALITY",
+          "horizon_years": null,
+          "production_ready": true,
+          "effect_rateability": "rateable",
+          "coordinate_status": "parameterized_missing_baseline",
+          "blocked_reason": "MISSING_COMPATIBLE_BASELINE",
+          "matrix_confidence": "MODERATE",
+          "baseline": null,
+          "native_effect": {
+            "measure": "HR",
+            "estimate": 0.72,
+            "contrast": "protocol-directed systolic-BP target below 120 mm Hg versus protocol-directed target below 140 mm Hg for all-cause mortality in participants with baseline CKD"
+          },
+          "native_effect_95_interval": {
+            "lower": 0.53,
+            "upper": 0.99,
+            "level": 0.95
+          },
+          "effect_transport": null,
+          "technique": null,
+          "transport_disclosure": null,
+          "interval_scenarios": [],
+          "patient_coordinate": null,
+          "source_identity": {
+            "pmid": "28642330",
+            "pmcid": "PMC5576945",
+            "doi": "10.1681/ASN.2017020148",
+            "citation_resolved": true
+          },
+          "clinical_use_prohibited": true
+        },
+        {
+          "source_key": "ckd:metabolic_surgery",
+          "native_action_id": "metabolic_surgery",
+          "source_family": "ckd",
+          "assigned_target_id": "ALL_CAUSE_MORTALITY",
+          "endpoint": "ALL_CAUSE_MORTALITY",
+          "horizon_years": null,
+          "production_ready": false,
+          "effect_rateability": "not_rateable",
+          "coordinate_status": "unmaterialized_non_production_ready",
+          "blocked_reason": "PACKET_INCOMPLETE",
+          "matrix_confidence": "NOT_ADMITTED",
+          "baseline": null,
+          "native_effect": {
+            "measure": "HR",
+            "estimate": 0.43,
+            "contrast": "RYGB versus matched nonsurgical usual care for all-cause mortality at 5 years"
+          },
+          "native_effect_95_interval": {
+            "lower": 0.35,
+            "upper": 0.54,
+            "level": 0.95
+          },
+          "effect_transport": null,
+          "technique": null,
+          "transport_disclosure": null,
+          "interval_scenarios": [],
+          "patient_coordinate": null,
+          "source_identity": {
+            "pmid": "34387200",
+            "pmcid": "PMC8840990",
+            "doi": "10.1097/SLA.0000000000005155",
+            "citation_resolved": true
+          },
+          "clinical_use_prohibited": true
+        },
+        {
+          "source_key": "hf:hf-arni",
+          "native_action_id": "hf-arni",
+          "source_family": "hf",
+          "assigned_target_id": "ESTABLISHED_HF_CV_DEATH_OR_HF_HOSPITALIZATION_FIRST_EVENT",
+          "endpoint": "ESTABLISHED_HF_CV_DEATH_OR_HF_HOSPITALIZATION_FIRST_EVENT",
+          "horizon_years": null,
+          "production_ready": true,
+          "effect_rateability": "rateable",
+          "coordinate_status": "parameterized_missing_baseline",
+          "blocked_reason": "MISSING_COMPATIBLE_BASELINE",
+          "matrix_confidence": "MODERATE",
+          "baseline": null,
+          "native_effect": {
+            "measure": "HR",
+            "estimate": 0.8,
+            "contrast": "LCZ696 200 mg twice daily versus enalapril 10 mg twice daily"
+          },
+          "native_effect_95_interval": {
+            "lower": 0.73,
+            "upper": 0.87,
+            "level": 0.95
+          },
+          "effect_transport": null,
+          "technique": null,
+          "transport_disclosure": null,
+          "interval_scenarios": [],
+          "patient_coordinate": null,
+          "source_identity": {
+            "pmid": "25176015",
+            "pmcid": null,
+            "doi": "10.1056/NEJMoa1409077",
+            "citation_resolved": true
+          },
+          "clinical_use_prohibited": true
+        },
+        {
+          "source_key": "hf:hf-betablocker",
+          "native_action_id": "hf-betablocker",
+          "source_family": "hf",
+          "assigned_target_id": "ALL_CAUSE_MORTALITY",
+          "endpoint": "ALL_CAUSE_MORTALITY",
+          "horizon_years": null,
+          "production_ready": true,
+          "effect_rateability": "rateable",
+          "coordinate_status": "parameterized_missing_baseline",
+          "blocked_reason": "MISSING_COMPATIBLE_BASELINE",
+          "matrix_confidence": "MODERATE",
+          "baseline": null,
+          "native_effect": {
+            "measure": "HR",
+            "estimate": 0.66,
+            "contrast": "bisoprolol versus placebo on standard therapy"
+          },
+          "native_effect_95_interval": {
+            "lower": 0.54,
+            "upper": 0.81,
+            "level": 0.95
+          },
+          "effect_transport": null,
+          "technique": null,
+          "transport_disclosure": null,
+          "interval_scenarios": [],
+          "patient_coordinate": null,
+          "source_identity": {
+            "pmid": "10023943",
+            "pmcid": null,
+            "doi": "10.1016/S0140-6736(98)11181-9",
+            "citation_resolved": true
+          },
+          "clinical_use_prohibited": true
+        },
+        {
+          "source_key": "hf:hf-loop-diuretic",
+          "native_action_id": "hf-loop-diuretic",
+          "source_family": "hf",
+          "assigned_target_id": "ALL_CAUSE_MORTALITY",
+          "endpoint": "ALL_CAUSE_MORTALITY",
+          "horizon_years": null,
+          "production_ready": false,
+          "effect_rateability": "not_rateable",
+          "coordinate_status": "unmaterialized_non_production_ready",
+          "blocked_reason": "PACKET_INCOMPLETE",
+          "matrix_confidence": "NOT_ADMITTED",
+          "baseline": null,
+          "native_effect": {
+            "measure": "OR",
+            "estimate": 0.24,
+            "contrast": "conventional diuretics versus placebo for death in three small randomized trials"
+          },
+          "native_effect_95_interval": {
+            "lower": 0.07,
+            "upper": 0.83,
+            "level": 0.95
+          },
+          "effect_transport": null,
+          "technique": null,
+          "transport_disclosure": null,
+          "interval_scenarios": [],
+          "patient_coordinate": null,
+          "source_identity": {
+            "pmid": null,
+            "pmcid": null,
+            "doi": "10.1002/14651858.CD003838.pub3",
+            "citation_resolved": true
+          },
+          "clinical_use_prohibited": true
+        },
+        {
+          "source_key": "hf:hf-mra",
+          "native_action_id": "hf-mra",
+          "source_family": "hf",
+          "assigned_target_id": "ESTABLISHED_HF_CV_DEATH_OR_HF_HOSPITALIZATION_FIRST_EVENT",
+          "endpoint": "ESTABLISHED_HF_CV_DEATH_OR_HF_HOSPITALIZATION_FIRST_EVENT",
+          "horizon_years": null,
+          "production_ready": true,
+          "effect_rateability": "rateable",
+          "coordinate_status": "parameterized_missing_baseline",
+          "blocked_reason": "MISSING_COMPATIBLE_BASELINE",
+          "matrix_confidence": "MODERATE",
+          "baseline": null,
+          "native_effect": {
+            "measure": "HR",
+            "estimate": 0.63,
+            "contrast": "eplerenone versus placebo on recommended therapy"
+          },
+          "native_effect_95_interval": {
+            "lower": 0.54,
+            "upper": 0.74,
+            "level": 0.95
+          },
+          "effect_transport": null,
+          "technique": null,
+          "transport_disclosure": null,
+          "interval_scenarios": [],
+          "patient_coordinate": null,
+          "source_identity": {
+            "pmid": "21073363",
+            "pmcid": null,
+            "doi": "10.1056/NEJMoa1009492",
+            "citation_resolved": true
+          },
+          "clinical_use_prohibited": true
+        },
+        {
+          "source_key": "hf:hf-sglt2i",
+          "native_action_id": "hf-sglt2i",
+          "source_family": "hf",
+          "assigned_target_id": "ESTABLISHED_HF_CV_DEATH_OR_HF_HOSPITALIZATION_FIRST_EVENT",
+          "endpoint": "ESTABLISHED_HF_CV_DEATH_OR_HF_HOSPITALIZATION_FIRST_EVENT",
+          "horizon_years": null,
+          "production_ready": true,
+          "effect_rateability": "rateable",
+          "coordinate_status": "parameterized_missing_baseline",
+          "blocked_reason": "MISSING_COMPATIBLE_BASELINE",
+          "matrix_confidence": "MODERATE",
+          "baseline": null,
+          "native_effect": {
+            "measure": "HR",
+            "estimate": 0.74,
+            "contrast": "dapagliflozin 10 mg once daily versus placebo on recommended therapy"
+          },
+          "native_effect_95_interval": {
+            "lower": 0.65,
+            "upper": 0.85,
+            "level": 0.95
+          },
+          "effect_transport": null,
+          "technique": null,
+          "transport_disclosure": null,
+          "interval_scenarios": [],
+          "patient_coordinate": null,
+          "source_identity": {
+            "pmid": "31535829",
+            "pmcid": null,
+            "doi": "10.1056/NEJMoa1911303",
+            "citation_resolved": true
+          },
+          "clinical_use_prohibited": true
+        },
+        {
+          "source_key": "metabolic:acarbose_t2dm_prevention",
+          "native_action_id": "acarbose_t2dm_prevention",
+          "source_family": "metabolic",
+          "assigned_target_id": "INCIDENT_T2DM",
+          "endpoint": "INCIDENT_T2DM",
+          "horizon_years": 10,
+          "production_ready": true,
+          "effect_rateability": "rateable",
+          "coordinate_status": "materialized",
+          "blocked_reason": null,
+          "matrix_confidence": "MODERATE",
+          "baseline": {
+            "target_id": "INCIDENT_T2DM",
+            "endpoint": "INCIDENT_T2DM",
+            "horizon_years": 10,
+            "probability": 0.22,
+            "calculation_state": "calculated",
+            "model_id": "qdiabetes",
+            "model_version": "QDiabetes-2018.v1",
+            "output_id": "qdiabetes:t2dm:10y",
+            "clinical_use": "staging_nonproduction"
+          },
+          "native_effect": {
+            "measure": "HR",
+            "estimate": 0.75,
+            "contrast": "acarbose versus placebo for development of type 2 diabetes"
+          },
+          "native_effect_95_interval": {
+            "lower": 0.63,
+            "upper": 0.9,
+            "level": 0.95
+          },
+          "effect_transport": "decision_grade_hazard_projection",
+          "technique": {
+            "technique_id": "V1_DECISION_GRADE",
+            "kernel_id": "RISK_ARR_V1",
+            "authority": "method.risk_arr_action_map.v1.2"
+          },
+          "transport_disclosure": {
+            "source_horizon_semantics": {
+              "source_horizon": "Mean approximately 3.3 years",
+              "semantics": "fixed trial follow-up"
+            },
+            "baseline_horizon_years": 10,
+            "endpoint_relationship": "DIRECT",
+            "confidence_authority": "census.matrix_confidence",
+            "estimate_boundary": "decision-grade, patient-conditioned, not individually predicted"
+          },
+          "interval_scenarios": [
+            {
+              "scenario": "conservative",
+              "native_effect_value": 0.9,
+              "treated_probability": 0.20037724866773077,
+              "arr": 0.019622751332269234,
+              "nnt": 50.961253244621176
+            },
+            {
+              "scenario": "central",
+              "native_effect_value": 0.75,
+              "treated_probability": 0.17001364615219605,
+              "arr": 0.04998635384780395,
+              "nnt": 20.005459951024875
+            },
+            {
+              "scenario": "optimistic",
+              "native_effect_value": 0.63,
+              "treated_probability": 0.1448946971132533,
+              "arr": 0.07510530288674669,
+              "nnt": 13.314639067602549
+            }
+          ],
+          "patient_coordinate": {
+            "baseline_probability": 0.22,
+            "treated_probability": 0.17001364615219605,
+            "arr": 0.04998635384780395,
+            "nnt": 20.005459951024875,
+            "units": "probability",
+            "personalization_label": "patient-conditioned, not individually predicted"
+          },
+          "source_identity": {
+            "pmid": "12086760",
+            "pmcid": null,
+            "doi": "10.1016/S0140-6736(02)08905-5",
+            "citation_resolved": true
+          },
+          "clinical_use_prohibited": true
+        },
+        {
+          "source_key": "metabolic:direct_weight_remission_program",
+          "native_action_id": "direct_weight_remission_program",
+          "source_family": "metabolic",
+          "assigned_target_id": "T2DM_REMISSION",
+          "endpoint": "T2DM_REMISSION",
+          "horizon_years": null,
+          "production_ready": true,
+          "effect_rateability": "rateable",
+          "coordinate_status": "parameterized_missing_baseline",
+          "blocked_reason": "MISSING_COMPATIBLE_BASELINE",
+          "matrix_confidence": "LOW",
+          "baseline": null,
+          "native_effect": {
+            "measure": "OR",
+            "estimate": 19.7,
+            "contrast": "DiRECT programme versus best-practice guideline care for type 2 diabetes remission"
+          },
+          "native_effect_95_interval": {
+            "lower": 7.8,
+            "upper": 49.8,
+            "level": 0.95
+          },
+          "effect_transport": null,
+          "technique": null,
+          "transport_disclosure": null,
+          "interval_scenarios": [],
+          "patient_coordinate": null,
+          "source_identity": {
+            "pmid": "29221645",
+            "pmcid": null,
+            "doi": "10.1016/S0140-6736(17)33102-1",
+            "citation_resolved": true
+          },
+          "clinical_use_prohibited": true
+        },
+        {
+          "source_key": "metabolic:dpp_lifestyle",
+          "native_action_id": "dpp_lifestyle",
+          "source_family": "metabolic",
+          "assigned_target_id": "INCIDENT_T2DM",
+          "endpoint": "INCIDENT_T2DM",
+          "horizon_years": 10,
+          "production_ready": true,
+          "effect_rateability": "rateable",
+          "coordinate_status": "materialized",
+          "blocked_reason": null,
+          "matrix_confidence": "MODERATE",
+          "baseline": {
+            "target_id": "INCIDENT_T2DM",
+            "endpoint": "INCIDENT_T2DM",
+            "horizon_years": 10,
+            "probability": 0.22,
+            "calculation_state": "calculated",
+            "model_id": "qdiabetes",
+            "model_version": "QDiabetes-2018.v1",
+            "output_id": "qdiabetes:t2dm:10y",
+            "clinical_use": "staging_nonproduction"
+          },
+          "native_effect": {
+            "measure": "RRR",
+            "estimate": 58,
+            "contrast": "intensive lifestyle intervention versus placebo for diabetes incidence"
+          },
+          "native_effect_95_interval": {
+            "lower": 48,
+            "upper": 66,
+            "level": 0.95
+          },
+          "effect_transport": "decision_grade_rrr_projection",
+          "technique": {
+            "technique_id": "V1_DECISION_GRADE",
+            "kernel_id": "RISK_ARR_V1",
+            "authority": "method.risk_arr_action_map.v1.2"
+          },
+          "transport_disclosure": {
+            "source_horizon_semantics": {
+              "source_horizon": "Average follow-up 2.8 years",
+              "semantics": "distributed trial follow-up"
+            },
+            "baseline_horizon_years": 10,
+            "endpoint_relationship": "DIRECT",
+            "confidence_authority": "census.matrix_confidence",
+            "estimate_boundary": "decision-grade, patient-conditioned, not individually predicted"
+          },
+          "interval_scenarios": [
+            {
+              "scenario": "conservative",
+              "native_effect_value": 0.52,
+              "treated_probability": 0.1144,
+              "arr": 0.1056,
+              "nnt": 9.46969696969697
+            },
+            {
+              "scenario": "central",
+              "native_effect_value": 0.42000000000000004,
+              "treated_probability": 0.09240000000000001,
+              "arr": 0.1276,
+              "nnt": 7.836990595611286
+            },
+            {
+              "scenario": "optimistic",
+              "native_effect_value": 0.33999999999999997,
+              "treated_probability": 0.07479999999999999,
+              "arr": 0.1452,
+              "nnt": 6.887052341597796
+            }
+          ],
+          "patient_coordinate": {
+            "baseline_probability": 0.22,
+            "treated_probability": 0.09240000000000001,
+            "arr": 0.1276,
+            "nnt": 7.836990595611286,
+            "units": "probability",
+            "personalization_label": "patient-conditioned, not individually predicted"
+          },
+          "source_identity": {
+            "pmid": "11832527",
+            "pmcid": "PMC1370926",
+            "doi": "10.1056/NEJMoa012512",
+            "citation_resolved": true
+          },
+          "clinical_use_prohibited": true
+        },
+        {
+          "source_key": "metabolic:gdm_treatment_perinatal",
+          "native_action_id": "gdm_treatment_perinatal",
+          "source_family": "metabolic",
+          "assigned_target_id": "SERIOUS_PERINATAL_COMPOSITE",
+          "endpoint": "SERIOUS_PERINATAL_COMPOSITE",
+          "horizon_years": null,
+          "production_ready": true,
+          "effect_rateability": "rateable",
+          "coordinate_status": "parameterized_missing_baseline",
+          "blocked_reason": "MISSING_COMPATIBLE_BASELINE",
+          "matrix_confidence": "MODERATE",
+          "baseline": null,
+          "native_effect": {
+            "measure": "ADJUSTED_RR",
+            "estimate": 0.33,
+            "contrast": "gestational-diabetes treatment versus routine antenatal care for serious perinatal complications"
+          },
+          "native_effect_95_interval": {
+            "lower": 0.14,
+            "upper": 0.75,
+            "level": 0.95
+          },
+          "effect_transport": null,
+          "technique": null,
+          "transport_disclosure": null,
+          "interval_scenarios": [],
+          "patient_coordinate": null,
+          "source_identity": {
+            "pmid": "15951574",
+            "pmcid": null,
+            "doi": "10.1056/NEJMoa042973",
+            "citation_resolved": true
+          },
+          "clinical_use_prohibited": true
+        },
+        {
+          "source_key": "metabolic:liraglutide_3mg_diabetes_prevention",
+          "native_action_id": "liraglutide_3mg_diabetes_prevention",
+          "source_family": "metabolic",
+          "assigned_target_id": "INCIDENT_T2DM",
+          "endpoint": "INCIDENT_T2DM",
+          "horizon_years": 10,
+          "production_ready": true,
+          "effect_rateability": "rateable",
+          "coordinate_status": "materialized",
+          "blocked_reason": null,
+          "matrix_confidence": "MODERATE",
+          "baseline": {
+            "target_id": "INCIDENT_T2DM",
+            "endpoint": "INCIDENT_T2DM",
+            "horizon_years": 10,
+            "probability": 0.22,
+            "calculation_state": "calculated",
+            "model_id": "qdiabetes",
+            "model_version": "QDiabetes-2018.v1",
+            "output_id": "qdiabetes:t2dm:10y",
+            "clinical_use": "staging_nonproduction"
+          },
+          "native_effect": {
+            "measure": "HR",
+            "estimate": 0.21,
+            "contrast": "liraglutide 3.0 mg versus matched placebo for onset of type 2 diabetes"
+          },
+          "native_effect_95_interval": {
+            "lower": 0.13,
+            "upper": 0.34,
+            "level": 0.95
+          },
+          "effect_transport": "decision_grade_hazard_projection",
+          "technique": {
+            "technique_id": "V1_DECISION_GRADE",
+            "kernel_id": "RISK_ARR_V1",
+            "authority": "method.risk_arr_action_map.v1.2"
+          },
+          "transport_disclosure": {
+            "source_horizon_semantics": {
+              "source_horizon": "160 weeks on treatment",
+              "semantics": "fixed on-treatment follow-up; withdrawn participants were not followed after discontinuation"
+            },
+            "baseline_horizon_years": 10,
+            "endpoint_relationship": "DIRECT",
+            "confidence_authority": "census.matrix_confidence",
+            "estimate_boundary": "decision-grade, patient-conditioned, not individually predicted"
+          },
+          "interval_scenarios": [
+            {
+              "scenario": "conservative",
+              "native_effect_value": 0.34,
+              "treated_probability": 0.08100708135941881,
+              "arr": 0.1389929186405812,
+              "nnt": 7.194611134009485
+            },
+            {
+              "scenario": "central",
+              "native_effect_value": 0.21,
+              "treated_probability": 0.05083904077282364,
+              "arr": 0.16916095922717636,
+              "nnt": 5.911529495745175
+            },
+            {
+              "scenario": "optimistic",
+              "native_effect_value": 0.13,
+              "treated_probability": 0.0317839037660782,
+              "arr": 0.1882160962339218,
+              "nnt": 5.313041870537808
+            }
+          ],
+          "patient_coordinate": {
+            "baseline_probability": 0.22,
+            "treated_probability": 0.05083904077282364,
+            "arr": 0.16916095922717636,
+            "nnt": 5.911529495745175,
+            "units": "probability",
+            "personalization_label": "patient-conditioned, not individually predicted"
+          },
+          "source_identity": {
+            "pmid": "28237263",
+            "pmcid": null,
+            "doi": "10.1016/S0140-6736(17)30069-7",
+            "citation_resolved": true
+          },
+          "clinical_use_prohibited": true
+        },
+        {
+          "source_key": "metabolic:metformin_prevention",
+          "native_action_id": "metformin_prevention",
+          "source_family": "metabolic",
+          "assigned_target_id": "INCIDENT_T2DM",
+          "endpoint": "INCIDENT_T2DM",
+          "horizon_years": 10,
+          "production_ready": true,
+          "effect_rateability": "rateable",
+          "coordinate_status": "materialized",
+          "blocked_reason": null,
+          "matrix_confidence": "MODERATE",
+          "baseline": {
+            "target_id": "INCIDENT_T2DM",
+            "endpoint": "INCIDENT_T2DM",
+            "horizon_years": 10,
+            "probability": 0.22,
+            "calculation_state": "calculated",
+            "model_id": "qdiabetes",
+            "model_version": "QDiabetes-2018.v1",
+            "output_id": "qdiabetes:t2dm:10y",
+            "clinical_use": "staging_nonproduction"
+          },
+          "native_effect": {
+            "measure": "RRR",
+            "estimate": 31,
+            "contrast": "metformin versus placebo for diabetes incidence"
+          },
+          "native_effect_95_interval": {
+            "lower": 17,
+            "upper": 43,
+            "level": 0.95
+          },
+          "effect_transport": "decision_grade_rrr_projection",
+          "technique": {
+            "technique_id": "V1_DECISION_GRADE",
+            "kernel_id": "RISK_ARR_V1",
+            "authority": "method.risk_arr_action_map.v1.2"
+          },
+          "transport_disclosure": {
+            "source_horizon_semantics": {
+              "source_horizon": "Average follow-up 2.8 years",
+              "semantics": "distributed trial follow-up"
+            },
+            "baseline_horizon_years": 10,
+            "endpoint_relationship": "DIRECT",
+            "confidence_authority": "census.matrix_confidence",
+            "estimate_boundary": "decision-grade, patient-conditioned, not individually predicted"
+          },
+          "interval_scenarios": [
+            {
+              "scenario": "conservative",
+              "native_effect_value": 0.83,
+              "treated_probability": 0.18259999999999998,
+              "arr": 0.03740000000000002,
+              "nnt": 26.737967914438492
+            },
+            {
+              "scenario": "central",
+              "native_effect_value": 0.69,
+              "treated_probability": 0.1518,
+              "arr": 0.06820000000000001,
+              "nnt": 14.662756598240467
+            },
+            {
+              "scenario": "optimistic",
+              "native_effect_value": 0.5700000000000001,
+              "treated_probability": 0.1254,
+              "arr": 0.09459999999999999,
+              "nnt": 10.570824524312897
+            }
+          ],
+          "patient_coordinate": {
+            "baseline_probability": 0.22,
+            "treated_probability": 0.1518,
+            "arr": 0.06820000000000001,
+            "nnt": 14.662756598240467,
+            "units": "probability",
+            "personalization_label": "patient-conditioned, not individually predicted"
+          },
+          "source_identity": {
+            "pmid": "11832527",
+            "pmcid": "PMC1370926",
+            "doi": "10.1056/NEJMoa012512",
+            "citation_resolved": true
+          },
+          "clinical_use_prohibited": true
+        },
+        {
+          "source_key": "metabolic:multifactorial_intensive_t2dm",
+          "native_action_id": "multifactorial_intensive_t2dm",
+          "source_family": "metabolic",
+          "assigned_target_id": "ALL_CAUSE_MORTALITY",
+          "endpoint": "ALL_CAUSE_MORTALITY",
+          "horizon_years": null,
+          "production_ready": true,
+          "effect_rateability": "rateable",
+          "coordinate_status": "parameterized_missing_baseline",
+          "blocked_reason": "MISSING_COMPATIBLE_BASELINE",
+          "matrix_confidence": "LOW",
+          "baseline": null,
+          "native_effect": {
+            "measure": "HR",
+            "estimate": 0.55,
+            "contrast": "original intensive-therapy assignment versus original conventional-therapy assignment for all-cause mortality"
+          },
+          "native_effect_95_interval": {
+            "lower": 0.36,
+            "upper": 0.83,
+            "level": 0.95
+          },
+          "effect_transport": null,
+          "technique": null,
+          "transport_disclosure": null,
+          "interval_scenarios": [],
+          "patient_coordinate": null,
+          "source_identity": {
+            "pmid": "27531506",
+            "pmcid": "PMC5506099",
+            "doi": "10.1007/s00125-016-4065-6",
+            "citation_resolved": true
+          },
+          "clinical_use_prohibited": true
+        },
+        {
+          "source_key": "metabolic:orlistat_t2dm_prevention",
+          "native_action_id": "orlistat_t2dm_prevention",
+          "source_family": "metabolic",
+          "assigned_target_id": "INCIDENT_T2DM",
+          "endpoint": "INCIDENT_T2DM",
+          "horizon_years": 10,
+          "production_ready": true,
+          "effect_rateability": "rateable",
+          "coordinate_status": "materialized",
+          "blocked_reason": null,
+          "matrix_confidence": "MODERATE",
+          "baseline": {
+            "target_id": "INCIDENT_T2DM",
+            "endpoint": "INCIDENT_T2DM",
+            "horizon_years": 10,
+            "probability": 0.22,
+            "calculation_state": "calculated",
+            "model_id": "qdiabetes",
+            "model_version": "QDiabetes-2018.v1",
+            "output_id": "qdiabetes:t2dm:10y",
+            "clinical_use": "staging_nonproduction"
+          },
+          "native_effect": {
+            "measure": "HR",
+            "estimate": 0.627,
+            "contrast": "orlistat 120 mg orally three times daily plus lifestyle intervention versus matching placebo three times daily plus the same lifestyle intervention for time to first onset of type 2 diabetes"
+          },
+          "native_effect_95_interval": {
+            "lower": 0.455,
+            "upper": 0.863,
+            "level": 0.95
+          },
+          "effect_transport": "decision_grade_hazard_projection",
+          "technique": {
+            "technique_id": "V1_DECISION_GRADE",
+            "kernel_id": "RISK_ARR_V1",
+            "authority": "method.risk_arr_action_map.v1.2"
+          },
+          "transport_disclosure": {
+            "source_horizon_semantics": {
+              "source_horizon": "4 years",
+              "semantics": "fixed trial follow-up"
+            },
+            "baseline_horizon_years": 10,
+            "endpoint_relationship": "DIRECT",
+            "confidence_authority": "census.matrix_confidence",
+            "estimate_boundary": "decision-grade, patient-conditioned, not individually predicted"
+          },
+          "interval_scenarios": [
+            {
+              "scenario": "conservative",
+              "native_effect_value": 0.863,
+              "treated_probability": 0.19299236765037853,
+              "arr": 0.027007632349621474,
+              "nnt": 37.026570380354556
+            },
+            {
+              "scenario": "central",
+              "native_effect_value": 0.627,
+              "treated_probability": 0.14425707762937368,
+              "arr": 0.07574292237062633,
+              "nnt": 13.202553700090762
+            },
+            {
+              "scenario": "optimistic",
+              "native_effect_value": 0.455,
+              "treated_probability": 0.10689392349529614,
+              "arr": 0.11310607650470386,
+              "nnt": 8.841257966882194
+            }
+          ],
+          "patient_coordinate": {
+            "baseline_probability": 0.22,
+            "treated_probability": 0.14425707762937368,
+            "arr": 0.07574292237062633,
+            "nnt": 13.202553700090762,
+            "units": "probability",
+            "personalization_label": "patient-conditioned, not individually predicted"
+          },
+          "source_identity": {
+            "pmid": "14693982",
+            "pmcid": null,
+            "doi": "10.2337/diacare.27.1.155",
+            "citation_resolved": true
+          },
+          "clinical_use_prohibited": true
+        },
+        {
+          "source_key": "metabolic:pioglitazone_igt_prevention",
+          "native_action_id": "pioglitazone_igt_prevention",
+          "source_family": "metabolic",
+          "assigned_target_id": "INCIDENT_T2DM",
+          "endpoint": "INCIDENT_T2DM",
+          "horizon_years": 10,
+          "production_ready": true,
+          "effect_rateability": "rateable",
+          "coordinate_status": "materialized",
+          "blocked_reason": null,
+          "matrix_confidence": "LOW",
+          "baseline": {
+            "target_id": "INCIDENT_T2DM",
+            "endpoint": "INCIDENT_T2DM",
+            "horizon_years": 10,
+            "probability": 0.22,
+            "calculation_state": "calculated",
+            "model_id": "qdiabetes",
+            "model_version": "QDiabetes-2018.v1",
+            "output_id": "qdiabetes:t2dm:10y",
+            "clinical_use": "staging_nonproduction"
+          },
+          "native_effect": {
+            "measure": "HR",
+            "estimate": 0.28,
+            "contrast": "pioglitazone versus placebo for conversion to type 2 diabetes"
+          },
+          "native_effect_95_interval": {
+            "lower": 0.16,
+            "upper": 0.49,
+            "level": 0.95
+          },
+          "effect_transport": "decision_grade_hazard_projection",
+          "technique": {
+            "technique_id": "V1_DECISION_GRADE",
+            "kernel_id": "RISK_ARR_V1",
+            "authority": "method.risk_arr_action_map.v1.2"
+          },
+          "transport_disclosure": {
+            "source_horizon_semantics": {
+              "source_horizon": "Median 2.4 years",
+              "semantics": "distributed trial follow-up"
+            },
+            "baseline_horizon_years": 10,
+            "endpoint_relationship": "DIRECT",
+            "confidence_authority": "census.matrix_confidence",
+            "estimate_boundary": "decision-grade, patient-conditioned, not individually predicted"
+          },
+          "interval_scenarios": [
+            {
+              "scenario": "conservative",
+              "native_effect_value": 0.49,
+              "treated_probability": 0.11462683374068572,
+              "arr": 0.10537316625931428,
+              "nnt": 9.490082110079962
+            },
+            {
+              "scenario": "central",
+              "native_effect_value": 0.28,
+              "treated_probability": 0.06720440021026497,
+              "arr": 0.15279559978973503,
+              "nnt": 6.544691086498036
+            },
+            {
+              "scenario": "optimistic",
+              "native_effect_value": 0.16,
+              "treated_probability": 0.03897400217270286,
+              "arr": 0.18102599782729714,
+              "nnt": 5.524068432170845
+            }
+          ],
+          "patient_coordinate": {
+            "baseline_probability": 0.22,
+            "treated_probability": 0.06720440021026497,
+            "arr": 0.15279559978973503,
+            "nnt": 6.544691086498036,
+            "units": "probability",
+            "personalization_label": "patient-conditioned, not individually predicted"
+          },
+          "source_identity": {
+            "pmid": "21428766",
+            "pmcid": null,
+            "doi": "10.1056/NEJMoa1010949",
+            "citation_resolved": true
+          },
+          "clinical_use_prohibited": true
+        },
+        {
+          "source_key": "metabolic:semaglutide_2_4mg_weight_management",
+          "native_action_id": "semaglutide_2_4mg_weight_management",
+          "source_family": "metabolic",
+          "assigned_target_id": "CONTINUOUS_WEIGHT_CHANGE",
+          "endpoint": "CONTINUOUS_WEIGHT_CHANGE",
+          "horizon_years": null,
+          "production_ready": false,
+          "effect_rateability": "not_rateable",
+          "coordinate_status": "unmaterialized_non_production_ready",
+          "blocked_reason": "SOURCE_NATIVE_NON_ARR",
+          "matrix_confidence": "NOT_APPLICABLE",
+          "baseline": null,
+          "native_effect": {
+            "measure": "MEAN_CHANGE",
+            "estimate": -12.4,
+            "contrast": "semaglutide minus placebo estimated treatment difference in percent body-weight change"
+          },
+          "native_effect_95_interval": {
+            "lower": -13.4,
+            "upper": -11.5,
+            "level": 0.95
+          },
+          "effect_transport": null,
+          "technique": null,
+          "transport_disclosure": null,
+          "interval_scenarios": [],
+          "patient_coordinate": null,
+          "source_identity": {
+            "pmid": "33567185",
+            "pmcid": null,
+            "doi": "10.1056/NEJMoa2032183",
+            "citation_resolved": true
+          },
+          "clinical_use_prohibited": true
+        },
+        {
+          "source_key": "metabolic:teplizumab_t1d_delay",
+          "native_action_id": "teplizumab_t1d_delay",
+          "source_family": "metabolic",
+          "assigned_target_id": "INCIDENT_T1D_STAGE3",
+          "endpoint": "INCIDENT_T1D_STAGE3",
+          "horizon_years": null,
+          "production_ready": true,
+          "effect_rateability": "rateable",
+          "coordinate_status": "parameterized_missing_baseline",
+          "blocked_reason": "MISSING_COMPATIBLE_BASELINE",
+          "matrix_confidence": "LOW",
+          "baseline": null,
+          "native_effect": {
+            "measure": "HR",
+            "estimate": 0.41,
+            "contrast": "teplizumab versus placebo for clinical type 1 diabetes diagnosis"
+          },
+          "native_effect_95_interval": {
+            "lower": 0.22,
+            "upper": 0.78,
+            "level": 0.95
+          },
+          "effect_transport": null,
+          "technique": null,
+          "transport_disclosure": null,
+          "interval_scenarios": [],
+          "patient_coordinate": null,
+          "source_identity": {
+            "pmid": "31180194",
+            "pmcid": "PMC6776880",
+            "doi": "10.1056/NEJMoa1902226",
+            "citation_resolved": true
+          },
+          "clinical_use_prohibited": true
+        },
+        {
+          "source_key": "metabolic:tirzepatide_obesity_prediabetes_t2dm_prevention",
+          "native_action_id": "tirzepatide_obesity_prediabetes_t2dm_prevention",
+          "source_family": "metabolic",
+          "assigned_target_id": "INCIDENT_T2DM",
+          "endpoint": "INCIDENT_T2DM",
+          "horizon_years": 10,
+          "production_ready": true,
+          "effect_rateability": "rateable",
+          "coordinate_status": "materialized",
+          "blocked_reason": null,
+          "matrix_confidence": "MODERATE",
+          "baseline": {
+            "target_id": "INCIDENT_T2DM",
+            "endpoint": "INCIDENT_T2DM",
+            "horizon_years": 10,
+            "probability": 0.22,
+            "calculation_state": "calculated",
+            "model_id": "qdiabetes",
+            "model_version": "QDiabetes-2018.v1",
+            "output_id": "qdiabetes:t2dm:10y",
+            "clinical_use": "staging_nonproduction"
+          },
+          "native_effect": {
+            "measure": "HR",
+            "estimate": 0.07,
+            "contrast": "pooled tirzepatide assigned-dose groups versus placebo for type 2 diabetes diagnosis during 176 weeks"
+          },
+          "native_effect_95_interval": {
+            "lower": 0,
+            "upper": 0.1,
+            "level": 0.95
+          },
+          "effect_transport": "decision_grade_hazard_projection",
+          "technique": {
+            "technique_id": "V1_DECISION_GRADE",
+            "kernel_id": "RISK_ARR_V1",
+            "authority": "method.risk_arr_action_map.v1.2"
+          },
+          "transport_disclosure": {
+            "source_horizon_semantics": {
+              "source_horizon": "176 weeks on assigned treatment",
+              "semantics": "fixed on-treatment follow-up; separate 17-week off-treatment result not used"
+            },
+            "baseline_horizon_years": 10,
+            "endpoint_relationship": "DIRECT",
+            "confidence_authority": "census.matrix_confidence",
+            "estimate_boundary": "decision-grade, patient-conditioned, not individually predicted"
+          },
+          "interval_scenarios": [
+            {
+              "scenario": "conservative",
+              "native_effect_value": 0.1,
+              "treated_probability": 0.024540011273535223,
+              "arr": 0.19545998872646478,
+              "nnt": 5.116136588953986
+            },
+            {
+              "scenario": "central",
+              "native_effect_value": 0.07,
+              "treated_probability": 0.0172419222244099,
+              "arr": 0.2027580777755901,
+              "nnt": 4.931985995185783
+            },
+            {
+              "scenario": "optimistic",
+              "native_effect_value": 0,
+              "treated_probability": 0,
+              "arr": 0.22,
+              "nnt": 4.545454545454546
+            }
+          ],
+          "patient_coordinate": {
+            "baseline_probability": 0.22,
+            "treated_probability": 0.0172419222244099,
+            "arr": 0.2027580777755901,
+            "nnt": 4.931985995185783,
+            "units": "probability",
+            "personalization_label": "patient-conditioned, not individually predicted"
+          },
+          "source_identity": {
+            "pmid": "39536238",
+            "pmcid": null,
+            "doi": "10.1056/NEJMoa2410819",
+            "citation_resolved": true
+          },
+          "clinical_use_prohibited": true
+        },
+        {
+          "source_key": "neuro:act_atorvastatin_80mg_post_stroke",
+          "native_action_id": "act_atorvastatin_80mg_post_stroke",
+          "source_family": "neuro",
+          "assigned_target_id": "PREVENT_ASCVD_FIRST_EVENT",
+          "endpoint": "PREVENT_ASCVD_FIRST_EVENT",
+          "horizon_years": 10,
+          "production_ready": true,
+          "effect_rateability": "rateable",
+          "coordinate_status": "materialized",
+          "blocked_reason": null,
+          "matrix_confidence": "LOW",
+          "baseline": {
+            "target_id": "PREVENT_ASCVD_FIRST_EVENT",
+            "endpoint": "PREVENT_ASCVD_FIRST_EVENT",
+            "horizon_years": 10,
+            "probability": 0.1,
+            "calculation_state": "calculated",
+            "model_id": "prevent",
+            "model_version": "3.0.0",
+            "output_id": "prevent:ascvd:10y",
+            "clinical_use": "staging_nonproduction"
+          },
+          "native_effect": {
+            "measure": "HR",
+            "estimate": 0.84,
+            "contrast": "atorvastatin 80 mg daily versus placebo for first fatal or nonfatal stroke"
+          },
+          "native_effect_95_interval": {
+            "lower": 0.71,
+            "upper": 0.99,
+            "level": 0.95
+          },
+          "effect_transport": "decision_grade_hazard_projection",
+          "technique": {
+            "technique_id": "V1_DECISION_GRADE",
+            "kernel_id": "RISK_ARR_V1",
+            "authority": "method.risk_arr_action_map.v1.2"
+          },
+          "transport_disclosure": {
+            "source_horizon_semantics": "Median 4.9 years; first fatal or nonfatal stroke, with a source-reported 5-year absolute risk reduction of 2.2 percentage points.",
+            "baseline_horizon_years": 10,
+            "endpoint_relationship": "SUBSET_COMPONENT",
+            "confidence_authority": "census.matrix_confidence",
+            "estimate_boundary": "decision-grade, patient-conditioned, not individually predicted"
+          },
+          "interval_scenarios": [
+            {
+              "scenario": "conservative",
+              "native_effect_value": 0.99,
+              "treated_probability": 0.09905125564587314,
+              "arr": 0.0009487443541268681,
+              "nnt": 1054.024717670444
+            },
+            {
+              "scenario": "central",
+              "native_effect_value": 0.84,
+              "treated_probability": 0.08469948245369319,
+              "arr": 0.015300517546306819,
+              "nnt": 65.35726631295398
+            },
+            {
+              "scenario": "optimistic",
+              "native_effect_value": 0.71,
+              "treated_probability": 0.07207648253491394,
+              "arr": 0.027923517465086062,
+              "nnt": 35.81210716917529
+            }
+          ],
+          "patient_coordinate": {
+            "baseline_probability": 0.1,
+            "treated_probability": 0.08469948245369319,
+            "arr": 0.015300517546306819,
+            "nnt": 65.35726631295398,
+            "units": "probability",
+            "personalization_label": "patient-conditioned, not individually predicted"
+          },
+          "source_identity": {
+            "pmid": "16899775",
+            "pmcid": null,
+            "doi": "10.1056/NEJMoa061894",
+            "citation_resolved": true
+          },
+          "clinical_use_prohibited": true
+        },
+        {
+          "source_key": "neuro:act_bp_control_dementia",
+          "native_action_id": "act_bp_control_dementia",
+          "source_family": "neuro",
+          "assigned_target_id": "MCI_OR_PROBABLE_DEMENTIA_COMPOSITE",
+          "endpoint": "MCI_OR_PROBABLE_DEMENTIA_COMPOSITE",
+          "horizon_years": null,
+          "production_ready": false,
+          "effect_rateability": "not_rateable",
+          "coordinate_status": "unmaterialized_non_production_ready",
+          "blocked_reason": "PACKET_INCOMPLETE",
+          "matrix_confidence": "MODERATE",
+          "baseline": null,
+          "native_effect": {
+            "measure": "HR",
+            "estimate": 0.89,
+            "contrast": "intensive SBP target versus standard SBP target for MCI or probable dementia composite"
+          },
+          "native_effect_95_interval": {
+            "lower": 0.79,
+            "upper": 0.99,
+            "level": 0.95
+          },
+          "effect_transport": null,
+          "technique": null,
+          "transport_disclosure": null,
+          "interval_scenarios": [],
+          "patient_coordinate": null,
+          "source_identity": {
+            "pmid": "39819096",
+            "pmcid": "PMC11737843",
+            "doi": "10.1212/WNL.0000000000213334",
+            "citation_resolved": true
+          },
+          "clinical_use_prohibited": true
+        },
+        {
+          "source_key": "neuro:act_cataract_surgery_dementia",
+          "native_action_id": "act_cataract_surgery_dementia",
+          "source_family": "neuro",
+          "assigned_target_id": "DEMENTIA_INCIDENCE",
+          "endpoint": "DEMENTIA_INCIDENCE",
+          "horizon_years": null,
+          "production_ready": false,
+          "effect_rateability": "not_rateable",
+          "coordinate_status": "unmaterialized_non_production_ready",
+          "blocked_reason": "ASSOCIATION_ONLY",
+          "matrix_confidence": "NOT_ADMITTED",
+          "baseline": null,
+          "native_effect": {
+            "measure": "HR",
+            "estimate": 0.71,
+            "contrast": "cataract extraction versus no cataract extraction for incident all-cause dementia"
+          },
+          "native_effect_95_interval": {
+            "lower": 0.62,
+            "upper": 0.83,
+            "level": 0.95
+          },
+          "effect_transport": null,
+          "technique": null,
+          "transport_disclosure": null,
+          "interval_scenarios": [],
+          "patient_coordinate": null,
+          "source_identity": {
+            "pmid": "34870676",
+            "pmcid": "PMC8649913",
+            "doi": "10.1001/jamainternmed.2021.6990",
+            "citation_resolved": true
+          },
+          "clinical_use_prohibited": true
+        },
+        {
+          "source_key": "neuro:act_cea_symptomatic_severe_stenosis",
+          "native_action_id": "act_cea_symptomatic_severe_stenosis",
+          "source_family": "neuro",
+          "assigned_target_id": "PREVENT_ASCVD_FIRST_EVENT",
+          "endpoint": "PREVENT_ASCVD_FIRST_EVENT",
+          "horizon_years": 10,
+          "production_ready": true,
+          "effect_rateability": "rateable",
+          "coordinate_status": "materialized",
+          "blocked_reason": null,
+          "matrix_confidence": "LOW",
+          "baseline": {
+            "target_id": "PREVENT_ASCVD_FIRST_EVENT",
+            "endpoint": "PREVENT_ASCVD_FIRST_EVENT",
+            "horizon_years": 10,
+            "probability": 0.1,
+            "calculation_state": "calculated",
+            "model_id": "prevent",
+            "model_version": "3.0.0",
+            "output_id": "prevent:ascvd:10y",
+            "clinical_use": "staging_nonproduction"
+          },
+          "native_effect": {
+            "measure": "RR",
+            "estimate": 0.47,
+            "contrast": "carotid endarterectomy plus historical medical therapy versus historical medical therapy alone for ipsilateral ischemic stroke or operative stroke/death"
+          },
+          "native_effect_95_interval": {
+            "lower": 0.25,
+            "upper": 0.88,
+            "level": 0.95
+          },
+          "effect_transport": "decision_grade_risk_ratio_projection",
+          "technique": {
+            "technique_id": "V1_DECISION_GRADE",
+            "kernel_id": "RISK_ARR_V1",
+            "authority": "method.risk_arr_action_map.v1.2"
+          },
+          "transport_disclosure": {
+            "source_horizon_semantics": "Five-year cumulative endpoint, including any operative stroke or death within 30 days of trial surgery.",
+            "baseline_horizon_years": 10,
+            "endpoint_relationship": "PARTIAL_OVERLAP",
+            "confidence_authority": "census.matrix_confidence",
+            "estimate_boundary": "decision-grade, patient-conditioned, not individually predicted"
+          },
+          "interval_scenarios": [
+            {
+              "scenario": "conservative",
+              "native_effect_value": 0.88,
+              "treated_probability": 0.08800000000000001,
+              "arr": 0.011999999999999997,
+              "nnt": 83.33333333333336
+            },
+            {
+              "scenario": "central",
+              "native_effect_value": 0.47,
+              "treated_probability": 0.047,
+              "arr": 0.053000000000000005,
+              "nnt": 18.867924528301884
+            },
+            {
+              "scenario": "optimistic",
+              "native_effect_value": 0.25,
+              "treated_probability": 0.025,
+              "arr": 0.07500000000000001,
+              "nnt": 13.333333333333332
+            }
+          ],
+          "patient_coordinate": {
+            "baseline_probability": 0.1,
+            "treated_probability": 0.047,
+            "arr": 0.053000000000000005,
+            "nnt": 18.867924528301884,
+            "units": "probability",
+            "personalization_label": "patient-conditioned, not individually predicted"
+          },
+          "source_identity": {
+            "pmid": "32918282",
+            "pmcid": "PMC8536099",
+            "doi": "10.1002/14651858.CD001081.pub4",
+            "citation_resolved": true
+          },
+          "clinical_use_prohibited": true
+        },
+        {
+          "source_key": "neuro:act_chance_short_course_dapt",
+          "native_action_id": "act_chance_short_course_dapt",
+          "source_family": "neuro",
+          "assigned_target_id": "PREVENT_ASCVD_FIRST_EVENT",
+          "endpoint": "PREVENT_ASCVD_FIRST_EVENT",
+          "horizon_years": 10,
+          "production_ready": true,
+          "effect_rateability": "rateable",
+          "coordinate_status": "materialized",
+          "blocked_reason": null,
+          "matrix_confidence": "LOW",
+          "baseline": {
+            "target_id": "PREVENT_ASCVD_FIRST_EVENT",
+            "endpoint": "PREVENT_ASCVD_FIRST_EVENT",
+            "horizon_years": 10,
+            "probability": 0.1,
+            "calculation_state": "calculated",
+            "model_id": "prevent",
+            "model_version": "3.0.0",
+            "output_id": "prevent:ascvd:10y",
+            "clinical_use": "staging_nonproduction"
+          },
+          "native_effect": {
+            "measure": "HR",
+            "estimate": 0.68,
+            "contrast": "CHANCE clopidogrel-plus-aspirin strategy versus aspirin alone for stroke by 90 days"
+          },
+          "native_effect_95_interval": {
+            "lower": 0.57,
+            "upper": 0.81,
+            "level": 0.95
+          },
+          "effect_transport": "decision_grade_hazard_projection",
+          "technique": {
+            "technique_id": "V1_DECISION_GRADE",
+            "kernel_id": "RISK_ARR_V1",
+            "authority": "method.risk_arr_action_map.v1.2"
+          },
+          "transport_disclosure": {
+            "source_horizon_semantics": "Fixed 90-day first recurrent-stroke outcome.",
+            "baseline_horizon_years": 10,
+            "endpoint_relationship": "SUBSET_COMPONENT",
+            "confidence_authority": "census.matrix_confidence",
+            "estimate_boundary": "decision-grade, patient-conditioned, not individually predicted"
+          },
+          "interval_scenarios": [
+            {
+              "scenario": "conservative",
+              "native_effect_value": 0.81,
+              "treated_probability": 0.08180180932584691,
+              "arr": 0.018198190674153097,
+              "nnt": 54.95051776879669
+            },
+            {
+              "scenario": "central",
+              "native_effect_value": 0.68,
+              "treated_probability": 0.06913884731051434,
+              "arr": 0.030861152689485666,
+              "nnt": 32.40319666804597
+            },
+            {
+              "scenario": "optimistic",
+              "native_effect_value": 0.57,
+              "treated_probability": 0.058287727176018156,
+              "arr": 0.04171227282398185,
+              "nnt": 23.973759574785504
+            }
+          ],
+          "patient_coordinate": {
+            "baseline_probability": 0.1,
+            "treated_probability": 0.06913884731051434,
+            "arr": 0.030861152689485666,
+            "nnt": 32.40319666804597,
+            "units": "probability",
+            "personalization_label": "patient-conditioned, not individually predicted"
+          },
+          "source_identity": {
+            "pmid": "23803136",
+            "pmcid": null,
+            "doi": "10.1056/NEJMoa1215340",
+            "citation_resolved": true
+          },
+          "clinical_use_prohibited": true
+        },
+        {
+          "source_key": "neuro:act_cognitive_speed_training",
+          "native_action_id": "act_cognitive_speed_training",
+          "source_family": "neuro",
+          "assigned_target_id": "DEMENTIA_INCIDENCE",
+          "endpoint": "DEMENTIA_INCIDENCE",
+          "horizon_years": null,
+          "production_ready": true,
+          "effect_rateability": "rateable",
+          "coordinate_status": "parameterized_missing_baseline",
+          "blocked_reason": "MISSING_COMPATIBLE_BASELINE",
+          "matrix_confidence": "MODERATE",
+          "baseline": null,
+          "native_effect": {
+            "measure": "HR",
+            "estimate": 0.71,
+            "contrast": "speed-of-processing training versus no-contact control for incident all-cause dementia"
+          },
+          "native_effect_95_interval": {
+            "lower": 0.5,
+            "upper": 0.998,
+            "level": 0.95
+          },
+          "effect_transport": null,
+          "technique": null,
+          "transport_disclosure": null,
+          "interval_scenarios": [],
+          "patient_coordinate": null,
+          "source_identity": {
+            "pmid": "29201994",
+            "pmcid": "PMC5700828",
+            "doi": "10.1016/j.trci.2017.09.002",
+            "citation_resolved": true
+          },
+          "clinical_use_prohibited": true
+        },
+        {
+          "source_key": "neuro:act_enalapril_folic_acid_first_stroke",
+          "native_action_id": "act_enalapril_folic_acid_first_stroke",
+          "source_family": "neuro",
+          "assigned_target_id": "PREVENT_ASCVD_FIRST_EVENT",
+          "endpoint": "PREVENT_ASCVD_FIRST_EVENT",
+          "horizon_years": 10,
+          "production_ready": true,
+          "effect_rateability": "rateable",
+          "coordinate_status": "materialized",
+          "blocked_reason": null,
+          "matrix_confidence": "LOW",
+          "baseline": {
+            "target_id": "PREVENT_ASCVD_FIRST_EVENT",
+            "endpoint": "PREVENT_ASCVD_FIRST_EVENT",
+            "horizon_years": 10,
+            "probability": 0.1,
+            "calculation_state": "calculated",
+            "model_id": "prevent",
+            "model_version": "3.0.0",
+            "output_id": "prevent:ascvd:10y",
+            "clinical_use": "staging_nonproduction"
+          },
+          "native_effect": {
+            "measure": "HR",
+            "estimate": 0.79,
+            "contrast": "enalapril 10 mg plus folic acid 0.8 mg versus enalapril 10 mg alone for first stroke"
+          },
+          "native_effect_95_interval": {
+            "lower": 0.68,
+            "upper": 0.93,
+            "level": 0.95
+          },
+          "effect_transport": "decision_grade_hazard_projection",
+          "technique": {
+            "technique_id": "V1_DECISION_GRADE",
+            "kernel_id": "RISK_ARR_V1",
+            "authority": "method.risk_arr_action_map.v1.2"
+          },
+          "transport_disclosure": {
+            "source_horizon_semantics": "Median treatment duration 4.5 years; first stroke.",
+            "baseline_horizon_years": 10,
+            "endpoint_relationship": "SUBSET_COMPONENT",
+            "confidence_authority": "census.matrix_confidence",
+            "estimate_boundary": "decision-grade, patient-conditioned, not individually predicted"
+          },
+          "interval_scenarios": [
+            {
+              "scenario": "conservative",
+              "native_effect_value": 0.93,
+              "treated_probability": 0.09333774987867083,
+              "arr": 0.006662250121329177,
+              "nnt": 150.09943814605555
+            },
+            {
+              "scenario": "central",
+              "native_effect_value": 0.79,
+              "treated_probability": 0.07986493264237371,
+              "arr": 0.020135067357626296,
+              "nnt": 49.66459670775539
+            },
+            {
+              "scenario": "optimistic",
+              "native_effect_value": 0.68,
+              "treated_probability": 0.06913884731051434,
+              "arr": 0.030861152689485666,
+              "nnt": 32.40319666804597
+            }
+          ],
+          "patient_coordinate": {
+            "baseline_probability": 0.1,
+            "treated_probability": 0.07986493264237371,
+            "arr": 0.020135067357626296,
+            "nnt": 49.66459670775539,
+            "units": "probability",
+            "personalization_label": "patient-conditioned, not individually predicted"
+          },
+          "source_identity": {
+            "pmid": "25771069",
+            "pmcid": null,
+            "doi": "10.1001/jama.2015.2274",
+            "citation_resolved": true
+          },
+          "clinical_use_prohibited": true
+        },
+        {
+          "source_key": "neuro:act_hearing_intervention_cognitive_decline",
+          "native_action_id": "act_hearing_intervention_cognitive_decline",
+          "source_family": "neuro",
+          "assigned_target_id": "CONTINUOUS_COGNITIVE_CHANGE",
+          "endpoint": "CONTINUOUS_COGNITIVE_CHANGE",
+          "horizon_years": null,
+          "production_ready": false,
+          "effect_rateability": "not_rateable",
+          "coordinate_status": "unmaterialized_non_production_ready",
+          "blocked_reason": "SOURCE_NATIVE_NON_ARR",
+          "matrix_confidence": "NOT_ADMITTED",
+          "baseline": null,
+          "native_effect": {
+            "measure": "MD",
+            "estimate": 0.002,
+            "contrast": "hearing intervention versus successful-aging control in 3-year global cognition change"
+          },
+          "native_effect_95_interval": {
+            "lower": -0.077,
+            "upper": 0.081,
+            "level": 0.95
+          },
+          "effect_transport": null,
+          "technique": null,
+          "transport_disclosure": null,
+          "interval_scenarios": [],
+          "patient_coordinate": null,
+          "source_identity": {
+            "pmid": "37478886",
+            "pmcid": "PMC10529382",
+            "doi": "10.1016/S0140-6736(23)01406-X",
+            "citation_resolved": true
+          },
+          "clinical_use_prohibited": true
+        },
+        {
+          "source_key": "neuro:act_marine_omega3_cognitive_decline",
+          "native_action_id": "act_marine_omega3_cognitive_decline",
+          "source_family": "neuro",
+          "assigned_target_id": "CONTINUOUS_COGNITIVE_CHANGE",
+          "endpoint": "CONTINUOUS_COGNITIVE_CHANGE",
+          "horizon_years": null,
+          "production_ready": false,
+          "effect_rateability": "not_rateable",
+          "coordinate_status": "unmaterialized_non_production_ready",
+          "blocked_reason": "SOURCE_NATIVE_NON_ARR",
+          "matrix_confidence": "NOT_APPLICABLE",
+          "baseline": null,
+          "native_effect": {
+            "measure": "MD",
+            "estimate": -0.01,
+            "contrast": "marine omega-3 supplementation versus placebo in annual global cognitive change"
+          },
+          "native_effect_95_interval": {
+            "lower": -0.02,
+            "upper": 0.003,
+            "level": 0.95
+          },
+          "effect_transport": null,
+          "technique": null,
+          "transport_disclosure": null,
+          "interval_scenarios": [],
+          "patient_coordinate": null,
+          "source_identity": {
+            "pmid": "35415212",
+            "pmcid": "PMC8984093",
+            "doi": "10.1002/trc2.12288",
+            "citation_resolved": true
+          },
+          "clinical_use_prohibited": true
+        },
+        {
+          "source_key": "neuro:act_mind_diet_cognitive_decline",
+          "native_action_id": "act_mind_diet_cognitive_decline",
+          "source_family": "neuro",
+          "assigned_target_id": "CONTINUOUS_COGNITIVE_CHANGE",
+          "endpoint": "CONTINUOUS_COGNITIVE_CHANGE",
+          "horizon_years": null,
+          "production_ready": false,
+          "effect_rateability": "not_rateable",
+          "coordinate_status": "unmaterialized_non_production_ready",
+          "blocked_reason": "SOURCE_NATIVE_NON_ARR",
+          "matrix_confidence": "NOT_ADMITTED",
+          "baseline": null,
+          "native_effect": {
+            "measure": "MD",
+            "estimate": 0.035,
+            "contrast": "MIND diet versus usual diet, both with mild caloric restriction, in 3-year global cognition change"
+          },
+          "native_effect_95_interval": {
+            "lower": -0.022,
+            "upper": 0.092,
+            "level": 0.95
+          },
+          "effect_transport": null,
+          "technique": null,
+          "transport_disclosure": null,
+          "interval_scenarios": [],
+          "patient_coordinate": null,
+          "source_identity": {
+            "pmid": "37466280",
+            "pmcid": "PMC10513737",
+            "doi": "10.1056/NEJMoa2302368",
+            "citation_resolved": true
+          },
+          "clinical_use_prohibited": true
+        },
+        {
+          "source_key": "neuro:act_multidomain_finger",
+          "native_action_id": "act_multidomain_finger",
+          "source_family": "neuro",
+          "assigned_target_id": "CONTINUOUS_COGNITIVE_CHANGE",
+          "endpoint": "CONTINUOUS_COGNITIVE_CHANGE",
+          "horizon_years": null,
+          "production_ready": false,
+          "effect_rateability": "not_rateable",
+          "coordinate_status": "unmaterialized_non_production_ready",
+          "blocked_reason": "PACKET_INCOMPLETE",
+          "matrix_confidence": "NOT_APPLICABLE",
+          "baseline": null,
+          "native_effect": {
+            "measure": "MD",
+            "estimate": 0.022,
+            "contrast": "FINGER multidomain intervention versus general health advice in annual NTB total Z-score change"
+          },
+          "native_effect_95_interval": {
+            "lower": 0.002,
+            "upper": 0.042,
+            "level": 0.95
+          },
+          "effect_transport": null,
+          "technique": null,
+          "transport_disclosure": null,
+          "interval_scenarios": [],
+          "patient_coordinate": null,
+          "source_identity": {
+            "pmid": "25771249",
+            "pmcid": null,
+            "doi": "10.1016/S0140-6736(15)60461-5",
+            "citation_resolved": true
+          },
+          "clinical_use_prohibited": true
+        },
+        {
+          "source_key": "neuro:act_physical_activity_dementia",
+          "native_action_id": "act_physical_activity_dementia",
+          "source_family": "neuro",
+          "assigned_target_id": "DEMENTIA_INCIDENCE",
+          "endpoint": "DEMENTIA_INCIDENCE",
+          "horizon_years": null,
+          "production_ready": false,
+          "effect_rateability": "not_rateable",
+          "coordinate_status": "unmaterialized_non_production_ready",
+          "blocked_reason": "ASSOCIATION_ONLY",
+          "matrix_confidence": "NOT_ADMITTED",
+          "baseline": null,
+          "native_effect": {
+            "measure": "RR",
+            "estimate": 0.91,
+            "contrast": "per 10 MET-h/week higher leisure-time physical activity for incident all-cause dementia"
+          },
+          "native_effect_95_interval": {
+            "lower": 0.85,
+            "upper": 0.97,
+            "level": 0.95
+          },
+          "effect_transport": null,
+          "technique": null,
+          "transport_disclosure": null,
+          "interval_scenarios": [],
+          "patient_coordinate": null,
+          "source_identity": {
+            "pmid": "29061599",
+            "pmcid": "PMC5665289",
+            "doi": "10.1136/bmjopen-2016-014706",
+            "citation_resolved": true
+          },
+          "clinical_use_prohibited": true
+        },
+        {
+          "source_key": "neuro:act_progress_bp_strategy_recurrent_stroke",
+          "native_action_id": "act_progress_bp_strategy_recurrent_stroke",
+          "source_family": "neuro",
+          "assigned_target_id": "PREVENT_ASCVD_FIRST_EVENT",
+          "endpoint": "PREVENT_ASCVD_FIRST_EVENT",
+          "horizon_years": 10,
+          "production_ready": true,
+          "effect_rateability": "rateable",
+          "coordinate_status": "materialized",
+          "blocked_reason": null,
+          "matrix_confidence": "LOW",
+          "baseline": {
+            "target_id": "PREVENT_ASCVD_FIRST_EVENT",
+            "endpoint": "PREVENT_ASCVD_FIRST_EVENT",
+            "horizon_years": 10,
+            "probability": 0.1,
+            "calculation_state": "calculated",
+            "model_id": "prevent",
+            "model_version": "3.0.0",
+            "output_id": "prevent:ascvd:10y",
+            "clinical_use": "staging_nonproduction"
+          },
+          "native_effect": {
+            "measure": "RRR",
+            "estimate": 28,
+            "contrast": "PROGRESS flexible perindopril-based regimen versus matching placebo regimen for total recurrent stroke"
+          },
+          "native_effect_95_interval": {
+            "lower": 17,
+            "upper": 38,
+            "level": 0.95
+          },
+          "effect_transport": "decision_grade_rrr_projection",
+          "technique": {
+            "technique_id": "V1_DECISION_GRADE",
+            "kernel_id": "RISK_ARR_V1",
+            "authority": "method.risk_arr_action_map.v1.2"
+          },
+          "transport_disclosure": {
+            "source_horizon_semantics": "Mean 4 years; total recurrent fatal or nonfatal stroke.",
+            "baseline_horizon_years": 10,
+            "endpoint_relationship": "SUBSET_COMPONENT",
+            "confidence_authority": "census.matrix_confidence",
+            "estimate_boundary": "decision-grade, patient-conditioned, not individually predicted"
+          },
+          "interval_scenarios": [
+            {
+              "scenario": "conservative",
+              "native_effect_value": 0.83,
+              "treated_probability": 0.083,
+              "arr": 0.017,
+              "nnt": 58.8235294117647
+            },
+            {
+              "scenario": "central",
+              "native_effect_value": 0.72,
+              "treated_probability": 0.072,
+              "arr": 0.02800000000000001,
+              "nnt": 35.7142857142857
+            },
+            {
+              "scenario": "optimistic",
+              "native_effect_value": 0.62,
+              "treated_probability": 0.062,
+              "arr": 0.038000000000000006,
+              "nnt": 26.315789473684205
+            }
+          ],
+          "patient_coordinate": {
+            "baseline_probability": 0.1,
+            "treated_probability": 0.072,
+            "arr": 0.02800000000000001,
+            "nnt": 35.7142857142857,
+            "units": "probability",
+            "personalization_label": "patient-conditioned, not individually predicted"
+          },
+          "source_identity": {
+            "pmid": "11589932",
+            "pmcid": null,
+            "doi": "10.1016/S0140-6736(01)06178-5",
+            "citation_resolved": true
+          },
+          "clinical_use_prohibited": true
+        },
+        {
+          "source_key": "neuro:act_vitamin_d3_cognitive_decline",
+          "native_action_id": "act_vitamin_d3_cognitive_decline",
+          "source_family": "neuro",
+          "assigned_target_id": "CONTINUOUS_COGNITIVE_CHANGE",
+          "endpoint": "CONTINUOUS_COGNITIVE_CHANGE",
+          "horizon_years": null,
+          "production_ready": false,
+          "effect_rateability": "not_rateable",
+          "coordinate_status": "unmaterialized_non_production_ready",
+          "blocked_reason": "SOURCE_NATIVE_NON_ARR",
+          "matrix_confidence": "NOT_APPLICABLE",
+          "baseline": null,
+          "native_effect": {
+            "measure": "MD",
+            "estimate": 0.01,
+            "contrast": "vitamin D3 versus placebo in annual global cognitive change"
+          },
+          "native_effect_95_interval": {
+            "lower": -0.01,
+            "upper": 0.02,
+            "level": 0.95
+          },
+          "effect_transport": null,
+          "technique": null,
+          "transport_disclosure": null,
+          "interval_scenarios": [],
+          "patient_coordinate": null,
+          "source_identity": {
+            "pmid": "34853363",
+            "pmcid": "PMC8636504",
+            "doi": "10.1038/s41598-021-02485-8",
+            "citation_resolved": true
+          },
+          "clinical_use_prohibited": true
+        },
+        {
+          "source_key": "neuro:act_zoster_vaccine_dementia",
+          "native_action_id": "act_zoster_vaccine_dementia",
+          "source_family": "neuro",
+          "assigned_target_id": "DEMENTIA_INCIDENCE",
+          "endpoint": "DEMENTIA_INCIDENCE",
+          "horizon_years": null,
+          "production_ready": false,
+          "effect_rateability": "not_rateable",
+          "coordinate_status": "unmaterialized_non_production_ready",
+          "blocked_reason": "PACKET_INCOMPLETE",
+          "matrix_confidence": "NOT_ADMITTED",
+          "baseline": null,
+          "native_effect": {
+            "measure": "ABSOLUTE_RISK_REDUCTION",
+            "estimate": 3.5,
+            "contrast": "scaled effect of vaccine receipt versus nonreceipt on new dementia diagnosis"
+          },
+          "native_effect_95_interval": {
+            "lower": 0.6,
+            "upper": 7.1,
+            "level": 0.95
+          },
+          "effect_transport": null,
+          "technique": null,
+          "transport_disclosure": null,
+          "interval_scenarios": [],
+          "patient_coordinate": null,
+          "source_identity": {
+            "pmid": "40175543",
+            "pmcid": "PMC12058522",
+            "doi": "10.1038/s41586-025-08800-x",
+            "citation_resolved": true
+          },
+          "clinical_use_prohibited": true
+        }
+      ]
     },
     "run_audit": {
       "schema_version": "run_audit.v1",

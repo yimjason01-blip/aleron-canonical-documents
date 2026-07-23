@@ -146,6 +146,62 @@ function runtimeModelRows(model, domain) {
   ];
 }
 
+function arrCard(selected, coordinate) {
+  const key = `${selected.action.key} · ${selected.action.name} · ${selected.lane.label}`;
+  if (!coordinate || coordinate.coordinate_status !== 'materialized') {
+    const reason = coordinate?.blocked_reason === 'MISSING_TECHNIQUE_BINDING'
+      ? 'No governed technique binding'
+      : 'Compatible baseline risk not emitted for this patient';
+    return `
+        <section class="panel rs-arr" aria-label="Patient-conditioned benefit">
+          <div class="rs-arr-key">${esc(key)}</div>
+          <strong class="rs-arr-blocked-head">Absolute benefit not estimable for this patient</strong>
+          <p class="rs-arr-blocked-note">${esc(reason)}. The relative effect stays in the plot below; no ARR or NNT is shown.</p>
+        </section>`;
+  }
+  const baseline = percent(coordinate.baseline?.probability);
+  const horizon = asFinite(coordinate.baseline?.horizon_years);
+  const horizonText = horizon === null ? '' : ` over ${Number(horizon)} years`;
+  const horizonAt = horizon === null ? '' : ` at ${Number(horizon)} years`;
+  const arr = asFinite(coordinate.patient_coordinate?.arr);
+  const nnt = asFinite(coordinate.patient_coordinate?.nnt);
+  const scenarios = Array.isArray(coordinate.interval_scenarios) ? coordinate.interval_scenarios : [];
+  const arrValues = scenarios.map((s) => asFinite(s?.arr)).filter((v) => v !== null);
+  const nntValues = scenarios.map((s) => asFinite(s?.nnt)).filter((v) => v !== null);
+  if (arr === null || baseline === null) {
+    return `
+        <section class="panel rs-arr" aria-label="Patient-conditioned benefit">
+          <div class="rs-arr-key">${esc(key)}</div>
+          <strong class="rs-arr-blocked-head">Absolute benefit not estimable for this patient</strong>
+          <p class="rs-arr-blocked-note">The materialized coordinate is incomplete; no ARR or NNT is shown.</p>
+        </section>`;
+  }
+  const arrPp = Number((arr * 100).toFixed(1));
+  const arrRange = arrValues.length
+    ? ` [${Number((Math.min(...arrValues) * 100).toFixed(1))}–${Number((Math.max(...arrValues) * 100).toFixed(1))}]`
+    : '';
+  const nntRange = nntValues.length
+    ? `${Math.round(Math.min(...nntValues))}–${Math.round(Math.max(...nntValues))} across the interval`
+    : '';
+  const benefitPct = Number(benefit(selected.action).b.toFixed(1));
+  const confidence = String(coordinate.matrix_confidence ?? selected.action.confidence ?? '').toUpperCase();
+  const transport = typeof coordinate.transport_disclosure === 'string' && coordinate.transport_disclosure
+    ? ` · ${coordinate.transport_disclosure}`
+    : '';
+  return `
+        <section class="panel rs-arr" aria-label="Patient-conditioned benefit">
+          <div class="rs-arr-main">
+            <div class="rs-arr-key">${esc(key)}</div>
+            <div class="rs-arr-answer"><span class="rs-arr-hero">${arrPp} fewer events</span><span class="rs-arr-per">per 100 patients${esc(horizonText)}</span></div>
+            <div class="rs-arr-chain">${esc(baseline)} baseline${esc(horizonAt)} × ${esc(fmtEffect(selected.action))} (${benefitPct}% relative benefit) → ARR ${arrPp} percentage points${esc(arrRange)}</div>
+          </div>
+          <div class="rs-arr-side">
+            <div class="rs-arr-nnt"><span class="rs-arr-nnt-value">${nnt === null ? 'NNT not emitted' : `NNT ${Math.round(nnt)}`}</span><span class="rs-arr-nnt-range">${esc(nntRange)}</span></div>
+            <div class="rs-arr-conf">${esc(confidence.charAt(0) + confidence.slice(1).toLowerCase())} ARR translation confidence${esc(transport)}</div>
+          </div>
+        </section>`;
+}
+
 export function riskSpaceView(model, state) {
   const selectedDomainId = state.selectedRiskDomain
     ?? RISK_DOMAINS.find((d) => d.modelId === state.selectedRiskId)?.id;
@@ -193,6 +249,7 @@ export function riskSpaceView(model, state) {
         <section class="panel rs-model"><div class="panel-head"><h3>Risk model state</h3></div>
           <div class="rs-model-block"><h4>${esc(domain.modelHead)}</h4><ul class="rs-model-list">${modelRows}</ul></div>
         </section>
+        ${arrCard(selected, selectedCoordinate)}
         <section class="panel rs-space">
           <div class="panel-head"><h3>Action Space</h3><span>Dot: source estimate · whisker: 95% interval · right tag: ARR V1 matrix confidence</span></div>
           ${lanes}
