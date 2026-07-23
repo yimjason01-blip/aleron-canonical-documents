@@ -612,7 +612,7 @@ function vitalityRecord(value) {
   const state = row.calculation_state ?? row.model_status ?? 'insufficient_data';
   return {
     ...row,
-    label: row.label ?? 'Vitality phenotype protocol',
+    label: row.label ?? 'Vitality improvement method',
     value: state,
     units: null,
     state: row.model_status ?? state,
@@ -757,8 +757,8 @@ export function adaptPhysicianCase(caseBundle) {
       ...record,
       canonical: {
         id: 'vitality',
-        label: 'Vitality phenotype model v1.5',
-        repoPath: record.source || 'engine/system-design/vitality-phenotype-model.md',
+        label: 'Vitality improvement method v1.5',
+        repoPath: record.source || 'docs/specs/Risk & Vitality/Vitality/vitality.md',
         href: pagesUrl({ pagesPath: 'engine/system-design/diagrams/aleron-vitality-physician-outcomes.html' }),
         role: 'Within-person protocol; no composite score'
       }

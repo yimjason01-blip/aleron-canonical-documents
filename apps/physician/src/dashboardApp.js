@@ -2,6 +2,7 @@ import { displayValue } from './dashboardAdapter.js?v=physician-care-vitality-v1
 import { formatTrendLine } from './wearableSummary.js?v=physician-care-vitality-v1';
 import { getOverrideTaxonomy } from './apiClient.js';
 import { recommendationTraceHTML, releasePreviewHTML } from './clinicalTrace.js?v=physician-care-vitality-v1';
+import { riskSpaceView } from './riskSpaceView.js?v=risk-domain-action-space-v1';
 
 const TAB_LABELS = [
   ['patient-data', 'Patient Data'],
@@ -219,10 +220,7 @@ function riskView(model, state) {
 }
 
 const ACTION_SPACE_EVIDENCE = [
-  ['very_low', 'Very low'],
-  ['low', 'Low'],
-  ['moderate', 'Moderate'],
-  ['high', 'High'],
+  ['component_pass', 'Contract pass'],
 ];
 
 function actionSpaceCategory(item) {
@@ -247,7 +245,7 @@ function auditQalyValue(value) {
 }
 
 function actionSpaceEvidenceLabel(item) {
-  return ACTION_SPACE_EVIDENCE.find(([id]) => id === item.evidenceCategory)?.[1] ?? 'Not rubric-provenanced';
+  return ACTION_SPACE_EVIDENCE.find(([id]) => id === item.evidenceCategory)?.[1] ?? 'Confidence contract incomplete';
 }
 
 function actionSpaceRecordText(value) {
@@ -319,9 +317,9 @@ function actionSpaceView(model, state) {
     const order = laneCounts.get(lane) ?? 0;
     laneCounts.set(lane, order + 1);
     const total = laneTotals.get(lane) ?? 1;
-    const center = 110 + lane * 160;
+    const center = 360;
     if (total === 1) return center;
-    const maxExtent = lane === 0 ? 26 : 60;
+    const maxExtent = 250;
     const extent = Math.min(maxExtent, (total - 1) * 7);
     return center - extent + (order * extent * 2) / (total - 1);
   };
@@ -341,7 +339,7 @@ function actionSpaceView(model, state) {
     previousTickLabelY = labelY;
     return `<line class="action-space-grid${zero ? ' zero' : ''}" x1="76" y1="${y}" x2="690" y2="${y}"/><text data-qaly-tick="${value}" x="70" y="${labelY}" text-anchor="end">${esc(axisQalyValue(value))}</text>`;
   }).join('');
-  const evidenceGuides = [190, 350, 510].map((x) => `<line class="action-space-guide" x1="${x}" y1="60" x2="${x}" y2="300"/>`).join('');
+  const evidenceGuides = '';
   const marks = visible.map((item) => {
     const x = xFor(item);
     const y = yFor(item);
@@ -359,7 +357,7 @@ function actionSpaceView(model, state) {
       : '';
     return `<g data-action-space-mark="${esc(item.id)}" role="button" tabindex="0" aria-label="${esc(`${fullLabel}, ${actionSpaceValue(item.expectedValueQaly)}`)}" aria-pressed="${selected}" data-mark-kind="${esc(item.kind)}" class="action-space-mark ${selected ? 'selected ' : ''}${esc(item.disposition ?? 'staged')}" transform="translate(0 0)">${shape}${selected ? `<circle class="selection-ring" cx="${x}" cy="${y}" r="13"/>` : ''}<title>${esc(fullLabel)} · ${esc(actionSpaceValue(item.expectedValueQaly))}</title></g>${selectedLabel}`;
   }).join('');
-  const labels = ACTION_SPACE_EVIDENCE.map(([, label], index) => `<text x="${110 + index * 160}" y="334" text-anchor="middle">${esc(label)}</text>`).join('');
+  const labels = ACTION_SPACE_EVIDENCE.map(([, label]) => `<text x="360" y="334" text-anchor="middle">${esc(label)}</text>`).join('');
   const ledger = visible.map((item) => {
     const status = item.disposition ? stateText(item.disposition) : 'Not emitted';
     return `<button type="button" data-action-space-item="${esc(item.id)}" aria-pressed="${item.id === selectedId}" class="action-space-ledger-row ${item.id === selectedId ? 'selected' : ''}">
@@ -393,34 +391,25 @@ function actionSpaceView(model, state) {
     return `<section class="action-space-adjacent" data-action-space-${kind}><h3>${esc(title)}</h3>${items.length ? rows : empty(`No ${title.toLowerCase()} emitted.`)}</section>`;
   };
   const nonPlottable = records.filter((item) => !item.plottable && item.disposition !== 'excluded');
-  const diagnosticMismatches = records
-    .filter((item) => item.valueConsistency?.status === 'outside_tolerance')
-    .map((item) => ({
-      ...item,
-      reason: `Emitted ${auditQalyValue(item.valueConsistency.emittedQaly)}; recomputed ${auditQalyValue(item.valueConsistency.recomputedQaly)}; Δ ${auditQalyValue(item.valueConsistency.deltaQaly)} exceeds tolerance ${auditQalyValue(item.valueConsistency.toleranceQaly)}`,
-    }));
-  const mismatchAudit = diagnosticMismatches.length
-    ? adjacent('Diagnostic valuation mismatches', diagnosticMismatches, 'diagnostic-mismatches')
-    : '';
+
   const excludedScored = records.filter((item) => item.disposition === 'excluded');
   const excluded = [...(model.actionMap.excluded ?? []), ...excludedScored]
     .filter((item, index, items) => {
       const id = item.id ?? item.candidate_id ?? item.library_item_id ?? item.label;
       return items.findIndex((candidate) => (candidate.id ?? candidate.candidate_id ?? candidate.library_item_id ?? candidate.label) === id) === index;
     });
-  return `<header class="screen-head"><div><h1>Action Space</h1><p>Expected patient value by confidence in estimated patient value. Actions plot expected net value; diagnostics plot emitted expected value of information.</p></div></header>
-    <div class="action-space-boundary">A library status such as fully_derived_v2 is not clinical promotion. Only explicitly rubric-provenanced, promotion-eligible records are plotted.</div>
+  return `<header class="screen-head"><div><h1>Action Space</h1><p>Expected patient value for records that pass the governed component confidence contract. Actions plot expected net value; diagnostics plot emitted optimized-policy value of information.</p></div></header>
+    <div class="action-space-boundary">A library status such as fully_derived_v2 is not clinical promotion. Only records with a complete typed confidence contract and explicit promotion eligibility are plotted.</div>
     <section class="action-space-layout" data-action-space-layout="reference-stack">
-      <div class="action-space-map"><div class="panel-head"><h2>Action map</h2><span>Every promoted action and diagnostic on one patient-QALY scale</span></div><div class="action-space-plot" role="region" aria-label="Action map plot" tabindex="0"><svg viewBox="0 0 720 360" role="img" aria-label="Expected QALY by confidence in estimated patient value"><line class="action-space-axis" x1="76" y1="60" x2="76" y2="300"/>${evidenceGuides}${axisTicks}<text x="20" y="28">Expected QALY ↑</text><text x="382" y="354" text-anchor="middle">Confidence in estimated patient value</text>${labels}${marks}${visible.length ? '' : '<text x="360" y="180" text-anchor="middle">No rubric-provenanced promoted items</text>'}</svg></div><div class="action-space-legend" data-action-space-legend><span><i class="mark-key action" aria-hidden="true"></i>Action</span><span><i class="mark-key diagnostic" aria-hidden="true"></i>Diagnostic</span><span><i class="mark-key selected-key" aria-hidden="true"></i>Selected</span><span><i class="mark-key deferred-key" aria-hidden="true"></i>Deferred</span></div></div>
-      <div class="action-space-ledger"><div class="panel-head"><h2>Confidence ledger</h2><span>Every plotted mark, its value, status, and decision logic · ${visible.length} plotted</span></div><nav class="action-space-filters" aria-label="Action Space categories">${filters.map((filter) => `<button type="button" data-action-space-filter="${esc(filter.id)}" aria-pressed="${filter.id === activeFilter}" class="${filter.id === activeFilter ? 'on' : ''}">${esc(filter.label)} <span>${filter.id === 'all' ? plottable.length : plottable.filter((item) => actionSpaceCategory(item)?.id === filter.id).length}</span></button>`).join('')}</nav><div class="action-space-ledger-head" data-action-space-ledger-head aria-hidden="true"><span>Item</span><span>Patient value</span><span>Status</span><span>Decision logic</span></div>${ledger || empty('No rubric-provenanced promoted items.')}</div>
+      <div class="action-space-map"><div class="panel-head"><h2>Action map</h2><span>Every promoted action and diagnostic on one patient-QALY scale</span></div><div class="action-space-plot" role="region" aria-label="Action map plot" tabindex="0"><svg viewBox="0 0 720 360" role="img" aria-label="Expected QALY for confidence-contract-pass records"><line class="action-space-axis" x1="76" y1="60" x2="76" y2="300"/>${evidenceGuides}${axisTicks}<text x="20" y="28">Expected QALY ↑</text><text x="382" y="354" text-anchor="middle">Confidence contract state</text>${labels}${marks}${visible.length ? '' : '<text x="360" y="180" text-anchor="middle">No confidence-contract-pass promoted items</text>'}</svg></div><div class="action-space-legend" data-action-space-legend><span><i class="mark-key action" aria-hidden="true"></i>Action</span><span><i class="mark-key diagnostic" aria-hidden="true"></i>Diagnostic</span><span><i class="mark-key selected-key" aria-hidden="true"></i>Selected</span><span><i class="mark-key deferred-key" aria-hidden="true"></i>Deferred</span></div></div>
+      <div class="action-space-ledger"><div class="panel-head"><h2>Confidence ledger</h2><span>Every plotted mark, its value, status, and decision logic · ${visible.length} plotted</span></div><nav class="action-space-filters" aria-label="Action Space categories">${filters.map((filter) => `<button type="button" data-action-space-filter="${esc(filter.id)}" aria-pressed="${filter.id === activeFilter}" class="${filter.id === activeFilter ? 'on' : ''}">${esc(filter.label)} <span>${filter.id === 'all' ? plottable.length : plottable.filter((item) => actionSpaceCategory(item)?.id === filter.id).length}</span></button>`).join('')}</nav><div class="action-space-ledger-head" data-action-space-ledger-head aria-hidden="true"><span>Item</span><span>Patient value</span><span>Status</span><span>Decision logic</span></div>${ledger || empty('No confidence-contract-pass promoted items.')}</div>
       ${selectedDetail}
     </section>
-    <section class="action-space-audit"><h2>Adjacent audit</h2>${mismatchAudit}${adjacent('Non-plottable records', nonPlottable, 'nonplottable')}${adjacent('Required obligations', model.actionMap.required ?? [], 'required')}${adjacent('Excluded items', excluded, 'excluded', true)}</section>`;
+    <section class="action-space-audit"><h2>Adjacent audit</h2>${adjacent('Non-plottable records', nonPlottable, 'nonplottable')}${adjacent('Required obligations', model.actionMap.required ?? [], 'required')}${adjacent('Excluded items', excluded, 'excluded', true)}</section>`;
 }
 
 function modelsView(model, state) {
-  const pane = state.selectedModelPane === 'action-space' ? 'action-space' : 'models';
-  return `<nav class="model-pane-nav" aria-label="Risk views"><button type="button" data-model-pane="models" aria-pressed="${pane === 'models'}" class="${pane === 'models' ? 'on' : ''}">Risk</button><button type="button" data-model-pane="action-space" aria-pressed="${pane === 'action-space'}" class="${pane === 'action-space' ? 'on' : ''}">Action Space</button></nav>${pane === 'action-space' ? actionSpaceView(model, state) : riskView(model, state)}`;
+  return riskSpaceView(model, state);
 }
 
 function vitalityRange(row) {
@@ -616,14 +605,14 @@ function vitalityView(model, state) {
     const missing = Array.isArray(row.missing_inputs) ? row.missing_inputs : [];
     const state = row.value ?? row.state;
     const modelStatus = row.model_status && stateText(row.model_status) !== stateText(state)
-      ? `<small>Model status: ${esc(stateText(row.model_status))}</small>`
+      ? `<small>Method status: ${esc(stateText(row.model_status))}</small>`
       : '';
     const calls = [
       row.terminal_state ? `<div><dt>Terminal state</dt><dd>${esc(stateText(row.terminal_state))}</dd></div>` : '',
       row.dominant_lever ? `<div><dt>Dominant lever</dt><dd>${esc(stateText(row.dominant_lever))}</dd></div>` : ''
     ].filter(Boolean).join('');
     const provenance = [
-      row.model_version ? `Model ${row.model_version}` : '',
+      row.model_version ? `Method ${row.model_version}` : '',
       row.source ? `Source ${row.source}` : ''
     ].filter(Boolean).join(' · ');
     const boundaries = [
@@ -645,7 +634,7 @@ function vitalityView(model, state) {
       ? `<p class="vitality-missing"><strong>Inputs still required:</strong> ${row.missing_inputs.map((item) => esc(stateText(item))).join(', ')}</p>`
       : '';
     const note = row.model_note ? `<p class="vitality-note">${esc(row.model_note)}</p>` : '';
-    const version = row.model_version ? `<small>Model ${esc(row.model_version)}</small>` : '';
+    const version = row.model_version ? `<small>Method ${esc(row.model_version)}</small>` : '';
     return `<article class="vitality-card"><div class="vitality-head"><div><span class="section-label">${esc(row.label ?? row.id)}</span><strong>${esc(displayValue(row.value, row.units, row.state))}</strong>${row.units ? `<small class="vitality-unit">${esc(String(row.units).replaceAll('_',' '))}</small>` : ''}</div><span>${esc(stateText(row.state ?? 'measured'))}</span></div>${vitalityChart(row)}${note}${missing}${version}</article>`;
   }).join('');
   const outcomes = `${feltOutcomes}${genericOutcomes}`;

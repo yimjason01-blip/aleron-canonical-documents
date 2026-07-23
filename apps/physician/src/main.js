@@ -12,7 +12,7 @@ import {
   startPhysicianReview
 } from './apiClient.js';
 import { adaptPhysicianCase, artifactBindsCurrentLineage, buildReleasePreviewRequest, releaseIdentifier } from './dashboardAdapter.js?v=physician-care-vitality-v1';
-import { decisionReasonOptionsHTML, renderDashboard, renderEmptyStaging, renderFatalError } from './dashboardApp.js?v=physician-design-system-polish-v1';
+import { decisionReasonOptionsHTML, renderDashboard, renderEmptyStaging, renderFatalError } from './dashboardApp.js?v=risk-domain-action-space-v1';
 
 const app = document.querySelector('#app');
 const state = {
@@ -20,6 +20,8 @@ const state = {
   activeCase: null,
   activeTab: 'patient-data',
   selectedRiskId: null,
+  selectedRiskDomain: null,
+  selectedRiskAction: null,
   selectedModelPane: 'models',
   actionSpaceFilter: 'all',
   selectedActionSpaceItemId: null,
@@ -159,6 +161,44 @@ function attachListeners() {
     render();
   }));
 
+  const riskDomainButtons = [...document.querySelectorAll('[data-rs-domain]')];
+  const selectRiskDomain = (button, restoreFocus = false) => {
+    state.selectedRiskDomain = button.dataset.rsDomain;
+    state.selectedRiskId = button.dataset.riskDomain;
+    state.selectedRiskAction = null;
+    render();
+    if (restoreFocus) document.querySelector(`[data-rs-domain="${state.selectedRiskDomain}"]`)?.focus();
+  };
+  riskDomainButtons.forEach((button, index) => {
+    button.addEventListener('click', () => selectRiskDomain(button));
+    button.addEventListener('keydown', (event) => {
+      const last = riskDomainButtons.length - 1;
+      const nextIndex = event.key === 'Home' ? 0
+        : event.key === 'End' ? last
+          : ['ArrowRight', 'ArrowDown'].includes(event.key) ? (index + 1) % riskDomainButtons.length
+            : ['ArrowLeft', 'ArrowUp'].includes(event.key) ? (index - 1 + riskDomainButtons.length) % riskDomainButtons.length
+              : null;
+      if (nextIndex == null) return;
+      event.preventDefault();
+      selectRiskDomain(riskDomainButtons[nextIndex], true);
+    });
+  });
+
+  document.querySelectorAll('[data-rs-action]').forEach((mark) => {
+    const select = () => {
+      state.selectedRiskAction = mark.dataset.rsAction;
+      render();
+      document.querySelector(`[data-rs-action="${state.selectedRiskAction}"]`)?.focus();
+    };
+    mark.addEventListener('click', select);
+    mark.addEventListener('keydown', (event) => {
+      if (event.key === 'Enter' || event.key === ' ') {
+        event.preventDefault();
+        select();
+      }
+    });
+  });
+
   document.querySelector('[data-open-action-space]')?.addEventListener('click', (event) => {
     state.activeTab = 'risk';
     state.selectedModelPane = 'action-space';
@@ -192,10 +232,6 @@ function attachListeners() {
     });
   });
 
-  document.querySelectorAll('[data-risk-domain]').forEach((button) => button.addEventListener('click', () => {
-    state.selectedRiskId = button.dataset.riskDomain;
-    render();
-  }));
 
   const vitalityInstrumentButtons = [...document.querySelectorAll('[data-vitality-instrument]')];
   const selectVitalityInstrument = (button) => {
@@ -233,6 +269,8 @@ function attachListeners() {
       state.workflowStatus = 'Chart opened. Backend workflow state was not changed.';
       state.activeTab = 'patient-data';
       state.selectedRiskId = null;
+      state.selectedRiskDomain = null;
+      state.selectedRiskAction = null;
       state.selectedModelPane = 'models';
       state.actionSpaceFilter = 'all';
       state.selectedActionSpaceItemId = null;

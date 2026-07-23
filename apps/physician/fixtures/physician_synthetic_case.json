@@ -3275,7 +3275,7 @@
       "run_id": "run-synth-al47m-001",
       "patient_packet_hash": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
       "library_versions": {
-        "action_library_v2": "2.0-prototype",
+        "action_library": "2.0-prototype",
         "genetic_mustdo_library": "genetic_mustdo.v1"
       },
       "patient": {
@@ -3368,7 +3368,7 @@
             "unit": "QALY"
           },
           "provenance": {
-            "library_id": "action_library_v2",
+            "library_id": "action_library",
             "patient_keys": [
               "bmi",
               "hba1c",
@@ -3387,7 +3387,7 @@
             "unit": "QALY"
           },
           "provenance": {
-            "library_id": "action_library_v2",
+            "library_id": "action_library",
             "patient_keys": [
               "vo2max",
               "fatigue"
@@ -3405,7 +3405,7 @@
             "unit": "QALY if reclassified"
           },
           "provenance": {
-            "library_id": "action_library_v2",
+            "library_id": "action_library",
             "patient_keys": [
               "blood_pressure"
             ]
@@ -3427,7 +3427,7 @@
           "id": "act-metabolic-program",
           "label": "Metabolic risk and body composition program",
           "kind": "action",
-          "source": "action_library_v2",
+          "source": "action_library",
           "evidence_axis": "hard_outcome",
           "patient_value_qaly": {
             "value": 0.42,
@@ -3445,7 +3445,7 @@
           "id": "act-zone2-strength",
           "label": "Zone 2 plus progressive strength prescription",
           "kind": "action",
-          "source": "action_library_v2",
+          "source": "action_library",
           "evidence_axis": "vitality_and_prevention",
           "patient_value_qaly": {
             "value": 0.24,
@@ -3464,7 +3464,7 @@
           "id": "dx-home-bp",
           "label": "Home blood pressure confirmation",
           "kind": "diagnostic",
-          "source": "action_library_v2",
+          "source": "action_library",
           "p_reclass": {
             "value": 0.31,
             "units": "probability"
@@ -3560,7 +3560,7 @@
           "title": "Metabolic risk and body composition program",
           "label": "Metabolic risk and body composition program",
           "kind": "action",
-          "source": "action_library_v2",
+          "source": "action_library",
           "evidence_axis": "hard_outcome",
           "why_it_matters": "HbA1c 6.0 %, waist 105 cm, and HOMA-IR 4.3 index support intervention.",
           "why_now": "HbA1c 6.0 %, waist 105 cm, and HOMA-IR 4.3 index support intervention.",
@@ -3591,7 +3591,7 @@
           "title": "Home blood pressure confirmation",
           "label": "Home blood pressure confirmation",
           "kind": "diagnostic",
-          "source": "action_library_v2",
+          "source": "action_library",
           "evidence_axis": "diagnostic_value",
           "why_it_matters": "Office blood pressure 142/90 mmHg requires confirmation before treatment intensity decisions.",
           "why_now": "Office blood pressure 142/90 mmHg requires confirmation before treatment intensity decisions.",
@@ -3618,7 +3618,7 @@
           "title": "Zone 2 plus progressive strength prescription",
           "label": "Zone 2 plus progressive strength prescription",
           "kind": "action",
-          "source": "action_library_v2",
+          "source": "action_library",
           "evidence_axis": "vitality_and_prevention",
           "why_it_matters": "VO2 max 28 mL/kg/min and fatigue create a modifiable fitness target.",
           "why_now": "VO2 max 28 mL/kg/min and fatigue create a modifiable fitness target.",

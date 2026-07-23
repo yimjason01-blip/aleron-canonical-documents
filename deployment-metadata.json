@@ -5,23 +5,25 @@
   "physician_assets": {
     "apps/physician/assets/fonts/PolySans-Median.ttf": "c1a5e1dcf63963a4eeb688ff65e919aaac3ee9f9958b57fee6ca3224df35a74f",
     "apps/physician/assets/fonts/PolySans-Neutral.ttf": "52d272ffe1967e5bfab79353a314044319d5a86b16e90b44e457055a1f119c17",
-    "apps/physician/fixtures/physician_synthetic_case.json": "55a277aec10b629bc38e209ac10a1ec51bd933b94b268ddd2191fff0bf182919",
-    "apps/physician/index.html": "f522aa4a70c5bac21056a3da729fe46036e56f4c6053f77385a5385f837afab6",
-    "apps/physician/src/actionSpaceModel.js": "3b00c438ed861363b7b40341bf39574dc61d1fda94a226b163bcd2df0cc0f813",
+    "apps/physician/fixtures/physician_synthetic_case.json": "6cfbcf9071f23b2bb44df39439adb177b5fe147bfc59bf15fb4aa859875acfba",
+    "apps/physician/index.html": "26284a8d7541788c623991b2cf0e5045fb702e348363c4786057a44848b24a89",
+    "apps/physician/src/actionSpaceModel.js": "210c7db90c474b7a1278e5895cb5255ae2d91a97659b6b77fa1a8c39a630c47d",
     "apps/physician/src/apiClient.js": "7c7abb9f27b71a0db8077501745a91944f2a6ba02a53e26b3c72a0787b923707",
-    "apps/physician/src/canonicalSources.js": "c4731ab273f0ef7fcf2353c0f250a9581f23a5a13a4f4cd9415c516162014f36",
+    "apps/physician/src/canonicalSources.js": "a6db276ff2385687592683c7e8658f03d8b30ac025fc3471a0a9eb4f43473bb2",
     "apps/physician/src/clinicalTrace.js": "a27aa44481f719a79aca0bce17b7da86d3516ea2cd4e47c4942a74a348bc8f76",
     "apps/physician/src/clinicalValueFormat.js": "ea48ae4de285b74f2f9f8c52c0e578a857f62d61d57e21d334b59151f75adadc",
-    "apps/physician/src/dashboardAdapter.js": "340b763ebf4ecef0f6659a6e796c460a1c4e8076204ecb298362e848f4ea60ab",
-    "apps/physician/src/dashboardApp.js": "37bb83f97f9bf77b5a132c51716b1927b97c838399cc05793ed6900d284973cb",
+    "apps/physician/src/dashboardAdapter.js": "2b476e9a04874b222ca634594f351334d90bc5784b9699652283b10b7c01a872",
+    "apps/physician/src/dashboardApp.js": "094ca660be93902a32ccae6e7bfd40fbb5d8bc440a939e6d17c4c9ec8278353b",
     "apps/physician/src/fixtureLoader.js": "c8936233143348043f94a6ed8f4dbffbc0da3b5fcd96a7af674713a21c2e5a67",
     "apps/physician/src/journey.css": "fff96372dd2f9d9f4c7547a8c2616f71c5b55b163d9e69b41e80caadbf306e17",
-    "apps/physician/src/main.js": "66c5a2b3a5d80aac461d3f086332876e4ffc2d382475f5b054a7b623d658da57",
+    "apps/physician/src/main.js": "7408bf643c19ed1ee47b8ad1ab9dcd6956646c10764a13e18d50d6aa749e3313",
+    "apps/physician/src/riskActionLibrary.js": "c374f27bdbd96019b37f81dd92b488637d7fc040766f762bf634a1c995817f31",
+    "apps/physician/src/riskSpaceView.js": "2be2a47d88fc088d589bd548be7743cad889ca44ddfc816a64eda4484d6acebb",
     "apps/physician/src/runtimeConfig.js": "b81e387a01c7b00a2380e2d61baaf136b377dd441e6011aaf58bc2897455ad82",
-    "apps/physician/src/styles.css": "cf62e94ee3b87e103788d4b82a11e12a61635f3b474f84b504fe0b9d1cb4ad7e",
+    "apps/physician/src/styles.css": "6b652928c6cb159c196dfe22cae051688c33bc5a73add9e591a411deae0f49fe",
     "apps/physician/src/wearableSummary.js": "5515f23ce060c2cfa4c409576b16b93be5907f1c81af5fef3160865cfa3850b9"
   },
-  "physician_tree_sha256": "f1560e3adfc834145e43ebad95d71accdaf758efd2d5a4e3d1d73eb247e50c39",
+  "physician_tree_sha256": "a7a5c8cc7b44aa697b1495d190070d7578ddebf03c20792128e3d8aa77468a1b",
   "preserve_top_level": [
     "apps",
     "archive",
@@ -34,11 +36,11 @@
     "workspaces"
   ],
   "schema_version": "aleron.canonical-deployment.v1",
-  "source_branch": "milestone/honest-staging-candidate",
+  "source_branch": "integration/risk-confidence-2026-07-22",
   "source_dirty": false,
   "source_documents": {
-    "engine/system-design/diagrams/aleron-repo-architecture.html": "89c233e4d56d439baebc19cee91947a5865ba69e69363604b0253f943fb8499d"
+    "engine/system-design/diagrams/aleron-repo-architecture.html": "ecaad647243e89bb942e2c86062804bff25fe9b99ad74af9c44c0f75e4982b86"
   },
-  "source_git_tree": "bc4f15dba22ecebe9a636e58c50310f6fefd4860",
-  "source_sha": "bb835f7e23d3e795bdd74929fbec0c0ee8f64f9a"
+  "source_git_tree": "ec240e5118d0bcafa674e295aaa533a713ca8754",
+  "source_sha": "9d6cdc2a108fd9bace51a347c6fdb518f4c2880d"
 }

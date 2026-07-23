@@ -33,8 +33,10 @@ body{margin:0;background:var(--bg);color:var(--fg);font-family:-apple-system,Bli
 </header>
 <iframe class="canonical-frame" id="canonicalFrame" title="Canonical document"></iframe>
 <script>
+// Public GitHub Pages tree is flat (system-design/, brand-deck/, patient-app/).
+// Registry srcs MUST match the served Pages layout, not monorepo-only paths
+// (engine/, design/, apps/prototypes/). Deploy overlays this file onto Pages.
 const canonicalDocs = [
-  { id: "coordination", label: "Project Coordination Board", src: "docs/PROJECT_COORDINATION_BOARD.html" },
   { id: "risk-models", label: "Risk Models", src: "system-design/diagrams/aleron-risk-models.html" },
   { id: "repo-architecture", label: "Repository Architecture", src: "system-design/diagrams/aleron-repo-architecture.html" },
   { id: "staging-physician-dashboard", label: "Staging Physician Dashboard", src: "apps/physician/index.html?staging=1&v=physician-action-map-reference-v1" },
@@ -47,8 +49,6 @@ const canonicalDocs = [
 
 const select = document.getElementById("canonicalDocSelect");
 const frame = document.getElementById("canonicalFrame");
-// Pages tree layout is flat (system-design/, brand-deck/, patient-app/).
-// Do not point registry srcs at monorepo-only paths (engine/, design/, apps/prototypes/).
 const canonicalDocAliases = { "dashboard-ds": "staging-physician-dashboard", "onboarding-mirror": "onboarding" };
 
 select.innerHTML = canonicalDocs.map(doc => `<option value="${doc.id}">${doc.label}</option>`).join("");

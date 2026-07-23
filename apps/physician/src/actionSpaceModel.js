@@ -1,8 +1,13 @@
-const DIAGNOSTIC_TOLERANCE_QALY = 0.000001;
-const CONFIDENCE_RUBRIC_VERSION = 'CONFIDENCE_RUBRIC_v1';
-const CONFIDENCE_COMPONENTS = [
-  'trial_design', 'effect_transferability', 'outcome_fidelity', 'consistency', 'harm_completeness',
-];
+const CONFIDENCE_METHOD_ID = 'method.action_library_scoring.v1.1';
+const DIRECT_CONFIDENCE_COMPONENTS = new Set([
+  'study_design_consistency', 'endpoint_directness', 'population_match',
+  'intervention_match', 'parameter_precision', 'harm_burden_completeness',
+]);
+const DIAGNOSTIC_CONFIDENCE_COMPONENTS = new Set([
+  'test_validity', 'reclassification_yield',
+  'downstream_action_value', 'population_transport',
+  'management_threshold_clarity', 'test_harm_burden_completeness',
+]);
 
 function finiteValue(value) {
   const candidate = value && typeof value === 'object' ? value.value : value;
@@ -34,35 +39,55 @@ function traceStatus(record) {
   return direct ?? ranked ?? null;
 }
 
-function normalizedEvidenceAxis(record) {
-  const axis = record?.evidence_axis ?? ranking(record).evidence_axis;
-  if (!axis || typeof axis !== 'object' || Array.isArray(axis)) return null;
-  if (axis.rubric_version !== CONFIDENCE_RUBRIC_VERSION) return null;
-  const score = axis.overall_confidence;
-  if (typeof score !== 'number' || !Number.isFinite(score) || score < 0 || score > 1) return null;
-  if (CONFIDENCE_COMPONENTS.some((key) => {
-    const value = axis[key];
-    return typeof value !== 'number' || !Number.isFinite(value) || value < 0 || value > 1;
-  })) return null;
-  const band = score >= 0.85 ? 'high' : score >= 0.65 ? 'moderate' : score >= 0.45 ? 'low' : 'very_low';
-  const label = band === 'very_low' ? 'Very low' : `${band[0].toUpperCase()}${band.slice(1)}`;
-  if (axis.confidence_label !== `${label} confidence (heuristic)`) return null;
-  return { score, band, axis, version: axis.rubric_version };
+function normalizedConfidenceContract(record, kind) {
+  const contract = record?.confidence_contract;
+  if (!contract || typeof contract !== 'object' || Array.isArray(contract)) return null;
+  if (contract.method_id !== CONFIDENCE_METHOD_ID) return null;
+  const required = kind === 'diagnostic' ? DIAGNOSTIC_CONFIDENCE_COMPONENTS : DIRECT_CONFIDENCE_COMPONENTS;
+  const components = contract.components;
+  if (!components || typeof components !== 'object' || Array.isArray(components)) return null;
+  if (Object.keys(components).length !== required.size) return null;
+  for (const name of required) {
+    const component = components[name];
+    if (!component || typeof component !== 'object' || component.state !== 'pass') return null;
+    if (!Array.isArray(component.provenance_ids) || component.provenance_ids.length === 0) return null;
+  }
+  return { band: 'component_pass', contract, version: contract.method_id };
 }
 
 export function diagnosticExpectedValue(record) {
-  const emitted = finiteValue(ranking(record).patient_value_qaly)
-    ?? finiteValue(record?.expected_voi_internal)
-    ?? finiteValue(record?.expected_value_qaly);
-  if (emitted !== null) return emitted;
-  const probability = diagnosticProbability(record);
-  const qalyIfReclassified = finiteValue(record?.qaly_if_reclassified);
-  return probability !== null && qalyIfReclassified !== null ? probability * qalyIfReclassified : null;
+  return finiteValue(ranking(record).patient_value_qaly)
+    ?? finiteValue(record?.expected_voi_internal);
+}
+
+const MAP_GATE_NAMES = [
+  'library_promoted', 'patient_eligible', 'runner_computed', 'value_complete',
+  'confidence_provenance_valid', 'burden_and_harms_complete', 'overlap_resolved', 'audit_complete',
+];
+const STRUCTURAL_GATE_NAMES = [
+  'atomic', 'no_contraindication', 'not_duplicated', 'not_required_route', 'dependency_resolved',
+];
+
+function methodGatesPass(record, names) {
+  const gates = record?.method_gates;
+  return gates && typeof gates === 'object' && !Array.isArray(gates)
+    && names.every((name) => gates[name] === 'pass')
+    && ['AI-proposed', 'not AI-proposed'].includes(record?.candidate_origin);
+}
+
+function feasibilityAllowsSelection(record) {
+  const feasibility = record?.feasibility;
+  return feasibility && typeof feasibility === 'object' && !Array.isArray(feasibility)
+    && ['available', 'constrained'].includes(feasibility.state)
+    && Array.isArray(feasibility.provenance_ids) && feasibility.provenance_ids.length > 0
+    && feasibility.provenance_ids.every((source) =>
+      typeof source === 'string' && (source.startsWith('patient:') || source.startsWith('physician:'))
+    );
 }
 
 export function evidenceCategory(record) {
   if (traceStatus(record) === 'asserted_legacy') return 'unverified';
-  return normalizedEvidenceAxis(record)?.band ?? 'missing';
+  return normalizedConfidenceContract(record, record?.kind ?? record?.type)?.band ?? 'missing';
 }
 
 function actionExpectedValue(record) {
@@ -72,18 +97,13 @@ function actionExpectedValue(record) {
 
 function valueConsistency(record) {
   if ((record?.kind ?? record?.type) !== 'diagnostic') return null;
-  const emitted = finiteValue(ranking(record).patient_value_qaly)
-    ?? finiteValue(record?.expected_voi_internal)
-    ?? finiteValue(record?.expected_value_qaly);
-  const probability = diagnosticProbability(record);
-  const qalyIfReclassified = finiteValue(record?.qaly_if_reclassified);
-  if (emitted === null || probability === null || qalyIfReclassified === null) return null;
-  const recomputed = probability * qalyIfReclassified;
-  const deltaQaly = Math.abs(emitted - recomputed);
+  const expectedVoi = diagnosticExpectedValue(record);
   return {
-    emittedQaly: emitted, recomputedQaly: recomputed, deltaQaly,
-    toleranceQaly: DIAGNOSTIC_TOLERANCE_QALY,
-    status: deltaQaly <= DIAGNOSTIC_TOLERANCE_QALY ? 'within_tolerance' : 'outside_tolerance',
+    probabilityOfMeaningfulReclassification: diagnosticProbability(record),
+    conditionalQalyIfReclassified: finiteValue(record?.qaly_if_reclassified),
+    expectedVoiQaly: expectedVoi,
+    valueChannel: record?.value_channel ?? null,
+    status: expectedVoi === null ? 'expected_voi_unavailable' : 'typed_components_present',
   };
 }
 
@@ -105,11 +125,19 @@ function nonPlottableReason(record, kind, expectedValueQaly, confidence) {
   if (record.disposition === 'excluded') return `Disposition is excluded: ${record.exclusion_reason ?? record.why_not_selected ?? 'eligibility failed'}`;
   if (kind !== 'action' && kind !== 'diagnostic') return `Unsupported map kind: ${kind ?? 'missing'}`;
   if (expectedValueQaly === null) return 'Expected patient value was not emitted as a finite number.';
-  if (!confidence) return 'evidence_axis.rubric_version must equal CONFIDENCE_RUBRIC_v1; current axis is audit-visible but not plottable.';
+  if (kind === 'diagnostic' && (
+    finiteValue(record.reclassification_probability) === null
+    || finiteValue(record.qaly_if_reclassified) === null
+    || record.value_channel !== 'expected_voi'
+  )) return 'Diagnostic value requires probability, conditional QALY, and value_channel=expected_voi.';
+  if (!confidence) return `confidence_contract lacks governed rubric provenance for ${CONFIDENCE_METHOD_ID}; legacy evidence_axis is audit-visible only.`;
+  if (!methodGatesPass(record, MAP_GATE_NAMES)) return 'The complete map-gate contract and candidate origin did not pass.';
+  if (!methodGatesPass(record, STRUCTURAL_GATE_NAMES)) return 'The complete structural recommendation-gate contract did not pass.';
+  if (!feasibilityAllowsSelection(record)) return 'Typed patient- or physician-sourced feasibility was unavailable.';
   if (record.promotion_eligible !== true) return 'Clinical promotion eligibility was not explicitly true.';
   if (record.library_status !== 'fully_derived_v2') return `Library status ${record.library_status ?? 'missing'} is not promotion-eligible.`;
   if (record.map_eligible !== true) return 'Engine map_eligible was not true.';
-  if (traceStatus(record) !== 'runner_computed') return `Trace status ${traceStatus(record) ?? 'missing'} is not runner_computed.`;
+  if (!['runner_computed', 'runner_computed_optimized_policy_voi'].includes(traceStatus(record))) return `Trace status ${traceStatus(record) ?? 'missing'} is not a governed runner result.`;
   const gate = record.missing_input_gate;
   if (gate?.gated === true) return `Required inputs missing: ${(gate.missing_fields ?? []).join(', ') || 'unspecified'}.`;
   if (record.gate_status && record.gate_status !== 'ready_to_order_or_discuss') return `Workflow gate is ${record.gate_status}.`;
@@ -121,7 +149,7 @@ export function normalizeActionSpace(actionMap) {
     const id = stableId(record);
     const kind = record.kind ?? record.type ?? null;
     const expectedValueQaly = kind === 'protocol_collection' ? null : kind === 'diagnostic' ? diagnosticExpectedValue(record) : actionExpectedValue(record);
-    const confidence = normalizedEvidenceAxis(record);
+    const confidence = normalizedConfidenceContract(record, kind);
     const reason = nonPlottableReason(record, kind, expectedValueQaly, confidence);
     return {
       id,
@@ -134,7 +162,7 @@ export function normalizeActionSpace(actionMap) {
       nonPlottableReason: reason,
       evidenceCategory: traceStatus(record) === 'asserted_legacy' ? 'unverified' : confidence?.band ?? 'missing',
       evidenceAxis: record.evidence_axis ?? ranking(record).evidence_axis ?? null,
-      ...(confidence ? { confidenceScore: confidence.score, confidenceBand: confidence.band, evidenceAxis: confidence.axis, evidenceAxisVersion: confidence.version } : {}),
+      ...(confidence ? { confidenceBand: confidence.band, confidenceContract: confidence.contract, confidenceContractVersion: confidence.version } : {}),
       valueConsistency: valueConsistency(record),
       patientSignals: record.patient_signals_used ?? record.patientSignals ?? [],
       modelOutputRefs: record.model_output_refs ?? record.modelOutputRefs ?? [],

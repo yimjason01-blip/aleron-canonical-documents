@@ -37,13 +37,7 @@ export const CANONICAL_REGISTRY = {
     pagesHash: '#dashboard-ds',
     surfaces: ['global', 'patient-data', 'risk', 'vitality', 'care-plan', 'journal', 'ai']
   },
-  physician_case_schema: {
-    id: 'physician_case_schema',
-    label: 'Physician case contract',
-    role: 'Bundle schema the dashboard requires',
-    repoPath: 'data/schemas/physician_case.schema.json',
-    surfaces: ['global']
-  },
+
   patient_packet_schema: {
     id: 'patient_packet_schema',
     label: 'Patient packet contract',
@@ -55,7 +49,7 @@ export const CANONICAL_REGISTRY = {
     id: 'architecture',
     label: 'Architecture',
     role: 'Engine boundary and mono-repo modules',
-    repoPath: 'docs/engineering/ARCHITECTURE.md',
+    repoPath: 'docs/specs/platform/architecture.md',
     surfaces: ['global', 'care-plan']
   },
   risk_models_overview: {
@@ -71,7 +65,7 @@ export const CANONICAL_REGISTRY = {
     id: 'prevent',
     label: 'CVD / PREVENT',
     role: 'Cardiovascular risk model',
-    repoPath: 'engine/system-design/cvd-phenotype-risk-model-condensed.md',
+    repoPath: 'docs/specs/Risk & Vitality/risk/cvd.md',
     pagesPath: 'engine/system-design/diagrams/aleron-prevent.html',
     surfaces: ['risk']
   },
@@ -79,7 +73,7 @@ export const CANONICAL_REGISTRY = {
     id: 'metabolic',
     label: 'Metabolic / FINDRISC placeholder',
     role: 'Metabolic domain (licensing-gated full QDiabetes)',
-    repoPath: 'engine/system-design/metabolic-phenotype-risk-model-condensed.md',
+    repoPath: 'docs/specs/Risk & Vitality/risk/metabolic.md',
     pagesPath: 'engine/system-design/diagrams/aleron-metabolic.html',
     surfaces: ['risk']
   },
@@ -87,7 +81,7 @@ export const CANONICAL_REGISTRY = {
     id: 'kidney',
     label: 'CKD / KFRE',
     role: 'Kidney risk (validated eGFR < 60 population)',
-    repoPath: 'engine/system-design/ckd-phenotype-risk-model-condensed.md',
+    repoPath: 'docs/specs/Risk & Vitality/risk/ckd.md',
     pagesPath: 'engine/system-design/diagrams/aleron-ckd.html',
     surfaces: ['risk']
   },
@@ -95,23 +89,23 @@ export const CANONICAL_REGISTRY = {
     id: 'neuro',
     label: 'Neuro / CAIDE placeholder',
     role: 'Neurocognitive domain (licensing-gated CogDrisk)',
-    repoPath: 'engine/system-design/neuro-phenotype-risk-model-condensed.md',
+    repoPath: 'docs/specs/Risk & Vitality/risk/neuro.md',
     pagesPath: 'engine/system-design/diagrams/aleron-neuro.html',
     surfaces: ['risk']
   },
   cancer: {
     id: 'cancer',
-    label: 'Cancer burden sketch',
-    role: 'Site engines representative',
-    repoPath: 'engine/models/risk-models/cancer/sporadic-cancer-burden-calculator-v0.md',
+    label: 'Cancer phenotype model',
+    role: 'Released v3.0 model; editable source gap declared in registry',
+    repoPath: 'engine/models/risk-models/cancer/Cancer_Phenotype_Risk_Model_v3.0.pdf',
     pagesPath: 'engine/system-design/diagrams/aleron-cancer.html',
     surfaces: ['risk']
   },
   vitality: {
     id: 'vitality',
-    label: 'Vitality phenotype model v1.5',
-    role: 'Within-person protocol; instruments subordinate; no composite score',
-    repoPath: 'engine/system-design/vitality-phenotype-model.md',
+    label: 'Vitality improvement method v1.5',
+    role: 'Defined method to improve subjective vitality; no composite score',
+    repoPath: 'docs/specs/Risk & Vitality/Vitality/vitality.md',
     pagesPath: 'engine/system-design/diagrams/aleron-vitality-physician-outcomes.html',
     surfaces: ['vitality', 'care-plan', 'patient-data']
   },
@@ -124,16 +118,23 @@ export const CANONICAL_REGISTRY = {
   },
   action_library: {
     id: 'action_library',
-    label: 'Vitality action library',
-    role: 'Deterministic care-plan actions from the governed library',
-    repoPath: 'engine/system-design/vitality-action-library.json',
+    label: 'Sole governed Action Map source',
+    role: 'Canonical action, diagnostic, bundle, valuation, and promotion records under the Action Library and Scoring Method',
+    repoPath: 'engine/system-design/design-loop/library/action_library.json',
     surfaces: ['care-plan']
+  },
+  vitality_protocol: {
+    id: 'vitality_protocol',
+    label: 'Vitality protocol companion',
+    role: 'First-pass non-QALY vitality protocol inputs, not the governed cross-domain library',
+    repoPath: 'engine/system-design/vitality-protocol-catalog.json',
+    surfaces: ['vitality']
   },
   action_engine: {
     id: 'action_engine',
-    label: 'Action Engine contract',
-    role: 'Side-module ranking contract (Python)',
-    repoPath: 'engine/system-design/ACTION_ENGINE_GENERALIZATION_CONTRACT.md',
+    label: 'Action Library and Scoring Method',
+    role: 'Normative library, valuation, promotion, and selection method',
+    repoPath: 'docs/specs/engine/action-library-scoring-method.md',
     surfaces: ['care-plan']
   },
   design_reference: {
@@ -232,7 +233,7 @@ export function buildCurrencyOfTruth(caseBundle, modelVersions = { risk: {}, vit
       live: {
         id: row.id,
         model_version: row.model_version || modelVersions?.vitality?.[row.id] || 'aleron-vitality-phenotype.v1.5',
-        source: row.source || 'engine/system-design/vitality-phenotype-model.md',
+        source: row.source || 'docs/specs/Risk & Vitality/Vitality/vitality.md',
         state: row.calculation_state || row.model_status || row.value || null,
         output_kind: row.output_kind || null
       }
@@ -255,7 +256,7 @@ export function buildCurrencyOfTruth(caseBundle, modelVersions = { risk: {}, vit
   push('action_library', {
     live: {
       plan_id: caseBundle?.clinical_plan?.plan_id || null,
-      library_hint: 'action-library-v2 / vitality_action_library'
+      library_hint: 'engine/system-design/design-loop/library/action_library.json'
     }
   });
   push('architecture');
