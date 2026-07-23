@@ -230,9 +230,10 @@ html,body{font-size:14px}
 .rs-model-list .v{font-family:var(--audit);color:var(--text-primary);text-align:right}
 .rs-tray .rs-model-list{padding:6px 18px 12px}
 .rs-tray .rs-model-list .v{font-family:var(--voice);color:var(--text-secondary)}
-.rs-lane{display:grid;grid-template-columns:200px minmax(0,1fr);border-top:1px solid var(--border-subtle);padding:12px 18px}
-.rs-lane-label strong{display:block;font-size:13px;margin-bottom:4px}
-.rs-lane-label p{margin:0;font-size:12px;color:var(--text-secondary)}
+.rs-lane{border-top:1px solid var(--border-subtle);padding:12px 18px}
+.rs-lane-label{display:flex;justify-content:space-between;align-items:baseline;gap:16px;margin-bottom:8px}
+.rs-lane-label strong{font-size:13px;white-space:nowrap}
+.rs-lane-label span{font-size:12px;color:var(--text-secondary);text-align:right}
 .rs-plot svg{display:block;width:100%;height:auto}
 .rs-grid{stroke:var(--border-subtle);stroke-width:1}
 .rs-zero{stroke:var(--border-strong);stroke-width:1.4}
@@ -255,5 +256,4 @@ html,body{font-size:14px}
 .rs-action-detail{font-size:12px;color:var(--text-tertiary)}
 .rs-effect{font-family:var(--audit);font-size:12px;white-space:nowrap}
 .rs-confidence{font-size:12px;color:var(--text-secondary);white-space:nowrap}
-@media (max-width: 1100px){.rs-lane{grid-template-columns:1fr}}
 @media (max-width: 600px){.rs-plot{overflow-x:auto}.rs-plot svg{min-width:720px}.rs-tick,.rs-axis-title,.rs-col-head,.rs-name,.rs-conf{font-size:12px}}

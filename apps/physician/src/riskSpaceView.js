@@ -223,7 +223,7 @@ export function riskSpaceView(model, state) {
 
   const lanes = domain.lanes.map((laneDef) => `
     <div class="rs-lane">
-      <div class="rs-lane-label"><strong>${esc(laneDef.label)}</strong><p>${esc(laneDef.blurb)}</p></div>
+      <div class="rs-lane-label"><strong>${esc(laneDef.label)}</strong><span>${laneDef.actions.length} production ready</span></div>
       <div class="rs-plot">${laneSvg(domain, laneDef, selected.action.slug)}</div>
     </div>`).join('');
 
