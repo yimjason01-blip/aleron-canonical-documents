@@ -190,7 +190,18 @@ function attachListeners() {
       render();
       document.querySelector(`[data-rs-action="${state.selectedRiskAction}"]`)?.focus();
     };
+    const hoverOn = () => {
+      document.querySelectorAll('.rs-hovercard.on').forEach((card) => card.classList.remove('on'));
+      document.querySelector(`[data-rs-hover="${mark.dataset.rsAction}"]`)?.classList.add('on');
+    };
+    const hoverOff = () => {
+      document.querySelector(`[data-rs-hover="${mark.dataset.rsAction}"]`)?.classList.remove('on');
+    };
     mark.addEventListener('click', select);
+    mark.addEventListener('mouseenter', hoverOn);
+    mark.addEventListener('mouseleave', hoverOff);
+    mark.addEventListener('focus', hoverOn);
+    mark.addEventListener('blur', hoverOff);
     mark.addEventListener('keydown', (event) => {
       if (event.key === 'Enter' || event.key === ' ') {
         event.preventDefault();

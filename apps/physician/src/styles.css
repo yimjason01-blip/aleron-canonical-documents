@@ -234,15 +234,15 @@ html,body{font-size:14px}
 .rs-lane-label{display:flex;justify-content:space-between;align-items:baseline;gap:16px;margin-bottom:8px}
 .rs-lane-label strong{font-size:13px;white-space:nowrap}
 .rs-lane-label span{font-size:12px;color:var(--text-secondary);text-align:right}
+.rs-plot{position:relative}
 .rs-plot svg{display:block;width:100%;height:auto}
 .rs-grid{stroke:var(--border-subtle);stroke-width:1}
+.rs-band{stroke:var(--border-subtle);stroke-width:1;stroke-dasharray:3 5}
 .rs-zero{stroke:var(--border-strong);stroke-width:1.4}
 .rs-axis{stroke:var(--border-strong);stroke-width:1}
 .rs-tick{fill:var(--text-tertiary);font-family:var(--audit);font-size:19px;text-anchor:middle}
+.rs-tick-y{text-anchor:end}
 .rs-axis-title{fill:var(--text-secondary);font-family:var(--audit);font-size:19px;text-anchor:middle}
-.rs-col-head{fill:var(--text-tertiary);font-family:var(--audit);font-size:19px;text-anchor:end}
-.rs-name{fill:var(--text-primary);font-family:var(--voice);font-size:19px;font-weight:500}
-.rs-conf{fill:var(--text-secondary);font-family:var(--audit);font-size:19px;text-anchor:end}
 .rs-whisker,.rs-cap{stroke:var(--text-secondary);stroke-width:1.5}
 .rs-mark{cursor:pointer}
 .rs-mark circle{fill:var(--gold);stroke:var(--surface-card);stroke-width:2}
@@ -256,4 +256,16 @@ html,body{font-size:14px}
 .rs-action-detail{font-size:12px;color:var(--text-tertiary)}
 .rs-effect{font-family:var(--audit);font-size:12px;white-space:nowrap}
 .rs-confidence{font-size:12px;color:var(--text-secondary);white-space:nowrap}
-@media (max-width: 600px){.rs-plot{overflow-x:auto}.rs-plot svg{min-width:720px}.rs-tick,.rs-axis-title,.rs-col-head,.rs-name,.rs-conf{font-size:12px}}
+.rs-key{display:flex;flex-wrap:wrap;gap:2px 18px;padding:6px 0 2px}
+.rs-key button{background:none;border:0;padding:2px 0;font:inherit;font-size:12px;color:var(--text-secondary);cursor:pointer;text-align:left}
+.rs-key button:hover{color:var(--text-primary);text-decoration:underline;text-underline-offset:3px}
+.rs-key button.on{color:var(--text-gold)}
+.rs-key-code{font-family:var(--audit)}
+.rs-hovercard{position:absolute;z-index:5;width:230px;background:var(--surface-card);border:1px solid var(--border-strong);border-radius:12px;padding:10px 12px;display:none;pointer-events:none;transform:translateY(calc(-100% - 14px));box-shadow:0 8px 24px rgba(29,27,24,0.12)}
+.rs-hovercard.on{display:block}
+.rs-hovercard.flip-x{transform:translateX(-100%) translateY(calc(-100% - 14px))}
+.rs-hovercard.below{transform:translateY(16px)}
+.rs-hovercard.flip-x.below{transform:translateX(-100%) translateY(16px)}
+.rs-hover-effect{margin-top:4px;font-family:var(--audit);font-size:12px;color:var(--text-primary)}
+.rs-hover-arr{margin-top:4px;font-size:12px;color:var(--text-secondary)}
+@media (max-width: 600px){.rs-plot{overflow-x:auto}.rs-plot svg{min-width:720px}.rs-tick,.rs-axis-title{font-size:12px}}

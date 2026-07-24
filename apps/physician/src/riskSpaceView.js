@@ -6,10 +6,12 @@ const esc = (value) => String(value ?? '')
   .replace(/>/g, '&gt;')
   .replace(/"/g, '&quot;');
 
-const PLOT_L = 240;
-const PLOT_R = 660;
-const ROW_H = 44;
-const ROW_0 = 50;
+const X_L = 70;
+const X_R = 700;
+const Y_TOP = 20;
+const Y_BOT = 300;
+const SVG_H = 380;
+const CONF_BANDS = ['VERY_LOW', 'LOW', 'MODERATE', 'HIGH'];
 
 // benefit% = (1 - HR/RR/adjusted RR) x 100; CI flips to [1-upper, 1-lower].
 // RRR records are already percent reductions.
@@ -49,38 +51,70 @@ function laneSvg(domain, laneDef, selectedSlug) {
   const loB = Math.min(...vals.map((v) => v.lo));
   const hiB = Math.max(...vals.map((v) => v.hi));
   const { dmin, dmax, ticks } = niceDomain(loB, hiB);
-  const xOf = (v) => PLOT_L + ((v - dmin) / (dmax - dmin)) * (PLOT_R - PLOT_L);
-  const n = laneDef.actions.length;
-  const axisY = ROW_0 + n * ROW_H + 24;
-  const height = axisY + 72;
+  const yOf = (v) => Y_BOT - ((v - dmin) / (dmax - dmin)) * (Y_BOT - Y_TOP);
+  const bandW = (X_R - X_L) / CONF_BANDS.length;
   const parts = [];
-  parts.push(`<svg viewBox="0 0 720 ${height}" role="img" aria-label="${esc(`${domain.title} actions, ${laneDef.label} lane, forest plot. X axis: relative benefit percent, scale ${dmin} to ${dmax}. Right column: ARR V1 matrix confidence.`)}">`);
+  parts.push(`<svg viewBox="0 0 720 ${SVG_H}" role="img" aria-label="${esc(`${domain.title} actions, ${laneDef.label} lane, scatter plot. Y axis: relative benefit percent, scale ${dmin} to ${dmax}. X axis: ARR V1 matrix confidence bands.`)}">`);
+  for (let b = 1; b < CONF_BANDS.length; b++) {
+    const x = X_L + b * bandW;
+    parts.push(`<line class="rs-band" x1="${x.toFixed(1)}" y1="${Y_TOP}" x2="${x.toFixed(1)}" y2="${Y_BOT}"></line>`);
+  }
   for (const t of ticks) {
     const cls = t === 0 ? 'rs-zero' : 'rs-grid';
-    parts.push(`<line class="${cls}" x1="${xOf(t).toFixed(1)}" y1="24" x2="${xOf(t).toFixed(1)}" y2="${axisY}"></line>`);
+    parts.push(`<line class="${cls}" x1="${X_L}" y1="${yOf(t).toFixed(1)}" x2="${X_R}" y2="${yOf(t).toFixed(1)}"></line>`);
   }
-  parts.push(`<line class="rs-axis" x1="${PLOT_L}" y1="${axisY}" x2="${PLOT_R}" y2="${axisY}"></line>`);
+  parts.push(`<line class="rs-axis" x1="${X_L}" y1="${Y_TOP}" x2="${X_L}" y2="${Y_BOT}"></line>`);
+  parts.push(`<line class="rs-axis" x1="${X_L}" y1="${Y_BOT}" x2="${X_R}" y2="${Y_BOT}"></line>`);
   for (const t of ticks) {
-    parts.push(`<text class="rs-tick" x="${xOf(t).toFixed(1)}" y="${axisY + 20}">${t}</text>`);
+    parts.push(`<text class="rs-tick rs-tick-y" x="${X_L - 8}" y="${(yOf(t) + 4).toFixed(1)}">${t}</text>`);
   }
-  parts.push(`<text class="rs-axis-title" x="450" y="${axisY + 56}">Relative benefit (%)</text>`);
-  parts.push('<text class="rs-col-head" x="712" y="22">Matrix confidence</text>');
-  laneDef.actions.forEach((action, i) => {
+  CONF_BANDS.forEach((band, b) => {
+    parts.push(`<text class="rs-tick" x="${(X_L + b * bandW + bandW / 2).toFixed(1)}" y="${Y_BOT + 20}">${band}</text>`);
+  });
+  parts.push(`<text class="rs-axis-title" x="${((X_L + X_R) / 2).toFixed(1)}" y="${Y_BOT + 44}">ARR translation confidence</text>`);
+  parts.push(`<text class="rs-axis-title" x="16" y="${((Y_TOP + Y_BOT) / 2).toFixed(1)}" transform="rotate(-90 16 ${((Y_TOP + Y_BOT) / 2).toFixed(1)})">Relative benefit (%)</text>`);
+  const positions = new Map();
+  for (const action of laneDef.actions) {
     const { b, lo, hi } = benefit(action);
-    const cy = ROW_0 + i * ROW_H;
+    const band = CONF_BANDS.includes(action.confidence) ? action.confidence : 'LOW';
+    const mates = laneDef.actions.filter((a) => (CONF_BANDS.includes(a.confidence) ? a.confidence : 'LOW') === band);
+    const j = mates.indexOf(action);
+    const cx = X_L + CONF_BANDS.indexOf(band) * bandW + ((j + 1) / (mates.length + 1)) * bandW;
+    const cy = yOf(b);
+    positions.set(action.slug, { xPct: (cx / 720) * 100, yPct: (cy / SVG_H) * 100 });
     const crosses = lo < 0 ? ', interval crosses null' : '';
     const pressed = action.slug === selectedSlug;
-    parts.push(`<g class="rs-mark" data-rs-action="${esc(action.slug)}" role="button" tabindex="0" aria-pressed="${pressed}" aria-label="${esc(`${action.key} ${action.name}, ${fmtEffect(action)}, matrix confidence ${action.confidence.toLowerCase()}${crosses}`)}">`);
-    parts.push(`<text class="rs-name" x="8" y="${cy + 4}">${esc(`${action.key} · ${action.name}`)}</text>`);
-    parts.push(`<line class="rs-whisker" x1="${xOf(lo).toFixed(1)}" y1="${cy}" x2="${xOf(hi).toFixed(1)}" y2="${cy}"></line>`);
-    parts.push(`<line class="rs-cap" x1="${xOf(lo).toFixed(1)}" y1="${cy - 5}" x2="${xOf(lo).toFixed(1)}" y2="${cy + 5}"></line>`);
-    parts.push(`<line class="rs-cap" x1="${xOf(hi).toFixed(1)}" y1="${cy - 5}" x2="${xOf(hi).toFixed(1)}" y2="${cy + 5}"></line>`);
-    parts.push(`<circle cx="${xOf(b).toFixed(1)}" cy="${cy}" r="6"></circle>`);
-    parts.push(`<text class="rs-conf" x="712" y="${cy + 4}">${esc(action.confidence)}</text>`);
+    parts.push(`<g class="rs-mark" data-rs-action="${esc(action.slug)}" role="button" tabindex="0" aria-pressed="${pressed}" aria-label="${esc(`${action.key} ${action.name}, ${fmtEffect(action)}, matrix confidence ${band.toLowerCase()}${crosses}`)}">`);
+    parts.push(`<line class="rs-whisker" x1="${cx.toFixed(1)}" y1="${yOf(hi).toFixed(1)}" x2="${cx.toFixed(1)}" y2="${yOf(lo).toFixed(1)}"></line>`);
+    parts.push(`<line class="rs-cap" x1="${(cx - 5).toFixed(1)}" y1="${yOf(hi).toFixed(1)}" x2="${(cx + 5).toFixed(1)}" y2="${yOf(hi).toFixed(1)}"></line>`);
+    parts.push(`<line class="rs-cap" x1="${(cx - 5).toFixed(1)}" y1="${yOf(lo).toFixed(1)}" x2="${(cx + 5).toFixed(1)}" y2="${yOf(lo).toFixed(1)}"></line>`);
+    parts.push(`<circle cx="${cx.toFixed(1)}" cy="${cy.toFixed(1)}" r="6"></circle>`);
     parts.push('</g>');
-  });
+  }
   parts.push('</svg>');
-  return parts.join('');
+  return { svg: parts.join(''), positions };
+}
+
+function hoverCard(action, coordinate, pos) {
+  const confidence = String(coordinate?.matrix_confidence ?? action.confidence ?? '');
+  const confLabel = confidence.charAt(0) + confidence.slice(1).toLowerCase();
+  let arrLine = 'Absolute benefit not estimable for this patient';
+  if (coordinate?.coordinate_status === 'materialized') {
+    const arr = asFinite(coordinate.patient_coordinate?.arr);
+    const nnt = asFinite(coordinate.patient_coordinate?.nnt);
+    if (arr !== null) {
+      arrLine = `ARR ${Number((arr * 100).toFixed(1))} percentage points`;
+      if (nnt !== null) arrLine += ` · NNT ${Math.round(nnt)}`;
+    }
+  }
+  const classes = ['rs-hovercard'];
+  if (pos.xPct > 62) classes.push('flip-x');
+  if (pos.yPct < 34) classes.push('below');
+  return `<div class="${classes.join(' ')}" data-rs-hover="${esc(action.slug)}" style="left:${pos.xPct.toFixed(2)}%;top:${pos.yPct.toFixed(2)}%">`
+    + `<div class="rs-arr-key">${esc(`${action.key} · ${action.name}`)}</div>`
+    + `<div class="rs-hover-effect">${esc(fmtEffect(action))} · ${esc(confLabel)} translation confidence</div>`
+    + `<div class="rs-hover-arr">${esc(arrLine)}</div>`
+    + '</div>';
 }
 
 function findAction(domain, slug) {
@@ -221,11 +255,21 @@ export function riskSpaceView(model, state) {
   const modelRows = [...modelRowsWithBaseline(domain, domainCoordinate), ...runtimeModelRows(model, domain)]
     .map(([k, v]) => `<li><span class="k">${esc(k)}</span><span class="v">${esc(v)}</span></li>`).join('');
 
-  const lanes = domain.lanes.map((laneDef) => `
+  const lanes = domain.lanes.map((laneDef) => {
+    const { svg, positions } = laneSvg(domain, laneDef, selected.action.slug);
+    const cards = laneDef.actions
+      .map((action) => hoverCard(action, coordinateForAction(model, action), positions.get(action.slug)))
+      .join('');
+    const keys = laneDef.actions
+      .map((action) => `<button type="button" class="${action.slug === selected.action.slug ? 'on' : ''}" data-rs-action="${esc(action.slug)}"><span class="rs-key-code">${esc(action.key)}</span> ${esc(action.name)}</button>`)
+      .join('');
+    return `
     <div class="rs-lane">
       <div class="rs-lane-label"><strong>${esc(laneDef.label)}</strong><span>${laneDef.actions.length} production ready</span></div>
-      <div class="rs-plot">${laneSvg(domain, laneDef, selected.action.slug)}</div>
-    </div>`).join('');
+      <div class="rs-plot">${svg}${cards}</div>
+      <div class="rs-key">${keys}</div>
+    </div>`;
+  }).join('');
 
   const tray = domain.tray.length ? `
     <section class="panel rs-tray"><div class="panel-head"><h3>Outside this plot</h3></div>
@@ -251,9 +295,9 @@ export function riskSpaceView(model, state) {
         </section>
         ${arrCard(selected, selectedCoordinate)}
         <section class="panel rs-space">
-          <div class="panel-head"><h3>Action Space</h3><span>Dot: source estimate · whisker: 95% interval · right tag: ARR V1 matrix confidence</span></div>
+          <div class="panel-head"><h3>Action Space</h3><span>Dot: source estimate · whisker: 95% interval · X band: ARR V1 matrix confidence · hover a dot for detail</span></div>
           ${lanes}
-          <p class="rs-axis-note">Relative benefit = (1 minus HR or RR) x 100. Position is comparable only within its endpoint lane. Matrix confidence grades ARR translation confidence per the ARR V1 classification matrix, not trial evidence quality.</p>
+          <p class="rs-axis-note">Relative benefit = (1 minus HR or RR) x 100. Vertical position is comparable only within its endpoint lane. X bands are ARR V1 matrix confidence, grading translation confidence, not trial evidence quality.</p>
         </section>
         ${tray}
         <section class="panel rs-ledger"><div class="panel-head"><h3>Selected actions</h3><span>Native effect and confidence shown as independent fields</span></div>
