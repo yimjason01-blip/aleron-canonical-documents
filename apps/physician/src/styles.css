@@ -201,6 +201,11 @@ html,body{font-size:14px}
 .rs-tab:hover{background:var(--surface-inset);color:var(--text-primary);border-color:var(--border-strong)}
 .rs-tab.on,.rs-tab[aria-selected="true"]{background:var(--surface-inset);border-color:var(--surface-inset)}
 .rs-tab-count{font-family:var(--voice);font-variant-numeric:tabular-nums;font-size:12px;font-weight:400;color:var(--text-secondary)}
+.rs-tab-tier{font-family:var(--voice);font-size:12px;font-weight:400;color:var(--text-tertiary)}
+.rs-tier-high{color:var(--signal-hazard);font-weight:500}
+.rs-tier-intermediate{color:var(--signal-advisory);font-weight:500}
+.rs-tier-borderline{color:var(--text-gold)}
+.rs-tier-low{color:var(--signal-baseline)}
 .rs-workspace{display:block}
 .rs-domain-intro{display:flex;justify-content:space-between;align-items:baseline;margin-bottom:12px}
 .rs-domain-intro h2{margin-bottom:0}

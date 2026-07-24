@@ -1,4 +1,5 @@
 import { RISK_DOMAINS } from './riskActionLibrary.js?v=risk-domain-action-space-v3';
+import { RISK_DOMAIN_TIERS } from './riskDomainTiers.js?v=risk-domain-action-space-v3';
 
 const esc = (value) => String(value ?? '')
   .replace(/&/g, '&amp;')
@@ -237,10 +238,54 @@ function arrCard(selected, coordinate) {
         </section>`;
 }
 
+const TIER_CLASS = {
+  'Low': 'low',
+  'Borderline': 'borderline',
+  'Intermediate': 'intermediate',
+  'High': 'high',
+  'Below high-risk threshold': 'low',
+};
+const TIER_RANK = {
+  'High': 3,
+  'Intermediate': 2,
+  'Borderline': 1,
+  'Low': 0,
+  'Below high-risk threshold': 0,
+};
+
+function domainBaselineProbability(model, domain) {
+  const coordinate = riskArrCoordinates(model).find((c) =>
+    asFinite(c?.baseline?.probability) !== null &&
+    domain.lanes.some((lane) => lane.actions.some((action) =>
+      normalizedActionId(action.slug) === normalizedActionId(c?.native_action_id)
+    ))
+  );
+  return coordinate ? asFinite(coordinate.baseline.probability) : null;
+}
+
+// Tier labels come only from the governed tier artifact (RISK_DOMAIN_TIERS).
+// No table -> "Not graded". No emitted baseline -> "Not emitted".
+function domainTier(model, domain) {
+  const entry = RISK_DOMAIN_TIERS[domain.id];
+  if (!entry || !entry.tiers) return { label: 'Not graded', cls: 'none', probability: null, rank: -1 };
+  const probability = domainBaselineProbability(model, domain);
+  if (probability === null) return { label: 'Not emitted', cls: 'none', probability: null, rank: -1 };
+  const tier = entry.tiers.find((t) =>
+    (t.lt === undefined || probability < t.lt) && (t.gte === undefined || probability >= t.gte)
+  );
+  if (!tier) return { label: 'Not graded', cls: 'none', probability, rank: -1 };
+  return { label: tier.label, cls: TIER_CLASS[tier.label] ?? 'none', probability, rank: TIER_RANK[tier.label] ?? -1 };
+}
+
 export function riskSpaceView(model, state) {
   const selectedDomainId = state.selectedRiskDomain
     ?? RISK_DOMAINS.find((d) => d.modelId === state.selectedRiskId)?.id;
-  const domain = RISK_DOMAINS.find((d) => d.id === selectedDomainId) ?? RISK_DOMAINS[0];
+  const triageDomain = [...RISK_DOMAINS].sort((a, b) => {
+    const ta = domainTier(model, a);
+    const tb = domainTier(model, b);
+    return (tb.rank - ta.rank) || ((tb.probability ?? -1) - (ta.probability ?? -1));
+  })[0];
+  const domain = RISK_DOMAINS.find((d) => d.id === selectedDomainId) ?? triageDomain;
   const selected = findAction(domain, state.selectedRiskAction) ?? { action: domain.lanes[0].actions[0], lane: domain.lanes[0] };
   const selectedCoordinate = coordinateForAction(model, selected.action);
   const domainCoordinate = selectedCoordinate ?? riskArrCoordinates(model).find((coordinate) =>
@@ -251,7 +296,10 @@ export function riskSpaceView(model, state) {
   ) ?? null;
   const hasMaterializedCoordinate = riskArrCoordinates(model).some((coordinate) => coordinate?.coordinate_status === 'materialized');
 
-  const tabs = RISK_DOMAINS.map((d) => `<button type="button" id="risk-domain-tab-${esc(d.id)}" data-rs-domain="${esc(d.id)}" data-risk-domain="${esc(d.modelId)}" role="tab" aria-controls="risk-domain-panel" aria-selected="${d.id === domain.id}" tabindex="${d.id === domain.id ? '0' : '-1'}" class="rs-tab${d.id === domain.id ? ' on' : ''}">${esc(d.title)}<span class="rs-tab-count">${d.ready} / ${d.total} ready</span></button>`).join('');
+  const tabs = RISK_DOMAINS.map((d) => {
+    const tier = domainTier(model, d);
+    return `<button type="button" id="risk-domain-tab-${esc(d.id)}" data-rs-domain="${esc(d.id)}" data-risk-domain="${esc(d.modelId)}" role="tab" aria-controls="risk-domain-panel" aria-selected="${d.id === domain.id}" tabindex="${d.id === domain.id ? '0' : '-1'}" class="rs-tab${d.id === domain.id ? ' on' : ''}">${esc(d.title)}<span class="rs-tab-tier rs-tier-${tier.cls}">${esc(tier.label)}</span></button>`;
+  }).join('');
 
   const modelRows = [...modelRowsWithBaseline(domain, domainCoordinate), ...runtimeModelRows(model, domain)]
     .map(([k, v]) => `<li><span class="k">${esc(k)}</span><span class="v">${esc(v)}</span></li>`).join('');
