@@ -1,4 +1,4 @@
-import { RISK_DOMAINS } from './riskActionLibrary.js?v=risk-domain-action-space-v2';
+import { RISK_DOMAINS } from './riskActionLibrary.js?v=risk-domain-action-space-v3';
 
 const esc = (value) => String(value ?? '')
   .replace(/&/g, '&amp;')
@@ -12,6 +12,7 @@ const Y_TOP = 20;
 const Y_BOT = 300;
 const SVG_H = 380;
 const CONF_BANDS = ['VERY_LOW', 'LOW', 'MODERATE', 'HIGH'];
+const CONF_BAND_LABELS = { VERY_LOW: 'Very low', LOW: 'Low', MODERATE: 'Moderate', HIGH: 'High' };
 
 // benefit% = (1 - HR/RR/adjusted RR) x 100; CI flips to [1-upper, 1-lower].
 // RRR records are already percent reductions.
@@ -69,7 +70,7 @@ function laneSvg(domain, laneDef, selectedSlug) {
     parts.push(`<text class="rs-tick rs-tick-y" x="${X_L - 8}" y="${(yOf(t) + 4).toFixed(1)}">${t}</text>`);
   }
   CONF_BANDS.forEach((band, b) => {
-    parts.push(`<text class="rs-tick" x="${(X_L + b * bandW + bandW / 2).toFixed(1)}" y="${Y_BOT + 20}">${band}</text>`);
+    parts.push(`<text class="rs-tick" x="${(X_L + b * bandW + bandW / 2).toFixed(1)}" y="${Y_BOT + 20}">${CONF_BAND_LABELS[band]}</text>`);
   });
   parts.push(`<text class="rs-axis-title" x="${((X_L + X_R) / 2).toFixed(1)}" y="${Y_BOT + 44}">ARR translation confidence</text>`);
   parts.push(`<text class="rs-axis-title" x="16" y="${((Y_TOP + Y_BOT) / 2).toFixed(1)}" transform="rotate(-90 16 ${((Y_TOP + Y_BOT) / 2).toFixed(1)})">Relative benefit (%)</text>`);

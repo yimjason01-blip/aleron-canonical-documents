@@ -12,13 +12,15 @@ import {
   startPhysicianReview
 } from './apiClient.js';
 import { adaptPhysicianCase, artifactBindsCurrentLineage, buildReleasePreviewRequest, releaseIdentifier } from './dashboardAdapter.js?v=physician-care-vitality-v1';
-import { decisionReasonOptionsHTML, renderDashboard, renderEmptyStaging, renderFatalError } from './dashboardApp.js?v=risk-domain-action-space-v2';
+import { decisionReasonOptionsHTML, renderDashboard, renderEmptyStaging, renderFatalError } from './dashboardApp.js?v=risk-domain-action-space-v3';
 
 const app = document.querySelector('#app');
 const state = {
   activePatientId: null,
   activeCase: null,
   activeTab: 'patient-data',
+  screeningMode: 'list',
+  screeningYear: null,
   selectedRiskId: null,
   selectedRiskDomain: null,
   selectedRiskAction: null,
@@ -148,6 +150,17 @@ function attachListeners() {
     const reasonSelect = select.closest('form')?.querySelector('[data-decision-reason]');
     if (!reasonSelect) return;
     reasonSelect.innerHTML = decisionReasonOptionsHTML(select.value);
+  }));
+
+  document.querySelectorAll('[data-sc-mode]').forEach((button) => button.addEventListener('click', () => {
+    state.screeningMode = button.dataset.scMode;
+    render();
+  }));
+
+  document.querySelectorAll('[data-sc-year]').forEach((button) => button.addEventListener('click', () => {
+    const current = state.screeningYear ?? new Date().getFullYear();
+    state.screeningYear = current + Number(button.dataset.scYear);
+    render();
   }));
 
   document.querySelectorAll('[data-tab]').forEach((button) => button.addEventListener('click', () => {

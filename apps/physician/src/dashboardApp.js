@@ -2,11 +2,13 @@ import { displayValue } from './dashboardAdapter.js?v=physician-care-vitality-v1
 import { formatTrendLine } from './wearableSummary.js?v=physician-care-vitality-v1';
 import { getOverrideTaxonomy } from './apiClient.js';
 import { recommendationTraceHTML, releasePreviewHTML } from './clinicalTrace.js?v=physician-care-vitality-v1';
-import { riskSpaceView } from './riskSpaceView.js?v=risk-domain-action-space-v2';
+import { riskSpaceView } from './riskSpaceView.js?v=risk-domain-action-space-v3';
+import { screeningView } from './screeningView.js?v=physician-screening-v1';
 
 const TAB_LABELS = [
   ['patient-data', 'Patient Data'],
   ['risk', 'Risk'],
+  ['screening', 'Screening'],
   ['vitality', 'Vitality'],
   ['care-plan', 'Care Plan'],
   ['journal', 'Journal'],
@@ -47,6 +49,7 @@ function icon(name) {
   const paths = {
     'patient-data': '<circle cx="12" cy="8" r="4"/><path d="M4 21c0-4 4-7 8-7s8 3 8 7"/>',
     risk: '<path d="M12 3.5l7 3v5.3c0 4.1-2.8 7.8-7 8.7-4.2-.9-7-4.6-7-8.7V6.5l7-3Z"/><path d="M8.5 13.2l2.2-2.2 2.1 2.1 2.8-3.8"/>',
+    screening: '<circle cx="11" cy="11" r="6"/><path d="M15.5 15.5L20 20"/><path d="M8.5 11h5M11 8.5v5"/>',
     vitality: '<path d="M3 18l6-6 4 4 8-8"/><path d="M17 8h4v4"/>',
     'care-plan': '<path d="M4 5h16M4 12h16M4 19h10"/>',
     journal: '<rect x="4" y="5.5" width="16" height="15" rx="2"/><path d="M8 3.5v4M16 3.5v4M4 10h16"/>',
@@ -893,6 +896,7 @@ function aiView(model) {
 
 function activeView(model, state) {
   if (state.activeTab === 'risk') return modelsView(model, state);
+  if (state.activeTab === 'screening') return screeningView(state);
   if (state.activeTab === 'vitality') return vitalityView(model, state);
   if (state.activeTab === 'care-plan') return carePlanView(model, state);
   if (state.activeTab === 'journal') return journalView(model);
